@@ -4,7 +4,24 @@
 
 > **Use this prompt with the `ui-designing-client-dashboard` repository open as the working directory.**
 >
-> **v1.1 (2026-10-24) — Cursor-agent safe.** Same design brief as v1; the *build protocol* is fixed so the agent writes files to disk and keeps going through gates (like `portfolio-listing-prompt.md`). Do **not** dump complete file bodies into chat. Do **not** hard-stop after the first batch and wait forever.
+> **v1.2 (2026-10-24) — split into part prompts.** This file is the **canon** (tokens, components, dataset, a11y, DoD). For building, prefer the numbered page prompts (same pattern as homepage section prompts):
+>
+> → [`docs/meridian-page-prompts/README.md`](docs/meridian-page-prompts/README.md)
+>
+> | Part | Prompt | Scope |
+> |---|---|---|
+> | 00 | [`00-foundation.md`](docs/meridian-page-prompts/00-foundation.md) | CSS · icons · shell-reference |
+> | 01 | [`01-orientation.md`](docs/meridian-page-prompts/01-orientation.md) | Overview · launcher · notifications |
+> | 02 | [`02-work.md`](docs/meridian-page-prompts/02-work.md) | Requests · projects · milestone rail |
+> | 03 | [`03-money.md`](docs/meridian-page-prompts/03-money.md) | Billing · payments · quotes · invoices |
+> | 04 | [`04-conversation.md`](docs/meridian-page-prompts/04-conversation.md) | Messages · thread |
+> | 05 | [`05-files.md`](docs/meridian-page-prompts/05-files.md) | Files library · preview |
+> | 06 | [`06-account.md`](docs/meridian-page-prompts/06-account.md) | Profile · settings |
+> | 07 | [`07-states-qa.md`](docs/meridian-page-prompts/07-states-qa.md) | States · mobile · set QA |
+>
+> Run **one part per agent session**. Paste the shared contract from the README + that part file. If a part prompt and this master disagree, **this master wins**.
+>
+> **v1.1 protocol still applies:** write files to disk under `meridian-lab/`; do not dump complete file bodies into chat; continue within a part; hand off cleanly when context is short.
 >
 > Companion document: `docs/legacy-audit-45-screens.md` (the evidence behind §2). Screenshots: `Nestlancer-clients-screenshots/` (read-only).
 >
@@ -1135,14 +1152,17 @@ Open `http://127.0.0.1:8130/` for the launcher. Every `pages/*.html` must also w
 
 ### 17.8 Start command
 
+**Preferred (split):** open `docs/meridian-page-prompts/README.md` → run part `00-foundation.md` in a fresh session → review → `01` … `07`.
+
+**Monolith fallback (this file alone):**
 1. Confirm cwd is `ui-designing-client-dashboard`.
 2. Gate 0 → create `meridian-lab/` + `DECISIONS.md`.
 3. Gate 1 → write CSS + icons + `shell-reference.html` to disk; open/smoke-check.
 4. Continue Gates 2→7 without waiting for permission between files.
 5. If context is short: §17.4 hand-off — never leave a half-written sample.
 
-**Final instruction:** begin with Gate 0, then Gate 1. Write every line yourself **into files on disk**.
+**Final instruction:** prefer part prompts. If using this file alone, begin with Gate 0, then Gate 1. Write every line yourself **into files on disk**.
 
 ---
 
-*End of build prompt — Nestlancer Client Portal, Meridian v1.1, 40 hand-authored files under `meridian-lab/`, zero page scripts, Cursor-agent-safe protocol.*
+*End of build prompt — Nestlancer Client Portal, Meridian v1.2, 40 hand-authored files under `meridian-lab/`, split via `docs/meridian-page-prompts/`, zero page scripts.*

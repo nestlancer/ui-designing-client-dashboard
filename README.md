@@ -4,64 +4,64 @@ This repo holds the **existing** client portal UI (45 screenshots) and the **bui
 
 ```
 .
-├── Nestlancer-clients-screenshots/   ← the current portal, 45 screens (read-only reference)
-├── docs/legacy-audit-45-screens.md   ← what exists today, measured, with a 24-item defect log
-├── PROMPT-2030-CLIENT-PORTAL.md      ← the master build prompt (start here)
-└── meridian-lab/                     ← hand-authored build output (created by the agent)
+├── Nestlancer-clients-screenshots/   ← current portal, 45 screens (read-only)
+├── docs/
+│   ├── legacy-audit-45-screens.md    ← what exists today
+│   └── meridian-page-prompts/        ← ★ run these (split build)
+│       ├── README.md                 ← shared contract + workflow
+│       ├── 00-foundation.md
+│       ├── 01-orientation.md
+│       ├── 02-work.md
+│       ├── 03-money.md
+│       ├── 04-conversation.md
+│       ├── 05-files.md
+│       ├── 06-account.md
+│       └── 07-states-qa.md
+├── PROMPT-2030-CLIENT-PORTAL.md      ← full canon (tokens, dataset, DoD)
+└── meridian-lab/                     ← hand-authored output (created by agents)
 ```
 
-## Start here
+## How to build (recommended)
 
-**[`PROMPT-2030-CLIENT-PORTAL.md`](PROMPT-2030-CLIENT-PORTAL.md)** is the self-contained brief. Open this repo as the working directory and run the prompt with a Cursor agent (same pattern as the homepage / portfolio-listing labs).
+Same pattern as homepage section prompts (`ui-designing-homepage/docs/homepage-section-prompts/`):
 
-| § | Content |
-|---|---|
-| 1 | Hard constraints — **hand-authored HTML only, zero page scripts, zero generators, zero CDN** |
-| 2 | The current portal, condensed to what must not survive |
-| 3–4 | The 2030 thesis and the **Meridian** design language, with five signature patterns |
-| 5 | The full token set — colour (Paper / Night / Contrast), type, space, depth, motion, grid |
-| 6–7 | 24 components + the signature interaction patterns |
-| 8 | One canonical dataset — every amount, date, name and reference, arithmetically reconciled |
-| 9 | Page-by-page blueprints for **40 hand-authored files** |
-| 10–13 | State matrix, responsive rules, WCAG 2.2 AA requirements, copy and status vocabulary |
-| 14–16 | File structure (`meridian-lab/`), definition of done, and 20 banned anti-patterns |
-| 17 | **Gates + disk-write protocol** (v1.1 — Cursor-agent safe) |
+1. Open this repo as the working directory.
+2. Paste **shared contract** from [`docs/meridian-page-prompts/README.md`](docs/meridian-page-prompts/README.md) + **one** numbered part (`00` → `07`).
+3. Review on disk → approve → next part.
 
-### Why v1.1
+| Part | Scope | Approx. files |
+|---|---|---|
+| 00 Foundation | Tokens, CSS, icons, shell-reference | ~8 |
+| 01 Orientation | Overview, launcher, notifications | 6 |
+| 02 Work | Requests, projects, milestone rail | 8 |
+| 03 Money | Billing, payments, quotes, invoices | 10 |
+| 04 Conversation | Messages, thread | 3 |
+| 05 Files | Library + preview | 2 |
+| 06 Account | Profile + settings | 6 |
+| 07 States + QA | Empty/loading/error/mobile + set QA | 4+ |
 
-Older drafts told the agent to paste every complete file into chat and hard-stop after each batch. That burned the context window and made the run look like it “created a few files then died.” v1.1 matches the working portfolio-listing prompt: **write files on disk, report paths, continue through gates, hand off cleanly when context is short.**
+Canon if a part is ambiguous: [`PROMPT-2030-CLIENT-PORTAL.md`](PROMPT-2030-CLIENT-PORTAL.md) (master wins).
 
-## What the old portal is
+### Preview
 
-A competent 2020s CRUD dashboard. 228 px sidebar, 64 px top bar, white cards on near-white, indigo accents, soft status pills, 11 px uppercase micro-labels. Its best idea — the **milestone ⟷ payment ledger** — is buried three clicks deep in a project tab.
+```bash
+cd meridian-lab && python3 -m http.server 8130
+```
 
-What breaks, in short: five chrome layers before content; single-record pages that are 70 % empty; contradictory states ("Not due yet" *and* "Pending" for the same payment); raw UUIDs shown to clients; a 40-row notification firehose; toast-only confirmation; a decorative "AI" chip with no assistance behind it; no dark theme, no mobile design. Full detail and per-screen notes: [`docs/legacy-audit-45-screens.md`](docs/legacy-audit-45-screens.md).
+## Why the split
+
+The master prompt defines **40 pages**. Running it as one session burned context and stalled after foundation files. Part prompts keep each agent session small—like homepage `01-hero.md` … `06-closing-cta.md`.
+
+## Ground rules
+
+1. Hand-author HTML/CSS onto disk under `meridian-lab/` — no generators.
+2. No JavaScript in pages (`details` / `popover` / `:has()` only).
+3. One dataset (master §8); money must reconcile.
+4. Do not dump full file bodies into chat.
+5. Do not push/commit/switch branch unless asked.
 
 ## What the 2030 portal is
 
 > 2030 doesn't mean neon. It means the software stopped asking the client to do the system's work.
 
-- **Ambient** — a *Now bar* answers "what is true right now, and what does it cost me if I ignore it?" before anything is searched.
-- **Composed** — one screen, one decision; evidence folded away until asked for.
-- **Addressable** — the **Navigator** answers in three sentences with provenance chips and an undoable agent log, instead of a chat sidebar.
-
-Five signatures: the Now bar · the Ledger · the Rail · the Evidence drawer · the Navigator.
-
-Visually it is paper and ink — warm off-white, hairline structure, an editorial serif for project and quote titles, monospace for anything a client might reconcile, ink-black CTAs and a single Iris accent reserved for interaction and assistance. No glass, no glow, no gradients.
-
-## Ground rules for the build
-
-1. **Every HTML file is written by hand onto disk under `meridian-lab/`.** No generator, no script that emits markup, no build step, no framework, no CDN.
-2. **No JavaScript in the pages.** Interaction comes from `<details>`, `popover`, `:has()`, `:checked`, `:target`, scroll-snap and `@view-transition`.
-3. **Every state is a page** — `payment-pending`, `payment-not-due`, `payment-completed`, `quote-awaiting-signature`, `states-empty`, `states-loading`, `states-error`.
-4. **One dataset, one arithmetic** — the four money figures on the Overview must reconcile on Billing and Invoices.
-5. **No filler** — no lorem ipsum, no placeholders, no emoji, no stock imagery.
-6. **Do not paste full file bodies into chat** — write the file, report the path, continue.
-
-## Suggested next step
-
-Run the prompt. The agent should start at **Gate 0 → Gate 1** (tokens, base, layout, components, icons, `pages/shell-reference.html`) and keep going through Gates 2–7. Preview:
-
-```bash
-cd meridian-lab && python3 -m http.server 8130
-```
+Ambient Now bar · one decision per screen · addressable Navigator with provenance. Paper-and-ink Meridian language — full detail in the master prompt §3–§4.
