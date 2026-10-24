@@ -6,16 +6,17 @@ This repo holds the **existing** client portal UI (45 screenshots) and the **bui
 .
 ├── Nestlancer-clients-screenshots/   ← the current portal, 45 screens (read-only reference)
 ├── docs/legacy-audit-45-screens.md   ← what exists today, measured, with a 24-item defect log
-└── PROMPT-2030-CLIENT-PORTAL.md      ← the master build prompt (start here)
+├── PROMPT-2030-CLIENT-PORTAL.md      ← the master build prompt (start here)
+└── meridian-lab/                     ← hand-authored build output (created by the agent)
 ```
 
 ## Start here
 
-**[`PROMPT-2030-CLIENT-PORTAL.md`](PROMPT-2030-CLIENT-PORTAL.md)** is a self-contained brief. Paste it into a fresh AI session, or hand it to a designer/developer unchanged. It contains:
+**[`PROMPT-2030-CLIENT-PORTAL.md`](PROMPT-2030-CLIENT-PORTAL.md)** is the self-contained brief. Open this repo as the working directory and run the prompt with a Cursor agent (same pattern as the homepage / portfolio-listing labs).
 
 | § | Content |
 |---|---|
-| 1 | Hard constraints — **hand-authored HTML only, zero scripts, zero generators, zero CDN** |
+| 1 | Hard constraints — **hand-authored HTML only, zero page scripts, zero generators, zero CDN** |
 | 2 | The current portal, condensed to what must not survive |
 | 3–4 | The 2030 thesis and the **Meridian** design language, with five signature patterns |
 | 5 | The full token set — colour (Paper / Night / Contrast), type, space, depth, motion, grid |
@@ -23,8 +24,12 @@ This repo holds the **existing** client portal UI (45 screenshots) and the **bui
 | 8 | One canonical dataset — every amount, date, name and reference, arithmetically reconciled |
 | 9 | Page-by-page blueprints for **40 hand-authored files** |
 | 10–13 | State matrix, responsive rules, WCAG 2.2 AA requirements, copy and status vocabulary |
-| 14–16 | File structure, definition of done, and 20 banned anti-patterns |
-| 17 | A 7-batch build order with gates |
+| 14–16 | File structure (`meridian-lab/`), definition of done, and 20 banned anti-patterns |
+| 17 | **Gates + disk-write protocol** (v1.1 — Cursor-agent safe) |
+
+### Why v1.1
+
+Older drafts told the agent to paste every complete file into chat and hard-stop after each batch. That burned the context window and made the run look like it “created a few files then died.” v1.1 matches the working portfolio-listing prompt: **write files on disk, report paths, continue through gates, hand off cleanly when context is short.**
 
 ## What the old portal is
 
@@ -46,12 +51,17 @@ Visually it is paper and ink — warm off-white, hairline structure, an editoria
 
 ## Ground rules for the build
 
-1. **Every HTML file is written by hand.** No generator, no script that emits markup, no build step, no framework, no CDN.
-2. **No JavaScript at all.** Interaction comes from `<details>`, `popover`, `:has()`, `:checked`, `:target`, scroll-snap and `@view-transition`.
+1. **Every HTML file is written by hand onto disk under `meridian-lab/`.** No generator, no script that emits markup, no build step, no framework, no CDN.
+2. **No JavaScript in the pages.** Interaction comes from `<details>`, `popover`, `:has()`, `:checked`, `:target`, scroll-snap and `@view-transition`.
 3. **Every state is a page** — `payment-pending`, `payment-not-due`, `payment-completed`, `quote-awaiting-signature`, `states-empty`, `states-loading`, `states-error`.
 4. **One dataset, one arithmetic** — the four money figures on the Overview must reconcile on Billing and Invoices.
 5. **No filler** — no lorem ipsum, no placeholders, no emoji, no stock imagery.
+6. **Do not paste full file bodies into chat** — write the file, report the path, continue.
 
 ## Suggested next step
 
-Approve the prompt (or amend §3–§5 if the art direction needs a different accent, density or serif). On approval, build **Batch 1 only** — tokens, base, layout, components, the icon sheet and `pages/shell-reference.html` — so the system is proven on one page before the other 39 are written.
+Run the prompt. The agent should start at **Gate 0 → Gate 1** (tokens, base, layout, components, icons, `pages/shell-reference.html`) and keep going through Gates 2–7. Preview:
+
+```bash
+cd meridian-lab && python3 -m http.server 8130
+```

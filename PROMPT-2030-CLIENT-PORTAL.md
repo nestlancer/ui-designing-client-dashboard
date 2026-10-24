@@ -1,11 +1,14 @@
 # MASTER BUILD PROMPT
 ## Nestlancer Client Portal — "Meridian" 2030 Template System
-### Hand-authored HTML + CSS · zero scripts · zero generators
+### Hand-authored HTML + CSS · zero page scripts · zero generators
 
-> **How to use this file**
-> Paste everything from `## 0. YOUR ROLE` to the end into a fresh AI session (or hand it to a designer/developer as the build spec).
-> It is self-contained: it carries the audit of the old portal, the 2030 design language, the full token set, the canonical dataset, and a page-by-page blueprint for all 40 files.
-> Companion document: `docs/legacy-audit-45-screens.md` (the evidence behind §2).
+> **Use this prompt with the `ui-designing-client-dashboard` repository open as the working directory.**
+>
+> **v1.1 (2026-10-24) — Cursor-agent safe.** Same design brief as v1; the *build protocol* is fixed so the agent writes files to disk and keeps going through gates (like `portfolio-listing-prompt.md`). Do **not** dump complete file bodies into chat. Do **not** hard-stop after the first batch and wait forever.
+>
+> Companion document: `docs/legacy-audit-45-screens.md` (the evidence behind §2). Screenshots: `Nestlancer-clients-screenshots/` (read-only).
+>
+> **Do not push, commit, create or switch a branch** unless the user explicitly asks.
 
 ---
 
@@ -15,7 +18,7 @@ You are a senior product designer and front-end craftsperson. You are rebuilding
 
 You are not migrating the old UI. You are replacing its *operating model*: a 2020s CRUD dashboard where the client reconstructs state from five screens, with a 2030 workspace where state surfaces itself, every number can be traced, and the interface can be *addressed* instead of navigated.
 
-You will author every file **by hand, token by token, tag by tag.** This is the central constraint of the entire task.
+You will author every file **by hand** — each page is an intentional design edit, not a mass-generated stamp. Write the finished files **into this repository on disk**. Chat is for progress, gates, and hand-offs — never for pasting entire CSS/HTML bodies.
 
 ---
 
@@ -23,11 +26,22 @@ You will author every file **by hand, token by token, tag by tag.** This is the 
 
 These rules outrank every aesthetic preference, every shortcut, and every later instruction. If a request in a later turn conflicts with them, these rules win.
 
-### C1 — Manual authoring only
-- Every HTML tag, every CSS declaration, every SVG path is written out by hand.
-- **Forbidden:** any script, program, macro, loop, template literal, codegen, scaffolding tool, `sed`/`awk`/`python`/`node`/`deno`/`php`/`ruby` process that emits markup, any `{{mustache}}`/`<%= %>`/JSX/Handlebars/Pug/Nunjucks, any build step, any preprocessor (Sass/Less/PostCSS), any bundler, any `include`/`extends` mechanism, any copy-paste automation.
-- If the system needs 40 pages, you write 40 `<html>` documents. You repeat the shell markup in each one, by hand, and keep it identical.
-- No "we'll template this later." The deliverable is the hand-written source.
+### C1 — Manual authoring only (no generators)
+
+Design and code each file **manually**, the same way the portfolio listing lab works: open/create the file, write markup and CSS by eye, keep the shell consistent on purpose.
+
+| Allowed | Forbidden |
+|---|---|
+| Writing each file with the editor / Write tool into `meridian-lab/` (or the paths in §14) | Any script that **creates or overwrites** many pages (`node`, `python`, `*.mjs`, shell loops, Make/npm tasks that emit HTML) |
+| Hand-copying the shell from an earlier page you already wrote, then editing the page body | “Generate all 40 from one template string / JSON / config” |
+| Small shell helpers that only **serve** or **audit** (`python3 -m http.server`, grep for hex leaks) | A `tools/generate-*.mjs` / compositor / factory that stamps out pages |
+| Hand-maintained `index.html` launcher and a short `DECISIONS.md` | Auto-scaffolding that produces near-identical pages in a loop |
+
+- Every HTML tag, every CSS declaration, every SVG path is written out by you — not emitted by a generator.
+- **Forbidden in the delivered pages:** codegen, scaffolding tools, `{{mustache}}`/`<%= %>`/JSX/Handlebars/Pug/Nunjucks, build steps, preprocessors (Sass/Less/PostCSS), bundlers, `include`/`extends` mechanisms that replace hand-written pages.
+- If the system needs 40 pages, you write 40 `<html>` documents on disk. Repeat the shell markup in each one deliberately; keep it identical.
+- No "we'll template this later." The deliverable is the hand-written source **in the repo**.
+- State in `meridian-lab/DECISIONS.md`: “All Meridian pages were hand-authored; no design-generation script was used.”
 
 ### C2 — Zero JavaScript
 - Not one `<script>` tag. No inline handlers (`onclick`, `onload`, `onsubmit`…). No `javascript:` URLs. No framework, no library, no polyfill, no analytics snippet.
@@ -38,7 +52,7 @@ These rules outrank every aesthetic preference, every shortcut, and every later 
 - The set must render correctly with the network cable pulled out. System font stacks only unless a `.woff2` is supplied locally in `assets/fonts/`.
 
 ### C4 — Self-contained and offline-complete
-- Opening any `pages/*.html` from the filesystem (`file://`) must render the complete design, shell included.
+- Opening any `meridian-lab/pages/*.html` from the filesystem (`file://`) or via the local preview server must render the complete design, shell included.
 - Relative paths only. No absolute URLs, no `http://`, no `https://` anywhere in the markup (except inside a `mailto:`/`tel:` link if strictly needed).
 
 ### C5 — Hand-drawn SVG only
@@ -63,7 +77,7 @@ These rules outrank every aesthetic preference, every shortcut, and every later 
 Because there is no JS, every meaningful state is its own hand-authored HTML file: `payment-pending.html`, `payment-not-due.html`, `payment-completed.html`, `quote-awaiting-signature.html`, `quote-accepted.html`, `states-empty.html`, `states-loading.html`, `states-error.html`, etc. Tabs, drawers and menus that would need JS are expressed with the CSS-only techniques in §1.5 and each demonstrable state gets a URL.
 
 ### C10 — No inline styles, with one exception
-CSS lives in `assets/css/*.css`. The only permitted inline CSS is a data-bearing custom property on a chart/progress element, e.g. `style="--value:40"`. Even the `<svg>` presentation attributes should come from classes.
+CSS lives in `meridian-lab/assets/css/*.css`. The only permitted inline CSS is a data-bearing custom property on a chart/progress element, e.g. `style="--value:40"`. Even the `<svg>` presentation attributes should come from classes.
 
 ### C11 — Static, but not fake
 - Do not simulate liveness you cannot deliver ("Live in 30s" counters, animated fake activity). If the design implies recency, express it as a truthful timestamp.
@@ -180,7 +194,7 @@ Explicitly banned, no exceptions: glassmorphism cards, frosted panels over blurr
 
 ## 5. TOKENS
 
-Author these into `assets/css/tokens.css`, inside `@layer tokens`. Nothing in the build may use a raw hex value outside this file. Use `oklch()` where a perceptual step is needed, `color-mix()` for washes, `light-dark()` for theme-aware pairs.
+Author these into `meridian-lab/assets/css/tokens.css`, inside `@layer tokens`. Nothing in the build may use a raw hex value outside this file. Use `oklch()` where a perceptual step is needed, `color-mix()` for washes, `light-dark()` for theme-aware pairs.
 
 ### 5.1 Colour — Paper (light, default)
 
@@ -296,7 +310,7 @@ Maximum three hues per chart. Series order: `--ink` → `--iris` → `--moss`; a
 
 ## 6. COMPONENTS
 
-Build these in `assets/css/components.css` under `@layer components`. Each entry: what it is, its anatomy, and the states it must visually cover.
+Build these in `meridian-lab/assets/css/components.css` under `@layer components`. Each entry: what it is, its anatomy, and the states it must visually cover.
 
 **App rail** — 76 px, ink-on-paper, wordmark at top, 6 primary destinations + 3 secondary, a "Navigator" trigger at the bottom, an account cluster. Active item = 2 px left ink mark + ink text; item needing attention = 6 px Amber dot. Hover reveals the label in a small paper chip. Collapses to 0 under `compact`.
 
@@ -505,7 +519,7 @@ Storage used: **184 MB of 5 GB**.
 
 ## 9. PAGE BLUEPRINTS
 
-40 hand-authored HTML files. Build them in the batch order given in §17. For each page: **Job** (the one decision), **Shell** (which chrome), **Layout**, **Sections** (in reading order), **States**, **Done when**.
+40 hand-authored HTML files under `meridian-lab/`. Build them in the gate order given in §17. For each page: **Job** (the one decision), **Shell** (which chrome), **Layout**, **Sections** (in reading order), **States**, **Done when**.
 
 Vocabulary note — navigation is 6 items only: **Overview · Work · Money · Messages · Files · Account**. Everything the old portal split across Work Hub / Requests / Projects lives under **Work**; Billing / Invoices / Payments / Quotes live under **Money**; Profile / Settings / Security / Activity live under **Account**.
 
@@ -911,9 +925,12 @@ No synonyms. "Issued" is retired in favour of `Due` + invoice state; "Not due ye
 
 ## 14. FILE STRUCTURE & STANDARDS
 
+All new build output lives under **`meridian-lab/`** so the screenshots and audit docs stay untouched. Paths in page blueprints (§9) are relative to this folder.
+
 ```
-/
+meridian-lab/
 ├── index.html                       ← launcher / table of contents
+├── DECISIONS.md                     ← hand-authorship attestation + any design calls
 ├── pages/
 │   ├── shell-reference.html
 │   ├── command-palette.html
@@ -963,8 +980,8 @@ No synonyms. "Issued" is retired in favour of `Due` + invoice state; "Not due ye
 │   │   ├── components.css           ← §6
 │   │   └── pages.css                ← page-specific composition only
 │   └── icons.svg                    ← hand-authored <symbol> sheet
-└── docs/
-    └── legacy-audit-45-screens.md
+docs/
+└── legacy-audit-45-screens.md       ← already in repo; do not move
 ```
 
 **Markup standards**
@@ -982,11 +999,11 @@ No synonyms. "Issued" is retired in favour of `Due` + invoice state; "Not due ye
 
 A page is finished only when **all** of these are true:
 
-1. It opens from `file://` with no network and no console error.
+1. The file exists on disk under `meridian-lab/` and opens from `file://` / local server with no network and no console error.
 2. It contains no `<script>`, no `on*` attribute, no external URL.
-3. It uses only tokens — grep for `#` hex values and `px` inside `pages.css` returns nothing outside the token file.
+3. It uses only tokens — grep for `#` hex values outside `tokens.css` returns nothing intentional; raw layout `px` belong in token files, not scattered in page CSS.
 4. Exactly one primary button in the viewport, and it is the page's stated next action.
-5. The Now bar and rail are byte-identical to every other page (shell verified by copy-diff).
+5. The Now bar and rail match every other page (shell verified by copy-diff of the shared chrome block).
 6. Money, dates and IDs match §8 exactly — no invented figures.
 7. Every number and state has a provenance affordance (chip, link or drawer).
 8. All interactive elements are reachable and operable by keyboard alone, with a visible focus ring.
@@ -999,9 +1016,10 @@ A page is finished only when **all** of these are true:
 15. A reviewer can state the page's single decision after 5 seconds of looking at it.
 
 **Set-level done:**
-- `index.html` links all 40 files, each with its purpose and its special state.
-- One integrated review pass at 1440 px and 390 px across all pages, logged in a table with `page · issue · fixed?`.
+- `meridian-lab/index.html` links all 40 files, each with its purpose and its special state.
+- One integrated review pass at 1440 px and 390 px across all pages, logged in `DECISIONS.md` or a short QA note (`page · issue · fixed?`).
 - The full money arithmetic reconciles on Overview, Billing and Invoices.
+- No design-generation scripts under `meridian-lab/`.
 
 ---
 
@@ -1030,30 +1048,101 @@ A page is finished only when **all** of these are true:
 
 ---
 
-## 17. OUTPUT PROTOCOL
+## 17. WORK SEQUENCE AND OUTPUT PROTOCOL
 
-Build in **7 batches**, stopping after each for review. Never skip ahead, never batch two stages into one response.
+This section is the **operating system** for the agent. Follow it exactly. It matches the pattern that works in `portfolio-listing-prompt.md` / `homepage-prompt.md`: write to disk, gate, continue, hand off cleanly when context is short.
 
-| Batch | Files | Gate |
+### 17.1 How you write (critical — this is what was broken before)
+
+| Do | Do not |
+|---|---|
+| Create/overwrite files **on disk** under `meridian-lab/` with the editor / Write tool | Paste complete CSS/HTML bodies into the chat as fenced blocks |
+| Report **paths + a short status** after each sub-batch | Dump a whole page into the conversation “for the record” |
+| Keep going through gates until the set is done or context forces a clean hand-off | Hard-stop after Batch 1 and wait forever without saying the next file |
+| Finish every file you start — never leave a half-written page on disk | Truncate a file with `<!-- same as above -->` or `…` |
+
+Chat replies stay short: batch line → list of paths written → gate check → next step. The source of truth is the files in the repo.
+
+### 17.2 Gates (build order)
+
+| Gate | Deliverables | Pass when |
 |---|---|---|
-| 1 · Foundation | `tokens.css`, `base.css`, `layout.css`, `components.css`, `icons.svg`, `pages/shell-reference.html` | The system must be provable on the reference page before any product screen exists |
-| 2 · Orientation | `index.html`, `pages/overview.html`, `overview-focus.html`, `overview-night.html`, `command-palette.html`, `notifications.html` | Overview must reconcile with §8.2 |
-| 3 · Work | `work-hub`, `request-new`, `request-detail`, `projects`, `project`, `project-progress`, `project-deliverables`, `project-files` | Milestone rail must show delivery + payment together |
-| 4 · Money | `quotes`, `quote-awaiting-signature`, `quote-accepted`, `billing`, `payment-pending`, `payment-bank-transfer`, `payment-completed`, `payment-not-due`, `payment-methods`, `invoices` | All four payment states must be visually distinguishable at a glance |
-| 5 · Conversation & files | `messages`, `thread`, `message-new`, `files`, `file-preview` | Provenance visible without opening a menu |
-| 6 · Account & states | `profile`, `profile-edit`, `settings-account`, `settings-security`, `settings-notifications`, `settings-activity`, `states-empty`, `states-loading`, `states-error`, `mobile-showcase` | Settings shell consistent across 4 tabs |
-| 7 · QA | No new files | Run §15 in full; fix and re-emit any page that fails |
+| **Gate 0 · Baseline** | Read `docs/legacy-audit-45-screens.md` skim + this prompt §2–§8; create `meridian-lab/` + empty `DECISIONS.md` | Working dir is this repo; no uncommitted work overwritten blindly |
+| **Gate 1 · Foundation (pilot)** | `assets/css/tokens.css`, `base.css`, `layout.css`, `components.css`, `pages.css`, `assets/icons.svg`, `pages/shell-reference.html` | Shell reference opens over `file://` / local server and proves tokens + chrome + components |
+| **Gate 2 · Orientation** | `index.html`, `overview.html`, `overview-focus.html`, `overview-night.html`, `command-palette.html`, `notifications.html` | Overview money strip reconciles with §8.2 |
+| **Gate 3 · Work** | `work-hub`, `request-new`, `request-detail`, `projects`, `project`, `project-progress`, `project-deliverables`, `project-files` | Milestone rail shows delivery + payment together |
+| **Gate 4 · Money** | `quotes`, `quote-awaiting-signature`, `quote-accepted`, `billing`, `payment-pending`, `payment-bank-transfer`, `payment-completed`, `payment-not-due`, `payment-methods`, `invoices` | Four payment states distinguishable at a glance |
+| **Gate 5 · Conversation & files** | `messages`, `thread`, `message-new`, `files`, `file-preview` | Provenance visible without opening a menu |
+| **Gate 6 · Account & states** | `profile`, `profile-edit`, settings ×4, `states-empty`, `states-loading`, `states-error`, `mobile-showcase` | Settings shell consistent across 4 tabs |
+| **Gate 7 · QA** | No new product pages; fix failures | §15 checklist; launcher links all 40; money arithmetic reconciles |
 
-**Response format for each batch:**
-1. One line: `Batch N — <name> — <count> files`.
-2. For each file: the path as a heading, then the **complete** file content in a single fenced block. No ellipses, no `<!-- same as above -->`, no partial output.
-3. After the files: a manifest table `file · purpose · primary action · states covered`.
-4. Then stop. Do not summarise the design language back to the user. Do not ask for permission to continue beyond the stop itself.
+**Pilot rule:** do not start Gate 2 until Gate 1’s `shell-reference.html` is a complete, openable file on disk.
 
-**If a batch is too large for one response:** split it into `a`/`b` halves and say so in the batch line — never truncate a file to fit.
+### 17.3 Sub-batch size (keep the agent alive)
 
-**Final instruction:** begin with Batch 1. Write every line yourself.
+Large gates must be split so one turn never tries to invent six huge pages at once.
+
+- Prefer **1–3 files per turn** (Foundation CSS may be 2–3 CSS files + icons in one turn, then `shell-reference.html` alone).
+- Money / Account gates: **at most 2–3 HTML pages per turn**.
+- After each sub-batch: write a one-line status (`Gate N · wrote path1, path2 · next: path3`) and **continue immediately** with the next files unless the user said stop.
+- Never skip a gate. Never open Gate N+1 while Gate N still has missing files.
+
+### 17.4 Context / hand-off protocol
+
+If the conversation is getting long or the model is about to truncate:
+
+1. Finish the **current file** completely on disk (no half pages).
+2. Sync a short hand-off in chat:
+   ```
+   HAND-OFF
+   Done: <list of meridian-lab paths>
+   Next: Gate N · <exact next filename>
+   Blockers: <none or list>
+   Preview: python3 -m http.server 8130  (from meridian-lab/)
+   ```
+3. Stop cleanly. Do **not** paste file contents into the hand-off.
+4. On resume (user says “continue” / pastes this prompt again): read `meridian-lab/`, skip files that already exist and pass a quick open check, resume at **Next**.
+
+### 17.5 Response format (per turn)
+
+1. One line: `Gate N — <name> — writing <k> files`.
+2. Write the files to disk.
+3. Short manifest lines only: `path · purpose · primary action` (no full source in chat).
+4. One line: `Next: <filename or Gate N+1>`.
+5. Continue in the same turn if capacity remains; otherwise use §17.4.
+
+Do **not** re-explain the Meridian design language after every gate. Do **not** ask “should I continue?” after every file — continue until the gate is done or a hand-off is required. Only pause for a real blocker (missing dataset fact, conflicting instruction from the user).
+
+### 17.6 Preview
+
+From `meridian-lab/`:
+
+```bash
+python3 -m http.server 8130
+```
+
+Open `http://127.0.0.1:8130/` for the launcher. Every `pages/*.html` must also work via relative paths from that server and via `file://`.
+
+### 17.7 Completion checklist
+
+- [ ] All paths in §14 exist under `meridian-lab/`
+- [ ] Hand-authored; `DECISIONS.md` attests no generator
+- [ ] Zero `<script>`, zero `on*` handlers, zero external URLs (except `mailto:`/`tel:` if needed)
+- [ ] Overview / Billing / Invoices money reconciles with §8.2
+- [ ] Shell (rail + Now bar) consistent across pages
+- [ ] `index.html` links every page once
+- [ ] No commit / branch / push unless the user asked
+
+### 17.8 Start command
+
+1. Confirm cwd is `ui-designing-client-dashboard`.
+2. Gate 0 → create `meridian-lab/` + `DECISIONS.md`.
+3. Gate 1 → write CSS + icons + `shell-reference.html` to disk; open/smoke-check.
+4. Continue Gates 2→7 without waiting for permission between files.
+5. If context is short: §17.4 hand-off — never leave a half-written sample.
+
+**Final instruction:** begin with Gate 0, then Gate 1. Write every line yourself **into files on disk**.
 
 ---
 
-*End of build prompt — Nestlancer Client Portal, Meridian v1, 40 hand-authored files, zero scripts.*
+*End of build prompt — Nestlancer Client Portal, Meridian v1.1, 40 hand-authored files under `meridian-lab/`, zero page scripts, Cursor-agent-safe protocol.*
