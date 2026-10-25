@@ -14,6 +14,8 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 img,svg,video,canvas{display:block;max-width:100%}
+/* hidden attribute must win over display rules (empty/error/demo panels) */
+[hidden]{display:none !important}
 input,button,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:0;padding:0}
 a{color:inherit}

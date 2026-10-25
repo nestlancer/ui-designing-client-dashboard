@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="../../../assets/favicon.svg">
 <script>
 /* theme boot — runs before paint; ?theme=dark|light > stored preference > system */
-(function(){try{var q=new URLSearchParams(location.search).get('theme');var s=localStorage.getItem('nl-theme');var d=(q==='dark')||(q!=='light'&&s==='dark')||(q!=='light'&&s!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();
+(function(){document.documentElement.classList.add('js');try{var q=new URLSearchParams(location.search).get('theme');var s=localStorage.getItem('nl-theme');var d=(q==='dark')||(q!=='light'&&s==='dark')||(q!=='light'&&s!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();
 </script>
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
@@ -171,9 +171,9 @@ footer.site-footer a:hover{text-decoration:underline}
 .dark .lab-opts button[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600)}
 
 /* reveal (E axis) */
-[data-reveal]{opacity:0;transform:translateY(14px);transition:opacity 500ms var(--ease-out),transform 500ms var(--ease-out)}
-[data-reveal].in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){[data-reveal]{transform:none;transition:opacity var(--duration-fast) linear}.ping i.echo{animation:none}}
+.js [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity 500ms var(--ease-out),transform 500ms var(--ease-out)}
+.js [data-reveal].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js [data-reveal]{transform:none;transition:opacity var(--duration-fast) linear}.ping i.echo{animation:none}}
 
 /* skeleton loading (preview) */
 .skel{background:linear-gradient(90deg,var(--muted),var(--card),var(--muted));background-size:200% 100%;animation:shimmer 1.2s linear infinite;border-radius:var(--radius-sm)}
@@ -192,7 +192,7 @@ footer.site-footer a:hover{text-decoration:underline}
   .hero{padding:32px 28px}
 }
 @media (max-width:900px){
-  .page{grid-template-columns:1fr;grid-template-areas:"hero" "form";min-height:0}
+  .page{grid-template-columns:1fr;grid-template-areas:"form" "hero";min-height:0}
   .hero{border-right:0;border-bottom:1px solid var(--border);padding:36px 24px;gap:26px;min-height:0}
   .dark .hero{border-bottom-color:color-mix(in srgb,var(--brand-500) 25%,var(--brand-950))}
   .stage,.features{max-width:none}

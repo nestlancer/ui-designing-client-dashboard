@@ -46,7 +46,7 @@
 /* chapter spine (C axis) */
 .chapters{border-top:1px solid var(--border);max-width:560px}
 .dark .chapters{border-top-color:color-mix(in srgb,var(--brand-500) 25%,var(--brand-950))}
-.chapter{width:100%;display:flex;gap:16px;align-items:baseline;text-align:left;padding:15px 4px 15px 0;border-bottom:1px solid var(--border);transition:background var(--duration-fast) var(--ease-out)}
+.chapter{width:100%;display:flex;gap:16px;align-items:baseline;text-align:left;padding:15px 8px 15px 6px;border-bottom:1px solid var(--border);transition:background var(--duration-fast) var(--ease-out)}
 .dark .chapter{border-bottom-color:color-mix(in srgb,var(--brand-500) 25%,var(--brand-950))}
 .chapter:hover{background:color-mix(in srgb,var(--card) 55%,transparent)}
 .chapter .num{font-family:var(--mono);font-size:11px;color:var(--muted-foreground);flex:none;width:28px;transition:color var(--duration-normal) var(--ease-out)}
@@ -303,13 +303,13 @@ footer.site-footer a:hover{text-decoration:underline}
                 <div class="emph" id="emphWork">
                   <p class="ms">NL-204 · Milestone 3</p>
                   <p class="title">Frontend — SaaS Landing Redesign</p>
-                  <div class="bar" role="img" aria-label="Milestone 3 progress: 68 percent"><i></i></div>
                 </div>
                 <div class="chips emph" id="emphMoney">
                   <span class="chip chip-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>In progress</span>
                   <span class="chip chip-success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.4 2.4 4.6-5.2"/></svg>Deposit paid</span>
                   <span class="chip chip-neutral tabular">₹48,000</span>
                 </div>
+                <div class="bar emph" id="emphBar" role="img" aria-label="Milestone 3 progress: 68 percent"><i></i></div>
                 <ul class="feed emph" id="emphThreads">
                   <li><span class="avatar" aria-hidden="true">NL</span><span><b>Staging build pushed</b><span class="meta">14 min ago · deliverable linked</span></span></li>
                   <li><span class="avatar" aria-hidden="true">RH</span><span><b>Rahul: Hero CTA above the fold?</b><span class="meta">1h ago · thread</span></span></li>
@@ -557,11 +557,11 @@ $("backBtn").addEventListener("click",function(){setFormState("default");email.f
 $("verifyBtn").addEventListener("click",function(){$("twoFaPanel").hidden=true;$("successPanel").hidden=false;submitBtn.disabled=false});
 
 /* chapters (V3 signature) — selection emphasises matching stage block; no content hidden */
-var emphMap={work:$("emphWork"),money:$("emphMoney"),threads:$("emphThreads")};
+var emphMap={work:[$("emphWork"),$("emphBar")],money:[$("emphMoney")],threads:[$("emphThreads")]};
 document.querySelector(".chapters").addEventListener("click",function(e){
   var b=e.target.closest(".chapter");if(!b)return;
   Array.prototype.forEach.call(this.querySelectorAll(".chapter"),function(c){c.setAttribute("aria-pressed",String(c===b))});
-  Object.keys(emphMap).forEach(function(k){emphMap[k].classList.toggle("on",k===b.dataset.chapter)});
+  Object.keys(emphMap).forEach(function(k){emphMap[k].forEach(function(el){el.classList.toggle("on",k===b.dataset.chapter)})});
 });
 
 /* preview states */

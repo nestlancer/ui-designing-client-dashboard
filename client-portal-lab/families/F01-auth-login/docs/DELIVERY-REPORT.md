@@ -93,8 +93,8 @@ Per-variant behaviour verified (static analysis + JS syntax check with `node --c
 **Findings classified:**
 - **Blocker: 0.**
 - **Major: 0.** (Self-critique caught and fixed pre-hand-off: V3's double `h1` → hero promise demoted to `h2`; V4/V5 had split the locked feed meta strings → restored verbatim; V4 had dropped the 3 feature panels → re-added as ledger-dense key facts; H1 clamps under 32px at 1024 → retuned.)
-- **Minor (3, documented):**
-  1. **No browser in this build environment** — widths/themes verified by computed CSS and structural analysis, not screenshots. Run `python3 -m http.server 8130` and eyeball 360/390/768/1024/1440 × light/dark for final sign-off.
+- **Minor (3, documented — #1 resolved post-hand-off, see §7):**
+  1. **No browser in this build environment** *(resolved in §7 post-hand-off QA: real Chromium via Playwright ran after hand-off)* — widths/themes verified by computed CSS and structural analysis at hand-off time.
   2. **Outfit webfont is not vendored** (offline lab, no font files in-repo) — the §5.2 stack `"Outfit", system-ui…` degrades to `system-ui` locally; when the portal's self-hosted Outfit is present it renders as captured.
   3. **Cloudflare Turnstile widget not embedded** (no external embeds) — `turnstileToken` is an API field mapped in API-MAP; the demo label in DECISIONS.md covers it.
 
@@ -116,4 +116,21 @@ Why: the report's bottom line asks for *hierarchy, restraint, accessibility and 
 
 ---
 
-*F01 hand-off complete. 5/5 hand-authored · 0 generators · 0 blockers. Not pushed, not committed — per prompt §13.*
+## 7. Post-hand-off browser QA (Playwright + Chromium)
+
+Real-browser pass after hand-off: headless Chromium (Playwright 1.64) against `python3 -m http.server`, all 5 variants × widths 360/390/768/1024/1440 × light/dark, full-page screenshots + scripted interaction probes.
+
+**Baseline (pre-fix):** 0 horizontal overflow at every width; 0 console/page errors; H1 computed px in C18 spec at all widths (V1/V5 28→38, V2 30→34, V3 28→33, V4 28→32).
+
+**UI disturbances found & fixed (5):**
+1. **`[hidden]` panels visible at rest (all 5 variants)** — `.preview-empty/.preview-error{display:flex}` (and V4's inline `display:flex`) overrode the `hidden` attribute, so the empty/error preview panels rendered below the live stage at load. Fix: `[hidden]{display:none !important}` in `shared/base.css` (author `!important` wins over inline).
+2. **V2 — operator accordion glued to the Sign in button** (no gap between form and first accordion). Fix: `form+.acc{margin-top:16px}`.
+3. **V3 — stage card sequence drifted from the capture** (progress bar sat directly under the title; capture order is chips → bar). Fix: bar moved after the money chips; chapter "work" emphasis now highlights the bar together with the title block; chapter numerals also gained left padding (were clipping at the container edge).
+4. **V4/V5 — money hero in monospace** floated the grouping comma ("₹48 , 000") and misread the §5.2 role split (mono is for IDs/references/timestamps; money heroes are sans `tabular-nums`). Fix: `.money-hero .amt` (V4) and `.tile .big` (V5) now use `var(--font)`.
+5. **V1 — mobile stacked the brand hero above the form** (capture is form-first on mobile) and reveal-on-scroll heroes were invisible without JS (`.js` guard added: `[data-reveal]` styles now scope to `.js [data-reveal]`, content stays visible in no-JS). Fix: ≤900px grid flips to `"form" "hero"`.
+
+**Post-fix verification (scripted):** `hidden` panels `display:none` at rest 5/5 · lab preview Empty→Live round-trip 5/5 · submit → aria-busy "Signing in…" → honest error panel 5/5 · V2 accordion `aria-expanded` toggle · V3 chapter emphasis (work→title+bar, money→chips, threads→feed) · V4 roving tab switch · V5 count-up lands on `48,000`, steps live region updates · theme cycle button (system→light→dark, persisted) · cookie Accept hides bar · Show/Hide password · 0 console errors 5/5 · 0 overflow 25/25 width×variant combos. Full-page screenshots for all 5 × {1440 light/dark, 390 light/dark, 768 light} visually reviewed (kept out of Git: `.qa-shots/`).
+
+---
+
+*F01 hand-off complete. 5/5 hand-authored · 0 generators · 0 blockers. Committed and pushed to `arena/654c2edd-ui-designing-client-dashboard` at the client's request (§7 browser-QA fixes included).*
