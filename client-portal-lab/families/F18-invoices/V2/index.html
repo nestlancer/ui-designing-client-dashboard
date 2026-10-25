@@ -7,6 +7,8 @@
 <meta name="description" content="F18 variant 2: a printable invoice statement with a GST note, per-invoice downloads and an honest demo label on the GST summary export.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -88,7 +90,7 @@ tr.sum td.amt{font-size:13.5px}
   <p class="sub">Every invoice issued to your account in the period, with its status and total. GST is included in
     each invoice value.</p>
 
-  <table>
+  <table data-no-workbench>
     <caption class="sr-only">Invoices in the statement period</caption>
     <thead><tr><th scope="col">Invoice</th><th scope="col">Project</th><th scope="col">Issued</th>
       <th scope="col">Status</th><th scope="col" class="r">Total</th><th scope="col"></th></tr></thead>

@@ -7,6 +7,8 @@
 <meta name="description" content="F19 variant 5: an unread queue that resolves one row at a time, with everything already read collapsed into a secondary list.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -104,7 +106,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <span data-pct>50% read</span>
     </div>
 
-    <div class="q" data-q>
+    <div class="q" data-q data-nl-list=".qi" data-nl-facet-label="Type">
       <article class="qi" data-t="quote" data-id="u1">
         <div class="top"><span class="pill pill--warn">quote</span>
           <span class="ti">Quote #01a10f80 expires today</span><span class="when">2h ago</span></div>

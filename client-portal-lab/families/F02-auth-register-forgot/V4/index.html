@@ -7,6 +7,8 @@
 <meta name="description" content="F02 variant 4: a form card beside a 'what happens next' rail, with terms opening in a focus-trapped drawer.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -127,7 +129,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
         <p class="err" data-err="pw2" hidden>Passwords do not match yet.</p></div>
 
       <div class="termsline">
-        <input type="checkbox" id="terms" aria-describedby="termshint">
+        <input type="checkbox" id="terms" aria-label="Accept the client terms and privacy policy" aria-describedby="termshint">
         <div class="grow">
           <span id="termshint">I agree to the <b>Terms of Service</b> and <b>Privacy Policy</b>.</span>
           <div class="mt-8 row" style="gap:8px;flex-wrap:wrap">

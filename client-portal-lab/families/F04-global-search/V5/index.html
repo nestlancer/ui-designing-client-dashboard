@@ -7,6 +7,8 @@
 <meta name="description" content="F04 variant 5: search takes over the viewport as an editorial list with recents, large type, and a persistent hint footer.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -14,7 +16,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 </script>
 <style>
 /* V5 — Search Takeover. A full-page · D minimal · E keyboard + recent. */
-.take{min-height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;background:var(--background)}
+.take{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto 1fr auto;background:var(--background)}
+.take>*{min-width:0}
 .top5{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:20px 32px}
 .b5{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
 .b5 small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
@@ -29,7 +32,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .gin .count{font-size:12.5px;color:var(--muted-foreground);white-space:nowrap;font-variant-numeric:var(--tabnum)}
 .body5{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:40px;padding:26px 32px 40px;
   max-width:1180px;width:100%;margin:0 auto;align-items:start}
-@media(max-width:900px){.body5{grid-template-columns:1fr;gap:22px}.giant,.top5,.body5{padding-left:18px;padding-right:18px}}
+@media(max-width:900px){.body5{grid-template-columns:minmax(0,1fr);gap:22px}.giant,.top5,.body5{padding-left:18px;padding-right:18px}}
 .edlist{display:grid}
 .ehd{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-foreground);
   font-weight:700;padding:0 0 10px}

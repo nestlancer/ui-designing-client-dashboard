@@ -7,6 +7,8 @@
 <meta name="description" content="F07 variant 3: details on the left, a sticky action rail on the right carrying the status stepper and the single next action.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -16,7 +18,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 /* V3 — Action Split. A split rail · B action-first · E sticky rail tracks scroll. */
 .shell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr) 340px;background:var(--background)}
 @media(max-width:1180px){.shell{grid-template-columns:minmax(0,1fr) 320px}}
-@media(max-width:900px){.shell{grid-template-columns:1fr}}
+.shell>*{min-width:0}
+@media(max-width:900px){.shell{grid-template-columns:minmax(0,1fr)}}
 .side{background:var(--card);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:3px;
   position:sticky;top:0;height:100vh}
 @media(max-width:1180px){.side{display:none}}

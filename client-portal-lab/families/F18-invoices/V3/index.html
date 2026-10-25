@@ -7,6 +7,8 @@
 <meta name="description" content="F18 variant 3: invoices as status-led cards with filter chips, a per-card download and pay action, and a compact totals strip.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -101,7 +103,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <button class="chip" data-f="paid" aria-pressed="false">Paid <b>3</b></button>
     </div>
 
-    <div class="cards" data-cards>
+    <div class="cards" data-cards data-nl-list=".ic">
       <article class="ic" data-st="pending">
         <div><p class="no">NL-INV-2026-000045</p>
           <p class="pj">Horizon Retail · issued 18 Oct 2026</p>

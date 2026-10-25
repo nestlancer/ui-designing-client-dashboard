@@ -7,6 +7,8 @@
 <meta name="description" content="F23 variant 1: two-column editorial cards with hairline rules, category eyebrows and a hover reveal, in the portal's own brand.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -110,7 +112,7 @@ article:hover .ft .more,article:focus-within .ft .more{opacity:1}
       <button role="tab" aria-selected="false" data-tab="work">Work</button>
     </div>
 
-    <div class="grid" data-grid>
+    <div class="grid" data-grid data-nl-list="article" data-nl-facet-label="Category">
       <article class="wide" data-cat="process">
         <div class="inner">
           <div>

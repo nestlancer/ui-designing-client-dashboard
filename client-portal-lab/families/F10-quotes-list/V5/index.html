@@ -68,6 +68,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .quiet{opacity:.62}
 .quiet .rrow__t b{font-weight:550}
 @media(max-width:640px){
+  .variant-nav{flex-wrap:wrap}.variant-nav .btn{flex:1 1 auto}
+  .reg__h{flex-wrap:wrap}.reg__h .r{margin-left:0;flex-wrap:wrap}
   .rrow{grid-template-columns:minmax(0,1fr) auto;gap:4px 10px}
   .rrow--h{display:none}
   .rrow__v{grid-column:2;grid-row:1}
@@ -209,7 +211,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
           46% of value but 58% of count. Reading only the count would overstate the loss.</p>
       </section>
 
-      <section class="reg" aria-labelledby="reg-h">
+      <section class="reg" aria-labelledby="reg-h" data-nl-list=".rrow:not(.rrow--h)">
         <div class="reg__h"><h2 id="reg-h">Register</h2><span class="n">12 quotes · newest first</span>
           <span class="r"><a class="chip" href="../../F06-new-request/V5/index.html"><svg class="i"><use href="#i-plus"/></svg>New request</a></span></div>
         <div class="rrow rrow--h" aria-hidden="true"><span>Quote · project</span><span style="text-align:right">Value</span>
@@ -277,7 +279,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
         <span class="r" style="gap:10px"><a class="link" href="../../../index.html">Gallery</a>
           <span>F10 Quotes · variant 5 of 5 — Value Study</span></span>
       </div>
-      <nav class="r" style="justify-content:space-between;margin-top:16px" aria-label="Variant navigation">
+      <nav class="r variant-nav" style="justify-content:space-between;margin-top:16px" aria-label="Variant navigation">
         <a class="btn btn-g btn-sm" href="../V4/index.html">← Previous: Expiry Runway</a>
         <a class="btn btn-s btn-sm" href="../V1/index.html">Back to V1: Grid Console</a>
       </nav>

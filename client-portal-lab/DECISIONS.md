@@ -2,8 +2,8 @@
 
 Everything in `client-portal-lab/` was decided here. If a decision is not written down, it was not made.
 
-- **Branch**: `arena/20f82082-ui-designing-client-dashboard`
-- **Base commit**: `161c02bdeb729f278f4425adfe10f056b310c525` (`main`)
+- **Branch**: `arena/6cd802c1-ui-designing-client-dashboard`
+- **Base commit**: `8bd198d174a8b41a12724d62cfd1ac3320df2c01` (`main`)
 - **Scope of change**: `client-portal-lab/` and `docs/` only. No screenshots, HTML snapshots, research reports, Swagger specs or `example-demo-prompt/` files were modified.
 
 ---
@@ -13,13 +13,13 @@ Everything in `client-portal-lab/` was decided here. If a decision is not writte
 All 115 variant pages, the shared stylesheets and the gallery were **written by hand**, one file at a time.
 
 - No generator, template engine, scaffolding script, `node`/`python`/`*.mjs`/`*.cjs` script or npm task created or overwrote any variant HTML or CSS.
-- The only automation used was **static checking**: `curl` for HTTP smoke tests, Python `html.parser` for tag balance, `node --check` for JavaScript parse, and link resolution over the built pages. Those checks report and, where a link was mechanically wrong (see §9), apply a small in-place correction to pages that already existed by hand.
+- Automation was used for **read-only HTML/CSS QA and data-file accounting**, not page authorship: Python `html.parser`, `node --check`, link resolution, jsdom execution/interactions and real Chromium rendering/workflows. QA scripts remained outside the deliverable and did not generate or mass-overwrite variant HTML or CSS. The earlier hand-directed link corrections are itemised in §9.
 - `manifest.json` and `audit.json` are **data** files assembled from the finished pages (titles, byte sizes, check output). They are not inputs to any page.
 - Where a page started from a sibling, it was copied by hand and then redesigned — layout, section order, controls and copy all changed.
 
 ## 2. One colour scheme
 
-- `shared/tokens.css` is the single source of colour. Every page links it, then `shared/base.css`, then its own `<style>` block.
+- `shared/tokens.css` is the single source of colour. Every variant links it, then `shared/base.css` and `shared/kit.css`, then its own hand-authored `<style>` block; every variant also loads `shared/kit.js`. The gallery uses the same three shared stylesheets and kit runtime.
 - The brand ramp is blue: `#ecf3ff → #dbe7ff → #b9ccff → #8fa8ff → #6b88ff → #465fff → #3439b8 → #26237a → #161950`. `--primary` is `#465fff` everywhere, including the two auth families — no teal login, no per-family accent.
 - The violet ramp is **not** a UI colour. Where it survives it is only the documented focus ring token. There is no purple button, chip or badge in the lab.
 - Status colour is fixed: ok `#e5f6ec`/`#166534`, warn `#fdf3e0`/`#8a5a00`, error `#fdecec`/`#b42318`, info `#e6f4fd`/`#0c5d8a`. Status is always carried by a word as well as a tint, so nothing depends on hue alone.
@@ -38,7 +38,7 @@ All 115 variant pages, the shared stylesheets and the gallery were **written by 
 - Ledger arithmetic is load-bearing and cross-checked: processing ₹30,000 + open invoice ₹1,875 = **₹31,875**; F14 completed rows sum to **₹81,500**; F18 totals are **₹87,000 invoiced / ₹55,125 collected / ₹31,875 open**; the ₹1,875 invoice is taxable ₹1,589 + GST ₹286.
 - **No invented testimonials, ratings, client logos, growth percentages or "trusted by N teams" strips.** Where a marketing-style module would normally carry a metric, the lab shows a fact from the data or omits the module.
 - **Known illustrative data**: the live quotes endpoint could not be read while the lab was built, so `F10` quote rows other than `#01a10f80` are sample records used to show the layout. Every F10 page carries a visible data-honesty note saying so, and no amount from those rows is repeated in F14, F16 or F18.
-- **F15 is deliberately empty.** The captured state has no saved payment method. V1 is built on that empty state; the other four variants show saved-method layouts because the *pattern* has to be designed, and each labels the data as a saved-method example.
+- **F15 keeps absence explicit.** V1 uses the verified HDFC card ending 4242 (expiry 09/2028) and derives its ₹81,500 method split from the seven settled F14 rows: UPI ₹64,340, bank ₹14,400, card ₹2,760. UPI and bank-transfer slots remain visibly unsaved. Additional method arrangements in V2–V5 are pattern examples and must retain their visible example/local labels rather than implying newly captured account data.
 
 ## 5. The live 502 is designed, not hidden
 
@@ -57,7 +57,7 @@ These have no endpoint in any of the 17 specs. Each appears in at most the famil
 |---|---|---|---|
 | D1 | "Ask AI about this project / quote / billing" | F09, F11, F14 | no AI endpoint in any spec |
 | D2 | Project help & FAQ hub | F09 | content-only, no project-scoped CMS endpoint |
-| D3 | Saved views / saved filters | F05, F10, F14 | the preferences endpoint covers notification prefs only |
+| D3 | Server-synced saved views / saved filters | F05, F10, F14 | the preferences endpoint covers notification prefs only; browser-local views are separate and real (§6a) |
 | D4 | Combined statement of account / GST summary PDF | F14, F18 | only per-invoice PDF download exists; F18 V2 says so in a toast |
 | D5 | UPI mandate / auto-pay management | F15 | Razorpay-hosted, no API surface |
 | D6 | Typing indicator, read receipts, SLA timer | F13 | no endpoint; websocket health only |
@@ -66,13 +66,23 @@ These have no endpoint in any of the 17 specs. Each appears in at most the famil
 | D9 | "Open support thread" from an error card | F08, F09 | composes `POST /messages/threads/direct`; copy is seeded |
 | D10 | Quote negotiation *chat* | F11 | real path is `POST /quotes/{id}/request-changes`; the chat presentation is illustrative |
 
-Every other CTA in the lab resolves to an endpoint listed in `docs/API-MAP.md`, or to another page in the lab.
+Every other CTA resolves to an endpoint listed in `docs/API-MAP.md`, to another page in the lab, or to an explicitly labelled local/demo behavior in §6a.
+
+### 6a. Functional browser-local conveniences
+
+These features are real within the static lab but make no server/sync claim:
+
+- **Workbench saved views:** stored under a path-specific `localStorage` key on the 24 compatible collection pages; the UI says “Local views” and save/apply feedback says “on this device.” Search, facets, sort, grouping, density, selection and comparison operate on the records already loaded in the HTML.
+- **CSV export:** generated from the current local selection as a browser Blob/download. No export endpoint or background job is implied.
+- **F06 drafts and quick-fill/category preferences:** explicit browser-local save/restore/clear controls. Drafts are never auto-submitted; selected files are never persisted with them.
+- **F06/F16 file selection:** accepts only the user’s actual local files, with type/size validation and removal. File bytes stay in the page session; no upload, fabricated attachment or persistent File object is claimed.
+- **Gallery comparison:** interactive local iframes with independent viewport/theme controls, preset and swap. It does not use screenshots or remote embeds.
 
 ## 7. States, themes, widths
 
 - Each variant carries empty, skeleton and error treatments drawn in its own layout — not a shared grey box pasted at the bottom. Files: `F22` upload states, `F08` degraded project list, `F19` empty queue, `F23` no-results, `F07`/`F11` expired quote.
 - Light and dark both come from the same tokens; the boot script resolves `?theme=` → `localStorage['nl-theme']` → `prefers-color-scheme`, so a page never flashes the wrong theme.
-- Layouts hold from 360px to 1440px. The verification lists that convert to cards, the message panes that collapse to one column, and the tables that drop columns at narrow widths are all in each page's own media queries.
+- Layouts are designed for 360px–1440px. The final rendered matrix exercises 375px and 1440px in light and dark; bounded table scrollers, stacked message/split panes and shrinking grid tracks are implemented in the relevant page/shared media queries.
 - `prefers-reduced-motion: reduce` is honoured wherever anything animates (progress bars, switches, hover reveals, drawer transforms).
 - Keyboard: skip link first on every page, visible focus rings from tokens, Esc closes drawers/palettes, focus is restored to the trigger, and `aria-selected`/`aria-pressed`/`aria-expanded` track real state. Focus traps filter on `offsetParent !== null` so hidden controls are not tabbable.
 - Without JavaScript the content is still reachable: all figures, tables, states and copy are in the HTML. Scripts only change what is already rendered; they never fetch content.
@@ -116,13 +126,19 @@ verification run and its limitation are in **`CORRECTION-PASS.md`**. Summary:
 - re-bound three filters whose `<select>` shared an attribute name with the data rows (F14-V4, F18-V1,
   F22-V2), verified by exercising them.
 
-Verified by executing every page in a real DOM engine (jsdom) with polyfills, plus static validation:
-**116/116 pages, 0 JS errors, 0 unbalanced tags, 0 duplicate ids, 2008 internal links with 0 missing,
-0 broken references, 0 dead `#` links.** No real browser engine was available, so — as recorded in §10 —
-this is DOM/source-level verification only, not visual QA.
+That correction pass was verified in jsdom. The current expansion has since been rechecked with static validation, jsdom and real Chromium; the current counts and the distinction between rendered checks and untested browsers are recorded in §10 and `audit.json`.
 
-## 10. What was not done
+## 10. Verification and remaining boundaries
 
-- **No browser or headless engine was available**, so no screenshot comparison, no visual regression run, and no manual click-through in a real browser. The lab therefore makes **no claim of visual QA**. See `docs/DELIVERY-REPORT.md` Gate 3.
-- The checks that *were* run are listed in `audit.json` — tag balance, JavaScript parse, link resolution, absence of external requests, single token file, 115/115 coverage.
-- Real Razorpay checkout, real uploads and real file downloads are simulated. Each simulation says so on the page (toast or inline note) rather than implying a live call.
+- **Static/source:** 116 files parsed; every inline script passed `node --check`; 2,200 internal links and all referenced local assets resolved; zero external style/script/image URLs or banned framework classes.
+- **jsdom:** all 116 pages executed with zero captured runtime/fatal errors, duplicate IDs, broken ARIA/label references, dead `#` links or audited nested controls. Every page has one `h1` and a first-focusable skip link; every variant has all four shared kit imports. The gallery and 15 bespoke auth/search surfaces are the documented palette exceptions.
+- **Real Chromium:** 464 combinations (116 pages × 375/1440px × light/dark) completed with zero flagged combinations. The gate covers visible right-edge clipping, unnamed buttons/form fields, invalid audited control nesting, one-H1/theme state, runtime/console errors, failed local assets and external requests. Intentional internal table scrollers and hidden off-canvas content are not false-counted as page overflow.
+- **Driven workflows:** keyboard palette/focus recovery, workbench search/density/selection/compare, an actual CSV download, saved-view persistence, honest degraded Retry/support, F06 draft persistence without File persistence, F16 local proof selection, and live gallery iframe preset/swap/Escape behavior passed in Chromium. Focused jsdom suites also passed for all F06 drafts/attachments, all F16 checkout variants, workbench grouping/filtering/pruning and gallery filtering/comparison controls.
+- **Boundary:** this is Chromium QA, not Firefox/WebKit certification, and there is no historical pixel-baseline/screenshot-diff claim. Source and behavior were checked; backend availability is not mocked into a success claim.
+- Real Razorpay hand-off, server upload/sync and server-generated downloads remain simulated or browser-local as labelled. No page makes a network call. The live projects `502 origin_bad_gateway` and unread quotes endpoint remain honest constraints, not silently repaired data.
+
+## 11. Expansion and reconciliation decisions
+
+- The shared kit is a family-agnostic progressive layer, not a template generator. It adds chrome, overlay/state behavior and workbench controls only to compatible authored collections; bespoke statements, timelines, split options, direct-link rows and grouped ledgers retain their own semantics.
+- The gallery owns a hand-authored 115-variant axis map; manifest data is not needed at runtime. Search, domain/axis filters and side-by-side live comparison are local and work without a build step.
+- Final source-of-truth reconciliation renamed gallery/concept entries to the upgraded variant titles and corrected F14-V1 to seven settled payments plus two open records. F15-V1 now uses the F14-derived split **₹64,340 UPI + ₹14,400 bank + ₹2,760 card = ₹81,500**, 79/18/3 percent bars, three UPI payments, and the verified 09/2028 card expiry.

@@ -7,6 +7,8 @@
 <meta name="description" content="F07 variant 1: a nine-stage status history drawn as a connected timeline beside a details rail, with steps revealing as you scroll.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -70,6 +72,7 @@ h1{font-size:25px;letter-spacing:-.035em;line-height:1.2}
 .seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
 .seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
 .dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.top>span.muted{display:none}.top .brandline small{display:none}}
 @media(prefers-reduced-motion:reduce){.stg{opacity:1;transform:none;transition:none}}
 </style>
 </head>

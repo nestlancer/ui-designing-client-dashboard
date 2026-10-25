@@ -7,6 +7,8 @@
 <meta name="description" content="F12 variant 3: a dense sortable inbox table with wait ages, unread counts and owner columns, built for triage rather than reading.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -64,7 +66,8 @@ tbody tr:hover{background:var(--brand-50)}
 .none{padding:34px 16px;text-align:center}
 .none b{display:block;margin-bottom:4px}
 .side{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:18px;align-items:start;margin-top:16px}
-@media(max-width:900px){.side{grid-template-columns:1fr}.scrollx{overflow-x:auto}table{min-width:720px}}
+@media(max-width:900px){.side{grid-template-columns:minmax(0,1fr)}.scrollx{overflow-x:auto}table{min-width:720px}}
+@media(max-width:720px){.bar-in{padding:0 14px;gap:8px}.bar-in nav{display:none}.bar-in .end{gap:5px}}
 .cardbox{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px}
 .cardbox h3{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
   font-weight:700;margin-bottom:9px}

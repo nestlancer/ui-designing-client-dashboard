@@ -7,6 +7,8 @@
 <meta name="description" content="F01 login variant 2: a full-bleed brand field with a floating sign-in card, headline and proof strip underneath.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -29,13 +31,15 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .top .brandline{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em;color:#fff}
 .top .brandline small{display:block;font-size:11px;color:#b9c6ff;font-weight:500}
 .top .brand-mark{background:#fff;color:var(--brand-700)}
-.center{position:relative;z-index:2;margin:auto;width:100%;display:grid;justify-items:center;gap:26px;padding:34px 0}
+.center{position:relative;z-index:2;margin:auto;width:100%;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;gap:26px;padding:34px 0}
+.center>*{min-width:0}
 .headline{text-align:center;max-width:26ch}
 .headline h1{font-size:clamp(30px,4.4vw,48px);line-height:1.06;letter-spacing:-.04em;font-weight:700}
 .headline p{margin-top:12px;font-size:14px;color:#c3cdf7;line-height:1.6}
 .float{width:min(430px,100%);background:var(--card);color:var(--foreground);border-radius:var(--radius-xl);
   border:1px solid rgba(255,255,255,.28);box-shadow:0 30px 70px rgba(4,8,26,.55);padding:26px;
-  display:grid;gap:16px;transform:translateY(0);transition:box-shadow var(--duration-normal),transform var(--duration-normal)}
+  display:grid;grid-template-columns:minmax(0,1fr);gap:16px;transform:translateY(0);transition:box-shadow var(--duration-normal),transform var(--duration-normal)}
+.float>*{min-width:0}
 .float:focus-within{box-shadow:0 34px 84px rgba(4,8,26,.62);transform:translateY(-2px)}
 .float h2{font-size:19px;letter-spacing:-.02em;font-weight:700}
 .float .sub{font-size:12.5px;color:var(--muted-foreground);margin-top:2px}
