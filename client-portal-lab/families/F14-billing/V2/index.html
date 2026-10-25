@@ -3,213 +3,343 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Billing · V2 Statement — Nestlancer Portal Lab</title>
-<meta name="description" content="F14 variant 2: a printable statement of account with a summary block, transaction rows, totals and an honest demo label on the combined PDF.">
+<title>Billing · Statement · V2 — Nestlancer Client Portal</title>
+<meta name="description" content="F14 billing V2: a statement of account grouped by month with a running balance, GST summary and print layout.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
-<script>
-(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script>(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
-document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
-</script>
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();</script>
 <style>
-/* V2 — Statement. A statement document · B money-first · C formal record · D ledger · E print. */
-body{background:var(--muted)}
-.bar{max-width:900px;margin:0 auto;padding:16px 20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.bar .r{margin-left:auto;display:flex;gap:7px;align-items:center}
-.sheet{max-width:900px;margin:0 auto 40px;background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius-md);padding:34px 38px 30px;box-shadow:0 20px 50px -40px rgba(15,28,46,.5)}
-.sh-top{display:flex;gap:16px;align-items:flex-start;padding-bottom:18px;border-bottom:2px solid var(--foreground)}
-.sh-top .brand{font-weight:800;font-size:15px;letter-spacing:-.03em}
-.sh-top .brand span{display:block;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted-foreground);margin-top:3px}
-.sh-top .r{margin-left:auto;text-align:right;font-size:11px;color:var(--muted-foreground);line-height:1.7}
-.sh-top .r b{color:var(--foreground);font-size:13px;letter-spacing:-.02em;display:block}
-.stmt-title{margin:22px 0 4px;font-size:24px;letter-spacing:-.04em}
-.stmt-sub{font-size:11.5px;color:var(--muted-foreground);margin:0}
-.sumrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 24px}
-.sumcell{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px}
-.sumcell .k{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-foreground);
-  font-weight:700}
-.sumcell .v{font-size:21px;letter-spacing:-.03em;font-variant-numeric:var(--tabnum);margin-top:4px}
-.sumcell .h{font-size:10.5px;color:var(--muted-foreground);margin-top:2px}
-.sumcell[data-t="paid"]{background:var(--status-success-bg);border-color:transparent}
-.sumcell[data-t="paid"] .v{color:var(--status-success-text)}
-.sumcell[data-t="pend"]{background:var(--status-warning-bg);border-color:transparent}
-.sumcell[data-t="pend"] .v{color:var(--status-warning-text)}
-h2.sect{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);
-  font-weight:700;margin:22px 0 7px;padding-bottom:5px;border-bottom:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{text-align:left;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);
-  font-weight:700;padding:6px 0;border-bottom:1px solid var(--border)}
-th.r,td.r{text-align:right}
-td{padding:7px 0;border-bottom:1px solid var(--border);vertical-align:top}
-td .s{display:block;font-size:10.5px;color:var(--muted-foreground)}
-td.amt{font-variant-numeric:var(--tabnum);white-space:nowrap;text-align:right;font-weight:600}
-.totalrow td{border-bottom:0;border-top:2px solid var(--foreground);font-weight:700;padding-top:9px}
-.totalrow td.amt{font-size:14px}
-.status{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:1px 5px;
-  border-radius:3px;white-space:nowrap}
-.st-ok{background:var(--status-success-bg);color:var(--status-success-text)}
-.st-pend{background:var(--status-warning-bg);color:var(--status-warning-text)}
-.st-lock{background:var(--muted);color:var(--muted-foreground)}
-.st-err{background:var(--status-error-bg);color:var(--status-error-text)}
-.st-info{background:var(--status-info-bg);color:var(--status-info-text)}
-.note{display:flex;gap:9px;border:1px dashed var(--border);border-radius:var(--radius-sm);padding:10px 12px;
-  font-size:11px;line-height:1.6;color:var(--muted-foreground);margin-top:20px}
-.note b{color:var(--foreground);display:block;margin-bottom:2px}
-.footline{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:22px;
-  padding-top:12px;border-top:1px solid var(--border);font-size:10px;color:var(--muted-foreground);
-  flex-wrap:wrap}
-.printonly{display:none}
-.seg{display:inline-flex;gap:2px}
-.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
-.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
-.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
-@media(max-width:700px){.sheet{padding:22px 18px}.sumrow{grid-template-columns:1fr}
-  .sh-top{flex-wrap:wrap}.sh-top .r{text-align:left;margin-left:0}}
-@media print{
-  .bar,.toast,.seg,.printonly-hide{display:none!important}
-  body{background:#fff}
-  .sheet{box-shadow:none;border:0;margin:0;padding:0;max-width:none}
-  .printonly{display:block}
-  .note{border:1px solid #999}
-  a{color:inherit;text-decoration:none}
+
+/* V2 · STATEMENT — a monthly statement you could post to an accountant. Grouped
+   by month, running totals in the gutter, and a print layout that keeps the math. */
+.st{max-width:1080px}
+.st-top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:2px solid var(--foreground)}
+.st-top__id{display:flex;align-items:center;gap:10px}
+.st-mark{width:34px;height:34px;border-radius:9px;background:var(--primary);color:#fff;display:grid;
+  place-items:center;font-weight:800;font-size:15px}
+.st-top .led-h{font-size:15px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.st-top .who{font-size:11px;color:var(--muted-foreground);margin-top:2px}
+.st-period{text-align:right}
+.st-period .l{font-size:9px;letter-spacing:.12em;text-transform:uppercase;font-weight:750;
+  color:var(--muted-foreground)}
+.st-period b{font-size:14px;font-weight:680;letter-spacing:-.02em;display:block;margin-top:2px}
+.st-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:14px 0 18px}
+@media(max-width:680px){.st-sum{grid-template-columns:1fr 1fr}}
+.st-sum div{background:var(--card);padding:10px 13px}
+.st-sum .l{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:750;color:var(--muted-foreground)}
+.st-sum .v{font-size:18px;font-weight:720;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin-top:2px}
+.st-sum .v--due{color:var(--status-warning-text)}
+.st-sum .v--ok{color:var(--status-success-text)}
+.mo{margin-bottom:20px}
+.mo__h{display:flex;align-items:baseline;gap:9px;padding:0 0 6px}
+.mo__h h2{font-size:12.5px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.mo__h .end{margin-left:auto;font-size:11px;color:var(--muted-foreground);font-variant-numeric:tabular-nums}
+.stt{width:100%;border-collapse:collapse;font-size:12px}
+.stt th{text-align:left;font-size:9px;letter-spacing:.09em;text-transform:uppercase;font-weight:750;
+  color:var(--muted-foreground);padding:0 10px 5px 0;border-bottom:1px solid var(--border)}
+.stt td{padding:7px 10px 7px 0;border-bottom:1px solid color-mix(in srgb,var(--border) 50%,transparent);
+  vertical-align:top}
+.stt tbody tr:last-child td{border-bottom:1px solid var(--border)}
+.stt .dt2{white-space:nowrap;color:var(--muted-foreground);font-variant-numeric:tabular-nums;width:60px}
+.stt .ref{font-family:var(--mono);font-size:10px;color:var(--muted-foreground)}
+.stt .in{text-align:right;font-variant-numeric:tabular-nums;font-weight:620;white-space:nowrap}
+.stt .out{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted-foreground);white-space:nowrap}
+.stt .run{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2);white-space:nowrap;
+  font-size:11px;background:var(--surface-2);padding-left:8px;padding-right:8px}
+.stt tfoot td{padding-top:8px;font-weight:700;border-top:2px solid var(--border);border-bottom:0}
+.stt tfoot .in{font-size:13px}
+@media(max-width:640px){
+  .stt .out,.stt th:nth-child(4){display:none}
+  .stt .dt2{width:auto}
+  .stt thead{display:none}
+  .stt tbody tr{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:8px 0;
+    border-bottom:1px solid var(--border)}
+  .stt tbody td{border:0;padding:0}
+  .stt tbody td:first-child{grid-column:1;color:var(--foreground);font-weight:600}
+  .stt .in{grid-column:2;grid-row:1}
+  .stt tbody td:nth-child(2){grid-column:1;grid-row:2;padding-top:3px}
+  .stt .run{grid-column:2;grid-row:2;font-size:10.5px;background:none;padding:0}
+  .stt .ref{font-size:9.5px}
 }
+.st-foot{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start;margin-top:6px}
+@media(max-width:800px){.st-foot{grid-template-columns:1fr}}
+.st-note{font-size:11px;line-height:1.65;color:var(--muted-foreground);border-top:1px solid var(--border);padding-top:10px}
+.st-note b{color:var(--foreground);font-weight:640}
+.gst{border:1px solid var(--border);border-radius:11px;overflow:hidden;background:var(--card)}
+.gst div{display:flex;justify-content:space-between;gap:12px;padding:8px 12px;font-size:11.5px;
+  border-bottom:1px solid color-mix(in srgb,var(--border) 60%,transparent)}
+.gst div:last-child{border-bottom:0;background:var(--surface-2);font-weight:700}
+.gst b{font-variant-numeric:tabular-nums}
+.stamp{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--status-success-border);
+  background:var(--status-success-bg);color:var(--status-success-text);border-radius:6px;padding:3px 7px;
+  font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+@media print{.st-top{border-bottom-width:2px}.st-sum,.gst{break-inside:avoid}.mo{break-inside:avoid}
+  .side,.top,.phead__a,.st-foot .btnrow{display:none!important}}
+
 </style>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></symbol>
   <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 17h12v4H6z"/></symbol>
+  <symbol id="i-sign" viewBox="0 0 24 24"><path d="M3 17c3 0 4-9 7-9s2 9 5 9 3-4 6-4"/><path d="M3 21h18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="m19 15 .9 2.1 2.1.9-2.1.9L19 21l-.9-2.1-2.1-.9 2.1-.9z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.6 2.3c-.7.4-1.1 1-1.1 1.7M12 17v.5"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 17h12v4H6z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 14h2"/></symbol>
+  <symbol id="i-upi" viewBox="0 0 24 24"><path d="m13 2-8 12h6l-1 8 8-12h-6z"/></symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="m3 9 9-5 9 5"/><path d="M5 9v9M19 9v9M9 9v9M15 9v9M3 21h18"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5h6v2M6 7l1 14h10l1-14"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v6M15 3v6M6 9h12v3a6 6 0 0 1-12 0z"/><path d="M12 18v3"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v6l-4 2v-8z"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14M18 13l-6 6-6-6"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M9 6H5v6h4v2a3 3 0 0 1-3 3M19 6h-4v6h4v2a3 3 0 0 1-3 3"/></symbol>
 </svg>
-<a class="skip" href="#stmt">Skip to statement</a>
 
-<div class="bar printonly-hide">
-  <a class="btn btn-g btn-sm" href="../../F03-dashboard-overview/V1/index.html">← Overview</a>
-  <strong style="font-size:12.5px">Statement of account</strong>
-  <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
-  <span class="r">
-    <button class="btn btn-g btn-sm" data-print><svg class="i i--sm"><use href="#i-print"/></svg>Print</button>
-    <button class="btn btn-p btn-sm" data-demo>Download PDF</button>
-    <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
-      <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
-  </span>
-</div>
+<a class="skip" href="#main">Skip to the page</a>
+<div class="scrim" data-nav-scrim data-nav-close></div>
 
-<main id="stmt">
-<article class="sheet">
-  <div class="sh-top">
-    <div class="brand">Nestlancer<span>Statement of account</span></div>
-    <div class="r">
-      <b>STMT-2026-10-0714</b>
-      Period 1 Aug 2026 – 22 Oct 2026<br>
-      Prepared for Arjun Mehta<br>
-      Account · arjun@khandeshspice.example
+<div class="app">
+  <aside class="side" aria-label="Portal">
+    <a class="ws" href="../../../index.html"><span class="ws__mark">N</span>
+      <span class="ws__t"><b>Khandesh Spice</b><span>Client workspace</span></span>
+      <svg class="i i--sm ws__chev"><use href="#i-chevron-down"/></svg></a>
+      <nav class="snav" aria-label="Sections">
+      <p class="snav__g">Work</p>
+      <a href="../../F03-dashboard-overview/V2/index.html"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a href="../../F05-requests-work-hub/V2/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="cnt">10</span></a>
+      <a href="../../F08-projects-list/V2/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a href="../../F10-quotes-list/V2/index.html"><svg class="i"><use href="#i-file"/></svg>Quotes<span class="cnt cnt--live">1</span></a>
+      <a href="../../F12-messages-home/V2/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="cnt cnt--live">2</span></a>
+      <p class="snav__g">Money</p>
+      <a href="../../F14-billing/V2/index.html" aria-current="page"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a href="../../F18-invoices/V2/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F15-payment-methods/V2/index.html"><svg class="i"><use href="#i-shield"/></svg>Payment methods</a>
+      <p class="snav__g">Account</p>
+      <a href="../../F19-notifications/V2/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="cnt">6</span></a>
+      <a href="../../F20-profile/V2/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V2/index.html"><svg class="i"><use href="#i-settings"/></svg>Settings</a>
+      </nav>
+    <div class="side__foot">
+      <a class="side__user" href="../../F20-profile/V2/index.html"><span class="avatar">AM</span>
+        <span class="nm"><b>Arjun Mehta</b><span>Owner · Khandesh Spice</span></span></a>
     </div>
+  </aside>
+
+  <div class="app__col">
+    <header class="top">
+      <button class="iconb navtog" data-nav-open aria-label="Open navigation" aria-expanded="false"><svg class="i i--lg"><use href="#i-menu"/></svg></button>
+      <div class="top__crumb"><span>Money</span><svg class="i i--sm"><use href="#i-chevron"/></svg><b>Statement</b></div>
+      <div class="top__mid"><button class="trigger" data-palette-open="palette" aria-label="Search, Command K">
+        <svg class="i"><use href="#i-search"/></svg><span>Search statements…</span><kbd class="kbd">⌘K</kbd></button></div>
+      <div class="top__right">
+        <a class="iconb qadd" href="../../F06-new-request/V2/index.html" aria-label="New request"><svg class="i"><use href="#i-plus"/></svg></a>
+        <button class="iconb" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+        <a class="iconb" href="../../F19-notifications/V2/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg><span class="dot">6</span></a>
+        <a class="me" href="../../F20-profile/V2/index.html"><span class="avatar">AM</span><span class="me__n">Arjun</span></a>
+      </div>
+    </header>
+
+    <main id="main" class="page">
+      <div class="st">
+        <div class="phead" style="margin-bottom:12px">
+          <div class="phead__t">
+            <p class="kicker"><span class="led"></span>Statement of account · generated 25 Oct 2026</p>
+            <h1 style="font-size:clamp(20px,2vw,25px)">Everything paid and owed, month by month</h1>
+          </div>
+          <div class="phead__a">
+            <button class="btn btn-s" data-window-print><svg class="i"><use href="#i-print"/></svg>Print</button>
+            <button class="btn btn-s" data-toast="Statement CSV prepared (demo)"><svg class="i"><use href="#i-download"/></svg>CSV</button>
+            <a class="btn btn-p" href="../../F16-checkout/V2/index.html">Pay ₹31,875</a>
+          </div>
+        </div>
+
+        <div class="st-top">
+          <div class="st-top__id">
+            <span class="st-mark">N</span>
+            <div><h2 class="led-h">Statement SOA-2026-10</h2>
+              <p class="who">Khandesh Spice Pvt Ltd · GSTIN 29AAFCS1234E1Z5 · client since Aug 2026</p></div>
+          </div>
+          <div class="st-period"><p class="l">Period</p><b>1 Aug – 25 Oct 2026</b>
+            <span class="stamp" style="margin-top:5px"><svg class="i" style="width:9px;height:9px"><use href="#i-check"/></svg>reconciled</span></div>
+        </div>
+
+        <div class="st-sum">
+          <div><p class="l">Billed</p><p class="v">₹1,13,375</p></div>
+          <div><p class="l">Settled</p><p class="v v--ok">₹81,500</p></div>
+          <div><p class="l">Outstanding</p><p class="v v--due">₹31,875</p></div>
+          <div><p class="l">Refunds / credits</p><p class="v">₹0</p></div>
+        </div>
+
+        <section class="mo">
+          <div class="mo__h"><h2>October 2026</h2><span class="end">paid ₹60,885 · open ₹31,875</span></div>
+          <table class="stt">
+            <thead><tr><th>Date</th><th>Record</th><th>Method</th><th>Debit</th><th>Credit</th><th>Settled to date</th></tr></thead>
+            <tbody>
+              <tr><td class="dt2">30 Oct</td><td><b>Invoice NL-INV-2026-000031</b><div class="ref">packaging design · not yet paid</div></td>
+                <td>Not chosen</td><td class="out">—</td><td class="in" style="color:var(--status-warning-text)">₹1,875</td>
+                <td class="run">₹31,875 due</td></tr>
+              <tr><td class="dt2">22 Oct</td><td><b>Processing · M2 milestone</b><div class="ref">01a10a2b-5ed2 · UTR pending</div></td>
+                <td>Razorpay</td><td class="out">—</td><td class="in" style="color:var(--status-warning-text)">₹30,000</td>
+                <td class="run">₹30,000 due</td></tr>
+              <tr><td class="dt2">16 Oct</td><td><b>Milestone M1 · creative direction</b><div class="ref">NL-PAY-2026-000441</div></td>
+                <td>UPI</td><td class="out">—</td><td class="in">₹48,000</td><td class="run">₹60,885</td></tr>
+              <tr><td class="dt2">13 Oct</td><td><b>Quote deposit · #01a10f80</b><div class="ref">NL-PAY-2026-000428</div></td>
+                <td>Card ····4242</td><td class="out">—</td><td class="in">₹885</td><td class="run">₹12,885</td></tr>
+              <tr><td class="dt2">6 Oct</td><td><b>Invoice NL-INV-2026-000028</b><div class="ref">storage &amp; handover</div></td>
+                <td>Bank</td><td class="out">—</td><td class="in">₹12,000</td><td class="run">₹12,000</td></tr>
+            </tbody>
+            <tfoot><tr><td></td><td>October total</td><td></td><td class="out">—</td><td class="in">₹60,885</td><td class="run">₹31,875 due</td></tr></tfoot>
+          </table>
+        </section>
+
+        <section class="mo">
+          <div class="mo__h"><h2>September 2026</h2><span class="end">paid ₹16,475 · open ₹0</span></div>
+          <table class="stt">
+            <thead><tr><th>Date</th><th>Record</th><th>Method</th><th>Debit</th><th>Credit</th><th>Settled to date</th></tr></thead>
+            <tbody>
+              <tr><td class="dt2">28 Sep</td><td><b>Milestone M3 · B2B portal</b><div class="ref">NL-PAY-2026-000402</div></td>
+                <td>UPI</td><td class="out">—</td><td class="in">₹14,600</td><td class="run">₹16,475</td></tr>
+              <tr><td class="dt2">9 Sep</td><td><b>Invoice NL-INV-2026-000022</b><div class="ref">label artwork</div></td>
+                <td>Card ····4242</td><td class="out">—</td><td class="in">₹1,875</td><td class="run">₹1,875</td></tr>
+            </tbody>
+            <tfoot><tr><td></td><td>September total</td><td></td><td class="out">—</td><td class="in">₹16,475</td><td class="run">₹16,475</td></tr></tfoot>
+          </table>
+        </section>
+
+        <section class="mo">
+          <div class="mo__h"><h2>August 2026</h2><span class="end">paid ₹4,140 · open ₹0</span></div>
+          <table class="stt">
+            <thead><tr><th>Date</th><th>Record</th><th>Method</th><th>Debit</th><th>Credit</th><th>Settled to date</th></tr></thead>
+            <tbody>
+              <tr><td class="dt2">21 Aug</td><td><b>Milestone M2 · B2B portal</b><div class="ref">NL-PAY-2026-000372</div></td>
+                <td>Bank</td><td class="out">—</td><td class="in">₹2,400</td><td class="run">₹4,140</td></tr>
+              <tr><td class="dt2">4 Aug</td><td><b>Advance · discovery</b><div class="ref">NL-PAY-2026-000341</div></td>
+                <td>UPI</td><td class="out">—</td><td class="in">₹1,740</td><td class="run">₹1,740</td></tr>
+            </tbody>
+            <tfoot><tr><td></td><td>August total</td><td></td><td class="out">—</td><td class="in">₹4,140</td><td class="run">₹4,140</td></tr></tfoot>
+          </table>
+        </section>
+
+        <div class="st-foot">
+          <div>
+            <p class="st-note"><b>How to read this.</b> Credit is money received; debit is money refunded, of which there
+              are none. “Settled to date” is cumulative within the month, so the top paid row carries the month's
+              total. Open records sit in the month they fall due and never enter that column.</p>
+            <p class="st-note" style="border:0;padding-top:4px">Every line has a receipt or invoice PDF. A statement is
+              a convenience copy; the individual documents remain the tax records.</p>
+            <div class="r btnrow" style="gap:7px;margin-top:10px">
+              <button class="btn btn-s btn-sm" data-toast="Statement PDF prepared (demo)">
+                <svg class="i i--sm"><use href="#i-download"/></svg>Download PDF</button>
+              <a class="btn btn-g btn-sm" href="../../F18-invoices/V2/index.html">Open invoices</a>
+              <button class="btn btn-g btn-sm" data-open-sheet="q">Ask accounts a question</button>
+            </div>
+          </div>
+          <div>
+            <p class="f12 b700 mb2">GST summary · claimable ₹12,115</p>
+            <div class="gst">
+              <div><span>Taxable value</span><b>₹69,385.00</b></div>
+              <div><span>IGST / CGST+SGST</span><b>₹12,115.00</b></div>
+              <div><span>Total settled</span><b>₹81,500.00</b></div>
+            </div>
+            <p class="f12 muted mt2" style="font-size:10.5px">Statement of account, not a tax invoice. GSTIN
+              29AAFCS1234E1Z5.</p>
+            <button class="btn btn-s btn-sm btn-block mt3" data-toast="GST summary prepared (demo)">
+              <svg class="i i--sm"><use href="#i-download"/></svg>Download GST summary</button>
+          </div>
+        </div>
+      </div>
+
+      <nav class="r" style="justify-content:space-between;margin-top:26px;border-top:1px solid var(--border);padding-top:16px;flex-wrap:wrap;gap:8px" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../../index.html">← Gallery</a>
+        <span class="f12 muted">F14 Billing · variant 2 of 5 — Statement</span>
+        <span class="r" style="gap:6px"><a class="btn btn-s btn-sm" href="../V1/index.html">← Ledger</a><a class="btn btn-s btn-sm" href="../V3/index.html">Runway →</a></span>
+      </nav>
+    </main>
   </div>
-
-  <h1 class="stmt-title">Statement of account</h1>
-  <p class="stmt-sub">All payments recorded against your account in the statement period. GST is shown on the
-    individual invoices.</p>
-
-  <div class="sumrow">
-    <div class="sumcell" data-t="paid"><span class="k">Collected</span>
-      <p class="v">₹81,500.00</p><p class="h">5 settled transactions</p></div>
-    <div class="sumcell" data-t="pend"><span class="k">Outstanding</span>
-      <p class="v">₹31,875.00</p><p class="h">1 processing · 1 unpaid invoice</p></div>
-    <div class="sumcell"><span class="k">In dispute</span>
-      <p class="v">₹0.00</p><p class="h">no open disputes</p></div>
+</div>
+<div class="sheet-scrim" data-sheet-scrim></div>
+<section class="sheet" id="q" data-open="false" role="dialog" aria-modal="true" aria-labelledby="q2h">
+  <div class="sheet__h"><div><h2 id="q2h">Ask accounts</h2><p>Statement questions, not disputes.</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div class="fld"><label class="lbl" for="q2">Which line?</label>
+      <select class="sel" id="q2"><option>Whole statement</option><option>Processing · M2 ₹30,000</option>
+        <option>Invoice NL-INV-2026-000031</option><option>GST summary</option></select></div>
+    <div class="fld"><label class="lbl" for="q2b">Question</label><textarea class="txa" id="q2b"></textarea></div>
+    <div class="note note--info"><svg class="i i--sm"><use href="#i-info"/></svg>
+      <span>Disputes about a charge belong on the invoice page — they pause late-fee logic, which a message does
+        not.</span></div>
+    <button class="btn btn-p" data-toast="Sent — accounts replies within one working day" data-close>Send</button>
   </div>
-
-  <h2 class="sect">Settled</h2>
-  <table>
-    <caption class="sr-only">Settled payments in the statement period</caption>
-    <thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col">Status</th>
-      <th scope="col" class="r">Amount</th></tr></thead>
-    <tbody>
-      <tr><td>15 Oct 2026</td><td>Milestone 1 · Khandesh Spice<span class="s">Discovery &amp; wireframes · UPI</span></td>
-        <td><span class="status st-ok">completed</span></td><td class="amt">₹48,000.00</td></tr>
-      <tr><td>5 Oct 2026</td><td>Audit deposit<span class="s">Ref AUDIT-P25-20261005-73dhk</span></td>
-        <td><span class="status st-ok">completed</span></td><td class="amt">₹625.00</td></tr>
-      <tr><td>28 Sep 2026</td><td>Milestone 1 · B2B Wholesale<span class="s">Ordering portal · netbanking</span></td>
-        <td><span class="status st-ok">completed</span></td><td class="amt">₹22,000.00</td></tr>
-      <tr><td>20 Sep 2026</td><td>Change request · hero rebuild<span class="s">Horizon Retail · UPI</span></td>
-        <td><span class="status st-ok">completed</span></td><td class="amt">₹10,625.00</td></tr>
-      <tr><td>12 Sep 2026</td><td>Platform fee<span class="s">2.5% of milestone 1</span></td>
-        <td><span class="status st-ok">completed</span></td><td class="amt">₹250.00</td></tr>
-      <tr class="totalrow"><td colspan="3">Total settled</td><td class="amt">₹81,500.00</td></tr>
-    </tbody>
-  </table>
-
-  <h2 class="sect">Outstanding</h2>
-  <table>
-    <caption class="sr-only">Outstanding items</caption>
-    <thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col">Status</th>
-      <th scope="col" class="r">Amount</th></tr></thead>
-    <tbody>
-      <tr><td>14 Oct 2026</td><td>Milestone 2 · Khandesh Spice<span class="s">Bank transfer · UTR awaiting verification</span></td>
-        <td><span class="status st-pend">processing</span></td><td class="amt">₹30,000.00</td></tr>
-      <tr><td>12 Oct 2026</td><td>Invoice NL-INV-2026-000044<span class="s">Horizon Retail · issued, unpaid</span></td>
-        <td><span class="status st-pend">pending</span></td><td class="amt">₹1,875.00</td></tr>
-      <tr class="totalrow"><td colspan="3">Total outstanding</td><td class="amt">₹31,875.00</td></tr>
-    </tbody>
-  </table>
-
-  <h2 class="sect">Not yet due</h2>
-  <table>
-    <thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col">Status</th>
-      <th scope="col" class="r">Amount</th></tr></thead>
-    <tbody>
-      <tr><td>15 Nov 2026</td><td>Milestone 3 · B2B Wholesale<span class="s">Unlocks on milestone 2 approval</span></td>
-        <td><span class="status st-lock">not due</span></td><td class="amt">₹45,000.00</td></tr>
-      <tr><td>5 Dec 2026</td><td>Milestone 3 · Khandesh Spice<span class="s">Amount confirmed at handover</span></td>
-        <td><span class="status st-lock">not due</span></td><td class="amt">—</td></tr>
-      <tr><td>18 Sep 2026</td><td>Milestone 2 · card attempt<span class="s">Declined · no money moved</span></td>
-        <td><span class="status st-err">failed</span></td><td class="amt">₹30,000.00</td></tr>
-      <tr><td>30 Aug 2026</td><td>Reversal · duplicate charge<span class="s">Returned in 3 working days</span></td>
-        <td><span class="status st-info">refunded</span></td><td class="amt">₹0.00</td></tr>
-    </tbody>
-  </table>
-
-  <div class="note">
-    <span><b>About this document</b>
-      This statement is assembled in the browser from your real payment and invoice records. A single combined
-      statement PDF is <b>not</b> produced by the API — only individual invoice PDFs
-      (<code>GET /invoices/{id}/download</code>) exist. So “Download PDF” is demo-only here, while “Print”
-      produces a usable copy from this page.</span>
+</section>
+<div class="palette" id="palette" data-open="false" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true">
+  <div class="palette__p">
+    <div class="palette__in"><svg class="i"><use href="#i-search"/></svg>
+      <input type="text" placeholder="Jump to…" aria-label="Search" autocomplete="off"><kbd class="kbd">Esc</kbd></div>
+    <div class="palette__b">
+      <p class="palette__g">Work</p>
+      <a class="palette__i" href="../../F03-dashboard-overview/V2/index.html"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a class="palette__i" href="../../F05-requests-work-hub/V2/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="r">10</span></a>
+      <a class="palette__i" href="../../F08-projects-list/V2/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a class="palette__i" href="../../F10-quotes-list/V2/index.html"><svg class="i"><use href="#i-file"/></svg>Quotes<span class="r">1</span></a>
+      <a class="palette__i" href="../../F12-messages-home/V2/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="r">2</span></a>
+      <p class="palette__g">Money</p>
+      <a class="palette__i" href="../../F14-billing/V2/index.html"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a class="palette__i" href="../../F18-invoices/V2/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a class="palette__i" href="../../F15-payment-methods/V2/index.html"><svg class="i"><use href="#i-shield"/></svg>Payment methods</a>
+      <p class="palette__g">Account</p>
+      <a class="palette__i" href="../../F19-notifications/V2/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="r">6</span></a>
+      <a class="palette__i" href="../../F20-profile/V2/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a class="palette__i" href="../../F21-settings/V2/index.html"><svg class="i"><use href="#i-settings"/></svg>Settings</a>
+    </div>
+    <div class="palette__f"><span><kbd class="kbd">↵</kbd> open</span><span><kbd class="kbd">Esc</kbd> close</span></div>
   </div>
-
-  <div class="footline">
-    <span>Statement STMT-2026-10-0714 · generated 22 Oct 2026 · Nestlancer</span>
-    <span class="printonly">Printed from the portal · page 1</span>
-    <span class="printonly-hide"><a href="../../F18-invoices/V1/index.html">Invoices</a> ·
-      <a href="../../F15-payment-methods/V1/index.html">Payment methods</a> ·
-      <a href="../../../index.html">Gallery</a></span>
-  </div>
-</article>
-</main>
-
-<div class="toast" role="status" aria-live="polite" data-toast></div>
+</div>
+<div class="toasts" role="status" aria-live="polite"></div>
+<script src="../../../shared/kit.js"></script>
 <script>
-(function(){
-  'use strict';
-  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
-  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2800);}
-  var tt=document.querySelector('[data-theme-toggle]');
-  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
-    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
-  sync();
-  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
-    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
-  document.querySelector('[data-print]').addEventListener('click',function(){
-    if(window.print){window.print();} else {say('Use your browser print dialog to save this statement.');}
-  });
-  document.querySelector('[data-demo]').addEventListener('click',function(){
-    say('A combined statement PDF is demo-only — the API only exposes per-invoice downloads.');
-  });
-})();
+document.querySelectorAll('[data-window-print]').forEach(function(b){b.addEventListener('click',function(){window.print()})});
 </script>
 </body>
 </html>

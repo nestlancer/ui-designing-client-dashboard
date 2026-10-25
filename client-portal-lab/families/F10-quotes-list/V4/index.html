@@ -3,257 +3,424 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quotes · V4 Awaiting Queue — Nestlancer Portal Lab</title>
-<meta name="description" content="F10 variant 4: a queue of quotes awaiting signature first, accepted quotes collapsed behind a toggle, with saved views labelled demo-only.">
+<title>Quotes · V4 Expiry Runway — Nestlancer Client Portal</title>
+<meta name="description" content="F10 quotes upgrade V4: a countdown runway that plots every quote against today, so urgency is a length you can see, not a date you must compute.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
-<script>
-(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script>(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
-document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
-</script>
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();</script>
 <style>
-/* V4 — Awaiting Queue. A queue · B action-first · C queue · E collapse groups (+A12 demo). */
-.page{min-height:100vh;background:var(--background)}
-.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
-  gap:12px;padding:0 20px}
-.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
-.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
-.wrap{max-width:880px;margin:0 auto;padding:22px 20px 40px}
-.mast{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.mast h1{font-size:25px;letter-spacing:-.035em}
-.mast p{font-size:12.5px;color:var(--muted-foreground);margin-top:3px}
-.views{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
-.view{border:1px solid var(--border);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:650;
-  background:var(--card);color:var(--muted-foreground)}
-.view[aria-pressed="true"]{background:var(--brand-50);border-color:var(--brand-300);color:var(--brand-700)}
-.dark .view[aria-pressed="true"]{background:#1b2650;border-color:#33447e;color:#c9d6ff}
-.qcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
-  margin-bottom:10px;box-shadow:var(--shadow-xs);border-left:3px solid var(--brand-500)}
-.qcard .r1{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
-.qcard .ref{font-size:13.5px;font-weight:700;font-variant-numeric:var(--tabnum);letter-spacing:-.01em}
-.qcard .cl{margin-left:auto;font-size:11.5px;color:var(--muted-foreground)}
-.qcard .amtline{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-top:9px}
-.qcard .amt{font-size:24px;font-weight:700;letter-spacing:-.035em;font-variant-numeric:var(--tabnum)}
-.qcard .split{font-size:11.5px;color:var(--muted-foreground)}
-.qcard .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;font-size:11px;color:var(--muted-foreground)}
-.qcard .meta span{border:1px solid var(--border);border-radius:999px;padding:2px 9px;background:var(--background)}
-.qcard .exp{margin-top:10px;font-size:12px;line-height:1.55;border-radius:var(--radius-sm);padding:8px 10px;
-  border:1px dashed var(--status-warning-border);background:var(--status-warning-bg);color:var(--status-warning-text)}
-.qcard .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
-.grp{margin-top:20px}
-.grphd{display:flex;align-items:center;gap:9px;width:100%;padding:9px 2px;border-bottom:1px solid var(--border);
-  font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
-.grphd .n{font-size:10px;background:var(--muted);border-radius:999px;padding:1px 7px;color:var(--muted-foreground)}
-.grphd .chev{margin-left:auto;transition:transform var(--duration-fast)}
-.grphd[aria-expanded="false"] .chev{transform:rotate(-90deg)}
-.grpbody{padding-top:10px}
-.grpbody[hidden]{display:none}
-.compact{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:9px 12px;
-  border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);margin-bottom:6px;font-size:12px}
-.compact .l{min-width:0}
-.compact .l b{font-variant-numeric:var(--tabnum)}
-.compact .l span{display:block;font-size:10.5px;color:var(--muted-foreground);margin-top:1px}
-.compact .r{display:flex;gap:8px;align-items:center;white-space:nowrap}
-.compact .r .amt{font-variant-numeric:var(--tabnum);font-weight:650}
-.note{font-size:11.5px;color:var(--muted-foreground);margin-top:14px;line-height:1.6}
-.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:16px}
-.seg{display:inline-flex;gap:2px}
-.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
-.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
-.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
-@media(max-width:720px){.wrap{padding:14px}.top{padding:0 14px}}
+/* V4 · EXPIRY RUNWAY — time is the x-axis. A centre rule is *today*; bars run right
+   for days remaining and left for days lapsed, so the eye reads risk as distance. */
+.rh{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:16px}
+.rh h1{font-size:clamp(26px,2.7vw,34px);letter-spacing:-.04em;line-height:1.08}
+.rh p{font-size:13px;color:var(--muted-foreground);margin-top:6px;max-width:64ch;line-height:1.55}
+.rh .acts{display:flex;gap:7px;flex-wrap:wrap;padding-top:20px}
+@media(max-width:760px){.rh .acts{padding-top:0;width:100%}.rh .acts .btn{flex:1 1 auto}}
+
+.legend-bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:9px 13px;border:1px solid var(--border);
+  border-radius:10px;background:var(--surface-2);font-size:11px;color:var(--muted-foreground);margin-bottom:12px}
+.legend-bar span{display:inline-flex;align-items:center;gap:6px}
+.legend-bar i{width:16px;height:5px;border-radius:3px;display:inline-block}
+.legend-bar i.now{background:var(--status-warning-text)}
+.legend-bar i.ok{background:var(--status-success-text)}
+.legend-bar i.dead{background:var(--status-error-text);opacity:.55}
+.legend-bar .end{margin-left:auto;display:flex;gap:6px}
+
+.runway{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-1);overflow:hidden}
+.runway__h{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border)}
+.runway__h h2{font-size:14.5px;font-weight:680;letter-spacing:-.015em}
+.runway__h .end{margin-left:auto;display:flex;gap:6px;align-items:center}
+.scale{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:12px;padding:8px 16px;
+  border-bottom:1px solid var(--border);background:var(--surface-3)}
+.dark .scale{background:#0f1a2c}
+.track-wrap{position:relative;display:grid;grid-template-columns:1fr 1fr;height:16px}
+.track-wrap .mid{position:absolute;left:50%;top:-4px;bottom:-4px;width:1px;background:var(--border-strong)}
+.track-wrap span{font-size:9.5px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;
+  color:var(--muted-foreground);align-self:center}
+.track-wrap span.l{text-align:right;padding-right:8px}
+.track-wrap span.r{padding-left:8px}
+
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) 118px;gap:12px;align-items:center;
+  padding:11px 16px;border-bottom:1px solid var(--border);transition:background var(--duration-fast);
+  width:100%;text-align:left}
+.qrow:last-child{border-bottom:0}
+.qrow:hover{background:var(--surface-2)}
+.qrow__t{display:flex;align-items:center;gap:10px;min-width:0}
+.qrow__t .tile{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none;
+  background:var(--brand-50);color:var(--brand-700);font-size:9.5px;font-weight:800}
+.dark .qrow__t .tile{background:#1a2744;color:#b7c7ff}
+.qrow__n{min-width:0;flex:1 1 auto}
+.qrow__n b{display:block;font-size:12.5px;font-weight:620;letter-spacing:-.01em;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.qrow__n span{display:block;font-family:var(--mono);font-size:10px;color:var(--muted-foreground);margin-top:1px}
+.qrow__v{font-size:12.5px;font-weight:680;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.qrow__v span{display:block;font-size:9.5px;font-weight:600;color:var(--muted-foreground)}
+.track{position:relative;height:26px;display:grid;grid-template-columns:1fr 1fr;align-items:center}
+.track::before{content:"";position:absolute;left:50%;top:-6px;bottom:-6px;width:1px;background:var(--border)}
+.track .bar{height:7px;border-radius:99px;transition:width var(--duration-slow) var(--ease-out);min-width:3px}
+.track .bar.rem{grid-column:2;justify-self:start;background:var(--status-warning-text);border-radius:0 99px 99px 0}
+.track .bar.ok{background:var(--status-success-text);border-radius:0 99px 99px 0}
+.track .bar.gone{grid-column:1;justify-self:end;background:var(--status-error-text);opacity:.5;
+  border-radius:99px 0 0 99px}
+.track .tick{position:absolute;left:50%;top:50%;width:9px;height:9px;border-radius:50%;background:var(--card);
+  border:2px solid var(--border-strong);transform:translate(-50%,-50%);z-index:1}
+.track .bar.rem+.tick{border-color:var(--status-warning-text)}
+.qrow--now{background:color-mix(in srgb,var(--status-warning-bg) 55%,var(--card))}
+.dark .qrow--now{background:#221f18}
+.qrow--now:hover{background:var(--status-warning-bg)}
+.qrow--gone .qrow__n b{color:var(--ink-2)}
+.qrow__act{display:none}
+@media(max-width:820px){
+  .qrow{grid-template-columns:minmax(0,1fr) 96px}
+  .track{height:20px}
+  .scale{grid-template-columns:minmax(0,1fr) 96px}
+}
+@media(max-width:560px){
+  .qrow{grid-template-columns:1fr;gap:6px}
+  .qrow__v{text-align:left;display:flex;align-items:baseline;gap:6px}
+  .qrow__v span{display:inline}
+  .track{grid-column:1;grid-row:2}
+  .scale{display:none}
+  .runway__h{flex-wrap:wrap}.runway__h .end{width:100%;margin-left:0}
+}
+
+.split4{display:grid;grid-template-columns:minmax(0,1fr) 316px;gap:14px;align-items:start;margin-top:16px}
+@media(max-width:1080px){.split4{grid-template-columns:1fr}}
+.q-item{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--border);width:100%;text-align:left}
+.q-item:first-child{border-top:0}
+.q-item:hover{background:var(--surface-2)}
+.q-item .ico{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex:none;
+  background:var(--status-warning-bg);color:var(--status-warning-text)}
+.q-item .ico--ok{background:var(--status-success-bg);color:var(--status-success-text)}
+.q-item .ico--dead{background:var(--status-error-bg);color:var(--status-error-text)}
+.q-item .t{font-size:12.5px;font-weight:630;letter-spacing:-.01em}
+.q-item .m{font-size:11px;color:var(--muted-foreground);margin-top:2px;line-height:1.45}
+.q-item .end{margin-left:auto;text-align:right;flex:none}
+.q-item .end b{display:block;font-size:12px;font-variant-numeric:tabular-nums}
+.q-item .end span{font-size:10px;color:var(--muted-foreground)}
+.calc{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.calc div{display:flex;justify-content:space-between;gap:10px;padding:8px 11px;font-size:11.5px;
+  border-top:1px solid var(--border)}
+.calc div:first-child{border-top:0}
+.calc b{font-variant-numeric:tabular-nums}
+.calc div.tot{background:var(--surface-2);font-weight:700}
 </style>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false">
-  <symbol id="i-chev-dn" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-bell-2" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="m19 15 .9 2.1 2.1.9-2.1.9L19 21l-.9-2.1-2.1-.9 2.1-.9z"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to quotes</a>
+<a class="skip" href="#main">Skip to the expiry runway</a>
+<div class="scrim" data-nav-scrim data-nav-close></div>
 
-<div class="page">
-  <header class="top">
-    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
-      <span>Nestlancer<small>Client portal</small></span></a>
-    <div class="row" style="margin-left:auto;gap:8px">
-      <a class="link link--quiet" style="font-size:12.5px" href="../../F05-requests-work-hub/V1/index.html">Requests</a>
-      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
-        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+<div class="app">
+  <aside class="side" aria-label="Portal">
+    <a class="ws" href="../../../index.html"><span class="ws__mark">N</span>
+      <span class="ws__t"><b>Khandesh Spice</b><span>Client workspace</span></span>
+      <svg class="i i--sm ws__chev"><use href="#i-chevron"/></svg></a>
+    <nav class="snav" aria-label="Sections">
+      <p class="snav__g">Work</p>
+      <a href="../../F03-dashboard-overview/V4/index.html"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a href="../../F05-requests-work-hub/V4/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="cnt">10</span></a>
+      <a href="../../F08-projects-list/V4/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a href="index.html" aria-current="page"><svg class="i"><use href="#i-file"/></svg>Quotes<span class="cnt">12</span></a>
+      <a href="../../F12-messages-home/V4/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="cnt cnt--live">2</span></a>
+      <p class="snav__g">Money</p>
+      <a href="../../F14-billing/V4/index.html"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a href="../../F18-invoices/V4/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F15-payment-methods/V4/index.html"><svg class="i"><use href="#i-shield"/></svg>Payment methods</a>
+      <p class="snav__g">Account</p>
+      <a href="../../F19-notifications/V4/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="cnt">6</span></a>
+      <a href="../../F20-profile/V4/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V4/index.html"><svg class="i"><use href="#i-settings"/></svg>Settings</a>
+    </nav>
+    <div class="side__foot">
+      <a class="side__user" href="../../F20-profile/V4/index.html"><span class="avatar">AM</span>
+        <span class="nm"><b>Arjun Mehta</b><span>Owner · Khandesh Spice</span></span></a>
     </div>
-  </header>
+  </aside>
 
-  <main id="main" class="wrap">
-    <div class="mast">
-      <div><h1>Quotes</h1>
-        <p>Only what needs a signature is open. Everything settled is one click away, collapsed.</p></div>
-      <span class="grow"></span>
-      <span class="pill pill--pur">2 awaiting you</span>
-    </div>
+  <div class="app__col">
+    <header class="top">
+      <button class="iconb navtog" data-nav-open aria-label="Open navigation" aria-expanded="false"><svg class="i i--lg"><use href="#i-menu"/></svg></button>
+      <div class="top__crumb"><span>Money</span><svg class="i i--sm"><use href="#i-chevron"/></svg><b>Quotes</b><svg class="i i--sm"><use href="#i-chevron"/></svg><span>Runway</span></div>
+      <div class="top__mid"><button class="trigger" data-palette-open="palette" aria-label="Search, Command K">
+        <svg class="i"><use href="#i-search"/></svg><span>Search the runway…</span><kbd class="kbd">⌘K</kbd></button></div>
+      <div class="top__right">
+        <button class="iconb" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+        <a class="iconb" href="../../F19-notifications/V4/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg><span class="dot">6</span></a>
+        <a class="me" href="../../F20-profile/V4/index.html"><span class="avatar">AM</span><span class="me__n">Arjun</span></a>
+      </div>
+    </header>
 
-    <div class="views" role="group" aria-label="Saved views">
-      <button class="view" data-v="await" aria-pressed="true">Awaiting you <span class="n">2</span></button>
-      <button class="view" data-v="expired" aria-pressed="false">Expired</button>
-      <button class="view" data-v="accepted" aria-pressed="false">Accepted</button>
-      <button class="view" data-v="all" aria-pressed="false">Everything</button>
-      <button class="btn btn-g btn-sm" data-save style="margin-left:auto">
-        <svg class="i i--sm"><use href="#i-bookmark"/></svg>Save view</button>
-    </div>
-
-    <div class="banner banner--info" data-saved hidden>
-      <svg class="i"><use href="#i-bookmark"/></svg>
-      <div><strong>“Awaiting you” is saved for this session only.</strong> Persisting saved views needs a preferences
-        store the API does not expose yet, so the control is labelled demo-only rather than pretending.</div>
-    </div>
-
-    <section class="grp" data-g="await">
-      <div>
-        <div class="qcard" data-in="await">
-          <div class="r1"><span class="ref">#01a11209</span>
-            <span class="pill pill--pur">Awaiting signature</span>
-            <span class="cl">Horizon Retail</span></div>
-          <div class="amtline"><span class="amt">₹2,83,200</span>
-            <span class="split">₹2,40,000 + ₹43,200 GST · 3 milestones 40/40/20</span></div>
-          <div class="meta"><span>valid until 24 Oct 2026</span><span>2 days left</span><span>phase one rebrand</span></div>
-          <p class="exp">Signing raises the first instalment of ₹1,13,280 immediately. The remaining two follow
-            approvals, not calendar dates.</p>
-          <div class="acts">
-            <a class="btn btn-p" href="../../F11-quote-details/V1/index.html">Review and sign</a>
-            <a class="btn btn-g" href="../../F13-messages-thread/V1/index.html">Ask about scope</a>
-          </div>
+    <main id="main" class="page">
+      <div class="rh">
+        <div>
+          <p class="kicker"><span class="led led--warn"></span>Runway · centred on today</p>
+          <h1>How long each quote stays open</h1>
+          <p>Bars grow to the right while a quote is still signable and to the left once it has lapsed.
+            Distance from the centre line is the whole story — no date arithmetic needed.</p>
         </div>
-
-        <div class="qcard" data-in="await" style="border-left-color:var(--status-warning-text)">
-          <div class="r1"><span class="ref">#01a10f80</span>
-            <span class="pill pill--warn">Expires today</span>
-            <span class="cl">Khandesh Spice</span></div>
-          <div class="amtline"><span class="amt">₹1,770</span>
-            <span class="split">₹1,500 + ₹270 GST · 50/50 (₹885 each)</span></div>
-          <div class="meta"><span>valid until 20 Oct 2026</span><span>hours left</span><span>storefront</span></div>
-          <p class="exp">This is the last day this quote can be signed. After the date passes it stops being
-            signable and the studio has to issue a new one.</p>
-          <div class="acts">
-            <a class="btn btn-p" href="../../F11-quote-details/V1/index.html">Review and sign</a>
-            <a class="btn btn-g" href="../../F11-quote-details/V1/index.html">Read the terms first</a>
-          </div>
+        <div class="acts">
+          <button class="btn btn-s" data-open-sheet="legend"><svg class="i"><use href="#i-eye"/></svg>How to read this</button>
+          <a class="btn btn-p" href="../../F11-quote-details/V4/index.html">Sign #01a10f80</a>
         </div>
       </div>
-    </section>
 
-    <section class="grp">
-      <button class="grphd" data-collapse aria-expanded="false">
-        <svg class="i i--sm chev"><use href="#i-chev-dn"/></svg>Expired <span class="n">7</span>
-      </button>
-      <div class="grpbody" hidden data-in="expired">
-        <div class="compact"><div class="l"><b>#01a0ff22</b> Aurora Coffee
-          <span>expired 30 Sep 2026 · mobile app</span></div>
-          <div class="r"><span class="amt">₹84,000</span>
-            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
-        <div class="compact"><div class="l"><b>#01a0fe81</b> Meridian Clinic
-          <span>expired 2 Oct 2026 · web design</span></div>
-          <div class="r"><span class="amt">₹96,000</span>
-            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
-        <div class="compact"><div class="l"><b>#01a0e9c7</b> Prakash Optics
-          <span>expired 24 Sep 2026 · e-commerce</span></div>
-          <div class="r"><span class="amt">₹38,000</span>
-            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
-        <div class="compact"><div class="l"><b>#01a0d902</b> Sundara Yoga
-          <span>expired 18 Sep 2026 · landing page</span></div>
-          <div class="r"><span class="amt">₹45,000</span>
-            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
+      <div class="legend-bar">
+        <span><i class="now"></i>Signable — days left</span>
+        <span><i class="ok"></i>Signed inside window</span>
+        <span><i class="dead"></i>Lapsed — days since</span>
+        <div class="end">
+          <div class="segmented" data-seg aria-label="Filter rows">
+            <button type="button" data-v="all" aria-pressed="true">All 12</button>
+            <button type="button" data-v="now" aria-pressed="false">Awaiting 1</button>
+            <button type="button" data-v="gone" aria-pressed="false">Lapsed 7</button>
+          </div>
+        </div>
       </div>
-    </section>
 
-    <section class="grp">
-      <button class="grphd" data-collapse aria-expanded="false">
-        <svg class="i i--sm chev"><use href="#i-chev-dn"/></svg>Accepted <span class="n">5</span>
-      </button>
-      <div class="grpbody" hidden data-in="accepted">
-        <div class="compact"><div class="l"><b>#01a10f80</b> Khandesh Spice
-          <span>signed 13 Oct 2026 · deposit paid</span></div>
-          <div class="r"><span class="amt">₹1,770</span>
-            <a class="btn btn-g btn-sm" href="../../F11-quote-details/V1/index.html">Open</a></div></div>
-        <div class="compact"><div class="l"><b>#01a10c14</b> Khandesh Spice
-          <span>signed 4 Oct 2026 · converted to project</span></div>
-          <div class="r"><span class="amt">₹1,42,000</span>
-            <a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div></div>
-        <div class="compact"><div class="l"><b>#01a0f3d0</b> Kaveri Textiles
-          <span>signed 3 Sep 2026 · paid in full</span></div>
-          <div class="r"><span class="amt">₹62,000</span>
-            <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">Invoice</a></div></div>
-        <div class="compact"><div class="l"><b>#01a0e210</b> Northwind
-          <span>signed 18 Sep 2026 · in delivery</span></div>
-          <div class="r"><span class="amt">₹2,10,000</span>
-            <a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div></div>
+      <section class="runway" aria-labelledby="rw-h">
+        <div class="runway__h">
+          <h2 id="rw-h">Quote windows</h2>
+          <span class="tag tag--warn"><svg class="i"><use href="#i-alert"/></svg>1 expires today</span>
+          <div class="end">
+            <span class="f12 muted hide-m">15-day standard term</span>
+            <button class="fbtn" data-toast="Reminder set for the studio"><svg class="i i--sm"><use href="#i-bell"/></svg>Remind studio</button>
+          </div>
+        </div>
+        <div class="scale" aria-hidden="true">
+          <div class="track-wrap"><span class="l">← days since lapse</span><span class="mid"></span><span class="r">days remaining →</span></div>
+          <div></div>
+        </div>
+        <div data-runway>
+          <a class="qrow qrow--now" data-row="now" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">KS</span>
+              <div class="qrow__n"><b>Khandesh Spice D2C · deposit</b><span>#01a10f80</span></div>
+              <div class="qrow__v">₹1,770<span>today · 15-day term</span></div></div>
+            <div class="track" aria-label="0 days remaining"><span class="bar rem" style="width:2%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow" data-row="ok" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">KS</span>
+              <div class="qrow__n"><b>Khandesh Spice D2C · signed</b><span>#01a10f80</span></div>
+              <div class="qrow__v">₹1,770<span>signed in 8 days</span></div></div>
+            <div class="track" aria-label="signed"><span class="bar ok" style="width:53%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow" data-row="ok" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">SB</span>
+              <div class="qrow__n"><b>Storefront build</b><span>#01a10c14</span></div>
+              <div class="qrow__v">₹1,42,000<span>signed in 3 days</span></div></div>
+            <div class="track" aria-label="signed"><span class="bar ok" style="width:20%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow" data-row="ok" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">SC</span>
+              <div class="qrow__n"><b>SEO &amp; content retainer</b><span>#01a10d92</span></div>
+              <div class="qrow__v">₹2,10,000<span>signed in 5 days</span></div></div>
+            <div class="track" aria-label="signed"><span class="bar ok" style="width:33%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow" data-row="ok" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">PD</span>
+              <div class="qrow__n"><b>Packaging design</b><span>#01a10e35</span></div>
+              <div class="qrow__v">₹96,000<span>signed in 2 days</span></div></div>
+            <div class="track" aria-label="signed"><span class="bar ok" style="width:13%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow" data-row="ok" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">BG</span>
+              <div class="qrow__n"><b>Brand guidelines PDF</b><span>#01a10f22</span></div>
+              <div class="qrow__v">₹1,770<span>signed in 1 day</span></div></div>
+            <div class="track" aria-label="signed"><span class="bar ok" style="width:7%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow qrow--gone" data-row="gone" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">PH</span>
+              <div class="qrow__n"><b>Product photography</b><span>#01a10b07</span></div>
+              <div class="qrow__v">₹84,000<span>31 days lapsed</span></div></div>
+            <div class="track" aria-label="31 days lapsed"><span class="bar gone" style="width:47%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow qrow--gone" data-row="gone" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">BI</span>
+              <div class="qrow__n"><b>Brand identity refresh</b><span>#01a109f1</span></div>
+              <div class="qrow__v">₹71,000<span>35 days lapsed</span></div></div>
+            <div class="track" aria-label="35 days lapsed"><span class="bar gone" style="width:53%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow qrow--gone" data-row="gone" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">EF</span>
+              <div class="qrow__n"><b>Email flows</b><span>#01a108c8</span></div>
+              <div class="qrow__v">₹62,000<span>37 days lapsed</span></div></div>
+            <div class="track" aria-label="37 days lapsed"><span class="bar gone" style="width:56%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow qrow--gone" data-row="gone" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">LP</span>
+              <div class="qrow__n"><b>Campaign landing page</b><span>#01a107ad</span></div>
+              <div class="qrow__v">₹55,000<span>43 days lapsed</span></div></div>
+            <div class="track" aria-label="43 days lapsed"><span class="bar gone" style="width:65%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow qrow--gone" data-row="gone" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">WC</span>
+              <div class="qrow__n"><b>WhatsApp catalogue</b><span>#01a10692</span></div>
+              <div class="qrow__v">₹45,000<span>51 days lapsed</span></div></div>
+            <div class="track" aria-label="51 days lapsed"><span class="bar gone" style="width:78%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow qrow--gone" data-row="gone" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">PL</span>
+              <div class="qrow__n"><b>Packaging label set</b><span>#01a10577</span></div>
+              <div class="qrow__v">₹38,000<span>57 days lapsed</span></div></div>
+            <div class="track" aria-label="57 days lapsed"><span class="bar gone" style="width:86%"></span><span class="tick"></span></div>
+          </a>
+          <a class="qrow qrow--gone" data-row="gone" href="../../F11-quote-details/V4/index.html">
+            <div class="qrow__t"><span class="tile">LK</span>
+              <div class="qrow__n"><b>Product launch kit</b><span>#01a1045c</span></div>
+              <div class="qrow__v">₹27,000<span>65 days lapsed</span></div></div>
+            <div class="track" aria-label="65 days lapsed"><span class="bar gone" style="width:96%"></span><span class="tick"></span></div>
+          </a>
+        </div>
+        <div class="dt__f"><span>Bar length is proportional to elapsed days, capped at 65 on each side.</span>
+          <span class="r" style="gap:6px"><span class="dot dot--warn"></span>today <b class="tnum">20 Oct 2026</b></span></div>
+      </section>
+
+      <div class="split4">
+        <section class="card">
+          <div class="card__h"><div><h2>What the runway is telling you</h2><p>Three facts, in order of money</p></div></div>
+          <div class="card__b stack-3">
+            <p class="f13" style="line-height:1.6"><b>One quote is still winnable.</b> ₹1,770 closes tonight.
+              It is a deposit for work that has already been scoped, so signing starts the project immediately.</p>
+            <p class="f13" style="line-height:1.6"><b>Seven quotes lapsed between 31 and 65 days ago.</b>
+              Together they are ₹3,82,000 of priced work the studio could revive — but rates are held for 30 days,
+              so the oldest two may reprice.</p>
+            <p class="f13" style="line-height:1.6"><b>Five quotes were signed inside their window</b>, four of them
+              within a week. Fast signatures correlate with the projects that are furthest along now.</p>
+            <div class="note note--info"><svg class="i i--sm"><use href="#i-shield"/></svg>
+              <span>Nothing lapses by accident: the studio sends one reminder at 7 and one at 2 days remaining.
+                Both are recorded on the quote timeline.</span></div>
+          </div>
+        </section>
+        <aside class="stack-4">
+          <section class="card">
+            <div class="card__h"><div><h2>Act now</h2><p>Ordered by deadline</p></div></div>
+            <a class="q-item" href="../../F11-quote-details/V4/index.html">
+              <span class="ico"><svg class="i i--sm"><use href="#i-clock"/></svg></span>
+              <div><p class="t">Sign #01a10f80</p><p class="m">Closes tonight · 3-step signature</p></div>
+              <span class="end"><b>₹1,770</b><span>today</span></span></a>
+            <button class="q-item" type="button" data-toast="Re-quote requested for 2 oldest lapsed quotes">
+              <span class="ico ico--dead"><svg class="i i--sm"><use href="#i-refresh"/></svg></span>
+              <div><p class="t">Re-quote the two oldest</p><p class="m">Priced more than 55 days ago</p></div>
+              <span class="end"><b>₹65,000</b><span>2 quotes</span></span></button>
+            <button class="q-item" type="button" data-toast="Re-quote requested for 5 remaining lapsed quotes">
+              <span class="ico ico--ok"><svg class="i i--sm"><use href="#i-receipt"/></svg></span>
+              <div><p class="t">Revive the rest</p><p class="m">Scope and GST history kept</p></div>
+              <span class="end"><b>₹3,17,000</b><span>5 quotes</span></span></button>
+          </section>
+          <section class="card">
+            <div class="card__h"><div><h2>Window ledger</h2><p>Net quoted value by state</p></div></div>
+            <div class="card__b">
+              <div class="calc">
+                <div><span>Awaiting signature</span><b>₹1,770</b></div>
+                <div><span>Signed inside window</span><b>₹4,51,540</b></div>
+                <div><span>Lapsed</span><b>₹3,82,000</b></div>
+                <div class="tot"><span>Net quoted</span><b>₹8,35,310</b></div>
+              </div>
+              <p class="f12 muted mt3">Recoverable = lapsed value a re-quote can restore. It is not a receivable and
+                does not appear in Billing.</p>
+            </div>
+          </section>
+        </aside>
       </div>
-    </section>
 
-    <p class="note">The queue order is deliberate: quotes you can still act on come first, and anything expired is
-      collapsed rather than left to look actionable.</p>
+      <p class="f12 muted mt4" style="max-width:92ch">Row 1 (<span class="mono">#01a10f80</span>) is captured live; the
+        other eleven rows are sample records that exercise the runway geometry. Signed dates shown are the real
+        interval between issue and signature for each sample.</p>
 
-<p style="margin-top:14px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);border-left:2px solid var(--border);padding-left:9px"><b style="color:var(--foreground)">Data honesty:</b> the quotes endpoint could not be read while this lab was built, so every amount and reference except <code>#01a10f80</code> (₹1,500 + ₹270 GST = ₹1,770, 50/50 at ₹885) is an illustrative record used to show the layout. They are sample rows, not real client quotes.</p>
-
-        <div class="vfoot">
-      <a href="../../../index.html">← Gallery</a>
-      <span>F10 Quotes List · V4 of 5 — Awaiting Queue</span>
-      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
-    </div>
-  </main>
+      <nav class="r" style="justify-content:space-between;margin-top:22px;border-top:1px solid var(--border);padding-top:16px" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../../index.html">← Gallery</a>
+        <span class="f12 muted">F10 Quotes · variant 4 of 5 — Expiry Runway</span>
+        <a class="btn btn-s btn-sm" href="../V5/index.html">Next: Value Study →</a>
+      </nav>
+    </main>
+  </div>
 </div>
 
-<div class="toast" role="status" aria-live="polite" data-toast></div>
+<div class="sheet-scrim" data-sheet-scrim></div>
+<section class="sheet" id="legend" data-open="false" role="dialog" aria-modal="true" aria-labelledby="lg-h">
+  <div class="sheet__h"><div><h2 id="lg-h">Reading the runway</h2><p>The geometry, explained once.</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div class="calc">
+      <div><span>Centre line</span><b>Today</b></div>
+      <div><span>Bar to the right</span><b>Days still signable</b></div>
+      <div><span>Bar to the left</span><b>Days since it lapsed</b></div>
+      <div><span>Green bar</span><b>Signed inside the window</b></div>
+      <div><span>Maximum length</span><b>65 days each side</b></div>
+    </div>
+    <div class="note note--info"><svg class="i i--sm"><use href="#i-shield"/></svg>
+      <span>Bar length is proportional, capped at 65 days so an old quote cannot flatten a fresh one into
+        an invisible sliver.</span></div>
+    <p class="f12 muted">Relative distance is honest: a quote that lapsed 31 days ago is visibly closer to
+      today than one that lapsed 65 days ago.</p>
+  </div>
+</section>
+
+<div class="palette" id="palette" data-open="false" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true">
+  <div class="palette__p">
+    <div class="palette__in"><svg class="i"><use href="#i-search"/></svg>
+      <input type="text" placeholder="Quote, project or action…" aria-label="Search" autocomplete="off"><kbd class="kbd">Esc</kbd></div>
+    <div class="palette__b">
+      <p class="palette__g">On the runway</p>
+      <a class="palette__i" href="../../F11-quote-details/V4/index.html"><svg class="i"><use href="#i-clock"/></svg>#01a10f80 · closes today<span class="r">₹1,770</span></a>
+      <button class="palette__i" data-toast="Re-quote requested for 7 lapsed quotes"><svg class="i"><use href="#i-refresh"/></svg>Re-quote lapsed<span class="r">7 · ₹3,82,000</span></button>
+      <a class="palette__i" href="../../F14-billing/V4/index.html"><svg class="i"><use href="#i-card"/></svg>Billing · ₹31,875 outstanding</a>
+      <a class="palette__i" href="../../F06-new-request/V4/index.html"><svg class="i"><use href="#i-plus"/></svg>New request</a>
+    </div>
+    <div class="palette__f"><span><kbd class="kbd">↵</kbd> open</span><span><kbd class="kbd">Esc</kbd> close</span></div>
+  </div>
+</div>
+
+<div class="toasts" role="status" aria-live="polite"></div>
+<script src="../../../shared/kit.js"></script>
 <script>
-(function(){
-  'use strict';
-  var root=document.documentElement;
-  var toast=document.querySelector('[data-toast]'), tm;
-  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
-  var tt=document.querySelector('[data-theme-toggle]');
-  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
-    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
-  sync();
-  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
-    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
-
-  document.querySelectorAll('[data-collapse]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var open=b.getAttribute('aria-expanded')==='true';
-      b.setAttribute('aria-expanded',String(!open));
-      b.nextElementSibling.hidden=open;
+/* V4 only: the legend filter narrows the runway to one band. */
+document.querySelectorAll('[data-seg]').forEach(function(seg){
+  seg.addEventListener('nl:seg',function(e){
+    var v=e.detail.value;
+    document.querySelectorAll('[data-runway] .qrow').forEach(function(r){
+      r.hidden = v!=='all' && r.getAttribute('data-row')!==v;
     });
+    nlToast(v==='all'?'Showing all 12 windows':v==='now'?'Awaiting signature only':'Lapsed quotes only');
   });
-  document.querySelectorAll('[data-requote]').forEach(function(b){
-    b.addEventListener('click',function(){
-      b.classList.add('is-loading');
-      setTimeout(function(){b.classList.remove('is-loading');
-        say('Re-quote requested — a fresh quote with a new validity date will arrive here.');},700);
-    });
+});
+/* Bars animate in from the centre line so the eye follows distance, not colour. */
+window.addEventListener('load',function(){
+  document.querySelectorAll('[data-runway] .bar').forEach(function(b,i){
+    var w=b.style.width; b.style.width='0%';
+    setTimeout(function(){b.style.width=w;},60+i*35);
   });
-  document.querySelector('[data-save]').addEventListener('click',function(){
-    document.querySelector('[data-saved]').hidden=false;
-    say('Saved view — demo only, kept for this session.');
-  });
-
-  document.querySelectorAll('.view').forEach(function(v){
-    v.addEventListener('click',function(){
-      document.querySelectorAll('.view').forEach(function(x){x.setAttribute('aria-pressed',String(x===v));});
-      var k=v.dataset.v;
-      /* reveal the group a view points at */
-      document.querySelectorAll('.grphd').forEach(function(h){
-        var body=h.nextElementSibling;
-        var want = k==='all' || body.dataset.in===k;
-        if(k!=='await'){h.setAttribute('aria-expanded',String(want)); body.hidden=!want;}
-      });
-      if(k==='await'){
-        document.querySelectorAll('.grphd').forEach(function(h){
-          h.setAttribute('aria-expanded','false'); h.nextElementSibling.hidden=true;});
-      }
-      say(k==='all'?'Showing everything':('Filtered to '+k+' quotes.'));
-    });
-  });
-})();
+});
 </script>
 </body>
 </html>
