@@ -1,0 +1,88 @@
+{
+  "lab": "client-portal-lab",
+  "schema": "1 family = 5 variant records; merge-only — a run adds/replaces ONLY its own family's records and never deletes other families' records",
+  "tokens": "shared/tokens.css (single locked scheme; §5.2 of the family prompts)",
+  "families": {
+    "F01-auth-login": {
+      "familyId": "F01",
+      "title": "Auth · Login",
+      "route": "/login",
+      "baseline": "nestlancer-client-pages-html/00a-login.html (no screenshots — auth surface)",
+      "builtBy": "F01-auth-login.md prompt run (hand-authored, no generators)",
+      "variants": [
+        {
+          "id": "V1",
+          "name": "Split classic",
+          "path": "families/F01-auth-login/V1/index.html",
+          "axes": { "A": "split hero+form 2-col", "B": "action-first", "C": "static", "D": "airy minimal", "E": "IO reveal + theme cycle" },
+          "signature": "hero preview reveal (IntersectionObserver stagger) + live ping dot",
+          "fixes": ["C4", "C5", "C5+", "C6", "C18"],
+          "adds": ["family-must-include (validation, loading, honest error, operator door, honesty line, show-toggle, keep-signed-in)"],
+          "numberedAddCoverage": "n/a — no A1–A15 item targets /login",
+          "states": ["default", "inline-validation-error", "submit-loading", "sign-in-error+retry", "2FA challenge", "preview live", "preview skeleton", "preview empty", "preview error+retry"],
+          "themes": ["light", "dark", "system-boot"],
+          "api": ["POST /api/v1/auth/login", "POST /api/v1/auth/verify-2fa", "links: /forgot-password /register /terms /privacy admin-operator nestlancer-home"]
+        },
+        {
+          "id": "V2",
+          "name": "Quiet centered",
+          "path": "families/F01-auth-login/V2/index.html",
+          "axes": { "A": "centered single column", "B": "trust-first", "C": "accordion", "D": "airy minimal", "E": "accordion disclosure + theme cycle" },
+          "signature": "\"What's inside the portal\" + operator-door accordions (aria-expanded; HTML ships open for no-JS)",
+          "fixes": ["C4", "C5", "C5+", "C6", "C18"],
+          "adds": ["family-must-include"],
+          "numberedAddCoverage": "n/a",
+          "states": ["default", "inline-validation-error", "submit-loading", "sign-in-error+retry", "2FA challenge", "preview live", "preview skeleton", "preview empty", "preview error+retry"],
+          "themes": ["light", "dark", "system-boot"],
+          "api": ["POST /api/v1/auth/login", "POST /api/v1/auth/verify-2fa", "links"]
+        },
+        {
+          "id": "V3",
+          "name": "Full-bleed studio",
+          "path": "families/F01-auth-login/V3/index.html",
+          "axes": { "A": "full-bleed brand field + floating form dock", "B": "narrative-first", "C": "chapter-sticky", "D": "editorial hairlines", "E": "form-dock focus-mode overlay (focus trap, Esc, restore)" },
+          "signature": "Focus-mode overlay moves the form node into a dialog and back; chapter selection emphasises matching stage blocks (content never hidden)",
+          "fixes": ["C4", "C5", "C5+", "C6", "C18"],
+          "adds": ["family-must-include"],
+          "numberedAddCoverage": "n/a",
+          "states": ["default", "inline-validation-error", "submit-loading", "sign-in-error+retry", "2FA challenge", "preview live", "preview skeleton", "preview empty", "preview error+retry"],
+          "themes": ["light", "dark", "system-boot"],
+          "api": ["POST /api/v1/auth/login", "POST /api/v1/auth/verify-2fa", "links"]
+        },
+        {
+          "id": "V4",
+          "name": "Ops ledger",
+          "path": "families/F01-auth-login/V4/index.html",
+          "axes": { "A": "narrow dense single column", "B": "queue-first", "C": "tab-led", "D": "dense ops/mono ledger", "E": "filter chips + arrow-key tablist" },
+          "signature": "status strip tabs (Work/Money/Threads) + queue filter chips (All/Deliverable/Thread) with aria-live count",
+          "fixes": ["C4", "C5", "C5+", "C6", "C18"],
+          "adds": ["family-must-include"],
+          "numberedAddCoverage": "n/a",
+          "states": ["default", "inline-validation-error", "submit-loading", "sign-in-error+retry", "2FA challenge", "preview live", "preview skeleton", "preview empty", "preview error+retry"],
+          "themes": ["light", "dark", "system-boot"],
+          "api": ["POST /api/v1/auth/login", "POST /api/v1/auth/verify-2fa", "links"]
+        },
+        {
+          "id": "V5",
+          "name": "Flow rail",
+          "path": "families/F01-auth-login/V5/index.html",
+          "axes": { "A": "form flow + reassurance rail 2-col", "B": "numbers-first", "C": "stepper/progress-linked", "D": "bento", "E": "count-up money + timeline spine draw" },
+          "signature": "live step spine (1 Identity → 2 Password → 3 Session) fills as fields validate; ₹48,000 counts up; feed spine draws",
+          "fixes": ["C4", "C5", "C5+", "C6", "C18"],
+          "adds": ["family-must-include"],
+          "numberedAddCoverage": "n/a",
+          "states": ["default", "inline-validation-error", "submit-loading", "sign-in-error+retry", "2FA challenge", "preview live", "preview skeleton", "preview empty", "preview error+retry"],
+          "themes": ["light", "dark", "system-boot"],
+          "api": ["POST /api/v1/auth/login", "POST /api/v1/auth/verify-2fa", "links"]
+        }
+      ],
+      "coverage": {
+        "C4": "5/5", "C5": "5/5", "C5+": "5/5", "C6": "5/5", "C18": "5/5",
+        "P1 numbered A-items": "0 target this family (vacuous pass)",
+        "P2-P3 numbered A-items": "0 target this family (vacuous pass)",
+        "family must-include ADDs": "5/5"
+      },
+      "gates": { "S": "PASS", "R": "PASS", "A": "PASS", "1": "PASS", "2a": "PASS", "2b": "PASS", "3": "PASS" }
+    }
+  }
+}
