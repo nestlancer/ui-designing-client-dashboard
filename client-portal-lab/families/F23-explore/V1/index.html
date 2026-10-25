@@ -115,12 +115,12 @@ article:hover .ft .more,article:focus-within .ft .more{opacity:1}
         <div class="inner">
           <div>
             <div class="k">Process · 6 min read</div>
-            <h2><a href="#" data-open="Approving a milestone, and what happens next">Approving a milestone, and
+            <h2><a href="?open=approving-a-milestone-and-what-happens-next" data-open="Approving a milestone, and what happens next">Approving a milestone, and
               what happens next</a></h2>
             <p>A milestone is not a formality. Approving one unlocks the next payment, opens the next stage of
               work and stamps the invoice — so it is worth knowing exactly which button does what.</p>
             <div class="ft"><span>19 Oct 2026</span><span>·</span><span>Studio</span>
-              <a class="more" href="#" data-open="Approving a milestone">Read →</a></div>
+              <a class="more" href="?open=approving-a-milestone" data-open="Approving a milestone">Read →</a></div>
           </div>
           <div class="ph">cover image · from the public post</div>
         </div>
@@ -128,55 +128,55 @@ article:hover .ft .more,article:focus-within .ft .more{opacity:1}
 
       <article data-cat="payments">
         <div class="k">Payments · 4 min read</div>
-        <h2><a href="#" data-open="Why a bank transfer shows as processing">Why a bank transfer shows as
+        <h2><a href="?open=why-a-bank-transfer-shows-as-processing" data-open="Why a bank transfer shows as processing">Why a bank transfer shows as
           processing</a></h2>
         <p>UPI settles in seconds. A bank transfer does not — it clears when the bank confirms, and the portal
           says “processing” until then instead of pretending it is paid.</p>
-        <div class="ft"><span>14 Oct 2026</span><a class="more" href="#" data-open="Bank transfer">Read →</a></div>
+        <div class="ft"><span>14 Oct 2026</span><a class="more" href="?open=bank-transfer" data-open="Bank transfer">Read →</a></div>
       </article>
 
       <article data-cat="briefs">
         <div class="k">Briefs · 5 min read</div>
-        <h2><a href="#" data-open="A brief that survives the first week">A brief that survives the first
+        <h2><a href="?open=a-brief-that-survives-the-first-week" data-open="A brief that survives the first week">A brief that survives the first
           week</a></h2>
         <p>The most useful thing you can send is not a moodboard. It is a paragraph about who buys, and what
           they must be able to do without asking.</p>
-        <div class="ft"><span>11 Oct 2026</span><a class="more" href="#" data-open="A brief">Read →</a></div>
+        <div class="ft"><span>11 Oct 2026</span><a class="more" href="?open=a-brief" data-open="A brief">Read →</a></div>
       </article>
 
       <article data-cat="process">
         <div class="k">Process · 3 min read</div>
-        <h2><a href="#" data-open="Change requests are priced before they start">Change requests are priced
+        <h2><a href="?open=change-requests-are-priced-before-they-start" data-open="Change requests are priced before they start">Change requests are priced
           before they start</a></h2>
         <p>Scope changes are fine. Unpriced scope changes are how projects stall. Here is how the request
           becomes a quote, and a quote becomes an invoice.</p>
-        <div class="ft"><span>8 Oct 2026</span><a class="more" href="#" data-open="Change requests">Read →</a></div>
+        <div class="ft"><span>8 Oct 2026</span><a class="more" href="?open=change-requests" data-open="Change requests">Read →</a></div>
       </article>
 
       <article data-cat="work">
         <div class="k">Work · 7 min read</div>
-        <h2><a href="#" data-open="Designing a wholesale portal for a shop floor">Designing a wholesale portal
+        <h2><a href="?open=designing-a-wholesale-portal-for-a-shop-floor" data-open="Designing a wholesale portal for a shop floor">Designing a wholesale portal
           for a shop floor</a></h2>
         <p>Wholesale buyers are not browsing. They are reordering on a phone, between customers, with one hand.
           The whole interface had to survive that.</p>
-        <div class="ft"><span>2 Oct 2026</span><a class="more" href="#" data-open="Wholesale portal">Read →</a></div>
+        <div class="ft"><span>2 Oct 2026</span><a class="more" href="?open=wholesale-portal" data-open="Wholesale portal">Read →</a></div>
       </article>
     </div>
 
     <section class="sect">
       <h2>Selected work</h2>
       <div class="plist">
-        <a class="pitem" href="#" data-open="Khandesh Spice — D2C storefront">
+        <a class="pitem" href="?open=khandesh-spice-d2c-storefront" data-open="Khandesh Spice — D2C storefront">
           <div><h3>Khandesh Spice — D2C storefront</h3>
             <p>Storefront, packaging system and a checkout that does not lose people at the address step.</p>
             <div class="tags"><span>Brand</span><span>Commerce</span><span>Packaging</span></div></div>
           <span class="go">→</span></a>
-        <a class="pitem" href="#" data-open="B2B Wholesale Ordering Portal">
+        <a class="pitem" href="?open=b2b-wholesale-ordering-portal" data-open="B2B Wholesale Ordering Portal">
           <div><h3>B2B Wholesale Ordering Portal</h3>
             <p>Phone-first reordering for distributors, with tiered pricing and an approval step.</p>
             <div class="tags"><span>Product</span><span>Design system</span></div></div>
           <span class="go">→</span></a>
-        <a class="pitem" href="#" data-open="Horizon Retail — campaign site">
+        <a class="pitem" href="?open=horizon-retail-campaign-site" data-open="Horizon Retail — campaign site">
           <div><h3>Horizon Retail — campaign site</h3>
             <p>A single-page campaign surface built to be edited by the marketing team, not by us.</p>
             <div class="tags"><span>Web</span><span>Editorial</span></div></div>
@@ -239,6 +239,15 @@ article:hover .ft .more,article:focus-within .ft .more{opacity:1}
   document.querySelector('[data-close]').addEventListener('click',function(){
     if(typeof dlg.close==='function')dlg.close(); else dlg.removeAttribute('open');
   });
+
+  /* Deep link: ?open=<slug> restores the same dialog/toast on load, so a shared
+     link lands on the same item instead of a dead page. */
+  var op=new URLSearchParams(location.search).get('open');
+  if(op){
+    var link=document.querySelector('a[href="?open='+op.replace(/[^\w-]/g,'')+'"]');
+    if(link)link.click();
+    else say('That link points at an entry this page no longer lists.');
+  }
 })();
 </script>
 </body>

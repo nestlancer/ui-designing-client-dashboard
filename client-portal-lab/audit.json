@@ -75,6 +75,18 @@
    "scope": "—",
    "result": "manual review only",
    "detail": "focus order, Esc handling and focus restore were written in by hand and reviewed by reading the code, not by driving a browser"
+  },
+  {
+   "check": "DOM execution (jsdom)",
+   "scope": "116 files",
+   "result": "pass",
+   "detail": "every page loaded and executed its inline JS with 0 uncaught errors, before and after a theme-toggle and tab click"
+  },
+  {
+   "check": "Heading, reference and nesting integrity",
+   "scope": "116 files",
+   "result": "pass",
+   "detail": "one h1 per page; 0 broken aria/label/anchor references; 0 block elements nested in p/button/a; 0 duplicate ids"
   }
  ],
  "files": [
@@ -122,7 +134,7 @@
   },
   {
    "file": "families/F01-auth-login/V3/index.html",
-   "bytes": 12326,
+   "bytes": 12361,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -178,7 +190,7 @@
   },
   {
    "file": "families/F02-auth-register-forgot/V2/index.html",
-   "bytes": 18472,
+   "bytes": 18480,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -206,7 +218,7 @@
   },
   {
    "file": "families/F02-auth-register-forgot/V4/index.html",
-   "bytes": 19422,
+   "bytes": 19437,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -220,7 +232,7 @@
   },
   {
    "file": "families/F02-auth-register-forgot/V5/index.html",
-   "bytes": 12892,
+   "bytes": 12901,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -304,7 +316,7 @@
   },
   {
    "file": "families/F04-global-search/V1/index.html",
-   "bytes": 14989,
+   "bytes": 15034,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -318,7 +330,7 @@
   },
   {
    "file": "families/F04-global-search/V2/index.html",
-   "bytes": 18740,
+   "bytes": 18787,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -332,7 +344,7 @@
   },
   {
    "file": "families/F04-global-search/V3/index.html",
-   "bytes": 20638,
+   "bytes": 20691,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -346,7 +358,7 @@
   },
   {
    "file": "families/F04-global-search/V4/index.html",
-   "bytes": 15140,
+   "bytes": 15185,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -360,7 +372,7 @@
   },
   {
    "file": "families/F04-global-search/V5/index.html",
-   "bytes": 16451,
+   "bytes": 16498,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -402,7 +414,7 @@
   },
   {
    "file": "families/F05-requests-work-hub/V3/index.html",
-   "bytes": 22096,
+   "bytes": 22119,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -458,7 +470,7 @@
   },
   {
    "file": "families/F06-new-request/V2/index.html",
-   "bytes": 16695,
+   "bytes": 16747,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -500,7 +512,7 @@
   },
   {
    "file": "families/F06-new-request/V5/index.html",
-   "bytes": 14526,
+   "bytes": 14567,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -570,7 +582,7 @@
   },
   {
    "file": "families/F07-request-details/V5/index.html",
-   "bytes": 13093,
+   "bytes": 13095,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -612,7 +624,7 @@
   },
   {
    "file": "families/F08-projects-list/V3/index.html",
-   "bytes": 14771,
+   "bytes": 14865,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -626,7 +638,7 @@
   },
   {
    "file": "families/F08-projects-list/V4/index.html",
-   "bytes": 15243,
+   "bytes": 15288,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -654,7 +666,7 @@
   },
   {
    "file": "families/F09-project-details/V1/index.html",
-   "bytes": 21805,
+   "bytes": 21763,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -710,7 +722,7 @@
   },
   {
    "file": "families/F09-project-details/V5/index.html",
-   "bytes": 19112,
+   "bytes": 19129,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -752,7 +764,7 @@
   },
   {
    "file": "families/F10-quotes-list/V3/index.html",
-   "bytes": 15870,
+   "bytes": 15958,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1046,7 +1058,7 @@
   },
   {
    "file": "families/F14-billing/V4/index.html",
-   "bytes": 22646,
+   "bytes": 22654,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1172,7 +1184,7 @@
   },
   {
    "file": "families/F16-checkout/V3/index.html",
-   "bytes": 17354,
+   "bytes": 17456,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1270,7 +1282,7 @@
   },
   {
    "file": "families/F17-payment-status/V5/index.html",
-   "bytes": 10875,
+   "bytes": 10973,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1284,7 +1296,7 @@
   },
   {
    "file": "families/F18-invoices/V1/index.html",
-   "bytes": 14389,
+   "bytes": 14393,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1508,7 +1520,7 @@
   },
   {
    "file": "families/F21-settings/V2/index.html",
-   "bytes": 21262,
+   "bytes": 21590,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1522,7 +1534,7 @@
   },
   {
    "file": "families/F21-settings/V3/index.html",
-   "bytes": 14715,
+   "bytes": 14932,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1536,7 +1548,7 @@
   },
   {
    "file": "families/F21-settings/V4/index.html",
-   "bytes": 18482,
+   "bytes": 18659,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1578,7 +1590,7 @@
   },
   {
    "file": "families/F22-settings-files/V2/index.html",
-   "bytes": 22159,
+   "bytes": 22167,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1620,7 +1632,7 @@
   },
   {
    "file": "families/F22-settings-files/V5/index.html",
-   "bytes": 13688,
+   "bytes": 13795,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1634,7 +1646,7 @@
   },
   {
    "file": "families/F23-explore/V1/index.html",
-   "bytes": 14210,
+   "bytes": 15039,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1648,7 +1660,7 @@
   },
   {
    "file": "families/F23-explore/V2/index.html",
-   "bytes": 14291,
+   "bytes": 15122,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1662,7 +1674,7 @@
   },
   {
    "file": "families/F23-explore/V3/index.html",
-   "bytes": 12689,
+   "bytes": 13238,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1676,7 +1688,7 @@
   },
   {
    "file": "families/F23-explore/V4/index.html",
-   "bytes": 14731,
+   "bytes": 15118,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1690,7 +1702,7 @@
   },
   {
    "file": "families/F23-explore/V5/index.html",
-   "bytes": 9756,
+   "bytes": 10705,
    "html": "ok",
    "js": "ok",
    "deadLinks": [],
@@ -1702,5 +1714,31 @@
    "themeBoot": true,
    "reducedMotion": false
   }
- ]
+ ],
+ "correctionPass": {
+  "document": "CORRECTION-PASS.md",
+  "filesChanged": 32,
+  "scope": "HTML format, structure and placement audit of all 116 pages",
+  "fixes": [
+   "one <h1> per page (8 files had zero or several)",
+   "51 href=\"#\" dead links replaced with buttons or ?open=<slug> deep links",
+   "preview-target attribute collisions renamed (F04-V3, F08-V3) that had been overwriting row content",
+   "component row class .row renamed .rrow/.prow/.qrow to stop matching the base flex utility (F05-V3, F08-V3, F10-V3)",
+   "15 broken aria-*/label-for/anchor references repaired (F09-V1, F21-V2)",
+   "block elements inside <button> replaced with spans (F08-V4, F21-V3, F23-V3, F23-V4)",
+   "footer/honesty-note grid placement restored (F08-V3, F09-V5, F10-V3)",
+   "filter <select> attributes namespaced to data-f-* (F14-V4, F18-V1, F22-V2)"
+  ],
+  "verification": {
+   "domExecution": "jsdom 30 with matchMedia/IntersectionObserver/dialog/clipboard polyfills: 116/116 pages, 0 uncaught errors",
+   "tagBalance": "0 unbalanced / stray / unclosed tags, 0 duplicate ids",
+   "headings": "116/116 pages have exactly one h1",
+   "links": "2008 internal links checked, 0 missing, 0 href=\"#\"",
+   "references": "0 broken aria-labelledby/controls/describedby/owns/activedescendant, 0 broken label-for, 0 dangling anchors",
+   "nesting": "0 block-level elements inside p/button/a",
+   "css": "0 CSS parse errors",
+   "interactions": "exercised: split previews, two-step login, payment-method switch, receipt/dispute, document download, Explore feature swap, ?open= deep links, three filters"
+  },
+  "limitation": "No real browser engine was available (no Chrome/Chromium binary; browser downloads blocked). Verification is DOM- and source-level only. No pixel-level visual or screenshot QA was performed."
+ }
 }

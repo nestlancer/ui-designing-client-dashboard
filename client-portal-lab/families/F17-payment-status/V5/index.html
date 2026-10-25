@@ -42,9 +42,10 @@ h1{font-size:23px;letter-spacing:-.035em;margin:11px 0 4px;line-height:1.25}
 .why{margin:0;font-size:11.5px;line-height:1.65;color:var(--muted-foreground)}
 .why b{color:var(--foreground)}
 .linkrow{display:grid;gap:6px;margin-top:10px}
-.linkrow a{font-size:11.5px;font-weight:650;color:var(--brand-700);display:flex;justify-content:space-between;
-  padding:6px 0;border-top:1px solid var(--border)}
-.dark .linkrow a{color:#9db3ff}
+.linkrow a,.linkrow button{font-size:11.5px;font-weight:650;color:var(--brand-700);display:flex;
+  justify-content:space-between;text-align:left;width:100%;padding:6px 0;
+  border-top:1px solid var(--border)}
+.dark .linkrow a,.dark .linkrow button{color:#9db3ff}
 .dock{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--border);padding:11px 16px 14px;
   z-index:20}
 .dock .cta{width:100%}
@@ -91,9 +92,9 @@ h1{font-size:23px;letter-spacing:-.035em;margin:11px 0 4px;line-height:1.25}
         <div><dt>Disputed</dt><dd>₹0.00</dd></div>
       </dl>
       <div class="linkrow">
-        <a href="#" data-doc>Receipt<span>↓</span></a>
+        <button type="button" data-doc>Receipt<span>↓</span></button>
         <a href="../../F18-invoices/V1/index.html">Tax invoice NL-INV-2026-000041<span>→</span></a>
-        <a href="#" data-dispute>Raise a dispute<span>→</span></a>
+        <button type="button" data-dispute>Raise a dispute<span>→</span></button>
       </div>
     </div>
 

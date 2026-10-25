@@ -51,8 +51,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .cta{width:100%}
 .secondary{margin-top:10px;padding-top:11px;border-top:1px dashed var(--border);
   display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:11px;color:var(--muted-foreground)}
-.secondary a{font-weight:600;color:var(--brand-700);text-decoration:underline;text-underline-offset:2px}
-.dark .secondary a{color:#9db3ff}
+.secondary a,.secondary button{font-weight:600;color:var(--brand-700);text-decoration:underline;text-underline-offset:2px}
+.dark .secondary a,.dark .secondary button{color:#9db3ff}
 .rz{display:flex;gap:9px;align-items:center;border:1px solid var(--border);border-radius:var(--radius-sm);
   padding:9px 11px;margin-top:12px;background:var(--card)}
 .rz .m{font-weight:800;font-size:10.5px;color:#0b2a6b;background:#e8efff;border-radius:4px;padding:2px 6px;
@@ -155,8 +155,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
           </div>
 
           <button class="btn btn-p btn-lg cta" data-pay>Pay ₹30,000.00 with UPI</button>
-          <div class="secondary">Prefer a card? <a href="#" data-switch="c">Use card instead</a> ·
-            or <a href="#" data-switch="b">send a bank transfer</a></div>
+          <div class="secondary">Prefer a card? <button type="button" data-switch="c">Use card instead</button> ·
+            or <button type="button" data-switch="b">send a bank transfer</button></div>
           <div class="rz"><span class="m">Razorpay</span>
             <p>UPI is processed by Razorpay. The QR above is illustrative — a real order code replaces it at
               runtime.</p></div>
@@ -173,8 +173,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
           <p class="banknote">Card details are entered on the Razorpay window, never in this portal. This page only
             chooses the route — the amount is fixed at ₹30,000.00.</p>
           <button class="btn btn-p btn-lg cta" data-pay>Pay ₹30,000.00 by card</button>
-          <div class="secondary">UPI is faster and avoids card limits. <a href="#" data-switch="u">Switch to
-            UPI</a></div>
+          <div class="secondary">UPI is faster and avoids card limits. <button type="button" data-switch="u">Switch to
+            UPI</button></div>
           <div class="rz"><span class="m">Razorpay</span>
             <p>No card number, CVV or expiry is stored by Nestlancer.</p></div>
         </div>
@@ -196,8 +196,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <b>Upload payment proof</b><span>PNG, JPG or PDF up to 10 MB · required</span></div>
           <div data-files></div>
           <button class="btn btn-p btn-lg cta" style="margin-top:12px" data-submit>Submit transfer for verification</button>
-          <div class="secondary">Settles instantly if you can pay now. <a href="#" data-switch="u">Go back to
-            UPI</a></div>
+          <div class="secondary">Settles instantly if you can pay now. <button type="button" data-switch="u">Go back to
+            UPI</button></div>
         </div>
       </section>
 

@@ -53,8 +53,9 @@ tr[data-st="uploading"] td.n span{color:var(--status-info-text)}
 .dg .h b{font-weight:650}
 .dg .h span{font-size:10px;color:var(--muted-foreground)}
 .dg .h .r{margin-left:auto;font-size:9.5px;color:var(--muted-foreground)}
-.dg a{display:inline-block;font-size:10.5px;font-weight:600;color:var(--brand-700);margin:3px 10px 0 0}
-.dark .dg a{color:#9db3ff}
+.dg a,.dg button{display:inline-block;font-size:10.5px;font-weight:600;color:var(--brand-700);
+  margin:3px 10px 0 0;text-align:left}
+.dark .dg a,.dark .dg button{color:#9db3ff}
 .note{margin-top:14px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);
   border-left:2px solid var(--border);padding-left:9px}
 .end{margin-top:16px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
@@ -146,14 +147,14 @@ tr[data-st="uploading"] td.n span{color:var(--status-info-text)}
       <h2>Generated documents by request</h2>
       <div class="dg"><div class="h"><b>NL-REQ-2026-0018</b><span>Khandesh Spice</span>
         <span class="r">2 docs</span></div>
-        <a href="#" data-gen>Quote NL-QUO-2026-0031 · 214 KB</a>
-        <a href="#" data-gen>Brief acknowledgement · 96 KB</a></div>
+        <button type="button" data-gen>Quote NL-QUO-2026-0031 · 214 KB</button>
+        <button type="button" data-gen>Brief acknowledgement · 96 KB</button></div>
       <div class="dg"><div class="h"><b>NL-INV-2026-000045</b><span>Milestone 3</span>
         <span class="r">1 doc</span></div>
-        <a href="#" data-gen>Invoice · pending ₹1,875</a></div>
+        <button type="button" data-gen>Invoice · pending ₹1,875</button></div>
       <div class="dg"><div class="h"><b>NL-INV-2026-000005</b><span>Milestone 1</span>
         <span class="r">1 doc</span></div>
-        <a href="#" data-gen>Invoice · paid ₹22,500</a></div>
+        <button type="button" data-gen>Invoice · paid ₹22,500</button></div>
     </section>
 
     <p class="note">The failed archive stays in the list with its real size and the reason, because hiding it

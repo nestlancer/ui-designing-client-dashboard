@@ -27,19 +27,19 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .lhd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--muted);
   border-bottom:1px solid var(--border);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted-foreground);font-weight:700}
-.row{display:grid;grid-template-columns:minmax(0,1fr) 74px;gap:12px;padding:13px 14px;cursor:pointer;
+.prow{display:grid;grid-template-columns:minmax(0,1fr) 74px;gap:12px;padding:13px 14px;cursor:pointer;
   border-top:1px solid var(--border);border-left:3px solid transparent;align-items:center}
-.row:first-of-type{border-top:0}
-.row:hover{background:var(--brand-50)}
-.dark .row:hover{background:#161f3a}
-.row[aria-selected="true"]{background:var(--brand-50);border-left-color:var(--primary)}
-.dark .row[aria-selected="true"]{background:#1b2650}
-.row b{font-size:13.5px;letter-spacing:-.015em;display:block;line-height:1.35}
-.row .m{font-size:11px;color:var(--muted-foreground);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.row .t{height:4px;border-radius:999px;background:var(--muted);overflow:hidden;margin-top:7px}
-.row .t i{display:block;height:100%;background:var(--primary)}
-.row .p{text-align:right;font-size:15px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:var(--tabnum)}
-.row .p span{display:block;font-size:9.5px;color:var(--muted-foreground);font-weight:600;letter-spacing:.05em;
+.prow:first-of-type{border-top:0}
+.prow:hover{background:var(--brand-50)}
+.dark .prow:hover{background:#161f3a}
+.prow[aria-selected="true"]{background:var(--brand-50);border-left-color:var(--primary)}
+.dark .prow[aria-selected="true"]{background:#1b2650}
+.prow b{font-size:13.5px;letter-spacing:-.015em;display:block;line-height:1.35}
+.prow .m{font-size:11px;color:var(--muted-foreground);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.prow .t{height:4px;border-radius:999px;background:var(--muted);overflow:hidden;margin-top:7px}
+.prow .t i{display:block;height:100%;background:var(--primary)}
+.prow .p{text-align:right;font-size:15px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:var(--tabnum)}
+.prow .p span{display:block;font-size:9.5px;color:var(--muted-foreground);font-weight:600;letter-spacing:.05em;
   text-transform:uppercase;margin-top:1px}
 .prevcol{position:sticky;top:16px}
 @media(max-width:920px){.prevcol{position:static}}
@@ -67,7 +67,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .stale{font-size:11px;color:var(--status-warning-text);background:var(--status-warning-bg);
   border:1px solid var(--status-warning-border);border-radius:var(--radius-sm);padding:7px 9px;line-height:1.5}
 .vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
-  max-width:1200px;width:100%;margin:0 auto;padding:0 20px 20px}
+  max-width:1200px;width:100%;margin:0 auto;padding:0 20px 20px;grid-column:1/-1}
 .seg{display:inline-flex;gap:2px}
 .seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
 .seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
@@ -111,10 +111,11 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   </div>
 
   <main id="main" class="split">
+    <h1 class="sr-only">Projects</h1>
     <section class="list" aria-label="Projects">
       <div class="lhd"><span>Project</span><span data-count>2 of 2</span></div>
       <div role="listbox" aria-label="Projects" data-rows>
-        <div class="row" role="option" id="p1" aria-selected="true" tabindex="0"
+        <div class="prow" role="option" id="p1" aria-selected="true" tabindex="0"
           data-nm="Khandesh Spice D2C E-Commerce Store"
           data-desc="Storefront build for a spice brand: catalogue, subscription bundles and Razorpay checkout. Milestone 1 approved on 15 Oct; milestone 2 is in review."
           data-kv='[["Started","5 Oct 2026"],["Milestones","1 of 2 approved"],["Next payment","₹30,000 · 30 Oct"],["Delivery","staging build pushed 14 min ago"],["Owner","Riya Kapoor"]]'
@@ -125,7 +126,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="t"><i style="width:57%"></i></span></span>
           <span class="p">57%<span>done</span></span></div>
 
-        <div class="row" role="option" id="p2" aria-selected="false" tabindex="0"
+        <div class="prow" role="option" id="p2" aria-selected="false" tabindex="0"
           data-nm="B2B Wholesale Ordering Portal"
           data-desc="Ordering portal for wholesale buyers: price lists per tier, reorder flows and invoice downloads. Two milestones approved; the third is in review."
           data-kv='[["Started","10 May 2026"],["Milestones","2 of 3 approved"],["Next payment","₹45,000 · on M3 approval"],["Delivery","milestone 3 in review"],["Owner","Arjun Mehta"]]'
@@ -141,18 +142,18 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     <aside class="prevcol" aria-label="Project preview">
       <article class="prev" data-prev>
         <div class="ph">
-          <h2 data-t>Khandesh Spice D2C E-Commerce Store</h2>
+          <h2 data-p-t>Khandesh Spice D2C E-Commerce Store</h2>
           <div class="tags"><span class="pill pill--warn">Cached</span>
-            <span data-d>—</span></div>
+            <span data-p-d>—</span></div>
         </div>
         <div class="pbody">
-          <p style="font-size:12.5px;color:var(--muted-foreground);line-height:1.6;margin:0" data-desc></p>
-          <div data-kv></div>
-          <div><p class="eyebrow" style="margin-bottom:6px">Milestones</p><div class="ms" data-ms></div></div>
+          <p style="font-size:12.5px;color:var(--muted-foreground);line-height:1.6;margin:0" data-p-desc></p>
+          <div data-p-kv></div>
+          <div><p class="eyebrow" style="margin-bottom:6px">Milestones</p><div class="ms" data-p-ms></div></div>
           <p class="stale">Values come from the last successful sync. Retry once; if it keeps failing, support can
             confirm status from the server side.</p>
         </div>
-        <div class="acts" data-acts></div>
+        <div class="acts" data-p-acts></div>
       </article>
     </aside>
 
@@ -178,20 +179,20 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
     root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
 
-  var rows=[].slice.call(document.querySelectorAll('.row')), idx=0, pv=document.querySelector('[data-prev]');
+  var rows=[].slice.call(document.querySelectorAll('.prow')), idx=0, pv=document.querySelector('[data-prev]');
   function render(r){
     if(!r)return;
-    document.querySelector('[data-t]').textContent=r.dataset.nm;
-    document.querySelector('[data-desc]').textContent=r.dataset.desc;
-    document.querySelector('[data-d]').textContent=r.querySelector('.m').textContent.trim().replace(/\s+/g,' ');
-    var kv=document.querySelector('[data-kv]'); kv.innerHTML='';
+    document.querySelector('[data-p-t]').textContent=r.dataset.nm;
+    document.querySelector('[data-p-desc]').textContent=r.dataset.desc;
+    document.querySelector('[data-p-d]').textContent=r.querySelector('.m').textContent.trim().replace(/\s+/g,' ');
+    var kv=document.querySelector('[data-p-kv]'); kv.innerHTML='';
     JSON.parse(r.dataset.kv).forEach(function(p){
       var d=document.createElement('div'); d.className='kv';
       var s=document.createElement('span'); s.textContent=p[0];
       var b=document.createElement('b'); b.textContent=p[1];
       d.appendChild(s); d.appendChild(b); kv.appendChild(d);
     });
-    var ms=document.querySelector('[data-ms]'); ms.innerHTML='';
+    var ms=document.querySelector('[data-p-ms]'); ms.innerHTML='';
     JSON.parse(r.dataset.ms).forEach(function(p){
       var d=document.createElement('div'); d.className='msrow'; d.dataset.s=p[0];
       var dot=document.createElement('span'); dot.className='d';
@@ -201,7 +202,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       tx.appendChild(b); tx.appendChild(sp);
       d.appendChild(dot); d.appendChild(tx); ms.appendChild(d);
     });
-    var acts=document.querySelector('[data-acts]'); acts.innerHTML='';
+    var acts=document.querySelector('[data-p-acts]'); acts.innerHTML='';
     JSON.parse(r.dataset.links).forEach(function(p,i){
       var a=document.createElement('a'); a.className='btn '+(i===0?'btn-p':'btn-g')+' btn-sm';
       a.href=p[1]; a.textContent=p[0]; acts.appendChild(a);

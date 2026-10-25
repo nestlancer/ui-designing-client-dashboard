@@ -38,8 +38,8 @@ section{scroll-margin-top:calc(var(--header) + 20px)}
   border-bottom:1px solid var(--border)}
 .frow:last-child{border-bottom:0}
 @media(max-width:640px){.frow{grid-template-columns:1fr;gap:5px}}
-.frow label{font-size:11.5px;font-weight:650}
-.frow label em{display:block;font-style:normal;font-weight:500;font-size:10.5px;color:var(--muted-foreground);
+.frow label,.frow .lbl{font-size:11.5px;font-weight:650}
+.frow label em,.frow .lbl em{display:block;font-style:normal;font-weight:500;font-size:10.5px;color:var(--muted-foreground);
   margin-top:1px}
 .frow input{width:100%;font:inherit;font-size:12.5px;padding:6px 9px;border:1px solid var(--border);
   border-radius:5px;background:var(--card);color:var(--foreground);outline:none}
@@ -133,11 +133,11 @@ section{scroll-margin-top:calc(var(--header) + 20px)}
           <div class="shd"><h2>Privacy</h2><p>Applies wherever your card appears.</p></div>
           <div class="card">
             <div class="frow"><label for="pv1">Show email to studios<em>otherwise messages only</em></label>
-              <button class="sw" role="switch" aria-checked="true" aria-label="Show email to studios" data-f></button></div>
+              <button id="pv1" class="sw" role="switch" aria-checked="true" aria-label="Show email to studios" data-f></button></div>
             <div class="frow"><label for="pv2">Show company on card</label>
-              <button class="sw" role="switch" aria-checked="true" aria-label="Show company" data-f></button></div>
+              <button id="pv2" class="sw" role="switch" aria-checked="true" aria-label="Show company" data-f></button></div>
             <div class="frow"><label for="pv3">Discoverable by any studio<em>currently studios only</em></label>
-              <button class="sw" role="switch" aria-checked="false" aria-label="Discoverable" data-f></button></div>
+              <button id="pv3" class="sw" role="switch" aria-checked="false" aria-label="Discoverable" data-f></button></div>
           </div>
         </section>
 
@@ -157,16 +157,16 @@ section{scroll-margin-top:calc(var(--header) + 20px)}
           <div class="shd"><h2>Two-factor authentication</h2><p>Off. Recommended before you add a bank account.</p></div>
           <div class="card">
             <div class="frow"><label for="t1">Authenticator app<em>6-digit rotating code</em></label>
-              <button class="sw" role="switch" aria-checked="false" aria-label="Authenticator app" data-f></button></div>
+              <button id="t1" class="sw" role="switch" aria-checked="false" aria-label="Authenticator app" data-f></button></div>
             <div class="frow"><label for="t2">SMS backup<em>+91 ••••• 43210</em></label>
-              <button class="sw" role="switch" aria-checked="false" aria-label="SMS backup" data-f></button></div>
+              <button id="t2" class="sw" role="switch" aria-checked="false" aria-label="SMS backup" data-f></button></div>
           </div>
         </section>
 
         <section id="s-sessions">
           <div class="shd"><h2>Sessions</h2><p>8 active — revoke anything unfamiliar.</p></div>
           <div class="card" data-sessions>
-            <div class="frow"><label for="x">This device<em>Chrome on macOS · active now</em></label>
+            <div class="frow"><span class="lbl">This device<em>Chrome on macOS · active now</em></span>
               <span class="pill pill--ok" style="justify-self:start">current session</span></div>
           </div>
           <div class="card" style="margin-top:8px"><div class="foot" style="border-top:0;background:transparent">
@@ -178,38 +178,38 @@ section{scroll-margin-top:calc(var(--header) + 20px)}
         <section id="s-notif">
           <div class="shd"><h2>Notification preferences</h2><p>18 switches across six categories.</p></div>
           <div class="card">
-            <div class="frow"><label for="q1">Quotes<em>new, expiring, changed</em></label>
-              <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="frow"><span class="lbl" id="q1">Quotes<em>new, expiring, changed</em></span>
+              <div role="group" aria-labelledby="q1" style="display:flex;gap:12px;flex-wrap:wrap">
                 <button class="sw" role="switch" aria-checked="true" aria-label="Quotes email" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Quotes in-app" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Quotes push" data-f></button>
               </div></div>
-            <div class="frow"><label for="q2">Payments<em>receipts, failures</em></label>
-              <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="frow"><span class="lbl" id="q2">Payments<em>receipts, failures</em></span>
+              <div role="group" aria-labelledby="q2" style="display:flex;gap:12px;flex-wrap:wrap">
                 <button class="sw" role="switch" aria-checked="true" aria-label="Payments email" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Payments in-app" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Payments push" data-f></button>
               </div></div>
-            <div class="frow"><label for="q3">Messages</label>
-              <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="frow"><span class="lbl" id="q3">Messages</span>
+              <div role="group" aria-labelledby="q3" style="display:flex;gap:12px;flex-wrap:wrap">
                 <button class="sw" role="switch" aria-checked="true" aria-label="Messages email" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Messages in-app" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Messages push" data-f></button>
               </div></div>
-            <div class="frow"><label for="q4">Projects</label>
-              <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="frow"><span class="lbl" id="q4">Projects</span>
+              <div role="group" aria-labelledby="q4" style="display:flex;gap:12px;flex-wrap:wrap">
                 <button class="sw" role="switch" aria-checked="true" aria-label="Projects email" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Projects in-app" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Projects push" data-f></button>
               </div></div>
-            <div class="frow"><label for="q5">Requests</label>
-              <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="frow"><span class="lbl" id="q5">Requests</span>
+              <div role="group" aria-labelledby="q5" style="display:flex;gap:12px;flex-wrap:wrap">
                 <button class="sw" role="switch" aria-checked="true" aria-label="Requests email" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Requests in-app" data-f></button>
                 <button class="sw" role="switch" aria-checked="false" aria-label="Requests push" data-f></button>
               </div></div>
-            <div class="frow"><label for="q6">Account</label>
-              <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <div class="frow"><span class="lbl" id="q6">Account</span>
+              <div role="group" aria-labelledby="q6" style="display:flex;gap:12px;flex-wrap:wrap">
                 <button class="sw" role="switch" aria-checked="true" aria-label="Account email" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Account in-app" data-f></button>
                 <button class="sw" role="switch" aria-checked="true" aria-label="Account push" data-f></button>

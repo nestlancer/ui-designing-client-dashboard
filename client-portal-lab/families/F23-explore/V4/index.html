@@ -34,18 +34,18 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .card{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);overflow:hidden;
   display:flex;flex-direction:column;text-align:left}
 .card:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-.card .ph{aspect-ratio:16/9;background:repeating-linear-gradient(135deg,var(--muted),var(--muted) 6px,
+.card .ph{display:block;aspect-ratio:16/9;background:repeating-linear-gradient(135deg,var(--muted),var(--muted) 6px,
   var(--background) 6px,var(--background) 12px);display:grid;place-items:center;font-size:9.5px;
   color:var(--muted-foreground);border-bottom:1px solid var(--border)}
 .card[data-kind="work"] .ph{background:repeating-linear-gradient(45deg,var(--brand-50),var(--brand-50) 6px,
   var(--card) 6px,var(--card) 12px);color:var(--brand-700)}
 .dark .card[data-kind="work"] .ph{background:repeating-linear-gradient(45deg,#161f3a,#161f3a 6px,
   #101728 6px,#101728 12px);color:#9db3ff}
-.card .bd{padding:9px 11px 11px;display:grid;gap:4px;flex:1}
+.card .bd{display:grid;padding:9px 11px 11px;gap:4px;flex:1}
 .card .k{font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);
   font-weight:700}
-.card h2{font-size:12px;font-weight:650;letter-spacing:-.01em;line-height:1.4}
-.card p{margin:0;font-size:10.5px;line-height:1.55;color:var(--muted-foreground);
+.card .h2{display:block;font-size:12px;font-weight:650;letter-spacing:-.01em;line-height:1.4}
+.card .p{display:block;margin:0;font-size:10.5px;line-height:1.55;color:var(--muted-foreground);
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card .ft{display:flex;gap:6px;margin-top:auto;padding-top:2px;font-size:9.5px;color:var(--muted-foreground)}
 .card .ft .r{margin-left:auto;font-weight:700;color:var(--brand-700)}
@@ -111,72 +111,72 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 
     <div class="grid" data-grid>
       <button class="card" data-c data-g="process" data-kind="post" data-t="Approving a milestone, and what happens next">
-        <div class="ph">post</div>
-        <div class="bd"><span class="k">Process · 19 Oct</span>
-          <h2>Approving a milestone, and what happens next</h2>
-          <p>Approving unlocks the next payment and closes the stage before it. The sequence, in order.</p>
-          <div class="ft"><span>6 min</span><span class="r">Read →</span></div></div></button>
+        <span class="ph">post</span>
+        <span class="bd"><span class="k">Process · 19 Oct</span>
+          <span class="h2">Approving a milestone, and what happens next</span>
+          <span class="p">Approving unlocks the next payment and closes the stage before it. The sequence, in order.</span>
+          <span class="ft"><span>6 min</span><span class="r">Read →</span></span></span></button>
 
       <button class="card" data-c data-g="payments" data-kind="post" data-t="Why a bank transfer shows as processing">
-        <div class="ph">post</div>
-        <div class="bd"><span class="k">Payments · 14 Oct</span>
-          <h2>Why a bank transfer shows as processing</h2>
-          <p>UPI settles immediately. A transfer waits for the bank — and the portal says so.</p>
-          <div class="ft"><span>4 min</span><span class="r">Read →</span></div></div></button>
+        <span class="ph">post</span>
+        <span class="bd"><span class="k">Payments · 14 Oct</span>
+          <span class="h2">Why a bank transfer shows as processing</span>
+          <span class="p">UPI settles immediately. A transfer waits for the bank — and the portal says so.</span>
+          <span class="ft"><span>4 min</span><span class="r">Read →</span></span></span></button>
 
       <button class="card" data-c data-g="briefs" data-kind="post" data-t="A brief that survives the first week">
-        <div class="ph">post</div>
-        <div class="bd"><span class="k">Briefs · 11 Oct</span>
-          <h2>A brief that survives the first week</h2>
-          <p>Not a moodboard. Who buys, and what they must be able to do without asking.</p>
-          <div class="ft"><span>5 min</span><span class="r">Read →</span></div></div></button>
+        <span class="ph">post</span>
+        <span class="bd"><span class="k">Briefs · 11 Oct</span>
+          <span class="h2">A brief that survives the first week</span>
+          <span class="p">Not a moodboard. Who buys, and what they must be able to do without asking.</span>
+          <span class="ft"><span>5 min</span><span class="r">Read →</span></span></span></button>
 
       <button class="card" data-c data-g="process" data-kind="post" data-t="Change requests are priced before they start">
-        <div class="ph">post</div>
-        <div class="bd"><span class="k">Process · 8 Oct</span>
-          <h2>Change requests are priced before they start</h2>
-          <p>Request, quote, invoice — in that order, every time.</p>
-          <div class="ft"><span>3 min</span><span class="r">Read →</span></div></div></button>
+        <span class="ph">post</span>
+        <span class="bd"><span class="k">Process · 8 Oct</span>
+          <span class="h2">Change requests are priced before they start</span>
+          <span class="p">Request, quote, invoice — in that order, every time.</span>
+          <span class="ft"><span>3 min</span><span class="r">Read →</span></span></span></button>
 
       <button class="card" data-c data-g="payments" data-kind="post" data-t="Invoices, GST and what the PDF actually contains">
-        <div class="ph">post</div>
-        <div class="bd"><span class="k">Payments · 5 Oct</span>
-          <h2>Invoices, GST and what the PDF contains</h2>
-          <p>Taxable value, GST, and why the total is not the amount you approved.</p>
-          <div class="ft"><span>5 min</span><span class="r">Read →</span></div></div></button>
+        <span class="ph">post</span>
+        <span class="bd"><span class="k">Payments · 5 Oct</span>
+          <span class="h2">Invoices, GST and what the PDF contains</span>
+          <span class="p">Taxable value, GST, and why the total is not the amount you approved.</span>
+          <span class="ft"><span>5 min</span><span class="r">Read →</span></span></span></button>
 
       <button class="card" data-c data-g="work" data-kind="work" data-t="Designing a wholesale portal for a shop floor">
-        <div class="ph">case study</div>
-        <div class="bd"><span class="k">Work · 2 Oct</span>
-          <h2>Designing a wholesale portal for a shop floor</h2>
-          <p>Reordering between customers, one-handed, on a mid-range phone.</p>
-          <div class="ft"><span>7 min</span><span class="r">Open →</span></div></div></button>
+        <span class="ph">case study</span>
+        <span class="bd"><span class="k">Work · 2 Oct</span>
+          <span class="h2">Designing a wholesale portal for a shop floor</span>
+          <span class="p">Reordering between customers, one-handed, on a mid-range phone.</span>
+          <span class="ft"><span>7 min</span><span class="r">Open →</span></span></span></button>
 
       <button class="card" data-c data-g="process" data-kind="post" data-t="What handover includes">
-        <div class="ph">post</div>
-        <div class="bd"><span class="k">Process · 28 Sep</span>
-          <h2>What handover includes</h2>
-          <p>Files, credentials, a design system, a walkthrough — and the undocumented bits.</p>
-          <div class="ft"><span>4 min</span><span class="r">Read →</span></div></div></button>
+        <span class="ph">post</span>
+        <span class="bd"><span class="k">Process · 28 Sep</span>
+          <span class="h2">What handover includes</span>
+          <span class="p">Files, credentials, a design system, a walkthrough — and the undocumented bits.</span>
+          <span class="ft"><span>4 min</span><span class="r">Read →</span></span></span></button>
 
       <button class="card" data-c data-g="briefs" data-kind="post" data-t="Choosing a studio without a pitch deck">
-        <div class="ph">post</div>
-        <div class="bd"><span class="k">Briefs · 21 Sep</span>
-          <h2>Choosing a studio without a pitch deck</h2>
-          <p>Five questions that tell you more than a portfolio page.</p>
-          <div class="ft"><span>6 min</span><span class="r">Read →</span></div></div></button>
+        <span class="ph">post</span>
+        <span class="bd"><span class="k">Briefs · 21 Sep</span>
+          <span class="h2">Choosing a studio without a pitch deck</span>
+          <span class="p">Five questions that tell you more than a portfolio page.</span>
+          <span class="ft"><span>6 min</span><span class="r">Read →</span></span></span></button>
 
       <button class="card" data-c data-g="work" data-kind="work" data-t="Khandesh Spice — from shelf to storefront">
-        <div class="ph">case study</div>
-        <div class="bd"><span class="k">Work · 12 Sep</span>
-          <h2>Khandesh Spice — from shelf to storefront</h2>
-          <p>A retail brand going direct without losing the language wholesale buyers know.</p>
-          <div class="ft"><span>8 min</span><span class="r">Open →</span></div></div></button>
+        <span class="ph">case study</span>
+        <span class="bd"><span class="k">Work · 12 Sep</span>
+          <span class="h2">Khandesh Spice — from shelf to storefront</span>
+          <span class="p">A retail brand going direct without losing the language wholesale buyers know.</span>
+          <span class="ft"><span>8 min</span><span class="r">Open →</span></span></span></button>
     </div>
 
     <div class="nores" data-nores hidden>
       <b>Nothing matches “<span data-qecho></span>”</b>
-      <p>That is a real empty result from the search endpoint, not a failed request. Try a shorter word, or drop
+      <p class="p">That is a real empty result from the search endpoint, not a failed request. Try a shorter word, or drop
         the category chip.</p>
       <div class="btns"><button class="btn btn-g btn-sm" data-reset>Clear search and filters</button>
         <a class="btn btn-g btn-sm" href="../../F04-global-search/V1/index.html">Search everything instead</a></div>

@@ -92,9 +92,34 @@ Static checks found path errors, not design errors. Each was fixed in place by h
 1. Footer gallery links pointed at `families/index.html` (one `../` short) on 114 pages → corrected to `../../../index.html`.
 2. `F14-billing-center` → `F14-billing` (3 links in F03 and F11).
 3. `F04-command-palette` → `F04-global-search` (2 links in F23 V4).
-4. Two anchors used a data-attribute as `href` (`F01` V3 "Change", `F02` V4 "Forgot password") → `href="#"` with the existing handlers already calling `preventDefault()`.
+4. Two anchors used a data-attribute as `href` (`F01` V3 "Change", `F02` V4 "Forgot password") → `href="#"` with the existing handlers already calling `preventDefault()`. *(Superseded by §9a: both are now real `<button>` elements.)*
 5. `F16` V2 had no gallery link; `F04` V4 had no variant segment → both added.
 6. `F10` V1–V5 gained the visible data-honesty note described in §4.
+
+## 9a. Second correction pass — format, structure and placement
+
+A later audit of all 116 pages for *format* defects (heading levels, dead links, broken references,
+invalid nesting, content rendering in the wrong place) changed 32 files. The full itemised list, the
+verification run and its limitation are in **`CORRECTION-PASS.md`**. Summary:
+
+- one `h1` per page (8 files had zero or several);
+- 51 `href="#"` dead links replaced with real controls — buttons where the link was an action, and
+  `?open=<slug>` deep links (honoured on load) where the link wrapped block content;
+- fixed three pages whose list rows and preview targets shared the same `data-*` names, which made the
+  first row's contents get overwritten at runtime (F04-V3, F08-V3) and the preview read from the header
+  toolbar (F05-V3/F08-V3/F10-V3);
+- renamed component row classes `.row` → `.rrow`/`.prow`/`.qrow` so they no longer collide with the
+  `.row` flex utility in `base.css`;
+- repaired 15 broken `aria-*`/`<label for>`/anchor references (F09-V1, F21-V2);
+- replaced block elements nested inside `<button>` with span equivalents (F08-V4, F21-V3, F23-V3, F23-V4);
+- restored footer/honesty-note placement inside two-column grids (F08-V3, F09-V5, F10-V3);
+- re-bound three filters whose `<select>` shared an attribute name with the data rows (F14-V4, F18-V1,
+  F22-V2), verified by exercising them.
+
+Verified by executing every page in a real DOM engine (jsdom) with polyfills, plus static validation:
+**116/116 pages, 0 JS errors, 0 unbalanced tags, 0 duplicate ids, 2008 internal links with 0 missing,
+0 broken references, 0 dead `#` links.** No real browser engine was available, so — as recorded in §10 —
+this is DOM/source-level verification only, not visual QA.
 
 ## 10. What was not done
 
