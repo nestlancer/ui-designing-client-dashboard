@@ -1,10 +1,12 @@
 # GATE 1 — Concepts: 5 per family, one colour scheme
 
-**Rule applied:** every variant keeps the family's frozen content (Gate S), fixes the C-items mapped to it (Gate R), and differs from its four siblings on **≥3 of 5 axes with at least one of A (geometry) or C (narrative)**. Colour is not an axis. All variants import `shared/tokens.css` + `shared/base.css`.
+**Rule applied:** every variant keeps the family's frozen content (Gate S), fixes the C-items mapped to it (Gate R), and differs from its four siblings on **≥3 of 5 axes with at least one of A (geometry) or C (narrative)**. Colour is not an axis. All variants import `shared/tokens.css`, `shared/base.css`, `shared/kit.css` and `shared/kit.js`.
 Axis legend — **A** layout geometry · **B** information hierarchy · **C** page narrative · **D** density & surface · **E** interaction family.
-Status: ✅ built · ⬜ specified here, built next.
+Status: ✅ 115/115 built; gallery and all variants audited in jsdom and Chromium.
 
 **Coverage per family:** ≥1 minimal · ≥1 dense · ≥1 queue/action-led · ≥1 stepper/narrative-led · F03/F09/F11/F14/F16 additionally ≥1 motion-signature-led.
+
+**Progressive workbench layer:** 24 explicitly compatible collection pages (148 loaded records) add search, facets, project filters, sort, grouping, local saved views, density, selection, comparison, local CSV export and inspection without replacing the authored layout. Bespoke statements, grouped ledgers, split options and direct-link rows are excluded where generic controls would flatten their semantics. The gallery exposes the same A–E assignments as domain/axis filters and provides independent desktop/mobile and light/dark live iframe comparison.
 
 ---
 
@@ -43,7 +45,7 @@ Fixes: C1 C2 C3 C4 C5 C6 C14 C17 C18. Adds: A9 (V3), A11 (V2 V5 install row), A1
 
 | V | Name | Sketch | Fixes / adds | Axes | Signature | API | Dark + 375 |
 |---|---|---|---|---|---|---|---|
-| V1 ✅ | Verdict Hero | `verdict ▶ [hero ₹31,875 ‖ 2×2 KPI] ▶ [pipeline \| tabs] ⫽ [awaiting, activity]` | C1 C2 C3 C14 A13 | A hero+rail · B verdict-first · D airy · E count-up | KPI count-up on reveal + tab roving | `/requests/stats`, `/payments/stats`, `/projects` (502) | rail drops below; KPI 2 cols |
+| V1 ✅ | Verdict Canvas | `verdict ▶ [hero ₹31,875 ‖ 2×2 KPI + sparklines] ▶ [4-tab workbench \| action centre]` | C1 C2 C3 C14 A13 | A hero+rail · B verdict-first · D airy · E count-up | KPI count-up on reveal + tab roving | `/requests/stats`, `/payments/stats`, `/projects` (502) | rail drops below; KPI 2 cols |
 | V2 ✅ | Queue First | `top nav ▶ thin KPI strip ▶ [needs-you queue \| ledger rail]` | C1 C2 C14 A13 A11 | A top-nav · B action-first · C queue-led · E filter chips | queue filter + mark-handled with live count | same + `/payments?status=pending` | strip 2×2; queue rows stack actions |
 | V3 ✅ | Signal Grid | `bento: money 6 / collected 3 / requests 3 / quotes 4 / messages 4 / notifications 4 / health 8 / needs 4` | C2 C3 A9 A13 | A bento · B numbers-first · D medium · E hover/focus detail | health tile reveals why-number via crossfade | `/projects/stats` + milestones | 1-col stack, tiles keep order |
 | V4 ✅ | Ops Dense | `vitals strip ▶ [sortable ops table] ⫽ [settlement]` | C1 A13 | A console · B density · D dense · E keyboard j/k + sort | row selection + sort-by-amount | `/payments`, `/invoices`, `/requests` | table → cards, j/k disabled |
@@ -59,7 +61,7 @@ Keeps: palette groups · keyboard hints `↑↓ navigate ↵ select esc close` �
 |---|---|---|---|---|---|
 | V1 | Centred Palette | `dimmed page ▶ centred 560px palette (groups)` | A overlay · B action-first · E arrow-key list | ↑↓↵ esc, focus trap, grouped results | `/messages/search`, `/posts/search` |
 | V2 | Command Bar | `top-docked full-width bar ▶ results column` | A top-dock · B query-first · D dense · E type-ahead | inline query with instant filter | same |
-| V3 | Two-pane | `[results 60%] ‖ [preview 40%]` | A two-pane · C preview-linked · E preview crossfade | arrow to preview, ↵ to open | same |
+| V3 | Two Pane | `[results 60%] ‖ [preview 40%]` | A two-pane · C preview-linked · E preview crossfade | arrow to preview, ↵ to open | same |
 | V4 | Filter Chips | `palette + chip filters (Pages / Requests / Payments)` | A overlay+chips · B filter-first · E chip filter | chips filter without leaving the palette | same + `/payments?status=pending` |
 | V5 | Search Takeover | `palette fills viewport, editorial list, footer hints` | A full-page · D minimal · E keyboard + recent | recents list, Enter opens | same |
 
@@ -69,7 +71,7 @@ Keeps: KPIs 26/0/0/5 · tabs All/Requests(12)/Projects · 8 status options · 12
 
 | V | Name | Sketch | Axes | Signature | API |
 |---|---|---|---|---|---|
-| V1 | Table Classic | `KPI row ▶ tabs ▶ filters ▶ table ▶ pagination` | A table · B metrics-first · D dense · E filter+sort+pagination | toolbar filters, sticky header | `GET /requests?status=&page=` |
+| V1 | Pipeline Desk | `stage filters ▶ saved views/facets ▶ sortable grid + preview rail ▶ bulk/pagination` | A grid+rail · B stage-first · D dense · E saved views+bulk+preview | stage filters, row preview and detail sheet | `GET /requests?status=&page=` |
 | V2 | Queue Cards | `KPI strip ▶ card queue with next action per row` | A cards · B action-first · C queue · E chips | saved view "Awaiting me" | + `GET /requests/stats` |
 | V3 | Split Preview | `[list 55%] ‖ [detail preview 45%]` | A split · C preview · E row-select preview | keyboard row select | + `GET /requests/{id}` |
 | V4 | Status Board | `4 status columns of request cards` | A board · B status-first · D medium · E drag-less column filter | column filter → list | `GET /requests?status=` |
@@ -105,7 +107,7 @@ Keeps: 2 projects (`Khandesh Spice D2C E-Commerce Store`, `B2B Wholesale Orderin
 
 | V | Name | Sketch | Axes | Signature | API |
 |---|---|---|---|---|---|
-| V1 | Card Grid | `3-col cards ▶ degraded banner ▶ retry` | A grid · B card-first · E retry+toast | retry with backoff copy | `GET /projects` (502) |
+| V1 | Portfolio Deck | `health summary ▶ saved filters/view switch ▶ delivery-rich cards + milestone dots ▶ degraded recovery` | A card deck · B delivery-first · E retry+toast | saved filters, progress detail and honest retry | `GET /projects` (502) |
 | V2 | Progress Table | `table with progress bars + milestone column` | A table · D dense · E sort | sort by progress | same |
 | V3 | Split Preview | `[list] ‖ [project preview]` | A split · C preview · E row select | preview crossfade | + `/projects/{id}` |
 | V4 | Health Board | `status tiles + next action per project` | A tiles · B health-first · C queue · E tile → drawer | tile drawer with retry | + `/milestones` |
@@ -129,11 +131,11 @@ Keeps: KPIs 12/0/5/0 · 6 statuses · 12 rows with amounts · pagination. Fixes:
 
 | V | Name | Sketch | Axes | Signature | API |
 |---|---|---|---|---|---|
-| V1 | Table + KPIs | `KPI cards ▶ filter ▶ table ▶ pagination` | A table · B metrics · D dense · E filter/sort | filter chips | `GET /quotes?status=` |
-| V2 | Expiry Ledger | `rows with expiry countdown bars + amount` | A ledger · C countdown · D medium · E live countdown | countdown ticks per row | + `validUntil` |
-| V3 | Split Preview | `[list] ‖ [quote summary preview + sign CTA]` | A split · C preview · E row select | preview + open | + `/quotes/{id}` |
-| V4 | Awaiting Queue | `awaiting-you queue first, accepted collapsed` | A queue · B action-first · C queue · E collapse | collapse/expand groups | + `/quotes/stats` |
-| V5 | Saved Views | `dense table + saved view tabs + bulk select` | A table · D dense · E saved views + bulk | view switch, bulk actions (demo) | same |
+| V1 | Grid Console | `KPI strip ▶ attention banner ▶ saved views/facets ▶ dense grid + preview rail` | A grid+rail · B metrics-first · D dense · E saved views+bulk+preview | faceted grid, bulk selection and row preview | `GET /quotes?status=` |
+| V2 | Ledger Desk | `statement masthead ▶ status-grouped ledgers ▶ running totals + sticky summary` | A statement ledger · C status-grouped · D ledger/print · E running total | grouped totals, inline re-quote and print | + `validUntil` |
+| V3 | Status Board | `three outcome lanes with totals ▶ quote cards + expiry meters ▶ detail drawer` | A status board · B action-first · C status lanes · E drawer+moves | drag-free status moves and detail drawer | + `/quotes/{id}` |
+| V4 | Expiry Runway | `today-centred runway ▶ remaining/lapsed bars ▶ quote detail` | A runway · B urgency-first · C countdown · E time visualization | expiry as distance around today | + `/quotes/stats` |
+| V5 | Value Study | `editorial value hero ▶ funnel + win-rate ring ▶ quiet register` | A editorial register · B value-first · C value study · D quiet · E register inspect | funnel/ring evidence with contextual record inspection | same |
 
 ## F11 · Quote Details ✅
 
@@ -141,7 +143,7 @@ Keeps: quote no · line item ₹1,500 + GST ₹270 = ₹1,770 · 50/50 schedule 
 
 | V | Name | Sketch | Axes | Signature | API | Dark + 375 |
 |---|---|---|---|---|---|---|
-| V1 ✅ | Sign in Three Breaths | `[3 numbered steps] ‖ [sticky money rail] + sign dock` | A steps+rail · B numbers-first · C 3-step · E scroll-spy | step highlight + dock gating | `/quotes/{id}/accept`, `/decline`, `/request-changes` | dock wraps, steps stack |
+| V1 ✅ | Signing Desk | `[readable quote document] ‖ [3-step acceptance contract + sticky sign dock]` | A document+dock · B facts-first · C 3-step · E progressive gating | signature disclosure + disabled-until-valid dock | `/quotes/{id}/accept`, `/decline`, `/request-changes` | dock wraps, steps stack |
 | V2 ✅ | Numbers First Ledger | `document: header, ledger, schedule, terms, signature block` | A document · B facts-first · D ledger/print · E print + disclosure | print stylesheet, clause disclosure | same + `/pdf` | full-bleed doc, 16px gutters |
 | V3 ✅ | Negotiation Led | `[thread + composer] ‖ [deal summary + 3-step sign]` | A thread+rail · C conversation · E inline composer | append message, step dots advance | `/request-changes` | thread first, summary below |
 | V4 ✅ | Assurance Heavy | `split hero (amount / protections) ▶ tabbed verify ▶ drawer sign` | A split+workbench · B assurance-first · C tab-led · E drawer | focus-trapped sign drawer | same | tabs scroll, drawer full-height |
@@ -179,7 +181,7 @@ Keeps: KPIs ₹81,500 / ₹31,875 / ₹0.00 · 11 transactions with statuses · 
 
 | V | Name | Sketch | Axes | Signature | API |
 |---|---|---|---|---|---|
-| V1 | Ledger + Queue | `[work queue] ▶ [settled vs outstanding ledger]` | A queue+ledger · B money-first · C queue · E filter/sort | queue → checkout | `GET /payments`, `/stats` |
+| V1 | Ledger Console | `[outstanding work queue + single checkout] ▶ [searchable/sortable settled ledger + receipts]` | A queue+ledger · B money-first · C queue · E filter/sort/export | combined due summary, ledger export and row receipts | `GET /payments`, `/stats` |
 | V2 | Statement | `print statement: summary block + rows + totals` | A statement · D ledger/print · E print | print stylesheet | + `/invoices` |
 | V3 | Queue First | `work queue as the page, ledger secondary` | A queue · B action-first · C queue · E chips | chip filter by state | + `?status=processing` |
 | V4 | Ops Table | `dense sortable table + inline AI ask` | A console · D dense · E sort/search | search + sort + row action | same + A1 (demo) |
@@ -187,11 +189,11 @@ Keeps: KPIs ₹81,500 / ₹31,875 / ₹0.00 · 11 transactions with statuses · 
 
 ## F15 · Payment Methods
 
-Keeps: empty state copy · `Add a payment method` explainer ("saved automatically… manual token entry is not supported") · `Go to payments` · Razorpay strip · 3 KPIs. Fixes: C4 C6 C18. Adds: A6 (V2 V3 V4).
+Keeps: empty/unsaved state copy · `Add a payment method` explainer ("saved automatically… manual token entry is not supported") · `Go to payments` · Razorpay strip · 3 KPIs. V1 uses the verified HDFC ····4242 / 09-2028 card and keeps UPI and bank transfer explicitly unsaved; its ₹81,500 split is derived from the seven settled F14 payments. Fixes: C4 C6 C18. Adds: A6 (V2 V3 V4).
 
 | V | Name | Sketch | Axes | Signature | API |
 |---|---|---|---|---|---|
-| V1 | Empty State Led | `KPIs ▶ large empty state ▶ explainer ▶ strip` | A single column · B empty-first · D airy · E retry/empty | empty → explainer | `GET /payments/methods` |
+| V1 | Wallet Desk | `verified card face + unsaved slots ▶ all-method ledger ▶ settled usage split ▶ local remove flow` | A wallet grid · B object-first · D airy · E local method management | saved/unsaved clarity and explained local removal | `GET /payments/methods` |
 | V2 | Method Cards | `grid of saved methods + add dialog` | A grid · B object-first · E dialog | add/remove with confirm | `POST/DELETE /methods` |
 | V3 | Minimal Column | `narrow list + trust strip` | A narrow · D minimal · E inline edit | set default optimistic | + `PATCH /methods/{id}/default` |
 | V4 | Type Tiles | `tiles: Card / UPI / Netbanking / Wallet` | A tiles · B type-first · E tile → drawer | drawer per type | same |
@@ -205,7 +207,7 @@ Keeps: order summary (project, milestone, ₹30,000, INR, reference, created) ·
 |---|---|---|---|---|---|
 | V1 | Single CTA | `[order summary] ▶ one primary Pay CTA ▶ method tabs` | A summary+cta · B amount-first · E method tabs | one CTA, tabs swap method | `POST /payments/create-intent`, `/confirm` |
 | V2 | Ledger + Trust | `invoice-like summary + trust block + CTA` | A ledger · D ledger · E print/pay | payable amount recompute | same |
-| V3 | UPI First (India) | `UPI primary, card secondary, QR explainer` | A method-first · B local-first · C method narrative · E tabs | QR explainer toggle | same |
+| V3 | UPI First | `UPI primary, card secondary, QR explainer` | A method-first · B local-first · C method narrative · E tabs | QR explainer toggle | same |
 | V4 | Assurance Heavy | `protections list + stepper + CTA` | A split · B assurance-first · E accordion | assurance accordion | same |
 | V5 | Express | `narrow: amount, one method, one button` | A narrow · D minimal · E sticky CTA | two-step express | same |
 
@@ -264,10 +266,10 @@ Keeps: sub-tabs Account/Security/Notifications/Activity/Files · privacy toggles
 | V | Name | Sketch | Axes | Signature | API |
 |---|---|---|---|---|---|
 | V1 | Sub-tab Classic | `tabs ▶ panels` | A tabs · B section-first · D medium · E tabs | tabs + per-switch optimistic save | `/users/preferences`, `/sessions` |
-| V2 | Settings Rail | `[section rail] ‖ [panel]` | A rail · C section-nav · E rail nav | rail scroll-spy | same |
-| V3 | Accordion Cards | `stacked accordion sections` | A accordion · C progressive · D airy · E accordion | expand per section | same |
-| V4 | Matrix Console | `dense matrix + filters` | A console · D dense · E matrix keyboard | keyboard toggles + bulk | `/notifications/preferences` |
-| V5 | Activity Queue | `activity-first: day groups, collapsed logins` | A queue · C activity-led · E day collapse + filter | filter by event type | `/users/activity` |
+| V2 | Sticky Rail | `[sticky section rail] ‖ [scroll-spy panels + dirty guard]` | A rail · C section-nav · E rail nav | rail scroll-spy + unsaved-changes guard | same |
+| V3 | Card Grid | `topic cards ▶ account/security/notification/data detail drawers` | A card grid · B topic-first · E detail drawers | drawer per settings topic | same |
+| V4 | Switch Ledger | `dense settings ledger + search + change log + per-row save` | A ledger console · D dense · E search+row save | searchable rows and individual save states | `/notifications/preferences` |
+| V5 | Mobile Stack | `phone-width grouped switches + sticky save + advanced accordion` | A mobile stack · C grouped settings · E sticky save+accordion | stacked groups and sticky dirty-state save | `/users/activity` |
 
 ## F22 · Settings ▸ Files
 
@@ -303,23 +305,23 @@ Keeps: editorial cards · public surface · sidebar EXPLORE links · brand voice
 | F02 | split · static | narrow · stepper | 2-col · static | card+rail · wizard | centred · static | no |
 | F03 | hero+rail · static | top-nav · queue | bento · static | console · table | spine · chapter | no |
 | F04 | overlay · list | top-dock · list | 2-pane · preview | overlay+chips · filter | full-page · recent | no |
-| F05 | table · list | cards · queue | split · preview | board · status | ledger · date | no |
+| F05 | grid+rail · stage | cards · queue | split · preview | board · status | ledger · date | no |
 | F06 | stacked · single | narrow · stepper | 2-col · single | grid · single | single · conversational | no |
 | F07 | timeline+rail · timeline | document · linear | split · static | tabs · tab | column · chapter | no |
-| F08 | grid · list | table · list | split · preview | tiles · health | banner · narrative | no |
+| F08 | card deck · delivery | table · list | split · preview | tiles · health | banner · narrative | no |
 | F09 | tabs · tab | stepper · journey | queue+rail · queue | feed · digest | console · table | no |
-| F10 | table · list | ledger · countdown | split · preview | queue · queue | table · saved-view | no |
-| F11 | steps+rail · 3-step | document · linear | thread+rail · conversation | split+tabs · tab | narrow · disclosure | no |
+| F10 | grid+rail · list | statement ledger · status | status board · lanes | runway · countdown | editorial register · value | no |
+| F11 | document+dock · 3-step | document · linear | thread+rail · conversation | split+tabs · tab | narrow · disclosure | no |
 | F12 | 3-pane · thread | 2-pane · preview | table · list | strip+list · summary | column · list | no |
 | F13 | 3-pane · thread | wide · thread | split · context | log · dense | narrow · focus | no |
 | F14 | queue+ledger · queue | statement · linear | queue · queue | console · table | split · timeline | no (V1 ≠ V3 in A and B) |
-| F15 | column · empty | grid · objects | narrow · list | tiles · types | queue · queue | no |
+| F15 | wallet · methods | grid · objects | narrow · list | tiles · types | queue · queue | no |
 | F16 | summary+cta · linear | ledger · linear | method-first · method | split · assurance | narrow · express | no |
 | F17 | receipt · documents | chain · unlock | split · timeline | console · dense | narrow · status | no |
 | F18 | table · list | statement · linear | cards · status | split · preview | ledger · date | no |
 | F19 | cards · grouping | table · list | rail · filter | timeline · chronological | queue · queue | no |
 | F20 | card+form · identity | 2-col · form | split · public/private | sections · dense | centred · minimal | no |
-| F21 | tabs · section | rail · section | accordion · progressive | console · matrix | queue · activity | no |
+| F21 | tabs · section | rail · section | card grid · topics | ledger · switches | mobile stack · grouped | no |
 | F22 | grid · objects | table · list | split · preview | upload-first · action | narrow · minimal | no |
 | F23 | cards · editorial | list · date | split · featured | grid · filter | narrow · reading | no |
 

@@ -7,6 +7,8 @@
 <meta name="description" content="F23 variant 3: a featured story at 60% of the page beside a stack of secondary reads, where selecting a read swaps the feature.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -109,7 +111,7 @@ li .cat{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:7
 
       <aside class="rail">
         <h2>Also in Explore</h2>
-        <ul data-list>
+        <ul data-list data-nl-list="li" data-nl-facet-label="Category">
           <li><button data-pick data-k="Payments" data-t="Why a bank transfer shows as processing"
               data-d="UPI settles immediately. A transfer clears when the bank confirms it, and until then the
               portal keeps the payment in its own state." data-m="14 Oct 2026 · 4 min read" aria-current="false">

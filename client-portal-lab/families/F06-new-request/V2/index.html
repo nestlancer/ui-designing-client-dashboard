@@ -7,6 +7,8 @@
 <meta name="description" content="F06 variant 2: a four-step stepper — brief, budget, timeline, review — with a progress rail that blocks skipping.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -90,7 +92,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     <div class="s" data-s="4"><span class="n">4</span>Review</div>
   </div>
 
-  <main id="main" class="stage">
+  <main id="main" class="stage" data-nl-draft>
     <div class="step">
       <h1 class="sr-only">New request</h1>
       <form data-f="1" novalidate>

@@ -7,6 +7,8 @@
 <meta name="description" content="F06 variant 4: a labelled two-column field grid with quick-fill category chips that prefill a budget range, built for fast entry.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -87,7 +89,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
   </header>
 
-  <main id="main" class="wrap">
+  <main id="main" class="wrap" data-nl-draft>
     <div class="mast">
       <div><h1>New request</h1>
         <p>One sheet, ten fields. Category chips prefill a budget range you can override.</p></div>

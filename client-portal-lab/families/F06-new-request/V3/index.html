@@ -7,6 +7,8 @@
 <meta name="description" content="F06 variant 3: a form column with a sticky live brief summary that fills in as you type, showing what the studio will read.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -89,7 +91,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     </div>
   </header>
 
-  <main id="main" class="wrap">
+  <main id="main" class="wrap" data-nl-draft>
     <form class="formcol" data-form novalidate>
       <h1>New request</h1>
       <p class="lead">The panel on the right is exactly what the studio reads first. Fill it as completely as you can.</p>

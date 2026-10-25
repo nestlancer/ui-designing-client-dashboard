@@ -1,7 +1,7 @@
 # DELIVERY REPORT — Nestlancer client portal template lab
 
-- **Branch**: `arena/20f82082-ui-designing-client-dashboard`
-- **Base commit**: `161c02bdeb729f278f4425adfe10f056b310c525`
+- **Branch**: `arena/6cd802c1-ui-designing-client-dashboard`
+- **Base commit**: `8bd198d174a8b41a12724d62cfd1ac3320df2c01`
 - **Delivered**: `client-portal-lab/` (115 templates + gallery + shared tokens + manifest + audit + decisions) and five docs: `BASELINE-MAP.md`, `REPORT-STUDY.md`, `API-MAP.md`, `CONCEPTS.md`, this report.
 - **Serve with**: `python3 -m http.server 8130` from the repository root, then open `/client-portal-lab/`.
 
@@ -40,45 +40,53 @@ Gate: PASS
 
 ```
 ## GATE 2a
-Pilot built: F11-V1 (quote details, sign in three breaths) + F03-V1 (dashboard, verdict hero)
+Pilot built: F11-V1 (quote details, Signing Desk) + F03-V1 (dashboard, Verdict Canvas)
 Pilot frozen after review: yes — later variants do not diverge from the pilot's shell, tokens or wording rules
 Gate: PASS
 ```
 
 ```
 ## GATE 2b
-Remaining templates: 113 · built by hand · total 115/115
+Templates: 115/115 hand-audited and individually authored/upgraded · six required waves complete
 Per-family variant counts: 5/5 for all 23 families (no stubs, no bonus pages, no colour-only siblings)
 Gate: PASS
 ```
 
 ```
 ## GATE 3
-Families: 23/23 present · Variants: 115/115 present
+Families: 23/23 present · Variants: 115/115 present · Gallery: 1
 HTML tag balance (html.parser over 116 files): 0 errors
 JavaScript parse (node --check on every inline script): 0 errors
-Internal links: all resolve (footer gallery, variant segments, cross-family links)
-External requests in src/href of styles and scripts: 0
-Shared token scheme: every page loads shared/tokens.css + shared/base.css; 0 raw colour utilities
-Banned patterns (bg-white, gray-200/80, Tailwind/Bootstrap/CDN/web fonts): 0
-HTTP smoke test on 127.0.0.1:8130 from the repo root: 22/22 sampled URLs returned 200
+Internal links: 2,200 links plus referenced local assets resolve; 0 dead links
+External requests in src/href of styles, scripts and images: 0
+Shared scheme/runtime: every variant loads tokens.css + base.css + kit.css + kit.js
+jsdom: 116/116 executed; 0 runtime/fatal errors, duplicate IDs, broken references, dead # links or audited nested controls
+Chromium render matrix: 464/464 combinations passed (116 pages × 375/1440px × light/dark), 0 flagged
+Chromium workflows: keyboard/focus, workbench, CSV, local persistence, honest Retry, local files and live iframes passed
 Blocker count: 0
-Browser / screenshot QA: NOT RUN — no browser or headless engine was available in the build sandbox.
-  No visual parity, pixel or cross-browser claim is made anywhere in this delivery.
-Gate: PASS (with the browser-QA limitation stated, not waived)
+Boundary: Chromium only; no Firefox/WebKit certification or historical pixel-baseline comparison is claimed.
+Gate: PASS
 ```
 
 ## What is in the box
 
 | Deliverable | Path | Contents |
 |---|---|---|
-| Gallery | `client-portal-lab/index.html` | 23 family sections × 5 variant links, search + group filter, gate ledger, token note |
+| Gallery | `client-portal-lab/index.html` | 23 family sections × 5 variants, search, domain/axis filters, and independent desktop/mobile light/dark live comparison |
 | Tokens | `client-portal-lab/shared/tokens.css` | The single locked scheme: blue brand ramp, status colours, radii 6/10/14/20, `--sidebar:232px`, `--header:64px`, `--content:1400px`, light + dark |
-| Primitives | `client-portal-lab/shared/base.css` | Shell, pill, four button styles, empty/error/skeleton/banner, table, toast; `[hidden]{display:none !important}` last |
-| Templates | `client-portal-lab/families/F01…F23/V1…V5/index.html` | 115 hand-written pages, each with its own styles, sprite, theme boot, states and footer |
-| Manifest | `client-portal-lab/manifest.json` | 23 families, 115 variants, names, paths, byte sizes, concept fixes, ADD items, demo-only list, gate results |
-| Audit | `client-portal-lab/audit.json` | Machine-readable result of every check above, per file |
-| Decisions | `client-portal-lab/DECISIONS.md` | Authorship, one-scheme rule, difference test, data policy, demo-only table, corrections, what was not done |
+| Primitives | `client-portal-lab/shared/base.css` + `shared/kit.css` / `kit.js` | Locked legacy primitives plus family-agnostic chrome, overlays, state simulator, compatible workbenches, local drafts/files and responsive helpers |
+| Templates | `client-portal-lab/families/F01…F23/V1…V5/index.html` | 115 individually authored/upgraded pages with local styles, sprites, pre-paint theme boot, states and footers |
+| Manifest | `client-portal-lab/manifest.json` | Current names, paths and byte sizes; counts, gate results, demo-only and browser-local feature policies |
+| Audit | `client-portal-lab/audit.json` | Current static, jsdom and Chromium summaries plus per-file source/runtime records |
+| Decisions | `client-portal-lab/DECISIONS.md` | Authorship, one-scheme rule, difference test, data policy, demo/local boundaries, corrections and QA evidence |
+
+## Progressive depth delivered
+
+- **24 compatible workbenches / 148 loaded records:** search, configurable facets, project filters, sort, grouping, local saved views, density, bulk selection/comparison, local CSV export and contextual inspection. Bespoke tables, statements, timelines and split-option collections keep their authored semantics.
+- **F06:** explicit local draft save/restore/clear, deterministic required-field readiness, category/quick-fill persistence and actual-local-file selection without File persistence or auto-submit.
+- **F16:** exactly one visible primary CTA per checkout state, a styled keyboard-accessible proof dropzone, validated local PNG/JPG/PDF selection and no fabricated upload.
+- **Gallery:** 115 authored axis assignments, 230 compare actions, domain/axis/search filters, responsive independent panes, preset and swap.
+- **Responsive/A11y correction pass:** bounded wide-table scrolling, shrinkable split/grid tracks, wrapping command/state/bulk bars, compact legacy headers, complete control names, synchronized overlay `aria-hidden`, nested scroll locking and first-focusable skip links.
 
 ## Coverage of the fix lists
 
@@ -89,17 +97,16 @@ Gate: PASS (with the browser-QA limitation stated, not waived)
 
 ## Known gaps and honest limitations
 
-1. **No browser QA.** No Chromium, Firefox or WebKit binary (and no Playwright/Puppeteer) was available. Verification is static: tag balance, JS parse, link resolution, absence of external requests, and HTTP 200 smoke tests. Visual behaviour — sticky positioning inside the preview iframe, focus rings, dark-theme contrast at 360px — was reasoned about in code, not observed.
+1. **Browser boundary.** Real Chromium rendering and workflows were run, but Firefox/WebKit were not. There is no historical screenshot/pixel-baseline diff and no claim of backend or third-party hosted-checkout certification.
 2. **`GET /api/v1/projects` is still failing** in the live environment (502 `origin_bad_gateway`, CORS). The lab designs the failure rather than the fix; the API-side repair is outside this delivery.
 3. **Quotes endpoint unread.** F10's list therefore uses illustrative records besides the verified `#01a10f80` (₹1,770). Each F10 page states this in a visible note and no figure from those rows is reused in the billing, checkout or invoice families.
-4. **F15 saved-method layouts** (V2–V5) are pattern work: the captured account has no saved method, so V1 is the truthful state and the others are labelled as examples.
-5. **Simulated integrations**: Razorpay hand-off, uploads, file downloads and data export are simulated client-side and say so in the interface. No network calls are made from any page.
-6. Two anchors in the auth families were normalised from `href="data-…"` to `href="#"` because the markup had used a data attribute as a URL; the existing click handlers already managed the step.
+4. **F15 additional method patterns.** V1 uses the verified HDFC ····4242 / 09-2028 card and the F14-derived ₹81,500 split; UPI and bank slots stay explicitly unsaved. Additional arrangements in V2–V5 remain pattern/local examples rather than newly claimed captured account facts.
+5. **Local/simulated integrations.** Razorpay hand-off and server upload/sync are simulated. Saved views/drafts use localStorage, CSV uses a local Blob, proof/attachment pickers use actual local files without persistence, and gallery comparison uses local iframes. No page makes a network call.
 
 ## Where to look first
 
 1. `client-portal-lab/index.html` — the gallery, and the honest gate ledger at the top.
-2. `client-portal-lab/families/F03-dashboard-overview/V1/index.html` — pilot variant: awaiting-you first, vitals second.
-3. `client-portal-lab/families/F11-quote-details/V1/index.html` — pilot variant: the ₹1,770 quote, signable in three breaths.
+2. `client-portal-lab/families/F03-dashboard-overview/V1/index.html` — Verdict Canvas pilot: awaiting-you first, evidence and vitals second.
+3. `client-portal-lab/families/F11-quote-details/V1/index.html` — Signing Desk pilot: the ₹1,770 quote with three gated acceptance steps.
 4. `client-portal-lab/families/F08-projects-list/V5/index.html` — the live 502 designed as a first-class state.
 5. `client-portal-lab/DECISIONS.md` — every rule, and the list of things deliberately not claimed.

@@ -7,6 +7,7 @@
 <meta name="description" content="F05 variant 2: a KPI strip above a card queue where every request row states its own next action, with a saved view.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -68,10 +69,10 @@ h1{font-size:26px;letter-spacing:-.035em}
 .seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
 .seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
 .dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
-@media(max-width:720px){.navx{display:none}.main{padding:16px 14px 30px}}
+@media(max-width:720px){.navx{display:none}.main{padding:16px 14px 30px}.hdr{gap:8px;padding:0 14px}.hdr .nl-quick{display:none}}
 </style>
 </head>
-<body>
+<body class="app app--top">
 <svg class="sprite" aria-hidden="true" focusable="false">
   <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
@@ -126,7 +127,7 @@ h1{font-size:26px;letter-spacing:-.035em}
       yet expose — the button demonstrates the intent and is labelled demo-only in <code>DECISIONS.md</code>.</div>
   </div>
 
-  <div class="queue" data-queue>
+  <div class="queue" data-queue data-nl-list=".qcard">
     <article class="qcard" data-in="expired" data-needs="1" data-label="aurora coffee expired quote">
       <div>
         <p class="ttl">Aurora Coffee subscription flow</p>
@@ -294,5 +295,6 @@ h1{font-size:26px;letter-spacing:-.035em}
   if(new URLSearchParams(location.search).get('state')==='empty'){view='me';apply();}
 })();
 </script>
+<script src="../../../shared/kit.js"></script>
 </body>
 </html>

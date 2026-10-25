@@ -7,6 +7,8 @@
 <meta name="description" content="115 hand-built HTML templates for the Nestlancer client portal, one locked colour scheme, five genuinely different variants per page family.">
 <link rel="stylesheet" href="shared/tokens.css">
 <link rel="stylesheet" href="shared/base.css">
+<link rel="stylesheet" href="shared/kit.css">
+<script src="shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -63,6 +65,26 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .foot a{font-weight:650;color:var(--brand-700)}
 .dark .foot a{color:#9db3ff}
 .foot .row{display:flex;gap:12px;flex-wrap:wrap}
+.controls select{font:inherit;font-size:11px;padding:7px 28px 7px 9px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--foreground);max-width:210px}
+.controls .clear{font-size:10.5px;padding:6px 9px}.controls .compare-open{font-size:10.5px;padding:6px 10px}
+.vs .v{display:grid;grid-template-columns:minmax(0,1fr) auto;min-width:0;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.vs .v>a{border:0;min-width:0}.v__actions{display:flex;align-items:center;gap:3px;padding:7px 7px 7px 0;background:var(--card)}
+.v__actions button{width:25px;height:25px;padding:0;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--muted-foreground);font-size:9px;font-weight:800}
+.v__actions button:hover,.v__actions button:focus-visible{border-color:var(--brand-500);background:var(--brand-50);color:var(--brand-700)}
+.dark .v__actions button:hover,.dark .v__actions button:focus-visible{background:#1b2650;color:#c9d6ff}
+.compare__p{width:min(1500px,calc(100vw - 28px));max-width:none;height:min(940px,calc(100dvh - 28px));max-height:none;display:flex;flex-direction:column;overflow:hidden}
+.compare__b{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;overflow:auto}
+.compare-pane{min-width:0;display:flex;flex-direction:column;gap:8px}.compare-pane__bar{display:flex;gap:7px;align-items:end;flex-wrap:wrap}
+.compare-pane__bar label{display:grid;gap:3px;flex:1;min-width:170px;font-size:10px;color:var(--muted-foreground)}
+.compare-pane__bar select{width:100%;font:inherit;font-size:11px;padding:6px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--foreground)}
+.compare-pane__tools{display:flex;gap:5px;align-items:center;flex-wrap:wrap}.compare-pane__tools .segmented button{font-size:9.5px;padding:5px 7px;min-height:28px}
+.compare-pane__tools>a{font-size:10px;margin-left:auto}.compare-stage{flex:1;min-height:480px;border:1px solid var(--border);border-radius:10px;overflow:auto;background:var(--muted);display:flex;align-items:stretch;justify-content:center}
+.compare-stage iframe{display:block;width:100%;height:100%;min-height:480px;border:0;background:var(--card)}
+.compare-stage.is-mobile{padding:12px;align-items:flex-start}.compare-stage.is-mobile iframe{width:375px;max-width:100%;height:780px;min-height:780px;border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow-lg)}
+.compare-pane__note{font-size:9.5px;color:var(--muted-foreground)}.compare__f{align-items:center;justify-content:flex-start;flex-wrap:wrap}
+.compare__f .grow{flex:1}.compare__f .btn{font-size:11px}
+@media(max-width:900px){.compare__b{grid-template-columns:1fr}.compare-stage{min-height:520px}.compare__p{overflow:auto}.compare__b{overflow:visible}.compare__f{position:sticky;bottom:0;background:var(--card)}}
+@media(max-width:560px){.v__actions{flex-direction:column;justify-content:center}.controls select{max-width:100%;flex:1}.controls .n{margin-left:0}.compare__p{width:calc(100vw - 12px);height:calc(100dvh - 12px)}.compare-stage.is-mobile{padding:4px}.compare-stage.is-mobile iframe{border-radius:10px}}
 </style>
 </head>
 <body>
@@ -98,18 +120,22 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   <div class="gates">
     <span>Gate S <b>PASS</b></span><span>Gate R <b>PASS</b></span><span>Gate A <b>PASS</b></span>
     <span>Gate 1 <b>PASS</b> · 115 concepts</span><span>Gate 2a <b>PASS</b> · pilot frozen</span>
-    <span>Gate 2b <b>PASS</b> · 113 more</span><span>Gate 3 <b>see audit.json</b></span>
+    <span>Gate 2b <b>PASS</b> · 115 upgraded</span><span>Gate 3 <b>PASS</b> · 464 Chromium renders</span>
   </div>
 
-  <div class="controls">
-    <label class="sr-only" for="q">Filter families</label>
-    <input id="q" type="search" placeholder="Filter by family, page or variant name — try “invoice”" data-q>
-    <button class="chip" aria-pressed="true" data-g="all">All 23</button>
-    <button class="chip" aria-pressed="false" data-g="auth">Auth</button>
-    <button class="chip" aria-pressed="false" data-g="core">Core</button>
-    <button class="chip" aria-pressed="false" data-g="money">Money</button>
-    <button class="chip" aria-pressed="false" data-g="account">Account</button>
-    <span class="n" data-count>23 families · 115 variants</span>
+  <div class="controls" aria-label="Template filters">
+    <label class="sr-only" for="q">Search all 115 templates</label>
+    <input id="q" type="search" placeholder="Search family, variant or pattern — try “preview”" data-q>
+    <button class="chip" type="button" aria-pressed="true" data-g="all">All 23</button>
+    <button class="chip" type="button" aria-pressed="false" data-g="auth">Auth</button>
+    <button class="chip" type="button" aria-pressed="false" data-g="core">Core</button>
+    <button class="chip" type="button" aria-pressed="false" data-g="money">Money</button>
+    <button class="chip" type="button" aria-pressed="false" data-g="account">Account</button>
+    <label class="sr-only" for="axis">Filter by a documented design-axis pattern</label>
+    <select id="axis" data-axis><option value="">All A–E axis patterns</option></select>
+    <button class="btn btn-g clear" type="button" data-clear-filters>Clear</button>
+    <button class="btn btn-p compare-open" type="button" data-open-dialog="compare-dialog" data-compare-open>Compare previews</button>
+    <span class="n" data-count aria-live="polite">23 families · 115 variants</span>
   </div>
 
   <div data-list>
@@ -141,7 +167,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <div class="fh"><span class="id">F03</span><h2>Dashboard</h2>
         <p>Awaiting-you first, vitals second, everything dated</p><span class="r">C1 C2 C3 C14 · A9 A11 A13</span></div>
       <div class="vs">
-        <a href="families/F03-dashboard-overview/V1/index.html"><b><em>V1</em>Verdict Hero</b><span>One hero number, rail of next actions</span></a>
+        <a href="families/F03-dashboard-overview/V1/index.html"><b><em>V1</em>Verdict Canvas</b><span>One hero number, evidence rail and next actions</span></a>
         <a href="families/F03-dashboard-overview/V2/index.html"><b><em>V2</em>Queue First</b><span>Top nav, queue before metrics</span></a>
         <a href="families/F03-dashboard-overview/V3/index.html"><b><em>V3</em>Signal Grid</b><span>Bento of six signals</span></a>
         <a href="families/F03-dashboard-overview/V4/index.html"><b><em>V4</em>Ops Dense</b><span>Console with a live table</span></a>
@@ -165,7 +191,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <div class="fh"><span class="id">F05</span><h2>Requests work hub</h2>
         <p>26 requests, statuses that never rely on colour alone</p><span class="r">C16 C18 · A12 A13</span></div>
       <div class="vs">
-        <a href="families/F05-requests-work-hub/V1/index.html"><b><em>V1</em>Table Classic</b><span>Sortable table with counts</span></a>
+        <a href="families/F05-requests-work-hub/V1/index.html"><b><em>V1</em>Pipeline Desk</b><span>Stage filters, sortable grid and detail sheet</span></a>
         <a href="families/F05-requests-work-hub/V2/index.html"><b><em>V2</em>Queue Cards</b><span>Cards grouped by what is waiting</span></a>
         <a href="families/F05-requests-work-hub/V3/index.html"><b><em>V3</em>Split Preview</b><span>List plus detail pane</span></a>
         <a href="families/F05-requests-work-hub/V4/index.html"><b><em>V4</em>Status Board</b><span>Columns by stage, degraded banner</span></a>
@@ -201,7 +227,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <div class="fh"><span class="id">F08</span><h2>Projects list</h2>
         <p>Honest degraded state for the live 502, with retry and support</p><span class="r">A13 · D9</span></div>
       <div class="vs">
-        <a href="families/F08-projects-list/V1/index.html"><b><em>V1</em>Card Grid</b><span>Cards with progress and health</span></a>
+        <a href="families/F08-projects-list/V1/index.html"><b><em>V1</em>Portfolio Deck</b><span>Delivery-rich cards with honest 502 recovery</span></a>
         <a href="families/F08-projects-list/V2/index.html"><b><em>V2</em>Progress Table</b><span>Table sorted by milestone state</span></a>
         <a href="families/F08-projects-list/V3/index.html"><b><em>V3</em>Split Preview</b><span>List with a detail pane</span></a>
         <a href="families/F08-projects-list/V4/index.html"><b><em>V4</em>Health Board</b><span>Tiles by health, not by recency</span></a>
@@ -225,11 +251,11 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <div class="fh"><span class="id">F10</span><h2>Quotes list</h2>
         <p>Expiry is a hard stop, never a hint</p><span class="r">C16 · A12</span></div>
       <div class="vs">
-        <a href="families/F10-quotes-list/V1/index.html"><b><em>V1</em>Table + KPIs</b><span>Sortable table, four KPI tiles</span></a>
-        <a href="families/F10-quotes-list/V2/index.html"><b><em>V2</em>Expiry Ledger</b><span>Countdown-led ledger</span></a>
-        <a href="families/F10-quotes-list/V3/index.html"><b><em>V3</em>Split Preview</b><span>List with terms preview</span></a>
-        <a href="families/F10-quotes-list/V4/index.html"><b><em>V4</em>Awaiting Queue</b><span>Only what needs you now</span></a>
-        <a href="families/F10-quotes-list/V5/index.html"><b><em>V5</em>Saved Views</b><span>Table with saved filters</span></a>
+        <a href="families/F10-quotes-list/V1/index.html"><b><em>V1</em>Grid Console</b><span>Saved views, dense grid and preview rail</span></a>
+        <a href="families/F10-quotes-list/V2/index.html"><b><em>V2</em>Ledger Desk</b><span>Printable grouped register and totals</span></a>
+        <a href="families/F10-quotes-list/V3/index.html"><b><em>V3</em>Status Board</b><span>Three status lanes with detail drawer</span></a>
+        <a href="families/F10-quotes-list/V4/index.html"><b><em>V4</em>Expiry Runway</b><span>Countdowns plotted around today</span></a>
+        <a href="families/F10-quotes-list/V5/index.html"><b><em>V5</em>Value Study</b><span>Funnel, value ring and quiet register</span></a>
       </div>
     </section>
 
@@ -237,7 +263,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <div class="fh"><span class="id">F11</span><h2>Quote details</h2>
         <p>The ₹1,770 quote, signable without a wall of legalese</p><span class="r">C7 · A1 A8 · D1 D10</span></div>
       <div class="vs">
-        <a href="families/F11-quote-details/V1/index.html"><b><em>V1</em>Sign in Three Breaths</b><span>Steps plus a sticky rail <em>· pilot</em></span></a>
+        <a href="families/F11-quote-details/V1/index.html"><b><em>V1</em>Signing Desk</b><span>Three acceptance steps plus a sticky sign dock <em>· pilot</em></span></a>
         <a href="families/F11-quote-details/V2/index.html"><b><em>V2</em>Numbers First Ledger</b><span>Document layout, numbers up top</span></a>
         <a href="families/F11-quote-details/V3/index.html"><b><em>V3</em>Negotiation Led</b><span>Thread plus terms rail</span></a>
         <a href="families/F11-quote-details/V4/index.html"><b><em>V4</em>Assurance Heavy</b><span>Split with tabs and trust strip</span></a>
@@ -273,7 +299,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       <div class="fh"><span class="id">F14</span><h2>Billing</h2>
         <p>₹81,500 collected, ₹31,875 pending — the ledger adds up</p><span class="r">C16 C18 · A1 A5 A10 A12</span></div>
       <div class="vs">
-        <a href="families/F14-billing/V1/index.html"><b><em>V1</em>Ledger + Queue</b><span>Awaiting payment above the ledger</span></a>
+        <a href="families/F14-billing/V1/index.html"><b><em>V1</em>Ledger Console</b><span>Outstanding queue above the settled ledger</span></a>
         <a href="families/F14-billing/V2/index.html"><b><em>V2</em>Statement</b><span>Printable statement of account</span></a>
         <a href="families/F14-billing/V3/index.html"><b><em>V3</em>Queue First</b><span>Only what is owed, then history</span></a>
         <a href="families/F14-billing/V4/index.html"><b><em>V4</em>Ops Table</b><span>Dense console, reference-led</span></a>
@@ -283,9 +309,9 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 
     <section class="fam" data-fam="money" data-k="f15 payment methods cards upi razorpay">
       <div class="fh"><span class="id">F15</span><h2>Payment methods</h2>
-        <p>Empty by design: no saved method, no fake card</p><span class="r">A6 · D5</span></div>
+        <p>Verified saved card, explicit unsaved UPI/bank slots</p><span class="r">A6 · D5</span></div>
       <div class="vs">
-        <a href="families/F15-payment-methods/V1/index.html"><b><em>V1</em>Empty State Led</b><span>The empty state is the page</span></a>
+        <a href="families/F15-payment-methods/V1/index.html"><b><em>V1</em>Wallet Desk</b><span>Verified card, unsaved slots and usage split</span></a>
         <a href="families/F15-payment-methods/V2/index.html"><b><em>V2</em>Method Cards</b><span>Saved cards, add and default</span></a>
         <a href="families/F15-payment-methods/V3/index.html"><b><em>V3</em>Minimal Column</b><span>Narrow list, trust strip</span></a>
         <a href="families/F15-payment-methods/V4/index.html"><b><em>V4</em>Type Tiles</b><span>Card, UPI, netbanking tiles</span></a>
@@ -390,7 +416,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     </section>
   </div>
 
-  <p class="none" data-none hidden>No family matches that filter. Clear it to see all 23.</p>
+  <p class="none" data-none hidden>No template matches those filters. Clear them to see all 23 families and 115 variants.</p>
 
   <div class="foot">
     <div class="row"><a href="DECISIONS.md">DECISIONS.md</a><a href="manifest.json">manifest.json</a>
@@ -399,11 +425,45 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     <p>Serve from the repository root: <code>python3 -m http.server 8130</code>, then open
       <code>/client-portal-lab/</code>. Opening the files directly with <code>file://</code> works for individual
       pages but breaks the shared stylesheets in some browsers.</p>
-    <p>No browser automation was available while this lab was assembled, so nothing here claims a screenshot
-      comparison. What was checked: HTML tag balance, JavaScript parse for every page, resolvable internal links,
-      no external requests, and one shared token file.</p>
+    <p>Verified with static parsing, jsdom execution and 464 real Chromium renders across 116 pages, two widths
+      and both themes, plus driven local workflows. No external requests. Firefox/WebKit and historical pixel-baseline
+      comparison remain outside this audit; details and limitations are in <a href="audit.json">audit.json</a>.</p>
   </div>
 </main>
+
+<div class="sheet-scrim" data-sheet-scrim></div>
+<section class="dialog" id="compare-dialog" data-open="false" role="dialog" aria-modal="true" aria-labelledby="compare-title">
+  <div class="dialog__p compare__p">
+    <div class="dialog__h"><div><span class="tag">Interactive local previews</span><h2 id="compare-title">Compare templates side by side</h2>
+      <p>Choose any two variants, then independently check desktop/mobile geometry and light/dark tokens.</p></div>
+      <button class="iconb" type="button" data-close aria-label="Close comparison">×</button></div>
+    <div class="dialog__b compare__b">
+      <section class="compare-pane" data-compare-pane="A" aria-label="Comparison pane A">
+        <div class="compare-pane__bar"><label for="compare-select-A">Variant A<select id="compare-select-A" data-compare-select="A"></select></label></div>
+        <div class="compare-pane__tools">
+          <div class="segmented" role="group" aria-label="Pane A viewport"><button type="button" data-compare-view="desktop" data-pane="A" aria-pressed="true">Desktop</button><button type="button" data-compare-view="mobile" data-pane="A" aria-pressed="false">Mobile</button></div>
+          <div class="segmented" role="group" aria-label="Pane A theme"><button type="button" data-compare-theme="light" data-pane="A" aria-pressed="true">Light</button><button type="button" data-compare-theme="dark" data-pane="A" aria-pressed="false">Dark</button></div>
+          <a id="compare-open-A" data-compare-url="A" href="families/F03-dashboard-overview/V1/index.html" target="_blank" rel="noopener">Open ↗</a>
+        </div>
+        <div class="compare-stage" data-compare-stage="A"><iframe id="compare-frame-A" data-compare-frame="A" title="Interactive preview A" src="about:blank" loading="lazy"></iframe></div>
+        <span class="compare-pane__note">Live page · scripts and local interactions remain available</span>
+      </section>
+      <section class="compare-pane" data-compare-pane="B" aria-label="Comparison pane B">
+        <div class="compare-pane__bar"><label for="compare-select-B">Variant B<select id="compare-select-B" data-compare-select="B"></select></label></div>
+        <div class="compare-pane__tools">
+          <div class="segmented" role="group" aria-label="Pane B viewport"><button type="button" data-compare-view="desktop" data-pane="B" aria-pressed="true">Desktop</button><button type="button" data-compare-view="mobile" data-pane="B" aria-pressed="false">Mobile</button></div>
+          <div class="segmented" role="group" aria-label="Pane B theme"><button type="button" data-compare-theme="light" data-pane="B" aria-pressed="true">Light</button><button type="button" data-compare-theme="dark" data-pane="B" aria-pressed="false">Dark</button></div>
+          <a id="compare-open-B" data-compare-url="B" href="families/F03-dashboard-overview/V2/index.html" target="_blank" rel="noopener">Open ↗</a>
+        </div>
+        <div class="compare-stage" data-compare-stage="B"><iframe id="compare-frame-B" data-compare-frame="B" title="Interactive preview B" src="about:blank" loading="lazy"></iframe></div>
+        <span class="compare-pane__note">Live page · scripts and local interactions remain available</span>
+      </section>
+    </div>
+    <div class="dialog__f compare__f"><button class="btn btn-s" type="button" data-compare-preset>Desktop light ↔ mobile dark</button>
+      <button class="btn btn-g" type="button" data-compare-swap>Swap A / B</button><span class="grow"></span>
+      <span class="compare-pane__note">No screenshots or remote embeds</span><button class="btn btn-p" type="button" data-close>Done</button></div>
+  </div>
+</section>
 
 <div class="toast" role="status" aria-live="polite" data-toast></div>
 <script>
@@ -418,29 +478,112 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
     root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
 
+  /* Authored from docs/CONCEPTS.md: A geometry · B hierarchy · C narrative ·
+     D density/surface · E interaction. Tokens power exact variant filtering. */
+  var AXES={
+    F01:['a:split b:form-first d:airy e:inline-validation','a:overlay b:brand-first d:bold e:card-focus','a:narrow c:stepper d:minimal e:step-crossfade','a:58-42 b:proof-first d:dense e:tabs','a:centred d:minimal e:keyboard-first'],
+    F02:['a:split b:form-first d:airy e:inline-validation','a:narrow c:stepper d:minimal e:step-rail','a:two-col b:rules-first d:dense e:live-checklist','a:card-rail c:wizard d:medium e:drawer','a:centred d:minimal e:segmented'],
+    F03:['a:hero-rail b:verdict-first d:airy e:count-up','a:top-nav b:action-first c:queue e:filter-chips','a:bento b:numbers-first d:medium e:hover-detail','a:console b:density-first d:dense e:keyboard-sort','a:sticky-spine b:narrative c:chapter e:scroll-spy'],
+    F04:['a:overlay b:action-first e:arrow-list','a:top-dock b:query-first d:dense e:type-ahead','a:two-pane c:preview e:preview-crossfade','a:overlay-chips b:filter-first e:chip-filter','a:full-page d:minimal e:keyboard-recents'],
+    F05:['a:grid-rail b:stage-first d:dense e:saved-views-bulk-preview','a:cards b:action-first c:queue e:chips','a:split c:preview e:row-select','a:board b:status-first d:medium e:column-filter','a:ledger c:date-grouped d:dense e:saved-views'],
+    F06:['a:stacked-cards b:form-first d:airy e:sticky-validation','a:narrow c:stepper e:progress-rail','a:two-col b:context-first e:live-summary','a:grid d:dense e:chips','a:single-column c:conversational d:minimal e:next-back'],
+    F07:['a:timeline-rail b:narrative-first c:timeline e:drawn-connector','a:document b:facts-first d:ledger e:anchor-nav','a:split-rail b:action-first e:sticky-rail','a:tabbed c:tab-led d:dense e:tabs','a:single-column c:chapter d:airy e:scroll-spy'],
+    F08:['a:card-deck b:delivery-first e:saved-filters-retry','a:table d:dense e:sort','a:split c:preview e:row-select','a:tiles b:health-first c:queue e:tile-drawer','a:banner-first b:honesty-first c:narrative e:retry-expand'],
+    F09:['a:tabbed b:status-first d:medium e:tabs','a:stepper c:journey e:stepper-draw','a:queue-rail b:action-first c:queue e:drawers','a:feed b:narrative c:digest e:filter-chips','a:console d:dense e:keyboard-sort'],
+    F10:['a:grid-rail b:metrics-first d:dense e:saved-views-bulk-preview','a:statement-ledger c:status-grouped d:ledger-print e:running-total','a:status-board b:action-first c:status-lanes d:medium e:drawer-moves','a:runway b:urgency-first c:countdown d:medium e:time-visualization','a:editorial-register b:value-first c:value-study d:quiet e:register-inspect'],
+    F11:['a:document-dock b:facts-first c:three-step e:progressive-gating','a:document b:facts-first d:ledger-print e:print-disclosure','a:thread-rail c:conversation e:inline-composer','a:split-workbench b:assurance-first c:tab-led e:drawer','a:narrow d:minimal e:sticky-disclosure'],
+    F12:['a:three-pane b:thread-first d:medium e:filters','a:two-pane c:preview e:row-select','a:table d:dense e:sort-filter','a:strip-list b:summary-first e:strip-links','a:single-column d:minimal e:tap'],
+    F13:['a:three-pane b:thread-first d:medium e:reply-edit','a:single-wide e:dock-composer','a:split c:context-linked e:rail-tabs','a:log d:dense e:inline-actions','a:narrow d:minimal e:quick-replies'],
+    F14:['a:queue-ledger b:money-first c:queue e:filter-sort-export-receipts','a:statement d:ledger-print e:print','a:queue b:action-first c:queue e:chips','a:console d:dense e:sort-search','a:split c:chronological e:timeline-filter'],
+    F15:['a:wallet-grid b:object-first d:airy e:local-method-management','a:grid b:object-first e:dialog','a:narrow d:minimal e:inline-edit','a:tiles b:type-first e:tile-drawer','a:queue c:queue e:row-actions'],
+    F16:['a:summary-cta b:amount-first e:method-tabs','a:ledger d:ledger e:print-pay','a:method-first b:local-first c:method-narrative e:tabs','a:split b:assurance-first e:accordion','a:narrow d:minimal e:sticky-cta'],
+    F17:['a:receipt b:document-first e:tabs','a:chain c:unlock-narrative e:deep-link','a:split c:timeline e:timeline','a:console d:dense e:sort','a:narrow d:minimal e:sticky-action'],
+    F18:['a:table d:dense e:filter-sort','a:statement d:ledger e:print','a:cards b:status-first e:filter-chips','a:split c:preview e:row-select','a:ledger c:date-grouped e:group-collapse'],
+    F19:['a:grouped-cards b:entity-first c:grouping e:bulk','a:table d:dense e:bulk-bar','a:rail-list c:filter-led e:rail-filters','a:timeline c:chronological e:collapse-days','a:queue b:action-first c:queue e:mark-read'],
+    F20:['a:card-form b:identity-first e:inline-edit','a:two-col b:form-first d:medium e:sticky-save','a:split c:public-private e:preview-toggle','a:sections d:dense e:section-save','a:centred d:minimal e:chip-edit'],
+    F21:['a:tabs b:section-first d:medium e:tabs','a:rail c:section-nav e:rail-nav','a:card-grid b:topic-first e:detail-drawers','a:ledger-console d:dense e:search-row-save','a:mobile-stack c:grouped-settings e:sticky-save-accordion'],
+    F22:['a:grid b:object-first e:grid-list-toggle','a:table d:dense e:sort','a:split c:preview e:preview','a:upload-first b:action-first d:airy e:drag-drop','a:narrow d:minimal e:chips'],
+    F23:['a:cards b:editorial d:airy e:hover','a:list d:dense e:filter','a:split c:featured-first e:featured-swap','a:grid b:filter-first e:chips-search','a:narrow d:minimal e:links']
+  };
+  var axisNames={a:'Geometry',b:'Hierarchy',c:'Narrative',d:'Density & surface',e:'Interaction'};
   var fams=[].slice.call(document.querySelectorAll('[data-fam]')),
       chips=[].slice.call(document.querySelectorAll('[data-g]')),
       q=document.querySelector('[data-q]'), count=document.querySelector('[data-count]'),
-      none=document.querySelector('[data-none]'), group='all';
-  function apply(){
-    var v=q.value.trim().toLowerCase(), shown=0;
-    fams.forEach(function(f){
-      var ok=(group==='all'||f.dataset.fam===group)&&(!v||f.dataset.k.indexOf(v)>-1||
-        f.textContent.toLowerCase().indexOf(v)>-1);
-      f.hidden=!ok; if(ok)shown++;
+      none=document.querySelector('[data-none]'), axis=document.querySelector('[data-axis]'), group='all', records=[];
+  function axisLabel(token){var s=token.split(':')[1].replace(/-/g,' ');return s==='58 42'?'58 / 42':s.charAt(0).toUpperCase()+s.slice(1);}
+  fams.forEach(function(f){
+    var id=f.querySelector('.id').textContent.trim(), familyTitle=f.querySelector('h2').textContent.trim();
+    [].slice.call(f.querySelectorAll('.vs>a')).forEach(function(a,i){
+      var tokens=(AXES[id]&&AXES[id][i])||'', wrap=document.createElement('div');wrap.className='v';
+      a.parentNode.insertBefore(wrap,a);wrap.appendChild(a);a.dataset.axes=tokens;
+      var actions=document.createElement('span');actions.className='v__actions';
+      ['A','B'].forEach(function(pane){
+        var b=document.createElement('button');b.type='button';b.textContent=pane;b.title='Load into comparison pane '+pane;
+        b.setAttribute('aria-label','Load '+id+' '+(a.querySelector('em').textContent)+' into comparison pane '+pane);
+        b.setAttribute('data-open-dialog','compare-dialog');
+        b.addEventListener('click',function(){setCompare(pane,a.getAttribute('href'),true);});actions.appendChild(b);
+      });
+      wrap.appendChild(actions);
+      var version=a.querySelector('em').textContent.trim(), name=a.querySelector('b').textContent.replace(version,'').trim();
+      records.push({a:a,wrap:wrap,f:f,id:id,familyTitle:familyTitle,tokens:tokens,href:a.getAttribute('href'),label:id+' · '+version+' — '+name});
     });
-    none.hidden=shown>0;
-    count.textContent=shown+' families · '+(shown*5)+' variants';
+  });
+  var seen={};records.forEach(function(r){r.tokens.split(' ').filter(Boolean).forEach(function(t){seen[t]=true;});});
+  Object.keys(axisNames).forEach(function(k){
+    var tokens=Object.keys(seen).filter(function(t){return t.indexOf(k+':')===0;}).sort(function(a,b){return axisLabel(a).localeCompare(axisLabel(b));});
+    if(!tokens.length)return;var g=document.createElement('optgroup');g.label=k.toUpperCase()+' · '+axisNames[k];
+    tokens.forEach(function(t){var o=document.createElement('option');o.value=t;o.textContent=axisLabel(t);g.appendChild(o);});axis.appendChild(g);
+  });
+  function pressed(pane,kind){var b=document.querySelector('[data-compare-'+kind+'][data-pane="'+pane+'"][aria-pressed="true"]');return b?b.getAttribute('data-compare-'+kind):kind==='view'?'desktop':'light';}
+  function updateCompare(pane,load){
+    var select=document.querySelector('[data-compare-select="'+pane+'"]'),href=select.value,theme=pressed(pane,'theme'),view=pressed(pane,'view');
+    var stage=document.querySelector('[data-compare-stage="'+pane+'"]');stage.classList.toggle('is-mobile',view==='mobile');
+    var url=href+(href.indexOf('?')>-1?'&':'?')+'theme='+theme,frame=document.querySelector('[data-compare-frame="'+pane+'"]');
+    frame.title='Preview '+pane+' · '+select.options[select.selectedIndex].text+' · '+view+' · '+theme;
+    document.querySelector('[data-compare-url="'+pane+'"]').href=url;
+    if(load!==false&&frame.getAttribute('src')!==url)frame.setAttribute('src',url);
+  }
+  function setCompare(pane,href,load){var s=document.querySelector('[data-compare-select="'+pane+'"]');s.value=href;updateCompare(pane,load);}
+  function config(pane){return{href:document.querySelector('[data-compare-select="'+pane+'"]').value,view:pressed(pane,'view'),theme:pressed(pane,'theme')};}
+  function applyConfig(pane,c){setCompare(pane,c.href,false);
+    document.querySelectorAll('[data-compare-view][data-pane="'+pane+'"]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-compare-view')===c.view));});
+    document.querySelectorAll('[data-compare-theme][data-pane="'+pane+'"]').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-compare-theme')===c.theme));});updateCompare(pane,true);
+  }
+  ['A','B'].forEach(function(pane){
+    var select=document.querySelector('[data-compare-select="'+pane+'"]');
+    records.forEach(function(r){var o=document.createElement('option');o.value=r.href;o.textContent=r.label;select.appendChild(o);});
+    select.addEventListener('change',function(){updateCompare(pane,true);});
+  });
+  setCompare('A','families/F03-dashboard-overview/V1/index.html',false);setCompare('B','families/F03-dashboard-overview/V2/index.html',false);
+  document.querySelectorAll('[data-compare-view],[data-compare-theme]').forEach(function(b){b.addEventListener('click',function(){
+    var kind=b.hasAttribute('data-compare-view')?'view':'theme',pane=b.getAttribute('data-pane');
+    document.querySelectorAll('[data-compare-'+kind+'][data-pane="'+pane+'"]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});updateCompare(pane,true);
+  });});
+  document.querySelector('[data-compare-open]').addEventListener('click',function(){updateCompare('A',true);updateCompare('B',true);});
+  document.querySelector('[data-compare-preset]').addEventListener('click',function(){var a=config('A'),b=config('B');a.view='desktop';a.theme='light';b.view='mobile';b.theme='dark';applyConfig('A',a);applyConfig('B',b);});
+  document.querySelector('[data-compare-swap]').addEventListener('click',function(){var a=config('A'),b=config('B');applyConfig('A',b);applyConfig('B',a);});
+  function apply(){
+    var v=q.value.trim().toLowerCase(), shown=0, shownFams=0;
+    fams.forEach(function(f){
+      var familyShown=0, familyText=(f.dataset.k+' '+f.querySelector('.fh').textContent).toLowerCase();
+      records.filter(function(r){return r.f===f;}).forEach(function(r){
+        var hay=(familyText+' '+r.a.textContent+' '+r.tokens.replace(/-/g,' ').replace(/:/g,' ')).toLowerCase();
+        var ok=(group==='all'||f.dataset.fam===group)&&(!axis.value||r.tokens.split(' ').indexOf(axis.value)>-1)&&(!v||hay.indexOf(v)>-1);
+        r.wrap.hidden=!ok;if(ok){shown++;familyShown++;}
+      });
+      f.hidden=!familyShown;if(familyShown)shownFams++;
+    });
+    none.hidden=shown>0;count.textContent=shownFams+(shownFams===1?' family · ':' families · ')+shown+(shown===1?' variant':' variants');
   }
   chips.forEach(function(b){b.addEventListener('click',function(){
-    group=b.dataset.g;
-    chips.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
-    apply();
+    group=b.dataset.g;chips.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});apply();
   });});
-  q.addEventListener('input',apply);
+  axis.addEventListener('change',apply);q.addEventListener('input',apply);
+  document.querySelector('[data-clear-filters]').addEventListener('click',function(){q.value='';axis.value='';group='all';chips.forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.g==='all'));});apply();q.focus();});
   q.addEventListener('keydown',function(e){if(e.key==='Escape'){q.value='';apply();}});
   document.addEventListener('keydown',function(e){
-    if(e.key==='/'&&document.activeElement!==q&&document.activeElement.tagName!=='INPUT'){
+    var tag=document.activeElement.tagName;
+    if(e.key==='/'&&document.activeElement!==q&&!/INPUT|TEXTAREA|SELECT/.test(tag)&&document.getElementById('compare-dialog').dataset.open!=='true'){
       e.preventDefault();q.focus();
     }
   });

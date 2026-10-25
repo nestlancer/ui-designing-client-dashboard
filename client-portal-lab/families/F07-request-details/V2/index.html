@@ -7,6 +7,8 @@
 <meta name="description" content="F07 variant 2: the request as one receipt-like record — numbered field rows, attachments and the linked quote, with an anchor index.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -159,7 +161,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 
       <section class="sec" id="s-quote">
         <h2>5 · Linked quote</h2>
-        <table class="tblx">
+        <table class="tblx" data-no-workbench>
           <thead><tr><th>Item</th><th class="r">Amount</th></tr></thead>
           <tbody>
             <tr><td>Design and build — milestone 1</td><td class="r">₹750.00</td></tr>

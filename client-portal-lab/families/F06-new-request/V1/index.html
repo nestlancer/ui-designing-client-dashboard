@@ -7,6 +7,8 @@
 <meta name="description" content="F06 variant 1: brief, budget and timeline as three stacked cards with validate-on-blur and a sticky footer summary.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -84,7 +86,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     </div>
   </header>
 
-  <main id="main" class="wrap">
+  <main id="main" class="wrap" data-nl-draft>
     <div class="mast">
       <div>
         <h1>New request</h1>
@@ -151,14 +153,11 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
         </div>
         <div class="fld" style="margin-top:13px">
           <label class="lbl" for="files">Attachments</label>
-          <label class="drop" for="files"><svg class="i i--sm"><use href="#i-attach"/></svg>
+          <label class="drop" for="files" data-nl-file-drop tabindex="0" aria-describedby="files-local-note"><svg class="i i--sm"><use href="#i-attach"/></svg>
             Drop files here or click to attach — briefs, brand books, references (up to 5)</label>
-          <input class="inp" id="files" type="file" multiple style="display:none" data-file>
-          <div class="attlist" data-atts hidden>
-            <div class="att"><svg class="i i--sm"><use href="#i-attach"/></svg>brand-guidelines.pdf<span>Ready to upload</span></div>
-            <div class="att"><svg class="i i--sm"><use href="#i-attach"/></svg>reference-homepage.png<span>Ready to upload</span></div>
-          </div>
-          <p class="mini">Files upload when you submit — attachments added at creation avoid a second email.</p>
+          <input class="inp" id="files" type="file" multiple style="display:none" data-file data-nl-local-files="[data-atts]" accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.txt,.zip">
+          <div class="attlist" data-atts hidden></div>
+          <p class="mini" id="files-local-note">Local prototype selection only · 10 MB each · no upload or network request. Files are not persisted with drafts.</p>
         </div>
       </section>
 

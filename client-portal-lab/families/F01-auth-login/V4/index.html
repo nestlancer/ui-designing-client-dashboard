@@ -7,6 +7,8 @@
 <meta name="description" content="F01 login variant 4: a 58/42 proof-and-form split, with a client/operator credential tab and a live artefact feed from the product.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -15,7 +17,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 <style>
 /* V4 — Proof Panel. Geometry: proof 58% ‖ credential dock 42%. Interaction: tabbed credential panel. */
 .p4{min-height:100vh;display:grid;grid-template-columns:minmax(0,58%) minmax(0,42%);background:var(--card)}
-@media(max-width:1000px){.p4{grid-template-columns:1fr}}
+.p4>*{min-width:0}
+@media(max-width:1000px){.p4{grid-template-columns:minmax(0,1fr)}}
 .proof4{background:var(--background);border-right:1px solid var(--border);padding:26px 30px 30px;
   display:flex;flex-direction:column;gap:20px}
 .brandline{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}

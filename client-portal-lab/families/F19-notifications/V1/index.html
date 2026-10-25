@@ -7,6 +7,8 @@
 <meta name="description" content="F19 variant 1: notifications grouped by the entity they belong to, with working deep links and a bulk mark-read bar.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -120,53 +122,53 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     <section class="grp" data-grp="quote">
       <div class="grp-hd"><span class="k">Quotes</span><span class="ln"></span>
         <a href="../../F10-quotes-list/V1/index.html">Open quotes →</a></div>
-      <a class="n" href="../../F11-quote-details/V1/index.html" data-unread="1">
+      <div class="n" data-unread="1">
         <input type="checkbox" aria-label="Select quote expiring notification" data-sel>
         <div><p class="ti">Quote #01a10f80 expires on 20 Oct 2026</p>
           <p class="bd">₹1,770.00 including GST · Khandesh Spice D2C. Accept or decline before the validity window
             closes.</p>
           <div class="mt"><span class="pill pill--warn">quote</span><span class="t">2 hours ago</span></div></div>
-        <span class="go">View quote</span></a>
-      <a class="n" href="../../F10-quotes-list/V1/index.html" data-unread="1">
+        <a class="go" href="../../F11-quote-details/V1/index.html">View quote</a></div>
+      <div class="n" data-unread="1">
         <input type="checkbox" aria-label="Select second expiring quote" data-sel>
         <div><p class="ti">Three more quotes expire this week</p>
           <p class="bd">4 of 12 quotes are still within a validity window; 7 have already expired.</p>
           <div class="mt"><span class="pill pill--warn">quote</span><span class="t">1 day ago</span></div></div>
-        <span class="go">Open list</span></a>
-      <a class="n" href="../../F11-quote-details/V1/index.html" data-unread="0">
+        <a class="go" href="../../F10-quotes-list/V1/index.html">Open list</a></div>
+      <div class="n" data-unread="0">
         <input type="checkbox" aria-label="Select quote PDF export" data-sel>
         <div><p class="ti">Quote PDF export is ready</p>
           <p class="bd">#01a10f80 · 214 KB · expires in 7 days.</p>
           <div class="mt"><span class="pill pill--info">export</span><span class="t">2 days ago</span></div></div>
-        <span class="go">Download</span></a>
-      <a class="n" href="../../F10-quotes-list/V1/index.html" data-unread="0">
+        <a class="go" href="../../F11-quote-details/V1/index.html">Open quote document</a></div>
+      <div class="n" data-unread="0">
         <input type="checkbox" aria-label="Select quote viewed notification" data-sel>
         <div><p class="ti">Quote #01a10f80 was viewed by the studio</p>
           <p class="bd">Rahul opened your quote request. No action needed.</p>
           <div class="mt"><span class="pill pill--warn">quote</span><span class="t">3 days ago</span></div></div>
-        <span class="go">View quote</span></a>
+        <a class="go" href="../../F10-quotes-list/V1/index.html">Open quotes</a></div>
     </section>
 
     <section class="grp" data-grp="payment">
       <div class="grp-hd"><span class="k">Payments</span><span class="ln"></span>
         <a href="../../F14-billing/V1/index.html">Billing →</a></div>
-      <a class="n" href="../../F17-payment-status/V1/index.html" data-unread="1">
+      <div class="n" data-unread="1">
         <input type="checkbox" aria-label="Select payment notification" data-sel>
         <div><p class="ti">₹30,000.00 transfer is processing</p>
           <p class="bd">Milestone 2 · UTR awaiting verification. The milestone stays locked until it clears.</p>
           <div class="mt"><span class="pill pill--warn">payment</span><span class="t">4 hours ago</span></div></div>
-        <span class="go">Track</span></a>
+        <a class="go" href="../../F17-payment-status/V1/index.html">Track</a></div>
     </section>
 
     <section class="grp" data-grp="message">
       <div class="grp-hd"><span class="k">Messages</span><span class="ln"></span>
         <a href="../../F12-messages-home/V1/index.html">Inbox →</a></div>
-      <a class="n" href="../../F13-messages-thread/V1/index.html" data-unread="0">
+      <div class="n" data-unread="0">
         <input type="checkbox" aria-label="Select message notification" data-sel>
         <div><p class="ti">Rahul replied in Khandesh Spice</p>
           <p class="bd">“Hero CTA above the fold?” — 3 members in the thread.</p>
           <div class="mt"><span class="pill">message</span><span class="t">1 hour ago</span></div></div>
-        <span class="go">Open thread</span></a>
+        <a class="go" href="../../F13-messages-thread/V1/index.html">Open thread</a></div>
     </section>
 
     <div class="empty" data-empty hidden><b data-et>Nothing here</b>

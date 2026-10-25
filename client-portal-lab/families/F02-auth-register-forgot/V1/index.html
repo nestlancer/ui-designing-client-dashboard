@@ -7,6 +7,8 @@
 <meta name="description" content="F02 variant 1: seven-field signup with an in-page reset-password panel, beside a hero column that previews what happens next.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -15,7 +17,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 <style>
 /* V1 — Split Classic (register + forgot). */
 .a2{min-height:100vh;display:grid;grid-template-columns:minmax(0,52%) minmax(0,48%)}
-@media(max-width:980px){.a2{grid-template-columns:1fr}}
+.a2>*{min-width:0}
+@media(max-width:980px){.a2{grid-template-columns:minmax(0,1fr)}}
 .fcol{padding:26px 32px 36px;display:flex;flex-direction:column;gap:18px}
 .b2{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}
 .b2 small{display:block;font-size:11px;color:var(--muted-foreground);font-weight:500}

@@ -7,6 +7,8 @@
 <meta name="description" content="F05 variant 5: a date-grouped ledger of requests with saved-view tabs, collapsible date groups and page-size controls.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -50,8 +52,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .lrow .amt{text-align:right;font-variant-numeric:var(--tabnum);font-weight:600;white-space:nowrap}
 .lrow .st{text-align:right}
 @media(max-width:760px){.lrow{grid-template-columns:minmax(0,1fr) auto;gap:6px}
-  .lrow .ref{grid-column:1;order:2}.lrow .amt{grid-column:1;text-align:left;order:3}
-  .lrow .t{grid-column:1;order:1}.lrow .st{grid-column:2;grid-row:1}}
+  .lrow>span:nth-child(2){min-width:0;grid-column:1;grid-row:1;order:1}.lrow .t{display:block}.lrow .t+.sub{display:block;white-space:normal;overflow-wrap:anywhere}
+  .lrow .ref{grid-column:1;grid-row:2;order:2}.lrow .amt{grid-column:1;grid-row:3;text-align:left;order:3}.lrow .st{grid-column:2;grid-row:1}}
 .footbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted-foreground)}
 .footbar .sel{height:30px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);
   font-size:12px;padding:0 6px;color:var(--foreground)}

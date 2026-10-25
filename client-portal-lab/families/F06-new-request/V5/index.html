@@ -7,6 +7,8 @@
 <meta name="description" content="F06 variant 5: one question at a time with the conversation history above, Enter to advance and a summary chip at the end.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script src="../../../shared/kit.js" defer></script>
 <script>
 (function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
@@ -78,7 +80,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     </div>
   </header>
 
-  <main id="main" class="thread" data-thread>
+  <main id="main" class="thread" data-thread data-nl-draft data-nl-draft-required="title,cat,desc">
     <h1 class="sr-only">New request</h1>
     <div class="q"><span class="bot">N</span>
       <p>Let's build the brief together. Six questions, one at a time — you can go back at any point.
@@ -156,6 +158,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       var box=document.createElement('div'); box.className='opts';
       q.opts.forEach(function(o){
         var b=document.createElement('button'); b.type='button'; b.className='opt'; b.textContent=o;
+        b.dataset.q=q.k; b.dataset.value=o;
         b.setAttribute('aria-pressed',String(answers[q.k]===o));
         b.addEventListener('click',function(){answers[q.k]=o;next();});
         box.appendChild(b);
