@@ -55,6 +55,10 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .nores b{display:block;color:var(--foreground);font-size:13.5px;margin-bottom:3px}
 @media(max-width:700px){.bggrid{grid-template-columns:1fr}.bgtile:first-child{grid-column:auto}
   .stage{padding-top:4vh}.chips{overflow-x:auto}}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:2px 6px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
 </style>
 </head>
 <body>
@@ -137,7 +141,8 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     <div class="foot">
       <span><span class="kbd">↑↓</span> move</span><span><span class="kbd">↵</span> open</span>
       <span><span class="kbd">⇥</span> chips</span>
-      <span class="r"><span data-count>11 results</span> · <a class="link--quiet" href="../../index.html">Gallery</a> · V4 of 5</span>
+      <span class="r"><span data-count>11 results</span> · <a class="link--quiet" href="../../../index.html">Gallery</a>
+        · <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span></span>
     </div>
   </div>
 </main>

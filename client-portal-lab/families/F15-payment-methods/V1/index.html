@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment methods · V1 Empty State Led — Nestlancer Portal Lab</title>
+<meta name="description" content="F15 variant 1: the captured empty state leads the page, followed by the add-method explainer, gateway strip and money KPIs.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Empty State Led. A single column · B empty-first · D airy · E empty → explainer. */
+.col{max-width:720px;margin:0 auto;padding:0 22px 60px}
+.hd{padding:26px 0 14px}
+.hd h1{font-size:26px;letter-spacing:-.035em}
+.hd p{margin:5px 0 0;font-size:12.5px;color:var(--muted-foreground)}
+.k3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:20px}
+@media(max-width:560px){.k3{grid-template-columns:1fr}}
+.k{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px}
+.k .l{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.k .v{font-size:20px;letter-spacing:-.035em;font-variant-numeric:var(--tabnum);margin-top:4px}
+.k[data-t="p"] .v{color:var(--status-success-text)}
+.k[data-t="w"] .v{color:var(--status-warning-text)}
+.emptybox{background:var(--card);border:1px dashed var(--border);border-radius:var(--radius-lg);padding:34px 26px;
+  text-align:center}
+.emptybox .glyph{width:52px;height:52px;border-radius:14px;background:var(--brand-50);color:var(--brand-700);
+  display:grid;place-items:center;margin:0 auto 14px}
+.dark .emptybox .glyph{background:#1b2650;color:#c9d6ff}
+.emptybox h2{font-size:17px;letter-spacing:-.025em}
+.emptybox p{margin:6px auto 0;max-width:44ch;font-size:12.5px;line-height:1.65;color:var(--muted-foreground)}
+.emptybox .act{margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.expl{margin-top:18px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);
+  padding:16px 17px}
+.expl h3{font-size:12px;letter-spacing:-.01em;margin-bottom:9px}
+.expl ol{margin:0;padding-left:18px;display:grid;gap:8px;font-size:12.5px;line-height:1.6}
+.expl ol b{font-weight:650}
+.expl .fine{margin:12px 0 0;font-size:11.5px;color:var(--muted-foreground);line-height:1.6;
+  border-top:1px solid var(--border);padding-top:11px}
+.rz{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:11px 14px;margin-top:14px;flex-wrap:wrap}
+.rz .m{font-weight:800;font-size:11.5px;color:#0b2a6b;background:#e8efff;border-radius:5px;padding:3px 7px}
+.dark .rz .m{background:#1b2650;color:#c9d6ff}
+.rz p{margin:0;font-size:11.5px;color:var(--muted-foreground);line-height:1.55;flex:1;min-width:200px}
+.honest{margin-top:14px;border-left:3px solid var(--primary);background:var(--brand-50);border-radius:var(--radius-sm);
+  padding:10px 12px;font-size:11.5px;line-height:1.6}
+.dark .honest{background:#161f3a}
+.honest b{display:block;margin-bottom:2px}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:20px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.sk{display:grid;gap:8px;margin-top:16px}
+.sk i{display:block;height:44px;border-radius:8px}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to payment methods</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F14-billing/V1/index.html">Billing</a>
+        <a href="index.html" aria-current="page">Payment methods</a>
+        <a href="../../F18-invoices/V1/index.html">Invoices</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="col">
+    <div class="hd"><h1>Payment methods</h1>
+      <p>Nothing is saved on your account yet — which is exactly what the current portal shows, so it leads the page.</p></div>
+
+    <div class="k3">
+      <div class="k" data-t="p"><span class="l">Collected</span><p class="v">₹81,500.00</p></div>
+      <div class="k" data-t="w"><span class="l">Outstanding</span><p class="v">₹31,875.00</p></div>
+      <div class="k"><span class="l">In dispute</span><p class="v">₹0.00</p></div>
+    </div>
+
+    <section class="emptybox" aria-labelledby="emp-h">
+      <span class="glyph"><svg class="i i--lg"><use href="#i-card"/></svg></span>
+      <h2 id="emp-h">No saved payment methods</h2>
+      <p>You can still pay for any milestone or invoice — a method is created when you complete a checkout with
+        Razorpay.</p>
+      <div class="act">
+        <button class="btn btn-p" data-add>Add a payment method</button>
+        <a class="btn btn-g" href="../../F14-billing/V1/index.html">Go to payments</a>
+      </div>
+      <div class="sk" data-skel hidden>
+        <i class="skel"></i><i class="skel"></i>
+      </div>
+    </section>
+
+    <section class="expl" aria-labelledby="ex-h">
+      <h3 id="ex-h">How adding a method works</h3>
+      <ol>
+        <li><b>Saved automatically.</b> When you pay through Razorpay, the method you used is saved to your account
+          with its card network and last four digits only.</li>
+        <li><b>Manual token entry is not supported.</b> There is no field for a card number, CVV or UPI handle in the
+          portal — the gateway collects those, never this page.</li>
+        <li><b>One default at a time.</b> The default method is preselected at checkout; you can change it here once a
+          method exists.</li>
+      </ol>
+      <p class="fine">This page loads from <code>GET /payments/methods</code>. An empty list is a valid, successful
+        response — not an error — so it is shown as an empty state rather than a failure block.</p>
+    </section>
+
+    <div class="rz">
+      <span class="m">Razorpay</span>
+      <p>Card, UPI and netbanking are processed by Razorpay. Nestlancer never stores full card numbers.</p>
+      <a href="../../F16-checkout/V1/index.html">Open checkout →</a>
+    </div>
+
+    <div class="honest">
+      <b>UPI autopay mandates are demo-only</b>
+      The portal does not create recurring UPI mandates — Razorpay handles any mandate outside this UI, and no
+      mandate endpoint exists in the API.
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F15 · V1 of 5</span>
+      <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2800);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  var skel=document.querySelector('[data-skel]');
+  document.querySelector('[data-add]').addEventListener('click',function(){
+    skel.hidden=false;
+    say('Methods are added at Razorpay checkout — no card details are entered on this page.');
+    setTimeout(function(){skel.hidden=true;},1200);
+  });
+})();
+</script>
+</body>
+</html>

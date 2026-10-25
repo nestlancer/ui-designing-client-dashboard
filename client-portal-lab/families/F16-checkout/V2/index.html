@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout · V2 Ledger + Trust — Nestlancer Portal Lab</title>
+<meta name="description" content="F16 variant 2: an invoice-like payable ledger that recomputes the amount, beside a trust block and one pay action.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Ledger + Trust. A ledger document · B amount-first · D ledger · E print / pay. */
+body{background:var(--muted)}
+.sheet{max-width:860px;margin:22px auto 0;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:30px 34px}
+.sheet .top{display:flex;gap:14px;align-items:flex-start;padding-bottom:14px;border-bottom:2px solid var(--foreground)}
+.sheet .top .b{font-weight:800;font-size:14px;letter-spacing:-.03em}
+.sheet .top .b span{display:block;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted-foreground);margin-top:3px;font-weight:700}
+.sheet .top .r{margin-left:auto;text-align:right;font-size:11px;color:var(--muted-foreground);line-height:1.7}
+.sheet .top .r b{display:block;color:var(--foreground);font-size:12px}
+h1{font-size:20px;letter-spacing:-.035em;margin:18px 0 3px}
+.sub{font-size:11.5px;color:var(--muted-foreground);margin:0}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:16px}
+th{text-align:left;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:6px 0;border-bottom:1px solid var(--border)}
+th.r,td.r{text-align:right}
+td{padding:9px 0;border-bottom:1px solid var(--border)}
+td .s{display:block;font-size:10.5px;color:var(--muted-foreground);margin-top:2px}
+.calc{display:grid;gap:6px;font-size:12.5px;margin-top:12px}
+.calc div{display:flex;justify-content:space-between;gap:10px}
+.calc dt{color:var(--muted-foreground)}
+.calc dd{margin:0;font-variant-numeric:var(--tabnum);font-weight:600}
+.calc .tot{border-top:1px solid var(--border);padding-top:8px;margin-top:2px;font-size:15px}
+.calc .tot dd{font-size:20px;letter-spacing:-.03em}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+@media(max-width:620px){.choice{grid-template-columns:1fr}.sheet{padding:20px 16px}}
+.ch{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px;text-align:left;
+  background:var(--card)}
+.ch[data-on="1"]{border-color:var(--brand-300);background:var(--brand-50)}
+.dark .ch[data-on="1"]{background:#161f3a}
+.ch b{display:block;font-size:12.5px}
+.ch span{font-size:10.5px;color:var(--muted-foreground);display:block;margin-top:2px;line-height:1.5}
+.cta{width:100%;margin-top:13px}
+.trustrow{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:10.5px;color:var(--muted-foreground)}
+.trustrow span{display:inline-flex;gap:5px;align-items:center}
+.trustrow i{width:5px;height:5px;border-radius:50%;background:var(--status-success-text)}
+.actions{max-width:860px;margin:0 auto 40px;display:flex;gap:9px;align-items:center;padding:12px 34px;
+  flex-wrap:wrap;font-size:11px;color:var(--muted-foreground)}
+.rz{display:flex;gap:9px;align-items:center;border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:9px 11px;margin-top:13px;background:var(--background)}
+.rz .m{font-weight:800;font-size:10.5px;color:#0b2a6b;background:#e8efff;border-radius:4px;padding:2px 6px}
+.dark .rz .m{background:#1b2650;color:#c9d6ff}
+.rz p{margin:0;font-size:10.5px;color:var(--muted-foreground);line-height:1.5}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.printonly{display:none}
+@media print{body{background:#fff}.actions,.seg,.toast,.trustrow{display:none!important}
+  .sheet{box-shadow:none;border:0;margin:0;padding:0;max-width:none}.printonly{display:block}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 17h12v4H6z"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to payable amount</a>
+
+<main id="main">
+<article class="sheet">
+  <div class="top">
+    <div class="b">Nestlancer<span>Payment request</span></div>
+    <div class="r"><b>PAY-2026-10-0002</b>
+      Milestone 2 · Homepage build<br>Issued 22 Oct 2026 · due 30 Oct 2026</div>
+  </div>
+
+  <h1>Amount payable</h1>
+  <p class="sub">Khandesh Spice D2C E-Commerce Store · milestone 2 of 3 · owner Riya Kapoor</p>
+
+  <table>
+    <caption class="sr-only">Line items making up the payable amount</caption>
+    <thead><tr><th scope="col">Item</th><th scope="col">Trigger</th><th scope="col" class="r">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Homepage build<span class="s">Milestone 2 of 3 · 40% share of the project value</span></td>
+        <td class="s">Starts when milestone 1 is approved</td><td class="r">₹30,000.00</td></tr>
+      <tr><td>Change requests<span class="s">none raised on this milestone</span></td>
+        <td class="s">—</td><td class="r">₹0.00</td></tr>
+      <tr><td>GST<span class="s">as invoiced by the studio</span></td>
+        <td class="s">included in milestone amount</td><td class="r">included</td></tr>
+    </tbody>
+  </table>
+
+  <dl class="calc">
+    <div><dt>Milestone amount</dt><dd>₹30,000.00</dd></div>
+    <div><dt>Already paid on this project</dt><dd>₹48,000.00</dd></div>
+    <div><dt>Platform fee</dt><dd>included</dd></div>
+    <div class="tot"><dt>Payable now</dt><dd data-payable>₹30,000.00</dd></div>
+  </dl>
+
+  <div class="choice" role="group" aria-label="How to pay">
+    <button class="ch" data-on="1" data-route="online">
+      <b>Pay online</b><span>UPI, card or netbanking through Razorpay. Completes in seconds.</span></button>
+    <button class="ch" data-on="0" data-route="bank">
+      <b>Bank / UPI transfer</b><span>Upload proof with the UTR. Stays processing until verified.</span></button>
+  </div>
+
+  <div data-panel="online">
+    <div class="rz">
+      <span class="m">Razorpay</span>
+      <p>You will leave the portal for the gateway. UPI on desktop displays a QR code to scan with your phone.</p>
+    </div>
+    <button class="btn btn-p btn-lg cta" data-pay>Pay ₹30,000.00 securely</button>
+    <div class="trustrow">
+      <span><i></i>One payment action</span><span><i></i>No card details stored</span>
+      <span><i></i>Receipt issued instantly</span>
+    </div>
+    <p style="margin:11px 0 0;font-size:10.5px;color:var(--muted-foreground)">
+      <b>Test mode note.</b> A test-mode payment is never treated as settled and will not unlock a milestone.
+      To stop instead, close this page — nothing is charged.</p>
+  </div>
+
+  <div data-panel="bank" hidden>
+    <table style="margin-top:12px">
+      <thead><tr><th scope="col">Platform account</th><th scope="col">Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Account name</td><td class="r">Nestlancer Technologies</td></tr>
+        <tr><td>Account number</td><td class="r">5010 0291 8873</td></tr>
+        <tr><td>IFSC</td><td class="r">HDFC0001234</td></tr>
+        <tr><td>UPI ID</td><td class="r">nestlancer@okhdfc</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px">
+      <label for="utr2" style="font-size:11px;font-weight:600;display:block;margin-bottom:4px">UTR / reference</label>
+      <input id="utr2" data-utr type="text" placeholder="4218 7720 9913"
+        style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:5px;font:inherit;
+        font-size:12.5px;background:var(--card);color:var(--foreground);outline:none">
+      <div data-drop tabindex="0" role="button" aria-label="Upload payment proof"
+        style="border:1.5px dashed var(--border);border-radius:6px;padding:15px;text-align:center;
+        background:var(--background);cursor:pointer;margin-top:9px">
+        <b style="display:block;font-size:12px">Upload payment proof</b>
+        <span style="font-size:10.5px;color:var(--muted-foreground)">PNG, JPG or PDF · required</span></div>
+      <div data-files></div>
+    </div>
+    <button class="btn btn-p btn-lg cta" data-submit>Submit transfer for verification</button>
+    <p style="margin:11px 0 0;font-size:10.5px;color:var(--muted-foreground)">
+      Proof is mandatory — the API rejects a bank transfer without <code>mediaIds[]</code>.</p>
+  </div>
+
+  <p class="printonly" style="font-size:10px;color:#555;margin-top:18px">
+    Printed from the Nestlancer portal · PAY-2026-10-0002 · this is a payment request, not a tax invoice.</p>
+</article>
+
+<div class="actions">
+  <a href="../../../index.html">Gallery</a>
+  <a href="../../F14-billing/V1/index.html">← Back to billing</a>
+  <button class="btn btn-g btn-sm" data-print><svg class="i i--sm"><use href="#i-print"/></svg>Print / save PDF</button>
+  <a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Payment status</a>
+  <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+</div>
+</main>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},3000);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}}
+  if(tt)tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  sync();
+
+  document.querySelectorAll('.ch').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.ch').forEach(function(x){x.dataset.on=x===b?'1':'0';});
+      document.querySelectorAll('[data-panel]').forEach(function(p){p.hidden=p.dataset.panel!==b.dataset.route;});
+    });
+  });
+
+  document.querySelector('[data-pay]').addEventListener('click',function(){
+    var b=this; b.disabled=true; var old=b.textContent;
+    b.textContent='Creating payment intent…';
+    setTimeout(function(){
+      b.disabled=false; b.textContent=old;
+      say('Payment intent created — hand off to the gateway is simulated in this lab.');
+    },900);
+  });
+
+  var files=document.querySelector('[data-files]'), drop=document.querySelector('[data-drop]');
+  function add(){
+    var d=document.createElement('div');
+    d.style.cssText='display:flex;gap:7px;align-items:center;border:1px solid var(--border);'+
+      'border-radius:5px;padding:6px 8px;font-size:11px;margin-top:7px;background:var(--card)';
+    d.innerHTML='<span>proof-utr-2210.pdf</span>'+
+      '<button class="x" aria-label="Remove proof" style="margin-left:auto;color:var(--muted-foreground)">✕</button>';
+    d.querySelector('button').addEventListener('click',function(){d.remove();});
+    files.appendChild(d);
+  }
+  drop.addEventListener('click',add);
+  drop.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();add();}});
+
+  document.querySelector('[data-submit]').addEventListener('click',function(){
+    if(!document.querySelector('[data-utr]').value.trim()){say('Enter the UTR first.');return;}
+    if(!files.children.length){say('Upload the payment proof — it is required.');return;}
+    say('Submitted. Status moves to processing until the UTR is verified.');
+  });
+  document.querySelector('[data-print]').addEventListener('click',function(){
+    if(window.print)window.print();
+  });
+})();
+</script>
+</body>
+</html>

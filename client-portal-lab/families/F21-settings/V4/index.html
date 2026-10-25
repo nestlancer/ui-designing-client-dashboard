@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · V4 Switch Ledger — Nestlancer Portal Lab</title>
+<meta name="description" content="F21 variant 4: every settings row in a dense ledger table with a search box, a change log and a per-row save state.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Switch Ledger. A ledger table · B control-first · D dense · E search + row state. */
+.page{max-width:1000px;margin:0 auto;padding:0 20px 56px}
+.hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:16px 0 10px}
+.hd h1{font-size:18px;letter-spacing:-.025em}
+.hd .c{font-size:11px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto}
+.search{display:flex;gap:7px;align-items:center;padding:8px 11px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);background:var(--card);margin-bottom:10px}
+.search input{border:0;outline:none;font:inherit;font-size:12.5px;flex:1;background:transparent;
+  color:var(--foreground)}
+.search .k{font-size:10px;color:var(--muted-foreground);border:1px solid var(--border);border-radius:3px;
+  padding:1px 5px}
+.lbox{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--card)}
+.lhead{display:grid;grid-template-columns:minmax(0,1fr) 66px 92px;gap:8px;padding:6px 11px;background:var(--muted);
+  font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.lgrp{padding:6px 11px;background:var(--background);border-top:1px solid var(--border);
+  font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) 66px 92px;gap:8px;padding:7px 11px;align-items:center;
+  border-top:1px solid var(--border);font-size:11.5px}
+.lrow b{font-weight:600;display:block;font-size:11.5px}
+.lrow .m{font-size:10px;color:var(--muted-foreground);margin-top:1px;line-height:1.4}
+.lrow .st{font-size:9.5px;font-weight:650;color:var(--status-success-text);letter-spacing:.02em}
+.lrow .st[data-d="1"]{color:var(--status-warning-text)}
+.sw{width:30px;height:17px;border-radius:99px;background:var(--muted);position:relative;flex:none;justify-self:start}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 2px rgba(15,28,46,.3);transition:transform .15s}
+.sw[aria-checked="true"]{background:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(13px)}
+@media(prefers-reduced-motion:reduce){.sw::after{transition:none}}
+.lrow input{font:inherit;font-size:11.5px;padding:4px 7px;border:1px solid var(--border);border-radius:4px;
+  background:var(--card);color:var(--foreground);outline:none;width:100%;max-width:220px;justify-self:start}
+.lrow input:focus{border-color:var(--primary);box-shadow:0 0 0 2px var(--brand-50)}
+.dark .lrow input:focus{box-shadow:0 0 0 2px #1b2650}
+.foot{display:flex;gap:8px;align-items:center;padding:9px 11px;border-top:1px solid var(--border);
+  background:var(--muted);font-size:10.5px;color:var(--muted-foreground);flex-wrap:wrap}
+.foot .r{margin-left:auto;display:flex;gap:5px}
+.chg{border:1px solid var(--border);border-radius:var(--radius-sm);margin-top:12px;overflow:hidden;
+  background:var(--card)}
+.chg h2{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:8px 11px;background:var(--muted);border-bottom:1px solid var(--border)}
+.chg ul{list-style:none;margin:0;padding:0;max-height:150px;overflow:auto}
+.chg li{display:flex;gap:8px;padding:5px 11px;border-top:1px solid var(--border);font-size:10.5px;
+  color:var(--muted-foreground)}
+.chg li:first-child{border-top:0}
+.chg li b{color:var(--foreground);font-weight:650}
+.chg li time{margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+.empty{padding:22px 14px;text-align:center;font-size:11.5px;color:var(--muted-foreground);
+  border-top:1px solid var(--border)}
+.end{margin-top:14px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to settings ledger</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F20-profile/V1/index.html">Profile</a>
+        <a href="index.html" aria-current="page">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd"><h1>Settings ledger</h1><span class="c"><span data-rows>26</span> rows · 18 notification
+      switches · 1 change log</span>
+      <span class="r"><a class="btn btn-g btn-sm" href="../../F22-settings-files/V1/index.html">Files →</a></span></div>
+
+    <div class="search">
+      <label for="q" class="sr-only">Filter settings</label>
+      <input id="q" type="text" placeholder="Filter settings — try “push”, “session”, “email”" data-q>
+      <span class="k">esc</span>
+    </div>
+
+    <div class="lbox" data-lbox>
+      <div class="lhead"><span>Setting</span><span>Control</span><span>State</span></div>
+      <div data-list>
+        <div class="lgrp">Account</div>
+        <div class="lrow" data-row><div><b>Display name</b><p class="m">Shown on quotes and invoices</p></div>
+          <input type="text" value="Arjun Mehta" aria-label="Display name" data-f>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Email</b><p class="m">Changing this re-verifies the address</p></div>
+          <input type="text" value="arjun@khandeshspice.example" aria-label="Email" data-f>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Time zone</b><p class="m">Asia/Kolkata (IST)</p></div>
+          <input type="text" value="Asia/Kolkata (IST)" aria-label="Time zone" data-f>
+          <span class="st" data-st>saved</span></div>
+
+        <div class="lgrp">Privacy</div>
+        <div class="lrow" data-row><div><b>Show email to studios</b><p class="m">otherwise messages only</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Show email to studios" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Show company on card</b><p class="m">Khandesh Spice Pvt Ltd</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Show company" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Discoverable by any studio</b><p class="m">currently studios only</p></div>
+          <button class="sw" role="switch" aria-checked="false" aria-label="Discoverable" data-f></button>
+          <span class="st" data-st>saved</span></div>
+
+        <div class="lgrp">Security</div>
+        <div class="lrow" data-row><div><b>Two-factor authentication</b><p class="m">authenticator app</p></div>
+          <button class="sw" role="switch" aria-checked="false" aria-label="Two-factor authentication" data-f></button>
+          <span class="st" data-st>off</span></div>
+        <div class="lrow" data-row><div><b>SMS backup for 2FA</b><p class="m">+91 ••••• 43210</p></div>
+          <button class="sw" role="switch" aria-checked="false" aria-label="SMS backup" data-f></button>
+          <span class="st" data-st>off</span></div>
+        <div class="lrow" data-row><div><b>Sign out other sessions</b><p class="m">7 other devices active</p></div>
+          <button class="sw" role="switch" aria-checked="false" aria-label="Sign out other sessions" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Alert me on new sign-ins</b><p class="m">email each time a device is added</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Alert on new sign-ins" data-f></button>
+          <span class="st" data-st>saved</span></div>
+
+        <div class="lgrp">Notifications · email</div>
+        <div class="lrow" data-row><div><b>Quotes by email</b><p class="m">new, expiring, changed</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Quotes email" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Payments by email</b><p class="m">receipts and failures</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Payments email" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Messages by email</b><p class="m">replies in project threads</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Messages email" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Projects by email</b><p class="m">milestones and approvals</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Projects email" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Requests by email</b><p class="m">brief responses</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Requests email" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Account by email</b><p class="m">sign-in and security notices</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Account email" data-f></button>
+          <span class="st" data-st>saved</span></div>
+
+        <div class="lgrp">Notifications · in-app and push</div>
+        <div class="lrow" data-row><div><b>Quotes in-app</b><p class="m">bell counter</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Quotes in-app" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Payments in-app</b><p class="m">bell counter</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Payments in-app" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Messages in-app</b><p class="m">bell counter</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Messages in-app" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Quotes push</b><p class="m">browser notification</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Quotes push" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Payments push</b><p class="m">browser notification</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Payments push" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Messages push</b><p class="m">browser notification</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Messages push" data-f></button>
+          <span class="st" data-st>saved</span></div>
+
+        <div class="lgrp">Data</div>
+        <div class="lrow" data-row><div><b>Quiet hours</b><p class="m">22:00 – 07:00 IST</p></div>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Quiet hours" data-f></button>
+          <span class="st" data-st>saved</span></div>
+        <div class="lrow" data-row><div><b>Weekly digest</b><p class="m">Mondays 08:00 IST</p></div>
+          <button class="sw" role="switch" aria-checked="false" aria-label="Weekly digest" data-f></button>
+          <span class="st" data-st>off</span></div>
+        <div class="lrow" data-row><div><b>File retention</b><p class="m">deleted files are kept 30 days</p></div>
+          <input type="text" value="30 days" aria-label="File retention" data-f readonly
+            style="background:var(--muted);color:var(--muted-foreground)">
+          <span class="st" data-st>fixed</span></div>
+        <div class="lrow" data-row><div><b>Account deletion</b><p class="m">invoices retained by law</p></div>
+          <button class="btn btn-d btn-sm" data-del style="justify-self:start">Delete</button>
+          <span class="st" data-st>guarded</span></div>
+      </div>
+      <div class="empty" data-empty hidden>No setting matches that filter. <b>Clear it</b> to see all 26 rows.</div>
+      <div class="foot"><span data-count>26 of 26 rows</span>
+        <span class="r"><button class="btn btn-g btn-sm" data-reset>Reset filters</button>
+          <button class="btn btn-p btn-sm" data-save>Save all changes</button></span></div>
+    </div>
+
+    <div class="chg">
+      <h2>Change log · this session</h2>
+      <ul data-log>
+        <li><b>Existing</b> Preferences loaded from <code>GET /users/preferences</code><time>14:02</time></li>
+        <li><b>Existing</b> 18 notification switches restored<time>14:02</time></li>
+      </ul>
+    </div>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F21 · V4 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var rows=[].slice.call(document.querySelectorAll('[data-row]')),
+      list=document.querySelector('[data-list]'), q=document.querySelector('[data-q]'),
+      empty=document.querySelector('[data-empty]'), count=document.querySelector('[data-count]'),
+      log=document.querySelector('[data-log]');
+
+  function logIt(txt){
+    var li=document.createElement('li');
+    li.innerHTML='<b>Changed</b> '+txt+'<time>just now</time>';
+    log.insertBefore(li,log.firstChild);
+    while(log.children.length>8)log.removeChild(log.lastChild);
+  }
+  rows.forEach(function(r){
+    var ctl=r.querySelector('[data-f]'), st=r.querySelector('[data-st]');
+    function mark(){
+      st.dataset.d='1'; st.textContent='unsaved';
+    }
+    if(ctl.tagName==='BUTTON'){
+      ctl.addEventListener('click',function(){
+        ctl.setAttribute('aria-checked',ctl.getAttribute('aria-checked')==='true'?'false':'true');
+        mark();
+      });
+    } else {
+      ctl.addEventListener('input',mark);
+    }
+  });
+
+  document.querySelector('[data-save]').addEventListener('click',function(){
+    var n=0;
+    rows.forEach(function(r){
+      var st=r.querySelector('[data-st]');
+      if(st.dataset.d==='1'){st.dataset.d='0';st.textContent='saved';n++;}
+    });
+    if(!n){say('Nothing to save — no row has changed.');return;}
+    logIt(n+' setting'+(n===1?'':'s')+' written');
+    say(n+' setting'+(n===1?'':'s')+' saved.');
+  });
+
+  function filter(){
+    var v=q.value.trim().toLowerCase(), shown=0;
+    rows.forEach(function(r){
+      var t=r.textContent.toLowerCase();
+      var ok=!v||t.indexOf(v)>-1;
+      r.hidden=!ok; if(ok)shown++;
+    });
+    // hide group heads with no visible rows
+    [].slice.call(list.querySelectorAll('.lgrp')).forEach(function(g){
+      var n=g.nextElementSibling, any=false;
+      while(n&&!n.classList.contains('lgrp')){
+        if(n.classList.contains('lrow')&&!n.hidden)any=true;
+        n=n.nextElementSibling;
+      }
+      g.hidden=!any;
+    });
+    empty.hidden=shown>0;
+    count.textContent=shown+' of '+rows.length+' rows';
+  }
+  q.addEventListener('input',filter);
+  q.addEventListener('keydown',function(e){if(e.key==='Escape'){q.value='';filter();}});
+  document.querySelector('[data-reset]').addEventListener('click',function(){
+    q.value=''; filter(); say('Filter cleared.');
+  });
+  document.querySelector('[data-del]').addEventListener('click',function(){
+    say('Deletion needs an emailed confirmation — not performed in this lab.');
+  });
+  filter();
+})();
+</script>
+</body>
+</html>

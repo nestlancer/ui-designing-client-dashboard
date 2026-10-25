@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files · V4 Upload First — Nestlancer Portal Lab</title>
+<meta name="description" content="F22 variant 4: a large upload hero with a queue of per-file progress rows, followed by recent uploads and document groups.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Upload First. A upload hero · B action-first · D airy · E drag/drop queue. */
+.page{max-width:960px;margin:0 auto;padding:0 22px 60px}
+.hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:22px 0 14px}
+.hd h1{font-size:23px;letter-spacing:-.035em}
+.hd p{margin:0;font-size:11.5px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto}
+.hero{border:2px dashed var(--brand-300);border-radius:var(--radius-lg);background:var(--card);
+  padding:38px 22px;text-align:center;margin-bottom:14px;transition:background .15s,border-color .15s}
+.dark .hero{border-color:#2c3a6e}
+.hero[data-over="1"]{background:var(--brand-50);border-color:var(--primary)}
+.dark .hero[data-over="1"]{background:#161f3a}
+.hero .ic{width:52px;height:52px;border-radius:50%;background:var(--brand-50);color:var(--brand-700);
+  display:grid;place-items:center;font-size:21px;margin:0 auto 12px;border:1px solid var(--brand-200)}
+.dark .hero .ic{background:#1b2650;border-color:#2c3a6e;color:#9db3ff}
+.hero h2{font-size:16px;letter-spacing:-.02em}
+.hero p{margin:5px 0 0;font-size:11.5px;color:var(--muted-foreground);line-height:1.6}
+.hero .btns{display:flex;gap:7px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.hero .limits{margin-top:12px;font-size:10.5px;color:var(--muted-foreground)}
+.hero .limits b{color:var(--foreground);font-weight:650}
+.queue{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);margin-bottom:18px;
+  overflow:hidden}
+.queue>h2{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:8px 13px;background:var(--muted);border-bottom:1px solid var(--border);
+  display:flex;gap:8px;align-items:center}
+.queue>h2 .r{margin-left:auto;font-weight:600;letter-spacing:0;text-transform:none;font-size:10px}
+.qr{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:12px;padding:10px 13px;align-items:center;
+  border-top:1px solid var(--border)}
+.qr:first-of-type{border-top:0}
+.qr .n b{font-size:11.5px;font-weight:600;display:block;word-break:break-word}
+.qr .n .m{font-size:10px;color:var(--muted-foreground);margin-top:1px}
+.qr .n .prog{height:4px;border-radius:2px;background:var(--muted);margin-top:6px;overflow:hidden}
+.qr .n .prog i{display:block;height:100%;background:var(--primary);transition:width .2s}
+@media(prefers-reduced-motion:reduce){.qr .n .prog i{transition:none}}
+.qr .n .prog[data-fail="1"] i{background:var(--status-error-text)}
+.qr .s{display:flex;flex-direction:column;gap:4px;align-items:flex-end;text-align:right}
+.qr .s .pct{font-size:10.5px;color:var(--muted-foreground);font-variant-numeric:tabular-nums}
+.qr .s button{font-size:10px;font-weight:700}
+.qr .s button[data-cancel]{color:var(--muted-foreground)}
+.qr .s button[data-retry]{color:var(--status-error-text)}
+.sect{margin-top:20px}
+.sect h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:8px}
+.recent{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.rc{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);padding:10px 11px;
+  display:flex;gap:9px;align-items:center;text-align:left}
+.rc .ic{width:28px;height:28px;border-radius:5px;background:var(--muted);display:grid;place-items:center;
+  font-size:12px;color:var(--muted-foreground);flex:none}
+.rc b{font-size:11px;font-weight:600;display:block;word-break:break-word;line-height:1.35}
+.rc span{font-size:10px;color:var(--muted-foreground)}
+.docs{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);overflow:hidden}
+.dg{border-top:1px solid var(--border)}
+.dg:first-child{border-top:0}
+.dgh{display:flex;gap:8px;align-items:center;padding:7px 12px;background:var(--background);font-size:11px;
+  flex-wrap:wrap}
+.dgh b{font-weight:650}
+.dgh .c{font-size:10px;color:var(--muted-foreground)}
+.dgh .r{margin-left:auto;font-size:10px;color:var(--muted-foreground)}
+.dr{display:flex;gap:8px;align-items:center;padding:6px 12px;font-size:11px;border-top:1px solid var(--border)}
+.dr b{font-weight:600;flex:1;min-width:0}
+.dr span{font-size:10px;color:var(--muted-foreground);white-space:nowrap}
+.dr button{font-size:10px;font-weight:650;color:var(--brand-700)}
+.dark .dr button{color:#9db3ff}
+.note{border-left:3px solid var(--primary);background:var(--brand-50);border-radius:4px;padding:9px 11px;
+  font-size:11px;line-height:1.6;color:var(--muted-foreground);margin-top:14px}
+.dark .note{background:#161f3a}
+.note b{color:var(--foreground);display:block;margin-bottom:2px}
+.emptyq{padding:16px 13px;font-size:11px;color:var(--muted-foreground);text-align:center;border-top:1px solid var(--border)}
+.end{margin-top:16px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to uploads</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html">Requests</a>
+        <a href="index.html" aria-current="page">Files</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd"><h1>Add files</h1><p>Drop work into the project — it appears in the thread and the library.</p>
+      <div class="r"><a class="btn btn-g btn-sm" href="../../F22-settings-files/V1/index.html">Browse library</a></div></div>
+
+    <section class="hero" data-hero aria-label="Upload files">
+      <div class="ic" aria-hidden="true">↑</div>
+      <h2>Drop files here to upload</h2>
+      <p>Images, PDFs, ZIP and office documents.<br>Each file can be up to 25 MB — the whole batch up to 250 MB.</p>
+      <div class="btns">
+        <button class="btn btn-p btn-lg" data-pick>Choose files</button>
+        <button class="btn btn-g btn-lg" data-demo>Add a sample batch</button>
+      </div>
+      <p class="limits">Your limit is <b>25 MB</b> per file · <b>148.2 MB</b> of 2 GB used ·
+        uploads resume if the connection drops</p>
+    </section>
+
+    <section class="queue" aria-label="Upload queue">
+      <h2>Upload queue <span class="r" data-qsum>3 files · 1 failed</span></h2>
+      <div data-queue></div>
+      <div class="emptyq" data-qempty>Nothing queued. Files you add appear here with live progress.</div>
+    </section>
+
+    <section class="sect">
+      <h2>Recent uploads</h2>
+      <div class="recent">
+        <button class="rc" data-v><span class="ic">▣</span>
+          <span><b>hero-bottle-front.webp</b><span>1.8 MB · 2 days ago</span></span></button>
+        <button class="rc" data-v><span class="ic">▤</span>
+          <span><b>NL-QUO-2026-0031.pdf</b><span>214 KB · 3 days ago</span></span></button>
+        <button class="rc" data-v><span class="ic">▣</span>
+          <span><b>packaging-dieline.png</b><span>3.4 MB · 4 days ago</span></span></button>
+        <button class="rc" data-v><span class="ic">🗜</span>
+          <span><b>brand-assets-v3.zip</b><span>46.1 MB · 7 days ago</span></span></button>
+      </div>
+    </section>
+
+    <section class="sect">
+      <h2>Generated documents</h2>
+      <div class="docs">
+        <div class="dg">
+          <div class="dgh"><b>NL-REQ-2026-0018</b><span class="c">Khandesh Spice D2C store</span>
+            <span class="r">2 documents</span></div>
+          <div class="dr"><b>Quote NL-QUO-2026-0031</b><span>quote · 214 KB</span>
+            <button data-gen>Open</button></div>
+          <div class="dr"><b>Brief acknowledgement</b><span>request · 96 KB</span>
+            <button data-gen>Open</button></div>
+        </div>
+        <div class="dg">
+          <div class="dgh"><b>NL-INV-2026-000045</b><span class="c">Milestone 3 invoice</span>
+            <span class="r">1 document</span></div>
+          <div class="dr"><b>Invoice NL-INV-2026-000045</b><span>pending · ₹1,875</span>
+            <button data-gen>Open</button></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="note">
+      <b>Failure stays visible</b>
+      The 31 MB file in the queue keeps its own row with a reason and a Retry — it does not vanish and it does not
+      block the two files around it.
+    </div>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F22 · V4 of 5 · <code>POST /media/upload/*</code></span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2800);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var queue=document.querySelector('[data-queue]'), qempty=document.querySelector('[data-qempty]'),
+      qsum=document.querySelector('[data-qsum]');
+
+  function summary(){
+    var rows=[].slice.call(queue.querySelectorAll('.qr'));
+    var failed=rows.filter(function(r){return r.dataset.state==='failed';}).length;
+    qempty.style.display=rows.length?'none':'block';
+    qsum.textContent=rows.length?rows.length+' file'+(rows.length===1?'':'s')+
+      (failed?' · '+failed+' failed':''):'empty';
+  }
+
+  function row(name,size){
+    var el=document.createElement('div');
+    el.className='qr'; el.dataset.state='uploading';
+    el.innerHTML='<div class="n"><b>'+name+'</b><div class="m">'+size+' · uploading</div>'+
+      '<div class="prog"><i style="width:2%"></i></div></div>'+
+      '<div class="s"><span class="pct">0%</span><button data-cancel>Cancel</button></div>';
+    queue.appendChild(el);
+    var bar=el.querySelector('.prog i'), pctEl=el.querySelector('.pct'), p=0;
+    var t=setInterval(function(){
+      p+=8+Math.random()*18;
+      if(p>=100){p=100;clearInterval(t);done(el);}
+      bar.style.width=p+'%'; pctEl.textContent=Math.round(p)+'%';
+    },300);
+    el.querySelector('[data-cancel]').addEventListener('click',function(){
+      clearInterval(t); el.remove(); summary(); say('Upload cancelled — nothing was saved.');
+    });
+    summary();
+    return el;
+  }
+  function done(el){
+    el.dataset.state='processing';
+    el.querySelector('.m').textContent='uploaded · scanning';
+    el.querySelector('.s').innerHTML='<span class="pct">processing</span>';
+    setTimeout(function(){
+      el.dataset.state='ready';
+      el.querySelector('.m').textContent='ready · added to the project thread';
+      el.querySelector('.prog').remove();
+      el.querySelector('.s').innerHTML='<span class="pct"><span class="pill pill--ok">ready</span></span>';
+      summary();
+    },1200);
+  }
+  function fail(name,size){
+    var el=document.createElement('div');
+    el.className='qr'; el.dataset.state='failed';
+    el.innerHTML='<div class="n"><b>'+name+'</b>'+
+      '<div class="m" style="color:var(--status-error-text)">31 MB is over the 25 MB per-file limit — '+
+      'nothing was uploaded</div><div class="prog" data-fail="1"><i style="width:0"></i></div></div>'+
+      '<div class="s"><span class="pct">failed</span><button data-retry>Retry</button></div>';
+    queue.appendChild(el);
+    el.querySelector('[data-retry]').addEventListener('click',function(){
+      el.querySelector('.m').textContent='retrying — split the archive or raise the limit with support';
+      say('Retry needs a smaller file: 31 MB cannot pass a 25 MB limit.');
+    });
+    summary();
+  }
+
+  document.querySelector('[data-pick]').addEventListener('click',function(){
+    row('bottle-label-final.png','2.4 MB');
+    say('Upload started — chunked upload keeps going if the tab is backgrounded.');
+  });
+  document.querySelector('[data-demo]').addEventListener('click',function(){
+    row('hero-landscape.png','4.1 MB');
+    setTimeout(function(){row('packaging-final.pdf','1.2 MB');},220);
+    setTimeout(function(){fail('full-photo-batch.zip','31 MB');},420);
+  });
+  var hero=document.querySelector('[data-hero]');
+  hero.addEventListener('dragover',function(e){e.preventDefault();hero.dataset.over='1';});
+  hero.addEventListener('dragleave',function(){hero.dataset.over='0';});
+  hero.addEventListener('drop',function(e){
+    e.preventDefault(); hero.dataset.over='0';
+    var f=e.dataTransfer&&e.dataTransfer.files;
+    if(f&&f.length){
+      [].slice.call(f).forEach(function(file){
+        if(file.size>25*1024*1024)fail(file.name,(file.size/1048576).toFixed(1)+' MB');
+        else row(file.name,(file.size/1048576).toFixed(1)+' MB');
+      });
+    } else {
+      row('dropped-image.png','1.6 MB');
+    }
+  });
+  document.querySelectorAll('[data-v]').forEach(function(b){
+    b.addEventListener('click',function(){say('Opens the file in the library preview.');});
+  });
+  document.querySelectorAll('[data-gen]').forEach(function(b){
+    b.addEventListener('click',function(){say('Generated documents open a signed download URL.');});
+  });
+  summary();
+})();
+</script>
+</body>
+</html>

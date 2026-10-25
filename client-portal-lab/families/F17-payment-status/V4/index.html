@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment status · V4 Document Console — Nestlancer Portal Lab</title>
+<meta name="description" content="F17 variant 4: a dense console pairing one payment header with sortable transaction rows, document actions and a demoted dispute control.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Document Console. A console · B record-first · C audit · D dense · E sort + row actions. */
+.page{max-width:1320px;margin:0 auto;padding:0 18px 50px}
+.hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 0 10px}
+.hd h1{font-size:17px;letter-spacing:-.025em}
+.hd .c{font-size:11px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.head{display:grid;grid-template-columns:minmax(0,1fr) 210px 150px 140px;gap:12px;align-items:center;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;
+  margin-bottom:12px}
+@media(max-width:900px){.head{grid-template-columns:1fr 1fr}}
+.head .amt{font-size:26px;letter-spacing:-.04em;font-variant-numeric:var(--tabnum);line-height:1.1}
+.head .for{font-size:11px;color:var(--muted-foreground);margin-top:3px;line-height:1.5}
+.head .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.head .v{font-size:12px;font-weight:600;margin-top:3px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;font-weight:500;word-break:break-all}
+.tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.bar{display:flex;gap:8px;align-items:center;padding:7px 10px;border-bottom:1px solid var(--border);
+  font-size:10.5px;color:var(--muted-foreground);flex-wrap:wrap;background:var(--muted)}
+.scrollx{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+th{text-align:left;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:7px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+th button{font:inherit;text-transform:inherit;letter-spacing:inherit;color:inherit}
+td{padding:7px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--brand-50)}
+.dark tbody tr:hover{background:#161f3a}
+.dim{color:var(--muted-foreground)}
+.amtc{text-align:right;font-variant-numeric:var(--tabnum);font-weight:600}
+.acts{display:flex;gap:4px}
+.acts button{font-size:10px;font-weight:600;color:var(--muted-foreground);border:1px solid var(--border);
+  border-radius:4px;padding:1px 5px;background:var(--card)}
+.acts button:hover{color:var(--brand-700);border-color:var(--brand-300)}
+.foot1{display:flex;gap:10px;align-items:center;padding:7px 10px;font-size:10.5px;color:var(--muted-foreground);
+  border-top:1px solid var(--border);flex-wrap:wrap}
+.foot1 b{color:var(--foreground);font-variant-numeric:var(--tabnum)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+@media(max-width:820px){.cols{grid-template-columns:1fr}}
+.box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 13px}
+.box h3{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:7px}
+.box p{margin:0 0 8px;font-size:11.5px;line-height:1.6;color:var(--muted-foreground)}
+.box p:last-child{margin-bottom:0}
+.box .dispute{font-size:10.5px;color:var(--muted-foreground);text-decoration:underline;
+  text-underline-offset:2px}
+.honest{border-left:3px solid var(--primary);background:var(--brand-50);border-radius:var(--radius-sm);
+  padding:10px 12px;font-size:11.5px;line-height:1.6;margin-top:14px}
+.dark .honest{background:#161f3a}
+.honest b{display:block;margin-bottom:2px}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:14px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to payment console</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F14-billing/V1/index.html">Billing</a>
+        <a href="index.html" aria-current="page">Payment status</a>
+        <a href="../../F18-invoices/V1/index.html">Invoices</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <h1>Payment console</h1>
+      <span class="c">one payment · 6 records · completed</span>
+      <div class="r">
+        <a class="btn btn-g btn-sm" href="../../F14-billing/V1/index.html">Ledger</a>
+        <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">Invoices</a>
+      </div>
+    </div>
+
+    <div class="head">
+      <div><p class="amt">₹22,500.00</p>
+        <p class="for">Milestone 1 · Discovery &amp; wireframes<br>Khandesh Spice D2C E-Commerce Store</p></div>
+      <div><p class="k">Status</p><p class="v"><span class="pill pill--ok">completed</span></p>
+        <p class="k" style="margin-top:6px">Disputed</p><p class="v">₹0.00</p></div>
+      <div><p class="k">Paid</p><p class="v">15 Oct 2026</p>
+        <p class="k" style="margin-top:6px">Method</p><p class="v">UPI · Razorpay</p></div>
+      <div><p class="k">Reference</p><p class="v mono">01a10a2b-5ed2-73bc-8aee-d1c6262906e9</p></div>
+    </div>
+
+    <div class="tblwrap">
+      <div class="bar"><span>Records</span><span>· sortable · all times IST</span>
+        <span style="margin-left:auto">total <b style="color:var(--foreground);font-variant-numeric:var(--tabnum)">
+          ₹22,500.00</b></span></div>
+      <div class="scrollx">
+      <table data-tbl>
+        <caption class="sr-only">Records attached to this payment</caption>
+        <thead><tr>
+          <th scope="col"><button data-sort="t">Time</button></th>
+          <th scope="col">Event</th>
+          <th scope="col">Document</th>
+          <th scope="col">Actor</th>
+          <th scope="col" class="amtc"><button data-sort="amt">Amount</button></th>
+          <th scope="col"><span class="sr-only">Actions</span></th>
+        </tr></thead>
+        <tbody data-body>
+          <tr data-t="202610151428" data-amt="22500">
+            <td class="dim">15 Oct · 14:28</td><td>Settlement confirmed</td><td class="dim">receipt</td>
+            <td class="dim">Razorpay</td><td class="amtc">₹22,500.00</td>
+            <td><div class="acts"><button data-a="receipt">Receipt</button><button data-a="copy">Copy ref</button></div></td></tr>
+          <tr data-t="202610151427" data-amt="22500">
+            <td class="dim">15 Oct · 14:27</td><td>Gateway callback verified</td><td class="dim">—</td>
+            <td class="dim">system</td><td class="amtc">₹22,500.00</td>
+            <td><div class="acts"><button data-a="detail">Detail</button></div></td></tr>
+          <tr data-t="202610151412" data-amt="22500">
+            <td class="dim">15 Oct · 14:12</td><td>Payment intent created</td><td class="dim">—</td>
+            <td class="dim">Arjun Mehta</td><td class="amtc">₹22,500.00</td>
+            <td><div class="acts"><button data-a="detail">Detail</button></div></td></tr>
+          <tr data-t="202610151410" data-amt="0">
+            <td class="dim">15 Oct · 14:10</td><td>Tax invoice generated</td><td class="dim">NL-INV-2026-000041</td>
+            <td class="dim">system</td><td class="amtc">₹0.00</td>
+            <td><div class="acts"><button data-a="invoice">Download</button></div></td></tr>
+          <tr data-t="202610141633" data-amt="0">
+            <td class="dim">14 Oct · 16:33</td><td>Milestone 1 submitted for approval</td><td class="dim">—</td>
+            <td class="dim">Rahul (studio)</td><td class="amtc">—</td>
+            <td><div class="acts"><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Open</a></div></td></tr>
+          <tr data-t="202610141600" data-amt="0">
+            <td class="dim">14 Oct · 16:00</td><td>Payment request issued</td><td class="dim">PAY-2026-10-0001</td>
+            <td class="dim">system</td><td class="amtc">₹22,500.00</td>
+            <td><div class="acts"><button data-a="detail">Detail</button></div></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="foot1"><span data-range>6 rows</span>
+        <span style="margin-left:auto">not-due milestones are excluded — they have no records to list</span></div>
+    </div>
+
+    <div class="cols">
+      <div class="box"><h3>Documents</h3>
+        <p>Receipt and tax invoice are both issued for a completed payment.</p>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <button class="btn btn-g btn-sm" data-a="receipt">Receipt</button>
+          <button class="btn btn-g btn-sm" data-a="invoice">Invoice</button>
+        </div></div>
+      <div class="box"><h3>Next payment</h3>
+        <p>Milestone 2 · ₹30,000.00 is due 30 Oct 2026 and is currently processing as a bank transfer.</p>
+        <a class="btn btn-g btn-sm" href="../../F16-checkout/V1/index.html">Open milestone 2</a></div>
+      <div class="box"><h3>Dispute</h3>
+        <p>₹0.00 is in dispute on this payment. A dispute needs a reason and free-text details.</p>
+        <button class="dispute" data-a="dispute">Raise a dispute</button></div>
+    </div>
+
+    <div class="honest">
+      <b>Not-due state, kept visible</b>
+      Milestone 3 (₹45,000.00) has no records, no invoice and no amount payable now, so it is not listed as a row.
+      Its unlock path is on the project page and in variant 2.
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F17 · V4 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var body=document.querySelector('[data-body]'), rows=[].slice.call(body.rows);
+  document.querySelectorAll('[data-sort]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.sort, asc=b.dataset.dir!=='asc'; b.dataset.dir=asc?'asc':'desc';
+      rows.sort(function(x,y){
+        var a=k==='t'?Number(x.dataset.t):Number(x.dataset.amt);
+        var c=k==='t'?Number(y.dataset.t):Number(y.dataset.amt);
+        return (a-c)*(asc?1:-1);
+      }).forEach(function(r){body.appendChild(r);});
+      say('Sorted by '+k+', '+(asc?'ascending':'descending')+'.');
+    });
+  });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-a]'); if(!b)return;
+    var a=b.dataset.a;
+    if(a==='copy'){
+      var t='01a10a2b-5ed2-73bc-8aee-d1c6262906e9';
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(t).then(function(){say('Reference copied.');},function(){say('Reference: '+t);});
+      }else{say('Reference: '+t);}
+      return;
+    }
+    if(a==='detail'){say('Record detail is demo-only in this lab.');return;}
+    if(a==='dispute'){say('Dispute form needs a reason and details — opens on the record in production.');return;}
+    say('Document '+(a==='receipt'?'receipt':'invoice')+' download is demo-only in this lab.');
+  });
+})();
+</script>
+</body>
+</html>

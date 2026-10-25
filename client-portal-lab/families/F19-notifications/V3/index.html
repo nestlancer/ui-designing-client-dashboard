@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifications · V3 Filter Rail — Nestlancer Portal Lab</title>
+<meta name="description" content="F19 variant 3: a persistent filter rail on the left counts every notification type, and the list on the right responds to it.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Filter Rail. A rail + list · B filter-led · C counts narrative · E rail filters. */
+.page{max-width:1060px;margin:0 auto;padding:0 22px 56px}
+.hd{display:flex;align-items:end;gap:12px;flex-wrap:wrap;padding:22px 0 12px}
+.hd h1{font-size:24px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.split{display:grid;grid-template-columns:216px minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:800px){.split{grid-template-columns:1fr}}
+.rail{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:9px;
+  position:sticky;top:calc(var(--header) + 16px)}
+@media(max-width:800px){.rail{position:static}}
+.rail h2{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:3px 7px 6px}
+.rb{display:flex;gap:8px;align-items:center;width:100%;padding:6px 8px;border-radius:5px;font-size:12px;
+  color:var(--muted-foreground);text-align:left;font-weight:600}
+.rb:hover{background:var(--brand-50);color:var(--foreground)}
+.dark .rb:hover{background:#161f3a}
+.rb[aria-pressed="true"]{background:var(--brand-50);color:var(--brand-800);font-weight:700}
+.dark .rb[aria-pressed="true"]{background:#1b2650;color:#c9d6ff}
+.rb .c{margin-left:auto;font-size:10.5px;font-variant-numeric:var(--tabnum);color:var(--muted-foreground)}
+.rb[aria-pressed="true"] .c{color:var(--brand-700)}
+.dark .rb[aria-pressed="true"] .c{color:#c9d6ff}
+.rail .sep{height:1px;background:var(--border);margin:7px 4px}
+.rail .short{padding:6px 8px;font-size:10.5px;line-height:1.55;color:var(--muted-foreground)}
+.listhd{display:flex;gap:9px;align-items:center;margin-bottom:9px;flex-wrap:wrap}
+.listhd h2{font-size:14px;letter-spacing:-.02em}
+.listhd .n{font-size:11px;color:var(--muted-foreground)}
+.listhd .r{margin-left:auto;display:flex;gap:5px}
+.n{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:11px 12px;margin-bottom:6px;text-decoration:none;color:inherit}
+.n:hover{border-color:var(--brand-300)}
+.n[data-unread="1"]{background:var(--brand-50)}
+.dark .n[data-unread="1"]{background:#161f3a}
+.n .ic{width:26px;height:26px;border-radius:7px;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:10px;font-weight:800;flex:none}
+.n[data-t="quote"] .ic{background:var(--status-warning-bg);color:var(--status-warning-text)}
+.n[data-t="payment"] .ic{background:var(--status-info-bg);color:var(--status-info-text)}
+.n[data-t="message"] .ic{background:var(--brand-100);color:var(--brand-800)}
+.dark .n[data-t="message"] .ic{background:#26356b;color:#c9d6ff}
+.n .ti{font-size:12.5px;font-weight:600;letter-spacing:-.01em}
+.n[data-unread="1"] .ti{font-weight:700}
+.n .bd{font-size:11.5px;color:var(--muted-foreground);margin-top:2px;line-height:1.5}
+.n .mt{font-size:10px;color:var(--muted-foreground);margin-top:5px}
+.n .go{margin-left:auto;font-size:10.5px;font-weight:650;color:var(--brand-700);white-space:nowrap;
+  align-self:center}
+.dark .n .go{color:#9db3ff}
+.empty{padding:32px 18px;text-align:center;background:var(--card);border:1px dashed var(--border);
+  border-radius:var(--radius-md)}
+.empty b{display:block;font-size:13px;margin-bottom:4px}
+.empty p{margin:0 0 10px;font-size:12px;color:var(--muted-foreground)}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:16px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to notifications</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="index.html" aria-current="page">Notifications</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div><h1>Notifications</h1><p>The rail is the filter — every type shows its own count, including the empty ones.</p></div>
+      <div class="r"><button class="btn btn-g btn-sm" data-readall>Mark all read</button></div>
+    </div>
+
+    <div class="split">
+      <aside class="rail" aria-label="Notification filters">
+        <h2>Inbox</h2>
+        <button class="rb" data-f="all" aria-pressed="true">All notifications <span class="c">6</span></button>
+        <button class="rb" data-f="unread" aria-pressed="false">Unread <span class="c">3</span></button>
+        <div class="sep"></div>
+        <h2>By type</h2>
+        <button class="rb" data-f="quote" aria-pressed="false">Quotes <span class="c">4</span></button>
+        <button class="rb" data-f="payment" aria-pressed="false">Payments <span class="c">1</span></button>
+        <button class="rb" data-f="message" aria-pressed="false">Messages <span class="c">1</span></button>
+        <button class="rb" data-f="project" aria-pressed="false">Projects <span class="c">0</span></button>
+        <button class="rb" data-f="request" aria-pressed="false">Requests <span class="c">0</span></button>
+        <button class="rb" data-f="account" aria-pressed="false">Account <span class="c">0</span></button>
+        <button class="rb" data-f="settings" aria-pressed="false">Settings <span class="c">0</span></button>
+        <div class="sep"></div>
+        <p class="short">Empty types stay in the rail so you can tell “nothing happened” from “this filter is
+          missing”.</p>
+      </aside>
+
+      <section>
+        <div class="listhd">
+          <h2 data-title>All notifications</h2><span class="n" data-count>6 items</span>
+          <div class="r"><button class="btn btn-g btn-sm" data-clear>Clear read</button></div>
+        </div>
+
+        <div data-list>
+          <a class="n" href="../../F11-quote-details/V1/index.html" data-t="quote" data-unread="1">
+            <span class="ic">Q</span>
+            <div><p class="ti">Quote #01a10f80 expires on 20 Oct 2026</p>
+              <p class="bd">₹1,770.00 including GST · accept or decline before the window closes.</p>
+              <p class="mt">2 hours ago · quote</p></div>
+            <span class="go">Open →</span></a>
+
+          <a class="n" href="../../F17-payment-status/V1/index.html" data-t="payment" data-unread="1">
+            <span class="ic">₹</span>
+            <div><p class="ti">₹30,000.00 transfer is processing</p>
+              <p class="bd">Milestone 2 · UTR awaiting verification by the studio.</p>
+              <p class="mt">4 hours ago · payment</p></div>
+            <span class="go">Track →</span></a>
+
+          <a class="n" href="../../F10-quotes-list/V1/index.html" data-t="quote" data-unread="1">
+            <span class="ic">Q</span>
+            <div><p class="ti">Three more quotes expire this week</p>
+              <p class="bd">4 of 12 quotes are still inside a validity window.</p>
+              <p class="mt">1 day ago · quote</p></div>
+            <span class="go">Open →</span></a>
+
+          <a class="n" href="../../F13-messages-thread/V1/index.html" data-t="message" data-unread="0">
+            <span class="ic">M</span>
+            <div><p class="ti">Rahul replied in Khandesh Spice</p>
+              <p class="bd">“Hero CTA above the fold?” — 3 members in the thread.</p>
+              <p class="mt">1 hour ago · message</p></div>
+            <span class="go">Open →</span></a>
+
+          <a class="n" href="../../F11-quote-details/V1/index.html" data-t="quote" data-unread="0">
+            <span class="ic">Q</span>
+            <div><p class="ti">Quote PDF export is ready</p>
+              <p class="bd">#01a10f80 · 214 KB · expires in 7 days.</p>
+              <p class="mt">2 days ago · quote</p></div>
+            <span class="go">Open →</span></a>
+
+          <a class="n" href="../../F10-quotes-list/V1/index.html" data-t="quote" data-unread="0">
+            <span class="ic">Q</span>
+            <div><p class="ti">Quote #01a10f80 was viewed by the studio</p>
+              <p class="bd">Rahul opened your quote request.</p>
+              <p class="mt">3 days ago · quote</p></div>
+            <span class="go">Open →</span></a>
+        </div>
+
+        <div class="empty" data-empty hidden>
+          <b data-et>Nothing here</b>
+          <p data-ep>No notifications of this type right now.</p>
+          <button class="btn btn-s btn-sm" data-reset>Show all notifications</button>
+        </div>
+
+        <div class="foot">
+          <a href="../../../index.html">← Gallery</a><span>F19 · V3 of 5</span>
+          <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var items=[].slice.call(document.querySelectorAll('.n')),
+      title=document.querySelector('[data-title]'), count=document.querySelector('[data-count]'),
+      empty=document.querySelector('[data-empty]');
+  function paint(f,label){
+    var n=0;
+    items.forEach(function(el){
+      var ok = f==='all' ? true : f==='unread' ? el.dataset.unread==='1' : el.dataset.t===f;
+      el.hidden=!ok; if(ok)n++;
+    });
+    title.textContent=label||'Notifications';
+    count.textContent=n+' item'+(n===1?'':'s');
+    empty.hidden=n>0;
+    if(!n){
+      document.querySelector('[data-et]').textContent='No notifications in '+label.toLowerCase();
+      document.querySelector('[data-ep]').textContent='This type exists but has nothing in it right now — '+
+        'nothing is broken.';
+    }
+  }
+  document.querySelectorAll('.rb').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.rb').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      paint(b.dataset.f,b.textContent.replace(/\d+$/,'').trim());
+    });
+  });
+  document.querySelector('[data-reset]').addEventListener('click',function(){
+    document.querySelectorAll('.rb').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.f==='all'));});
+    paint('all','All notifications');
+  });
+  document.querySelector('[data-readall]').addEventListener('click',function(){
+    items.forEach(function(el){el.dataset.unread='0';});
+    say('All notifications marked read.');
+  });
+  document.querySelector('[data-clear]').addEventListener('click',function(){
+    var n=0;
+    items.forEach(function(el){if(el.dataset.unread==='0'){el.remove();n++;}});
+    items=[].slice.call(document.querySelectorAll('.n'));
+    say(n?n+' read notification'+(n===1?'':'s')+' cleared.':'Nothing to clear — all are unread.');
+    paint('all','All notifications');
+  });
+  paint('all','All notifications');
+})();
+</script>
+</body>
+</html>

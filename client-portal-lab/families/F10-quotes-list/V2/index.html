@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quotes · V2 Expiry Ledger — Nestlancer Portal Lab</title>
+<meta name="description" content="F10 variant 2: a ledger where each quote carries an expiry bar and a live countdown to the moment it stops being signable.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Expiry Ledger. A ledger · C countdown · D medium · E live countdown. */
+.page{min-height:100vh;background:var(--background)}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.wrap{max-width:960px;margin:0 auto;padding:22px 20px 40px}
+.head{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.head h1{font-size:25px;letter-spacing:-.035em}
+.head p{font-size:12.5px;color:var(--muted-foreground);margin-top:3px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted-foreground);margin:12px 0 16px;
+  align-items:center}
+.legend i{display:inline-block;width:22px;height:5px;border-radius:999px;margin-right:5px;vertical-align:1px}
+.lgrp{margin-bottom:18px}
+.lgrp h2{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.lgrp h2 .c{font-size:10px;background:var(--muted);border-radius:999px;padding:1px 7px}
+.row{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;
+  display:grid;grid-template-columns:minmax(0,1fr) 180px 120px;gap:14px;align-items:center;margin-bottom:8px;
+  box-shadow:var(--shadow-xs)}
+.row:hover{border-color:var(--brand-300)}
+@media(max-width:760px){.row{grid-template-columns:1fr;gap:8px}}
+.row .ref{font-size:12.5px;font-weight:700;font-variant-numeric:var(--tabnum);letter-spacing:-.01em}
+.row .sub{font-size:11.5px;color:var(--muted-foreground);margin-top:2px}
+.row .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px;font-size:10.5px;color:var(--muted-foreground)}
+.row .meta span{border:1px solid var(--border);border-radius:999px;padding:1px 8px;background:var(--background)}
+.row .amt{text-align:right;font-size:15px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:var(--tabnum)}
+.row .amt small{display:block;font-size:10px;color:var(--muted-foreground);font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;margin-top:2px}
+.count{display:grid;gap:5px}
+.count .lb{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted-foreground);
+  font-variant-numeric:var(--tabnum)}
+.count .lb b{color:var(--foreground);font-weight:650}
+.bar{height:6px;border-radius:999px;background:var(--muted);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--status-success-text);transition:width 400ms linear}
+.bar[data-t="warn"] i{background:var(--status-warning-text)}
+.bar[data-t="dead"] i{background:var(--status-error-text)}
+.count .cd{font-size:11px;font-weight:650;color:var(--muted-foreground);font-variant-numeric:var(--tabnum)}
+.count .cd[data-t="warn"]{color:var(--status-warning-text)}
+.count .cd[data-t="dead"]{color:var(--status-error-text)}
+.row .act{text-align:right}
+@media(max-width:760px){.row .amt,.row .act{text-align:left}}
+.note{font-size:11.5px;color:var(--muted-foreground);line-height:1.6;margin-top:10px}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:16px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.wrap{padding:14px}.top{padding:0 14px}}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to quotes</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F05-requests-work-hub/V1/index.html">Requests</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="head">
+      <div><h1>Quotes</h1>
+        <p>Ordered by urgency, not by date. The bar shows how much of the validity window is left.</p></div>
+      <span class="grow"></span>
+      <span class="pill pill--info" data-clock>reference clock · 22 Oct 18:00</span>
+    </div>
+
+    <div class="legend">
+      <span><i style="background:var(--status-success-text)"></i>plenty of time</span>
+      <span><i style="background:var(--status-warning-text)"></i>under 3 days</span>
+      <span><i style="background:var(--status-error-text)"></i>expired</span>
+      <span style="margin-left:auto">7 expired · 0 pending · 5 accepted</span>
+    </div>
+
+    <div class="lgrp" data-grp="urgent">
+      <h2>Needs attention <span class="c">2</span></h2>
+      <article class="row" data-valid="2026-10-22T18:00:00" data-issued="2026-10-13T11:12:00" data-st="pending">
+        <div><p class="ref">#01a10f80</p><p class="sub">Khandesh Spice · storefront and catalogue</p>
+          <div class="meta"><span class="pill pill--pur">Pending</span><span>₹1,500 + ₹270 GST</span>
+            <span>split 50/50</span></div></div>
+        <div class="count"><div class="lb"><span>Valid until</span><b>22 Oct 2026</b></div>
+          <div class="bar" data-t="warn"><i style="width:12%"></i></div>
+          <p class="cd" data-t="warn" data-cd>—</p></div>
+        <div class="act"><a class="btn btn-p btn-sm" href="../../F11-quote-details/V1/index.html">Sign quote</a></div>
+      </article>
+
+      <article class="row" data-valid="2026-10-24T18:00:00" data-issued="2026-10-20T09:00:00" data-st="pending">
+        <div><p class="ref">#01a11209</p><p class="sub">Horizon Retail · rebrand phase one</p>
+          <div class="meta"><span class="pill pill--pur">Pending</span><span>₹2,40,000 + GST</span>
+            <span>3 milestones</span></div></div>
+        <div class="count"><div class="lb"><span>Valid until</span><b>24 Oct 2026</b></div>
+          <div class="bar" data-t="warn"><i style="width:38%"></i></div>
+          <p class="cd" data-t="warn" data-cd>—</p></div>
+        <div class="act"><a class="btn btn-p btn-sm" href="../../F11-quote-details/V1/index.html">Sign quote</a></div>
+      </article>
+    </div>
+
+    <div class="lgrp">
+      <h2>Expired <span class="c">7</span></h2>
+      <article class="row" data-valid="2026-09-30T18:00:00" data-issued="2026-09-20T10:00:00" data-st="expired">
+        <div><p class="ref">#01a0ff22</p><p class="sub">Aurora Coffee · subscription flow</p>
+          <div class="meta"><span class="pill pill--warn">Expired</span><span>₹84,000</span></div></div>
+        <div class="count"><div class="lb"><span>Expired</span><b>30 Sep 2026</b></div>
+          <div class="bar" data-t="dead"><i style="width:0%"></i></div>
+          <p class="cd" data-t="dead" data-cd>—</p></div>
+        <div class="act"><a class="btn btn-g btn-sm" href="../../F11-quote-details/V1/index.html">View</a>
+          <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div>
+      </article>
+      <article class="row" data-valid="2026-10-02T18:00:00" data-issued="2026-09-25T14:00:00" data-st="expired">
+        <div><p class="ref">#01a0fe81</p><p class="sub">Meridian Clinic · website</p>
+          <div class="meta"><span class="pill pill--warn">Expired</span><span>₹96,000</span></div></div>
+        <div class="count"><div class="lb"><span>Expired</span><b>2 Oct 2026</b></div>
+          <div class="bar" data-t="dead"><i style="width:0%"></i></div>
+          <p class="cd" data-t="dead" data-cd>—</p></div>
+        <div class="act"><a class="btn btn-g btn-sm" href="../../F11-quote-details/V1/index.html">View</a></div>
+      </article>
+      <article class="row" data-valid="2026-09-24T18:00:00" data-issued="2026-09-14T09:00:00" data-st="expired">
+        <div><p class="ref">#01a0e9c7</p><p class="sub">Prakash Optics · catalogue</p>
+          <div class="meta"><span class="pill pill--warn">Expired</span><span>₹38,000</span></div></div>
+        <div class="count"><div class="lb"><span>Expired</span><b>24 Sep 2026</b></div>
+          <div class="bar" data-t="dead"><i style="width:0%"></i></div>
+          <p class="cd" data-t="dead" data-cd>—</p></div>
+        <div class="act"><a class="btn btn-g btn-sm" href="../../F11-quote-details/V1/index.html">View</a></div>
+      </article>
+    </div>
+
+    <div class="lgrp">
+      <h2>Accepted <span class="c">5</span></h2>
+      <article class="row" data-valid="2026-10-20T18:00:00" data-issued="2026-10-13T11:12:00" data-st="accepted">
+        <div><p class="ref">#01a10f80</p><p class="sub">Khandesh Spice · signed 13 Oct 2026</p>
+          <div class="meta"><span class="pill pill--ok">Accepted</span><span>₹1,770</span><span>deposit paid</span></div></div>
+        <div class="count"><div class="lb"><span>Signed</span><b>13 Oct 2026</b></div>
+          <div class="bar"><i style="width:100%"></i></div><p class="cd">no longer signable — accepted</p></div>
+        <div class="act"><a class="btn btn-s btn-sm" href="../../F11-quote-details/V1/index.html">Open</a></div>
+      </article>
+      <article class="row" data-valid="2026-10-06T18:00:00" data-issued="2026-09-30T11:00:00" data-st="accepted">
+        <div><p class="ref">#01a10c14</p><p class="sub">Khandesh Spice · storefront build</p>
+          <div class="meta"><span class="pill pill--ok">Accepted</span><span>₹1,42,000</span></div></div>
+        <div class="count"><div class="lb"><span>Signed</span><b>4 Oct 2026</b></div>
+          <div class="bar"><i style="width:100%"></i></div><p class="cd">converted to project</p></div>
+        <div class="act"><a class="btn btn-s btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div>
+      </article>
+      <article class="row" data-valid="2026-09-12T18:00:00" data-issued="2026-09-02T10:00:00" data-st="accepted">
+        <div><p class="ref">#01a0f3d0</p><p class="sub">Kaveri Textiles · lookbook</p>
+          <div class="meta"><span class="pill pill--ok">Accepted</span><span>₹62,000</span><span>paid in full</span></div></div>
+        <div class="count"><div class="lb"><span>Signed</span><b>3 Sep 2026</b></div>
+          <div class="bar"><i style="width:100%"></i></div><p class="cd">closed</p></div>
+        <div class="act"><a class="btn btn-s btn-sm" href="../../F18-invoices/V1/index.html">Invoice</a></div>
+      </article>
+    </div>
+
+    <p class="note">Countdowns run against a fixed reference time of <b>22 Oct 2026, 18:00 IST</b> so the lab is
+      deterministic — the same five quotes always land in the same urgency bands.</p>
+
+<p style="margin-top:14px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);border-left:2px solid var(--border);padding-left:9px"><b style="color:var(--foreground)">Data honesty:</b> the quotes endpoint could not be read while this lab was built, so every amount and reference except <code>#01a10f80</code> (₹1,500 + ₹270 GST = ₹1,770, 50/50 at ₹885) is an illustrative record used to show the layout. They are sample rows, not real client quotes.</p>
+
+        <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F10 Quotes List · V2 of 5 — Expiry Ledger</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  /* fixed reference time keeps the lab deterministic */
+  var now=new Date('2026-10-22T18:00:00');
+  function fmt(ms){
+    var d=Math.floor(ms/86400000), h=Math.floor(ms%86400000/3600000), m=Math.floor(ms%3600000/60000);
+    if(ms<0)return Math.abs(d)+'d '+Math.abs(h)+'h ago';
+    if(d>0)return d+'d '+h+'h left';
+    if(h>0)return h+'h '+m+'m left';
+    return m+'m left';
+  }
+  document.querySelectorAll('.row[data-valid]').forEach(function(row){
+    var end=new Date(row.dataset.valid), cd=row.querySelector('[data-cd]');
+    if(!cd)return;
+    var ms=end-now;
+    if(row.dataset.st==='accepted')return;
+    if(ms<0){cd.textContent='expired '+fmt(ms).replace(' ago','');cd.dataset.t='dead';
+      var bar=row.querySelector('.bar'); if(bar)bar.dataset.t='dead';}
+    else{cd.textContent=fmt(ms);}
+  });
+  document.querySelectorAll('[data-requote]').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.classList.add('is-loading');
+      setTimeout(function(){b.classList.remove('is-loading');
+        say('Re-quote requested — the studio issues a fresh quote with a new validity date.');},700);
+    });
+  });
+})();
+</script>
+</body>
+</html>

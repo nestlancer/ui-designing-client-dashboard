@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thread · V3 Context Split — Nestlancer Portal Lab</title>
+<meta name="description" content="F13 variant 3: the conversation beside a project context rail whose tabs swap between milestone, files and members.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Context Split. A split · B context-linked · C project narrative · E rail tabs. */
+.shell .side{width:var(--sidebar);position:sticky;top:0;height:100vh;overflow:auto}
+.layout{padding:0}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0;align-items:start;min-height:calc(100vh - 64px)}
+@media(max-width:1040px){.split{grid-template-columns:1fr}.ctx{position:static!important;height:auto!important;
+  border-left:0;border-top:1px solid var(--border)}}
+.conv{padding:0 0 0;min-width:0;display:flex;flex-direction:column;min-height:calc(100vh - 64px)}
+.chd{padding:16px 22px 13px;border-bottom:1px solid var(--border);background:var(--card)}
+.chd .kick{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;display:flex;gap:6px;align-items:center}
+.chd h1{font-size:19px;letter-spacing:-.03em;margin-top:4px}
+.chd .m2{font-size:11.5px;color:var(--muted-foreground);margin-top:4px}
+.stream{flex:1;padding:16px 22px 8px;display:flex;flex-direction:column;gap:0;overflow:auto}
+.li{display:flex;gap:10px;padding:9px 0;position:relative}
+.li .av{width:27px;height:27px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:9.5px;font-weight:700;flex:none;margin-top:1px}
+.li.me .av{background:var(--brand-600);color:#fff}
+.li .c{min-width:0}
+.li .hd{display:flex;gap:7px;align-items:baseline}
+.li .who{font-size:12px;font-weight:700}
+.li .when{font-size:10px;color:var(--muted-foreground)}
+.li .tx{font-size:12.5px;line-height:1.6;margin-top:1px}
+.li.me .tx{color:var(--foreground)}
+.li .ctxlink{display:inline-flex;align-items:center;gap:4px;margin-top:5px;font-size:10.5px;
+  border:1px solid var(--brand-200);background:var(--brand-50);color:var(--brand-800);border-radius:5px;
+  padding:2px 7px;font-weight:600;text-decoration:none}
+.dark .li .ctxlink{background:#1b2650;border-color:#2c3a6e;color:#c9d6ff}
+.sysline{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:10.5px;color:var(--muted-foreground)}
+.sysline::before{content:'';width:14px;height:1px;background:var(--border)}
+.composer{border-top:1px solid var(--border);padding:11px 22px 14px;background:var(--card)}
+.composer textarea{width:100%;min-height:64px;resize:vertical;font:inherit;font-size:12.5px;padding:9px 11px;
+  border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);color:var(--foreground);
+  outline:none}
+.composer textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--brand-50)}
+.dark .composer textarea:focus{box-shadow:0 0 0 3px #1b2650}
+.cbar{display:flex;gap:6px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.cbar .ql2{font-size:10.5px;color:var(--muted-foreground);margin-left:auto}
+
+.ctx{position:sticky;top:var(--header);border-left:1px solid var(--border);background:var(--card);
+  height:calc(100vh - var(--header));overflow:auto}
+.tabs{display:flex;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card);z-index:3}
+.tabs button{flex:1;padding:9px 4px;font-size:11px;font-weight:650;color:var(--muted-foreground);
+  border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--foreground);border-bottom-color:var(--primary)}
+.pane{padding:15px 15px 24px}
+.pane h3{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:8px}
+.mrow{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px;align-items:center}
+.mrow:last-child{border-bottom:0}
+.mrow .num{width:20px;height:20px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:10px;font-weight:700;flex:none}
+.mrow[data-st="done"] .num{background:var(--status-success-bg);color:var(--status-success-text)}
+.mrow[data-st="now"] .num{background:var(--brand-600);color:#fff}
+.mrow[data-st="lock"] .num{background:var(--muted);color:var(--muted-foreground)}
+.mrow b{display:block;font-weight:650;font-size:12px}
+.mrow span.s{font-size:10.5px;color:var(--muted-foreground)}
+.mrow .v{margin-left:auto;font-size:11px;font-variant-numeric:var(--tabnum);white-space:nowrap}
+.prog{height:5px;background:var(--muted);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+.prog i{display:block;height:100%;width:57%;background:var(--primary)}
+.progtxt{font-size:10.5px;color:var(--muted-foreground);display:flex;justify-content:space-between}
+.file{display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);
+  font-size:11.5px}
+.file:last-child{border-bottom:0}
+.file .ext{width:26px;height:26px;border-radius:6px;background:var(--brand-50);color:var(--brand-700);
+  display:grid;place-items:center;font-size:8.5px;font-weight:800;flex:none;letter-spacing:.02em}
+.dark .file .ext{background:#1b2650;color:#c9d6ff}
+.file b{display:block;font-weight:600;font-size:11.5px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;max-width:190px}
+.file span{font-size:10px;color:var(--muted-foreground)}
+.mem2{display:flex;gap:8px;align-items:center;padding:6px 0;font-size:12px}
+.mem2 .av{width:24px;height:24px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:9px;font-weight:700}
+.mem2 .r{margin-left:auto;font-size:9.5px;color:var(--muted-foreground)}
+.note{border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 10px;font-size:11px;
+  line-height:1.55;color:var(--muted-foreground);background:var(--background);margin-top:12px}
+.segbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 22px;font-size:10.5px;
+  color:var(--muted-foreground);border-top:1px solid var(--border);background:var(--card)}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:2px 6px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></symbol>
+  <symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to conversation</a>
+<div class="shell">
+  <aside class="side">
+    <div class="side-brand"><span class="brand-mark">N</span><span>Nestlancer</span></div>
+    <nav aria-label="Main">
+      <a href="../../F03-dashboard-overview/V1/index.html"><svg class="i i--sm"><use href="#i-dash"/></svg>Overview</a>
+      <a href="../../F05-requests-work-hub/V1/index.html">Requests</a>
+      <a href="../../F08-projects-list/V1/index.html">Projects</a>
+      <a href="../../F12-messages-home/V1/index.html" aria-current="page">Messages</a>
+      <a href="../../F14-billing/V1/index.html">Billing</a>
+    </nav>
+  </aside>
+
+  <div class="layout">
+    <header class="topbar">
+      <div class="topbar-in">
+        <a href="../../F12-messages-home/V1/index.html" class="tlink">← Inbox</a>
+        <span class="tsep"></span>
+        <span class="tctx">Khandesh Spice D2C E-Commerce Store</span>
+        <span class="grow"></span>
+        <button class="btn btn-g btn-sm" data-demo>Search</button>
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </header>
+
+    <main id="main" class="split">
+      <section class="conv">
+        <div class="chd">
+          <p class="kick"><svg class="i" style="width:11px;height:11px"><use href="#i-link"/></svg>
+            Linked to milestone 2</p>
+          <h1>Hero layout — thread</h1>
+          <p class="m2">Rahul (studio), Riya Kapoor (client) and you · 3 members · last reply 18m ago</p>
+        </div>
+
+        <div class="stream" data-stream>
+          <div class="li">
+            <span class="av">RH</span>
+            <div class="c"><div class="hd"><span class="who">Rahul</span><span class="when">1h ago</span></div>
+              <p class="tx">Hero CTA above the fold? On a 375px screen the primary button sits below the fold after
+              the carousel.</p>
+              <a class="ctxlink" href="../../F09-project-details/V1/index.html">
+                <svg class="i" style="width:10px;height:10px"><use href="#i-link"/></svg>Milestone 2 · Homepage build</a>
+            </div>
+          </div>
+          <div class="li me">
+            <span class="av">AM</span>
+            <div class="c"><div class="hd"><span class="who">You</span><span class="when">52m ago</span></div>
+              <p class="tx">Yes — move it above. Keep the carousel but let the CTA sit under the headline.</p></div>
+          </div>
+          <div class="sysline"><span>Riya Kapoor added by Arjun Mehta</span></div>
+          <div class="li">
+            <span class="av">RK</span>
+            <div class="c"><div class="hd"><span class="who">Riya Kapoor</span><span class="when">30m ago</span></div>
+              <p class="tx">Noted. Keep the hero copy short enough that the CTA stays visible without scrolling.</p>
+              <a class="ctxlink" href="../../F09-project-details/V1/index.html">
+                <svg class="i" style="width:10px;height:10px"><use href="#i-link"/></svg>Acceptance note · milestone 2</a>
+            </div>
+          </div>
+          <div class="li">
+            <span class="av">RH</span>
+            <div class="c"><div class="hd"><span class="who">Rahul</span><span class="when">18m ago</span></div>
+              <p class="tx">Staging build pushed. CTA clears the fold at 375, 390 and 414. Please confirm on your
+              device before we lock the milestone.</p>
+              <a class="ctxlink" href="../../F09-project-details/V1/index.html">
+                <svg class="i" style="width:10px;height:10px"><use href="#i-link"/></svg>Staging build · v0.9.3</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="composer">
+          <textarea rows="3" placeholder="Reply — mention this milestone to keep the context attached…"
+            aria-label="Reply" data-input></textarea>
+          <div class="cbar">
+            <button class="btn btn-p btn-sm" data-send>Send reply</button>
+            <button class="btn btn-g btn-sm" data-qr="Attaching the milestone context to my reply.">Attach context</button>
+            <span class="ql2">Enter adds a line · ⌘↵ sends</span>
+          </div>
+        </div>
+        <div class="segbar">
+          <a href="../../../index.html">← Gallery</a><span>F13 · V3 of 5</span>
+          <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+        </div>
+      </section>
+
+      <aside class="ctx" aria-label="Project context">
+        <div class="tabs" role="tablist" aria-label="Context">
+          <button role="tab" aria-selected="true" aria-controls="p-m" data-t="m">Milestones</button>
+          <button role="tab" aria-selected="false" aria-controls="p-f" data-t="f">Files</button>
+          <button role="tab" aria-selected="false" aria-controls="p-mem" data-t="mem">Members</button>
+        </div>
+
+        <div class="pane" id="p-m" role="tabpanel" aria-label="Milestones">
+          <h3>Khandesh Spice · 57%</h3>
+          <div class="prog"><i></i></div>
+          <p class="progtxt"><span>Milestone 2 in progress</span><span>2 / 3</span></p>
+          <div class="mrow" data-st="done"><span class="num">1</span>
+            <span><b>Discovery &amp; wireframes</b><span class="s">approved 15 Oct</span></span>
+            <span class="v">₹48,000 paid</span></div>
+          <div class="mrow" data-st="now"><span class="num">2</span>
+            <span><b>Homepage build</b><span class="s">due 30 Oct · in review</span></span>
+            <span class="v">₹30,000</span></div>
+          <div class="mrow" data-st="lock"><span class="num">3</span>
+            <span><b>Launch &amp; handover</b><span class="s">starts after milestone 2</span></span>
+            <span class="v">locked</span></div>
+          <div class="note">Milestone 2 was started on 5 Oct 2026. Owner: Riya Kapoor. Request origin
+            <b>NL-REQ-2026-0018</b>.</div>
+        </div>
+
+        <div class="pane" id="p-f" role="tabpanel" aria-label="Files" hidden>
+          <h3>Shared in this thread</h3>
+          <div class="file"><span class="ext">PNG</span><span><b>hero-375-before.png</b><span>312 KB · Rahul · 1h ago</span></span></div>
+          <div class="file"><span class="ext">PDF</span><span><b>milestone-2-notes.pdf</b><span>184 KB · Studio · 2d ago</span></span></div>
+          <div class="file"><span class="ext">FIG</span><span><b>hero-layout-v3.fig</b><span>2.1 MB · Studio · 4d ago</span></span></div>
+          <div class="note">File names here mirror the milestone attachment list; the portal's file browser lives
+            under Settings ▸ Files.</div>
+          <a class="btn btn-g btn-sm" style="margin-top:10px" href="../../F22-settings-files/V1/index.html">Open file browser</a>
+        </div>
+
+        <div class="pane" id="p-mem" role="tabpanel" aria-label="Members" hidden>
+          <h3>3 members</h3>
+          <div class="mem2"><span class="av">AM</span>Arjun Mehta<span class="r">you · owner</span></div>
+          <div class="mem2"><span class="av">RH</span>Rahul<span class="r">studio · lead</span></div>
+          <div class="mem2"><span class="av">RK</span>Riya Kapoor<span class="r">client</span></div>
+          <div class="note">Only the project owner can remove a member. Mentioning someone adds them to the thread
+            notification list.</div>
+        </div>
+      </aside>
+    </main>
+  </div>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var tabs=document.querySelectorAll('.tabs button');
+  var panes={m:document.getElementById('p-m'),f:document.getElementById('p-f'),mem:document.getElementById('p-mem')};
+  tabs.forEach(function(b,i){
+    b.addEventListener('click',function(){show(b.dataset.t);});
+    b.addEventListener('keydown',function(e){
+      if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+      e.preventDefault();
+      var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];
+      n.focus(); show(n.dataset.t);
+    });
+  });
+  function show(k){
+    tabs.forEach(function(x){x.setAttribute('aria-selected',String(x.dataset.t===k));});
+    Object.keys(panes).forEach(function(p){panes[p].hidden=p!==k;});
+  }
+
+  var stream=document.querySelector('[data-stream]'), input=document.querySelector('[data-input]');
+  function send(){
+    var v=input.value.trim(); if(!v){input.focus();return;}
+    var d=document.createElement('div'); d.className='li me';
+    d.innerHTML='<span class="av">AM</span><div class="c"><div class="hd"><span class="who">You</span>'+
+      '<span class="when">just now</span></div><p class="tx"></p>'+
+      '<a class="ctxlink" href="../../F09-project-details/V1/index.html">'+contextLabel()+'</a></div>';
+    d.querySelector('.tx').textContent=v;
+    stream.appendChild(d); input.value='';
+    say('Reply sent with the milestone context attached.');
+    d.scrollIntoView({block:'nearest'});
+  }
+  function contextLabel(){
+    return document.querySelector('[aria-selected="true"][role="tab"]').dataset.t==='f'
+      ? 'Build files · milestone 2' : 'Milestone 2 · Homepage build';
+  }
+  document.querySelector('[data-send]').addEventListener('click',send);
+  document.querySelector('[data-qr]').addEventListener('click',function(){
+    input.value='Attaching the milestone 2 context for clarity: ';
+    input.focus();
+  });
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){e.preventDefault();send();}
+  });
+  document.querySelector('[data-demo]').addEventListener('click',function(){
+    say('Thread search is demo-only in this lab.');
+  });
+})();
+</script>
+</body>
+</html>

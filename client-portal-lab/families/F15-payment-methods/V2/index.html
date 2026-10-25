@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment methods · V2 Method Cards — Nestlancer Portal Lab</title>
+<meta name="description" content="F15 variant 2: saved methods as cards with set-default, rename and a confirmation dialog before removal, plus a labelled UPI mandate row.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Method Cards. A grid · B object-first · C method narrative · E dialog. */
+.page{max-width:1080px;margin:0 auto;padding:0 22px 60px}
+.hd{display:flex;align-items:end;gap:14px;flex-wrap:wrap;padding:24px 0 16px}
+.hd h1{font-size:25px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12.5px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:7px;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:13px}
+.mcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:15px;
+  display:flex;flex-direction:column;gap:11px;position:relative}
+.mcard[data-default="1"]{border-color:var(--brand-300);box-shadow:0 0 0 3px var(--brand-50)}
+.dark .mcard[data-default="1"]{box-shadow:0 0 0 3px #1b2650}
+.mcard .top{display:flex;gap:9px;align-items:center}
+.mcard .logo{width:38px;height:26px;border-radius:5px;background:var(--muted);display:grid;place-items:center;
+  font-size:9px;font-weight:800;letter-spacing:.02em;color:var(--muted-foreground)}
+.mcard[data-kind="card"] .logo{background:#e8efff;color:#0b2a6b}
+.dark .mcard[data-kind="card"] .logo{background:#1b2650;color:#c9d6ff}
+.mcard .num{font-size:13px;font-weight:650;letter-spacing:.03em;font-variant-numeric:var(--tabnum)}
+.mcard .num span{font-size:10px;color:var(--muted-foreground);letter-spacing:0;display:block;margin-top:2px;
+  font-weight:500}
+.mcard .badge{margin-left:auto}
+.mcard .rows{display:grid;gap:5px;font-size:11.5px}
+.mcard .rows div{display:flex;justify-content:space-between;gap:8px}
+.mcard .rows dt{color:var(--muted-foreground)}
+.mcard .rows dd{margin:0;font-weight:600}
+.mcard .acts{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto;padding-top:9px;
+  border-top:1px solid var(--border)}
+.mcard .acts button{font-size:11px;font-weight:600;color:var(--brand-700);padding:3px 0}
+.dark .mcard .acts button{color:#9db3ff}
+.mcard .acts .rm{color:var(--status-error-text);margin-left:auto}
+.mcard.ghost{border-style:dashed;align-items:center;justify-content:center;text-align:center;min-height:186px;
+  background:transparent}
+.mcard.ghost b{font-size:12.5px}
+.mcard.ghost p{margin:4px 0 10px;font-size:11.5px;color:var(--muted-foreground);line-height:1.5}
+.rz{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:11px 14px;margin:16px 0}
+.rz .m{font-weight:800;font-size:11.5px;color:#0b2a6b;background:#e8efff;border-radius:5px;padding:3px 7px;
+  white-space:nowrap}
+.dark .rz .m{background:#1b2650;color:#c9d6ff}
+.rz p{margin:0;font-size:11.5px;color:var(--muted-foreground);line-height:1.55}
+.honest{border:1px solid var(--border);border-left:3px solid var(--primary);background:var(--brand-50);
+  border-radius:var(--radius-sm);padding:10px 12px;font-size:11.5px;line-height:1.6}
+.dark .honest{background:#161f3a}
+.honest b{display:block;margin-bottom:2px}
+.mand{display:flex;gap:10px;align-items:center;border:1px dashed var(--border);border-radius:var(--radius-md);
+  padding:11px 13px;margin-top:12px;flex-wrap:wrap;background:var(--card)}
+.mand p{margin:0;font-size:11.5px;color:var(--muted-foreground);line-height:1.55;flex:1;min-width:200px}
+dialog{border:1px solid var(--border);border-radius:var(--radius-lg);padding:0;max-width:400px;width:calc(100% - 32px);
+  background:var(--card);color:var(--foreground)}
+dialog::backdrop{background:rgba(15,28,46,.42)}
+dialog .dh{padding:15px 17px 10px}
+dialog h2{font-size:15px;letter-spacing:-.02em}
+dialog p{margin:6px 0 0;font-size:12px;color:var(--muted-foreground);line-height:1.6}
+dialog .db{padding:4px 17px 16px;display:flex;gap:7px;justify-content:flex-end}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:20px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to payment methods</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F14-billing/V1/index.html">Billing</a>
+        <a href="index.html" aria-current="page">Payment methods</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div><h1>Payment methods</h1>
+        <p>2 saved methods · 1 default · saved automatically at Razorpay checkout</p></div>
+      <div class="r"><a class="btn btn-g btn-sm" href="../../F14-billing/V1/index.html">Go to payments</a></div>
+    </div>
+
+    <div class="rz">
+      <span class="m">Razorpay</span>
+      <p>Methods are tokenised by Razorpay. Nestlancer stores the network, last four digits and expiry only — never
+        a full card number or CVV.</p>
+    </div>
+
+    <div class="grid" data-grid>
+      <article class="mcard" data-kind="card" data-default="1" data-id="m1">
+        <div class="top"><span class="logo">VISA</span>
+          <div class="num">•••• 4242<span>HDFC Bank · debit</span></div>
+          <span class="badge pill pill--ok">default</span></div>
+        <dl class="rows">
+          <div><dt>Expires</dt><dd>09 / 2028</dd></div>
+          <div><dt>Added</dt><dd>15 Oct 2026</dd></div>
+          <div><dt>Last used</dt><dd>Milestone 1</dd></div>
+        </dl>
+        <div class="acts">
+          <button data-rename="m1">Rename</button>
+          <button data-default-btn="m1">Make default</button>
+          <button class="rm" data-remove="m1">Remove</button>
+        </div>
+      </article>
+
+      <article class="mcard" data-kind="upi" data-default="0" data-id="m2">
+        <div class="top"><span class="logo">UPI</span>
+          <div class="num">arjun@okhdfc<span>UPI · collect request</span></div>
+          <span class="badge pill">saved</span></div>
+        <dl class="rows">
+          <div><dt>Added</dt><dd>20 Sep 2026</dd></div>
+          <div><dt>Last used</dt><dd>Hero rebuild</dd></div>
+          <div><dt>Mandate</dt><dd>none</dd></div>
+        </dl>
+        <div class="acts">
+          <button data-rename="m2">Rename</button>
+          <button data-default-btn="m2">Make default</button>
+          <button class="rm" data-remove="m2">Remove</button>
+        </div>
+      </article>
+
+      <article class="mcard ghost">
+        <div><b>Add a payment method</b>
+          <p>Saved automatically the next time you pay. Manual token entry is not supported.</p></div>
+        <button class="btn btn-s btn-sm" data-add><svg class="i i--sm"><use href="#i-plus"/></svg>Add method</button>
+      </article>
+    </div>
+
+    <div class="mand">
+      <div style="flex:1;min-width:200px">
+        <p><b style="color:var(--foreground)">UPI autopay mandate</b> — not created by this portal. Razorpay manages
+          recurring mandates outside the UI.</p>
+      </div>
+      <button class="btn btn-g btn-sm" data-demo>Set up mandate</button>
+    </div>
+
+    <div class="honest" style="margin-top:14px">
+      <b>Empty and error states are the same page</b>
+      If <code>GET /payments/methods</code> returns nothing you get the empty state from V1; if it fails you get the
+      retry block. Both keep the explainer below so you are never stuck without a route to pay.
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F15 · V2 of 5 · <code>POST /payments/methods</code>, <code>DELETE /payments/methods/{id}</code></span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<dialog data-dlg aria-labelledby="dlg-t">
+  <div class="dh"><h2 id="dlg-t">Remove this method?</h2>
+    <p data-dlg-txt>The method will no longer appear at checkout. Payments already made are unaffected.</p></div>
+  <div class="db">
+    <button class="btn btn-g btn-sm" data-cancel>Keep it</button>
+    <button class="btn btn-d btn-sm" data-confirm>Remove method</button>
+  </div>
+</dialog>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var dlg=document.querySelector('[data-dlg]'), pending=null;
+  document.querySelector('[data-grid]').addEventListener('click',function(e){
+    var d=e.target.closest('[data-default-btn]');
+    if(d){
+      var id=d.dataset.defaultBtn;
+      document.querySelectorAll('.mcard[data-id]').forEach(function(c){
+        var on=c.dataset.id===id;
+        c.dataset.default=on?'1':'0';
+        c.querySelector('.badge').className='badge '+(on?'pill pill--ok':'pill');
+        c.querySelector('.badge').textContent=on?'default':'saved';
+      });
+      say('Default method updated — this is optimistic and reverts if the save fails.');
+      return;
+    }
+    var r=e.target.closest('[data-remove]');
+    if(r){
+      pending=r.dataset.remove;
+      var card=document.querySelector('.mcard[data-id="'+pending+'"]');
+      document.querySelector('[data-dlg-txt]').textContent=
+        (card.querySelector('.num').textContent.split(' ')[0]||'This method')+
+        ' will be removed from checkout. Payments already made are unaffected.';
+      if(dlg.showModal){dlg.showModal();}else{dlg.setAttribute('open','');}
+      return;
+    }
+    var n=e.target.closest('[data-rename]');
+    if(n){
+      var c2=document.querySelector('.mcard[data-id="'+n.dataset.rename+'"]');
+      var lbl=c2.querySelector('.num span');
+      var v=window.prompt('Nickname for this method',lbl.textContent);
+      if(v&&v.trim()){lbl.textContent=v.trim();say('Nickname saved.');}
+    }
+  });
+  document.querySelector('[data-cancel]').addEventListener('click',function(){
+    pending=null; dlg.close(); say('Nothing removed.');
+  });
+  document.querySelector('[data-confirm]').addEventListener('click',function(){
+    if(pending){
+      var c=document.querySelector('.mcard[data-id="'+pending+'"]');
+      if(c)c.remove();
+      say('Method removed. Re-add it by paying through checkout again.');
+    }
+    pending=null; dlg.close();
+    if(!document.querySelector('.mcard[data-id]')){
+      var g=document.querySelector('.mcard.ghost');
+      if(g)g.innerHTML='<div><b>No saved methods</b><p>Saved automatically the next time you pay.</p></div>'+
+        '<a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Pay a milestone</a>';
+    }
+  });
+  document.querySelector('[data-add]').addEventListener('click',function(){
+    say('New methods are created at Razorpay checkout — manual token entry is not supported.');
+  });
+  document.querySelector('[data-demo]').addEventListener('click',function(){
+    say('UPI mandate setup is demo-only — no mandate endpoint exists.');
+  });
+})();
+</script>
+</body>
+</html>

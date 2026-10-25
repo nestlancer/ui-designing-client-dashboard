@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thread · V1 Classic 3-pane — Nestlancer Portal Lab</title>
+<meta name="description" content="F13 variant 1: queue, thread and members rail with reply banner, inline edit and delete on your own messages.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Classic 3-pane. A 3-pane · B thread-first · D medium · E reply / edit / delete. */
+.grid{display:grid;grid-template-columns:230px minmax(0,1fr) 250px;min-height:100vh}
+@media(max-width:1150px){.grid{grid-template-columns:230px minmax(0,1fr)}.members{display:none}}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.qcol{display:none}}
+.qcol{border-right:1px solid var(--border);background:var(--card);padding:12px 10px}
+.qcol h1{font-size:13px;letter-spacing:-.02em;padding:0 4px 10px;display:flex;align-items:center;gap:6px}
+.qt{display:block;padding:9px 9px;border-radius:var(--radius-sm);text-decoration:none;color:inherit;
+  border-left:2px solid transparent}
+.qt:hover{background:var(--brand-50)}
+.dark .qt:hover{background:#161f3a}
+.qt[aria-current="true"]{background:var(--brand-50);border-left-color:var(--primary)}
+.dark .qt[aria-current="true"]{background:#1b2650}
+.qt b{font-size:12px;font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qt span{font-size:10.5px;color:var(--muted-foreground);display:block;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.main{display:flex;flex-direction:column;min-width:0;background:var(--background)}
+.thd{padding:12px 18px;border-bottom:1px solid var(--border);background:var(--card);display:flex;gap:10px;
+  align-items:center;position:sticky;top:0;z-index:5;flex-wrap:wrap}
+.thd h2{font-size:14.5px;letter-spacing:-.025em}
+.thd .m{font-size:11px;color:var(--muted-foreground);margin-top:2px}
+.thd .actions{margin-left:auto;display:flex;gap:5px}
+.thread{flex:1;overflow:auto;padding:16px 18px 0;display:flex;flex-direction:column;gap:13px}
+.day{align-self:center;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground)}
+.sys{align-self:center;font-size:10.5px;color:var(--muted-foreground);background:var(--muted);
+  border-radius:999px;padding:2px 10px}
+.m{display:flex;gap:9px;max-width:74%}
+.m .av{width:26px;height:26px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:9.5px;font-weight:700;flex:none}
+.m .body{background:var(--card);border:1px solid var(--border);border-radius:12px 12px 12px 4px;padding:8px 11px}
+.m .who{font-size:11px;font-weight:700;margin-bottom:2px}
+.m p{margin:0;font-size:12.5px;line-height:1.55}
+.m .meta{font-size:9.5px;color:var(--muted-foreground);margin-top:4px;display:flex;gap:6px;align-items:center}
+.m.me{align-self:flex-end;flex-direction:row-reverse}
+.m.me .body{background:var(--brand-600);border:0;color:#fff;border-radius:12px 12px 4px 12px}
+.m.me .who{color:rgba(255,255,255,.9)}
+.m.me .meta{color:rgba(255,255,255,.75)}
+.m .mini{font-size:10px;color:inherit;opacity:.8;text-decoration:underline;text-underline-offset:2px}
+.m.me .mini{opacity:.92}
+.m[data-edit] .body{outline:2px solid var(--brand-300);outline-offset:1px}
+.editbox{display:grid;gap:6px;margin-top:6px}
+.editbox textarea{font:inherit;font-size:12.5px;border:1px solid var(--border);border-radius:6px;padding:6px 8px;
+  background:var(--card);color:var(--foreground);outline:none;resize:vertical;width:100%}
+.replybar{margin:0 18px;border:1px solid var(--border);border-left:3px solid var(--primary);
+  background:var(--brand-50);border-radius:var(--radius-sm);padding:7px 10px;display:flex;gap:8px;
+  align-items:center;font-size:11.5px}
+.dark .replybar{background:#161f3a}
+.replybar b{font-weight:700}
+.replybar button{margin-left:auto;color:var(--muted-foreground)}
+.composer{border-top:1px solid var(--border);padding:10px 18px 14px;background:var(--card);margin-top:12px}
+.composer .ql{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}
+.composer .ql button{border:1px solid var(--border);border-radius:999px;padding:3px 9px;font-size:11px;
+  background:var(--card);color:var(--muted-foreground)}
+.composer .ql button:hover{border-color:var(--brand-300);color:var(--brand-700)}
+.crow{display:flex;gap:8px;align-items:flex-end}
+.crow textarea{flex:1;min-height:40px;resize:none;font:inherit;font-size:12.5px;padding:9px 11px;
+  border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);color:var(--foreground);
+  outline:none}
+.crow textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--brand-50)}
+.dark .crow textarea:focus{box-shadow:0 0 0 3px #1b2650}
+.members{border-left:1px solid var(--border);background:var(--card);padding:14px 13px}
+.members h3{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:9px}
+.mem{display:flex;gap:8px;align-items:center;padding:5px 0;font-size:12px}
+.mem .av{width:23px;height:23px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:9px;font-weight:700}
+.mem span.r{margin-left:auto;font-size:9.5px;color:var(--muted-foreground)}
+.railbox{border-top:1px solid var(--border);margin-top:12px;padding-top:11px}
+.railbox p{margin:0 0 8px;font-size:11px;color:var(--muted-foreground);line-height:1.5}
+.foot{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:10.5px;color:var(--muted-foreground);
+  padding:8px 18px 12px}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:2px 6px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m3 20 18-8L3 4l4 8z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4h14l-2 5 2 5H5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to thread</a>
+<div class="grid">
+  <aside class="qcol" aria-label="Conversations">
+    <h1><a href="../../F12-messages-home/V1/index.html" aria-label="All messages" style="display:inline-flex">
+      <svg class="i i--sm"><use href="#i-back"/></svg></a> Threads</h1>
+    <a class="qt" href="index.html" aria-current="true"><b>Rahul · Khandesh Spice</b><span>Hero CTA above the fold?</span></a>
+    <a class="qt" href="index.html"><b>Riya Kapoor · Horizon</b><span>Invoice reminder</span></a>
+    <a class="qt" href="index.html"><b>Studio · B2B Wholesale</b><span>Milestone 3 in review</span></a>
+    <a class="qt" href="index.html"><b>Khandesh Spice · group (3)</b><span>Walkthrough booked</span></a>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="thd">
+      <div><h2>Rahul · Khandesh Spice</h2>
+        <p class="m">3 members · project LP-2026-0714 · milestone 2</p></div>
+      <div class="actions">
+        <button class="btn btn-g btn-sm" data-flag><svg class="i i--sm"><use href="#i-flag"/></svg>Flag</button>
+        <button class="btn btn-g btn-sm" data-leave>Leave group</button>
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+
+    <div class="thread" data-thread>
+      <span class="day">21 October 2026</span>
+      <div class="m">
+        <span class="av">RH</span>
+        <div class="body"><p class="who">Rahul</p>
+          <p>Hero CTA above the fold? On a 375px screen the primary button currently sits below the fold after the
+          product carousel.</p>
+          <p class="meta">1h ago · read</p></div>
+      </div>
+      <div class="m me" data-mine>
+        <span class="av">AM</span>
+        <div class="body"><p class="who">You</p>
+          <p data-text>Yes — move it above. Keep the carousel but let the CTA sit under the headline.</p>
+          <p class="meta">52m ago · delivered
+            <button class="mini" data-editbtn>Edit</button>
+            <button class="mini" data-delbtn>Delete</button></p></div>
+      </div>
+      <span class="sys">Riya Kapoor was added to this thread</span>
+      <div class="m">
+        <span class="av">RK</span>
+        <div class="body"><p class="who">Riya Kapoor <span style="font-weight:500;opacity:.7">@Arjun</span></p>
+          <p>Noted. Please keep the hero copy short enough that the CTA stays visible without scrolling.</p>
+          <p class="meta">30m ago · read</p></div>
+      </div>
+    </div>
+
+    <div class="replybar" data-reply hidden>
+      <span>Replying to <b data-reply-to>Rahul</b> — <span data-reply-txt></span></span>
+      <button aria-label="Cancel reply" data-reply-x>×</button>
+    </div>
+
+    <div class="composer">
+      <div class="ql">
+        <button data-qr="Approved — proceed with the change.">Approved</button>
+        <button data-qr="Can you show it on a 375px screen first?">Ask for mobile check</button>
+        <button data-qr="Flagging for the milestone 2 review.">Flag for review</button>
+      </div>
+      <div class="crow">
+        <textarea rows="2" placeholder="Reply to the thread…" data-input aria-label="Reply"></textarea>
+        <button class="btn btn-p" data-send><svg class="i i--sm"><use href="#i-send"/></svg>Send</button>
+      </div>
+      <p style="margin:6px 0 0;font-size:10.5px;color:var(--muted-foreground)">
+        Enter sends · Shift+Enter adds a line · typing and read receipts are demo-only in this lab</p>
+    </div>
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F13 · V1 of 5</span>
+      <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+
+  <aside class="members" aria-label="Members">
+    <h3>Members · 3</h3>
+    <div class="mem"><span class="av">AM</span>Arjun Mehta<span class="r">you · owner</span></div>
+    <div class="mem"><span class="av">RH</span>Rahul<span class="r">studio</span></div>
+    <div class="mem"><span class="av">RK</span>Riya Kapoor<span class="r">client</span></div>
+    <div class="railbox">
+      <h3>Quick replies</h3>
+      <p>Sending a reply notifies the other two members by email and in-app.</p>
+    </div>
+    <div class="railbox">
+      <h3>SLA</h3>
+      <p><span class="pill pill--warn">1 working day</span></p>
+      <p>Typing indicators and read receipts are demo-only; the reply target is real.</p>
+    </div>
+    <div class="railbox">
+      <h3>Search in conversation</h3>
+      <input type="search" placeholder="Find a message" data-find aria-label="Search this conversation"
+        style="width:100%;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font:inherit;
+        font-size:11.5px;background:var(--card);color:var(--foreground);outline:none">
+      <p style="margin:6px 0 0" data-find-out></p>
+    </div>
+  </aside>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var thread=document.querySelector('[data-thread]'), input=document.querySelector('[data-input]');
+  var reply=document.querySelector('[data-reply]'), replyTo=document.querySelector('[data-reply-to]'),
+      replyTxt=document.querySelector('[data-reply-txt]');
+
+  // click a message to quote it
+  thread.addEventListener('click',function(e){
+    var msg=e.target.closest('.m'); if(!msg||e.target.closest('button'))return;
+    if(msg.hasAttribute('data-edit'))return;
+    reply.hidden=false;
+    replyTo.textContent=msg.querySelector('.who').textContent.replace('@Arjun','').trim();
+    replyTxt.textContent=msg.querySelector('p').textContent.slice(0,54)+'…';
+    input.focus();
+  });
+  document.querySelector('[data-reply-x]').addEventListener('click',function(){reply.hidden=true;});
+
+  function send(){
+    var v=input.value.trim(); if(!v){input.focus();return;}
+    var d=document.createElement('div'); d.className='m me';
+    d.innerHTML='<span class="av">AM</span><div class="body"><p class="who">You</p><p></p>'+
+      '<p class="meta">just now · delivered</p></div>';
+    var p=d.querySelectorAll('p')[1];
+    if(!reply.hidden){
+      var q=document.createElement('div');
+      q.style.cssText='border-left:2px solid rgba(255,255,255,.55);padding-left:7px;margin-bottom:5px;'+
+        'font-size:11.5px;opacity:.85';
+      q.textContent=replyTo.textContent+': '+replyTxt.textContent;
+      p.parentNode.insertBefore(q,p);
+      reply.hidden=true;
+    }
+    p.textContent=v;
+    thread.appendChild(d);
+    input.value=''; thread.scrollTop=thread.scrollHeight;
+    say('Reply posted to the thread.');
+  }
+  document.querySelector('[data-send]').addEventListener('click',send);
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}
+    if(e.key==='Escape'&&!reply.hidden){reply.hidden=true;}
+  });
+  document.querySelectorAll('[data-qr]').forEach(function(b){
+    b.addEventListener('click',function(){input.value=b.dataset.qr;input.focus();});
+  });
+
+  // inline edit
+  var mine=document.querySelector('[data-mine]');
+  document.querySelector('[data-editbtn]').addEventListener('click',function(){
+    if(mine.hasAttribute('data-edit'))return;
+    var p=mine.querySelector('[data-text]'), old=p.textContent;
+    mine.setAttribute('data-edit','1');
+    p.innerHTML='';
+    var box=document.createElement('div'); box.className='editbox';
+    var ta=document.createElement('textarea'); ta.rows=2; ta.value=old;
+    ta.setAttribute('aria-label','Edit your message');
+    var row=document.createElement('div'); row.style.cssText='display:flex;gap:6px';
+    var save=document.createElement('button'); save.className='btn btn-sm';
+    save.style.cssText='background:#fff;color:var(--brand-800);border:0'; save.textContent='Save';
+    var cancel=document.createElement('button'); cancel.className='mini'; cancel.textContent='Cancel';
+    row.appendChild(save); row.appendChild(cancel); box.appendChild(ta); box.appendChild(row);
+    p.appendChild(box); ta.focus();
+    cancel.addEventListener('click',function(e){
+      e.stopPropagation(); mine.removeAttribute('data-edit'); p.textContent=old;
+    });
+    save.addEventListener('click',function(e){
+      e.stopPropagation();
+      var nv=ta.value.trim();
+      if(!nv){ta.focus();return;}
+      mine.removeAttribute('data-edit');
+      p.textContent=nv;
+      mine.querySelector('.meta').insertAdjacentText('beforeend',' · edited');
+      say('Message updated — shows an “edited” marker.');
+    });
+  });
+  document.querySelector('[data-delbtn]').addEventListener('click',function(){
+    mine.hidden=true; say('Message deleted — the thread keeps a system line in production.');
+    var s=document.createElement('span'); s.className='sys';
+    s.textContent='You deleted a message'; thread.appendChild(s);
+  });
+
+  document.querySelector('[data-flag]').addEventListener('click',function(){
+    say('Flagged for follow-up — visible only to you.');
+  });
+  document.querySelector('[data-leave]').addEventListener('click',function(){
+    say('Leave group is demo-only — you stay the owner of a project thread.');
+  });
+
+  var find=document.querySelector('[data-find]'), out=document.querySelector('[data-find-out]');
+  find.addEventListener('input',function(){
+    var q=find.value.toLowerCase().trim();
+    var hits=[].slice.call(thread.querySelectorAll('.m')).filter(function(m){
+      return !q || m.textContent.toLowerCase().indexOf(q)>-1;
+    });
+    out.textContent = !q ? '' : hits.length+' message'+(hits.length===1?'':'s')+' match “'+q+'”.';
+  });
+})();
+</script>
+</body>
+</html>

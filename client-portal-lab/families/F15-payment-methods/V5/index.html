@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment methods · V5 Verification Queue — Nestlancer Portal Lab</title>
+<meta name="description" content="F15 variant 5: methods that still need an action — an unverified card, a pending UPI collect and an expiring card — as a queue with per-row retry.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Verification Queue. A queue · B action-first · C queue narrative · E row actions. */
+.page{max-width:940px;margin:0 auto;padding:0 22px 60px}
+.hd{padding:24px 0 12px;display:flex;align-items:end;gap:14px;flex-wrap:wrap}
+.hd h1{font-size:24px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12.5px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.stat{display:flex;gap:16px;flex-wrap:wrap;padding:11px 14px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--card);margin-bottom:14px;font-size:11.5px;
+  color:var(--muted-foreground)}
+.stat b{color:var(--foreground);font-variant-numeric:var(--tabnum)}
+.q{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);overflow:hidden}
+.qh{display:flex;align-items:center;gap:9px;padding:10px 14px;border-bottom:1px solid var(--border);
+  background:var(--brand-50);flex-wrap:wrap}
+.dark .qh{background:#161f3a}
+.qh h2{font-size:12.5px;letter-spacing:-.02em}
+.qh .c{font-size:10.5px;color:var(--muted-foreground)}
+.qh .r{margin-left:auto;display:flex;gap:4px}
+.qh button{font-size:10.5px;font-weight:650;border:1px solid var(--border);background:var(--card);
+  border-radius:999px;padding:2px 9px;color:var(--muted-foreground)}
+.qh button[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.qi{display:grid;grid-template-columns:34px minmax(0,1fr) 130px 132px;gap:11px;align-items:center;
+  padding:12px 14px;border-bottom:1px solid var(--border);position:relative}
+.qi:last-child{border-bottom:0}
+.qi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--status-warning-text)}
+.qi[data-st="err"]::before{background:var(--status-error-text)}
+.qi[data-st="ok"]::before{background:var(--status-success-text)}
+.qi .logo{width:34px;height:22px;border-radius:4px;background:var(--muted);display:grid;place-items:center;
+  font-size:8px;font-weight:800;color:var(--muted-foreground)}
+.qi b{font-size:12.5px;font-weight:650;display:block;letter-spacing:-.01em}
+.qi .s{font-size:11px;color:var(--muted-foreground);margin-top:2px;line-height:1.5}
+.qi .why{font-size:10.5px;margin-top:4px;color:var(--status-warning-text);font-weight:600}
+.qi[data-st="err"] .why{color:var(--status-error-text)}
+.qi[data-st="ok"] .why{color:var(--status-success-text)}
+.qi .acts{display:flex;gap:5px;justify-content:flex-end;flex-wrap:wrap}
+@media(max-width:700px){.qi{grid-template-columns:34px minmax(0,1fr)}.qi .acts{grid-column:2;justify-content:flex-start}}
+.done{display:flex;gap:9px;align-items:center;padding:28px 20px;text-align:center;flex-direction:column}
+.done b{font-size:14px}
+.done p{margin:0;font-size:12px;color:var(--muted-foreground)}
+.sec{margin-top:18px}
+.sec h2{font-size:14px;letter-spacing:-.02em;margin-bottom:8px}
+.trusted{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media(max-width:700px){.trusted{grid-template-columns:1fr}}
+.tb{border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;background:var(--card)}
+.tb b{font-size:11.5px}
+.tb p{margin:3px 0 0;font-size:11px;color:var(--muted-foreground);line-height:1.55}
+.rz{display:flex;gap:9px;align-items:center;border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:10px 12px;margin-top:14px;background:var(--card);flex-wrap:wrap}
+.rz .m{font-weight:800;font-size:11px;color:#0b2a6b;background:#e8efff;border-radius:4px;padding:2px 6px}
+.dark .rz .m{background:#1b2650;color:#c9d6ff}
+.rz p{margin:0;font-size:11px;color:var(--muted-foreground);line-height:1.55;flex:1;min-width:180px}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:20px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 13 5 5 11-12"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to method queue</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F14-billing/V1/index.html">Billing</a>
+        <a href="index.html" aria-current="page">Payment methods</a>
+        <a href="../../F16-checkout/V1/index.html">Checkout</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div><h1>Methods needing an action</h1>
+        <p>Three saved methods need something from you before the next milestone can be charged.</p></div>
+      <div class="r"><a class="btn btn-g btn-sm" href="../../F14-billing/V1/index.html">Go to payments</a></div>
+    </div>
+
+    <div class="stat">
+      <span>Methods saved <b>3</b></span><span>Needs action <b data-need>3</b></span>
+      <span>Default <b>HDFC •••• 4242</b></span>
+      <span style="margin-left:auto">source <code>GET /payments/methods</code></span>
+    </div>
+
+    <div class="q">
+      <div class="qh">
+        <h2>Queue</h2><span class="c">oldest first</span>
+        <div class="r" role="group" aria-label="Filter queue">
+          <button data-f="all" aria-pressed="true">All</button>
+          <button data-f="warn" aria-pressed="false">Verify</button>
+          <button data-f="err" aria-pressed="false">Failed</button>
+        </div>
+      </div>
+
+      <div class="qi" data-st="warn" data-id="q1">
+        <span class="logo">VISA</span>
+        <div><b>HDFC debit •••• 4242</b>
+          <div class="s">Default method · expires 09 / 2028</div>
+          <div class="why">Not verified for recurring charges — verify to use it for the milestone 2 balance</div></div>
+        <div class="acts"><button class="btn btn-p btn-sm" data-act="verify">Verify</button>
+          <button class="btn btn-g btn-sm" data-act="details">Details</button></div>
+      </div>
+
+      <div class="qi" data-st="warn" data-id="q2">
+        <span class="logo">UPI</span>
+        <div><b>arjun@okhdfc</b>
+          <div class="s">Collect request sent 21 Oct, 11:04 · expires in 5 minutes</div>
+          <div class="why">Awaiting approval in your UPI app</div></div>
+        <div class="acts"><button class="btn btn-p btn-sm" data-act="resend">Resend collect</button>
+          <button class="btn btn-g btn-sm" data-act="details">Details</button></div>
+      </div>
+
+      <div class="qi" data-st="err" data-id="q3">
+        <span class="logo">MC</span>
+        <div><b>Mastercard •••• 8210</b>
+          <div class="s">Expires 03 / 2027 · added 5 Oct 2026</div>
+          <div class="why">Last charge declined — the bank asked for re-authentication</div></div>
+        <div class="acts"><button class="btn btn-p btn-sm" data-act="reauth">Re-authenticate</button>
+          <button class="btn btn-d btn-sm" data-act="remove">Remove</button></div>
+      </div>
+
+      <div class="done" data-done hidden>
+        <svg class="i i--lg" style="color:var(--status-success-text)"><use href="#i-check"/></svg>
+        <b data-done-t>Nothing needs you</b>
+        <p data-done-p>Every saved method is verified and ready for the next payment.</p>
+        <a class="btn btn-s btn-sm" href="../../F16-checkout/V1/index.html">Go to checkout</a>
+      </div>
+    </div>
+
+    <section class="sec">
+      <h2>What "verify" means here</h2>
+      <div class="trusted">
+        <div class="tb"><b>Card verification</b><p>A ₹1 authorisation is placed and reversed immediately. It proves
+          the card is live without moving money.</p></div>
+        <div class="tb"><b>UPI collect</b><p>You approve a collect request in your UPI app. If it lapses you can
+          resend it — a new request replaces the old one.</p></div>
+        <div class="tb"><b>Re-authentication</b><p>Your bank asks you to confirm again after a decline. No new card
+          number is entered in the portal.</p></div>
+      </div>
+    </section>
+
+    <div class="rz">
+      <span class="m">Razorpay</span>
+      <p>Verification and re-authentication are gateway flows. Manual token entry is not supported, and UPI autopay
+        mandates are demo-only in this lab.</p>
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F15 · V5 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var rows=[].slice.call(document.querySelectorAll('.qi')), need=document.querySelector('[data-need]'),
+      done=document.querySelector('[data-done]');
+  function recount(){
+    var n=rows.filter(function(r){return !r.hidden;}).length;
+    need.textContent=n;
+    done.hidden=n>0;
+  }
+  document.querySelector('.qh').addEventListener('click',function(e){
+    var b=e.target.closest('[data-f]'); if(!b)return;
+    var f=b.dataset.f;
+    document.querySelectorAll('.qh [data-f]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+    rows.forEach(function(r){r.hidden=!(f==='all'||r.dataset.st===f);});
+    recount();
+  });
+  document.querySelector('.q').addEventListener('click',function(e){
+    var b=e.target.closest('[data-act]'); if(!b)return;
+    var row=b.closest('.qi'), act=b.dataset.act;
+    if(act==='details'){
+      say('Details open in the method card view (V2/V3) — this variant keeps the queue in place.');
+      return;
+    }
+    if(act==='remove'){
+      row.remove(); rows=rows.filter(function(r){return r!==row;});
+      recount(); say('Method removed. Add it again by paying through checkout.');
+      return;
+    }
+    var why=row.querySelector('.why');
+    if(act==='resend'||act==='verify'||act==='reauth'){
+      why.textContent='Request sent — waiting on the gateway response…';
+      b.disabled=true;
+      setTimeout(function(){
+        row.dataset.st='ok'; why.textContent='Verified and ready for the next payment.';
+        b.remove();
+        say(act==='resend'?'Collect request re-sent.':act==='verify'?'Method verified — ₹1 authorisation reversed.':'Re-authenticated successfully.');
+        setTimeout(recount,50);
+      },700);
+    }
+  });
+  recount();
+})();
+</script>
+</body>
+</html>

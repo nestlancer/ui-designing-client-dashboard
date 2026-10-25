@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quotes · V1 Table + KPIs — Nestlancer Portal Lab</title>
+<meta name="description" content="F10 variant 1: KPI cards over a filterable, sortable quote table with validity dates, amounts and pagination.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Table + KPIs. A table · B metrics · D dense · E filter/sort. */
+.shell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
+@media(max-width:980px){.shell{grid-template-columns:1fr}}
+.side{background:var(--card);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;
+  gap:3px;position:sticky;top:0;height:100vh}
+@media(max-width:980px){.side{display:none}}
+.side .brandline{margin-bottom:14px;padding:0 8px}
+.navi{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;
+  color:var(--muted-foreground);font-weight:550}
+.navi[aria-current="page"]{background:var(--brand-50);color:var(--brand-700);font-weight:650}
+.dark .navi[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.main{min-width:0;padding:20px 24px 36px}
+.hrow{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.hrow h1{font-size:26px;letter-spacing:-.035em}
+.hrow p{font-size:13px;color:var(--muted-foreground);margin-top:3px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media(max-width:860px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px 15px}
+.kpi .l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.kpi .v{font-size:23px;font-weight:700;letter-spacing:-.04em;margin-top:4px;font-variant-numeric:var(--tabnum)}
+.kpi .d{font-size:11px;color:var(--muted-foreground);margin-top:2px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:11px}
+.fchip{border:1px solid var(--border);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:650;
+  color:var(--muted-foreground);background:var(--card)}
+.fchip[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.fchip .n{opacity:.75;font-size:10px}
+.tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl th{text-align:left;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:9px 12px;background:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+.tbl th button{color:inherit;font:inherit;display:inline-flex;gap:4px;align-items:center}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl tbody tr:hover{background:var(--brand-50)}
+.dark .tbl tbody tr:hover{background:#161f3a}
+.tbl .ref{font-weight:650;letter-spacing:-.01em;font-variant-numeric:var(--tabnum)}
+.tbl .sub{font-size:11px;color:var(--muted-foreground);margin-top:1px}
+.tbl .amt{text-align:right;font-variant-numeric:var(--tabnum);font-weight:600;white-space:nowrap}
+.tbl .valid{font-size:11.5px;color:var(--muted-foreground);white-space:nowrap}
+.tbl .valid b{color:var(--foreground);font-weight:600}
+.exp{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:var(--status-warning-text)}
+.exp[data-dead="1"]{color:var(--status-error-text)}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;
+  border-top:1px solid var(--border);font-size:11.5px;color:var(--muted-foreground);flex-wrap:wrap}
+.pager .nums{display:flex;gap:4px}
+.pager .nums a{padding:3px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600}
+.pager .nums a[aria-current="page"]{background:var(--primary);border-color:var(--primary);color:#fff}
+.note{font-size:11.5px;color:var(--muted-foreground);margin-top:12px;line-height:1.6}
+.emptyrow td{text-align:center;padding:24px!important;color:var(--muted-foreground)}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:16px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.main{padding:14px}.tbl .hide{display:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to quotes</a>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brandline"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></div>
+    <a class="navi" href="../../F03-dashboard-overview/V1/index.html"><svg class="i i--sm"><use href="#i-home"/></svg>Overview</a>
+    <a class="navi" href="../../F05-requests-work-hub/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Requests</a>
+    <a class="navi" href="index.html" aria-current="page"><svg class="i i--sm"><use href="#i-inbox"/></svg>Quotes</a>
+    <a class="navi" href="../../F14-billing/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Billing</a>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="hrow">
+      <div><h1>Quotes</h1><p>Every quote the studio has issued, with the date it stops being signable.</p></div>
+      <span class="grow"></span>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+
+    <section class="kpis" aria-label="Quote totals">
+      <div class="kpi"><p class="l">Total quotes</p><p class="v">12</p><p class="d">all time</p></div>
+      <div class="kpi"><p class="l">Pending</p><p class="v">0</p><p class="d">nothing awaiting signature</p></div>
+      <div class="kpi"><p class="l">Accepted</p><p class="v">5</p><p class="d">signed and converted</p></div>
+      <div class="kpi"><p class="l">Expired</p><p class="v">7</p><p class="d">need a re-quote</p></div>
+    </section>
+
+    <div class="filters" role="group" aria-label="Filter by status">
+      <button class="fchip" data-f="all" aria-pressed="true">All <span class="n">12</span></button>
+      <button class="fchip" data-f="accepted" aria-pressed="false">Accepted <span class="n">5</span></button>
+      <button class="fchip" data-f="expired" aria-pressed="false">Expired <span class="n">7</span></button>
+      <button class="fchip" data-f="pending" aria-pressed="false">Pending <span class="n">0</span></button>
+      <span class="grow"></span>
+      <span style="font-size:11.5px;color:var(--muted-foreground)" data-shown>12 rows</span>
+    </div>
+
+    <div class="tblwrap">
+      <table class="tbl">
+        <thead><tr><th>Quote</th><th class="hide">Status</th>
+          <th class="hide"><button data-sort>Valid until <svg class="i i--sm"><use href="#i-arrow-up"/></svg></button></th>
+          <th class="amt"><button data-sort-amt>Total <svg class="i i--sm"><use href="#i-arrow-up"/></svg></button></th>
+          <th></th></tr></thead>
+        <tbody data-body>
+          <tr data-st="pending" data-amt="1770" data-valid="2026-10-20">
+            <td><div class="ref">#01a10f80</div><div class="sub">Khandesh Spice · sign request</div></td>
+            <td class="hide"><span class="pill pill--pur">Pending</span></td>
+            <td class="hide"><span class="valid"><b>20 Oct 2026</b><br><span class="exp">expires today</span></span></td>
+            <td class="amt">₹1,770.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">Sign</a></td></tr>
+          <tr data-st="accepted" data-amt="1770" data-valid="2026-10-20">
+            <td><div class="ref">#01a10f80</div><div class="sub">Khandesh Spice · signed 13 Oct</div></td>
+            <td class="hide"><span class="pill pill--ok">Accepted</span></td>
+            <td class="hide"><span class="valid"><b>20 Oct 2026</b></span></td>
+            <td class="amt">₹1,770.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">Open</a></td></tr>
+          <tr data-st="accepted" data-amt="142000" data-valid="2026-10-06">
+            <td><div class="ref">#01a10c14</div><div class="sub">Khandesh Spice · storefront build</div></td>
+            <td class="hide"><span class="pill pill--ok">Accepted</span></td>
+            <td class="hide"><span class="valid"><b>6 Oct 2026</b></span></td>
+            <td class="amt">₹1,42,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">Open</a></td></tr>
+          <tr data-st="expired" data-amt="84000" data-valid="2026-09-30">
+            <td><div class="ref">#01a0ff22</div><div class="sub">Aurora Coffee · subscription flow</div></td>
+            <td class="hide"><span class="pill pill--warn">Expired</span></td>
+            <td class="hide"><span class="valid"><b>30 Sep 2026</b><br><span class="exp" data-dead="1">25 days ago</span></span></td>
+            <td class="amt">₹84,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">View</a></td></tr>
+          <tr data-st="expired" data-amt="96000" data-valid="2026-10-02">
+            <td><div class="ref">#01a0fe81</div><div class="sub">Meridian Clinic · website</div></td>
+            <td class="hide"><span class="pill pill--warn">Expired</span></td>
+            <td class="hide"><span class="valid"><b>2 Oct 2026</b><br><span class="exp" data-dead="1">23 days ago</span></span></td>
+            <td class="amt">₹96,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">View</a></td></tr>
+          <tr data-st="accepted" data-amt="62000" data-valid="2026-09-12">
+            <td><div class="ref">#01a0f3d0</div><div class="sub">Kaveri Textiles · lookbook</div></td>
+            <td class="hide"><span class="pill pill--ok">Accepted</span></td>
+            <td class="hide"><span class="valid"><b>12 Sep 2026</b></span></td>
+            <td class="amt">₹62,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">Open</a></td></tr>
+          <tr data-st="expired" data-amt="38000" data-valid="2026-09-24">
+            <td><div class="ref">#01a0e9c7</div><div class="sub">Prakash Optics · catalogue</div></td>
+            <td class="hide"><span class="pill pill--warn">Expired</span></td>
+            <td class="hide"><span class="valid"><b>24 Sep 2026</b><br><span class="exp" data-dead="1">31 days ago</span></span></td>
+            <td class="amt">₹38,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">View</a></td></tr>
+          <tr data-st="accepted" data-amt="210000" data-valid="2026-09-20">
+            <td><div class="ref">#01a0e210</div><div class="sub">Northwind · logistics dashboard</div></td>
+            <td class="hide"><span class="pill pill--ok">Accepted</span></td>
+            <td class="hide"><span class="valid"><b>20 Sep 2026</b></span></td>
+            <td class="amt">₹2,10,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">Open</a></td></tr>
+          <tr data-st="expired" data-amt="45000" data-valid="2026-09-18">
+            <td><div class="ref">#01a0d902</div><div class="sub">Sundara Yoga · landing page</div></td>
+            <td class="hide"><span class="pill pill--warn">Expired</span></td>
+            <td class="hide"><span class="valid"><b>18 Sep 2026</b><br><span class="exp" data-dead="1">37 days ago</span></span></td>
+            <td class="amt">₹45,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">View</a></td></tr>
+          <tr data-st="accepted" data-amt="27000" data-valid="2026-09-04">
+            <td><div class="ref">#01a0cf44</div><div class="sub">Vasanta Foods · menu refresh</div></td>
+            <td class="hide"><span class="pill pill--ok">Accepted</span></td>
+            <td class="hide"><span class="valid"><b>4 Sep 2026</b></span></td>
+            <td class="amt">₹27,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">Open</a></td></tr>
+          <tr data-st="expired" data-amt="55000" data-valid="2026-08-29">
+            <td><div class="ref">#01a0c117</div><div class="sub">Tinker Studio · portfolio</div></td>
+            <td class="hide"><span class="pill pill--warn">Expired</span></td>
+            <td class="hide"><span class="valid"><b>29 Aug 2026</b><br><span class="exp" data-dead="1">57 days ago</span></span></td>
+            <td class="amt">₹55,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">View</a></td></tr>
+          <tr data-st="expired" data-amt="71000" data-valid="2026-08-21">
+            <td><div class="ref">#01a0b802</div><div class="sub">Blue Oak · interiors site</div></td>
+            <td class="hide"><span class="pill pill--warn">Expired</span></td>
+            <td class="hide"><span class="valid"><b>21 Aug 2026</b><br><span class="exp" data-dead="1">65 days ago</span></span></td>
+            <td class="amt">₹71,000.00</td>
+            <td><a class="link" style="font-size:12px" href="../../F11-quote-details/V1/index.html">View</a></td></tr>
+          <tr class="emptyrow" data-empty hidden><td colspan="5">No quotes match this filter.</td></tr>
+        </tbody>
+      </table>
+      <div class="pager"><span>Showing <b data-range>1–12</b> of 12</span>
+        <div class="nums" aria-label="Pagination"><a href="?page=1" aria-current="page">1</a></div></div>
+    </div>
+
+    <p class="note">Validity is a hard stop, not a hint: once the date passes, the quote can no longer be signed and a
+      new one has to be issued. Amounts include GST where the quote shows it.</p>
+
+<p style="margin-top:14px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);border-left:2px solid var(--border);padding-left:9px"><b style="color:var(--foreground)">Data honesty:</b> the quotes endpoint could not be read while this lab was built, so every amount and reference except <code>#01a10f80</code> (₹1,500 + ₹270 GST = ₹1,770, 50/50 at ₹885) is an illustrative record used to show the layout. They are sample rows, not real client quotes.</p>
+
+        <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F10 Quotes List · V1 of 5 — Table + KPIs</span>
+      <span class="seg" style="margin-left:auto"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2300);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var body=document.querySelector('[data-body]');
+  var rows=[].slice.call(body.querySelectorAll('tr[data-st]')), f='all', dir=1, dirA=1;
+  function apply(){
+    var n=0;
+    rows.forEach(function(r){var ok=f==='all'||r.dataset.st===f;r.hidden=!ok;if(ok)n++;});
+    document.querySelector('[data-empty]').hidden=n>0;
+    document.querySelector('[data-shown]').textContent=n+' rows';
+    document.querySelector('[data-range]').textContent='1–'+n;
+  }
+  document.querySelectorAll('.fchip').forEach(function(c){
+    c.addEventListener('click',function(){
+      f=c.dataset.f;
+      document.querySelectorAll('.fchip').forEach(function(x){x.setAttribute('aria-pressed',String(x===c));});
+      apply();
+    });
+  });
+  document.querySelector('[data-sort]').addEventListener('click',function(){
+    dir=-dir;
+    rows.sort(function(a,b){return (a.dataset.valid<b.dataset.valid?-1:a.dataset.valid>b.dataset.valid?1:0)*dir;});
+    rows.forEach(function(r){body.insertBefore(r,document.querySelector('[data-empty]'));});
+    say('Sorted by validity · '+(dir===1?'oldest first':'newest first'));
+  });
+  document.querySelector('[data-sort-amt]').addEventListener('click',function(){
+    dirA=-dirA;
+    rows.sort(function(a,b){return (a.dataset.amt-b.dataset.amt)*dirA;});
+    rows.forEach(function(r){body.insertBefore(r,document.querySelector('[data-empty]'));});
+    say('Sorted by total · '+(dirA===1?'lowest first':'highest first'));
+  });
+  var sp=new URLSearchParams(location.search);
+  if(sp.get('status')){var m=document.querySelector('.fchip[data-f="'+sp.get('status')+'"]');
+    if(m){f=m.dataset.f;document.querySelectorAll('.fchip').forEach(function(x){x.setAttribute('aria-pressed',String(x===m));});}}
+  apply();
+})();
+</script>
+</body>
+</html>

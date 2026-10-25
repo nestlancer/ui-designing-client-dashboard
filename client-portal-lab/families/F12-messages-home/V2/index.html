@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Messages · V2 List + Preview — Nestlancer Portal Lab</title>
+<meta name="description" content="F12 variant 2: a wide inbox list with a preview pane that loads message text on row select, sticky on desktop, stacked on mobile.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — List + Preview. A 2-pane · C preview-first · D medium · E row select. */
+.page{max-width:1240px;margin:0 auto;padding:0 24px 56px}
+.hd{display:flex;align-items:end;gap:16px;padding:28px 0 18px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.hd h1{font-size:27px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;color:var(--muted-foreground);font-size:13px}
+.hd .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:22px;align-items:start;padding-top:22px}
+@media(max-width:980px){.split{grid-template-columns:1fr}}
+.listcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.lhd{display:flex;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border);
+  background:var(--brand-50)}
+.dark .lhd{background:#161f3a}
+.lhd input{flex:1;border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;font-size:12px;
+  font-family:inherit;background:var(--card);color:var(--foreground);outline:none}
+.lhd input:focus{border-color:var(--primary)}
+.lhd .cnt{font-size:11px;color:var(--muted-foreground);white-space:nowrap}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:8px 14px;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border);cursor:pointer}
+tbody tr:last-child{border-bottom:0}
+tbody tr:hover{background:var(--brand-50)}
+.dark tbody tr:hover{background:#161f3a}
+tbody tr[aria-selected="true"]{background:var(--brand-50);box-shadow:inset 3px 0 0 var(--primary)}
+.dark tbody tr[aria-selected="true"]{background:#1b2650}
+tbody td{padding:10px 14px;vertical-align:middle}
+.th-who{display:flex;gap:9px;align-items:center;min-width:0}
+.av{width:26px;height:26px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:9.5px;font-weight:700;flex:none}
+.th-who b{display:block;font-size:12.5px;font-weight:600;letter-spacing:-.01em}
+.th-who span{font-size:10.5px;color:var(--muted-foreground)}
+.snip{color:var(--muted-foreground);font-size:11.5px;max-width:330px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.when{font-size:10.5px;color:var(--muted-foreground);white-space:nowrap;text-align:right}
+.un{display:inline-block;min-width:16px;padding:1px 5px;border-radius:999px;background:var(--primary);color:#fff;
+  font-size:9.5px;font-weight:700;text-align:center}
+.pv{position:sticky;top:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden}
+.pv-hd{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--brand-50)}
+.dark .pv-hd{background:#161f3a}
+.pv-hd b{font-size:13.5px;letter-spacing:-.02em;display:block}
+.pv-hd span{font-size:10.5px;color:var(--muted-foreground)}
+.pv-body{padding:14px 16px;max-height:330px;overflow:auto;display:flex;flex-direction:column;gap:9px}
+.pv-b{background:var(--muted);border-radius:10px;padding:8px 11px;font-size:12px;line-height:1.55}
+.pv-b.me{background:var(--brand-600);color:#fff}
+.pv-b .w{font-size:10.5px;font-weight:700;opacity:.8;margin-bottom:2px}
+.pv-b .tm{font-size:9.5px;color:var(--muted-foreground);margin-top:3px}
+.pv-b.me .tm{color:rgba(255,255,255,.72)}
+.pv-ft{padding:11px 16px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap}
+.pv-skel{padding:16px;display:grid;gap:9px}
+.pv-skel i{display:block;height:38px;border-radius:10px}
+.pv-empty{padding:34px 18px;text-align:center;color:var(--muted-foreground);font-size:12px}
+.pv-empty b{display:block;color:var(--foreground);font-size:13px;margin-bottom:4px}
+.noterow{display:flex;gap:8px;align-items:flex-start;padding:10px 16px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--muted-foreground);line-height:1.5}
+.foot{display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding-top:26px;margin-top:26px;
+  border-top:1px solid var(--border);font-size:11.5px;color:var(--muted-foreground)}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){
+  .page{padding:0 14px 40px}
+  .hwrap{overflow-x:auto}
+  table{min-width:520px}
+  .snip{max-width:150px}
+  .pv{position:static}
+}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to inbox</a>
+<div class="page">
+  <div class="hd">
+    <div><h1>Inbox</h1>
+      <p>2 unread of 6 threads · project and group conversations only</p></div>
+    <div class="right">
+      <a class="btn btn-g btn-sm" href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </div>
+
+  <main id="main" class="split">
+    <section class="listcard" aria-label="Inbox list">
+      <div class="lhd">
+        <input type="search" placeholder="Search threads, people, projects" data-q aria-label="Search inbox">
+        <span class="cnt" data-cnt>6 threads</span>
+      </div>
+      <div class="hwrap">
+      <table>
+        <caption class="sr-only">Inbox: select a row to preview the latest messages</caption>
+        <thead><tr><th scope="col">Thread</th><th scope="col">Latest</th><th scope="col">Updated</th></tr></thead>
+        <tbody data-rows>
+          <tr tabindex="0" aria-selected="true" data-id="rahul"
+              data-m='[{"w":"Rahul","t":"Hero CTA above the fold? On a 375px screen the primary button currently sits just below the fold after the product carousel.","tm":"1h ago","me":false},{"w":"You","t":"Yes — move it above. Keep the carousel but let the CTA sit under the headline.","tm":"52m ago","me":true},{"w":"Riya Kapoor","t":"Noted. Please keep the hero copy short enough that the CTA stays visible without scrolling.","tm":"30m ago","me":false}]'>
+            <td><div class="th-who"><span class="av">RH</span><span><b>Rahul · Khandesh Spice</b><span>project thread · 3 members</span></span></div></td>
+            <td><div class="snip">Hero CTA above the fold?</div></td>
+            <td class="when">1h<br><span class="un">2</span></td></tr>
+          <tr tabindex="0" aria-selected="false" data-id="riya"
+              data-m='[{"w":"Riya Kapoor","t":"Invoice reminder for NL-INV-2026-000044 — the bank transfer reference has not landed yet, so the invoice still shows as unpaid.","tm":"1d ago","me":false},{"w":"You","t":"Thanks, checking with the studio and will confirm the UTR here.","tm":"22h ago","me":true}]'>
+            <td><div class="th-who"><span class="av">RK</span><span><b>Riya Kapoor · Horizon Retail</b><span>project thread · 2 members</span></span></div></td>
+            <td><div class="snip">Invoice reminder for NL-INV-2026-000044</div></td>
+            <td class="when">1d</td></tr>
+          <tr tabindex="0" aria-selected="false" data-id="studio"
+              data-m='[{"w":"Studio","t":"Milestone 3 is in review — notes attached. Approve or request changes from the milestone panel.","tm":"2d ago","me":false}]'>
+            <td><div class="th-who"><span class="av">ST</span><span><b>Studio · B2B Wholesale</b><span>project thread · 2 members</span></span></div></td>
+            <td><div class="snip">Milestone 3 is in review — notes attached</div></td>
+            <td class="when">2d</td></tr>
+          <tr tabindex="0" aria-selected="false" data-id="khandesh"
+              data-m='[{"w":"Arjun","t":"Staging walkthrough is booked for Thursday 4pm. I will share the recording here.","tm":"4d ago","me":false},{"w":"Rahul","t":"Perfect — I will join from the studio side.","tm":"4d ago","me":false}]'>
+            <td><div class="th-who"><span class="av">KH</span><span><b>Khandesh Spice · group (3)</b><span>group thread</span></span></div></td>
+            <td><div class="snip">Arjun, Riya and Rahul · staging walkthrough</div></td>
+            <td class="when">4d</td></tr>
+          <tr tabindex="0" aria-selected="false" data-id="billing"
+              data-m='[{"w":"Billing","t":"Your saved payment method expires soon. Update it to avoid a failed milestone payment.","tm":"1w ago","me":false}]'>
+            <td><div class="th-who"><span class="av">AV</span><span><b>Billing · group (2)</b><span>group thread</span></span></div></td>
+            <td><div class="snip">Payment method expiring soon</div></td>
+            <td class="when">1w</td></tr>
+          <tr tabindex="0" aria-selected="false" data-id="aurora"
+              data-m='[{"w":"Aurora Coffee","t":"Quote lapsed — re-quote requested. The original validity window closed on 20 Oct 2026.","tm":"3w ago","me":false}]'>
+            <td><div class="th-who"><span class="av">AR</span><span><b>Archived · Aurora Coffee</b><span>archived thread</span></span></div></td>
+            <td><div class="snip">Quote lapsed — re-quote requested</div></td>
+            <td class="when">3w</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="noterow"><svg class="i i--sm"><use href="#i-search"/></svg>
+        <span>New direct message is not available — threads attach to a project or a group. Open a project to start one.</span></div>
+    </section>
+
+    <aside class="pv" aria-label="Thread preview" aria-live="polite" data-pv>
+      <div class="pv-hd"><b data-pv-t>Rahul · Khandesh Spice</b>
+        <span data-pv-s>project thread · 3 members · updated 1h ago</span></div>
+      <div class="pv-body" data-pv-b></div>
+      <div class="pv-ft">
+        <a class="btn btn-p btn-sm" href="../../F13-messages-thread/V1/index.html">Open full thread</a>
+        <button class="btn btn-g btn-sm" data-mark>Mark read</button>
+      </div>
+    </aside>
+  </main>
+
+  <div class="foot">
+    <a href="../../../index.html">← Gallery</a>
+    <span>F12 · V2 of 5 · preview loads from <code>GET /messages/threads/{id}/messages</code></span>
+    <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+  </div>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var rows=[].slice.call(document.querySelectorAll('[data-rows] tr'));
+  var pvB=document.querySelector('[data-pv-b]'), pvT=document.querySelector('[data-pv-t]'),
+      pvS=document.querySelector('[data-pv-s]'), sel=rows[0];
+  function render(){
+    pvB.innerHTML='<div class="pv-skel"><i class="skel"></i><i class="skel"></i><i class="skel"></i></div>';
+    var msgs=JSON.parse(sel.dataset.m), name=sel.querySelector('b').textContent,
+        meta=sel.querySelector('.th-who span span').textContent,
+        when=sel.querySelector('.when').firstChild.textContent.trim();
+    pvT.textContent=name; pvS.textContent=meta+' · updated '+when;
+    setTimeout(function(){
+      pvB.innerHTML='';
+      msgs.forEach(function(m){
+        var d=document.createElement('div'); d.className='pv-b'+(m.me?' me':'');
+        var w=document.createElement('p'); w.className='w'; w.textContent=m.w;
+        var t=document.createElement('p'); t.style.margin='0'; t.textContent=m.t;
+        var tm2=document.createElement('p'); tm2.className='tm'; tm2.textContent=m.tm;
+        d.appendChild(w); d.appendChild(t); d.appendChild(tm2); pvB.appendChild(d);
+      });
+    },160);
+  }
+  function select(r){
+    sel=r;
+    rows.forEach(function(x){x.setAttribute('aria-selected',String(x===r));});
+    render();
+  }
+  rows.forEach(function(r,i){
+    r.addEventListener('click',function(){select(r);});
+    r.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();select(r);}
+      if(e.key==='ArrowDown'&&rows[i+1]){e.preventDefault();rows[i+1].focus();select(rows[i+1]);}
+      if(e.key==='ArrowUp'&&rows[i-1]){e.preventDefault();rows[i-1].focus();select(rows[i-1]);}
+    });
+  });
+  render();
+
+  var q=document.querySelector('[data-q]');
+  q.addEventListener('input',function(){
+    var v=q.value.toLowerCase().trim(), n=0;
+    rows.forEach(function(r){
+      var ok=r.textContent.toLowerCase().indexOf(v)>-1;
+      r.hidden=!ok; if(ok)n++;
+    });
+    document.querySelector('[data-cnt]').textContent=n+' thread'+(n===1?'':'s');
+    if(!n){pvB.innerHTML='<div class="pv-empty"><b>No matching threads</b>Try a project name, a person, or a message keyword.</div>';
+      pvT.textContent='Nothing selected'; pvS.textContent='narrow the search to preview messages';}
+  });
+
+  document.querySelector('[data-mark]').addEventListener('click',function(){
+    var u=sel.querySelector('.un'); if(u)u.remove();
+    sel.querySelector('.th-who b').style.fontWeight='600';
+    say('Marked read — syncs to the unread count.');
+  });
+})();
+</script>
+</body>
+</html>

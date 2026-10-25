@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing · V1 Ledger + Queue — Nestlancer Portal Lab</title>
+<meta name="description" content="F14 variant 1: an outstanding-payments work queue above a settled-versus-outstanding ledger, with Razorpay as the gateway and invoice links kept.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Ledger + Queue. A queue + ledger · B money-first · C queue narrative · E filter/sort. */
+.page{max-width:1240px;margin:0 auto;padding:0 22px 60px}
+.hd{display:flex;align-items:end;gap:14px;flex-wrap:wrap;padding:24px 0 16px}
+.hd h1{font-size:26px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12.5px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+@media(max-width:760px){.kpis{grid-template-columns:1fr}}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:13px 15px}
+.kpi .k{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.kpi .v{font-size:27px;letter-spacing:-.04em;font-variant-numeric:var(--tabnum);margin-top:5px;line-height:1.1}
+.kpi .n{font-size:11px;color:var(--muted-foreground);margin-top:4px}
+.kpi[data-t="paid"] .v{color:var(--status-success-text)}
+.kpi[data-t="pend"] .v{color:var(--status-warning-text)}
+.rz{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:10px 14px;margin-bottom:18px;flex-wrap:wrap}
+.rz .mark{font-weight:800;font-size:12px;letter-spacing:-.02em;color:#0b2a6b;background:#e8efff;
+  border-radius:5px;padding:3px 7px}
+.dark .rz .mark{background:#1b2650;color:#c9d6ff}
+.rz p{margin:0;font-size:11.5px;color:var(--muted-foreground);line-height:1.5}
+.rz a{margin-left:auto;font-size:11.5px;font-weight:650;color:var(--brand-700)}
+.dark .rz a{color:#9db3ff}
+.qbox{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;
+  margin-bottom:20px}
+.qhd{display:flex;align-items:center;gap:9px;padding:10px 14px;border-bottom:1px solid var(--border);
+  background:var(--brand-50);flex-wrap:wrap}
+.dark .qhd{background:#161f3a}
+.qhd h2{font-size:12.5px;letter-spacing:-.02em}
+.qhd .c{font-size:10.5px;color:var(--muted-foreground)}
+.qhd .r{margin-left:auto;font-size:10.5px;color:var(--muted-foreground)}
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) 120px 130px 132px;gap:10px;align-items:center;
+  padding:11px 14px;border-bottom:1px solid var(--border)}
+.qrow:last-child{border-bottom:0}
+.qrow b{font-size:12.5px;font-weight:650;display:block;letter-spacing:-.01em}
+.qrow .s{font-size:10.5px;color:var(--muted-foreground)}
+.qrow .amt{font-size:12.5px;font-variant-numeric:var(--tabnum);text-align:right}
+.qrow .act{display:flex;gap:5px;justify-content:flex-end}
+@media(max-width:720px){.qrow{grid-template-columns:minmax(0,1fr) 132px}.qrow .amt{display:none}}
+.lhd{display:flex;align-items:center;gap:9px;padding:12px 0 8px;flex-wrap:wrap}
+.lhd h2{font-size:15px;letter-spacing:-.02em}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.chip{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:3px 10px;
+  font-size:11px;font-weight:650;color:var(--muted-foreground)}
+.chip[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+table.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+table.tbl thead th{text-align:left;padding:8px 12px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:700;border-bottom:1px solid var(--border);background:var(--muted);
+  white-space:nowrap}
+table.tbl thead th button{font:inherit;text-transform:inherit;letter-spacing:inherit;color:inherit}
+table.tbl td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+table.tbl tbody tr:last-child td{border-bottom:0}
+table.tbl tbody tr:hover{background:var(--brand-50)}
+.dark table.tbl tbody tr:hover{background:#161f3a}
+.desc b{display:block;font-weight:600;font-size:12.5px;letter-spacing:-.01em}
+.desc span{font-size:10.5px;color:var(--muted-foreground)}
+.amt{text-align:right;font-variant-numeric:var(--tabnum);white-space:nowrap;font-weight:600}
+.date{white-space:nowrap;color:var(--muted-foreground);font-size:11.5px}
+.none{padding:30px 14px;text-align:center;font-size:12px;color:var(--muted-foreground)}
+.none b{display:block;color:var(--foreground);font-size:13px;margin-bottom:3px}
+.lfoot{display:flex;gap:10px;align-items:center;padding:9px 12px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--muted-foreground);flex-wrap:wrap}
+.pager{display:flex;gap:4px;margin-left:auto}
+.pager button{border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:11px;
+  background:var(--card);color:var(--muted-foreground)}
+.pager button[aria-current="true"]{background:var(--brand-50);border-color:var(--brand-200);
+  color:var(--brand-800);font-weight:700}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:18px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.scrollx{overflow-x:auto}
+@media(max-width:720px){table.tbl{min-width:620px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to billing</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html">Requests</a>
+        <a href="../../F08-projects-list/V1/index.html">Projects</a>
+        <a href="index.html" aria-current="page">Billing</a>
+        <a href="../../F18-invoices/V1/index.html">Invoices</a>
+        <a href="../../F15-payment-methods/V1/index.html">Payment methods</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div><h1>Billing</h1>
+        <p>A work queue for anything that needs money moving, then the full ledger.</p></div>
+      <div class="r">
+        <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">Invoices</a>
+        <a class="btn btn-g btn-sm" href="../../F15-payment-methods/V1/index.html">
+          <svg class="i i--sm"><use href="#i-card"/></svg>Payment methods</a>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi" data-t="paid"><span class="k">Total paid</span>
+        <p class="v">₹81,500.00</p><p class="n">5 settled transactions</p></div>
+      <div class="kpi" data-t="pend"><span class="k">Pending</span>
+        <p class="v">₹31,875.00</p><p class="n">2 unsettled · not-due milestones excluded</p></div>
+      <div class="kpi"><span class="k">In dispute</span>
+        <p class="v">₹0.00</p><p class="n">no open disputes</p></div>
+    </div>
+
+    <div class="rz">
+      <span class="mark">Razorpay</span>
+      <p>Card, UPI and netbanking are handled by Razorpay. Bank transfers are verified manually —
+        upload the proof and the payment shows as <b>processing</b> until it clears.</p>
+      <a href="../../F16-checkout/V1/index.html">Open checkout →</a>
+    </div>
+
+    <section class="qbox" aria-label="Payments needing action">
+      <div class="qhd">
+        <h2>Needs action</h2><span class="c">4 items · <code>GET /payments?status=processing</code> + pending invoices</span>
+        <span class="r">ordered by due date</span>
+      </div>
+      <div class="qrow">
+        <div><b>Milestone 2 · Khandesh Spice</b>
+          <span class="s">Due 30 Oct 2026 · bank transfer awaiting verification</span></div>
+        <span class="pill pill--warn">processing</span>
+        <div class="amt">₹30,000.00</div>
+        <div class="act"><a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Pay</a>
+          <a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Status</a></div>
+      </div>
+      <div class="qrow">
+        <div><b>Invoice NL-INV-2026-000044</b>
+          <span class="s">Issued 12 Oct 2026 · reference missing</span></div>
+        <span class="pill pill--warn">pending</span>
+        <div class="amt">₹1,875.00</div>
+        <div class="act"><a class="btn btn-p btn-sm" href="../../F18-invoices/V1/index.html">Open</a>
+          <a class="btn btn-g btn-sm" href="../../F16-checkout/V1/index.html">Pay</a></div>
+      </div>
+      <div class="qrow">
+        <div><b>Milestone 3 · B2B Wholesale</b>
+          <span class="s">Not due · unlocks when milestone 2 is approved</span></div>
+        <span class="pill pill--lock">not due</span>
+        <div class="amt">₹45,000.00</div>
+        <div class="act"><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div>
+      </div>
+      <div class="qrow">
+        <div><b>Milestone 3 · Khandesh Spice</b>
+          <span class="s">Not due · amount confirmed at handover</span></div>
+        <span class="pill pill--lock">not due</span>
+        <div class="amt">—</div>
+        <div class="act"><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div>
+      </div>
+    </section>
+
+    <div class="lhd">
+      <h2>Ledger</h2>
+      <span class="c" style="font-size:11px;color:var(--muted-foreground)" data-cnt>11 transactions</span>
+      <div class="chips" role="group" aria-label="Filter ledger">
+        <button class="chip" data-f="all" aria-pressed="true">All</button>
+        <button class="chip" data-f="completed" aria-pressed="false">Completed</button>
+        <button class="chip" data-f="processing" aria-pressed="false">Processing</button>
+        <button class="chip" data-f="pending" aria-pressed="false">Pending</button>
+        <button class="chip" data-f="not_due" aria-pressed="false">Not due</button>
+      </div>
+    </div>
+
+    <div class="tblwrap">
+      <div class="scrollx">
+      <table class="tbl" data-tbl>
+        <caption class="sr-only">Payment ledger with date, description, project, method, status and amount</caption>
+        <thead><tr>
+          <th scope="col"><button data-sort="date">Date</button></th>
+          <th scope="col">Description</th>
+          <th scope="col">Project</th>
+          <th scope="col">Method</th>
+          <th scope="col">Status</th>
+          <th scope="col" style="text-align:right"><button data-sort="amt">Amount</button></th>
+        </tr></thead>
+        <tbody data-body>
+          <tr data-st="completed" data-date="20261015" data-amt="48000">
+            <td class="date">15 Oct 2026</td>
+            <td class="desc"><b>Milestone 1 · approved</b><span>Discovery &amp; wireframes</span></td>
+            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill pill--ok">UPI</span></td>
+            <td><span class="pill pill--ok">completed</span></td>
+            <td class="amt">₹48,000.00</td></tr>
+          <tr data-st="processing" data-date="20261014" data-amt="30000">
+            <td class="date">14 Oct 2026</td>
+            <td class="desc"><b>Milestone 2 · bank transfer</b><span>Proof uploaded · UTR awaiting verification</span></td>
+            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill">Bank</span></td>
+            <td><span class="pill pill--warn">processing</span></td>
+            <td class="amt">₹30,000.00</td></tr>
+          <tr data-st="pending" data-date="20261012" data-amt="1875">
+            <td class="date">12 Oct 2026</td>
+            <td class="desc"><b>Invoice NL-INV-2026-000044</b><span>Issued · unpaid</span></td>
+            <td class="desc"><span>Horizon Retail</span></td><td><span class="pill">—</span></td>
+            <td><span class="pill pill--warn">pending</span></td>
+            <td class="amt">₹1,875.00</td></tr>
+          <tr data-st="completed" data-date="20261005" data-amt="625">
+            <td class="date">5 Oct 2026</td>
+            <td class="desc"><b>Audit deposit</b><span>Ref AUDIT-P25-20261005-73dhk</span></td>
+            <td class="desc"><span>Account</span></td><td><span class="pill pill--ok">Card</span></td>
+            <td><span class="pill pill--ok">completed</span></td>
+            <td class="amt">₹625.00</td></tr>
+          <tr data-st="completed" data-date="20260928" data-amt="22000">
+            <td class="date">28 Sep 2026</td>
+            <td class="desc"><b>Milestone 1 · approved</b><span>B2B Wholesale ordering portal</span></td>
+            <td class="desc"><span>B2B Wholesale</span></td><td><span class="pill pill--ok">Netbanking</span></td>
+            <td><span class="pill pill--ok">completed</span></td>
+            <td class="amt">₹22,000.00</td></tr>
+          <tr data-st="completed" data-date="20260920" data-amt="10625">
+            <td class="date">20 Sep 2026</td>
+            <td class="desc"><b>Change request · hero rebuild</b><span>Approved 19 Sep</span></td>
+            <td class="desc"><span>Horizon Retail</span></td><td><span class="pill pill--ok">UPI</span></td>
+            <td><span class="pill pill--ok">completed</span></td>
+            <td class="amt">₹10,625.00</td></tr>
+          <tr data-st="failed" data-date="20260918" data-amt="30000">
+            <td class="date">18 Sep 2026</td>
+            <td class="desc"><b>Milestone 2 · attempt</b><span>Card declined · no money moved</span></td>
+            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill pill--err">Card</span></td>
+            <td><span class="pill pill--err">failed</span></td>
+            <td class="amt">₹30,000.00</td></tr>
+          <tr data-st="completed" data-date="20260912" data-amt="250">
+            <td class="date">12 Sep 2026</td>
+            <td class="desc"><b>Platform fee</b><span>2.5% of milestone 1</span></td>
+            <td class="desc"><span>Account</span></td><td><span class="pill pill--ok">Card</span></td>
+            <td><span class="pill pill--ok">completed</span></td>
+            <td class="amt">₹250.00</td></tr>
+          <tr data-st="completed" data-date="20260830" data-amt="0">
+            <td class="date">30 Aug 2026</td>
+            <td class="desc"><b>Reversal · duplicate charge</b><span>Returned in 3 working days</span></td>
+            <td class="desc"><span>Account</span></td><td><span class="pill">—</span></td>
+            <td><span class="pill pill--info">refunded</span></td>
+            <td class="amt">₹0.00</td></tr>
+          <tr data-st="not_due" data-date="20261115" data-amt="45000">
+            <td class="date">15 Nov 2026</td>
+            <td class="desc"><b>Milestone 3 · B2B Wholesale</b><span>Unlocks on milestone 2 approval</span></td>
+            <td class="desc"><span>B2B Wholesale</span></td><td><span class="pill">—</span></td>
+            <td><span class="pill pill--lock">not due</span></td>
+            <td class="amt">₹45,000.00</td></tr>
+          <tr data-st="not_due" data-date="20261205" data-amt="0">
+            <td class="date">5 Dec 2026</td>
+            <td class="desc"><b>Milestone 3 · Khandesh Spice</b><span>Amount confirmed at handover</span></td>
+            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill">—</span></td>
+            <td><span class="pill pill--lock">not due</span></td>
+            <td class="amt">—</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="lfoot">
+        <span data-shown>11 of 11 transactions</span>
+        <span>· amounts are inclusive of GST where invoiced</span>
+        <div class="pager" role="group" aria-label="Pagination">
+          <button aria-current="true">1</button><button>2</button><button>Next ›</button>
+        </div>
+      </div>
+      <div class="none" data-none hidden><b>Nothing in this state</b>
+        No transactions match the selected filter.</div>
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F14 · V1 of 5</span>
+      <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var body=document.querySelector('[data-body]'), rows=[].slice.call(body.rows),
+      shown=document.querySelector('[data-shown]'), none=document.querySelector('[data-none]'),
+      cnt=document.querySelector('[data-cnt]'), filter='all', dir=-1;
+  function paint(){
+    var n=0;
+    rows.forEach(function(r){
+      var ok=filter==='all'||r.dataset.st===filter;
+      r.hidden=!ok; if(ok)n++;
+    });
+    shown.textContent=n+' of '+rows.length+' transactions';
+    cnt.textContent=n+' transaction'+(n===1?'':'s');
+    none.hidden=n>0;
+  }
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click',function(){
+      filter=c.dataset.f;
+      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===c));});
+      paint();
+      say('Filtered to '+filter.replace('_',' ')+'.');
+    });
+  });
+  document.querySelectorAll('[data-sort]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.sort;
+      dir=-dir;
+      rows.sort(function(x,y){
+        var a=k==='date'?Number(x.dataset.date):Number(x.dataset.amt);
+        var c=k==='date'?Number(y.dataset.date):Number(y.dataset.amt);
+        return (a-c)*dir;
+      }).forEach(function(r){body.appendChild(r);});
+      say('Sorted by '+k+', '+(dir>0?'ascending':'descending')+'.');
+    });
+  });
+  document.querySelectorAll('.pager button').forEach(function(b){
+    b.addEventListener('click',function(){
+      if(b.textContent.trim()==='Next ›'){say('Page 2 is demo-only — the ledger shows all 11 rows here.');return;}
+      document.querySelectorAll('.pager button').forEach(function(x){x.removeAttribute('aria-current');});
+      b.setAttribute('aria-current','true');
+      say('Page '+b.textContent.trim()+' requested from GET /payments?page='+b.textContent.trim()+'.');
+    });
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

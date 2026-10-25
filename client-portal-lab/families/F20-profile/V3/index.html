@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile · V3 Public Preview — Nestlancer Portal Lab</title>
+<meta name="description" content="F20 variant 3: the edit form beside a live public card preview, where the visibility toggle changes what is exposed.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Public Preview. A split · B edit vs public · C visibility narrative · E preview toggle. */
+.page{max-width:1120px;margin:0 auto;padding:0 22px 60px}
+.hd{padding:24px 0 14px}
+.hd h1{font-size:25px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12px;color:var(--muted-foreground)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:22px;align-items:start}
+@media(max-width:980px){.split{grid-template-columns:1fr}}
+.edit{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.ehd{padding:12px 17px;border-bottom:1px solid var(--border);display:flex;gap:9px;align-items:center}
+.ehd h2{font-size:12.5px;letter-spacing:-.02em}
+.ehd .r{margin-left:auto;font-size:10.5px;color:var(--muted-foreground)}
+.ebody{padding:15px 17px;display:grid;gap:12px}
+label{display:block;font-size:11px;font-weight:650;margin-bottom:4px}
+input[type=text],textarea,select{width:100%;font:inherit;font-size:12.5px;padding:8px 10px;
+  border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--foreground);outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--brand-50)}
+.dark input:focus,.dark textarea:focus,.dark select:focus{box-shadow:0 0 0 3px #1b2650}
+textarea{resize:vertical;min-height:76px}
+.visbox{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px;background:var(--background)}
+.visbox .swrow{display:flex;gap:9px;align-items:center;font-size:12px;margin-bottom:8px}
+.visbox .swrow b{font-weight:650;font-size:12px}
+.sw{width:34px;height:19px;border-radius:99px;background:var(--muted);position:relative;flex:none;
+  transition:background .15s;margin-left:auto}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 2px rgba(15,28,46,.3);transition:transform .15s}
+.sw[aria-checked="true"]{background:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(15px)}
+@media(prefers-reduced-motion:reduce){.sw,.sw::after{transition:none}}
+.visbox .ln{font-size:10.5px;color:var(--muted-foreground);line-height:1.55}
+.ebtns{padding:12px 17px;border-top:1px solid var(--border);display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.ebtns .n{margin-left:auto;font-size:10.5px;color:var(--muted-foreground)}
+
+.pvcol{position:sticky;top:calc(var(--header) + 16px)}
+@media(max-width:980px){.pvcol{position:static}}
+.pvh{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.pvh .k{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+.pvh .seg2{margin-left:auto;display:flex;gap:3px}
+.pvh .seg2 button{border:1px solid var(--border);background:var(--card);border-radius:5px;padding:2px 7px;
+  font-size:10px;font-weight:650;color:var(--muted-foreground)}
+.pvh .seg2 button[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
+  box-shadow:0 16px 40px -34px rgba(15,28,46,.5)}
+.pcard .av{width:64px;height:64px;border-radius:50%;background:var(--brand-600);color:#fff;display:grid;
+  place-items:center;font-size:22px;font-weight:700;margin-bottom:11px}
+.pcard h3{font-size:17px;letter-spacing:-.02em}
+.pcard .hl{font-size:12.5px;margin-top:4px;color:var(--foreground);line-height:1.5}
+.pcard .bio{font-size:11.5px;margin-top:9px;color:var(--muted-foreground);line-height:1.65}
+.pcard .chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:11px}
+.pcard .chips span{font-size:10px;border:1px solid var(--border);border-radius:999px;padding:2px 8px;
+  color:var(--muted-foreground);background:var(--background)}
+.pcard .ft{margin-top:13px;padding-top:11px;border-top:1px solid var(--border);font-size:10.5px;
+  color:var(--muted-foreground);display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.pcard .held{border:1px dashed var(--border);border-radius:6px;padding:8px 10px;font-size:10.5px;
+  color:var(--muted-foreground);margin-top:11px;line-height:1.5}
+.honest{margin-top:12px;border-left:3px solid var(--primary);background:var(--brand-50);border-radius:var(--radius-sm);
+  padding:9px 11px;font-size:11px;line-height:1.6;color:var(--muted-foreground)}
+.dark .honest{background:#161f3a}
+.honest b{color:var(--foreground);display:block;margin-bottom:2px}
+.end{margin-top:18px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to profile editor</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="index.html" aria-current="page">Profile</a>
+        <a href="../../F21-settings/V1/index.html">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd"><h1>Profile and public card</h1>
+      <p>What you edit on the left is what the studio reads on the right — held back only where you say so.</p></div>
+
+    <div class="split">
+      <section class="edit" aria-label="Profile editor">
+        <div class="ehd"><h2>Edit details</h2><span class="r">updates the preview as you type</span></div>
+        <div class="ebody">
+          <div><label for="pn">Full name</label>
+            <input id="pn" type="text" value="Arjun Mehta" data-live="name"></div>
+          <div><label for="ph">Headline</label>
+            <input id="ph" type="text" value="Founder, Khandesh Spice — building a D2C store with a wholesale arm."
+              data-live="headline"></div>
+          <div><label for="pb">Bio</label>
+            <textarea id="pb" data-live="bio">Running a 14-year-old spice business moving onto direct-to-consumer. Priorities: fast mobile checkout, honest product photography, and a wholesale portal my team can actually use.</textarea></div>
+          <div><label for="pc">Company</label>
+            <input id="pc" type="text" value="Khandesh Spice Pvt Ltd" data-live="company"></div>
+
+          <div class="visbox">
+            <div class="swrow"><b>Show company on the public card</b>
+              <button class="sw" role="switch" aria-checked="true" aria-label="Show company publicly"
+                data-switch="company"></button></div>
+            <div class="swrow"><b>Show city on the public card</b>
+              <button class="sw" role="switch" aria-checked="false" aria-label="Show city publicly"
+                data-switch="city"></button></div>
+            <p class="ln">Visibility is saved with the profile. Nothing hidden is sent to a studio's public
+              view — it is not merely greyed out.</p>
+          </div>
+
+          <div><label>Skills</label>
+            <div style="display:flex;gap:5px;flex-wrap:wrap" data-skills>
+              <span class="pill">Brand strategy</span><span class="pill">D2C</span>
+              <span class="pill">Packaging</span><span class="pill">Shopify</span>
+            </div>
+            <input type="text" placeholder="Add a skill and press Enter" aria-label="Add a skill" data-add
+              style="margin-top:7px">
+            <p style="margin:5px 0 0;font-size:10.5px;color:var(--muted-foreground)">
+              Skill autocomplete is demo-only — the profile endpoint accepts a free-text list.</p></div>
+        </div>
+        <div class="ebtns">
+          <button class="btn btn-p btn-sm" data-save>Save profile</button>
+          <button class="btn btn-g btn-sm" data-reset>Reset preview</button>
+          <span class="n">Dirty fields are highlighted as you type</span>
+        </div>
+      </section>
+
+      <aside class="pvcol">
+        <div class="pvh"><span class="k">Public card preview</span>
+          <div class="seg2" role="group" aria-label="Preview audience">
+            <button aria-pressed="true" data-a="studio">Studio</button>
+            <button aria-pressed="false" data-a="public">Anyone</button>
+          </div></div>
+
+        <div class="pcard" data-pcard>
+          <div class="av">AM</div>
+          <h3 data-pn>Arjun Mehta</h3>
+          <p class="hl" data-ph>Founder, Khandesh Spice — building a D2C store with a wholesale arm.</p>
+          <p class="bio" data-pb>Running a 14-year-old spice business moving onto direct-to-consumer. Priorities:
+            fast mobile checkout, honest product photography, and a wholesale portal my team can actually use.</p>
+          <div class="chips" data-pchips>
+            <span>Brand strategy</span><span>D2C</span><span>Packaging</span><span>Shopify</span>
+          </div>
+          <p class="held" data-company>Khandesh Spice Pvt Ltd · Nashik, Maharashtra</p>
+          <div class="ft"><span data-ft-l>Visible to studios you work with</span><span>Member since Mar 2026</span></div>
+        </div>
+
+        <div class="honest">
+          <b>Audience toggle changes content, not styling</b>
+          “Anyone” hides the city and the email entirely; the studio view can reveal them. Both views use the same
+          tokens, so the card never becomes a second design.
+        </div>
+      </aside>
+    </div>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F20 · V3 of 5 · <code>PATCH /users/profile</code> · <code>/users/preferences</code></span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var map={name:document.querySelector('[data-pn]'),headline:document.querySelector('[data-ph]'),
+    bio:document.querySelector('[data-pb]')};
+  document.querySelectorAll('[data-live]').forEach(function(f){
+    f.addEventListener('input',function(){
+      var k=f.dataset.live;
+      if(map[k])map[k].textContent=f.value||'—';
+      document.querySelector('[data-pcard] .av').textContent=
+        (document.getElementById('pn').value||'A M').split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase();
+    });
+  });
+
+  var showCompany=true, showCity=false;
+  function company(){
+    var el=document.querySelector('[data-company]');
+    var parts=[];
+    if(showCompany)parts.push(document.getElementById('pc').value||'Khandesh Spice Pvt Ltd');
+    if(showCity)parts.push('Nashik, Maharashtra');
+    el.hidden=parts.length===0;
+    el.textContent=parts.join(' · ');
+  }
+  document.querySelectorAll('[data-switch]').forEach(function(sw){
+    sw.addEventListener('click',function(){
+      var on=sw.getAttribute('aria-checked')!=='true';
+      sw.setAttribute('aria-checked',String(on));
+      if(sw.dataset.switch==='company')showCompany=on; else showCity=on;
+      company();
+      say((sw.dataset.switch==='company'?'Company':'City')+(on?' shown in':' hidden from')+' the public card.');
+    });
+  });
+
+  document.querySelectorAll('[data-a]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-a]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      var anyone=b.dataset.a==='public';
+      if(anyone){showCity=false;document.querySelector('[data-company]').hidden=false;company();}
+      document.querySelector('[data-ft-l]').textContent=anyone?'Public — anyone with the link'
+        :'Visible to studios you work with';
+    });
+  });
+
+  var add=document.querySelector('[data-add]');
+  add.addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+    var v=add.value.trim(); if(!v)return;
+    [document.querySelector('[data-skills]'),document.querySelector('[data-pchips]')].forEach(function(host){
+      var s=document.createElement(host.hasAttribute('data-pchips')?'span':'span');
+      s.className=host.hasAttribute('data-pchips')?'':'pill';
+      s.textContent=v; host.appendChild(s);
+    });
+    add.value=''; say('Skill added to both the profile and the preview.');
+  });
+  document.querySelector('[data-save]').addEventListener('click',function(){
+    say('Profile saved — visibility changes apply immediately.');
+  });
+  document.querySelector('[data-reset]').addEventListener('click',function(){
+    location.reload();
+  });
+  company();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoices · V1 Table Classic — Nestlancer Portal Lab</title>
+<meta name="description" content="F18 variant 1: a classic invoice table with a toolbar, sortable columns, totals row and pagination, plus per-row download and view.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Table Classic. A table · B records-first · D dense · E filter + sort. */
+.page{max-width:1180px;margin:0 auto;padding:0 22px 60px}
+.hd{display:flex;align-items:end;gap:14px;flex-wrap:wrap;padding:24px 0 14px}
+.hd h1{font-size:25px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12.5px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.toolbar input[type=search]{border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px;
+  font:inherit;font-size:12px;min-width:220px;background:var(--card);color:var(--foreground);outline:none}
+.toolbar input[type=search]:focus{border-color:var(--primary)}
+.toolbar select{border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 8px;font:inherit;
+  font-size:12px;background:var(--card);color:var(--foreground)}
+.toolbar .sp{margin-left:auto;font-size:11px;color:var(--muted-foreground)}
+.tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+.scrollx{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{text-align:left;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:700;padding:8px 12px;border-bottom:1px solid var(--border);
+  background:var(--muted);white-space:nowrap}
+thead th button{font:inherit;text-transform:inherit;letter-spacing:inherit;color:inherit;
+  display:inline-flex;gap:3px;align-items:center}
+thead th .ar{font-size:8px;opacity:.6}
+tbody td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle;white-space:nowrap}
+tbody tr:hover{background:var(--brand-50)}
+.dark tbody tr:hover{background:#161f3a}
+.num{font-variant-numeric:var(--tabnum);font-weight:600;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11.5px}
+.dim{color:var(--muted-foreground);font-size:11.5px}
+.amt{text-align:right;font-variant-numeric:var(--tabnum);font-weight:600}
+.acts{display:flex;gap:5px;justify-content:flex-end}
+tfoot td{padding:9px 12px;border-top:2px solid var(--foreground);font-weight:700;font-size:12.5px}
+tfoot .amt{font-size:13.5px}
+.tfoot{display:flex;gap:10px;align-items:center;padding:9px 12px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--muted-foreground);flex-wrap:wrap}
+.pager{display:flex;gap:4px;margin-left:auto}
+.pager button{border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:11px;
+  background:var(--card);color:var(--muted-foreground)}
+.pager button[aria-current="true"]{background:var(--brand-50);border-color:var(--brand-200);
+  color:var(--brand-800);font-weight:700}
+.none{padding:34px 14px;text-align:center;font-size:12px;color:var(--muted-foreground)}
+.none b{display:block;color:var(--foreground);font-size:13px;margin-bottom:3px}
+.honest{border-left:3px solid var(--primary);background:var(--brand-50);border-radius:var(--radius-sm);
+  padding:10px 12px;font-size:11.5px;line-height:1.6;margin-top:14px}
+.dark .honest{background:#161f3a}
+.honest b{display:block;margin-bottom:2px}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:16px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){table{min-width:700px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to invoices</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F14-billing/V1/index.html">Billing</a>
+        <a href="index.html" aria-current="page">Invoices</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div><h1>Invoices</h1>
+        <p>5 invoices · sorted newest first · every invoice downloads as a PDF</p></div>
+      <div class="r"><a class="btn btn-g btn-sm" href="../../F14-billing/V1/index.html">View payments</a></div>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" placeholder="Search invoice number or project" aria-label="Search invoices" data-q>
+      <select aria-label="Filter by status" data-st>
+        <option value="all">All statuses</option>
+        <option value="paid">Paid</option>
+        <option value="issued">Issued</option>
+        <option value="pending">Pending</option>
+      </select>
+      <button class="btn btn-g btn-sm" data-reset>Reset</button>
+      <span class="sp" data-count>5 invoices</span>
+    </div>
+
+    <div class="tblwrap">
+      <div class="scrollx">
+      <table data-tbl>
+        <caption class="sr-only">Invoices with number, project, amount, status and issue date</caption>
+        <thead><tr>
+          <th scope="col"><button data-sort="no">Invoice <span class="ar">▼</span></button></th>
+          <th scope="col">Project</th>
+          <th scope="col"><button data-sort="amt">Amount <span class="ar"></span></button></th>
+          <th scope="col">Status</th>
+          <th scope="col"><button data-sort="date">Issued <span class="ar"></span></button></th>
+          <th scope="col"><span class="sr-only">Actions</span></th>
+        </tr></thead>
+        <tbody data-body>
+          <tr data-st="pending" data-no="NL-INV-2026-000045" data-amt="1875" data-date="20261018">
+            <td class="num">NL-INV-2026-000045</td><td class="dim">Horizon Retail</td>
+            <td class="amt">₹1,875.00</td><td><span class="pill pill--warn">pending</span></td>
+            <td class="dim">18 Oct 2026</td>
+            <td><div class="acts"><a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Pay</a>
+              <button class="btn btn-g btn-sm" data-dl>Download</button></div></td></tr>
+          <tr data-st="paid" data-no="NL-INV-2026-000005" data-amt="22500" data-date="20261015">
+            <td class="num">NL-INV-2026-000005</td><td class="dim">Khandesh Spice D2C</td>
+            <td class="amt">₹22,500.00</td><td><span class="pill pill--ok">paid</span></td>
+            <td class="dim">15 Oct 2026</td>
+            <td><div class="acts"><button class="btn btn-g btn-sm" data-view>View</button>
+              <button class="btn btn-g btn-sm" data-dl>Download</button></div></td></tr>
+          <tr data-st="issued" data-no="NL-INV-2026-000004" data-amt="30000" data-date="20261014">
+            <td class="num">NL-INV-2026-000004</td><td class="dim">Khandesh Spice D2C</td>
+            <td class="amt">₹30,000.00</td><td><span class="pill pill--info">issued</span></td>
+            <td class="dim">14 Oct 2026</td>
+            <td><div class="acts"><button class="btn btn-g btn-sm" data-view>View</button>
+              <button class="btn btn-g btn-sm" data-dl>Download</button></div></td></tr>
+          <tr data-st="paid" data-no="NL-INV-2026-000002" data-amt="22000" data-date="20260928">
+            <td class="num">NL-INV-2026-000002</td><td class="dim">B2B Wholesale</td>
+            <td class="amt">₹22,000.00</td><td><span class="pill pill--ok">paid</span></td>
+            <td class="dim">28 Sep 2026</td>
+            <td><div class="acts"><button class="btn btn-g btn-sm" data-view>View</button>
+              <button class="btn btn-g btn-sm" data-dl>Download</button></div></td></tr>
+          <tr data-st="paid" data-no="NL-INV-2026-000001" data-amt="10625" data-date="20260920">
+            <td class="num">NL-INV-2026-000001</td><td class="dim">Horizon Retail</td>
+            <td class="amt">₹10,625.00</td><td><span class="pill pill--ok">paid</span></td>
+            <td class="dim">20 Sep 2026</td>
+            <td><div class="acts"><button class="btn btn-g btn-sm" data-view>View</button>
+              <button class="btn btn-g btn-sm" data-dl>Download</button></div></td></tr>
+        </tbody>
+        <tfoot><tr><td colspan="2">Totals shown</td>
+          <td class="amt" data-total>₹87,000.00</td><td colspan="3" class="dim" data-tfnote>5 invoices</td></tr></tfoot>
+      </table>
+      </div>
+      <div class="none" data-none hidden><b>No invoices match</b>Clear the search or pick another status.</div>
+      <div class="tfoot">
+        <span data-range>Showing 5 of 5</span>
+        <span>· page 1 of 1</span>
+        <div class="pager" role="group" aria-label="Pagination">
+          <button aria-current="true">1</button><button data-next>Next ›</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="honest">
+      <b>What the totals row means</b>
+      It sums the rows currently shown, not the lifetime billed amount. GST is already inside each invoice total —
+      a separate GST statement does not exist as an endpoint and is labelled demo-only in variants 2 and 5.
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F18 · V1 of 5 · <code>GET /invoices?page=&amp;limit=</code></span>
+      <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var rows=[].slice.call(document.querySelectorAll('[data-body] tr')),
+      q=document.querySelector('[data-q]'), st=document.querySelector('[data-st]'),
+      total=document.querySelector('[data-total]'), range=document.querySelector('[data-range]'),
+      count=document.querySelector('[data-count]'), none=document.querySelector('[data-none]'),
+      note=document.querySelector('[data-tfnote]');
+  function money(n){return '₹'+n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function paint(){
+    var v=q.value.toLowerCase().trim(), s=st.value, n=0, sum=0;
+    rows.forEach(function(r){
+      var ok=(s==='all'||r.dataset.st===s)&&(!v||r.textContent.toLowerCase().indexOf(v)>-1);
+      r.hidden=!ok; if(ok){n++;sum+=Number(r.dataset.amt);}
+    });
+    total.textContent=n?money(sum):'₹0.00';
+    range.textContent='Showing '+n+' of '+rows.length;
+    count.textContent=n+' invoice'+(n===1?'':'s');
+    note.textContent=n+' invoice'+(n===1?'':'s');
+    none.hidden=n>0;
+  }
+  q.addEventListener('input',paint); st.addEventListener('change',paint);
+  document.querySelector('[data-reset]').addEventListener('click',function(){
+    q.value='';st.value='all';paint();say('Filters cleared.');
+  });
+  document.querySelectorAll('[data-sort]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.sort, asc=b.dataset.dir!=='asc'; b.dataset.dir=asc?'asc':'desc';
+      document.querySelectorAll('[data-sort] .ar').forEach(function(s){s.textContent='';});
+      b.querySelector('.ar').textContent=asc?'▲':'▼';
+      var body=document.querySelector('[data-body]');
+      rows.sort(function(x,y){
+        var a,c;
+        if(k==='no'){a=x.dataset.no;c=y.dataset.no;return a.localeCompare(c)*(asc?1:-1);}
+        a=Number(x.dataset[k]);c=Number(y.dataset[k]);
+        return (a-c)*(asc?1:-1);
+      }).forEach(function(r){body.appendChild(r);});
+      say('Sorted by '+k+', '+(asc?'ascending':'descending')+'.');
+    });
+  });
+  document.querySelectorAll('[data-dl]').forEach(function(b){
+    b.addEventListener('click',function(){say('PDF download is generating — demo-only in this lab.');});
+  });
+  document.querySelectorAll('[data-view]').forEach(function(b){
+    b.addEventListener('click',function(){say('Invoice detail opens in the split preview (V4).');});
+  });
+  document.querySelector('[data-next]').addEventListener('click',function(){
+    say('Only 5 invoices exist, so page 2 is empty here.');
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

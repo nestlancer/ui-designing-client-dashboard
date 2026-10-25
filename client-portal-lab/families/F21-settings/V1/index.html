@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · V1 Sub-tab Classic — Nestlancer Portal Lab</title>
+<meta name="description" content="F21 variant 1: sub-tabs for Account, Security, Notifications, Activity and Files, each with optimistic switch saves and a danger zone.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Sub-tab Classic. A tabs · B section-first · D medium · E tabs + optimistic switch. */
+.page{max-width:940px;margin:0 auto;padding:0 22px 60px}
+.hd{padding:24px 0 12px}
+.hd h1{font-size:25px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12px;color:var(--muted-foreground)}
+.subtabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:18px;overflow-x:auto;
+  scrollbar-width:none}
+.subtabs::-webkit-scrollbar{display:none}
+.subtabs button{padding:9px 13px;font-size:12px;font-weight:650;color:var(--muted-foreground);
+  border-bottom:2px solid transparent;white-space:nowrap}
+.subtabs button[aria-selected="true"]{color:var(--foreground);border-bottom-color:var(--primary)}
+.panel{display:grid;gap:13px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+.chd{padding:12px 16px;border-bottom:1px solid var(--border)}
+.chd h2{font-size:12.5px;letter-spacing:-.01em}
+.chd p{margin:3px 0 0;font-size:11px;color:var(--muted-foreground);line-height:1.5}
+.cbody{padding:13px 16px;display:grid;gap:11px}
+.frow{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center}
+@media(max-width:620px){.frow{grid-template-columns:1fr;gap:5px}}
+.frow label{font-size:11.5px;font-weight:650}
+.frow input{width:100%;font:inherit;font-size:12.5px;padding:7px 9px;border:1px solid var(--border);
+  border-radius:5px;background:var(--card);color:var(--foreground);outline:none}
+.frow input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--brand-50)}
+.dark .frow input:focus{box-shadow:0 0 0 3px #1b2650}
+.cfoot{padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:6px;align-items:center;
+  font-size:10.5px;color:var(--muted-foreground);flex-wrap:wrap}
+.cfoot .r{margin-left:auto;display:flex;gap:5px}
+.togrow{display:flex;gap:10px;align-items:center;font-size:12px;padding:4px 0}
+.togrow b{font-weight:600;flex:1}
+.togrow span{font-size:10.5px;color:var(--muted-foreground);max-width:34ch;text-align:right;line-height:1.4}
+.sw{width:32px;height:18px;border-radius:99px;background:var(--muted);position:relative;flex:none}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+  background:#fff;box-shadow:0 1px 2px rgba(15,28,46,.3);transition:transform .15s}
+.sw[aria-checked="true"]{background:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(14px)}
+@media(prefers-reduced-motion:reduce){.sw::after{transition:none}}
+.session{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;align-items:center;padding:8px 0;
+  border-bottom:1px solid var(--border);font-size:11.5px}
+.session:last-child{border-bottom:0}
+.session b{font-weight:600;display:block}
+.session .m{font-size:10.5px;color:var(--muted-foreground);margin-top:1px}
+.danger{border-color:var(--status-error-border,#f3c4c0)}
+.danger .chd h2{color:var(--status-error-text)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:5px 8px;border-bottom:1px solid var(--border);background:var(--muted)}
+td{padding:5px 8px;border-bottom:1px solid var(--border);white-space:nowrap}
+.matrix{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,64px);gap:0;font-size:11px}
+.matrix .h{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:5px 4px;text-align:center}
+.matrix .row-l{padding:6px 8px;border-top:1px solid var(--border);font-weight:600}
+.matrix .cell{border-top:1px solid var(--border);display:grid;place-items:center;padding:4px}
+.matrix .sw{width:26px;height:15px}
+.matrix .sw::after{width:11px;height:11px}
+.matrix .sw[aria-checked="true"]::after{transform:translateX(11px)}
+.end{margin-top:16px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.scrollx{overflow-x:auto;max-height:260px;overflow-y:auto}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to settings</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F20-profile/V1/index.html">Profile</a>
+        <a href="index.html" aria-current="page">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd"><h1>Settings</h1>
+      <p>Account, security, notifications, activity and files. Every switch saves immediately and reverts on
+        failure.</p></div>
+
+    <div class="subtabs" role="tablist" aria-label="Settings sections">
+      <button role="tab" aria-selected="true" data-tab="account">Account</button>
+      <button role="tab" aria-selected="false" data-tab="security">Security</button>
+      <button role="tab" aria-selected="false" data-tab="notif">Notifications</button>
+      <button role="tab" aria-selected="false" data-tab="activity">Activity</button>
+      <button role="tab" aria-selected="false" data-tab="files">Files</button>
+    </div>
+
+    <section class="panel" id="p-account" role="tabpanel" aria-label="Account">
+      <div class="card">
+        <div class="chd"><h2>Account details</h2><p>Changing your email sends a verification link to the new
+          address before it takes effect.</p></div>
+        <div class="cbody">
+          <div class="frow"><label for="a1">Display name</label>
+            <input id="a1" type="text" value="Arjun Mehta"></div>
+          <div class="frow"><label for="a2">Email</label>
+            <input id="a2" type="text" value="arjun@khandeshspice.example"></div>
+          <div class="frow"><label for="a3">Time zone</label>
+            <input id="a3" type="text" value="Asia/Kolkata (IST)"></div>
+        </div>
+        <div class="cfoot"><span>Profile bio and skills live on your profile page.</span>
+          <span class="r"><a class="btn btn-g btn-sm" href="../../F20-profile/V1/index.html">Open profile</a>
+            <button class="btn btn-p btn-sm" data-save>Save account</button></span></div>
+      </div>
+
+      <div class="card">
+        <div class="chd"><h2>Privacy</h2><p>These apply everywhere your profile is shown.</p></div>
+        <div class="cbody">
+          <div class="togrow"><b>Let studios I work with see my email</b><span>otherwise messages only</span>
+            <button class="sw" role="switch" aria-checked="true" aria-label="Show email to studios"></button></div>
+          <div class="togrow"><b>Show my company on my card</b><span>Khandesh Spice Pvt Ltd</span>
+            <button class="sw" role="switch" aria-checked="true" aria-label="Show company"></button></div>
+          <div class="togrow"><b>Allow product update emails</b><span>about 2 per month</span>
+            <button class="sw" role="switch" aria-checked="false" aria-label="Product updates"></button></div>
+        </div>
+      </div>
+
+      <div class="card danger">
+        <div class="chd"><h2>Danger zone</h2><p>Deleting your account removes access immediately. Invoices and
+          contracts are retained for statutory periods.</p></div>
+        <div class="cfoot"><span>This cannot be undone from the portal.</span>
+          <span class="r"><button class="btn btn-d btn-sm" data-delete>Delete account</button></span></div>
+      </div>
+    </section>
+
+    <section class="panel" id="p-security" role="tabpanel" aria-label="Security" hidden>
+      <div class="card">
+        <div class="chd"><h2>Password</h2><p>Last changed 12 Aug 2026. Use at least 12 characters.</p></div>
+        <div class="cbody">
+          <div class="frow"><label for="s1">Current password</label><input id="s1" type="password" value=""></div>
+          <div class="frow"><label for="s2">New password</label><input id="s2" type="password" value=""></div>
+        </div>
+        <div class="cfoot"><span>Changing your password signs out other sessions.</span>
+          <span class="r"><button class="btn btn-p btn-sm" data-pw>Update password</button></span></div>
+      </div>
+      <div class="card">
+        <div class="chd"><h2>Two-factor authentication</h2><p>Currently off. An authenticator app is the strongest
+          option; SMS is a fallback.</p></div>
+        <div class="cbody">
+          <div class="togrow"><b>Authenticator app</b><span>6-digit code</span>
+            <button class="sw" role="switch" aria-checked="false" aria-label="Authenticator app"></button></div>
+          <div class="togrow"><b>SMS backup</b><span>+91 ••••• 43210</span>
+            <button class="sw" role="switch" aria-checked="false" aria-label="SMS backup"></button></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chd"><h2>Active sessions · 8</h2><p>Revoke anything you do not recognise.</p></div>
+        <div class="cbody" data-sessions>
+          <div class="session"><div><b>This device · Chrome on macOS</b>
+            <p class="m">Hyderabad, IN · active now</p></div>
+            <span class="pill pill--ok">current</span></div>
+          <div class="session"><div><b>Safari on iPhone 14</b>
+            <p class="m">Hyderabad, IN · 2 hours ago</p></div>
+            <button class="btn btn-g btn-sm" data-revoke>Revoke</button></div>
+          <div class="session"><div><b>Chrome on Windows 11</b>
+            <p class="m">Nashik, IN · 1 day ago</p></div>
+            <button class="btn btn-g btn-sm" data-revoke>Revoke</button></div>
+          <div class="session"><div><b>Edge on Windows 10</b>
+            <p class="m">Mumbai, IN · 3 days ago</p></div>
+            <button class="btn btn-g btn-sm" data-revoke>Revoke</button></div>
+          <div class="session"><div><b>Chrome on Android</b>
+            <p class="m">Pune, IN · 6 days ago</p></div>
+            <button class="btn btn-g btn-sm" data-revoke>Revoke</button></div>
+          <div class="session"><div><b>Firefox on Ubuntu</b>
+            <p class="m">Hyderabad, IN · 12 days ago</p></div>
+            <button class="btn btn-g btn-sm" data-revoke>Revoke</button></div>
+          <div class="session"><div><b>Safari on iPad</b>
+            <p class="m">Nashik, IN · 18 days ago</p></div>
+            <button class="btn btn-g btn-sm" data-revoke>Revoke</button></div>
+          <div class="session"><div><b>Chrome on macOS (old)</b>
+            <p class="m">Bengaluru, IN · 30 days ago</p></div>
+            <button class="btn btn-g btn-sm" data-revoke>Revoke</button></div>
+        </div>
+        <div class="cfoot"><span>Session count comes from <code>GET /users/sessions</code>.</span>
+          <span class="r"><button class="btn btn-g btn-sm" data-revokeall>Sign out everywhere else</button></span></div>
+      </div>
+    </section>
+
+    <section class="panel" id="p-notif" role="tabpanel" aria-label="Notifications" hidden>
+      <div class="card">
+        <div class="chd"><h2>Notification matrix · 18 switches</h2>
+          <p>Email, in-app and push for each of six categories. Turning a row off disables all three.</p></div>
+        <div class="cbody" style="padding:0">
+          <div class="matrix" data-matrix>
+            <div class="h" style="text-align:left;padding-left:8px">Category</div>
+            <div class="h">Email</div><div class="h">In-app</div><div class="h">Push</div>
+          </div>
+        </div>
+        <div class="cfoot"><span>Saved to <code>PATCH /notifications/preferences</code>.</span>
+          <span class="r"><button class="btn btn-g btn-sm" data-alloff>Turn all off</button>
+            <button class="btn btn-g btn-sm" data-allon>Turn all on</button></span></div>
+      </div>
+      <div class="card">
+        <div class="chd"><h2>Quiet hours</h2><p>Notifications are held and delivered after the window.</p></div>
+        <div class="cbody">
+          <div class="togrow"><b>Enable quiet hours</b><span>22:00 – 07:00 IST</span>
+            <button class="sw" role="switch" aria-checked="true" aria-label="Quiet hours"></button></div>
+          <div class="frow"><label for="n1">From</label><input id="n1" type="text" value="22:00"></div>
+          <div class="frow"><label for="n2">To</label><input id="n2" type="text" value="07:00"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="p-activity" role="tabpanel" aria-label="Activity" hidden>
+      <div class="card">
+        <div class="chd"><h2>Login activity · 57 events</h2>
+          <p>Most recent sessions first. Scroll the table for the full history.</p></div>
+        <div class="scrollx">
+          <table>
+            <caption class="sr-only">Recent login events</caption>
+            <thead><tr><th scope="col">When</th><th scope="col">Event</th><th scope="col">Device</th>
+              <th scope="col">Location</th><th scope="col">IP</th></tr></thead>
+            <tbody data-activity>
+              <tr><td>22 Oct 2026 · 14:02</td><td>Login succeeded</td><td>Chrome / macOS</td>
+                <td>Hyderabad, IN</td><td>103.21.58.14</td></tr>
+              <tr><td>22 Oct 2026 · 09:41</td><td>Login succeeded</td><td>Safari / iPhone</td>
+                <td>Hyderabad, IN</td><td>103.21.58.14</td></tr>
+              <tr><td>21 Oct 2026 · 20:18</td><td>Password reset requested</td><td>Chrome / macOS</td>
+                <td>Hyderabad, IN</td><td>103.21.58.14</td></tr>
+              <tr><td>21 Oct 2026 · 08:05</td><td>Login succeeded</td><td>Chrome / Windows</td>
+                <td>Nashik, IN</td><td>49.36.110.7</td></tr>
+              <tr><td>20 Oct 2026 · 17:33</td><td>Login failed — wrong password</td><td>Edge / Windows</td>
+                <td>Mumbai, IN</td><td>49.44.88.201</td></tr>
+              <tr><td>19 Oct 2026 · 11:20</td><td>Login succeeded</td><td>Chrome / Android</td>
+                <td>Pune, IN</td><td>157.32.66.9</td></tr>
+              <tr><td>18 Oct 2026 · 07:02</td><td>2FA challenge passed</td><td>Safari / iPad</td>
+                <td>Nashik, IN</td><td>49.36.110.7</td></tr>
+              <tr><td>16 Oct 2026 · 22:47</td><td>Session revoked</td><td>Firefox / Ubuntu</td>
+                <td>Hyderabad, IN</td><td>103.21.58.14</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cfoot"><span>Showing 8 of 57 events — the rest are paged.</span>
+          <span class="r"><button class="btn btn-g btn-sm" data-more>Load 8 more</button></span></div>
+      </div>
+    </section>
+
+    <section class="panel" id="p-files" role="tabpanel" aria-label="Files" hidden>
+      <div class="card">
+        <div class="chd"><h2>Files and documents</h2>
+          <p>Downloads, uploads and generated documents live in one place, grouped by source.</p></div>
+        <div class="cbody">
+          <p style="margin:0;font-size:12px;line-height:1.65;color:var(--muted-foreground)">
+            The file browser has its own screen with a dropzone, type chips and six source tabs. This tab exists so
+            Files is reachable from Settings as well.</p>
+          <a class="btn btn-p btn-sm" href="../../F22-settings-files/V1/index.html" style="justify-self:start">
+            Open file browser</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F21 · V1 of 5</span>
+      <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var tabs=[].slice.call(document.querySelectorAll('[role="tab"]')),
+      panels={account:document.getElementById('p-account'),security:document.getElementById('p-security'),
+        notif:document.getElementById('p-notif'),activity:document.getElementById('p-activity'),
+        files:document.getElementById('p-files')};
+  function show(k){
+    tabs.forEach(function(b){b.setAttribute('aria-selected',String(b.dataset.tab===k));});
+    Object.keys(panels).forEach(function(p){panels[p].hidden=p!==k;});
+  }
+  tabs.forEach(function(b,i){
+    b.addEventListener('click',function(){show(b.dataset.tab);});
+    b.addEventListener('keydown',function(e){
+      if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+      e.preventDefault();
+      var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];
+      n.focus();show(n.dataset.tab);
+    });
+  });
+
+  // 18-switch matrix
+  var cats=['Quotes','Payments','Messages','Projects','Requests','Account'];
+  var m=document.querySelector('[data-matrix]');
+  cats.forEach(function(c){
+    var l=document.createElement('div'); l.className='row-l'; l.textContent=c; m.appendChild(l);
+    ['email','inapp','push'].forEach(function(ch){
+      var cell=document.createElement('div'); cell.className='cell';
+      var sw=document.createElement('button'); sw.className='sw'; sw.setAttribute('role','switch');
+      sw.setAttribute('aria-checked',(ch==='push'&&c==='Requests')?'false':'true');
+      sw.setAttribute('aria-label',c+' '+ch);
+      sw.addEventListener('click',function(){
+        var on=sw.getAttribute('aria-checked')!=='true';
+        sw.setAttribute('aria-checked',String(on));
+        say(c+' · '+ch+(on?' on':' off')+' — saved.');
+      });
+      cell.appendChild(sw); m.appendChild(cell);
+    });
+  });
+  document.querySelectorAll('.togrow .sw').forEach(function(sw){
+    sw.addEventListener('click',function(){
+      var on=sw.getAttribute('aria-checked')!=='true';
+      sw.setAttribute('aria-checked',String(on));
+      say('Preference '+(on?'enabled':'disabled')+'.');
+    });
+  });
+  document.querySelector('[data-allon]').addEventListener('click',function(){
+    document.querySelectorAll('[data-matrix] .sw').forEach(function(s){s.setAttribute('aria-checked','true');});
+    say('All 18 notification switches on.');
+  });
+  document.querySelector('[data-alloff]').addEventListener('click',function(){
+    document.querySelectorAll('[data-matrix] .sw').forEach(function(s){s.setAttribute('aria-checked','false');});
+    say('All 18 notification switches off — you can still read them in the app.');
+  });
+  document.querySelector('[data-save]').addEventListener('click',function(){say('Account details saved.');});
+  document.querySelector('[data-pw]').addEventListener('click',function(){
+    var a=document.getElementById('s1'), b=document.getElementById('s2');
+    if(!a.value||!b.value){say('Both the current and new password are required.');return;}
+    if(b.value.length<12){say('Use at least 12 characters for the new password.');return;}
+    a.value='';b.value='';say('Password updated — other sessions will be signed out.');
+  });
+  document.querySelectorAll('[data-revoke]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var s=b.closest('.session'); s.remove(); say('Session revoked.');
+    });
+  });
+  document.querySelector('[data-revokeall]').addEventListener('click',function(){
+    document.querySelectorAll('[data-revoke]').forEach(function(b){b.closest('.session').remove();});
+    say('All other sessions signed out.');
+  });
+  document.querySelector('[data-delete]').addEventListener('click',function(){
+    say('Account deletion needs a confirmation email — not performed in this lab.');
+  });
+  var act=document.querySelector('[data-activity]');
+  document.querySelector('[data-more]').addEventListener('click',function(){
+    var extra=[['15 Oct 2026 · 19:12','Login succeeded','Chrome / macOS','Hyderabad, IN','103.21.58.14'],
+      ['14 Oct 2026 · 08:30','Login succeeded','Safari / iPhone','Hyderabad, IN','103.21.58.14'],
+      ['12 Oct 2026 · 21:05','Password changed','Chrome / macOS','Hyderabad, IN','103.21.58.14'],
+      ['11 Oct 2026 · 10:44','Login failed — 2FA timeout','Chrome / Windows','Nashik, IN','49.36.110.7'],
+      ['9 Oct 2026 · 16:20','Login succeeded','Chrome / Android','Pune, IN','157.32.66.9'],
+      ['7 Oct 2026 · 07:15','Login succeeded','Edge / Windows','Mumbai, IN','49.44.88.201'],
+      ['5 Oct 2026 · 12:38','Session revoked','Firefox / Ubuntu','Hyderabad, IN','103.21.58.14'],
+      ['3 Oct 2026 · 09:02','Login succeeded','Safari / iPad','Nashik, IN','49.36.110.7']];
+    extra.forEach(function(r){
+      var tr=document.createElement('tr');
+      r.forEach(function(c){var td=document.createElement('td');td.textContent=c;tr.appendChild(td);});
+      act.appendChild(tr);
+    });
+    this.disabled=true; this.textContent='Loaded 16 of 57';
+    say('Loaded 8 more events — the rest are paged server-side.');
+  });
+})();
+</script>
+</body>
+</html>
