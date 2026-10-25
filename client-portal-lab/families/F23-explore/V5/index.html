@@ -76,60 +76,60 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     </div>
 
     <div class="list">
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=approving-a-milestone-and-what-happens-next" data-open>
         <div class="k">Process · 19 Oct 2026</div>
         <h2>Approving a milestone, and what happens next</h2>
         <p>A milestone is a commitment in both directions: approving one unlocks the next payment and closes the
           stage before it. Here is the sequence, in order.</p>
         <div class="m"><span>6 min read</span><span>·</span><span>Studio</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=why-a-bank-transfer-shows-as-processing" data-open>
         <div class="k">Payments · 14 Oct 2026</div>
         <h2>Why a bank transfer shows as processing</h2>
         <p>UPI settles immediately. A transfer clears when the bank confirms it, and until then the portal keeps
           the payment in its own state instead of calling it paid.</p>
         <div class="m"><span>4 min read</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=a-brief-that-survives-the-first-week" data-open>
         <div class="k">Briefs · 11 Oct 2026</div>
         <h2>A brief that survives the first week</h2>
         <p>Not a moodboard. A paragraph about who buys, and what they must be able to do without asking.</p>
         <div class="m"><span>5 min read</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=change-requests-are-priced-before-they-start" data-open>
         <div class="k">Process · 8 Oct 2026</div>
         <h2>Change requests are priced before they start</h2>
         <p>Scope changes are fine. Unpriced scope changes are how projects stall. Request, quote, invoice — in
           that order.</p>
         <div class="m"><span>3 min read</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=invoices-gst-and-what-the-pdf-actually-contains" data-open>
         <div class="k">Payments · 5 Oct 2026</div>
         <h2>Invoices, GST and what the PDF actually contains</h2>
         <p>What is taxable value, what is GST, and why the invoice total is not the same as the amount you
           approved.</p>
         <div class="m"><span>5 min read</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=designing-a-wholesale-portal-for-a-shop-floor" data-open>
         <div class="k">Work · 2 Oct 2026</div>
         <h2>Designing a wholesale portal for a shop floor</h2>
         <p>Wholesale buyers are not browsing. They are reordering between customers, one-handed, on a mid-range
           phone.</p>
         <div class="m"><span>7 min read</span><span>·</span><span>Case study</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=what-handover-includes" data-open>
         <div class="k">Process · 28 Sep 2026</div>
         <h2>What handover includes</h2>
         <p>Files, credentials, a design system and a walkthrough — plus the two things nobody documents.</p>
         <div class="m"><span>4 min read</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=choosing-a-studio-without-a-pitch-deck" data-open>
         <div class="k">Briefs · 21 Sep 2026</div>
         <h2>Choosing a studio without a pitch deck</h2>
         <p>Five questions that tell you more than a portfolio page — starting with what happens after week two.</p>
         <div class="m"><span>6 min read</span></div>
       </a>
-      <a class="item" href="#" data-open>
+      <a class="item" href="?open=khandesh-spice-from-shelf-to-storefront" data-open>
         <div class="k">Work · 12 Sep 2026</div>
         <h2>Khandesh Spice — from shelf to storefront</h2>
         <p>A retail brand moving direct, without losing the packaging language its wholesale buyers already
@@ -140,11 +140,11 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 
     <section class="work">
       <h2>Selected work</h2>
-      <a href="#" data-open>Khandesh Spice — D2C storefront
+      <a href="?open=khandesh-spice-d2c-storefront-brand-commerce" data-open>Khandesh Spice — D2C storefront
         <span>Brand · Commerce · Packaging</span></a>
-      <a href="#" data-open>B2B Wholesale Ordering Portal
+      <a href="?open=b2b-wholesale-ordering-portal-product-design-system" data-open>B2B Wholesale Ordering Portal
         <span>Product · Design system</span></a>
-      <a href="#" data-open>Horizon Retail — campaign site
+      <a href="?open=horizon-retail-campaign-site-web-editorial" data-open>Horizon Retail — campaign site
         <span>Web · Editorial</span></a>
     </section>
 
@@ -177,6 +177,15 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       say('Opening “'+t.textContent.trim()+'” in this tab.');
     });
   });
+
+  /* Deep link: ?open=<slug> restores the same dialog/toast on load, so a shared
+     link lands on the same item instead of a dead page. */
+  var op=new URLSearchParams(location.search).get('open');
+  if(op){
+    var link=document.querySelector('a[href="?open='+op.replace(/[^\w-]/g,'')+'"]');
+    if(link)link.click();
+    else say('That link points at an entry this page no longer lists.');
+  }
 })();
 </script>
 </body>

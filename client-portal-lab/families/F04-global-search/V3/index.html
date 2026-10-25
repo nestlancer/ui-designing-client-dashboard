@@ -110,6 +110,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   </div>
 
   <main id="main" class="panes">
+    <h1 class="sr-only">Search the portal</h1>
     <section class="left">
       <div class="hd"><span>Results</span><span data-scope>All types</span></div>
       <div class="list" id="res" role="listbox" aria-label="Search results" data-res>
@@ -217,7 +218,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     </section>
 
     <aside class="right" aria-label="Preview">
-      <div class="hd"><span>Preview</span><span class="crumb" data-crumb>Requests › Khandesh Spice</span></div>
+      <div class="hd"><span>Preview</span><span class="crumb" data-pv-crumb>Requests › Khandesh Spice</span></div>
       <article class="pv" data-pv aria-live="polite">
         <div class="hd2"><b data-pv-title>Khandesh Spice D2C E-Commerce Store</b><span class="badge" data-pv-badge>Req</span></div>
         <div class="body">
@@ -264,7 +265,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     badge.textContent=el.querySelector('.badge').textContent;
     badge.dataset.k=el.dataset.k||'';
     document.querySelector('[data-pv-desc]').textContent=el.dataset.desc;
-    document.querySelector('[data-crumb]').textContent=el.dataset.crumb||'';
+    document.querySelector('[data-pv-crumb]').textContent=el.dataset.crumb||'';
     var kv=document.querySelector('[data-pv-kv]');
     kv.innerHTML='';
     JSON.parse(el.dataset.kv||'[]').forEach(function(pair){

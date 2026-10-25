@@ -32,7 +32,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .rail .ln[data-on="1"]{background:var(--brand-300)}
 .stage{flex:1;display:grid;place-items:start center;padding:26px 20px 40px}
 .step{width:min(560px,100%)}
-.step h1{font-size:24px;letter-spacing:-.03em;margin-bottom:5px}
+.step h1,.step h2{font-size:24px;letter-spacing:-.03em;margin-bottom:5px}
 .step .lead{font-size:13px;color:var(--muted-foreground);margin-bottom:20px;line-height:1.55}
 .box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
   box-shadow:var(--shadow-xs);display:grid;gap:13px}
@@ -92,8 +92,9 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 
   <main id="main" class="stage">
     <div class="step">
+      <h1 class="sr-only">New request</h1>
       <form data-f="1" novalidate>
-        <h1>What do you need built?</h1>
+        <h2>What do you need built?</h2>
         <p class="lead">Step 1 of 4. Short title, one category, and a description the studio can quote from.</p>
         <div class="box">
           <div class="fld"><label class="lbl" for="title">Title <span class="req" aria-hidden="true">*</span></label>
@@ -118,7 +119,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       </form>
 
       <form data-f="2" hidden novalidate>
-        <h1>What budget should we work to?</h1>
+        <h2>What budget should we work to?</h2>
         <p class="lead">Step 2 of 4. Optional, but a range gets a sharper quote than a shrug.</p>
         <div class="box">
           <div class="grid2">
@@ -134,7 +135,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       </form>
 
       <form data-f="3" hidden novalidate>
-        <h1>When do you need it?</h1>
+        <h2>When do you need it?</h2>
         <p class="lead">Step 3 of 4. Dates are requests, not commitments — the studio confirms them on the quote.</p>
         <div class="box">
           <div class="grid2">
@@ -149,7 +150,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       </form>
 
       <form data-f="4" hidden novalidate>
-        <h1>Check it before it goes</h1>
+        <h2>Check it before it goes</h2>
         <p class="lead">Step 4 of 4. Everything below is exactly what the studio will see.</p>
         <div class="box">
           <dl class="review">

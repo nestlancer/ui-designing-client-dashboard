@@ -59,7 +59,7 @@ li .cat{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:7
 .wcard .tags span{font-size:9px;border:1px solid var(--border);border-radius:999px;padding:1px 6px;
   color:var(--muted-foreground)}
 .wcard b{font-size:11.5px;font-weight:650;display:block;line-height:1.4}
-.wcard p{margin:3px 0 0;font-size:10.5px;line-height:1.55;color:var(--muted-foreground)}
+.wcard .p{display:block;margin:3px 0 0;font-size:10.5px;line-height:1.55;color:var(--muted-foreground)}
 .note{margin-top:20px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);
   border-left:2px solid var(--border);padding-left:9px}
 .end{margin-top:16px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
@@ -98,13 +98,13 @@ li .cat{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:7
     <div class="split">
       <article class="feature" data-feature>
         <div class="k" data-fk>Process · featured</div>
-        <h2><a href="#" data-open data-ft>Approving a milestone, and what happens next</a></h2>
+        <h2><a href="?open=approving-a-milestone-and-what-happens-next" data-open data-ft>Approving a milestone, and what happens next</a></h2>
         <p class="dek" data-fd>A milestone is a commitment in both directions: approving one unlocks the next
           payment and closes the stage before it. Here is the sequence, in order.</p>
         <div class="ph">cover image · from the post</div>
         <div class="ft"><span data-fm>19 Oct 2026 · 6 min read</span>
-          <span class="r"><a class="btn btn-g btn-sm" href="#" data-open>Read the post</a>
-            <a class="btn btn-g btn-sm" href="#" data-save>Save for later</a></span></div>
+          <span class="r"><a class="btn btn-g btn-sm" href="?open=read-the-post" data-open>Read the post</a>
+            <button type="button" class="btn btn-g btn-sm" data-save>Save for later</button></span></div>
       </article>
 
       <aside class="rail">
@@ -152,14 +152,14 @@ li .cat{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:7
     <section class="wide">
       <h2>Featured work</h2>
       <button class="wcard" data-open><b>Khandesh Spice — D2C storefront</b>
-        <p>Retail brand moving direct without losing its packaging language.</p>
-        <div class="tags"><span>Brand</span><span>Commerce</span><span>Packaging</span></div></button>
+        <span class="p">Retail brand moving direct without losing its packaging language.</span>
+        <span class="tags"><span>Brand</span><span>Commerce</span><span>Packaging</span></span></button>
       <button class="wcard" data-open><b>B2B Wholesale Ordering Portal</b>
-        <p>Phone-first reordering with tiered pricing and an approval step.</p>
-        <div class="tags"><span>Product</span><span>Design system</span></div></button>
+        <span class="p">Phone-first reordering with tiered pricing and an approval step.</span>
+        <span class="tags"><span>Product</span><span>Design system</span></span></button>
       <button class="wcard" data-open><b>Horizon Retail — campaign site</b>
-        <p>A campaign surface the marketing team can edit themselves.</p>
-        <div class="tags"><span>Web</span><span>Editorial</span></div></button>
+        <span class="p">A campaign surface the marketing team can edit themselves.</span>
+        <span class="tags"><span>Web</span><span>Editorial</span></span></button>
     </section>
 
     <p class="note">Swapping the feature does not reload the page and does not push a route — the selection is
@@ -208,6 +208,15 @@ li .cat{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:7
     e.preventDefault();
     say('Saved to your reading list — stored on this device only in the lab.');
   });
+
+  /* Deep link: ?open=<slug> restores the same dialog/toast on load, so a shared
+     link lands on the same item instead of a dead page. */
+  var op=new URLSearchParams(location.search).get('open');
+  if(op){
+    var link=document.querySelector('a[href="?open='+op.replace(/[^\w-]/g,'')+'"]');
+    if(link)link.click();
+    else say('That link points at an entry this page no longer lists.');
+  }
 })();
 </script>
 </body>

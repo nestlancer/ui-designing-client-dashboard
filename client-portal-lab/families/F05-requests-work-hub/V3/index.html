@@ -31,15 +31,15 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .hd{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;letter-spacing:.09em;
   text-transform:uppercase;color:var(--muted-foreground);font-weight:700;padding:13px 18px 9px}
 .rows{display:grid}
-.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:11px 18px;cursor:pointer;
+.rrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:11px 18px;cursor:pointer;
   border-left:3px solid transparent;border-top:1px solid var(--border);align-items:start}
-.row:hover{background:var(--card)}
-.row b{font-size:13.5px;font-weight:650;letter-spacing:-.01em;display:block}
-.row .sub{font-size:11.5px;color:var(--muted-foreground);margin-top:2px;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
-.row .when{font-size:11px;color:var(--muted-foreground);white-space:nowrap}
-.row[aria-selected="true"]{background:var(--card);border-left-color:var(--primary)}
-.row[aria-selected="true"] b{color:var(--brand-700)}
-.dark .row[aria-selected="true"] b{color:#c9d6ff}
+.rrow:hover{background:var(--card)}
+.rrow b{font-size:13.5px;font-weight:650;letter-spacing:-.01em;display:block}
+.rrow .sub{font-size:11.5px;color:var(--muted-foreground);margin-top:2px;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.rrow .when{font-size:11px;color:var(--muted-foreground);white-space:nowrap}
+.rrow[aria-selected="true"]{background:var(--card);border-left-color:var(--primary)}
+.rrow[aria-selected="true"] b{color:var(--brand-700)}
+.dark .rrow[aria-selected="true"] b{color:#c9d6ff}
 .prev{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;
   box-shadow:var(--shadow-xs);position:sticky;top:16px}
 .prev .ph{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;
@@ -99,7 +99,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
     <section class="listcol" aria-label="Requests list">
       <div class="hd"><span>Title</span><span data-count>12 shown</span></div>
       <div class="rows" role="listbox" aria-label="Requests" data-rows tabindex="0">
-        <div class="row" role="option" id="r1" aria-selected="true" data-title="Khandesh Spice D2C e-commerce store"
+        <div class="rrow" role="option" id="r1" aria-selected="true" data-title="Khandesh Spice D2C e-commerce store"
           data-desc="Converted into a project on 21 Oct. Quote #01a10f80 was signed at ₹1,770 including GST; the project stands at 57% with milestone 2 due 30 Oct."
           data-facts='[["Status","Converted"],["Category","E-commerce"],["Budget","₹1,42,000"],["Reference","NL-REQ-2026-0018"],["Submitted","12 Oct 2026"],["Updated","21 Oct 2026"]]'
           data-tags='["Landing pages","Product catalogue","Checkout"]'
@@ -108,7 +108,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--ok">Converted</span>E-commerce · ₹1,42,000</span></span>
           <span class="when">21 Oct</span></div>
 
-        <div class="row" role="option" id="r2" aria-selected="false" data-title="Horizon Retail rebrand"
+        <div class="rrow" role="option" id="r2" aria-selected="false" data-title="Horizon Retail rebrand"
           data-desc="Submitted 21 Oct and waiting on a quote from the studio. Nothing is payable until the quote is signed."
           data-facts='[["Status","Submitted"],["Category","Branding"],["Budget","₹1,20,000"],["Reference","NL-REQ-2026-0023"],["Submitted","21 Oct 2026"],["Updated","21 Oct 2026"]]'
           data-tags='["Logo","Guidelines","Packaging"]'
@@ -117,7 +117,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--info">Submitted</span>Branding · ₹1,20,000</span></span>
           <span class="when">21 Oct</span></div>
 
-        <div class="row" role="option" id="r3" aria-selected="false" data-title="Aurora Coffee subscription flow"
+        <div class="rrow" role="option" id="r3" aria-selected="false" data-title="Aurora Coffee subscription flow"
           data-desc="The quote for this request lapsed on 14 Oct and can no longer be signed. A fresh quote has to be issued before work can start."
           data-facts='[["Status","Expired quote"],["Category","Mobile app"],["Budget","₹84,000"],["Reference","NL-REQ-2026-0015"],["Submitted","2 Oct 2026"],["Expired","14 Oct 2026"]]'
           data-tags='["Subscription","Onboarding","Payments"]'
@@ -126,7 +126,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--warn">Expired quote</span>Mobile app · ₹84,000</span></span>
           <span class="when">14 Oct</span></div>
 
-        <div class="row" role="option" id="r4" aria-selected="false" data-title="Meridian Clinic website"
+        <div class="rrow" role="option" id="r4" aria-selected="false" data-title="Meridian Clinic website"
           data-desc="Quote sent and awaiting your signature. The deposit invoice is raised the moment you sign."
           data-facts='[["Status","Quote sent"],["Category","Web design"],["Budget","₹96,000"],["Reference","NL-REQ-2026-0012"],["Submitted","8 Oct 2026"],["Updated","12 Oct 2026"]]'
           data-tags='["Booking","Services","SEO"]'
@@ -135,7 +135,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--pur">Quote sent</span>Web design · ₹96,000</span></span>
           <span class="when">12 Oct</span></div>
 
-        <div class="row" role="option" id="r5" aria-selected="false" data-title="Fern &amp; Field packaging"
+        <div class="rrow" role="option" id="r5" aria-selected="false" data-title="Fern &amp; Field packaging"
           data-desc="A draft that was never submitted — four of ten fields are filled. It cannot be quoted until it is submitted."
           data-facts='[["Status","Draft"],["Category","Branding"],["Budget","Not set"],["Reference","Draft"],["Started","10 Oct 2026"],["Updated","10 Oct 2026"]]'
           data-tags='["Packaging","Print"]'
@@ -144,7 +144,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill">Draft</span>Branding · no budget</span></span>
           <span class="when">10 Oct</span></div>
 
-        <div class="row" role="option" id="r6" aria-selected="false" data-title="Kaveri Textiles lookbook"
+        <div class="rrow" role="option" id="r6" aria-selected="false" data-title="Kaveri Textiles lookbook"
           data-desc="Delivered and paid in full on 6 Oct. The record stays readable with its milestones and invoices."
           data-facts='[["Status","Converted"],["Category","Marketing"],["Budget","₹62,000"],["Reference","NL-REQ-2026-0009"],["Submitted","20 Sep 2026"],["Updated","6 Oct 2026"]]'
           data-tags='["Lookbook","Photography","Print"]'
@@ -153,7 +153,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--ok">Converted</span>Marketing · ₹62,000</span></span>
           <span class="when">6 Oct</span></div>
 
-        <div class="row" role="option" id="r7" aria-selected="false" data-title="Sundara Yoga landing page"
+        <div class="rrow" role="option" id="r7" aria-selected="false" data-title="Sundara Yoga landing page"
           data-desc="Under review by the studio. Scoping questions would arrive in the request thread, not by email."
           data-facts='[["Status","Under review"],["Category","Web design"],["Budget","₹45,000"],["Reference","NL-REQ-2026-0006"],["Submitted","1 Oct 2026"],["Updated","4 Oct 2026"]]'
           data-tags='["Landing page","Classes","Signup"]'
@@ -162,7 +162,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--info">Under review</span>Web design · ₹45,000</span></span>
           <span class="when">4 Oct</span></div>
 
-        <div class="row" role="option" id="r8" aria-selected="false" data-title="Northwind logistics dashboard"
+        <div class="rrow" role="option" id="r8" aria-selected="false" data-title="Northwind logistics dashboard"
           data-desc="Converted on 29 Sep into an operations dashboard project. Milestones were agreed at signing."
           data-facts='[["Status","Converted"],["Category","Web design"],["Budget","₹2,10,000"],["Reference","NL-REQ-2026-0004"],["Submitted","15 Sep 2026"],["Updated","29 Sep 2026"]]'
           data-tags='["Dashboard","Tables","Roles"]'
@@ -171,7 +171,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--ok">Converted</span>Web design · ₹2,10,000</span></span>
           <span class="when">29 Sep</span></div>
 
-        <div class="row" role="option" id="r9" aria-selected="false" data-title="Prakash Optics catalogue"
+        <div class="rrow" role="option" id="r9" aria-selected="false" data-title="Prakash Optics catalogue"
           data-desc="Quote expired 24 Sep. Either revive it with a new quote or close the request — leaving it open is the worst option."
           data-facts='[["Status","Expired quote"],["Category","E-commerce"],["Budget","₹38,000"],["Reference","NL-REQ-2026-0003"],["Submitted","6 Sep 2026"],["Expired","24 Sep 2026"]]'
           data-tags='["Catalogue","Filters","Checkout"]'
@@ -180,7 +180,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--warn">Expired quote</span>E-commerce · ₹38,000</span></span>
           <span class="when">24 Sep</span></div>
 
-        <div class="row" role="option" id="r10" aria-selected="false" data-title="Blue Oak interiors site"
+        <div class="rrow" role="option" id="r10" aria-selected="false" data-title="Blue Oak interiors site"
           data-desc="Closed after delivery. Kept for reference so the paperwork does not disappear."
           data-facts='[["Status","Closed"],["Category","Webflow"],["Budget","₹71,000"],["Reference","NL-REQ-2026-0002"],["Submitted","12 Aug 2026"],["Updated","18 Sep 2026"]]'
           data-tags='["Webflow","Portfolio"]'
@@ -189,7 +189,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill">Closed</span>Webflow · ₹71,000</span></span>
           <span class="when">18 Sep</span></div>
 
-        <div class="row" role="option" id="r11" aria-selected="false" data-title="Tinker Studio portfolio"
+        <div class="rrow" role="option" id="r11" aria-selected="false" data-title="Tinker Studio portfolio"
           data-desc="Submitted 12 Sep, still awaiting the first response. The request thread shows when the studio opened it."
           data-facts='[["Status","Submitted"],["Category","Web design"],["Budget","₹55,000"],["Reference","NL-REQ-2026-0001"],["Submitted","12 Sep 2026"],["Updated","12 Sep 2026"]]'
           data-tags='["Portfolio","Case studies"]'
@@ -198,7 +198,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
             <span class="sub"><span class="pill pill--info">Submitted</span>Web design · ₹55,000</span></span>
           <span class="when">12 Sep</span></div>
 
-        <div class="row" role="option" id="r12" aria-selected="false" data-title="Vasanta Foods menu refresh"
+        <div class="rrow" role="option" id="r12" aria-selected="false" data-title="Vasanta Foods menu refresh"
           data-desc="Quote accepted on 5 Sep; the work is bundled into an existing milestone schedule."
           data-facts='[["Status","Quote accepted"],["Category","Branding"],["Budget","₹27,000"],["Reference","NL-REQ-2026-0011"],["Submitted","28 Aug 2026"],["Updated","5 Sep 2026"]]'
           data-tags='["Menu","Print","Photography"]'
@@ -252,7 +252,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
     root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
 
-  var all=[].slice.call(document.querySelectorAll('.row')), idx=0, list=document.querySelector('[data-rows]');
+  var all=[].slice.call(document.querySelectorAll('.rrow')), idx=0, list=document.querySelector('[data-rows]');
   function vis(){return all.filter(function(r){return !r.hidden;});}
   function render(r){
     if(!r)return;
@@ -304,11 +304,11 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       if(v[idx]&&a)location.href=a.getAttribute('href');}
   });
   list.addEventListener('mousemove',function(e){
-    var r=e.target.closest('.row'); if(!r||r.hidden)return;
+    var r=e.target.closest('.rrow'); if(!r||r.hidden)return;
     var i2=vis().indexOf(r); if(i2>-1&&i2!==idx){idx=i2;paint();}
   });
   list.addEventListener('click',function(e){
-    var r=e.target.closest('.row'); if(!r)return;
+    var r=e.target.closest('.rrow'); if(!r)return;
     var i2=vis().indexOf(r); idx=i2; paint();
     var a=document.querySelector('[data-p-acts] a');
     if(a&&window.matchMedia('(max-width:940px)').matches)location.href=a.getAttribute('href');

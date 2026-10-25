@@ -242,6 +242,9 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   }
   rows.forEach(function(r){
     var ctl=r.querySelector('[data-f]'), st=r.querySelector('[data-st]');
+    /* Action-only rows (e.g. account deletion) have a status but no form
+       control — skip them instead of treating them as unsaved settings. */
+    if(!ctl||!st)return;
     function mark(){
       st.dataset.d='1'; st.textContent='unsaved';
     }

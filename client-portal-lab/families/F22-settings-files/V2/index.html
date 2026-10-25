@@ -103,7 +103,7 @@ tr[data-state="failed"] td{background:#fdf6f5}
       <label class="sr-only" for="fq">Search files</label>
       <input id="fq" type="search" placeholder="Search by name" data-q>
       <label class="sr-only" for="fs">Status</label>
-      <select id="fs" data-status>
+      <select id="fs" data-f-status>
         <option value="all">All statuses</option>
         <option value="ready">Ready</option>
         <option value="processing">Processing</option>
@@ -111,7 +111,7 @@ tr[data-state="failed"] td{background:#fdf6f5}
         <option value="failed">Failed</option>
       </select>
       <label class="sr-only" for="ft">Type</label>
-      <select id="ft" data-type>
+      <select id="ft" data-f-type>
         <option value="all">All types</option>
         <option value="img">Images</option>
         <option value="pdf">PDF</option>
@@ -252,7 +252,7 @@ tr[data-state="failed"] td{background:#fdf6f5}
     root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
 
   var body=document.querySelector('[data-body]'), q=document.querySelector('[data-q]'),
-      st=document.querySelector('[data-status]'), tp=document.querySelector('[data-type]'),
+      st=document.querySelector('[data-f-status]'), tp=document.querySelector('[data-f-type]'),
       norow=document.querySelector('[data-norow]'), count=document.querySelector('[data-count]'),
       all=document.querySelector('[data-all]'), bulk=document.querySelector('[data-bulk]'),
       nEl=document.querySelector('[data-n]');

@@ -26,19 +26,19 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .lhd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--muted);
   border-bottom:1px solid var(--border);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--muted-foreground);font-weight:700}
-.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:11px 14px;cursor:pointer;
+.qrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:11px 14px;cursor:pointer;
   border-left:3px solid transparent;border-top:1px solid var(--border);align-items:center}
-.row:first-of-type{border-top:0}
-.row:hover{background:var(--brand-50)}
-.dark .row:hover{background:#161f3a}
-.row[aria-selected="true"]{background:var(--brand-50);border-left-color:var(--primary)}
-.dark .row[aria-selected="true"]{background:#1b2650}
-.row .ref{font-size:12.5px;font-weight:700;font-variant-numeric:var(--tabnum)}
-.row .sub{font-size:11px;color:var(--muted-foreground);margin-top:2px}
-.row .right{text-align:right}
-.row .amt{font-size:12.5px;font-weight:650;font-variant-numeric:var(--tabnum)}
-.row .exp{font-size:10px;color:var(--muted-foreground);margin-top:2px}
-.row .exp[data-w="1"]{color:var(--status-warning-text);font-weight:650}
+.qrow:first-of-type{border-top:0}
+.qrow:hover{background:var(--brand-50)}
+.dark .qrow:hover{background:#161f3a}
+.qrow[aria-selected="true"]{background:var(--brand-50);border-left-color:var(--primary)}
+.dark .qrow[aria-selected="true"]{background:#1b2650}
+.qrow .ref{font-size:12.5px;font-weight:700;font-variant-numeric:var(--tabnum)}
+.qrow .sub{font-size:11px;color:var(--muted-foreground);margin-top:2px}
+.qrow .right{text-align:right}
+.qrow .amt{font-size:12.5px;font-weight:650;font-variant-numeric:var(--tabnum)}
+.qrow .exp{font-size:10px;color:var(--muted-foreground);margin-top:2px}
+.qrow .exp[data-w="1"]{color:var(--status-warning-text);font-weight:650}
 .pv{position:sticky;top:16px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
   overflow:hidden;box-shadow:var(--shadow-xs);animation:fx var(--duration-normal) var(--ease-out)}
 @keyframes fx{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
@@ -62,7 +62,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .pv .acts{display:flex;gap:7px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--border);
   background:var(--background)}
 .vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
-  max-width:1200px;width:100%;margin:0 auto;padding:0 20px 20px}
+  max-width:1200px;width:100%;margin:0 auto;padding:0 20px 20px;grid-column:1/-1}
 .seg{display:inline-flex;gap:2px}
 .seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
 .seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
@@ -89,10 +89,11 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   </header>
 
   <main id="main" class="split">
+    <h1 class="sr-only">Quotes</h1>
     <section class="listwrap" aria-label="Quotes">
       <div class="lhd"><span>Quote</span><span data-count>5 shown</span></div>
       <div role="listbox" aria-label="Quotes" data-rows>
-        <div class="row" role="option" tabindex="0" aria-selected="true"
+        <div class="qrow" role="option" tabindex="0" aria-selected="true"
           data-ref="#01a10f80" data-client="Khandesh Spice" data-total="₹1,770.00" data-sub="₹1,500.00" data-gst="₹270.00"
           data-split="50/50 · ₹885.00 each" data-valid="22 Oct 2026" data-state="pending" data-warn="1"
           data-note="Signs immediately and raises the ₹885 deposit invoice. Cannot be edited after signature — changed scope becomes a new quote."
@@ -100,7 +101,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
           <span><p class="ref">#01a10f80</p><p class="sub">Khandesh Spice · storefront</p></span>
           <span class="right"><p class="amt">₹1,770.00</p><p class="exp" data-w="1">expires 22 Oct</p></span></div>
 
-        <div class="row" role="option" tabindex="0" aria-selected="false"
+        <div class="qrow" role="option" tabindex="0" aria-selected="false"
           data-ref="#01a11209" data-client="Horizon Retail" data-total="₹2,83,200.00" data-sub="₹2,40,000.00" data-gst="₹43,200.00"
           data-split="3 milestones · 40/40/20" data-valid="24 Oct 2026" data-state="pending" data-warn="1"
           data-note="Three-milestone rebrand. The first instalment is raised at signature; the remaining two follow approvals, not dates."
@@ -108,7 +109,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
           <span><p class="ref">#01a11209</p><p class="sub">Horizon Retail · rebrand phase one</p></span>
           <span class="right"><p class="amt">₹2,83,200.00</p><p class="exp" data-w="1">expires 24 Oct</p></span></div>
 
-        <div class="row" role="option" tabindex="0" aria-selected="false"
+        <div class="qrow" role="option" tabindex="0" aria-selected="false"
           data-ref="#01a0ff22" data-client="Aurora Coffee" data-total="₹84,000.00" data-sub="₹71,186.44" data-gst="₹12,813.56"
           data-split="2 milestones · 50/50" data-valid="30 Sep 2026" data-state="expired"
           data-note="This quote lapsed on 30 Sep 2026 and can no longer be signed. Request a re-quote to restart the clock."
@@ -116,7 +117,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
           <span><p class="ref">#01a0ff22</p><p class="sub">Aurora Coffee · subscription flow</p></span>
           <span class="right"><p class="amt">₹84,000.00</p><p class="exp">expired 30 Sep</p></span></div>
 
-        <div class="row" role="option" tabindex="0" aria-selected="false"
+        <div class="qrow" role="option" tabindex="0" aria-selected="false"
           data-ref="#01a10c14" data-client="Khandesh Spice" data-total="₹1,42,000.00" data-sub="₹1,20,338.98" data-gst="₹21,661.02"
           data-split="3 milestones · 34/33/33" data-valid="6 Oct 2026" data-state="accepted"
           data-note="Signed 4 Oct 2026 and converted into a project. The signature record and invoice are immutable."
@@ -124,7 +125,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
           <span><p class="ref">#01a10c14</p><p class="sub">Khandesh Spice · storefront build</p></span>
           <span class="right"><p class="amt">₹1,42,000.00</p><p class="exp">accepted</p></span></div>
 
-        <div class="row" role="option" tabindex="0" aria-selected="false"
+        <div class="qrow" role="option" tabindex="0" aria-selected="false"
           data-ref="#01a0e9c7" data-client="Prakash Optics" data-total="₹38,000.00" data-sub="₹32,203.39" data-gst="₹5,796.61"
           data-split="2 milestones · 50/50" data-valid="24 Sep 2026" data-state="expired"
           data-note="Lapsed 24 Sep 2026. The request is still open, so a re-quote keeps the brief and resets validity."
@@ -151,7 +152,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       </article>
     </aside>
 
-<p style="margin-top:14px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);border-left:2px solid var(--border);padding-left:9px"><b style="color:var(--foreground)">Data honesty:</b> the quotes endpoint could not be read while this lab was built, so every amount and reference except <code>#01a10f80</code> (₹1,500 + ₹270 GST = ₹1,770, 50/50 at ₹885) is an illustrative record used to show the layout. They are sample rows, not real client quotes.</p>
+<p style="grid-column:1/-1;margin-top:14px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);border-left:2px solid var(--border);padding-left:9px"><b style="color:var(--foreground)">Data honesty:</b> the quotes endpoint could not be read while this lab was built, so every amount and reference except <code>#01a10f80</code> (₹1,500 + ₹270 GST = ₹1,770, 50/50 at ₹885) is an illustrative record used to show the layout. They are sample rows, not real client quotes.</p>
 
         <div class="vfoot">
       <a href="../../../index.html">← Gallery</a>
@@ -175,7 +176,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
   tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
     root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
 
-  var rows=[].slice.call(document.querySelectorAll('.row')), idx=0, pv=document.querySelector('[data-pv]');
+  var rows=[].slice.call(document.querySelectorAll('.qrow')), idx=0, pv=document.querySelector('[data-pv]');
   var STATE={pending:['pill--pur','Pending'],expired:['pill--warn','Expired'],accepted:['pill--ok','Accepted']};
   function render(r){
     if(!r)return;

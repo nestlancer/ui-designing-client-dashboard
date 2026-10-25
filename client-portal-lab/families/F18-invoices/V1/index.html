@@ -98,7 +98,7 @@ tfoot .amt{font-size:13.5px}
 
     <div class="toolbar">
       <input type="search" placeholder="Search invoice number or project" aria-label="Search invoices" data-q>
-      <select aria-label="Filter by status" data-st>
+      <select aria-label="Filter by status" data-f-st>
         <option value="all">All statuses</option>
         <option value="paid">Paid</option>
         <option value="issued">Issued</option>
@@ -192,7 +192,7 @@ tfoot .amt{font-size:13.5px}
     root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
 
   var rows=[].slice.call(document.querySelectorAll('[data-body] tr')),
-      q=document.querySelector('[data-q]'), st=document.querySelector('[data-st]'),
+      q=document.querySelector('[data-q]'), st=document.querySelector('[data-f-st]'),
       total=document.querySelector('[data-total]'), range=document.querySelector('[data-range]'),
       count=document.querySelector('[data-count]'), none=document.querySelector('[data-none]'),
       note=document.querySelector('[data-tfnote]');

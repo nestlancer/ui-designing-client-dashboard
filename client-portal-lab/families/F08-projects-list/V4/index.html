@@ -30,7 +30,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 .tile:hover{border-color:var(--brand-300)}
 .tile[data-deg="1"]{border-left:3px solid var(--status-warning-text)}
 .tile .hrow{display:flex;gap:8px;align-items:flex-start}
-.tile h2{font-size:14.5px;letter-spacing:-.02em;line-height:1.35}
+.tile .h2{display:block;font-size:14.5px;letter-spacing:-.02em;line-height:1.35}
 .tile .pill{margin-left:auto;flex:none}
 .healthbars{display:grid;gap:6px}
 .hb{display:grid;grid-template-columns:96px minmax(0,1fr) 40px;gap:8px;align-items:center;font-size:11px;
@@ -119,7 +119,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
 
     <div class="tiles">
       <button class="tile" data-deg="1" data-p="khandesh">
-        <span class="hrow"><h2>Khandesh Spice D2C E-Commerce Store</h2>
+        <span class="hrow"><span class="h2">Khandesh Spice D2C E-Commerce Store</span>
           <span class="pill pill--warn">Needs you</span></span>
         <span class="healthbars">
           <span class="hb"><span>Delivery</span><span class="t"><i style="width:57%"></i></span><b>57%</b></span>
@@ -131,7 +131,7 @@ document.documentElement.classList.toggle('dark',d);document.documentElement.dat
       </button>
 
       <button class="tile" data-p="b2b">
-        <span class="hrow"><h2>B2B Wholesale Ordering Portal</h2>
+        <span class="hrow"><span class="h2">B2B Wholesale Ordering Portal</span>
           <span class="pill pill--info">On track</span></span>
         <span class="healthbars">
           <span class="hb"><span>Delivery</span><span class="t"><i style="width:78%"></i></span><b>78%</b></span>
