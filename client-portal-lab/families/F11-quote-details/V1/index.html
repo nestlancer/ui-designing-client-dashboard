@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quote Details · V1 Sign in Three Breaths — Nestlancer Portal Lab</title>
+<meta name="description" content="F11 quote variant 1: three-step accept-and-sign with a sticky sign dock, readable terms and an explicit e-signature disclosure.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Sign in Three Breaths. Geometry: content + 340px sticky money rail; 3 named steps. */
+.qhead{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px}
+.qhead .for{font-size:13px;color:var(--muted-foreground);margin-top:8px}
+.qhead .for b{color:var(--foreground);font-weight:600}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start;margin-top:22px}
+@media(max-width:1050px){.grid{grid-template-columns:1fr}.railq{position:static !important;order:-1}}
+.railq{position:sticky;top:calc(var(--header) + 16px);display:flex;flex-direction:column;gap:14px}
+.step-block{scroll-margin-top:calc(var(--header) + 20px)}
+.step-head{display:flex;gap:12px;align-items:flex-start;padding:18px 20px 0}
+.step-badge{width:30px;height:30px;border-radius:999px;display:grid;place-items:center;flex:none;
+  background:var(--muted);color:var(--muted-foreground);font-weight:700;font-size:13px;border:1.5px solid var(--border);
+  transition:background var(--duration-normal),color var(--duration-normal),border-color var(--duration-normal)}
+.step-block[data-active="true"] .step-badge{background:var(--primary);border-color:var(--primary);color:#fff}
+.step-block[data-done="true"] .step-badge{background:var(--status-success-bg);border-color:var(--status-success-border);
+  color:var(--status-success-text)}
+.step-head h2{font-size:17px;font-weight:650;letter-spacing:-.015em}
+.step-head p{font-size:13px;color:var(--muted-foreground);margin-top:2px}
+.step-body{padding:14px 20px 20px}
+.items{width:100%;font-size:14px}
+.items th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground);
+  text-align:left;padding:8px 0;font-weight:700;border-bottom:1px solid var(--border)}
+.items td{padding:12px 0;border-bottom:1px solid var(--border);vertical-align:top}
+.items .r{text-align:right;font-variant-numeric:var(--tabnum);white-space:nowrap}
+.totals{margin-top:12px;margin-left:auto;width:min(280px,100%);font-size:14px}
+.totals div{display:flex;justify-content:space-between;gap:16px;padding:5px 0;
+  font-variant-numeric:var(--tabnum)}
+.totals .big{border-top:1px solid var(--border);margin-top:6px;padding-top:10px;font-size:18px;font-weight:700;
+  letter-spacing:-.03em}
+.sched{display:grid;gap:10px;margin-top:16px}
+.sched-i{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--muted)}
+.sched-i b{font-variant-numeric:var(--tabnum)}
+.sched-i .when{font-size:12px;color:var(--muted-foreground)}
+.sched-share{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted-foreground)}
+/* terms */
+.keys{display:grid;gap:8px;margin-bottom:14px}
+.key{border:1px solid var(--brand-100);background:var(--brand-50);border-radius:var(--radius-md);padding:10px 12px;font-size:13.5px}
+.dark .key{background:#141d3a;border-color:#24344f}
+.key b{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--brand-700);margin-bottom:3px}
+.dark .key b{color:#a9baff}
+.terms{counter-reset:c;display:grid;gap:0;border-top:1px solid var(--border)}
+.terms details{border-bottom:1px solid var(--border)}
+.terms summary{display:flex;gap:10px;align-items:center;padding:11px 2px;font-size:14px;font-weight:600;cursor:pointer;list-style:none}
+.terms summary::-webkit-details-marker{display:none}
+.terms summary::before{counter-increment:c;content:counter(c);width:22px;height:22px;border-radius:999px;
+  background:var(--muted);color:var(--muted-foreground);font-size:11px;font-weight:700;display:grid;place-items:center;flex:none}
+.terms summary:hover{color:var(--brand-700)}
+.terms p{font-size:14px;line-height:1.62;color:var(--muted-foreground);padding:0 0 12px 32px;max-width:74ch}
+.terms summary:focus-visible{outline-offset:1px}
+/* sign */
+.sign{display:grid;gap:14px}
+.esign{display:flex;gap:10px;padding:12px 14px;border-radius:var(--radius-md);
+  background:var(--status-info-bg);border:1px solid var(--status-info-border);color:var(--status-info-text);
+  font-size:13px;line-height:1.5}
+.esign b{font-weight:700}
+.sign-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.sign-grid{grid-template-columns:1fr}}
+.dock{position:sticky;bottom:0;margin:22px -32px -72px;padding:14px 32px;z-index:15;
+  background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+@media(max-width:900px){.dock{margin:20px -16px -88px;padding:12px 16px}}
+.dock .sum{font-size:13px;color:var(--muted-foreground)}
+.dock .sum b{display:block;font-size:19px;color:var(--foreground);letter-spacing:-.03em;font-variant-numeric:var(--tabnum)}
+.dock-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.doc-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border);font-size:13.5px}
+.doc-row:first-of-type{border-top:0}
+.signed-panel{display:grid;gap:12px}
+.vswitch{display:inline-flex;gap:2px;padding:3px;background:var(--muted);border:1px solid var(--border);border-radius:var(--radius-md)}
+.vswitch button{padding:6px 11px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:600;color:var(--muted-foreground)}
+.vswitch button[aria-pressed="true"]{background:var(--card);color:var(--foreground);box-shadow:var(--shadow-xs)}
+.vnav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:34px;padding-top:16px;
+  border-top:1px solid var(--border);font-size:13px}
+.vnav .seg{margin-left:auto}
+.state-note{font-size:12px;color:var(--muted-foreground);margin-top:10px}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="m19 15 .9 2.1 2.1.9-2.1.9L19 21l-.9-2.1-2.1-.9 2.1-.9z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L20 8l-4-4L4 16z"/><path d="m14 6 4 4"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4 12 12"/><path d="M18 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="shell">
+  <aside class="side" aria-label="Primary">
+    <a class="brand" href="../../../index.html"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></a>
+    <nav class="nav" aria-label="Sections">
+      <p class="nav-g">Main</p>
+      <a href="../../F03-dashboard-overview/V1/index.html"><svg class="i"><use href="#i-home"/></svg>Dashboard</a>
+      <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="count">10</span></a>
+      <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a href="../../F10-quotes-list/V1/index.html" aria-current="page"><svg class="i"><use href="#i-file"/></svg>Quotes</a>
+      <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="count">2</span></a>
+      <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a href="../../F18-invoices/V1/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F19-notifications/V1/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="count">6</span></a>
+      <p class="nav-g">Explore</p>
+      <a href="../../F23-explore/V1/index.html"><svg class="i"><use href="#i-search"/></svg>Blog</a>
+      <a href="../../F23-explore/V1/index.html#portfolio"><svg class="i"><use href="#i-folder"/></svg>Portfolio</a>
+      <p class="nav-g">Account</p>
+      <a href="../../F20-profile/V1/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="#i-sliders"/></svg>Settings</a>
+    </nav>
+  </aside>
+  <div class="nav-scrim" data-nav-close></div>
+
+  <div class="col">
+    <header class="hdr">
+      <button class="iconbtn navtoggle" data-nav-open aria-label="Open navigation" aria-expanded="false">
+        <svg class="i i--lg"><use href="#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../F10-quotes-list/V1/index.html">Quotes</a><svg class="i i--sm"><use href="#i-chev"/></svg><strong>Quote #01a10f80</strong></div>
+      <div class="hdr-r">
+        <a class="iconbtn" href="../../F04-global-search/V1/index.html" aria-label="Search, Command K"><svg class="i"><use href="#i-search"/></svg></a>
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+        <a class="iconbtn" href="../../F19-notifications/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg><span class="count">6</span></a>
+        <a class="me" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span><span class="hide-s">Arjun Mehta</span></a>
+      </div>
+    </header>
+
+    <main id="main" class="main">
+      <a class="link link--quiet small" href="../../F10-quotes-list/V1/index.html">← Back to quotes</a>
+
+      <div class="qhead mt-12">
+        <div>
+          <p class="eyebrow">Quote · awaiting acceptance</p>
+          <h1 class="h1 h1--s">Quote #01a10f80
+            <span class="pill pill--err" style="vertical-align:middle;height:26px;font-size:12.5px" data-q-status>Expired</span>
+          </h1>
+          <p class="for">For: <b>AUDIT-P23-20261005-6rdsf Request to Quote Builder</b> ·
+            <a class="link" href="../../F07-request-details/V1/index.html">View request</a></p>
+          <p class="verdict"><b>₹1,770.00</b> total — <b>₹885.00</b> on acceptance and <b>₹885.00</b>
+            when the first milestone is approved. Three steps: read the numbers, read the terms, then sign.</p>
+        </div>
+        <div class="vswitch" role="group" aria-label="Preview another quote state">
+          <button type="button" data-view="awaiting" aria-pressed="true">Awaiting signature</button>
+          <button type="button" data-view="signed" aria-pressed="false">Signed</button>
+        </div>
+      </div>
+
+      <div class="banner banner--err mt-16" data-expired role="status">
+        <svg class="i"><use href="#i-alert"/></svg>
+        <div class="grow"><strong>This quote expired on Oct 20, 2026.</strong>
+          Signing is disabled. Ask the studio to extend validity and the same quote can be signed again.</div>
+        <button class="btn btn-s btn-sm" data-open-dialog="negotiate">Ask for an extension</button>
+      </div>
+
+      <div class="grid">
+        <div class="stack">
+          <!-- STEP 1 -->
+          <section class="card step-block" id="step1" data-step="1" aria-labelledby="s1h">
+            <div class="step-head">
+              <span class="step-badge" aria-hidden="true">1</span>
+              <div><h2 id="s1h">Read the numbers</h2>
+                <p>One line item, subtotal, 18% GST, and how the total is split.</p></div>
+            </div>
+            <div class="step-body">
+              <table class="items">
+                <caption class="sr-only">Quote line items</caption>
+                <thead><tr><th scope="col">Description</th><th scope="col" class="r">Qty</th>
+                  <th scope="col" class="r">Unit price</th><th scope="col" class="r">Total</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>AUDIT-P23 edited deliverable: quote builder regression package safe HTML text
+                      <span class="muted small" style="display:block">Deliverable, single round of revisions included.</span></td>
+                    <td class="r">1</td><td class="r">₹1,500.00</td><td class="r">₹1,500.00</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="totals">
+                <div><span>Subtotal</span><span>₹1,500.00</span></div>
+                <div><span>GST (18%)</span><span>₹270.00</span></div>
+                <div class="big"><span>Total</span><span>₹1,770.00</span></div>
+              </div>
+
+              <h3 class="h3 mt-24">Payment schedule</h3>
+              <p class="hint">Installments due over the life of this engagement.</p>
+              <div class="sched">
+                <div class="sched-i">
+                  <div class="grow"><span class="sched-share">Deposit · 50%</span>
+                    <div><b>₹885.00</b></div><div class="when">Upon acceptance</div></div>
+                  <span class="pill pill--info">Due at signature</span>
+                </div>
+                <div class="sched-i">
+                  <div class="grow"><span class="sched-share">Final payment · 50%</span>
+                    <div><b>₹885.00</b></div><div class="when">Upon prior milestone approval</div></div>
+                  <span class="pill pill--lock">Unlocks later</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- STEP 2 -->
+          <section class="card step-block" id="step2" data-step="2" aria-labelledby="s2h">
+            <div class="step-head">
+              <span class="step-badge" aria-hidden="true">2</span>
+              <div><h2 id="s2h">Read the terms</h2>
+                <p>Ten clauses. The three that decide money and scope are pinned open.</p></div>
+            </div>
+            <div class="step-body">
+              <div class="keys">
+                <div class="key"><b>2 · Acceptance</b>Engagement begins when you accept this quote in the dashboard and,
+                  where applicable, complete the first scheduled payment.</div>
+                <div class="key"><b>3 · Payment</b>Fees follow the schedule above. Late payment may pause work until the
+                  account is current.</div>
+                <div class="key"><b>6 · Client responsibilities</b>Timely feedback, content, credentials and approvals are
+                  required so delivery dates can be met.</div>
+              </div>
+
+              <div class="terms">
+                <details open><summary>Validity</summary>
+                  <p>This quote remains valid until the date shown above unless extended in writing by Nestlancer.</p></details>
+                <details><summary>Acceptance</summary>
+                  <p>Engagement begins when the client accepts this quote in the Nestlancer dashboard and, where applicable,
+                    completes the first scheduled payment.</p></details>
+                <details><summary>Payment</summary>
+                  <p>Fees follow the payment schedule in this quote. Late payment may pause work until the account is current.</p></details>
+                <details><summary>Scope</summary>
+                  <p>Deliverables are limited to the line items and description in this quote. Additional work requires a
+                    written change order.</p></details>
+                <details><summary>Revisions</summary>
+                  <p>Included revision rounds are as stated in this quote; extra rounds may be billed at the rate shown or as
+                    mutually agreed.</p></details>
+                <details><summary>Client responsibilities</summary>
+                  <p>Timely feedback, content, credentials, and approvals are required so delivery dates can be met.</p></details>
+                <details><summary>Intellectual property</summary>
+                  <p>Upon full payment of all amounts due, the client receives the agreed rights to final deliverables.
+                    Nestlancer retains ownership of pre-existing tools, libraries, and generic components.</p></details>
+                <details><summary>Confidentiality</summary>
+                  <p>Both parties will keep non-public information shared during the project confidential.</p></details>
+                <details><summary>Limitation of liability</summary>
+                  <p>Nestlancer's total liability under this quote is limited to fees paid hereunder, except where applicable
+                    law does not permit such limitation.</p></details>
+                <details><summary>Governing law</summary>
+                  <p>These terms are governed by the laws of India; courts at Nestlancer's principal place of business have
+                    exclusive jurisdiction unless otherwise agreed in writing.</p></details>
+              </div>
+
+              <div class="key mt-16" style="background:var(--muted);border-color:var(--border)">
+                <b style="color:var(--muted-foreground)">Project-specific terms</b>
+                AUDIT-P23 project-specific term: client supplies approvals within two business days.
+              </div>
+              <p class="hint mt-12">Valid until <b>Oct 20, 2026</b> ·
+                <a class="link" href="../../F11-quote-details/V1/index.html#step2">Read the full agreement</a></p>
+            </div>
+          </section>
+
+          <!-- STEP 3 -->
+          <section class="card step-block" id="step3" data-step="3" aria-labelledby="s3h">
+            <div class="step-head">
+              <span class="step-badge" aria-hidden="true">3</span>
+              <div><h2 id="s3h">Sign the agreement</h2>
+                <p>Two things are needed: agreement to the terms, and your legal name.</p></div>
+            </div>
+            <div class="step-body">
+              <div data-awaiting-sign>
+                <div class="esign">
+                  <svg class="i"><use href="#i-pen"/></svg>
+                  <div>Your legal name will be used as an <b>e-signature on Agreement NL-CTR-2026-000005</b>.
+                    The signed PDF is stored in your files and can be downloaded immediately after signing.</div>
+                </div>
+                <div class="sign mt-16">
+                  <div class="fld">
+                    <label class="lbl" for="sign-name">Full legal name <span class="req" aria-hidden="true">*</span></label>
+                    <input class="inp" id="sign-name" name="signatureName" autocomplete="name" maxlength="100"
+                      placeholder="As printed on your ID" aria-describedby="sign-hint" required>
+                    <p class="hint" id="sign-hint">Max 100 characters. This is your signature on the agreement.</p>
+                    <p class="err" data-name-err hidden><svg class="i i--sm"><use href="#i-alert"/></svg>Enter your full legal name to enable signing.</p>
+                  </div>
+                  <label class="chk">
+                    <input type="checkbox" id="sign-terms" required>
+                    <span>I have read and agree to the <button type="button" class="link" data-open-dialog="terms">terms &amp; conditions</button>
+                      and the project-specific terms. I understand this is a legally binding e-signature.</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="signed-panel" data-signed hidden>
+                <div class="row" style="gap:10px">
+                  <span class="empty-ic" style="margin:0;background:var(--status-success-bg);color:var(--status-success-text)">
+                    <svg class="i"><use href="#i-check"/></svg></span>
+                  <div><h3 class="h3">Quote accepted and signed</h3>
+                    <p class="small muted">Agreement NL-CTR-2026-000005 · signed by Arjun Mehta · deposit ₹885.00 now due.</p></div>
+                </div>
+                <div class="row wrapf">
+                  <a class="btn btn-p" href="../../F09-project-details/V1/index.html">Open project</a>
+                  <a class="btn btn-s" href="../../F22-settings-files/V1/index.html">Download signed agreement</a>
+                  <a class="btn btn-g" href="../../F16-checkout/V1/index.html">Pay deposit ₹885.00</a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="ai-h">
+            <div class="card-b" style="display:flex;gap:12px;align-items:flex-start">
+              <span class="empty-ic" style="margin:0"><svg class="i"><use href="#i-spark"/></svg></span>
+              <div class="grow">
+                <h2 id="ai-h" class="h3">Ask about this quote</h2>
+                <p class="small muted" style="margin-top:3px">“What does clause 7 mean for my site?” · “Why is GST 18%?”
+                  <span class="pill" style="height:19px;font-size:10.5px;margin-left:6px">demo</span></p>
+              </div>
+              <button class="btn btn-s btn-sm" data-demo="Ask AI is a demo affordance — no endpoint in the API map.">Ask</button>
+            </div>
+          </section>
+        </div>
+
+        <!-- sticky rail -->
+        <aside class="railq" aria-label="Quote summary">
+          <section class="card" aria-labelledby="sum-h">
+            <div class="card-h"><h2 id="sum-h">Quote summary</h2>
+              <span class="pill pill--err" data-q-status>Expired</span></div>
+            <div class="card-b">
+              <p class="muted small">Total due over the engagement</p>
+              <p class="money" style="font-size:32px;line-height:1.05">₹1,770<i>.00</i></p>
+              <div class="rule mt-12" style="margin:12px 0"></div>
+              <dl class="small" style="display:grid;gap:8px">
+                <div class="between"><dt class="muted">Subtotal</dt><dd class="num">₹1,500.00</dd></div>
+                <div class="between"><dt class="muted">GST (18%)</dt><dd class="num">₹270.00</dd></div>
+                <div class="between"><dt class="muted">Valid until</dt><dd class="num">Oct 20, 2026</dd></div>
+                <div class="between"><dt class="muted">Quote reference</dt><dd class="mono">01a10f80</dd></div>
+              </dl>
+            </div>
+            <div class="card-f" style="border-radius:0 0 var(--radius-lg) var(--radius-lg)">
+              <button class="btn btn-block btn-s btn-sm" data-demo="Quote PDF endpoint: GET /api/v1/quotes/{id}/pdf">
+                <svg class="i i--sm"><use href="#i-dl"/></svg>Download quote PDF</button>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="doc-h">
+            <div class="card-h"><h2 id="doc-h">Documents</h2></div>
+            <div class="card-b" style="padding-top:8px">
+              <div class="doc-row"><svg class="i"><use href="#i-file"/></svg>
+                <span class="grow">Quote PDF <span class="muted small">· 1 page</span></span>
+                <a class="link link--quiet" href="../../F22-settings-files/V1/index.html">Open</a></div>
+              <div class="doc-row"><svg class="i"><use href="#i-lock"/></svg>
+                <span class="grow">Service agreement <span class="muted small">· signed copy after signature</span></span>
+                <span class="muted small">Locked</span></div>
+              <div class="doc-row"><svg class="i"><use href="#i-receipt"/></svg>
+                <span class="grow">Invoices <span class="muted small">· issued per payment</span></span>
+                <a class="link link--quiet" href="../../F18-invoices/V1/index.html">View</a></div>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-b">
+              <h2 class="h3">Need a change?</h2>
+              <p class="small muted mt-4">Scope, budget or timeline — ask before signing. The studio replies in the quote thread.</p>
+              <button class="btn btn-s btn-sm btn-block mt-12" data-open-dialog="negotiate">Request changes</button>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <!-- sticky sign dock (one primary CTA) -->
+      <div class="dock" data-awaiting-sign>
+        <div class="sum">Total <b>₹1,770.00</b></div>
+        <div class="row" style="gap:8px">
+          <span class="pill pill--lock">Signature disabled · quote expired</span>
+        </div>
+        <div class="dock-actions">
+          <button class="btn btn-g btn-sm" data-open-dialog="decline">Decline</button>
+          <button class="btn btn-s btn-sm" data-open-dialog="negotiate">Request changes</button>
+          <button class="btn btn-p" id="sign-btn" disabled aria-describedby="dock-why">
+            <svg class="i i--sm"><use href="#i-pen"/></svg>Sign &amp; accept quote</button>
+        </div>
+        <p class="hint" id="dock-why" style="flex-basis:100%">Disabled until you add your legal name and tick the terms
+          — and re-enabled once the studio extends this expired quote.</p>
+      </div>
+
+      <nav class="vnav" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../index.html">← Gallery</a>
+        <span class="muted small">F11 Quote Details · variant 1 of 5 — Sign in Three Breaths</span>
+        <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+        <a class="btn btn-s btn-sm" href="../../F03-dashboard-overview/V1/index.html">Pilot pair: Dashboard V1 →</a>
+      </nav>
+      <p class="state-note">States: <span class="mono">?state=loading</span> ·
+        <span class="mono">?state=error</span> · <span class="mono">?theme=dark</span>.
+        The family's two real snapshots (awaiting / accepted) are switchable above.</p>
+    </main>
+  </div>
+</div>
+
+<!-- dialogs -->
+<div class="scrim" data-scrim="negotiate" hidden></div>
+<div class="modal" data-modal="negotiate" role="dialog" aria-modal="true" aria-labelledby="neg-h" hidden>
+  <div class="modal-p">
+    <div class="dialog-h"><h2 id="neg-h" class="h3">Request changes</h2>
+      <button class="iconbtn" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <div class="dialog-b stack">
+      <p class="small muted">Sent to the studio as a change request on this quote. Be specific — it becomes the basis of the revised quote.</p>
+      <div class="fld"><label class="lbl" for="neg-what">What should change?</label>
+        <select class="sel" id="neg-what">
+          <option>Budget</option><option>Scope</option><option>Timeline</option><option>Payment schedule</option>
+        </select></div>
+      <div class="fld"><label class="lbl" for="neg-note">Details <span class="req" aria-hidden="true">*</span></label>
+        <textarea class="txa" id="neg-note" placeholder="e.g. Can the deposit be 30% instead of 50%?"></textarea>
+        <p class="hint">Max 2,000 characters. Maps to <span class="mono">POST /quotes/{id}/request-changes</span>.</p></div>
+      <p class="err" data-neg-err hidden>Add a short explanation so the studio can respond.</p>
+    </div>
+    <div class="dialog-f">
+      <button class="btn btn-g btn-sm" data-close>Cancel</button>
+      <button class="btn btn-p btn-sm" data-send-neg>Send request</button>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" data-scrim="decline" hidden></div>
+<div class="modal" data-modal="decline" role="dialog" aria-modal="true" aria-labelledby="dec-h" hidden>
+  <div class="modal-p">
+    <div class="dialog-h"><h2 id="dec-h" class="h3">Decline this quote</h2>
+      <button class="iconbtn" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <div class="dialog-b stack">
+      <div class="fld"><label class="lbl" for="dec-reason">Reason</label>
+        <select class="sel" id="dec-reason">
+          <option value="budgetConstraints">Budget constraints</option>
+          <option value="timelineIssues">Timeline issues</option>
+          <option value="scopeDiscrepancy">Scope discrepancy</option>
+          <option value="other">Other</option>
+        </select></div>
+      <label class="chk"><input type="checkbox" id="dec-keep" checked>
+        <span>Keep the negotiation open — ask for a revised quote (<span class="mono">requestRevision</span>).</span></label>
+      <div class="fld"><label class="lbl" for="dec-note">Feedback (optional)</label>
+        <textarea class="txa" id="dec-note" placeholder="The budget is higher than our quarterly allocation."></textarea></div>
+    </div>
+    <div class="dialog-f">
+      <button class="btn btn-g btn-sm" data-close>Keep quote</button>
+      <button class="btn btn-d btn-sm" data-confirm-decline>Decline quote</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, body=document.body, params=new URLSearchParams(location.search);
+  if(params.get('state')==='loading'){
+    document.querySelectorAll('.step-body,.railq .card-b').forEach(function(el){el.style.opacity='.35';});
+  }
+  if(params.get('state')==='error'){
+    var ex=document.querySelector('[data-expired]'); if(ex) ex.hidden=false;
+  }
+
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){ if(!toast)return; toast.textContent=m; toast.dataset.show='true';
+    clearTimeout(tm); tm=setTimeout(function(){toast.dataset.show='false';},2800); }
+
+  /* theme */
+  var tt=document.querySelector('[data-theme-toggle]');
+  function syncTheme(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));
+      tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}}
+  syncTheme();
+  if(tt)tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}syncTheme();});
+
+  /* mobile nav */
+  var nb=document.querySelector('[data-nav-open]');
+  function setNav(o){body.classList.toggle('nav-open',o);if(nb)nb.setAttribute('aria-expanded',String(o));}
+  if(nb)nb.addEventListener('click',function(){setNav(!body.classList.contains('nav-open'));});
+  document.querySelectorAll('[data-nav-close]').forEach(function(e){e.addEventListener('click',function(){setNav(false);});});
+
+  /* dialogs with focus trap + restore */
+  var lastFocus=null;
+  function open(name){
+    var m=document.querySelector('[data-modal="'+name+'"]'), s=document.querySelector('[data-scrim="'+name+'"]');
+    if(!m)return; lastFocus=document.activeElement;
+    m.hidden=false;s.hidden=false;
+    requestAnimationFrame(function(){m.dataset.open='true';s.dataset.open='true';});
+    var f=m.querySelector('input,textarea,select,button'); if(f)f.focus();
+    document.addEventListener('keydown',trap);
+  }
+  function closeAll(){
+    document.querySelectorAll('.modal').forEach(function(m){m.dataset.open='false';m.hidden=true;});
+    document.querySelectorAll('.scrim').forEach(function(s){s.dataset.open='false';s.hidden=true;});
+    document.removeEventListener('keydown',trap);
+    if(lastFocus&&lastFocus.focus)lastFocus.focus();
+  }
+  function trap(e){
+    if(e.key==='Escape'){e.preventDefault();closeAll();return;}
+    if(e.key!=='Tab')return;
+    var m=document.querySelector('.modal[data-open="true"] .modal-p'); if(!m)return;
+    var f=[].slice.call(m.querySelectorAll('a[href],button:not([disabled]),input,select,textarea'))
+      .filter(function(el){return el.offsetParent!==null;});
+    if(!f.length)return;
+    var first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
+  document.querySelectorAll('[data-open-dialog]').forEach(function(b){
+    b.addEventListener('click',function(){open(b.getAttribute('data-open-dialog'));});
+  });
+  document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeAll);});
+  document.querySelectorAll('.scrim').forEach(function(s){s.addEventListener('click',closeAll);});
+
+  /* sign gating */
+  var name=document.getElementById('sign-name'), terms=document.getElementById('sign-terms'),
+      btn=document.getElementById('sign-btn'), nameErr=document.querySelector('[data-name-err]'),
+      expired=true;
+  function gate(){
+    var ok=name.value.trim().length>1 && terms.checked && !expired;
+    btn.disabled=!ok;
+    if(expired) btn.setAttribute('aria-describedby','dock-why');
+  }
+  if(name)name.addEventListener('input',function(){ if(name.value.trim().length>1) nameErr.hidden=true; gate(); });
+  if(terms)terms.addEventListener('change',gate);
+  if(name)name.addEventListener('blur',function(){
+    if(name.value.trim().length===1){nameErr.hidden=false;name.setAttribute('aria-invalid','true');}
+  });
+  if(btn)btn.addEventListener('click',function(){
+    if(btn.disabled)return;
+    btn.classList.add('is-loading');
+    setTimeout(function(){
+      btn.classList.remove('is-loading');say('Quote accepted — agreement NL-CTR-2026-000005 signed.');
+      showView('signed');
+    },800);
+  });
+
+  /* view switch: awaiting vs signed (covers both captured HTML states) */
+  function showView(v){
+    document.querySelectorAll('[data-view]').forEach(function(b){
+      b.setAttribute('aria-pressed',String(b.dataset.view===v));});
+    document.querySelectorAll('[data-awaiting-sign]').forEach(function(el){el.hidden=(v==='signed');});
+    document.querySelectorAll('[data-signed]').forEach(function(el){el.hidden=(v!=='signed');});
+    document.querySelectorAll('[data-q-status]').forEach(function(el){
+      el.className='pill '+(v==='signed'?'pill--ok':'pill--err');
+      el.textContent=v==='signed'?'Accepted':'Expired';});
+    var ex=document.querySelector('[data-expired]'); if(ex) ex.hidden=(v==='signed');
+  }
+  document.querySelectorAll('[data-view]').forEach(function(b){
+    b.addEventListener('click',function(){showView(b.dataset.view);});});
+  if(params.get('view')==='signed')showView('signed');
+
+  /* negotiate / decline */
+  var negBtn=document.querySelector('[data-send-neg]');
+  if(negBtn)negBtn.addEventListener('click',function(){
+    var note=document.getElementById('neg-note'), err=document.querySelector('[data-neg-err]');
+    if(note.value.trim().length<4){err.hidden=false;note.setAttribute('aria-invalid','true');note.focus();return;}
+    err.hidden=true;closeAll();say('Change request sent — the studio will revise this quote.');
+  });
+  var decBtn=document.querySelector('[data-confirm-decline]');
+  if(decBtn)decBtn.addEventListener('click',function(){
+    closeAll();say('Quote declined. A revised quote can still be requested.');
+  });
+
+  /* demo affordances */
+  document.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){say(b.getAttribute('data-demo'));});
+  });
+
+  /* step active state on scroll (scroll-spy, reduced-motion safe) */
+  var steps=[].slice.call(document.querySelectorAll('.step-block'));
+  if('IntersectionObserver' in window && steps.length){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          steps.forEach(function(s){s.dataset.active='false';});
+          en.target.dataset.active='true';
+        }
+      });
+    },{rootMargin:'-25% 0px -55% 0px'});
+    steps.forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quote Details · V5 Compact Sign Dock — Nestlancer Portal Lab</title>
+<meta name="description" content="F11 quote variant 5: minimal single column with progressive disclosure and one sticky sign dock that completes a three-step signature inline.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Compact Sign Dock. Geometry: one narrow column. Density: airy. Interaction: sticky dock + disclosure. */
+.narrow{max-width:640px;margin:0 auto}
+.qtop{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.qtop .ref{font-family:var(--mono);font-size:11.5px;color:var(--muted-foreground)}
+.amount{font-size:clamp(34px,5vw,44px);line-height:1;letter-spacing:-.045em;font-weight:700;
+  font-variant-numeric:var(--tabnum);margin:14px 0 4px}
+.amount i{font-style:normal;font-weight:400;font-size:.5em;color:var(--muted-foreground)}
+.sub{font-size:13.5px;color:var(--muted-foreground)}
+.disc{margin-top:22px;border-top:1px solid var(--border)}
+.disc details{border-bottom:1px solid var(--border)}
+.disc summary{display:flex;align-items:center;gap:10px;padding:15px 2px;font-size:14px;font-weight:650;cursor:pointer;list-style:none}
+.disc summary::-webkit-details-marker{display:none}
+.disc summary::after{content:"+";margin-left:auto;font-weight:400;color:var(--muted-foreground);font-size:18px;line-height:1}
+.disc details[open] summary::after{content:"−"}
+.disc .body{padding:0 2px 16px;font-size:14px;line-height:1.62;color:var(--muted-foreground)}
+.disc .body b{color:var(--foreground);font-weight:650}
+.mini-rows{display:grid;gap:0}
+.mini-rows div{display:flex;justify-content:space-between;gap:14px;padding:8px 0;font-size:13.5px;
+  border-bottom:1px dotted var(--border);font-variant-numeric:var(--tabnum)}
+.mini-rows div:last-child{border-bottom:0}
+.mini-rows .t{font-size:16px;font-weight:700;letter-spacing:-.02em;border-top:1px solid var(--border);
+  border-bottom:0;padding-top:10px;margin-top:4px}
+.clause-txt{font-size:13.5px;line-height:1.6;padding:6px 0;border-bottom:1px dotted var(--border)}
+.clause-txt:last-child{border-bottom:0}
+.clause-txt b{color:var(--foreground);font-weight:650}
+/* dock */
+.dock5{position:sticky;bottom:0;z-index:16;margin:26px -16px 0;padding:14px 16px 16px;
+  background:color-mix(in srgb,var(--card) 95%,transparent);backdrop-filter:blur(14px);
+  border-top:1px solid var(--border);box-shadow:0 -6px 24px rgba(15,28,46,.06)}
+.dock5 .steps3{display:flex;gap:8px;align-items:center;font-size:11.5px;color:var(--muted-foreground);margin-bottom:10px}
+.dock5 .steps3 b{display:inline-flex;align-items:center;gap:5px;font-weight:650}
+.dock5 .steps3 i{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--border);display:grid;
+  place-items:center;font-size:9.5px;font-style:normal;background:var(--card)}
+.steps3 b[data-on="1"] i{background:var(--primary);border-color:var(--primary);color:#fff}
+.steps3 b[data-on="2"] i{background:var(--status-success-text);border-color:var(--status-success-text);color:#fff}
+.steps3 span{flex:1;height:1px;background:var(--border);max-width:26px}
+.dock5 .row5{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+@media(max-width:560px){.dock5 .row5{grid-template-columns:1fr}}
+.dock5 input{height:40px}
+.dock5 .fine{font-size:11.5px;color:var(--muted-foreground);margin-top:8px;line-height:1.45}
+.signed5{text-align:center;padding:8px 0}
+.vnav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:26px;padding-top:14px;
+  border-top:1px solid var(--border);font-size:13px}
+.vnav .seg{margin-left:auto}
+.state-note{font-size:12px;color:var(--muted-foreground);margin-top:10px}
+.is-loading .amount{color:transparent;background:var(--muted);border-radius:6px;max-width:200px}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L20 8l-4-4L4 16z"/><path d="m14 6 4 4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="shell">
+  <aside class="side" aria-label="Primary">
+    <a class="brand" href="../../../index.html"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></a>
+    <nav class="nav" aria-label="Sections">
+      <p class="nav-g">Main</p>
+      <a href="../../F03-dashboard-overview/V1/index.html"><svg class="i"><use href="#i-home"/></svg>Dashboard</a>
+      <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="count">10</span></a>
+      <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a href="../../F10-quotes-list/V1/index.html" aria-current="page"><svg class="i"><use href="#i-file"/></svg>Quotes</a>
+      <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="count">2</span></a>
+      <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a href="../../F18-invoices/V1/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F19-notifications/V1/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="count">6</span></a>
+      <p class="nav-g">Account</p>
+      <a href="../../F20-profile/V1/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="#i-sliders"/></svg>Settings</a>
+    </nav>
+  </aside>
+  <div class="nav-scrim" data-nav-close></div>
+
+  <div class="col">
+    <header class="hdr">
+      <button class="iconbtn navtoggle" data-nav-open aria-label="Open navigation" aria-expanded="false">
+        <svg class="i i--lg"><use href="#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../F10-quotes-list/V1/index.html">Quotes</a><svg class="i i--sm"><use href="#i-chev"/></svg><strong>Quote #01a10f80</strong></div>
+      <div class="hdr-r">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+        <a class="me" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span></a>
+      </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="narrow">
+        <div class="qtop">
+          <div>
+            <p class="eyebrow">Quote #01a10f80</p>
+            <h1 class="h1 h1--s" style="font-size:clamp(26px,3vw,30px)">One page, one decision</h1>
+            <p class="ref mt-4">AUDIT-P23-20261005-6rdsf Request to Quote Builder</p>
+          </div>
+          <span class="pill pill--err" data-q-status>Expired</span>
+        </div>
+
+        <p class="amount">₹1,770<i>.00</i></p>
+        <p class="sub">₹885.00 on acceptance · ₹885.00 on milestone approval · GST 18% included ·
+          valid until Oct 20, 2026</p>
+
+        <div class="banner banner--err mt-16" role="status" data-expired>
+          <svg class="i"><use href="#i-alert"/></svg>
+          <div class="grow"><strong>Expired.</strong> Ask for an extension and the studio reissues the same numbers.
+            Everything below stays readable.</div>
+          <button class="btn btn-s btn-sm" data-demo="Extension maps to POST /quotes/{id}/request-changes.">Ask</button>
+        </div>
+
+        <div class="disc">
+          <details open>
+            <summary>The numbers <span class="muted small" style="font-weight:500">1 line · 2 installments</span></summary>
+            <div class="body">
+              <div class="mini-rows">
+                <div><span>Quote builder regression package <span class="small muted">× 1</span></span><span>₹1,500.00</span></div>
+                <div><span>GST (18%)</span><span>₹270.00</span></div>
+                <div class="t"><span>Total</span><span>₹1,770.00</span></div>
+              </div>
+              <div class="mini-rows mt-12">
+                <div><span>Deposit · 50% · on acceptance</span><span>₹885.00</span></div>
+                <div><span>Final · 50% · on milestone approval</span><span>₹885.00</span></div>
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>The terms <span class="muted small" style="font-weight:500">10 clauses</span></summary>
+            <div class="body">
+              <p class="clause-txt"><b>1 Validity.</b> This quote remains valid until the date shown above unless extended in writing by Nestlancer.</p>
+              <p class="clause-txt"><b>2 Acceptance.</b> Engagement begins when the client accepts this quote in the Nestlancer dashboard and, where applicable, completes the first scheduled payment.</p>
+              <p class="clause-txt"><b>3 Payment.</b> Fees follow the payment schedule in this quote. Late payment may pause work until the account is current.</p>
+              <p class="clause-txt"><b>4 Scope.</b> Deliverables are limited to the line items and description in this quote. Additional work requires a written change order.</p>
+              <p class="clause-txt"><b>5 Revisions.</b> Included revision rounds are as stated in this quote; extra rounds may be billed at the rate shown or as mutually agreed.</p>
+              <p class="clause-txt"><b>6 Client responsibilities.</b> Timely feedback, content, credentials, and approvals are required so delivery dates can be met.</p>
+              <p class="clause-txt"><b>7 Intellectual property.</b> Upon full payment of all amounts due, the client receives the agreed rights to final deliverables. Nestlancer retains ownership of pre-existing tools, libraries, and generic components.</p>
+              <p class="clause-txt"><b>8 Confidentiality.</b> Both parties will keep non-public information shared during the project confidential.</p>
+              <p class="clause-txt"><b>9 Limitation of liability.</b> Nestlancer's total liability under this quote is limited to fees paid hereunder, except where applicable law does not permit such limitation.</p>
+              <p class="clause-txt"><b>10 Governing law.</b> These terms are governed by the laws of India; courts at Nestlancer's principal place of business have exclusive jurisdiction unless otherwise agreed in writing.</p>
+              <p class="clause-txt"><b>Project-specific.</b> Client supplies approvals within two business days.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>Documents &amp; alternates</summary>
+            <div class="body">
+              <div class="row wrapf" style="gap:8px">
+                <a class="btn btn-s btn-sm" href="../../F22-settings-files/V1/index.html"><svg class="i i--sm"><use href="#i-file"/></svg>Quote PDF</a>
+                <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Source request</a>
+                <button class="btn btn-s btn-sm" data-demo="Change request — POST /quotes/{id}/request-changes.">Request changes</button>
+                <button class="btn btn-g btn-sm" data-demo="Decline — POST /quotes/{id}/decline.">Decline</button>
+              </div>
+              <p class="small" style="margin-top:10px">Nothing is hidden behind these buttons: a change request opens a
+                written thread on this quote, and a decline keeps it revivable if you ask for a revision.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary>What happens after signing</summary>
+            <div class="body">
+              <p style="margin-bottom:8px">1 · Agreement NL-CTR-2026-000005 is stored in your files.</p>
+              <p style="margin-bottom:8px">2 · The ₹885.00 deposit invoice is raised — pay by card, UPI, netbanking or bank transfer.</p>
+              <p>3 · Your project opens with milestone 1 ready; delivery updates appear in the project hub.</p>
+            </div>
+          </details>
+        </div>
+
+        <!-- sticky dock: the whole signature, in place -->
+        <div class="dock5" data-dock>
+          <div class="steps3" aria-label="Signing progress">
+            <b data-step="1" data-on="0"><i>1</i>Name</b><span></span>
+            <b data-step="2" data-on="0"><i>2</i>Agree</b><span></span>
+            <b data-step="3" data-on="0"><i>3</i>Sign</b>
+          </div>
+          <div class="row5">
+            <div>
+              <label class="lbl sr-only" for="v5-name">Full legal name for the e-signature</label>
+              <input class="inp" id="v5-name" maxlength="100" placeholder="Full legal name" autocomplete="name">
+            </div>
+            <button class="btn btn-p" id="v5-sign" disabled><svg class="i i--sm"><use href="#i-pen"/></svg>Sign &amp; accept</button>
+          </div>
+          <label class="chk mt-8"><input type="checkbox" id="v5-terms">
+            <span style="font-size:12.5px">I agree to the 10 clauses and the project-specific terms. My name is my
+              e-signature on NL-CTR-2026-000005.</span></label>
+          <p class="fine" data-fine>Signing is disabled: this quote expired on Oct 20, 2026.
+            <button class="link" data-demo="Extension requested — the studio will reissue.">Request an extension</button>
+            — or ask for changes instead.</p>
+        </div>
+
+        <div class="card signed5" data-signed hidden>
+          <div class="empty-ic" style="margin:0 auto 10px;background:var(--status-success-bg);color:var(--status-success-text)">
+            <svg class="i i--lg"><use href="#i-check"/></svg></div>
+          <h2 class="h3">Signed — agreement NL-CTR-2026-000005</h2>
+          <p class="small muted">Arjun Mehta · 25 Oct 2026 · deposit ₹885.00 now due</p>
+          <div class="row" style="justify-content:center;margin-top:12px;gap:8px">
+            <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Open project</a>
+            <a class="btn btn-s btn-sm" href="../../F16-checkout/V1/index.html">Pay deposit</a>
+          </div>
+        </div>
+
+        <nav class="vnav" aria-label="Variant navigation">
+          <a class="btn btn-g btn-sm" href="../../index.html">← Gallery</a>
+          <span class="muted small">F11 Quote Details · variant 5 of 5 — Compact Sign Dock</span>
+          <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+          <a class="btn btn-s btn-sm" href="../../F14-billing-center/V1/index.html">Next family: Billing →</a>
+        </nav>
+        <p class="state-note">Three disclosures, one decision. <span class="mono">?state=loading</span> ·
+          <span class="mono">?state=error</span></p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, body=document.body, p=new URLSearchParams(location.search);
+  if(p.get('state')==='loading') body.classList.add('is-loading');
+  if(p.get('state')==='error'){var e=document.querySelector('[data-expired]');if(e)e.hidden=false;}
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);
+    tm=setTimeout(function(){toast.dataset.show='false';},2800);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}}
+  sync();
+  if(tt)tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  var nb=document.querySelector('[data-nav-open]');
+  function setNav(o){body.classList.toggle('nav-open',o);if(nb)nb.setAttribute('aria-expanded',String(o));}
+  if(nb)nb.addEventListener('click',function(){setNav(!body.classList.contains('nav-open'));});
+  document.querySelectorAll('[data-nav-close]').forEach(function(e){e.addEventListener('click',function(){setNav(false);});});
+  document.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){say(b.getAttribute('data-demo'));});});
+
+  var name=document.getElementById('v5-name'), terms=document.getElementById('v5-terms'),
+      btn=document.getElementById('v5-sign'), expired=true;
+  function step(n,s){var el=document.querySelector('[data-step="'+n+'"]'); if(el)el.dataset.on=s;}
+  function gate(){
+    btn.disabled=!(name.value.trim().length>1 && terms.checked && !expired);
+    step(1,name.value.trim().length>1?'1':'0');
+    step(2,terms.checked?'1':'0');
+    step(3,btn.disabled?'0':'1');
+    var fine=document.querySelector('[data-fine]');
+    if(fine)fine.hidden=!btn.disabled;
+  }
+  name.addEventListener('input',gate); terms.addEventListener('change',gate); gate();
+  btn.addEventListener('click',function(){
+    if(btn.disabled)return; btn.classList.add('is-loading');
+    setTimeout(function(){
+      btn.classList.remove('is-loading');
+      [1,2,3].forEach(function(n){step(n,'2');});
+      document.querySelector('[data-dock]').hidden=true;
+      document.querySelector('[data-signed]').hidden=false;
+      document.querySelector('[data-expired]').hidden=true;
+      document.querySelectorAll('[data-q-status]').forEach(function(el){el.className='pill pill--ok';el.textContent='Accepted';});
+      say('Signed — agreement NL-CTR-2026-000005 recorded.');
+      window.scrollTo({top:0,behavior:'smooth'});
+    },800);
+  });
+})();
+</script>
+</body>
+</html>

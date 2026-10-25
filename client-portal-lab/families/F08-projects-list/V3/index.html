@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects · V3 Split Preview — Nestlancer Portal Lab</title>
+<meta name="description" content="F08 variant 3: a project list beside a linked preview pane that crossfades on selection, with the degraded banner above both.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Split Preview. A split · C preview · E row select. */
+.page{min-height:100vh;background:var(--background);display:flex;flex-direction:column}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.bannerwrap{padding:14px 20px 0;max-width:1200px;width:100%;margin:0 auto}
+.split{flex:1;display:grid;grid-template-columns:minmax(0,56%) minmax(0,44%);max-width:1200px;width:100%;
+  margin:0 auto;padding:14px 20px 34px;gap:18px;align-items:start}
+@media(max-width:920px){.split{grid-template-columns:1fr;padding:12px 14px 30px}.prevcol{order:2}}
+.list{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.lhd{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--muted);
+  border-bottom:1px solid var(--border);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:700}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 74px;gap:12px;padding:13px 14px;cursor:pointer;
+  border-top:1px solid var(--border);border-left:3px solid transparent;align-items:center}
+.row:first-of-type{border-top:0}
+.row:hover{background:var(--brand-50)}
+.dark .row:hover{background:#161f3a}
+.row[aria-selected="true"]{background:var(--brand-50);border-left-color:var(--primary)}
+.dark .row[aria-selected="true"]{background:#1b2650}
+.row b{font-size:13.5px;letter-spacing:-.015em;display:block;line-height:1.35}
+.row .m{font-size:11px;color:var(--muted-foreground);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.row .t{height:4px;border-radius:999px;background:var(--muted);overflow:hidden;margin-top:7px}
+.row .t i{display:block;height:100%;background:var(--primary)}
+.row .p{text-align:right;font-size:15px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:var(--tabnum)}
+.row .p span{display:block;font-size:9.5px;color:var(--muted-foreground);font-weight:600;letter-spacing:.05em;
+  text-transform:uppercase;margin-top:1px}
+.prevcol{position:sticky;top:16px}
+@media(max-width:920px){.prevcol{position:static}}
+.prev{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;
+  box-shadow:var(--shadow-xs);animation:fx var(--duration-normal) var(--ease-out)}
+@keyframes fx{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.prev .ph{padding:15px 16px;border-bottom:1px solid var(--border)}
+.prev h2{font-size:16.5px;letter-spacing:-.025em;line-height:1.3}
+.prev .tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;font-size:11px;color:var(--muted-foreground);align-items:center}
+.pbody{padding:15px 16px;display:grid;gap:13px}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:6px 0;
+  border-bottom:1px solid var(--border)}
+.kv:last-child{border-bottom:0}
+.kv span{color:var(--muted-foreground)}
+.kv b{font-weight:600;font-variant-numeric:var(--tabnum)}
+.ms{display:grid;gap:6px}
+.msrow{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.45}
+.msrow .d{width:7px;height:7px;border-radius:50%;margin-top:5px;flex:none;background:var(--border)}
+.msrow[data-s="done"] .d{background:var(--status-success-text)}
+.msrow[data-s="next"] .d{background:var(--status-warning-text)}
+.msrow b{font-weight:650}
+.msrow span{color:var(--muted-foreground)}
+.prev .acts{display:flex;gap:7px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--border);
+  background:var(--background)}
+.stale{font-size:11px;color:var(--status-warning-text);background:var(--status-warning-bg);
+  border:1px solid var(--status-warning-border);border-radius:var(--radius-sm);padding:7px 9px;line-height:1.5}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
+  max-width:1200px;width:100%;margin:0 auto;padding:0 20px 20px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(prefers-reduced-motion:reduce){.prev{animation:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7v.3M12 17v.5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to projects</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F05-requests-work-hub/V1/index.html">Work Hub</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <div class="bannerwrap">
+    <div class="banner banner--warn" role="alert">
+      <svg class="i"><use href="#i-alert"/></svg>
+      <div><strong>Showing cached project data.</strong> <code>GET /api/v1/projects</code> →
+        <code>502 origin_bad_gateway</code>, and the browser blocked the cross-origin retry. Details below may be
+        up to 42 minutes old.
+        <div class="row mt-8" style="gap:8px;flex-wrap:wrap">
+          <button class="btn btn-s btn-sm" data-retry><svg class="i i--sm"><use href="#i-refresh"/></svg>Retry</button>
+          <a class="btn btn-g btn-sm" href="../../F19-notifications/V1/index.html"><svg class="i i--sm"><use href="#i-help"/></svg>Contact support</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" class="split">
+    <section class="list" aria-label="Projects">
+      <div class="lhd"><span>Project</span><span data-count>2 of 2</span></div>
+      <div role="listbox" aria-label="Projects" data-rows>
+        <div class="row" role="option" id="p1" aria-selected="true" tabindex="0"
+          data-nm="Khandesh Spice D2C E-Commerce Store"
+          data-desc="Storefront build for a spice brand: catalogue, subscription bundles and Razorpay checkout. Milestone 1 approved on 15 Oct; milestone 2 is in review."
+          data-kv='[["Started","5 Oct 2026"],["Milestones","1 of 2 approved"],["Next payment","₹30,000 · 30 Oct"],["Delivery","staging build pushed 14 min ago"],["Owner","Riya Kapoor"]]'
+          data-ms='[["done","Discovery & wireframes","approved 15 Oct"],["next","Storefront build","in review · ₹30,000 due 30 Oct"],["","Handover","locked until M2 is approved"]]'
+          data-links='[["Open project","../../F09-project-details/V1/index.html"],["View quotes","../../F10-quotes-list/V1/index.html"]]'>
+          <span><b>Khandesh Spice D2C E-Commerce Store</b>
+            <span class="m"><span class="pill pill--ok">In progress</span>1 of 2 milestones</span>
+            <span class="t"><i style="width:57%"></i></span></span>
+          <span class="p">57%<span>done</span></span></div>
+
+        <div class="row" role="option" id="p2" aria-selected="false" tabindex="0"
+          data-nm="B2B Wholesale Ordering Portal"
+          data-desc="Ordering portal for wholesale buyers: price lists per tier, reorder flows and invoice downloads. Two milestones approved; the third is in review."
+          data-kv='[["Started","10 May 2026"],["Milestones","2 of 3 approved"],["Next payment","₹45,000 · on M3 approval"],["Delivery","milestone 3 in review"],["Owner","Arjun Mehta"]]'
+          data-ms='[["done","Accounts & price tiers","approved"],["done","Reorder flow","approved"],["next","Invoice downloads","in review"],["","Launch","not scheduled"]]'
+          data-links='[["Open project","../../F09-project-details/V1/index.html"],["Message studio","../../F13-messages-thread/V1/index.html"]]'>
+          <span><b>B2B Wholesale Ordering Portal</b>
+            <span class="m"><span class="pill pill--info">In progress</span>2 of 3 milestones</span>
+            <span class="t"><i style="width:78%"></i></span></span>
+          <span class="p">78%<span>done</span></span></div>
+      </div>
+    </section>
+
+    <aside class="prevcol" aria-label="Project preview">
+      <article class="prev" data-prev>
+        <div class="ph">
+          <h2 data-t>Khandesh Spice D2C E-Commerce Store</h2>
+          <div class="tags"><span class="pill pill--warn">Cached</span>
+            <span data-d>—</span></div>
+        </div>
+        <div class="pbody">
+          <p style="font-size:12.5px;color:var(--muted-foreground);line-height:1.6;margin:0" data-desc></p>
+          <div data-kv></div>
+          <div><p class="eyebrow" style="margin-bottom:6px">Milestones</p><div class="ms" data-ms></div></div>
+          <p class="stale">Values come from the last successful sync. Retry once; if it keeps failing, support can
+            confirm status from the server side.</p>
+        </div>
+        <div class="acts" data-acts></div>
+      </article>
+    </aside>
+
+    <div class="vfoot">
+      <a href="../../index.html">← Gallery</a>
+      <span>F08 Projects List · V3 of 5 — Split Preview</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},3000);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var rows=[].slice.call(document.querySelectorAll('.row')), idx=0, pv=document.querySelector('[data-prev]');
+  function render(r){
+    if(!r)return;
+    document.querySelector('[data-t]').textContent=r.dataset.nm;
+    document.querySelector('[data-desc]').textContent=r.dataset.desc;
+    document.querySelector('[data-d]').textContent=r.querySelector('.m').textContent.trim().replace(/\s+/g,' ');
+    var kv=document.querySelector('[data-kv]'); kv.innerHTML='';
+    JSON.parse(r.dataset.kv).forEach(function(p){
+      var d=document.createElement('div'); d.className='kv';
+      var s=document.createElement('span'); s.textContent=p[0];
+      var b=document.createElement('b'); b.textContent=p[1];
+      d.appendChild(s); d.appendChild(b); kv.appendChild(d);
+    });
+    var ms=document.querySelector('[data-ms]'); ms.innerHTML='';
+    JSON.parse(r.dataset.ms).forEach(function(p){
+      var d=document.createElement('div'); d.className='msrow'; d.dataset.s=p[0];
+      var dot=document.createElement('span'); dot.className='d';
+      var tx=document.createElement('span');
+      var b=document.createElement('b'); b.textContent=p[1]+' ';
+      var sp=document.createElement('span'); sp.textContent='· '+p[2];
+      tx.appendChild(b); tx.appendChild(sp);
+      d.appendChild(dot); d.appendChild(tx); ms.appendChild(d);
+    });
+    var acts=document.querySelector('[data-acts]'); acts.innerHTML='';
+    JSON.parse(r.dataset.links).forEach(function(p,i){
+      var a=document.createElement('a'); a.className='btn '+(i===0?'btn-p':'btn-g')+' btn-sm';
+      a.href=p[1]; a.textContent=p[0]; acts.appendChild(a);
+    });
+    pv.style.animation='none'; void pv.offsetWidth; pv.style.animation='';
+  }
+  function paint(){
+    rows.forEach(function(r,n){r.setAttribute('aria-selected',String(n===idx));});
+    render(rows[idx]);
+  }
+  rows.forEach(function(r,n){
+    r.addEventListener('click',function(){idx=n;paint();});
+    r.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();idx=n;paint();}
+      if(e.key==='ArrowDown'){e.preventDefault();idx=Math.min(rows.length-1,n+1);paint();rows[idx].focus();}
+      if(e.key==='ArrowUp'){e.preventDefault();idx=Math.max(0,n-1);paint();rows[idx].focus();}
+    });
+  });
+  var tries=0;
+  document.querySelector('[data-retry]').addEventListener('click',function(){
+    tries++;
+    var b=this; b.classList.add('is-loading');
+    setTimeout(function(){b.classList.remove('is-loading');
+      say('Retry '+tries+' failed — 502 origin_bad_gateway. Preview still cached.');
+    },1000);
+  });
+  paint();
+  if(new URLSearchParams(location.search).get('state')==='error')say('Projects feed error — cached data.');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requests · V2 Queue Cards — Nestlancer Portal Lab</title>
+<meta name="description" content="F05 variant 2: a KPI strip above a card queue where every request row states its own next action, with a saved view.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Queue Cards. A cards · B action-first · C queue · E chips + saved view. */
+.page{min-height:100vh;background:var(--background)}
+.hdr{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:14px;padding:0 22px;position:sticky;top:0;z-index:20}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.navx{display:flex;gap:2px;margin-left:8px}
+.navx a{padding:6px 10px;border-radius:var(--radius-sm);font-size:13px;color:var(--muted-foreground);font-weight:550}
+.navx a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .navx a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.main{max-width:960px;margin:0 auto;padding:22px 22px 40px}
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:18px}
+.strip div{background:var(--card);padding:12px 14px}
+.strip .k{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.strip .v{font-size:21px;font-weight:700;letter-spacing:-.03em;margin-top:3px;font-variant-numeric:var(--tabnum)}
+.strip .v.small{font-size:14px;letter-spacing:-.01em;padding-top:5px}
+@media(max-width:720px){.strip{grid-template-columns:1fr 1fr}}
+h1{font-size:26px;letter-spacing:-.035em}
+.lead{font-size:13px;color:var(--muted-foreground);margin-top:4px}
+.viewbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 12px}
+.view{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;
+  padding:5px 12px;font-size:12.5px;font-weight:650;color:var(--muted-foreground);background:var(--card)}
+.view[aria-pressed="true"]{background:var(--brand-50);border-color:var(--brand-300);color:var(--brand-700)}
+.dark .view[aria-pressed="true"]{background:#1b2650;border-color:#33447e;color:#c9d6ff}
+.view .n{font-size:10.5px;background:var(--muted);border-radius:999px;padding:0 5px;color:var(--muted-foreground)}
+.view[aria-pressed="true"] .n{background:var(--card);color:var(--brand-700)}
+.queue{display:grid;gap:10px}
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;
+  display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:16px;box-shadow:var(--shadow-xs);
+  border-left:3px solid transparent;transition:border-color var(--duration-fast),box-shadow var(--duration-fast)}
+.qcard:hover{border-color:var(--brand-300)}
+.qcard[data-needs="1"]{border-left-color:var(--status-warning-text)}
+.qcard .ttl{font-size:14.5px;font-weight:650;letter-spacing:-.015em}
+.qcard .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px;font-size:11.5px;
+  color:var(--muted-foreground)}
+.qcard .meta .dot{width:3px;height:3px;border-radius:50%;background:var(--border)}
+.qcard .next{margin-top:9px;display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.5;
+  background:var(--background);border:1px dashed var(--border);border-radius:var(--radius-sm);padding:8px 10px}
+.qcard .next b{font-weight:650}
+.qcard .acts{display:flex;flex-direction:column;gap:7px;justify-content:center;border-left:1px solid var(--border);
+  padding-left:16px}
+.qcard .why{font-size:11px;color:var(--muted-foreground);line-height:1.45}
+@media(max-width:760px){.qcard{grid-template-columns:1fr}.qcard .acts{border-left:0;padding-left:0;
+  flex-direction:row;flex-wrap:wrap;justify-content:flex-start}}
+.emptyx{background:var(--card);border:1px dashed var(--border);border-radius:var(--radius-lg);padding:34px 20px;
+  text-align:center}
+.emptyx b{display:block;font-size:14.5px;margin-top:8px}
+.emptyx p{font-size:12.5px;color:var(--muted-foreground);margin:4px auto 0;max-width:46ch;line-height:1.55}
+.more{display:flex;justify-content:center;margin-top:16px}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:22px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.navx{display:none}.main{padding:16px 14px 30px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="hdr">
+  <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+    <span>Nestlancer<small>Client portal</small></span></a>
+  <nav class="navx" aria-label="Sections">
+    <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+    <a href="index.html" aria-current="page">Requests</a>
+    <a href="../../F08-projects-list/V1/index.html">Projects</a>
+    <a href="../../F14-billing/V1/index.html">Billing</a>
+  </nav>
+  <div class="row" style="margin-left:auto;gap:8px">
+    <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    <a class="btn btn-p btn-sm" href="../../F06-new-request/V1/index.html"><svg class="i i--sm"><use href="#i-plus"/></svg>New request</a>
+  </div>
+</header>
+
+<main id="main" class="main">
+  <div>
+    <h1>Requests</h1>
+    <p class="lead">Each card says what happens next — and who has to do it. Nothing here waits on you silently.</p>
+  </div>
+
+  <section class="strip" aria-label="Request totals">
+    <div><p class="k">Total</p><p class="v">26</p></div>
+    <div><p class="k">Awaiting you</p><p class="v">0</p></div>
+    <div><p class="k">Needs attention</p><p class="v">2</p></div>
+    <div><p class="k">Converted</p><p class="v">5</p></div>
+  </section>
+
+  <div class="viewbar" role="group" aria-label="Saved views">
+    <button class="view" data-view="all" aria-pressed="true">All requests <span class="n">12</span></button>
+    <button class="view" data-view="me" aria-pressed="false">Awaiting me <span class="n">0</span></button>
+    <button class="view" data-view="expired" aria-pressed="false">Expired quotes <span class="n">2</span></button>
+    <button class="view" data-view="draft" aria-pressed="false">Drafts <span class="n">1</span></button>
+    <button class="btn btn-g btn-sm" data-saveview style="margin-left:auto">
+      <svg class="i i--sm"><use href="#i-bookmark"/></svg>Save this view</button>
+  </div>
+
+  <div class="banner banner--info" data-savednote hidden>
+    <svg class="i"><use href="#i-bookmark"/></svg>
+    <div><strong>“Awaiting me” saved for this demo.</strong> Saved views need a persistent store that the API does not
+      yet expose — the button demonstrates the intent and is labelled demo-only in <code>DECISIONS.md</code>.</div>
+  </div>
+
+  <div class="queue" data-queue>
+    <article class="qcard" data-in="expired" data-needs="1" data-label="aurora coffee expired quote">
+      <div>
+        <p class="ttl">Aurora Coffee subscription flow</p>
+        <div class="meta"><span class="pill pill--warn">Expired quote</span><span>Mobile app</span><span class="dot"></span>
+          <span>₹84,000</span><span class="dot"></span><span>NL-REQ-2026-0015</span></div>
+        <p class="next"><svg class="i i--sm" style="color:var(--status-warning-text);flex:none;margin-top:1px"><use href="#i-alert"/></svg>
+          <span><b>Next:</b> request a fresh quote — the old one lapsed on 14 Oct and cannot be signed.</span></p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-p btn-sm" href="../../F07-request-details/V1/index.html">Request new quote</a>
+        <a class="btn btn-g btn-sm" href="../../F07-request-details/V1/index.html">View request</a>
+        <span class="why">The studio re-quotes within one working day.</span>
+      </div>
+    </article>
+
+    <article class="qcard" data-in="expired" data-needs="1" data-label="prakash optics expired quote">
+      <div>
+        <p class="ttl">Prakash Optics catalogue</p>
+        <div class="meta"><span class="pill pill--warn">Expired quote</span><span>E-commerce</span><span class="dot"></span>
+          <span>₹38,000</span><span class="dot"></span><span>NL-REQ-2026-0003</span></div>
+        <p class="next"><svg class="i i--sm" style="color:var(--status-warning-text);flex:none;margin-top:1px"><use href="#i-alert"/></svg>
+          <span><b>Next:</b> the quote expired 24 Sep. Revive it or close the request.</span></p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-p btn-sm" href="../../F07-request-details/V1/index.html">Request new quote</a>
+        <a class="btn btn-g btn-sm" href="../../F07-request-details/V1/index.html">View request</a>
+      </div>
+    </article>
+
+    <article class="qcard" data-in="all" data-label="khandesh spice converted">
+      <div>
+        <p class="ttl">Khandesh Spice D2C e-commerce store</p>
+        <div class="meta"><span class="pill pill--ok">Converted</span><span>E-commerce</span><span class="dot"></span>
+          <span>₹1,42,000</span><span class="dot"></span><span>NL-REQ-2026-0018</span></div>
+        <p class="next"><svg class="i i--sm" style="flex:none;margin-top:1px"><use href="#i-inbox"/></svg>
+          <span><b>Next:</b> approve milestone 2 — due 30 Oct for ₹30,000.</span></p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Open project</a>
+        <a class="btn btn-g btn-sm" href="../../F07-request-details/V1/index.html">View request</a>
+        <span class="why">Project at 57% · M1 approved 15 Oct.</span>
+      </div>
+    </article>
+
+    <article class="qcard" data-in="all" data-label="horizon retail submitted">
+      <div>
+        <p class="ttl">Horizon Retail rebrand</p>
+        <div class="meta"><span class="pill pill--info">Submitted</span><span>Branding</span><span class="dot"></span>
+          <span>₹1,20,000</span><span class="dot"></span><span>NL-REQ-2026-0023</span></div>
+        <p class="next"><svg class="i i--sm" style="flex:none;margin-top:1px"><use href="#i-inbox"/></svg>
+          <span><b>Next:</b> nothing — the studio is preparing your quote.</span></p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">View request</a>
+        <span class="why">Submitted 21 Oct · quote typically within 2 days.</span>
+      </div>
+    </article>
+
+    <article class="qcard" data-in="all" data-label="meridian clinic quote sent">
+      <div>
+        <p class="ttl">Meridian Clinic website</p>
+        <div class="meta"><span class="pill pill--pur">Quote sent</span><span>Web design</span><span class="dot"></span>
+          <span>₹96,000</span><span class="dot"></span><span>NL-REQ-2026-0012</span></div>
+        <p class="next"><svg class="i i--sm" style="flex:none;margin-top:1px"><use href="#i-inbox"/></svg>
+          <span><b>Next:</b> review and sign the quote to start work.</span></p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-p btn-sm" href="../../F11-quote-details/V1/index.html">Review quote</a>
+        <a class="btn btn-g btn-sm" href="../../F10-quotes-list/V1/index.html">All quotes</a>
+        <span class="why">Signing unlocks the deposit invoice.</span>
+      </div>
+    </article>
+
+    <article class="qcard" data-in="all" data-label="sundara yoga under review">
+      <div>
+        <p class="ttl">Sundara Yoga landing page</p>
+        <div class="meta"><span class="pill pill--info">Under review</span><span>Web design</span><span class="dot"></span>
+          <span>₹45,000</span><span class="dot"></span><span>NL-REQ-2026-0006</span></div>
+        <p class="next"><svg class="i i--sm" style="flex:none;margin-top:1px"><use href="#i-inbox"/></svg>
+          <span><b>Next:</b> the studio is scoping; no action from you.</span></p>
+      </div>
+      <div class="acts"><a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">View request</a></div>
+    </article>
+
+    <article class="qcard" data-in="draft" data-label="fern field draft">
+      <div>
+        <p class="ttl">Fern &amp; Field packaging</p>
+        <div class="meta"><span class="pill">Draft</span><span>Branding</span><span class="dot"></span>
+          <span>No budget yet</span></div>
+        <p class="next"><svg class="i i--sm" style="flex:none;margin-top:1px"><use href="#i-inbox"/></svg>
+          <span><b>Next:</b> finish and submit this draft so it can be quoted.</span></p>
+      </div>
+      <div class="acts">
+        <a class="btn btn-p btn-sm" href="../../F06-new-request/V1/index.html">Resume draft</a>
+        <span class="why">Started 10 Oct · 4 of 10 fields filled.</span>
+      </div>
+    </article>
+
+    <article class="qcard" data-in="all" data-label="kaveri textiles converted">
+      <div>
+        <p class="ttl">Kaveri Textiles lookbook</p>
+        <div class="meta"><span class="pill pill--ok">Converted</span><span>Marketing</span><span class="dot"></span>
+          <span>₹62,000</span><span class="dot"></span><span>NL-REQ-2026-0009</span></div>
+        <p class="next"><svg class="i i--sm" style="flex:none;margin-top:1px"><use href="#i-inbox"/></svg>
+          <span><b>Next:</b> none — delivered and paid in full.</span></p>
+      </div>
+      <div class="acts"><a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">View request</a></div>
+    </article>
+  </div>
+
+  <div class="emptyx" data-empty hidden>
+    <svg class="i i--lg" style="color:var(--muted-foreground)"><use href="#i-inbox"/></svg>
+    <b>Nothing in this view</b>
+    <p>“Awaiting me” is empty because no request is currently blocked on you — that is the good state, not a missing list.</p>
+  </div>
+
+  <div class="more">
+    <a class="btn btn-s" href="?page=2">Show more requests (1–8 of 26)</a>
+  </div>
+
+  <div class="vfoot">
+    <a href="../../index.html">← Gallery</a>
+    <span>F05 Requests Work Hub · V2 of 5 — Queue Cards</span>
+    <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+  </div>
+</main>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var cards=[].slice.call(document.querySelectorAll('.qcard')), view='all';
+  function apply(){
+    var n=0;
+    cards.forEach(function(c){
+      var cardViews=c.dataset.in?c.dataset.in.split(' '):[];
+      var show= view==='all' ? (cardViews.indexOf('all')>-1) :
+        view==='me' ? false : cardViews.indexOf(view)>-1;
+      if(view==='all'&&cardViews.indexOf('all')<0)show=false;
+      c.hidden=!show; if(show)n++;
+    });
+    document.querySelector('[data-empty]').hidden=n>0;
+    document.querySelector('.more').hidden=view!=='all';
+    document.querySelectorAll('[data-view]').forEach(function(b){
+      b.setAttribute('aria-pressed',String(b.dataset.view===view));});
+  }
+  document.querySelectorAll('[data-view]').forEach(function(b){
+    b.addEventListener('click',function(){view=b.dataset.view;apply();});
+  });
+  document.querySelector('[data-saveview]').addEventListener('click',function(){
+    var n=document.querySelector('[data-savednote]'); n.hidden=!n.hidden;
+    if(!n.hidden)say('Saved view — demo only.');
+  });
+  apply();
+  if(new URLSearchParams(location.search).get('state')==='empty'){view='me';apply();}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requests · V5 Ledger + Views — Nestlancer Portal Lab</title>
+<meta name="description" content="F05 variant 5: a date-grouped ledger of requests with saved-view tabs, collapsible date groups and page-size controls.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Ledger + Views. A ledger · C date-grouped · D dense · E saved views + collapse. */
+.page{min-height:100vh;background:var(--background);display:flex;flex-direction:column}
+.top{height:var(--header);border-bottom:1px solid var(--border);background:var(--card);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.wrap{max-width:1040px;width:100%;margin:0 auto;padding:20px 20px 40px;flex:1}
+.head{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.head h1{font-size:25px;letter-spacing:-.035em}
+.head p{font-size:12.5px;color:var(--muted-foreground);margin-top:3px}
+.views{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:14px;overflow-x:auto}
+.views button{padding:9px 13px;font-size:12.5px;font-weight:650;color:var(--muted-foreground);
+  border-bottom:2px solid transparent;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.views button[aria-selected="true"]{color:var(--foreground);border-bottom-color:var(--primary)}
+.views .n{font-size:10.5px;background:var(--muted);border-radius:999px;padding:1px 6px;color:var(--muted-foreground)}
+.views button[aria-selected="true"] .n{background:var(--brand-50);color:var(--brand-700)}
+.daygrp{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--card);
+  margin-bottom:10px}
+.dayhd{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--muted);
+  border-bottom:1px solid var(--border);width:100%;text-align:left}
+.dayhd b{font-size:12px;letter-spacing:-.01em}
+.dayhd .c{font-size:11px;color:var(--muted-foreground)}
+.dayhd .tot{margin-left:auto;font-size:11.5px;color:var(--muted-foreground);font-variant-numeric:var(--tabnum)}
+.dayhd .chev{transition:transform var(--duration-fast);color:var(--muted-foreground)}
+.dayhd[aria-expanded="false"] .chev{transform:rotate(-90deg)}
+.ledger{display:grid}
+.lrow{display:grid;grid-template-columns:78px minmax(0,1fr) 130px 96px;gap:12px;align-items:center;
+  padding:10px 14px;border-top:1px solid var(--border);font-size:13px}
+.ledger .lrow:first-child{border-top:0}
+.lrow:hover{background:var(--brand-50)}
+.dark .lrow:hover{background:#161f3a}
+.lrow .ref{font-size:11px;color:var(--muted-foreground);font-variant-numeric:var(--tabnum)}
+.lrow .t{font-weight:600;letter-spacing:-.01em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lrow .t + .sub{font-size:11px;color:var(--muted-foreground);margin-top:1px}
+.lrow .amt{text-align:right;font-variant-numeric:var(--tabnum);font-weight:600;white-space:nowrap}
+.lrow .st{text-align:right}
+@media(max-width:760px){.lrow{grid-template-columns:minmax(0,1fr) auto;gap:6px}
+  .lrow .ref{grid-column:1;order:2}.lrow .amt{grid-column:1;text-align:left;order:3}
+  .lrow .t{grid-column:1;order:1}.lrow .st{grid-column:2;grid-row:1}}
+.footbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted-foreground)}
+.footbar .sel{height:30px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);
+  font-size:12px;padding:0 6px;color:var(--foreground)}
+.footbar .pages{display:flex;gap:4px;margin-left:auto}
+.footbar .pages a{padding:3px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);font-weight:600;
+  background:var(--card)}
+.footbar .pages a[aria-current="page"]{background:var(--primary);border-color:var(--primary);color:#fff}
+.emptyx{background:var(--card);border:1px dashed var(--border);border-radius:var(--radius-lg);padding:32px 18px;
+  text-align:center;font-size:13px;color:var(--muted-foreground)}
+.emptyx b{display:block;color:var(--foreground);font-size:14px;margin-bottom:4px}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:20px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.wrap{padding:14px}.top{padding:0 14px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-chev-dn" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the ledger</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      <a class="btn btn-p btn-sm" href="../../F06-new-request/V1/index.html"><svg class="i i--sm"><use href="#i-plus"/></svg>New request</a>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="head">
+      <div><h1>Requests</h1>
+        <p>A ledger by date — every request, its reference and what it is worth. 26 total, 12 with detail.</p></div>
+      <span class="grow"></span>
+      <span class="pill pill--info">26 requests</span>
+    </div>
+
+    <div class="views" role="tablist" aria-label="Saved views">
+      <button role="tab" data-v="all" aria-selected="true">All requests <span class="n">12</span></button>
+      <button role="tab" data-v="open" aria-selected="false">Open <span class="n">7</span></button>
+      <button role="tab" data-v="money" aria-selected="false">With money <span class="n">8</span></button>
+      <button role="tab" data-v="dead" aria-selected="false">Expired quote <span class="n">2</span></button>
+      <button role="tab" data-v="draft" aria-selected="false">Drafts <span class="n">1</span></button>
+      <button role="tab" data-v="saved" aria-selected="false">＋ Saved views</button>
+    </div>
+
+    <div data-groups>
+      <section class="daygrp" data-group="2026-10">
+        <button class="dayhd" data-collapse aria-expanded="true">
+          <svg class="i i--sm chev"><use href="#i-chev-dn"/></svg>
+          <b>October 2026</b><span class="c">6 requests</span>
+          <span class="tot">₹5,68,000 quoted</span>
+        </button>
+        <div class="ledger">
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="open money">
+            <span class="ref">NL-0018</span>
+            <span><span class="t">Khandesh Spice D2C e-commerce store</span><span class="sub">E-commerce · converted</span></span>
+            <span class="amt">₹1,42,000</span><span class="st"><span class="pill pill--ok">Converted</span></span></a>
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="open money">
+            <span class="ref">NL-0023</span>
+            <span><span class="t">Horizon Retail rebrand</span><span class="sub">Branding · submitted</span></span>
+            <span class="amt">₹1,20,000</span><span class="st"><span class="pill pill--info">Submitted</span></span></a>
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="open dead money">
+            <span class="ref">NL-0015</span>
+            <span><span class="t">Aurora Coffee subscription flow</span><span class="sub">Mobile app · expired quote</span></span>
+            <span class="amt">₹84,000</span><span class="st"><span class="pill pill--warn">Expired</span></span></a>
+          <a class="lrow" href="../../F11-quote-details/V1/index.html" data-inv="open money">
+            <span class="ref">NL-0012</span>
+            <span><span class="t">Meridian Clinic website</span><span class="sub">Web design · quote sent</span></span>
+            <span class="amt">₹96,000</span><span class="st"><span class="pill pill--pur">Quote sent</span></span></a>
+          <a class="lrow" href="../../F06-new-request/V1/index.html" data-inv="draft">
+            <span class="ref">Draft</span>
+            <span><span class="t">Fern &amp; Field packaging</span><span class="sub">Branding · 4 of 10 fields</span></span>
+            <span class="amt">—</span><span class="st"><span class="pill">Draft</span></span></a>
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="open money">
+            <span class="ref">NL-0006</span>
+            <span><span class="t">Sundara Yoga landing page</span><span class="sub">Web design · under review</span></span>
+            <span class="amt">₹45,000</span><span class="st"><span class="pill pill--info">Review</span></span></a>
+        </div>
+      </section>
+
+      <section class="daygrp" data-group="2026-09">
+        <button class="dayhd" data-collapse aria-expanded="true">
+          <svg class="i i--sm chev"><use href="#i-chev-dn"/></svg>
+          <b>September 2026</b><span class="c">4 requests</span>
+          <span class="tot">₹3,92,000 quoted</span>
+        </button>
+        <div class="ledger">
+          <a class="lrow" href="../../F09-project-details/V1/index.html" data-inv="money">
+            <span class="ref">NL-0004</span>
+            <span><span class="t">Northwind logistics dashboard</span><span class="sub">Web design · converted</span></span>
+            <span class="amt">₹2,10,000</span><span class="st"><span class="pill pill--ok">Converted</span></span></a>
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="open dead money">
+            <span class="ref">NL-0003</span>
+            <span><span class="t">Prakash Optics catalogue</span><span class="sub">E-commerce · expired quote</span></span>
+            <span class="amt">₹38,000</span><span class="st"><span class="pill pill--warn">Expired</span></span></a>
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="money">
+            <span class="ref">NL-0002</span>
+            <span><span class="t">Blue Oak interiors site</span><span class="sub">Webflow · closed</span></span>
+            <span class="amt">₹71,000</span><span class="st"><span class="pill">Closed</span></span></a>
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="open money">
+            <span class="ref">NL-0001</span>
+            <span><span class="t">Tinker Studio portfolio</span><span class="sub">Web design · submitted</span></span>
+            <span class="amt">₹55,000</span><span class="st"><span class="pill pill--info">Submitted</span></span></a>
+        </div>
+      </section>
+
+      <section class="daygrp" data-group="2026-08">
+        <button class="dayhd" data-collapse aria-expanded="true">
+          <svg class="i i--sm chev"><use href="#i-chev-dn"/></svg>
+          <b>August 2026</b><span class="c">2 requests</span>
+          <span class="tot">₹89,000 quoted</span>
+        </button>
+        <div class="ledger">
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="money">
+            <span class="ref">NL-0011</span>
+            <span><span class="t">Vasanta Foods menu refresh</span><span class="sub">Branding · quote accepted</span></span>
+            <span class="amt">₹27,000</span><span class="st"><span class="pill pill--ok">Accepted</span></span></a>
+          <a class="lrow" href="../../F07-request-details/V1/index.html" data-inv="money">
+            <span class="ref">NL-0009</span>
+            <span><span class="t">Kaveri Textiles lookbook</span><span class="sub">Marketing · converted</span></span>
+            <span class="amt">₹62,000</span><span class="st"><span class="pill pill--ok">Converted</span></span></a>
+        </div>
+      </section>
+    </div>
+
+    <div class="emptyx" data-empty hidden><b>This view is empty</b>
+      Saved views filter what is already loaded — nothing is hidden from the All view.</div>
+
+    <div class="footbar">
+      <span>Rows per page</span>
+      <select class="sel" data-size aria-label="Rows per page">
+        <option>12</option><option>24</option><option>50</option>
+      </select>
+      <span data-shown>12 of 26 shown · group totals are quoted value, not paid</span>
+      <div class="pages" aria-label="Pagination"><a href="?page=1" aria-current="page">1</a><a href="?page=2">2</a><a href="?page=3">3</a></div>
+    </div>
+
+    <div class="vfoot">
+      <a href="../../index.html">← Gallery</a>
+      <span>F05 Requests Work Hub · V5 of 5 — Ledger + Views</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  document.querySelectorAll('[data-collapse]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var open=b.getAttribute('aria-expanded')==='true';
+      b.setAttribute('aria-expanded',String(!open));
+      b.nextElementSibling.hidden=open;
+    });
+  });
+
+  var rows=[].slice.call(document.querySelectorAll('.lrow')), view='all';
+  function apply(){
+    if(view==='saved'){say('Saved views are demo-only — they need a store the API does not expose.');}
+    var n=0;
+    rows.forEach(function(r){
+      var ok = view==='all' || (r.dataset.inv||'').split(' ').indexOf(view)>-1 ||
+        (view==='saved' && false);
+      r.hidden=!ok; if(ok)n++;
+    });
+    document.querySelectorAll('.daygrp').forEach(function(g){
+      var any=[].slice.call(g.querySelectorAll('.lrow')).some(function(r){return !r.hidden;});
+      g.hidden=!any;
+    });
+    document.querySelector('[data-empty]').hidden=n>0;
+    document.querySelector('[data-shown]').textContent=n+' of 26 shown · group totals are quoted value, not paid';
+  }
+  document.querySelectorAll('[data-v]').forEach(function(b){
+    b.addEventListener('click',function(){
+      view=b.dataset.v;
+      document.querySelectorAll('[data-v]').forEach(function(x){x.setAttribute('aria-selected',String(x===b));});
+      apply();
+    });
+  });
+  document.querySelector('[data-size]').addEventListener('change',function(){
+    say('Page size set to '+this.value+' — pagination is server-driven.');
+  });
+  apply();
+})();
+</script>
+</body>
+</html>

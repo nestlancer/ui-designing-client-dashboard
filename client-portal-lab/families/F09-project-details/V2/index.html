@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project · V2 Step Journey — Nestlancer Portal Lab</title>
+<meta name="description" content="F09 variant 2: the milestone stepper is the page spine — a progress line draws per milestone and each stage carries delivery and payment state.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Step Journey. A stepper · C journey · E progress spine draw. */
+.page{min-height:100vh;background:var(--background)}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.head{max-width:820px;margin:0 auto;padding:26px 20px 6px}
+.crumb{font-size:11.5px;color:var(--muted-foreground)}
+h1{font-size:clamp(22px,3vw,29px);letter-spacing:-.035em;line-height:1.16;margin-top:6px}
+.lede{font-size:13px;color:var(--muted-foreground);line-height:1.6;margin-top:8px;max-width:60ch}
+.stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;padding:14px 0;border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border)}
+.stat{font-size:11px;color:var(--muted-foreground);letter-spacing:.03em}
+.stat b{display:block;font-size:15px;color:var(--foreground);font-weight:700;margin-top:2px;letter-spacing:-.02em;
+  font-variant-numeric:var(--tabnum)}
+.journey{max-width:820px;margin:0 auto;padding:26px 20px 40px;position:relative}
+.spine{position:absolute;left:39px;top:34px;bottom:60px;width:2px;background:var(--border);overflow:hidden}
+.spine i{display:block;width:100%;background:var(--primary);height:var(--p,58%);transition:height 900ms var(--ease-out)}
+@media(max-width:720px){.spine{left:29px}}
+.step{position:relative;padding:0 0 26px 54px}
+@media(max-width:720px){.step{padding-left:44px}}
+.step .dot{position:absolute;left:8px;top:2px;width:24px;height:24px;border-radius:50%;background:var(--card);
+  border:2px solid var(--border);display:grid;place-items:center;font-size:10.5px;font-weight:700;
+  color:var(--muted-foreground);z-index:1}
+@media(max-width:720px){.step .dot{left:2px}}
+.step[data-s="done"] .dot{background:var(--status-success-bg);border-color:var(--status-success-border);
+  color:var(--status-success-text)}
+.step[data-s="next"] .dot{background:var(--primary);border-color:var(--primary);color:#fff;
+  box-shadow:0 0 0 4px var(--brand-50)}
+.dark .step[data-s="next"] .dot{box-shadow:0 0 0 4px #1b2650}
+.step .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
+  box-shadow:var(--shadow-xs)}
+.step[data-s="next"] .card{border-color:var(--brand-300)}
+.step .eyebrow{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+.step h2{font-size:15.5px;letter-spacing:-.02em;margin-top:4px;line-height:1.3}
+.step p{font-size:12.5px;color:var(--muted-foreground);line-height:1.6;margin-top:5px}
+.dual{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
+.dchip{display:flex;gap:8px;align-items:center;font-size:11px;border:1px solid var(--border);
+  border-radius:999px;padding:3px 10px;background:var(--background);color:var(--muted-foreground)}
+.dchip b{color:var(--foreground);font-weight:650}
+.dchip[data-t="ok"]{border-color:var(--status-success-border);background:var(--status-success-bg);
+  color:var(--status-success-text)}
+.dchip[data-t="ok"] b{color:var(--status-success-text)}
+.dchip[data-t="warn"]{border-color:var(--status-warning-border);background:var(--status-warning-bg);
+  color:var(--status-warning-text)}
+.dchip[data-t="warn"] b{color:var(--status-warning-text)}
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.locked{font-size:11.5px;color:var(--muted-foreground);border:1px dashed var(--border);border-radius:var(--radius-sm);
+  padding:8px 10px;margin-top:11px;line-height:1.5;background:var(--background)}
+.final{max-width:820px;margin:0 auto;padding:0 20px 44px}
+.box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
+  box-shadow:var(--shadow-xs)}
+.box h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.files{display:grid;gap:6px;margin-top:10px}
+.file{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--foreground)}
+.file span{margin-left:auto;color:var(--muted-foreground);font-size:10.5px}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
+  max-width:820px;margin:0 auto;padding:0 20px 24px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(prefers-reduced-motion:reduce){.spine i{transition:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-attach" viewBox="0 0 24 24"><path d="M21 11 12.5 19.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L16 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the journey</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F08-projects-list/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F08-projects-list/V1/index.html">All projects</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="head">
+      <p class="crumb">Projects › Khandesh Spice D2C E-Commerce Store</p>
+      <h1>Khandesh Spice D2C E-Commerce Store</h1>
+      <p class="lede">Three milestones, two approved states so far. The line on the left is real: it fills as
+        milestones clear, not on a timer.</p>
+      <div class="stats">
+        <div class="stat">Progress<b>57%</b></div>
+        <div class="stat">Milestones<b>1 of 2 approved</b></div>
+        <div class="stat">Paid<b>₹48,000</b></div>
+        <div class="stat">Next payment<b>₹30,000 · 30 Oct</b></div>
+        <div class="stat">Status<b style="color:var(--status-warning-text)">Waiting on you</b></div>
+      </div>
+    </div>
+
+    <div class="journey">
+      <div class="spine" aria-hidden="true"><i style="--p:58%"></i></div>
+
+      <section class="step" data-s="done">
+        <span class="dot"><svg class="i" style="width:12px;height:12px"><use href="#i-check"/></svg></span>
+        <div class="card">
+          <p class="eyebrow">Milestone 1 · ₹48,000</p>
+          <h2>Discovery &amp; wireframes</h2>
+          <p>Approved on 15 Oct 2026, the same day it went into review. Wireframes covered the catalogue, product
+            detail and the cart handoff to Razorpay.</p>
+          <div class="dual">
+            <span class="dchip" data-t="ok">Delivery <b>Approved</b></span>
+            <span class="dchip" data-t="ok">Payment <b>Paid ₹48,000</b></span>
+          </div>
+          <div class="acts">
+            <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">View invoice</a>
+            <a class="btn btn-g btn-sm" href="../../F13-messages-thread/V1/index.html">Approval thread</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="step" data-s="next">
+        <span class="dot">2</span>
+        <div class="card">
+          <p class="eyebrow">Milestone 2 · ₹30,000 · due 30 Oct</p>
+          <h2>Storefront build</h2>
+          <p>The staging build was pushed 14 minutes ago. Four deliverables: the storefront, the product detail page,
+            the cart and the checkout handoff. Approving here releases the payment on its due date.</p>
+          <div class="dual">
+            <span class="dchip" data-t="warn">Delivery <b>In review</b></span>
+            <span class="dchip">Payment <b>Not due yet</b></span>
+          </div>
+          <div class="acts">
+            <button class="btn btn-p btn-sm" data-approve>Approve milestone</button>
+            <button class="btn btn-g btn-sm" data-demo>Open preview</button>
+            <button class="btn btn-g btn-sm" data-demo>Reject with reason</button>
+          </div>
+          <p class="locked">A rejection records the reason on this milestone and pauses the instalment. Nothing is
+            rejected silently.</p>
+        </div>
+      </section>
+
+      <section class="step" data-s="">
+        <span class="dot">3</span>
+        <div class="card">
+          <p class="eyebrow">Milestone 3 · locked</p>
+          <h2>Handover &amp; launch</h2>
+          <p>Source files, documentation, a walkthrough recording and a two-week support window.</p>
+          <div class="dual">
+            <span class="dchip">Delivery <b>Not started</b></span>
+            <span class="dchip">Payment <b>Locked</b></span>
+          </div>
+          <p class="locked">This milestone unlocks when milestone 2 is approved — the portal states why rather than
+            showing a dead button.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="final">
+      <div class="box">
+        <h2>Files in this project</h2>
+        <div class="files">
+          <div class="file"><svg class="i i--sm"><use href="#i-attach"/></svg>brand-guidelines.pdf<span>2.4 MB</span></div>
+          <div class="file"><svg class="i i--sm"><use href="#i-attach"/></svg>wireframes-v3.fig<span>18 MB</span></div>
+          <div class="file"><svg class="i i--sm"><use href="#i-attach"/></svg>staging-build-notes.md<span>6 KB</span></div>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted-foreground);margin:10px 0 0;line-height:1.55">Progress feed, six
+          tabs and dense tables live in V1, V4 and V5 of this family; this variant deliberately keeps one spine.</p>
+      </div>
+    </div>
+
+    <div class="vfoot">
+      <a href="../../index.html">← Gallery</a>
+      <span>F09 Project Details · V2 of 5 — Step Journey</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  document.querySelectorAll('[data-approve]').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.classList.add('is-loading');
+      setTimeout(function(){
+        b.classList.remove('is-loading');
+        b.textContent='Approved'; b.disabled=true;
+        document.querySelector('.spine i').style.setProperty('--p','78%');
+        var step=b.closest('.step');
+        step.dataset.s='done';
+        step.querySelector('.dot').innerHTML='<svg class="i" style="width:12px;height:12px"><use href="#i-check"/></svg>';
+        var chip=step.querySelector('.dchip[data-t="warn"]');
+        if(chip){chip.dataset.t='ok';chip.innerHTML='Delivery <b>Approved</b>';}
+        say('Milestone 2 approved. Milestone 3 is now unlocked.');
+      },900);
+    });
+  });
+  document.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){say(b.textContent.trim()+' — demo action, no endpoint fired.');});
+  });
+})();
+</script>
+</body>
+</html>

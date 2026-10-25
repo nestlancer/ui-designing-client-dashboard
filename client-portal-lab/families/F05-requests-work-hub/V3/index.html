@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requests · V3 Split Preview — Nestlancer Portal Lab</title>
+<meta name="description" content="F05 variant 3: a 55/45 split where a dense request list drives a detail preview, fully keyboard operable.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Split Preview. A split · C preview · E keyboard row select. */
+.page{min-height:100vh;display:flex;flex-direction:column;background:var(--background)}
+.hdr{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.toolbar{display:flex;align-items:center;gap:10px;padding:12px 20px;border-bottom:1px solid var(--border);
+  background:var(--card);flex-wrap:wrap}
+.toolbar .search{display:flex;align-items:center;gap:7px;height:34px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:0 9px;background:var(--background);flex:1;max-width:300px}
+.toolbar input{border:0;background:none;outline:none;font-size:13px;width:100%;color:var(--foreground)}
+.split{flex:1;display:grid;grid-template-columns:minmax(0,55%) minmax(0,45%);max-width:1280px;width:100%;margin:0 auto}
+@media(max-width:940px){.split{grid-template-columns:1fr}.prevcol{display:none}}
+.listcol{border-right:1px solid var(--border);padding:0 0 30px;min-width:0}
+.prevcol{padding:16px 18px 30px;min-width:0;background:var(--background)}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted-foreground);font-weight:700;padding:13px 18px 9px}
+.rows{display:grid}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:11px 18px;cursor:pointer;
+  border-left:3px solid transparent;border-top:1px solid var(--border);align-items:start}
+.row:hover{background:var(--card)}
+.row b{font-size:13.5px;font-weight:650;letter-spacing:-.01em;display:block}
+.row .sub{font-size:11.5px;color:var(--muted-foreground);margin-top:2px;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.row .when{font-size:11px;color:var(--muted-foreground);white-space:nowrap}
+.row[aria-selected="true"]{background:var(--card);border-left-color:var(--primary)}
+.row[aria-selected="true"] b{color:var(--brand-700)}
+.dark .row[aria-selected="true"] b{color:#c9d6ff}
+.prev{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;
+  box-shadow:var(--shadow-xs);position:sticky;top:16px}
+.prev .ph{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;
+  gap:10px;align-items:flex-start}
+.prev h2{font-size:16px;letter-spacing:-.025em;line-height:1.3}
+.prev .pbody{padding:16px;display:grid;gap:14px}
+.prev .desc{font-size:12.5px;color:var(--muted-foreground);line-height:1.6}
+.factgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.factgrid .f{font-size:11px;color:var(--muted-foreground)}
+.factgrid .f b{display:block;font-size:13px;color:var(--foreground);font-weight:600;margin-top:2px}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{border:1px solid var(--border);border-radius:999px;padding:2px 9px;font-size:11px;color:var(--muted-foreground);
+  background:var(--background)}
+.prev .acts{display:flex;gap:7px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--border);background:var(--background)}
+.hint{font-size:11.5px;color:var(--muted-foreground);border:1px dashed var(--border);border-radius:var(--radius-sm);
+  padding:9px 11px;line-height:1.5;background:var(--background)}
+.emptyx{padding:30px 18px;font-size:13px;color:var(--muted-foreground);border-top:1px solid var(--border)}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
+  padding:0 20px 20px;max-width:1280px;width:100%;margin:0 auto}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the request list</a>
+
+<div class="page">
+  <header class="hdr">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      <a class="btn btn-p btn-sm" href="../../F06-new-request/V1/index.html"><svg class="i i--sm"><use href="#i-plus"/></svg>New request</a>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <h1 class="h2" style="font-size:16px;letter-spacing:-.02em">Requests <span class="muted" style="font-weight:500">· 26 total</span></h1>
+    <span class="grow"></span>
+    <label class="search"><svg class="i i--sm"><use href="#i-search"/></svg>
+      <input id="q" type="search" placeholder="Filter list" aria-label="Filter requests"></label>
+    <span class="kbd">j</span><span class="kbd">k</span>
+  </div>
+
+  <main id="main" class="split">
+    <section class="listcol" aria-label="Requests list">
+      <div class="hd"><span>Title</span><span data-count>12 shown</span></div>
+      <div class="rows" role="listbox" aria-label="Requests" data-rows tabindex="0">
+        <div class="row" role="option" id="r1" aria-selected="true" data-title="Khandesh Spice D2C e-commerce store"
+          data-desc="Converted into a project on 21 Oct. Quote #01a10f80 was signed at ₹1,770 including GST; the project stands at 57% with milestone 2 due 30 Oct."
+          data-facts='[["Status","Converted"],["Category","E-commerce"],["Budget","₹1,42,000"],["Reference","NL-REQ-2026-0018"],["Submitted","12 Oct 2026"],["Updated","21 Oct 2026"]]'
+          data-tags='["Landing pages","Product catalogue","Checkout"]'
+          data-actions='[["Open request","../../F07-request-details/V1/index.html"],["Open project","../../F09-project-details/V1/index.html"]]'>
+          <span><b>Khandesh Spice D2C e-commerce store</b>
+            <span class="sub"><span class="pill pill--ok">Converted</span>E-commerce · ₹1,42,000</span></span>
+          <span class="when">21 Oct</span></div>
+
+        <div class="row" role="option" id="r2" aria-selected="false" data-title="Horizon Retail rebrand"
+          data-desc="Submitted 21 Oct and waiting on a quote from the studio. Nothing is payable until the quote is signed."
+          data-facts='[["Status","Submitted"],["Category","Branding"],["Budget","₹1,20,000"],["Reference","NL-REQ-2026-0023"],["Submitted","21 Oct 2026"],["Updated","21 Oct 2026"]]'
+          data-tags='["Logo","Guidelines","Packaging"]'
+          data-actions='[["Open request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Horizon Retail rebrand</b>
+            <span class="sub"><span class="pill pill--info">Submitted</span>Branding · ₹1,20,000</span></span>
+          <span class="when">21 Oct</span></div>
+
+        <div class="row" role="option" id="r3" aria-selected="false" data-title="Aurora Coffee subscription flow"
+          data-desc="The quote for this request lapsed on 14 Oct and can no longer be signed. A fresh quote has to be issued before work can start."
+          data-facts='[["Status","Expired quote"],["Category","Mobile app"],["Budget","₹84,000"],["Reference","NL-REQ-2026-0015"],["Submitted","2 Oct 2026"],["Expired","14 Oct 2026"]]'
+          data-tags='["Subscription","Onboarding","Payments"]'
+          data-actions='[["Request new quote","../../F07-request-details/V1/index.html"],["View request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Aurora Coffee subscription flow</b>
+            <span class="sub"><span class="pill pill--warn">Expired quote</span>Mobile app · ₹84,000</span></span>
+          <span class="when">14 Oct</span></div>
+
+        <div class="row" role="option" id="r4" aria-selected="false" data-title="Meridian Clinic website"
+          data-desc="Quote sent and awaiting your signature. The deposit invoice is raised the moment you sign."
+          data-facts='[["Status","Quote sent"],["Category","Web design"],["Budget","₹96,000"],["Reference","NL-REQ-2026-0012"],["Submitted","8 Oct 2026"],["Updated","12 Oct 2026"]]'
+          data-tags='["Booking","Services","SEO"]'
+          data-actions='[["Review quote","../../F11-quote-details/V1/index.html"],["Open request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Meridian Clinic website</b>
+            <span class="sub"><span class="pill pill--pur">Quote sent</span>Web design · ₹96,000</span></span>
+          <span class="when">12 Oct</span></div>
+
+        <div class="row" role="option" id="r5" aria-selected="false" data-title="Fern &amp; Field packaging"
+          data-desc="A draft that was never submitted — four of ten fields are filled. It cannot be quoted until it is submitted."
+          data-facts='[["Status","Draft"],["Category","Branding"],["Budget","Not set"],["Reference","Draft"],["Started","10 Oct 2026"],["Updated","10 Oct 2026"]]'
+          data-tags='["Packaging","Print"]'
+          data-actions='[["Resume draft","../../F06-new-request/V1/index.html"]]'>
+          <span><b>Fern &amp; Field packaging</b>
+            <span class="sub"><span class="pill">Draft</span>Branding · no budget</span></span>
+          <span class="when">10 Oct</span></div>
+
+        <div class="row" role="option" id="r6" aria-selected="false" data-title="Kaveri Textiles lookbook"
+          data-desc="Delivered and paid in full on 6 Oct. The record stays readable with its milestones and invoices."
+          data-facts='[["Status","Converted"],["Category","Marketing"],["Budget","₹62,000"],["Reference","NL-REQ-2026-0009"],["Submitted","20 Sep 2026"],["Updated","6 Oct 2026"]]'
+          data-tags='["Lookbook","Photography","Print"]'
+          data-actions='[["Open request","../../F07-request-details/V1/index.html"],["Invoices","../../F18-invoices/V1/index.html"]]'>
+          <span><b>Kaveri Textiles lookbook</b>
+            <span class="sub"><span class="pill pill--ok">Converted</span>Marketing · ₹62,000</span></span>
+          <span class="when">6 Oct</span></div>
+
+        <div class="row" role="option" id="r7" aria-selected="false" data-title="Sundara Yoga landing page"
+          data-desc="Under review by the studio. Scoping questions would arrive in the request thread, not by email."
+          data-facts='[["Status","Under review"],["Category","Web design"],["Budget","₹45,000"],["Reference","NL-REQ-2026-0006"],["Submitted","1 Oct 2026"],["Updated","4 Oct 2026"]]'
+          data-tags='["Landing page","Classes","Signup"]'
+          data-actions='[["Open request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Sundara Yoga landing page</b>
+            <span class="sub"><span class="pill pill--info">Under review</span>Web design · ₹45,000</span></span>
+          <span class="when">4 Oct</span></div>
+
+        <div class="row" role="option" id="r8" aria-selected="false" data-title="Northwind logistics dashboard"
+          data-desc="Converted on 29 Sep into an operations dashboard project. Milestones were agreed at signing."
+          data-facts='[["Status","Converted"],["Category","Web design"],["Budget","₹2,10,000"],["Reference","NL-REQ-2026-0004"],["Submitted","15 Sep 2026"],["Updated","29 Sep 2026"]]'
+          data-tags='["Dashboard","Tables","Roles"]'
+          data-actions='[["Open request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Northwind logistics dashboard</b>
+            <span class="sub"><span class="pill pill--ok">Converted</span>Web design · ₹2,10,000</span></span>
+          <span class="when">29 Sep</span></div>
+
+        <div class="row" role="option" id="r9" aria-selected="false" data-title="Prakash Optics catalogue"
+          data-desc="Quote expired 24 Sep. Either revive it with a new quote or close the request — leaving it open is the worst option."
+          data-facts='[["Status","Expired quote"],["Category","E-commerce"],["Budget","₹38,000"],["Reference","NL-REQ-2026-0003"],["Submitted","6 Sep 2026"],["Expired","24 Sep 2026"]]'
+          data-tags='["Catalogue","Filters","Checkout"]'
+          data-actions='[["Request new quote","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Prakash Optics catalogue</b>
+            <span class="sub"><span class="pill pill--warn">Expired quote</span>E-commerce · ₹38,000</span></span>
+          <span class="when">24 Sep</span></div>
+
+        <div class="row" role="option" id="r10" aria-selected="false" data-title="Blue Oak interiors site"
+          data-desc="Closed after delivery. Kept for reference so the paperwork does not disappear."
+          data-facts='[["Status","Closed"],["Category","Webflow"],["Budget","₹71,000"],["Reference","NL-REQ-2026-0002"],["Submitted","12 Aug 2026"],["Updated","18 Sep 2026"]]'
+          data-tags='["Webflow","Portfolio"]'
+          data-actions='[["View request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Blue Oak interiors site</b>
+            <span class="sub"><span class="pill">Closed</span>Webflow · ₹71,000</span></span>
+          <span class="when">18 Sep</span></div>
+
+        <div class="row" role="option" id="r11" aria-selected="false" data-title="Tinker Studio portfolio"
+          data-desc="Submitted 12 Sep, still awaiting the first response. The request thread shows when the studio opened it."
+          data-facts='[["Status","Submitted"],["Category","Web design"],["Budget","₹55,000"],["Reference","NL-REQ-2026-0001"],["Submitted","12 Sep 2026"],["Updated","12 Sep 2026"]]'
+          data-tags='["Portfolio","Case studies"]'
+          data-actions='[["Open request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Tinker Studio portfolio</b>
+            <span class="sub"><span class="pill pill--info">Submitted</span>Web design · ₹55,000</span></span>
+          <span class="when">12 Sep</span></div>
+
+        <div class="row" role="option" id="r12" aria-selected="false" data-title="Vasanta Foods menu refresh"
+          data-desc="Quote accepted on 5 Sep; the work is bundled into an existing milestone schedule."
+          data-facts='[["Status","Quote accepted"],["Category","Branding"],["Budget","₹27,000"],["Reference","NL-REQ-2026-0011"],["Submitted","28 Aug 2026"],["Updated","5 Sep 2026"]]'
+          data-tags='["Menu","Print","Photography"]'
+          data-actions='[["Open request","../../F07-request-details/V1/index.html"]]'>
+          <span><b>Vasanta Foods menu refresh</b>
+            <span class="sub"><span class="pill pill--ok">Quote accepted</span>Branding · ₹27,000</span></span>
+          <span class="when">5 Sep</span></div>
+
+        <div class="emptyx" data-empty hidden>No requests match that filter.</div>
+      </div>
+    </section>
+
+    <aside class="prevcol" aria-label="Selected request preview">
+      <div class="prev" data-prev>
+        <div class="ph">
+          <div><p class="eyebrow" data-p-ref>NL-REQ-2026-0018</p>
+            <h2 data-p-title style="margin-top:4px">Khandesh Spice D2C e-commerce store</h2></div>
+          <span class="pill pill--ok" data-p-status>Converted</span>
+        </div>
+        <div class="pbody">
+          <p class="desc" data-p-desc></p>
+          <div class="factgrid" data-p-facts></div>
+          <div><p class="eyebrow" style="margin-bottom:6px">Requirements</p>
+            <div class="chips" data-p-tags></div></div>
+          <div class="hint">Press <span class="kbd">j</span>/<span class="kbd">k</span> or the arrow keys to move,
+            <span class="kbd">↵</span> to open the full request.</div>
+        </div>
+        <div class="acts" data-p-acts></div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="vfoot">
+    <a href="../../index.html">← Gallery</a>
+    <span>F05 Requests Work Hub · V3 of 5 — Split Preview</span>
+    <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2200);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var all=[].slice.call(document.querySelectorAll('.row')), idx=0, list=document.querySelector('[data-rows]');
+  function vis(){return all.filter(function(r){return !r.hidden;});}
+  function render(r){
+    if(!r)return;
+    document.querySelector('[data-p-title]').textContent=r.dataset.title;
+    document.querySelector('[data-p-ref]').textContent=(JSON.parse(r.dataset.facts)[3]||['',''])[1];
+    document.querySelector('[data-p-desc]').textContent=r.dataset.desc;
+    var st=r.querySelector('.pill');
+    var ps=document.querySelector('[data-p-status]');
+    ps.textContent=st.textContent; ps.className='pill '+[].slice.call(st.classList).filter(function(c){return c!=='pill';}).join(' ');
+    var f=document.querySelector('[data-p-facts]'); f.innerHTML='';
+    JSON.parse(r.dataset.facts).slice(0,4).forEach(function(p){
+      var d=document.createElement('div'); d.className='f';
+      d.textContent=p[0];
+      var b=document.createElement('b'); b.textContent=p[1];
+      d.appendChild(b); f.appendChild(d);
+    });
+    var tg=document.querySelector('[data-p-tags]'); tg.innerHTML='';
+    JSON.parse(r.dataset.tags).forEach(function(t){
+      var s=document.createElement('span'); s.className='chip'; s.textContent=t; tg.appendChild(s);
+    });
+    var acts=document.querySelector('[data-p-acts]'); acts.innerHTML='';
+    JSON.parse(r.dataset.actions).forEach(function(p,i){
+      var a=document.createElement('a'); a.className='btn '+(i===0?'btn-p':'btn-g')+' btn-sm';
+      a.href=p[1]; a.textContent=p[0]; acts.appendChild(a);
+    });
+  }
+  function paint(){
+    var v=vis();
+    if(idx>=v.length)idx=Math.max(0,v.length-1);
+    all.forEach(function(r){r.setAttribute('aria-selected','false');});
+    v.forEach(function(r,i){r.setAttribute('aria-selected',String(i===idx));});
+    render(v[idx]);
+    document.querySelector('[data-count]').textContent=v.length+' shown';
+    document.querySelector('[data-empty]').hidden=v.length>0;
+  }
+  var q=document.getElementById('q');
+  function apply(){
+    var t=q.value.trim().toLowerCase();
+    all.forEach(function(r){r.hidden=!!t&&r.dataset.title.toLowerCase().indexOf(t)<0;});
+    idx=0;paint();
+  }
+  q.addEventListener('input',apply);
+  function move(d){var v=vis();idx=Math.max(0,Math.min(v.length-1,idx+d));paint();v[idx].scrollIntoView({block:'nearest'});}
+  document.addEventListener('keydown',function(e){
+    if(/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName))return;
+    if(e.key==='j'||e.key==='ArrowDown'){e.preventDefault();move(1);}
+    if(e.key==='k'||e.key==='ArrowUp'){e.preventDefault();move(-1);}
+    if(e.key==='Enter'){var v=vis();var a=document.querySelector('[data-p-acts] a');
+      if(v[idx]&&a)location.href=a.getAttribute('href');}
+  });
+  list.addEventListener('mousemove',function(e){
+    var r=e.target.closest('.row'); if(!r||r.hidden)return;
+    var i2=vis().indexOf(r); if(i2>-1&&i2!==idx){idx=i2;paint();}
+  });
+  list.addEventListener('click',function(e){
+    var r=e.target.closest('.row'); if(!r)return;
+    var i2=vis().indexOf(r); idx=i2; paint();
+    var a=document.querySelector('[data-p-acts] a');
+    if(a&&window.matchMedia('(max-width:940px)').matches)location.href=a.getAttribute('href');
+  });
+  paint();
+  if(new URLSearchParams(location.search).get('state')==='empty'){q.value='zzz';apply();}
+})();
+</script>
+</body>
+</html>

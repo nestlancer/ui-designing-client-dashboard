@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search · V1 Centred Palette — Nestlancer Portal Lab</title>
+<meta name="description" content="F04 variant 1: a dimmed portal behind a centred 560px command palette with grouped results and arrow-key navigation.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Centred Palette. A overlay · B action-first · E arrow-key list. */
+.shell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
+.side{background:var(--card);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:4px}
+.side .brandline{margin-bottom:12px;padding:0 8px}
+.navi{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;
+  color:var(--muted-foreground);font-weight:550}
+.navi[aria-current="page"]{background:var(--brand-50);color:var(--brand-700);font-weight:650}
+.dark .navi[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.navi .kbd{margin-left:auto}
+.main{padding:20px 24px 40px;min-width:0}
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.searchfake{flex:1;max-width:420px;display:flex;align-items:center;gap:9px;height:36px;padding:0 10px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--muted-foreground);font-size:13px}
+.ghostcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);height:96px;margin-bottom:12px}
+.stage{position:fixed;inset:0;background:rgba(11,20,36,.46);backdrop-filter:blur(2px);z-index:50;
+  display:grid;place-items:start center;padding:9vh 16px 16px}
+.pal{width:min(560px,100%);background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:0 28px 64px rgba(11,20,36,.35);overflow:hidden;display:flex;flex-direction:column;max-height:76vh}
+.pal .qrow{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--border)}
+.pal .qrow input{flex:1;border:0;background:none;font-size:15px;color:var(--foreground);outline:none;min-width:0}
+.pal .qrow input::placeholder{color:var(--muted-foreground)}
+.list{overflow:auto;padding:6px 0;flex:1}
+.grp{padding:10px 16px 4px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:700}
+.opt{display:flex;align-items:center;gap:11px;padding:9px 16px;font-size:13.5px;cursor:pointer;
+  border-left:2px solid transparent}
+.opt .ic{width:26px;height:26px;border-radius:6px;background:var(--muted);display:grid;place-items:center;
+  color:var(--muted-foreground);flex:none}
+.opt .tx{min-width:0;flex:1}
+.opt .tx b{display:block;font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.opt .tx span{display:block;font-size:11.5px;color:var(--muted-foreground);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.opt[aria-selected="true"]{background:var(--brand-50);border-left-color:var(--primary)}
+.dark .opt[aria-selected="true"]{background:#1b2650}
+.opt[aria-selected="true"] .ic{background:var(--card);color:var(--brand-700)}
+.opt .go{opacity:0;color:var(--primary)}
+.opt[aria-selected="true"] .go{opacity:1}
+.pal .foot{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:9px 16px;border-top:1px solid var(--border);
+  background:var(--muted);font-size:11.5px;color:var(--muted-foreground)}
+.pal .foot .grp2{margin-left:auto}
+.nores{padding:28px 16px;text-align:center;font-size:13px;color:var(--muted-foreground)}
+@media(max-width:860px){.shell{grid-template-columns:1fr}.side{display:none}.stage{padding-top:4vh}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7v18h11V7z"/><path d="M14 3v4h4"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H7l-4 2 1.4-4A8 8 0 0 1 13 4a8 8 0 0 1 8 8z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+<a class="skip" href="#palette">Skip to search</a>
+
+<div class="shell" aria-hidden="true" inert>
+  <aside class="side">
+    <div class="brandline"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></div>
+    <a class="navi" href="../../F03-dashboard-overview/V1/index.html"><svg class="i i--sm"><use href="#i-home"/></svg>Overview</a>
+    <a class="navi" href="../../F05-requests-work-hub/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Requests<span class="pill pill--info kbd">26</span></a>
+    <a class="navi" href="../../F08-projects-list/V1/index.html"><svg class="i i--sm"><use href="#i-folder"/></svg>Projects<span class="pill kbd">5</span></a>
+    <a class="navi" href="../../F10-quotes-list/V1/index.html"><svg class="i i--sm"><use href="#i-file"/></svg>Quotes</a>
+    <a class="navi" href="../../F14-billing/V1/index.html"><svg class="i i--sm"><use href="#i-card"/></svg>Billing</a>
+    <a class="navi" href="../../F12-messages-home/V1/index.html"><svg class="i i--sm"><use href="#i-chat"/></svg>Messages<span class="pill kbd">2</span></a>
+  </aside>
+  <div class="main">
+    <div class="topbar">
+      <div class="searchfake"><svg class="i i--sm"><use href="#i-search"/></svg><span>Search or jump to…</span>
+        <span class="kbd" style="margin-left:auto">⌘K</span></div>
+    </div>
+    <div class="ghostcard"></div>
+    <div class="ghostcard" style="height:180px"></div>
+    <div class="ghostcard" style="height:140px"></div>
+  </div>
+</div>
+
+<main class="stage" id="palette">
+  <div class="pal" role="dialog" aria-modal="true" aria-label="Search the portal">
+    <div class="qrow">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input id="q" type="text" placeholder="Search requests, projects, payments, messages…"
+        autocomplete="off" role="combobox" aria-expanded="true" aria-controls="res" aria-autocomplete="list"
+        aria-activedescendant="opt-0" aria-label="Search query">
+      <span class="kbd">esc</span>
+    </div>
+
+    <div class="list" id="res" role="listbox" aria-label="Search results" data-results>
+      <div class="grp" role="presentation">Actions</div>
+      <div class="opt" id="opt-0" role="option" aria-selected="true" data-label="New request" data-href="../../F06-new-request/V1/index.html">
+        <span class="ic"><svg class="i i--sm"><use href="#i-plus"/></svg></span>
+        <span class="tx"><b>New request</b><span>Start a brief — quote comes back from the studio</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+      <div class="opt" id="opt-1" role="option" aria-selected="false" data-label="New message" data-href="../../F12-messages-home/V1/index.html">
+        <span class="ic"><svg class="i i--sm"><use href="#i-chat"/></svg></span>
+        <span class="tx"><b>New message</b><span>Riya Kapoor · Horizon Retail</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+      <div class="opt" id="opt-2" role="option" aria-selected="false" data-label="Switch theme" data-act="theme">
+        <span class="ic"><svg class="i i--sm"><use href="#i-moon"/></svg></span>
+        <span class="tx"><b>Switch theme</b><span>Light ⇄ dark, remembered on this device</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+
+      <div class="grp" role="presentation">Jump to</div>
+      <div class="opt" id="opt-3" role="option" aria-selected="false" data-label="Pay now · 4 pending" data-href="../../F14-billing/V1/index.html">
+        <span class="ic"><svg class="i i--sm"><use href="#i-card"/></svg></span>
+        <span class="tx"><b>Pay now · 4 pending</b><span>₹31,875.00 outstanding across 4 payments</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+      <div class="opt" id="opt-4" role="option" aria-selected="false" data-label="Approval waiting" data-href="../../F09-project-details/V1/index.html?tab=deliverables">
+        <span class="ic"><svg class="i i--sm"><use href="#i-folder"/></svg></span>
+        <span class="tx"><b>Approval waiting</b><span>Khandesh Spice · Milestone 2 · due 30 Oct</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+      <div class="opt" id="opt-5" role="option" aria-selected="false" data-label="Quote #01a10f80" data-href="../../F11-quote-details/V1/index.html">
+        <span class="ic"><svg class="i i--sm"><use href="#i-file"/></svg></span>
+        <span class="tx"><b>Quote #01a10f80</b><span>₹1,770 · valid until Oct 20, 2026</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+
+      <div class="grp" role="presentation">Requests</div>
+      <div class="opt" id="opt-6" role="option" aria-selected="false" data-label="Khandesh Spice D2C e-commerce store" data-href="../../F07-request-details/V1/index.html">
+        <span class="ic"><svg class="i i--sm"><use href="#i-inbox"/></svg></span>
+        <span class="tx"><b>Khandesh Spice D2C e-commerce store</b><span>Request · in progress · 26 total</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+      <div class="opt" id="opt-7" role="option" aria-selected="false" data-label="Horizon Retail rebrand" data-href="../../F07-request-details/V1/index.html">
+        <span class="ic"><svg class="i i--sm"><use href="#i-inbox"/></svg></span>
+        <span class="tx"><b>Horizon Retail rebrand</b><span>Request · awaiting quote</span></span>
+        <svg class="i i--sm go"><use href="#i-arrow-r"/></svg></div>
+
+      <div class="nores" data-nores hidden>No matches. Try a project name, an invoice number or a payment reference.</div>
+    </div>
+
+    <div class="foot">
+      <span><span class="kbd">↑</span><span class="kbd">↓</span> navigate</span>
+      <span><span class="kbd">↵</span> select</span>
+      <span><span class="kbd">esc</span> close</span>
+      <span class="grp2"><a class="link--quiet" href="../../index.html">Gallery</a> · V1 of 5</span>
+    </div>
+  </div>
+</main>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var q=document.getElementById('q'), box=document.getElementById('res'), input=q;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2200);}
+
+  function opts(){return [].slice.call(box.querySelectorAll('.opt'));}
+  function visible(){return opts().filter(function(o){return !o.hidden;});}
+  var idx=0;
+  function paint(){
+    var v=visible();
+    if(idx>=v.length)idx=Math.max(0,v.length-1);
+    opts().forEach(function(o){o.setAttribute('aria-selected','false');});
+    v.forEach(function(o,i){o.setAttribute('aria-selected',String(i===idx));});
+    if(v[idx]){input.setAttribute('aria-activedescendant',v[idx].id);
+      var r=v[idx].getBoundingClientRect(), br=box.getBoundingClientRect();
+      if(r.bottom>br.bottom)v[idx].scrollIntoView({block:'nearest'});
+      if(r.top<br.top)v[idx].scrollIntoView({block:'nearest'});}
+    document.querySelector('[data-nores]').hidden=v.length>0;
+  }
+  function filter(){
+    var s=input.value.trim().toLowerCase();
+    document.querySelectorAll('.grp').forEach(function(g){g.hidden=false;});
+    opts().forEach(function(o){
+      var hit=!s||o.dataset.label.toLowerCase().indexOf(s)>-1;
+      o.hidden=!hit;
+    });
+    /* hide empty group headings */
+    document.querySelectorAll('.grp').forEach(function(g){
+      var n=g.nextElementSibling, any=false;
+      while(n&&!n.classList.contains('grp')&&!n.classList.contains('nores')){
+        if(n.classList.contains('opt')&&!n.hidden)any=true;
+        n=n.nextElementSibling;
+      }
+      g.hidden=!any;
+    });
+    idx=0; paint();
+  }
+  function choose(o){
+    if(!o)return;
+    if(o.dataset.act==='theme'){var d=!root.classList.contains('dark');
+      root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}
+      root.dataset.theme=d?'dark':'light';say('Theme switched to '+(d?'dark':'light')+'.');return;}
+    if(o.dataset.href){location.href=o.dataset.href;return;}
+    say(o.dataset.label+' — demo action.');
+  }
+
+  input.addEventListener('input',filter);
+  input.addEventListener('keydown',function(e){
+    var v=visible();
+    if(e.key==='ArrowDown'){e.preventDefault();idx=Math.min(idx+1,v.length-1);paint();}
+    else if(e.key==='ArrowUp'){e.preventDefault();idx=Math.max(idx-1,0);paint();}
+    else if(e.key==='Enter'){e.preventDefault();choose(v[idx]);}
+    else if(e.key==='Escape'){e.preventDefault();history.length>1?history.back():location.href='../../F03-dashboard-overview/V1/index.html';}
+  });
+  box.addEventListener('mousemove',function(e){
+    var o=e.target.closest('.opt'); if(!o||o.hidden)return;
+    var i=visible().indexOf(o); if(i>-1&&i!==idx){idx=i;paint();}
+  });
+  box.addEventListener('click',function(e){
+    var o=e.target.closest('.opt'); if(o)choose(o);
+  });
+  document.addEventListener('keydown',function(e){
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();input.focus();input.select();}
+  });
+  input.focus(); paint();
+  if(new URLSearchParams(location.search).get('state')==='empty')say('Demo: no results yet — type to search.');
+})();
+</script>
+</body>
+</html>

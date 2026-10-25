@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New request · V5 Conversation — Nestlancer Portal Lab</title>
+<meta name="description" content="F06 variant 5: one question at a time with the conversation history above, Enter to advance and a summary chip at the end.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Conversation. A single column · C conversational · D minimal · E next/back. */
+.page{min-height:100vh;background:var(--background);display:flex;flex-direction:column}
+.top{height:var(--header);border-bottom:1px solid var(--border);background:var(--card);display:flex;
+  align-items:center;gap:10px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.thread{flex:1;width:min(640px,100%);margin:0 auto;padding:26px 20px 40px;display:flex;flex-direction:column;gap:14px}
+.q{display:flex;gap:10px;align-items:flex-start;max-width:92%}
+.q .bot{width:26px;height:26px;border-radius:50%;background:var(--brand-600);color:#fff;display:grid;
+  place-items:center;font-size:11px;font-weight:700;flex:none;margin-top:2px}
+.q p{background:var(--card);border:1px solid var(--border);border-radius:14px 14px 14px 4px;padding:11px 14px;
+  font-size:13.5px;line-height:1.55;box-shadow:var(--shadow-xs)}
+.a{align-self:flex-end;max-width:88%}
+.a p{background:var(--brand-600);color:#fff;border:0;border-radius:14px 14px 4px 14px;padding:10px 14px;
+  font-size:13.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.a p .sm{display:block;font-size:11.5px;opacity:.8;margin-top:3px}
+.answer{margin-top:8px;display:grid;gap:10px}
+.answer .inp,.answer textarea,.answer select{background:var(--card)}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opt{border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:600;
+  background:var(--card);color:var(--muted-foreground)}
+.opt[aria-pressed="true"]{background:var(--brand-50);border-color:var(--brand-300);color:var(--brand-700)}
+.dark .opt[aria-pressed="true"]{background:#1b2650;border-color:#33447e;color:#c9d6ff}
+.hintrow{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--muted-foreground);flex-wrap:wrap}
+.hintrow .kbd{font-size:10.5px}
+.microw{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sumchip{display:flex;gap:10px;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:12px 14px;box-shadow:var(--shadow-xs)}
+.sumchip div{font-size:11px;color:var(--muted-foreground)}
+.sumchip div b{display:block;font-size:12.5px;color:var(--foreground);font-weight:600;margin-top:1px}
+.foot{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--border);padding:10px 20px}
+.foot .in{width:min(640px,100%);margin:0 auto;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.foot .prog{font-size:11.5px;color:var(--muted-foreground)}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
+  width:min(640px,100%);margin:0 auto;padding:0 20px 20px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.fade{animation:fi var(--duration-normal) var(--ease-out)}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.fade{animation:none}}
+@media(max-width:640px){.thread{padding:16px 14px 30px}.foot{padding:8px 14px}.top{padding:0 14px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m3 20 18-8L3 4l4 8z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the question</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F05-requests-work-hub/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>New request</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F05-requests-work-hub/V1/index.html">Cancel</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main" class="thread" data-thread>
+    <div class="q"><span class="bot">N</span>
+      <p>Let's build the brief together. Six questions, one at a time — you can go back at any point.
+        <span class="sm" style="display:block;font-size:11.5px;color:var(--muted-foreground);margin-top:4px">
+        Nothing is sent to the studio until the final summary.</span></p></div>
+  </main>
+
+  <div class="foot">
+    <div class="in">
+      <button class="btn btn-g btn-sm" type="button" data-back hidden aria-label="Previous question">
+        <svg class="i i--sm"><use href="#i-arrow-l"/></svg></button>
+      <span class="prog" data-prog>Question 1 of 6</span>
+      <span class="grow"></span>
+      <span class="hintrow"><span class="kbd">↵</span> to continue</span>
+    </div>
+  </div>
+
+  <div class="vfoot">
+    <a href="../../index.html">← Gallery</a>
+    <span>F06 New Request · V5 of 5 — Conversation</span>
+    <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var thread=document.querySelector('[data-thread]'), backBtn=document.querySelector('[data-back]'),
+      prog=document.querySelector('[data-prog]');
+  var answers={}, step=0;
+
+  var QS=[
+    {k:'title',q:'What should we call this request? Something short and specific.',
+     type:'text',ph:'e.g. Meridian Clinic website',
+     valid:function(v){return v.trim().length>=4;},err:'A few more words, please — at least 4 characters.'},
+    {k:'cat',q:'Which category fits best?',
+     type:'opts',opts:['E-commerce','Web design','Branding','Mobile app','Marketing','Webflow','SEO','Content','Other']},
+    {k:'desc',q:'Describe the work. What exists today, what should exist after, and what is already decided?',
+     type:'area',ph:'Type as much as you like — this is what the quote is built from.',
+     valid:function(v){return v.trim().length>=40;},err:'Forty characters minimum — the studio quotes from this.'},
+    {k:'budget',q:'What budget range should the studio work to? A range plus flexibility beats a single number.',
+     type:'text',ph:'e.g. ₹50,000 – ₹1,50,000 (optional)',optional:true},
+    {k:'dates',q:'When would you like it to start, and when does it need to be live?',
+     type:'text',ph:'e.g. start 2 Nov 2026, live by 20 Dec 2026 (optional)',optional:true},
+    {k:'reqs',q:'Any requirements we should know about — integrations, languages, accessibility, assets?',
+     type:'text',ph:'e.g. Razorpay checkout, Hindi + English, WCAG AA (optional)',optional:true}
+  ];
+
+  function scrollEnd(){thread.scrollIntoView({block:'end'});window.scrollTo(0,document.body.scrollHeight);}
+
+  function ask(){
+    var q=QS[step];
+    var prev=thread.querySelector('.answer');
+    if(prev)prev.remove();
+    var wrap=document.createElement('div');
+    wrap.className='q fade';
+    wrap.innerHTML='<span class="bot">N</span><p></p>';
+    wrap.querySelector('p').textContent=q.q;
+    thread.appendChild(wrap);
+
+    var ans=document.createElement('div');
+    ans.className='answer fade';
+    if(q.type==='opts'){
+      var box=document.createElement('div'); box.className='opts';
+      q.opts.forEach(function(o){
+        var b=document.createElement('button'); b.type='button'; b.className='opt'; b.textContent=o;
+        b.setAttribute('aria-pressed',String(answers[q.k]===o));
+        b.addEventListener('click',function(){answers[q.k]=o;next();});
+        box.appendChild(b);
+      });
+      ans.appendChild(box);
+      var hint=document.createElement('p'); hint.className='hintrow';
+      hint.innerHTML='Pick one to continue — you can change it later on the request page.';
+      ans.appendChild(hint);
+    } else {
+      var inp=document.createElement(q.type==='area'?'textarea':'input');
+      inp.className='inp';
+      if(q.type==='area')inp.rows=4;
+      inp.placeholder=q.ph||'';
+      inp.value=answers[q.k]||'';
+      inp.setAttribute('aria-label',q.q);
+      inp.dataset.q=q.k;
+      inp.addEventListener('keydown',function(e){
+        if(e.key==='Enter'&&q.type!=='area'){e.preventDefault();next();}
+        if(e.key==='Enter'&&q.type==='area'&&(e.metaKey||e.ctrlKey)){e.preventDefault();next();}
+      });
+      ans.appendChild(inp);
+      var hint2=document.createElement('p'); hint2.className='hintrow';
+      hint2.innerHTML='<span class="kbd">↵</span> '+ (q.type==='area'?'⌘↵':'') +' to continue'+(q.optional?' · optional, skip with ↵ on empty':'');
+      ans.appendChild(hint2);
+      if(step<QS.length-1||true)ans.appendChild(hint2);
+    }
+    thread.appendChild(ans);
+    prog.textContent='Question '+(step+1)+' of '+QS.length;
+    backBtn.hidden = step===0;
+    var f=ans.querySelector('input,textarea')||ans.querySelector('button');
+    if(f)setTimeout(function(){f.focus();},40);
+    scrollEnd();
+  }
+
+  function answerText(k){
+    var q=QS.filter(function(x){return x.k===k;})[0];
+    var v=answers[k]||'';
+    return v||(q.optional?'Skipped':'—');
+  }
+
+  function commit(){
+    var q=QS[step];
+    var el=thread.querySelector('.answer [data-q="'+q.k+'"]');
+    var v=el?el.value:answers[q.k];
+    if(q.type==='opts'){ if(!answers[q.k]){say('Choose a category to continue.');return false;} return true; }
+    if(q.valid&&!q.valid(v||'')){say(q.err);if(el)el.focus();return false;}
+    answers[q.k]=v||'';
+    return true;
+  }
+
+  function echo(){
+    var q=QS[step];
+    if(q.type==='opts')return;
+    var a=document.createElement('div'); a.className='a fade';
+    var p=document.createElement('p'); p.textContent=(answers[q.k]||'').trim()||'Skip this one';
+    a.appendChild(p);
+    thread.appendChild(a);
+  }
+
+  function next(){
+    if(!commit())return;
+    echo();
+    if(step<QS.length-1){step++;ask();return;}
+    finish();
+  }
+
+  function finish(){
+    var ansEl=thread.querySelector('.answer'); if(ansEl)ansEl.remove();
+    var wrap=document.createElement('div'); wrap.className='q fade';
+    wrap.innerHTML='<span class="bot">N</span><p>That is the whole brief. Here is exactly what will be sent.</p>';
+    thread.appendChild(wrap);
+    var chip=document.createElement('div'); chip.className='sumchip fade';
+    [['Title','title'],['Category','cat'],['Description','desc'],['Budget','budget'],['Dates','dates'],['Requirements','reqs']]
+      .forEach(function(pair){
+        var d=document.createElement('div'); d.textContent=pair[0];
+        var b=document.createElement('b');
+        var v=answerText(pair[1]);
+        b.textContent=v.length>60?v.slice(0,60)+'…':v;
+        d.appendChild(b); chip.appendChild(d);
+      });
+    thread.appendChild(chip);
+    var acts=document.createElement('div'); acts.className='answer fade';
+    var send=document.createElement('button'); send.className='btn btn-p'; send.type='button';
+    send.innerHTML='Submit request';
+    send.addEventListener('click',function(){
+      send.classList.add('is-loading');
+      setTimeout(function(){
+        send.classList.remove('is-loading');
+        if(new URLSearchParams(location.search).get('state')==='error'){say('Submit failed — service error. Your brief is kept.');return;}
+        location.href='../../F05-requests-work-hub/V1/index.html?status=Submitted';
+      },800);
+    });
+    var again=document.createElement('button'); again.className='btn btn-g'; again.type='button';
+    again.textContent='Change the category'; again.style.marginLeft='8px';
+    again.addEventListener('click',function(){step=1;reset();});
+    acts.appendChild(send); acts.appendChild(again);
+    thread.appendChild(acts);
+    prog.textContent='Review · 6 answered';
+    backBtn.hidden=false;
+    scrollEnd();
+  }
+
+  function reset(){
+    thread.querySelectorAll('.answer, .sumchip').forEach(function(n){n.remove();});
+    ask();
+  }
+
+  backBtn.addEventListener('click',function(){
+    if(step>0){step--;var a=thread.querySelector('.answer');if(a)a.remove();ask();}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&!(e.target.tagName==='TEXTAREA')){ /* handled per input */ }
+  });
+  ask();
+})();
+</script>
+</body>
+</html>

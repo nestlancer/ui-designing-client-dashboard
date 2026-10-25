@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create account · V2 Three Beats — Nestlancer Portal Lab</title>
+<meta name="description" content="F02 variant 2: a three-step signup — identity, credentials, terms — with a top step rail and a sticky per-step footer.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Three Beats. Geometry: narrow column + rail. Narrative: 3 beats. Interaction: sticky footer. */
+.b3{min-height:100vh;display:flex;flex-direction:column;background:var(--background)}
+.top3{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px;
+  border-bottom:1px solid var(--border);background:var(--card)}
+.b3b{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}
+.b3b small{display:block;font-size:11px;color:var(--muted-foreground);font-weight:500}
+.rail{display:flex;align-items:center;gap:0;padding:18px 24px;border-bottom:1px solid var(--border);background:var(--card)}
+.rail .rb{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:600;color:var(--muted-foreground)}
+.rail .rb .n{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:grid;place-items:center;
+  font-size:11px;font-weight:700;background:var(--card);flex:none}
+.rail .rb[data-on="1"]{color:var(--foreground)}
+.rail .rb[data-on="1"] .n{border-color:var(--primary);background:var(--primary);color:#fff}
+.rail .rb[data-done="1"] .n{border-color:var(--status-success-border);background:var(--status-success-bg);color:var(--status-success-text)}
+.rail .ln{flex:1;height:2px;background:var(--border);margin:0 12px;min-width:16px}
+.rail .ln[data-on="1"]{background:var(--brand-300)}
+.wrap{flex:1;display:grid;place-items:start center;padding:32px 24px 0}
+.col{width:min(480px,100%);padding-bottom:120px}
+.col h1{font-size:clamp(24px,3vw,30px);letter-spacing:-.03em;line-height:1.15}
+.col .lead{font-size:13.5px;color:var(--muted-foreground);margin-top:8px;line-height:1.55}
+.pane{margin-top:24px;display:grid;gap:14px}
+.pane[hidden]{display:none}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.two{grid-template-columns:1fr}}
+.rulelist{display:grid;gap:6px;margin-top:6px;padding:12px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--muted)}
+.rulelist li{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted-foreground);list-style:none}
+.rulelist li .dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);flex:none;
+  display:grid;place-items:center;font-size:9px;color:transparent}
+.rulelist li[data-ok="1"]{color:var(--status-success-text)}
+.rulelist li[data-ok="1"] .dot{background:var(--status-success-bg);border-color:var(--status-success-border);color:var(--status-success-text)}
+.termsbox{border:1px solid var(--border);border-radius:var(--radius-md);padding:14px;background:var(--card);
+  max-height:170px;overflow:auto;font-size:12.5px;line-height:1.6;color:var(--muted-foreground)}
+.termsbox b{color:var(--foreground)}
+.summary{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);padding:14px 16px;
+  display:grid;gap:8px;font-size:13px}
+.summary .r{display:flex;justify-content:space-between;gap:12px}
+.summary .r span:first-child{color:var(--muted-foreground)}
+.dock3{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--border);
+  padding:14px 24px;display:flex;gap:10px;align-items:center;justify-content:space-between;
+  box-shadow:0 -6px 16px rgba(15,28,46,.05);z-index:5;flex-wrap:wrap}
+.dock3 .prog{font-size:12px;color:var(--muted-foreground)}
+.dock3 .actions{display:flex;gap:8px}
+.sent{border:1px solid var(--status-success-border);background:var(--status-success-bg);
+  color:var(--status-success-text);border-radius:var(--radius-md);padding:14px;font-size:13px;line-height:1.55}
+.cookie{position:fixed;left:16px;right:16px;bottom:74px;z-index:40;max-width:540px;display:flex;gap:10px;
+  align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:12px 14px;font-size:12.5px;color:var(--muted-foreground)}
+.vnav{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);padding:16px 24px 24px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:640px){.rail{padding:14px 16px;overflow:auto}.rail .rb span.txt{display:none}
+  .rail .rb[data-on="1"] span.txt{display:inline}.wrap{padding:24px 16px 0}.col{padding-bottom:110px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="b3">
+  <div class="top3">
+    <a class="b3b" href="../../../index.html"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="gap:8px">
+      <a class="link" style="font-size:12.5px" href="../../F01-auth-login/V1/index.html">Sign in</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </div>
+
+  <div class="rail" aria-label="Signup steps">
+    <div class="rb" data-step="1" data-on="1"><span class="n">1</span><span class="txt">Identity</span></div>
+    <i class="ln" data-ln="1"></i>
+    <div class="rb" data-step="2"><span class="n">2</span><span class="txt">Credentials</span></div>
+    <i class="ln" data-ln="2"></i>
+    <div class="rb" data-step="3"><span class="n">3</span><span class="txt">Terms</span></div>
+  </div>
+
+  <main id="main" class="wrap">
+    <div class="col">
+      <!-- BEAT 1 -->
+      <form data-beat="1" novalidate>
+        <h1>Who are you signing up as?</h1>
+        <p class="lead">Client accounts only. Administrator and operator accounts are issued by your team.</p>
+        <div class="pane">
+          <div class="two">
+            <div class="fld"><label class="lbl" for="fn">First name <span class="req" aria-hidden="true">*</span></label>
+              <input class="inp" id="fn" autocomplete="given-name" required autofocus>
+              <p class="err" data-err="fn" hidden>Required.</p></div>
+            <div class="fld"><label class="lbl" for="ln">Last name <span class="req" aria-hidden="true">*</span></label>
+              <input class="inp" id="ln" autocomplete="family-name" required>
+              <p class="err" data-err="ln" hidden>Required.</p></div>
+          </div>
+          <div class="fld"><label class="lbl" for="em">Email <span class="req" aria-hidden="true">*</span></label>
+            <input class="inp" id="em" type="email" autocomplete="email" placeholder="you@company.com" required>
+            <p class="err" data-err="em" hidden>Enter a valid email address.</p>
+            <p class="small muted">We send a verification link here. Use an address you can open now.</p></div>
+          <div class="fld"><label class="lbl" for="org">Company <span class="muted">(optional)</span></label>
+            <input class="inp" id="org" autocomplete="organization" placeholder="Studio or brand name"></div>
+        </div>
+      </form>
+
+      <!-- BEAT 2 -->
+      <form data-beat="2" hidden novalidate>
+        <h1>Choose a password</h1>
+        <p class="lead">This is the only key to your workspace. Three checks, all visible as you type.</p>
+        <div class="pane">
+          <div class="fld"><label class="lbl" for="pw">Password <span class="req" aria-hidden="true">*</span></label>
+            <input class="inp" id="pw" type="password" autocomplete="new-password" required minlength="8">
+            <ul class="rulelist" aria-live="polite">
+              <li data-rule="len"><span class="dot">✓</span>At least 8 characters</li>
+              <li data-rule="mix"><span class="dot">✓</span>Letters and numbers</li>
+              <li data-rule="sym"><span class="dot">✓</span>A symbol, or 12+ characters</li>
+            </ul></div>
+          <div class="fld"><label class="lbl" for="pw2">Confirm password <span class="req" aria-hidden="true">*</span></label>
+            <input class="inp" id="pw2" type="password" autocomplete="new-password" required>
+            <p class="err" data-err="pw2" hidden>Passwords do not match yet.</p></div>
+          <div class="banner banner--warn">
+            <svg class="i"><use href="#i-alert"/></svg>
+            <div><strong>Never reused elsewhere?</strong> This account can see invoices and payout references —
+              keep the password unique to Nestlancer.</div>
+          </div>
+        </div>
+      </form>
+
+      <!-- BEAT 3 -->
+      <form data-beat="3" hidden novalidate>
+        <h1>Agree to the terms</h1>
+        <p class="lead">Two checkboxes. The marketing one is optional and can be changed later in Settings.</p>
+        <div class="pane">
+          <div class="summary">
+            <div class="r"><span>Name</span><b data-sum-name>—</b></div>
+            <div class="r"><span>Email</span><b data-sum-email>—</b></div>
+            <div class="r"><span>Account type</span><b>Client</b></div>
+          </div>
+          <div class="termsbox" tabindex="0" aria-label="Summary of terms">
+            <p><b>Scope.</b> Nestlancer provides design and development services delivered in milestones.
+              Payments are released per milestone after your approval.</p>
+            <p class="mt-8"><b>Data.</b> Project files, messages and payment references are stored for the life of
+              the account and can be exported from Settings › Files.</p>
+            <p class="mt-8"><b>Termination.</b> Either party may end a project at a milestone boundary;
+              completed milestones remain payable.</p>
+            <p class="mt-8"><b>Full documents.</b> The complete Terms of Service and Privacy Policy are linked below.</p>
+          </div>
+          <label class="chk"><input type="checkbox" id="terms" required>
+            <span>I agree to the <a class="link" href="../../F23-explore/V1/index.html">Terms of Service</a> and
+              <a class="link" href="../../F21-settings/V1/index.html">Privacy Policy</a>. <span class="req" aria-hidden="true">*</span></span></label>
+          <label class="chk"><input type="checkbox" id="mkt"><span>Send me product updates and announcements.</span></label>
+          <div class="sent" data-done hidden role="status">
+            <strong>Account created.</strong> Check your inbox for the verification link — it expires in 24 hours.
+            <div class="row mt-12"><a class="btn btn-s btn-sm" href="../../F01-auth-login/V1/index.html">Go to sign in</a></div>
+          </div>
+        </div>
+      </form>
+
+      <nav class="vnav" aria-label="Variant navigation" style="padding-left:0;padding-right:0">
+        <a href="../../index.html">← Gallery</a>
+        <span>F02 Auth – Register + Forgot · V2 of 5</span>
+        <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+      </nav>
+    </div>
+  </main>
+
+  <div class="dock3">
+    <span class="prog" data-prog>Beat 1 of 3 · 7 fields total</span>
+    <div class="actions">
+      <button class="btn btn-g btn-sm" type="button" data-back hidden>
+        <svg class="i i--sm"><use href="#i-arrow-l"/></svg>Back</button>
+      <button class="btn btn-p" type="button" data-next>Continue</button>
+    </div>
+  </div>
+</div>
+
+<div class="cookie" data-cookie>
+  <p class="grow" style="margin:0">Essential cookies keep you signed in. <a class="link" href="../../F21-settings/V1/index.html">Privacy Policy</a></p>
+  <button class="btn btn-g btn-sm" data-cookie-dismiss>Dismiss</button>
+  <button class="btn btn-s btn-sm" data-cookie-dismiss>Accept</button>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, p=new URLSearchParams(location.search);
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);
+    tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  document.querySelectorAll('[data-cookie-dismiss]').forEach(function(b){
+    b.addEventListener('click',function(){document.querySelector('[data-cookie]').hidden=true;});});
+
+  var cur=1, beats={1:document.querySelector('[data-beat="1"]'),2:document.querySelector('[data-beat="2"]'),3:document.querySelector('[data-beat="3"]')};
+  var next=document.querySelector('[data-next]'), back=document.querySelector('[data-back]'), prog=document.querySelector('[data-prog]');
+
+  function paint(){
+    Object.keys(beats).forEach(function(k){beats[k].hidden=Number(k)!==cur;});
+    document.querySelectorAll('.rail .rb').forEach(function(n){
+      var s=Number(n.dataset.step);
+      n.dataset.on=s===cur?'1':'0'; n.dataset.done=s<cur?'1':'0';
+      n.querySelector('.n').textContent=s<cur?'✓':String(s);
+    });
+    document.querySelectorAll('.rail .ln').forEach(function(l){l.dataset.on=Number(l.dataset.ln)<cur?'1':'0';});
+    back.hidden=cur===1;
+    next.textContent=cur===3?'Create account':'Continue';
+    prog.textContent='Beat '+cur+' of 3 · '+(cur===1?'4 fields in this beat':cur===2?'2 fields in this beat':'2 checkboxes in this beat');
+    if(cur===3){document.querySelector('[data-sum-name]').textContent=
+      (document.getElementById('fn').value+' '+document.getElementById('ln').value).trim()||'—';
+      document.querySelector('[data-sum-email]').textContent=document.getElementById('em').value||'—';}
+    var f=beats[cur].querySelector('input'); if(f)f.focus();
+  }
+
+  function valid1(){
+    var fn=document.getElementById('fn'), ln=document.getElementById('ln'), em=document.getElementById('em');
+    var a=!!fn.value.trim(), b=!!ln.value.trim(), c=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em.value.trim());
+    document.querySelector('[data-err="fn"]').hidden=a;
+    document.querySelector('[data-err="ln"]').hidden=b;
+    document.querySelector('[data-err="em"]').hidden=c;
+    if(!a)fn.focus();else if(!b)ln.focus();else if(!c)em.focus();
+    return a&&b&&c;
+  }
+  function valid2(){
+    var pw=document.getElementById('pw'), pw2=document.getElementById('pw2');
+    var ok=pw.value.length>=8 && /[A-Za-z]/.test(pw.value) && /[0-9]/.test(pw.value);
+    var match=pw.value.length>0&&pw.value===pw2.value;
+    document.querySelector('[data-err="pw2"]').hidden=match;
+    if(!ok){pw.focus();say('Password needs 8+ characters with letters and numbers.');}
+    else if(!match){pw2.focus();say('Passwords do not match yet.');}
+    return ok&&match;
+  }
+
+  next.addEventListener('click',function(){
+    if(cur===1){ if(!valid1())return; cur=2; paint(); return; }
+    if(cur===2){ if(!valid2())return; cur=3; paint(); return; }
+    if(!document.getElementById('terms').checked){document.getElementById('terms').focus();
+      say('Accept the Terms of Service to create the account.');return;}
+    next.classList.add('is-loading');
+    setTimeout(function(){
+      next.classList.remove('is-loading');
+      if(p.get('state')==='error'){say('That email already has an account — sign in instead.');return;}
+      document.querySelector('[data-done]').hidden=false;
+      next.disabled=true; next.textContent='Account created';
+      say('Account created — check your inbox.');
+    },700);
+  });
+  back.addEventListener('click',function(){ if(cur>1){cur--;paint();} });
+
+  var pw=document.getElementById('pw');
+  pw.addEventListener('input',function(){
+    var v=pw.value;
+    function set(k,ok){var li=document.querySelector('[data-rule="'+k+'"]');if(li)li.dataset.ok=ok?'1':'0';}
+    set('len',v.length>=8);
+    set('mix',/[A-Za-z]/.test(v)&&/[0-9]/.test(v));
+    set('sym',/[^A-Za-z0-9]/.test(v)||v.length>=12);
+  });
+  document.getElementById('pw2').addEventListener('input',function(){
+    var e=document.querySelector('[data-err="pw2"]');
+    var bad=this.value.length>0&&this.value!==pw.value;
+    e.hidden=!bad; this.setAttribute('aria-invalid',String(bad));
+  });
+  [ 'fn','ln','em' ].forEach(function(id){
+    document.getElementById(id).addEventListener('keydown',function(e){
+      if(e.key==='Enter'){e.preventDefault();next.click();}
+    });
+  });
+  document.querySelector('[data-beat="2"]').addEventListener('keydown',function(e){
+    if(e.key==='Enter'){e.preventDefault();next.click();}
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

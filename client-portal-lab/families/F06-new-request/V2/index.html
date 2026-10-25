@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New request · V2 Four Steps — Nestlancer Portal Lab</title>
+<meta name="description" content="F06 variant 2: a four-step stepper — brief, budget, timeline, review — with a progress rail that blocks skipping.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Four Steps. A narrow · C stepper · E progress rail. */
+.page{min-height:100vh;background:var(--background);display:flex;flex-direction:column}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.rail{display:flex;gap:0;padding:14px 20px;background:var(--card);border-bottom:1px solid var(--border);
+  overflow-x:auto}
+.rail .s{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--muted-foreground);white-space:nowrap}
+.rail .s .n{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);display:grid;place-items:center;
+  font-size:10.5px;font-weight:700;background:var(--card);flex:none}
+.rail .s[data-on="1"]{color:var(--foreground)}
+.rail .s[data-on="1"] .n{background:var(--primary);border-color:var(--primary);color:#fff}
+.rail .s[data-done="1"] .n{background:var(--status-success-bg);border-color:var(--status-success-border);
+  color:var(--status-success-text)}
+.rail .ln{flex:1;min-width:16px;height:2px;background:var(--border);margin:0 10px}
+.rail .ln[data-on="1"]{background:var(--brand-300)}
+.stage{flex:1;display:grid;place-items:start center;padding:26px 20px 40px}
+.step{width:min(560px,100%)}
+.step h1{font-size:24px;letter-spacing:-.03em;margin-bottom:5px}
+.step .lead{font-size:13px;color:var(--muted-foreground);margin-bottom:20px;line-height:1.55}
+.box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
+  box-shadow:var(--shadow-xs);display:grid;gap:13px}
+.cats{display:flex;gap:6px;flex-wrap:wrap}
+.cat{border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--muted-foreground);
+  font-weight:550;background:var(--card)}
+.cat[aria-pressed="true"]{background:var(--brand-50);border-color:var(--brand-300);color:var(--brand-700);font-weight:650}
+.dark .cat[aria-pressed="true"]{background:#1b2650;border-color:#33447e;color:#c9d6ff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.mini{font-size:11.5px;color:var(--muted-foreground);line-height:1.5}
+.review{display:grid;gap:10px}
+.rev{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;font-size:13px;
+  border-bottom:1px solid var(--border);padding-bottom:9px}
+.rev:last-child{border-bottom:0;padding-bottom:0}
+.rev dt{color:var(--muted-foreground);font-size:12px}
+.rev dd{margin:0;line-height:1.5}
+.rev dd .long{display:block;font-size:12px;color:var(--muted-foreground);margin-top:2px}
+.foot{display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap}
+.foot .prog{font-size:12px;color:var(--muted-foreground);margin-left:auto}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
+  padding:0 20px 22px;justify-content:center}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.bar{height:4px;border-radius:999px;background:var(--muted);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--primary);transition:width var(--duration-normal)}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the form</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F05-requests-work-hub/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F05-requests-work-hub/V1/index.html">Cancel</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <div class="rail" aria-label="Progress">
+    <div class="s" data-s="1" data-on="1"><span class="n">1</span>Brief</div><i class="ln" data-ln="1"></i>
+    <div class="s" data-s="2"><span class="n">2</span>Budget</div><i class="ln" data-ln="2"></i>
+    <div class="s" data-s="3"><span class="n">3</span>Timeline</div><i class="ln" data-ln="3"></i>
+    <div class="s" data-s="4"><span class="n">4</span>Review</div>
+  </div>
+
+  <main id="main" class="stage">
+    <div class="step">
+      <form data-f="1" novalidate>
+        <h1>What do you need built?</h1>
+        <p class="lead">Step 1 of 4. Short title, one category, and a description the studio can quote from.</p>
+        <div class="box">
+          <div class="fld"><label class="lbl" for="title">Title <span class="req" aria-hidden="true">*</span></label>
+            <input class="inp" id="title" placeholder="e.g. Aurora Coffee subscription flow" required autofocus>
+            <p class="err" data-err="title" hidden>At least 4 characters.</p></div>
+          <div class="fld"><label class="lbl">Category <span class="req" aria-hidden="true">*</span></label>
+            <div class="cats" role="group" aria-label="Category">
+              <button type="button" class="cat" aria-pressed="true">E-commerce</button>
+              <button type="button" class="cat" aria-pressed="false">Web design</button>
+              <button type="button" class="cat" aria-pressed="false">Branding</button>
+              <button type="button" class="cat" aria-pressed="false">Mobile app</button>
+              <button type="button" class="cat" aria-pressed="false">Marketing</button>
+              <button type="button" class="cat" aria-pressed="false">Webflow</button>
+              <button type="button" class="cat" aria-pressed="false">SEO</button>
+              <button type="button" class="cat" aria-pressed="false">Content</button>
+              <button type="button" class="cat" aria-pressed="false">Other</button>
+            </div></div>
+          <div class="fld"><label class="lbl" for="desc">Description <span class="req" aria-hidden="true">*</span></label>
+            <textarea class="inp" id="desc" rows="4" placeholder="What exists today and what should exist after?" required></textarea>
+            <p class="mini"><span data-c>0</span>/40 characters minimum</p></div>
+        </div>
+      </form>
+
+      <form data-f="2" hidden novalidate>
+        <h1>What budget should we work to?</h1>
+        <p class="lead">Step 2 of 4. Optional, but a range gets a sharper quote than a shrug.</p>
+        <div class="box">
+          <div class="grid2">
+            <div class="fld"><label class="lbl" for="bmin">From (₹)</label>
+              <input class="inp" id="bmin" type="number" min="0" step="1000" placeholder="50000"></div>
+            <div class="fld"><label class="lbl" for="bmax">To (₹)</label>
+              <input class="inp" id="bmax" type="number" min="0" step="1000" placeholder="150000"></div>
+          </div>
+          <label class="chk"><input type="checkbox" id="flex"><span>Budget is flexible — recommend the right scope.</span></label>
+          <p class="mini">GST is added on top of the quoted range. Quotes in this portal have ranged from ₹27,000 to
+            ₹2,10,000 for comparable briefs.</p>
+        </div>
+      </form>
+
+      <form data-f="3" hidden novalidate>
+        <h1>When do you need it?</h1>
+        <p class="lead">Step 3 of 4. Dates are requests, not commitments — the studio confirms them on the quote.</p>
+        <div class="box">
+          <div class="grid2">
+            <div class="fld"><label class="lbl" for="start">Ideal start</label><input class="inp" id="start" type="date" value="2026-11-02"></div>
+            <div class="fld"><label class="lbl" for="live">Live by</label><input class="inp" id="live" type="date"></div>
+          </div>
+          <div class="fld"><label class="lbl" for="reqs">Requirements</label>
+            <textarea class="inp" id="reqs" rows="3" placeholder="Integrations, assets, languages, accessibility"></textarea></div>
+          <p class="mini">Attachments can be added after submission from the request page — nothing is lost by
+            skipping them here.</p>
+        </div>
+      </form>
+
+      <form data-f="4" hidden novalidate>
+        <h1>Check it before it goes</h1>
+        <p class="lead">Step 4 of 4. Everything below is exactly what the studio will see.</p>
+        <div class="box">
+          <dl class="review">
+            <div class="rev"><dt>Title</dt><dd data-r="title">—</dd></div>
+            <div class="rev"><dt>Category</dt><dd data-r="cat">—</dd></div>
+            <div class="rev"><dt>Description</dt><dd><span data-r="desc">—</span></dd></div>
+            <div class="rev"><dt>Budget</dt><dd data-r="budget">—</dd></div>
+            <div class="rev"><dt>Dates</dt><dd data-r="dates">—</dd></div>
+            <div class="rev"><dt>Requirements</dt><dd data-r="reqs">—</dd></div>
+          </dl>
+          <div class="banner banner--info">
+            <svg class="i"><use href="#i-moon"/></svg>
+            <div>Submitting creates the request with status <strong>Submitted</strong>. Nothing is charged until you
+              sign the quote that follows.</div>
+          </div>
+        </div>
+      </form>
+
+      <div class="bar" style="margin-top:18px"><i data-bar style="width:25%"></i></div>
+      <div class="foot">
+        <button class="btn btn-g" type="button" data-back hidden><svg class="i i--sm"><use href="#i-arrow-l"/></svg>Back</button>
+        <span class="prog" data-prog>Step 1 of 4 · brief</span>
+        <button class="btn btn-p" type="button" data-next>Continue</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="vfoot">
+    <a href="../../index.html">← Gallery</a>
+    <span>F06 New Request · V2 of 5 — Four Steps</span>
+    <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, cur=1;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var steps={1:document.querySelector('[data-f="1"]'),2:document.querySelector('[data-f="2"]'),
+    3:document.querySelector('[data-f="3"]'),4:document.querySelector('[data-f="4"]')};
+  var next=document.querySelector('[data-next]'), back=document.querySelector('[data-back]'),
+      bar=document.querySelector('[data-bar]'), prog=document.querySelector('[data-prog]');
+  var labels=['brief','budget','timeline','review'];
+
+  document.querySelectorAll('.cat').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.cat').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      if(cur===4)review();
+    });
+  });
+  var desc=document.getElementById('desc');
+  desc.addEventListener('input',function(){document.querySelector('[data-c]').textContent=desc.value.length;});
+
+  function catName(){var c=document.querySelector('.cat[aria-pressed="true"]');return c?c.textContent:'—';}
+  function money(v){return v?('₹'+Number(v).toLocaleString('en-IN')):'';}
+  function review(){
+    document.querySelector('[data-r="title"]').textContent=document.getElementById('title').value||'—';
+    document.querySelector('[data-r="cat"]').textContent=catName();
+    document.querySelector('[data-r="desc"]').textContent=desc.value||'—';
+    var mn=money(document.getElementById('bmin').value), mx=money(document.getElementById('bmax').value);
+    var b=mn||mx?(mn||'₹0')+' – '+(mx||'open'):'No budget given';
+    if(document.getElementById('flex').checked)b+=' · flexible';
+    document.querySelector('[data-r="budget"]').textContent=b;
+    var st=document.getElementById('start').value, lv=document.getElementById('live').value;
+    document.querySelector('[data-r="dates"]').textContent=(st?('start '+st):'no start date')+' · '+(lv?('live '+lv):'no deadline');
+    document.querySelector('[data-r="reqs"]').textContent=document.getElementById('reqs').value||'None listed';
+  }
+  function paint(){
+    Object.keys(steps).forEach(function(k){steps[k].hidden=Number(k)!==cur;});
+    document.querySelectorAll('.rail .s').forEach(function(s){
+      var n=Number(s.dataset.s);
+      s.dataset.on=n===cur?'1':'0'; s.dataset.done=n<cur?'1':'0';
+      s.querySelector('.n').textContent=n<cur?'✓':String(n);
+    });
+    document.querySelectorAll('.rail .ln').forEach(function(l){l.dataset.on=Number(l.dataset.ln)<cur?'1':'0';});
+    back.hidden=cur===1;
+    next.textContent=cur===4?'Submit request':'Continue';
+    prog.textContent='Step '+cur+' of 4 · '+labels[cur-1];
+    bar.style.width=(cur*25)+'%';
+    if(cur===4)review();
+  }
+  function valid(){
+    if(cur===1){
+      var t=document.getElementById('title'), okT=t.value.trim().length>=4, okD=desc.value.trim().length>=40;
+      document.querySelector('[data-err="title"]').hidden=okT;
+      if(!okT){t.focus();say('Give the request a title of at least 4 characters.');return false;}
+      if(!okD){desc.focus();document.querySelector('[data-c]').textContent=desc.value.length;
+        say('Describe the work in at least 40 characters.');return false;}
+      return true;
+    }
+    if(cur===3){
+      var s=document.getElementById('start').value, l=document.getElementById('live').value;
+      if(s&&l&&l<s){say('The live-by date is before the start date.');document.getElementById('live').focus();return false;}
+    }
+    return true;
+  }
+  next.addEventListener('click',function(){
+    if(!valid())return;
+    if(cur<4){cur++;paint();return;}
+    next.classList.add('is-loading');
+    setTimeout(function(){
+      next.classList.remove('is-loading');
+      if(new URLSearchParams(location.search).get('state')==='error'){
+        say('Submit failed — the requests service returned an error. Your answers are kept.');return;}
+      location.href='../../F05-requests-work-hub/V1/index.html?status=Submitted';
+    },800);
+  });
+  back.addEventListener('click',function(){if(cur>1){cur--;paint();}});
+  document.querySelectorAll('form').forEach(function(f){
+    f.addEventListener('keydown',function(e){
+      if(e.key==='Enter'&&e.target.tagName!=='TEXTAREA'){e.preventDefault();next.click();}
+    });
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
