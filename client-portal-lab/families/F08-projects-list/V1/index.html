@@ -3,202 +3,461 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Projects · V1 Card Grid — Nestlancer Portal Lab</title>
-<meta name="description" content="F08 variant 1: project cards with progress, a degraded-feed banner, retry with honest backoff copy and a support route.">
+<title>Projects · V1 Portfolio Deck — Nestlancer Client Portal</title>
+<meta name="description" content="F08 projects upgrade: health summary, view switch, saved filters, rich project cards with milestone progress, and the honest 502 degraded state with retry and support.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
-<script>
-(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script>(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
-document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
-</script>
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();</script>
 <style>
-/* V1 — Card Grid. A grid · B card-first · E retry with backoff copy. */
-.page{min-height:100vh;background:var(--background)}
-.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
-  gap:12px;padding:0 20px}
-.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
-.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
-.wrap{max-width:1120px;margin:0 auto;padding:22px 20px 44px}
-.mast{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.mast h1{font-size:26px;letter-spacing:-.035em}
-.mast p{font-size:13px;color:var(--muted-foreground);margin-top:3px}
-.banner{margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-@media(max-width:980px){.grid{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
-.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
-  box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:10px;min-height:196px;position:relative}
-.pcard .tag{position:absolute;top:12px;right:12px;font-size:10px;letter-spacing:.05em;text-transform:uppercase;
-  font-weight:700;color:var(--muted-foreground);background:var(--muted);border-radius:999px;padding:2px 8px}
-.pcard h2{font-size:14.5px;letter-spacing:-.02em;line-height:1.35;padding-right:64px}
-.pcard .meta{font-size:11.5px;color:var(--muted-foreground);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.pcard .bar{height:6px;border-radius:999px;background:var(--muted);overflow:hidden;margin-top:2px}
-.pcard .bar i{display:block;height:100%;background:var(--primary)}
-.pcard .pct{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted-foreground)}
-.pcard .pct b{color:var(--foreground);font-variant-numeric:var(--tabnum)}
-.pcard .next{font-size:11.5px;line-height:1.5;background:var(--background);border:1px dashed var(--border);
-  border-radius:var(--radius-sm);padding:7px 9px;color:var(--muted-foreground)}
-.pcard .acts{margin-top:auto;display:flex;gap:6px;flex-wrap:wrap;padding-top:4px}
-.pcard.stale{border-style:dashed}
-.pcard.stale .tag{background:var(--status-warning-bg);color:var(--status-warning-text)}
-.addcard{border:1.5px dashed var(--border);border-radius:var(--radius-lg);display:grid;place-items:center;
-  min-height:196px;color:var(--muted-foreground);font-size:13px;text-align:center;padding:20px;gap:6px}
-.addcard:hover{border-color:var(--brand-300);color:var(--brand-700)}
-.note{font-size:12px;color:var(--muted-foreground);margin-top:14px;line-height:1.6}
-.cachebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:11.5px;color:var(--muted-foreground);
-  border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);padding:9px 12px;margin-bottom:14px}
-.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:18px}
-.seg{display:inline-flex;gap:2px}
-.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
-.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
-.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
-.skelbox{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;min-height:196px}
-.skelbox .l{height:12px;border-radius:4px;background:var(--muted);margin-bottom:9px;animation:pulse 1.4s infinite}
-@keyframes pulse{50%{opacity:.5}}
-@media(max-width:720px){.wrap{padding:14px}.top{padding:0 14px}}
+/* V1 · PORTFOLIO DECK — cards carry the delivery state (bar + milestone dots),
+   the toolbar is one row, the degraded state keeps the same skin as the deck. */
+.ph-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+.ph-row .lbl{font-size:10px;font-weight:750;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted-foreground)}
+.mini-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:14px}
+@media(max-width:980px){.mini-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mini-stats .stat{padding:12px 13px}
+.mini-stats .stat__v{font-size:22px}
+
+.deck{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.pcard{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);
+  border-radius:14px;box-shadow:var(--shadow-1);overflow:hidden;
+  transition:border-color var(--duration-fast),transform var(--duration-normal),box-shadow var(--duration-normal)}
+.pcard:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow-2)}
+.pcard--err{border-color:var(--status-error-border)}
+.pcard__band{height:3px;background:var(--primary)}
+.pcard__band--warn{background:var(--status-warning-text)}
+.pcard__band--err{background:var(--status-error-text)}
+.pcard__band--ok{background:var(--status-success-text)}
+.pcard__h{display:flex;align-items:flex-start;gap:10px;padding:14px 15px 10px}
+.pcard__mark{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none;
+  font-size:12px;font-weight:800;letter-spacing:.02em;background:var(--brand-50);color:var(--brand-700)}
+.dark .pcard__mark{background:#1a2744;color:#b7c7ff}
+.pcard__mark--ok{background:var(--status-success-bg);color:var(--status-success-text)}
+.pcard__mark--err{background:var(--status-error-bg);color:var(--status-error-text)}
+.pcard__t{min-width:0;flex:1 1 auto}
+.pcard__t h3{font-size:13.5px;font-weight:660;letter-spacing:-.015em;line-height:1.35}
+.pcard__t p{font-size:10.5px;color:var(--muted-foreground);margin-top:2px;font-family:var(--mono)}
+.pcard__b{padding:0 15px 13px;display:flex;flex-direction:column;gap:10px;flex:1 1 auto}
+.pcard__kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:11px}
+.pcard__kv span{display:block;font-size:9px;letter-spacing:.08em;text-transform:uppercase;
+  font-weight:750;color:var(--muted-foreground)}
+.pcard__kv b{font-weight:620;font-variant-numeric:tabular-nums}
+.pcard__f{display:flex;align-items:center;gap:6px;padding:10px 15px;border-top:1px solid var(--border);
+  background:var(--surface-2)}
+.pcard__f .btn{flex:1 1 auto}
+.dots{display:flex;align-items:center;gap:4px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--border-strong);display:block}
+.dots i.done{background:var(--status-success-text)}
+.dots i.now{background:var(--primary);box-shadow:0 0 0 2px color-mix(in srgb,var(--primary) 22%,transparent)}
+.dots i.lock{background:var(--muted);border:1px solid var(--border-strong)}
+
+.tblv{display:none}
+.deck[hidden],.tblv[hidden]{display:none !important}
+.pt{min-width:820px}
+.pt .ttl b{display:block;font-size:12.5px;font-weight:640;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;max-width:34ch}
+.pt .ttl span{display:block;font-family:var(--mono);font-size:10px;color:var(--muted-foreground)}
+.progcell{display:flex;align-items:center;gap:7px;min-width:110px}
+.progcell .meter{flex:1 1 auto}
+.progcell b{font-size:11px;font-variant-numeric:tabular-nums}
+
+/* degraded state */
+.deg{border:1px solid var(--status-warning-border);background:var(--status-warning-bg);border-radius:13px;
+  padding:14px 16px;display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.deg .ic{width:32px;height:32px;border-radius:9px;background:color-mix(in srgb,var(--status-warning-text) 15%,transparent);
+  display:grid;place-items:center;color:var(--status-warning-text);flex:none}
+.deg b{color:var(--status-warning-text)}
+.deg p{font-size:12px;line-height:1.5;color:var(--foreground);margin-top:2px;max-width:74ch}
+.deg .end{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.deg .btn-sm{background:var(--card);border-color:var(--status-warning-border)}
+.stale{position:relative}
+
+.is-loading .pcard__b,.is-loading .pcard__kpi{opacity:.45;filter:saturate(.4)}
+.is-loading .pcard__f .btn{pointer-events:none;opacity:.5}
 </style>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false">
-  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
-  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></symbol>
-  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7v.3M12 17v.5"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 6h18l-7 8v6l-4-2v-4z"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></symbol>
+  <symbol id="i-life" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="m5 5 4 4M15 15l4 4M19 5l-4 4M9 15l-4 4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4h13l-2 4 2 4H5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="m19 15 .9 2.1 2.1.9-2.1.9L19 21l-.9-2.1-2.1-.9 2.1-.9z"/></symbol>
 </svg>
 <a class="skip" href="#main">Skip to projects</a>
+<div class="scrim" data-nav-scrim data-nav-close></div>
 
-<div class="page">
-  <header class="top">
-    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
-      <span>Nestlancer<small>Client portal</small></span></a>
-    <div class="row" style="margin-left:auto;gap:8px">
-      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
-        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
-      <a class="btn btn-s btn-sm" href="../../F05-requests-work-hub/V1/index.html">Work Hub</a>
+<div class="app">
+  <aside class="side" aria-label="Portal">
+    <a class="ws" href="../../../index.html"><span class="ws__mark">N</span>
+      <span class="ws__t"><b>Khandesh Spice</b><span>Client workspace</span></span>
+      <svg class="i i--sm ws__chev"><use href="#i-chevron-down"/></svg></a>
+    <nav class="snav" aria-label="Sections">
+      <p class="snav__g">Work</p>
+      <a href="../../F03-dashboard-overview/V1/index.html"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="cnt">10</span></a>
+      <a href="index.html" aria-current="page"><svg class="i"><use href="#i-folder"/></svg>Projects<span class="cnt cnt--live">!</span></a>
+      <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="#i-file"/></svg>Quotes<span class="cnt">1</span></a>
+      <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="cnt cnt--live">2</span></a>
+      <p class="snav__g">Money</p>
+      <a href="../../F14-billing/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a href="../../F18-invoices/V1/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F15-payment-methods/V1/index.html"><svg class="i"><use href="#i-shield"/></svg>Payment methods</a>
+      <p class="snav__g">Account</p>
+      <a href="../../F19-notifications/V1/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="cnt">6</span></a>
+      <a href="../../F20-profile/V1/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="#i-settings"/></svg>Settings</a>
+    </nav>
+    <div class="side__foot">
+      <a class="side__user" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span>
+        <span class="nm"><b>Arjun Mehta</b><span>Owner · Khandesh Spice</span></span></a>
     </div>
-  </header>
+  </aside>
 
-  <main id="main" class="wrap">
-    <div class="mast">
-      <div><h1>Projects</h1>
-        <p>Delivery in progress, with milestone and payment state side by side.</p></div>
-      <span class="grow"></span>
-      <span class="pill pill--warn" data-deg>Live sync degraded</span>
-    </div>
+  <div class="app__col">
+    <header class="top">
+      <button class="iconb navtog" data-nav-open aria-label="Open navigation" aria-expanded="false"><svg class="i i--lg"><use href="#i-menu"/></svg></button>
+      <div class="top__crumb"><span>Work</span><svg class="i i--sm"><use href="#i-chevron"/></svg><b>Projects</b></div>
+      <div class="top__mid"><button class="trigger" data-palette-open="palette" aria-label="Search, Command K">
+        <svg class="i"><use href="#i-search"/></svg><span>Search projects…</span><kbd class="kbd">⌘K</kbd></button></div>
+      <div class="top__right">
+        <button class="iconb" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+        <a class="iconb" href="../../F19-notifications/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg><span class="dot">6</span></a>
+        <a class="me" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span><span class="me__n">Arjun</span></a>
+      </div>
+    </header>
 
-    <div class="banner banner--warn" role="alert">
-      <svg class="i"><use href="#i-alert"/></svg>
-      <div><strong>Project data is showing a cached copy.</strong>
-        <code>GET /api/v1/projects</code> returned <code>502 origin_bad_gateway</code> and the cross-origin request was
-        blocked, so live milestones and payment states cannot be confirmed right now. Nothing has been deleted —
-        the last good copy is shown and labelled.
-        <div class="row mt-8" style="gap:8px;flex-wrap:wrap">
-          <button class="btn btn-s btn-sm" data-retry><svg class="i i--sm"><use href="#i-refresh"/></svg>Retry</button>
-          <a class="btn btn-g btn-sm" href="../../F19-notifications/V1/index.html"><svg class="i i--sm"><use href="#i-help"/></svg>Contact support</a>
-          <a class="btn btn-g btn-sm" href="../../F10-quotes-list/V1/index.html">View quotes</a>
+    <main id="main" class="page">
+      <div class="phead">
+        <div class="phead__t">
+          <p class="kicker"><span class="led led--warn"></span>Degraded · projects service 502</p>
+          <h1>Projects</h1>
+          <p class="phead__sub">Two projects are in flight. The projects service is not responding, so this page is
+            showing your last known delivery state and will update itself when the service returns.</p>
+          <div class="meta-row">
+            <span><b>2</b> in flight</span><span class="sep"></span>
+            <span><b>57%</b> M1 project</span><span class="sep"></span>
+            <span><b>78%</b> M2 project</span><span class="sep"></span>
+            <span class="r" style="gap:5px"><span class="dot dot--warn"></span>Last sync 09:41 · 2h 14m ago</span>
+          </div>
+        </div>
+        <div class="phead__a">
+          <button class="btn btn-s" data-open-sheet="support"><svg class="i"><use href="#i-life"/></svg>Contact support</button>
+          <a class="btn btn-s" href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-plus"/></svg>New request</a>
         </div>
       </div>
-    </div>
 
-    <div class="cachebar"><svg class="i i--sm"><use href="#i-refresh"/></svg>
-      <span data-cache>Last successful sync 42 minutes ago · 2 projects cached</span>
-      <span class="grow"></span>
-      <span data-tries>0 retries this session</span></div>
-
-    <div class="grid" data-grid>
-      <article class="pcard stale">
-        <span class="tag">Cached</span>
-        <h2>Khandesh Spice D2C E-Commerce Store</h2>
-        <div class="meta"><span class="pill pill--ok">In progress</span><span>Started 5 Oct 2026</span></div>
-        <div class="pct"><span>Milestones</span><b>1 of 2 approved</b></div>
-        <div class="bar" role="img" aria-label="57 percent complete"><i style="width:57%"></i></div>
-        <div class="pct"><span>Progress</span><b>57%</b></div>
-        <p class="next">Milestone 2 · due 30 Oct · ₹30,000 · delivery pushed 14 min ago (cached).</p>
-        <div class="acts">
-          <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Open project</a>
-          <a class="btn btn-g btn-sm" href="../../F10-quotes-list/V1/index.html">View quotes</a>
+      <div class="deg" role="status">
+        <span class="ic"><svg class="i"><use href="#i-alert"/></svg></span>
+        <div><b>Projects data can’t be refreshed right now.</b>
+          <p><span class="mono">GET /api/v1/projects</span> returned <b>502 origin_bad_gateway</b> and the CORS
+            preflight failed. Your delivery state below is cached from 09:41 and is shown as-is — nothing has been
+            replaced with an empty list.</p></div>
+        <div class="end">
+          <span class="tag tag--warn"><svg class="i"><use href="#i-clock"/></svg>retrying since 09:42</span>
+          <button class="btn btn-sm" data-retry="deckwrap"><svg class="i i--sm"><use href="#i-refresh"/></svg>Retry now</button>
         </div>
-      </article>
-
-      <article class="pcard stale">
-        <span class="tag">Cached</span>
-        <h2>B2B Wholesale Ordering Portal</h2>
-        <div class="meta"><span class="pill pill--info">In progress</span><span>Started 10 May 2026</span></div>
-        <div class="pct"><span>Milestones</span><b>2 of 3 approved</b></div>
-        <div class="bar" role="img" aria-label="78 percent complete"><i style="width:78%"></i></div>
-        <div class="pct"><span>Progress</span><b>78%</b></div>
-        <p class="next">Milestone 3 in review · payment state unknown while the feed is degraded.</p>
-        <div class="acts">
-          <a class="btn btn-s btn-sm" href="../../F09-project-details/V1/index.html">Open project</a>
-          <a class="btn btn-g btn-sm" href="../../F13-messages-thread/V1/index.html">Message studio</a>
-        </div>
-      </article>
-
-      <a class="addcard" href="../../F06-new-request/V1/index.html">
-        <svg class="i i--lg"><use href="#i-plus"/></svg>
-        <span><b>Start a new project</b><br><span style="font-size:11.5px">Send a request — the studio quotes from it.</span></span>
-      </a>
-
-      <div class="skelbox" data-skel hidden>
-        <div class="l" style="width:70%"></div><div class="l" style="width:45%"></div>
-        <div class="l" style="width:88%;margin-top:18px"></div><div class="l" style="width:60%"></div>
       </div>
-    </div>
 
-    <p class="note">The degraded state is designed, not hidden: the banner names the failing endpoint, the cards keep
-      their last good values and every write action still routes to a page that can queue or explain it.
-      Support is one tap away rather than buried in a menu.</p>
+      <section class="mini-stats" aria-label="Portfolio summary">
+        <div class="stat"><div class="stat__top"><span class="stat__ic"><svg class="i i--sm"><use href="#i-folder"/></svg></span>
+          <span class="stat__l">Active projects</span></div><p class="stat__v" data-count="2">2</p>
+          <p class="stat__f">both in production</p></div>
+        <div class="stat"><div class="stat__top"><span class="stat__ic stat__ic--ok"><svg class="i i--sm"><use href="#i-check"/></svg></span>
+          <span class="stat__l">Milestones approved</span></div><p class="stat__v" data-count="3">3</p>
+          <p class="stat__f">of 6 across both</p></div>
+        <div class="stat"><div class="stat__top"><span class="stat__ic stat__ic--warn"><svg class="i i--sm"><use href="#i-clock"/></svg></span>
+          <span class="stat__l">Next deadline</span></div><p class="stat__v" style="font-size:19px">30 Oct</p>
+          <p class="stat__f">M2 approval · ₹30,000</p></div>
+        <div class="stat"><div class="stat__top"><span class="stat__ic stat__ic--info"><svg class="i i--sm"><use href="#i-card"/></svg></span>
+          <span class="stat__l">Open on projects</span></div><p class="stat__v">₹75,000</p>
+          <p class="stat__f">₹45,000 M3 · ₹30,000 M2</p></div>
+      </section>
 
-    <div class="vfoot">
-      <a href="../../../index.html">← Gallery</a>
-      <span>F08 Projects List · V1 of 5 — Card Grid</span>
-      <span class="seg" style="margin-left:auto"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
-    </div>
-  </main>
+      <div class="ph-row">
+        <div class="search" style="flex:1 1 260px;max-width:340px">
+          <svg><use href="#i-search"/></svg>
+          <input type="search" data-list-search="#deck" placeholder="Search project or client…" aria-label="Filter projects" autocomplete="off">
+        </div>
+        <div class="segmented" data-viewswitch role="group" aria-label="View">
+          <button type="button" data-v="deck" aria-pressed="true"><svg class="i"><use href="#i-grid"/></svg>Cards</button>
+          <button type="button" data-v="table" aria-pressed="false"><svg class="i"><use href="#i-list"/></svg>Table</button>
+        </div>
+        <span class="sep" style="width:1px;height:20px;background:var(--border)"></span>
+        <button class="fbtn" data-dt-f="state" data-fv="all" aria-pressed="true">All <span class="n">2</span></button>
+        <button class="fbtn" data-dt-f="state" data-fv="live" aria-pressed="false">In production</button>
+        <button class="fbtn" data-dt-f="state" data-fv="risk" aria-pressed="false">At risk</button>
+        <span class="grow"></span>
+        <button class="chip chip--ghost" data-toast="Saved view stored on this device"><svg class="i"><use href="#i-bookmark"/></svg>Save view</button>
+      </div>
+
+      <div id="deckwrap" data-retryable>
+        <div class="deck" id="deck">
+          <article class="pcard" data-item data-search="khandesh spice d2c e-commerce store riya kapoor">
+            <div class="pcard__band pcard__band--warn"></div>
+            <div class="pcard__h"><span class="pcard__mark">KS</span>
+              <div class="pcard__t"><h3>Khandesh Spice D2C E-Commerce Store</h3>
+                <p>NL-PRJ-2026-0007</p></div>
+              <span class="tag tag--warn"><span class="dot dot--warn"></span>In production</span></div>
+            <div class="pcard__b">
+              <div>
+                <div class="meter__l"><span>Delivery progress</span><b>57%</b></div>
+                <div class="meter meter--warn" data-bar="57"><span class="meter__f"></span></div>
+              </div>
+              <div class="r r--between">
+                <span class="f12 muted">Milestones</span>
+                <span class="dots" aria-label="1 of 3 milestones approved"><i class="done"></i><i class="now"></i><i class="lock"></i></span>
+              </div>
+              <div class="pcard__kv">
+                <div><span>Owner</span><b>Riya Kapoor</b></div>
+                <div><span>Started</span><b>2 Sep 2026</b></div>
+                <div><span>M2 due</span><b>30 Oct 2026</b></div>
+                <div><span>Open value</span><b>₹75,000</b></div>
+              </div>
+              <div class="note note--warn" style="padding:8px 10px"><svg class="i i--sm"><use href="#i-alert"/></svg>
+                <span><b>Waiting on you:</b> M2 files need approval to release ₹30,000.</span></div>
+            </div>
+            <div class="pcard__f">
+              <button class="btn btn-s btn-sm" data-open-sheet="pv">Details</button>
+              <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Approve M2</a>
+            </div>
+          </article>
+
+          <article class="pcard" data-item data-search="b2b wholesale ordering portal riya kapoor">
+            <div class="pcard__band pcard__band--ok"></div>
+            <div class="pcard__h"><span class="pcard__mark pcard__mark--ok">BW</span>
+              <div class="pcard__t"><h3>B2B Wholesale Ordering Portal</h3>
+                <p>NL-PRJ-2026-0009</p></div>
+              <span class="tag tag--ok"><span class="dot dot--ok"></span>On track</span></div>
+            <div class="pcard__b">
+              <div>
+                <div class="meter__l"><span>Delivery progress</span><b>78%</b></div>
+                <div class="meter meter--ok" data-bar="78"><span class="meter__f"></span></div>
+              </div>
+              <div class="r r--between"><span class="f12 muted">Milestones</span>
+                <span class="dots" aria-label="2 of 3 milestones approved"><i class="done"></i><i class="done"></i><i class="now"></i></span></div>
+              <div class="pcard__kv">
+                <div><span>Owner</span><b>Riya Kapoor</b></div>
+                <div><span>Started</span><b>18 Aug 2026</b></div>
+                <div><span>M3 release</span><b>on approval</b></div>
+                <div><span>Open value</span><b>₹45,000</b></div>
+              </div>
+              <div class="note note--info" style="padding:8px 10px"><svg class="i i--sm"><use href="#i-shield"/></svg>
+                <span>Deliverables for M3 are ready for review.</span></div>
+            </div>
+            <div class="pcard__f">
+              <button class="btn btn-s btn-sm" data-open-sheet="pv">Details</button>
+              <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Open project</a>
+            </div>
+          </article>
+
+          <article class="pcard pcard--err">
+            <div class="pcard__band pcard__band--err"></div>
+            <div class="pcard__h"><span class="pcard__mark pcard__mark--err">?</span>
+              <div class="pcard__t"><h3>Third project could not be loaded</h3><p>unavailable · 502</p></div>
+              <span class="tag tag--err"><span class="dot dot--err"></span>Unknown</span></div>
+            <div class="pcard__b">
+              <p class="f12 muted" style="line-height:1.6">The projects service did not return a record for this
+                slot. It is shown as a placeholder rather than silently dropped — the count above still says two.</p>
+              <div class="pcard__kv">
+                <div><span>Retries</span><b>7 since 09:42</b></div>
+                <div><span>Ticket</span><b class="mono">NL-SUP-7714</b></div>
+              </div>
+            </div>
+            <div class="pcard__f">
+              <button class="btn btn-s btn-sm" data-retry="deckwrap"><svg class="i i--sm"><use href="#i-refresh"/></svg>Retry</button>
+              <button class="btn btn-p btn-sm" data-open-sheet="support">Support</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="tblv dt" id="pjt" data-dt hidden>
+          <div class="dt__scroll">
+            <table class="pt">
+              <caption class="sr-only">Projects with progress, milestones and open value</caption>
+              <thead><tr><th>Project</th><th>State</th><th>Progress</th><th>Milestones</th>
+                <th class="num">Open value</th><th class="act"><span class="sr-only">Open</span></th></tr></thead>
+              <tbody>
+                <tr data-f-state="live" data-search="khandesh spice d2c e-commerce store">
+                  <td data-l=""><div class="cellmain"><span class="tile">KS</span>
+                    <span class="cellmain__t"><b>Khandesh Spice D2C E-Commerce Store</b><span>NL-PRJ-2026-0007 · Riya Kapoor</span></span></div></td>
+                  <td data-l="State"><span class="tag tag--warn"><span class="dot dot--warn"></span>In production</span></td>
+                  <td data-l="Progress"><div class="progcell"><span class="meter meter--warn" data-bar="57"><span class="meter__f"></span></span><b>57%</b></div></td>
+                  <td data-l="Milestones"><span class="mono">1 / 3</span></td>
+                  <td class="num" data-l="Open value">₹75,000</td>
+                  <td class="act"><a class="btn btn-s btn-sm" href="../../F09-project-details/V1/index.html">Open</a></td>
+                </tr>
+                <tr data-f-state="live" data-search="b2b wholesale ordering portal">
+                  <td data-l=""><div class="cellmain"><span class="tile">BW</span>
+                    <span class="cellmain__t"><b>B2B Wholesale Ordering Portal</b><span>NL-PRJ-2026-0009 · Riya Kapoor</span></span></div></td>
+                  <td data-l="State"><span class="tag tag--ok"><span class="dot dot--ok"></span>On track</span></td>
+                  <td data-l="Progress"><div class="progcell"><span class="meter meter--ok" data-bar="78"><span class="meter__f"></span></span><b>78%</b></div></td>
+                  <td data-l="Milestones"><span class="mono">2 / 3</span></td>
+                  <td class="num" data-l="Open value">₹45,000</td>
+                  <td class="act"><a class="btn btn-s btn-sm" href="../../F09-project-details/V1/index.html">Open</a></td>
+                </tr>
+                <tr data-f-state="risk" data-search="third project unavailable 502">
+                  <td data-l=""><div class="cellmain"><span class="tile" style="background:var(--status-error-bg);color:var(--status-error-text)">?</span>
+                    <span class="cellmain__t"><b>Third project could not be loaded</b><span>unavailable · 502</span></span></div></td>
+                  <td data-l="State"><span class="tag tag--err"><span class="dot dot--err"></span>Unknown</span></td>
+                  <td data-l="Progress"><span class="muted f12">unknown</span></td>
+                  <td data-l="Milestones"><span class="muted f12">unknown</span></td>
+                  <td class="num" data-l="Open value">—</td>
+                  <td class="act"><button class="btn btn-s btn-sm" data-retry="deckwrap">Retry</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="empty2" data-list-empty hidden>
+          <span class="empty2__art"><svg class="i i--lg"><use href="#i-search"/></svg></span>
+          <h3>No project matches that</h3>
+          <p>Only two projects are in flight right now, so a narrow search will run out quickly.</p>
+          <div class="actions"><a class="btn btn-s btn-sm" href="../../F05-requests-work-hub/V1/index.html">See requests</a></div>
+        </div>
+      </div>
+
+      <section class="card mt4">
+        <div class="card__h"><div><h2>When the service is down</h2>
+          <p>What this page does and does not do</p></div><span class="tag tag--warn">A13</span></div>
+        <div class="card__b col3" style="gap:20px">
+          <div><p class="f12 b650 mb2" style="display:flex;gap:6px;align-items:center">
+            <svg class="i i--sm" style="color:var(--status-success-text)"><use href="#i-check"/></svg>Keeps</p>
+            <p class="f12 muted" style="line-height:1.6">The last known delivery state, clearly stamped as stale.
+              Counts stay consistent with the cache.</p></div>
+          <div><p class="f12 b650 mb2" style="display:flex;gap:6px;align-items:center">
+            <svg class="i i--sm" style="color:var(--status-success-text)"><use href="#i-check"/></svg>Offers</p>
+            <p class="f12 muted" style="line-height:1.6">A manual retry, a support route with the request id, and an
+              honest reason — 502 from the gateway, not “no projects”.</p></div>
+          <div><p class="f12 b650 mb2" style="display:flex;gap:6px;align-items:center">
+            <svg class="i i--sm" style="color:var(--status-error-text)"><use href="#i-x"/></svg>Never</p>
+            <p class="f12 muted" style="line-height:1.6">An empty state, a spinner that never resolves, or a
+              placeholder project invented to fill the grid.</p></div>
+        </div>
+      </section>
+
+      <nav class="r" style="justify-content:space-between;margin-top:22px;border-top:1px solid var(--border);padding-top:16px" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../../index.html">← Gallery</a>
+        <span class="f12 muted">F08 Projects · variant 1 of 5 — Portfolio Deck</span>
+        <a class="btn btn-s btn-sm" href="../V2/index.html">Next: Delivery Table →</a>
+      </nav>
+    </main>
+  </div>
 </div>
 
-<div class="toast" role="status" aria-live="polite" data-toast></div>
-<script>
-(function(){
-  'use strict';
-  var root=document.documentElement;
-  var toast=document.querySelector('[data-toast]'), tm;
-  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},3000);}
-  var tt=document.querySelector('[data-theme-toggle]');
-  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
-    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
-  sync();
-  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
-    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+<div class="sheet-scrim" data-sheet-scrim></div>
+<section class="sheet sheet--wide" id="pv" data-open="false" role="dialog" aria-modal="true" aria-labelledby="pv-h">
+  <div class="sheet__h"><div><span class="tag tag--warn mb2"><span class="dot dot--warn"></span>In production</span>
+    <h2 id="pv-h">Khandesh Spice D2C E-Commerce Store</h2><p class="mono">NL-PRJ-2026-0007 · owner Riya Kapoor</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div>
+      <div class="meter__l"><span>Delivery progress</span><b>57%</b></div>
+      <div class="meter meter--warn meter--lg" data-bar="57"><span class="meter__f"></span></div>
+      <p class="f12 muted mt2">Weighted by milestone value — M1 is 40% of the contract.</p>
+    </div>
+    <div>
+      <p class="f12 b650 mb2">Milestones</p>
+      <div class="timeline">
+        <div class="tl2" data-state="done"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-check"/></svg></span></div>
+          <div class="tl2__b"><p class="tl2__t">M1 · creative direction <time>15 Oct</time></p>
+            <p class="tl2__m">₹48,000 approved and settled.</p></div></div>
+        <div class="tl2" data-state="now"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-clock"/></svg></span></div>
+          <div class="tl2__b"><p class="tl2__t">M2 · packaging finals <time>due 30 Oct</time></p>
+            <p class="tl2__m">Files uploaded · ₹30,000 releases on your approval.</p></div></div>
+        <div class="tl2"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-shield"/></svg></span></div>
+          <div class="tl2__b"><p class="tl2__t">M3 · storefront handover <time>Nov</time></p>
+            <p class="tl2__m">₹45,000 · locked until M2 approval.</p></div></div>
+      </div>
+    </div>
+    <div class="note note--warn"><svg class="i i--sm"><use href="#i-alert"/></svg>
+      <span><b>This snapshot is cached.</b> Cached at 09:41 today because the projects service is returning 502.</span></div>
+  </div>
+  <div class="sheet__f"><button class="btn btn-s" data-close>Close</button>
+    <button class="btn btn-s" data-open-sheet="support"><svg class="i"><use href="#i-life"/></svg>Support</button>
+    <a class="btn btn-p" href="../../F09-project-details/V1/index.html">Open project</a></div>
+</section>
 
-  var tries=0, btn=document.querySelector('[data-retry]'), triesEl=document.querySelector('[data-tries]');
-  var skel=document.querySelector('[data-skel]'), grid=document.querySelector('[data-grid]');
-  btn.addEventListener('click',function(){
-    tries++;
-    triesEl.textContent=tries+(tries===1?' retry this session':' retries this session');
-    btn.classList.add('is-loading');
-    var cards=[].slice.call(grid.querySelectorAll('.pcard'));
-    cards.forEach(function(c){c.hidden=true;});
-    skel.hidden=false;
-    say('Retrying projects…');
-    setTimeout(function(){
-      btn.classList.remove('is-loading');
-      skel.hidden=true;
-      cards.forEach(function(c){c.hidden=false;});
-      document.querySelector('[data-cache]').textContent='Still failing · last successful sync 42 minutes ago · 2 projects cached';
-      say(tries<3
-        ? 'Retry '+tries+' failed — 502 origin_bad_gateway. Next attempt is worth waiting a minute for.'
-        : 'The service is still down. Support can confirm status; the cached copy stays readable meanwhile.');
-    },1100);
+<section class="sheet" id="support" data-open="false" role="dialog" aria-modal="true" aria-labelledby="sp-h">
+  <div class="sheet__h"><div><h2 id="sp-h">Get this looked at</h2><p>Attach the request id so nobody has to guess.</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div class="note note--info"><svg class="i i--sm"><use href="#i-shield"/></svg>
+      <span>Include <b class="mono">NL-SUP-7714</b> — raised automatically at 09:42 when the first 502 was seen.</span></div>
+    <div class="fld"><label class="lbl" for="sp-t">What is wrong?</label>
+      <textarea class="txa" id="sp-t">Projects page shows cached data — the service returns 502 origin_bad_gateway.</textarea></div>
+    <div class="fld"><span class="lbl">Diagnostics attached</span>
+      <div class="filetile"><span class="filetile__ic filetile__ic--doc">LOG</span>
+        <span class="filetile__t"><b>projects-502-2026-10-25.log</b><span>18 KB · 7 retries · includes CORS failure</span></span></div></div>
+    <div class="r" style="gap:7px"><button class="btn btn-s grow" data-toast="Open a direct support thread"><svg class="i"><use href="#i-msg"/></svg>Message instead</button>
+      <button class="btn btn-p grow" data-toast="Ticket NL-SUP-7714 updated — the studio replies within one working day">Send report</button></div>
+    <p class="f12 muted">Demo affordance: the ticket is a composed message seed, not an endpoint in the API map.</p>
+  </div>
+</section>
+
+<div class="palette" id="palette" data-open="false" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true">
+  <div class="palette__p">
+    <div class="palette__in"><svg class="i"><use href="#i-search"/></svg>
+      <input type="text" placeholder="Projects, requests, invoices…" aria-label="Search" autocomplete="off"><kbd class="kbd">Esc</kbd></div>
+    <div class="palette__b">
+      <p class="palette__g">Projects</p>
+      <a class="palette__i" href="../../F09-project-details/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>Khandesh Spice D2C<span class="r">57% · M2</span></a>
+      <a class="palette__i" href="../../F09-project-details/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>B2B Wholesale Portal<span class="r">78% · M3</span></a>
+      <button class="palette__i" data-retry="deckwrap"><svg class="i"><use href="#i-refresh"/></svg>Retry the projects service</button>
+      <p class="palette__g">Elsewhere</p>
+      <a class="palette__i" href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests · 10 open</a>
+      <a class="palette__i" href="../../F14-billing/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Billing · ₹31,875 due</a>
+    </div>
+    <div class="palette__f"><span><kbd class="kbd">↵</kbd> open</span><span><kbd class="kbd">Esc</kbd> close</span></div>
+  </div>
+</div>
+
+<div class="toasts" role="status" aria-live="polite"></div>
+<script src="../../../shared/kit.js"></script>
+<script>
+/* V1 only: cards ↔ table switch. */
+document.querySelectorAll('[data-viewswitch] button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('[data-viewswitch] button').forEach(function(x){x.setAttribute('aria-pressed','false')});
+    b.setAttribute('aria-pressed','true');
+    var v=b.getAttribute('data-v');
+    document.getElementById('deck').hidden = v!=='deck';
+    document.getElementById('pjt').hidden = v!=='table';
+    nlToast(v==='table'?'Table view — same records, denser':'Card view');
   });
-  if(new URLSearchParams(location.search).get('state')==='loading'){
-    document.querySelectorAll('.pcard').forEach(function(c){c.hidden=true;});
-    skel.hidden=false;
-  }
-})();
+});
 </script>
 </body>
 </html>

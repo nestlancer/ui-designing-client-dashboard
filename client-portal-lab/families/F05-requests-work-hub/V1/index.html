@@ -3,321 +3,596 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Requests · V1 Table Classic — Nestlancer Portal Lab</title>
-<meta name="description" content="F05 variant 1: KPI row, tabs, a toolbar of filters and a dense sticky-header request table with pagination.">
+<title>Requests · V1 Pipeline Desk — Nestlancer Client Portal</title>
+<meta name="description" content="F05 requests hub upgrade: stage summary, saved views, faceted filters, sortable request grid, bulk actions, pagination and honest empty, loading and error states.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
-<script>
-(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script>(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
-document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
-</script>
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();</script>
 <style>
-/* V1 — Table Classic. A table · B metrics-first · D dense · E filter+sort+pagination. */
-.shell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
-.side{background:var(--card);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:3px;
-  position:sticky;top:0;height:100vh}
-.side .brandline{margin-bottom:14px;padding:0 8px}
-.navi{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;
-  color:var(--muted-foreground);font-weight:550}
-.navi[aria-current="page"]{background:var(--brand-50);color:var(--brand-700);font-weight:650}
-.dark .navi[aria-current="page"]{background:#1b2650;color:#c9d6ff}
-.navi .tag{margin-left:auto}
-.side .who{margin-top:auto;border-top:1px solid var(--border);padding-top:12px;display:flex;gap:9px;align-items:center;font-size:12.5px}
-.main{min-width:0;padding:20px 24px 36px}
-.crumb{font-size:12px;color:var(--muted-foreground);display:flex;gap:6px;align-items:center}
-.toprow{display:flex;align-items:flex-end;gap:14px;margin:6px 0 18px;flex-wrap:wrap}
-.toprow h1{font-size:26px;letter-spacing:-.035em;line-height:1.1}
-.toprow .sub{font-size:13px;color:var(--muted-foreground);margin-top:4px}
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
-@media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px 15px}
-.kpi .l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
-.kpi .v{font-size:24px;font-weight:700;letter-spacing:-.04em;margin-top:4px;font-variant-numeric:var(--tabnum)}
-.kpi .d{font-size:11.5px;color:var(--muted-foreground);margin-top:2px}
-.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:0}
-.tabs a{padding:9px 13px;font-size:13px;font-weight:600;color:var(--muted-foreground);border-bottom:2px solid transparent;
-  display:flex;gap:6px;align-items:center}
-.tabs a[aria-current="page"]{color:var(--foreground);border-bottom-color:var(--primary)}
-.tabs .n{font-size:11px;background:var(--muted);border-radius:999px;padding:1px 6px;color:var(--muted-foreground)}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 0}
-.toolbar .search{display:flex;align-items:center;gap:7px;height:34px;border:1px solid var(--border);
-  border-radius:var(--radius-sm);padding:0 9px;background:var(--card);min-width:210px;flex:1;max-width:320px}
-.toolbar .search input{border:0;background:none;outline:none;font-size:13px;width:100%;color:var(--foreground)}
-.sel{height:34px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);
-  font-size:12.5px;padding:0 8px;color:var(--foreground)}
-.tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{position:sticky;top:0;background:var(--muted);text-align:left;font-size:10.5px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--muted-foreground);font-weight:700;padding:9px 12px;border-bottom:1px solid var(--border);
-  white-space:nowrap;z-index:2}
-.tbl th button{color:inherit;font:inherit;display:inline-flex;gap:4px;align-items:center}
-.tbl th[aria-sort="ascending"] button,.tbl th[aria-sort="descending"] button{color:var(--foreground)}
-.tbl td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
-.tbl tbody tr:last-child td{border-bottom:0}
-.tbl tbody tr:hover{background:var(--brand-50)}
-.dark .tbl tbody tr:hover{background:#161f3a}
-.tbl .ttl{font-weight:600;letter-spacing:-.01em}
-.tbl .ttl + .ref{font-size:11px;color:var(--muted-foreground);margin-top:1px}
-.tbl .amt{font-variant-numeric:var(--tabnum);font-weight:600;white-space:nowrap}
-.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;
-  border-top:1px solid var(--border);background:var(--card);font-size:12px;color:var(--muted-foreground);flex-wrap:wrap}
-.pager .nums{display:flex;gap:4px}
-.pager .nums a{padding:3px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);font-weight:600}
-.pager .nums a[aria-current="page"]{background:var(--primary);border-color:var(--primary);color:#fff}
-.note{font-size:12px;color:var(--muted-foreground);margin-top:10px;line-height:1.55}
-.emptyrow td{text-align:center;padding:26px 12px!important;color:var(--muted-foreground)}
-.skelrow td{padding:12px}
-.skelrow .bar{height:11px;border-radius:4px;background:var(--muted);animation:pulse 1.4s infinite}
-@keyframes pulse{50%{opacity:.5}}
-.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:16px}
-.seg{display:inline-flex;gap:2px}
-.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
-.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
-.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
-@media(max-width:980px){.shell{grid-template-columns:1fr}.side{display:none}.main{padding:16px 14px 30px}}
+/* V1 · PIPELINE DESK — stage strip → toolbar → dense grid → detail sheet.
+   The stage strip is a filter you can see, not a chart you must decode. */
+.stagebar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:14px}
+@media(max-width:1080px){.stagebar{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.stagebar{grid-template-columns:1fr 1fr;gap:7px}}
+.stg{display:flex;flex-direction:column;gap:3px;padding:11px 12px;border-radius:11px;border:1px solid var(--border);
+  background:var(--card);box-shadow:var(--shadow-1);text-align:left;transition:border-color var(--duration-fast),
+  transform var(--duration-normal),box-shadow var(--duration-normal)}
+.stg:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-2)}
+.stg[aria-pressed="true"]{border-color:var(--brand-100);background:var(--brand-50)}
+.dark .stg[aria-pressed="true"]{background:#16203c;border-color:#2b3d66}
+.stg .l{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:750;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted-foreground)}
+.stg .v{font-size:22px;font-weight:720;letter-spacing:-.045em;font-variant-numeric:tabular-nums;line-height:1.1}
+.stg .m{font-size:10.5px;color:var(--muted-foreground);line-height:1.35}
+.stg .i{width:11px;height:11px}
+
+.rt{min-width:940px}
+.rt .ttl b{display:block;font-size:12.5px;font-weight:640;letter-spacing:-.012em;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;max-width:36ch}
+.rt .ttl span{display:block;font-family:var(--mono);font-size:10px;color:var(--muted-foreground);margin-top:1px}
+.rt .ttl .r{margin-top:4px;gap:4px}
+.who{display:flex;align-items:center;gap:7px;min-width:0}
+.who b{font-size:12px;font-weight:600;white-space:nowrap}
+.when{font-size:11.5px;color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.when span{display:block;font-size:10px;color:var(--muted-foreground)}
+.age{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700}
+.age--slow{color:var(--status-warning-text)}
+.age--stuck{color:var(--status-error-text)}
+
+/* split preview */
+.splitwrap{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media(min-width:1240px){.splitwrap{grid-template-columns:minmax(0,1fr) 330px}}
+.pv{position:sticky;top:calc(var(--topbar-h) + 12px);display:none}
+@media(min-width:1240px){.pv{display:block}}
+.pv .card__h h2{font-size:13.5px}
+.pv__b{padding:16px;display:flex;flex-direction:column;gap:12px}
+.pv__t{font-size:15px;font-weight:680;letter-spacing:-.02em;line-height:1.3}
+.pv__meta{display:flex;flex-wrap:wrap;gap:5px}
+.pv__kv{display:grid;grid-template-columns:1fr 1fr;gap:9px 12px;font-size:11.5px}
+.pv__kv span{display:block;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:750}
+.pv__kv b{font-weight:620}
+.pv__desc{font-size:12px;line-height:1.6;color:var(--ink-2)}
+.pv__tl{display:flex;flex-direction:column;gap:0}
+
+/* detail sheet */
+.dv-title{font-size:17px;font-weight:700;letter-spacing:-.025em;line-height:1.3}
+.dv-amt{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:14px;
+  border-radius:11px;background:var(--grad-brand-soft);border:1px solid var(--brand-100)}
+.dark .dv-amt{background:#141f3a;border-color:#26365c}
+.dv-amt b{font-size:24px;font-weight:720;letter-spacing:-.045em;font-variant-numeric:tabular-nums;line-height:1.05}
+.dv-amt span{font-size:11px;color:var(--muted-foreground);display:block;margin-top:2px}
 </style>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false">
-  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
-  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
-  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
-  <symbol id="i-arrow-dn" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 6h18l-7 8v6l-4-2v-4z"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 24 24"><path d="M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-rows" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-rows-tight" viewBox="0 0 24 24"><path d="M4 8h16M4 12h16M4 16h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="m19 15 .9 2.1 2.1.9-2.1.9L19 21l-.9-2.1-2.1-.9 2.1-.9z"/></symbol>
+  <symbol id="i-launch" viewBox="0 0 24 24"><path d="M5 15l-2 6 6-2"/><path d="M14 4c4 0 6 2 6 6l-7 7-4-4z"/><circle cx="15" cy="9" r="1.6"/></symbol>
 </svg>
-<a class="skip" href="#main">Skip to main content</a>
+<a class="skip" href="#main">Skip to requests</a>
+<div class="scrim" data-nav-scrim data-nav-close></div>
 
-<div class="shell">
-  <aside class="side">
-    <div class="brandline"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></div>
-    <a class="navi" href="../../F03-dashboard-overview/V1/index.html"><svg class="i i--sm"><use href="#i-home"/></svg>Overview</a>
-    <a class="navi" href="index.html" aria-current="page"><svg class="i i--sm"><use href="#i-inbox"/></svg>Requests<span class="tag pill pill--info">26</span></a>
-    <a class="navi" href="../../F08-projects-list/V1/index.html"><svg class="i i--sm"><use href="#i-folder"/></svg>Projects</a>
-    <a class="navi" href="../../F10-quotes-list/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Quotes</a>
-    <a class="navi" href="../../F14-billing/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Billing</a>
-    <div class="who"><span class="avatar">AM</span><div><b style="font-size:12.5px">Arjun Mehta</b>
-      <div style="font-size:11px;color:var(--muted-foreground)">Horizon Retail</div></div></div>
+<div class="app">
+  <aside class="side" aria-label="Portal">
+    <a class="ws" href="../../../index.html"><span class="ws__mark">N</span>
+      <span class="ws__t"><b>Khandesh Spice</b><span>Client workspace</span></span>
+      <svg class="i i--sm ws__chev"><use href="#i-chevron-down"/></svg></a>
+    <nav class="snav" aria-label="Sections">
+      <p class="snav__g">Work</p>
+      <a href="../../F03-dashboard-overview/V1/index.html"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a href="index.html" aria-current="page"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="cnt">10</span></a>
+      <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="#i-file"/></svg>Quotes<span class="cnt cnt--live">1</span></a>
+      <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="cnt cnt--live">2</span></a>
+      <p class="snav__g">Money</p>
+      <a href="../../F14-billing/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a href="../../F18-invoices/V1/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F15-payment-methods/V1/index.html"><svg class="i"><use href="#i-shield"/></svg>Payment methods</a>
+      <p class="snav__g">Account</p>
+      <a href="../../F19-notifications/V1/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="cnt">6</span></a>
+      <a href="../../F20-profile/V1/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="#i-settings"/></svg>Settings</a>
+    </nav>
+    <div class="side__foot">
+      <div class="side__cta"><b>Is something missing?</b>
+        <p>Ten requests are with the studio. Add a new brief while the queue is open.</p>
+        <a class="btn btn-p btn-sm btn-block" href="../../F06-new-request/V1/index.html">New request</a></div>
+      <a class="side__user" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span>
+        <span class="nm"><b>Arjun Mehta</b><span>Owner · Khandesh Spice</span></span></a>
+    </div>
   </aside>
 
-  <main id="main" class="main">
-    <div class="between" style="gap:12px;flex-wrap:wrap">
-      <p class="crumb">Requests</p>
-      <div class="row" style="gap:6px">
-        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+  <div class="app__col">
+    <header class="top">
+      <button class="iconb navtog" data-nav-open aria-label="Open navigation" aria-expanded="false"><svg class="i i--lg"><use href="#i-menu"/></svg></button>
+      <div class="top__crumb"><span>Work</span><svg class="i i--sm"><use href="#i-chevron"/></svg><b>Requests</b></div>
+      <div class="top__mid"><button class="trigger" data-palette-open="palette" aria-label="Search, Command K">
+        <svg class="i"><use href="#i-search"/></svg><span>Search requests…</span><kbd class="kbd">⌘K</kbd></button></div>
+      <div class="top__right">
+        <a class="btn btn-p btn-sm hide-m" href="../../F06-new-request/V1/index.html" style="height:32px">
+          <svg class="i i--sm"><use href="#i-plus"/></svg>New request</a>
+        <button class="iconb" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
           <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
-        <a class="btn btn-p btn-sm" href="../../F06-new-request/V1/index.html"><svg class="i i--sm"><use href="#i-plus"/></svg>New request</a>
+        <a class="iconb" href="../../F19-notifications/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg><span class="dot">6</span></a>
+        <a class="me" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span><span class="me__n">Arjun</span></a>
       </div>
-    </div>
+    </header>
 
-    <div class="toprow">
-      <div>
-        <h1>Requests</h1>
-        <p class="sub">Everything you have asked the studio for, with the status it actually holds.</p>
-      </div>
-    </div>
-
-    <section class="kpis" aria-label="Request totals">
-      <div class="kpi"><p class="l">Total</p><p class="v">26</p><p class="d">All time</p></div>
-      <div class="kpi"><p class="l">Awaiting you</p><p class="v">0</p><p class="d">Nothing blocked on your side</p></div>
-      <div class="kpi"><p class="l">Needs attention</p><p class="v">0</p><p class="d">No expired quotes open</p></div>
-      <div class="kpi"><p class="l">Converted</p><p class="v">5</p><p class="d">Turned into projects</p></div>
-    </section>
-
-    <div class="tabs" role="tablist" aria-label="Request type">
-      <a role="tab" href="?tab=all" aria-selected="true" aria-current="page">All <span class="n">26</span></a>
-      <a role="tab" href="?tab=requests" aria-selected="false">Requests <span class="n">12</span></a>
-      <a role="tab" href="?tab=projects" aria-selected="false">Projects <span class="n">14</span></a>
-    </div>
-
-    <div class="toolbar">
-      <label class="search"><svg class="i i--sm"><use href="#i-search"/></svg>
-        <input id="q" type="search" placeholder="Filter by title or reference" aria-label="Filter requests"></label>
-      <label style="font-size:12px;color:var(--muted-foreground)">Status</label>
-      <select class="sel" id="status" aria-label="Filter by status">
-        <option value="">All statuses</option>
-        <option>Draft</option><option>Submitted</option><option>Under review</option>
-        <option>Quote sent</option><option>Quote accepted</option><option>Expired quote</option>
-        <option>Converted</option><option>Closed</option>
-      </select>
-      <select class="sel" id="cat" aria-label="Filter by category">
-        <option value="">All categories</option>
-        <option>E-commerce</option><option>Web design</option><option>Branding</option>
-        <option>Mobile app</option><option>Marketing</option><option>Webflow</option>
-        <option>SEO</option><option>Content</option><option>Other</option>
-      </select>
-      <button class="btn btn-g btn-sm" id="clear">Clear</button>
-      <span class="grow"></span>
-      <span style="font-size:12px;color:var(--muted-foreground)" data-shown>12 of 26 shown</span>
-    </div>
-
-    <div class="tblwrap">
-      <table class="tbl" data-tbl>
-        <caption class="sr-only">Requests with status, category, budget and last update</caption>
-        <thead>
-          <tr>
-            <th aria-sort="none"><button data-sort="title">Request <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
-            <th aria-sort="none"><button data-sort="status">Status <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
-            <th>Category</th>
-            <th aria-sort="none"><button data-sort="budget">Budget <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
-            <th aria-sort="none"><button data-sort="updated">Updated <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody data-body>
-          <tr data-tab="requests" data-title="Khandesh Spice D2C e-commerce store" data-status="Converted" data-budget="142000" data-updated="2026-10-21">
-            <td data-l="Request"><div class="ttl">Khandesh Spice D2C e-commerce store</div><div class="ref">NL-REQ-2026-0018</div></td>
-            <td data-l="Status"><span class="pill pill--ok">Converted</span></td>
-            <td data-l="Category">E-commerce</td><td data-l="Budget" class="amt">₹1,42,000</td><td data-l="Updated">21 Oct 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Horizon Retail rebrand" data-status="Submitted" data-budget="120000" data-updated="2026-10-21">
-            <td data-l="Request"><div class="ttl">Horizon Retail rebrand</div><div class="ref">NL-REQ-2026-0023</div></td>
-            <td data-l="Status"><span class="pill pill--info">Submitted</span></td>
-            <td data-l="Category">Branding</td><td data-l="Budget" class="amt">₹1,20,000</td><td data-l="Updated">21 Oct 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Aurora Coffee subscription flow" data-status="Expired Quote" data-budget="84000" data-updated="2026-10-14">
-            <td data-l="Request"><div class="ttl">Aurora Coffee subscription flow</div><div class="ref">NL-REQ-2026-0015</div></td>
-            <td data-l="Status"><span class="pill pill--warn">Expired quote</span></td>
-            <td data-l="Category">Mobile app</td><td data-l="Budget" class="amt">₹84,000</td><td data-l="Updated">14 Oct 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Meridian Clinic website" data-status="Quote sent" data-budget="96000" data-updated="2026-10-12">
-            <td data-l="Request"><div class="ttl">Meridian Clinic website</div><div class="ref">NL-REQ-2026-0012</div></td>
-            <td data-l="Status"><span class="pill pill--pur">Quote sent</span></td>
-            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹96,000</td><td data-l="Updated">12 Oct 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Fern &amp; Field packaging" data-status="Draft" data-budget="0" data-updated="2026-10-10">
-            <td data-l="Request"><div class="ttl">Fern &amp; Field packaging</div><div class="ref">Draft</div></td>
-            <td data-l="Status"><span class="pill">Draft</span></td>
-            <td data-l="Category">Branding</td><td data-l="Budget" class="amt">—</td><td data-l="Updated">10 Oct 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F06-new-request/V1/index.html">Resume</a></td></tr>
-          <tr data-tab="requests" data-title="Kaveri Textiles lookbook" data-status="Converted" data-budget="62000" data-updated="2026-10-06">
-            <td data-l="Request"><div class="ttl">Kaveri Textiles lookbook</div><div class="ref">NL-REQ-2026-0009</div></td>
-            <td data-l="Status"><span class="pill pill--ok">Converted</span></td>
-            <td data-l="Category">Marketing</td><td data-l="Budget" class="amt">₹62,000</td><td data-l="Updated">6 Oct 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Sundara Yoga landing page" data-status="Under review" data-budget="45000" data-updated="2026-10-04">
-            <td data-l="Request"><div class="ttl">Sundara Yoga landing page</div><div class="ref">NL-REQ-2026-0006</div></td>
-            <td data-l="Status"><span class="pill pill--info">Under review</span></td>
-            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹45,000</td><td data-l="Updated">4 Oct 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Northwind logistics dashboard" data-status="Converted" data-budget="210000" data-updated="2026-09-29">
-            <td data-l="Request"><div class="ttl">Northwind logistics dashboard</div><div class="ref">NL-REQ-2026-0004</div></td>
-            <td data-l="Status"><span class="pill pill--ok">Converted</span></td>
-            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹2,10,000</td><td data-l="Updated">29 Sep 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Prakash Optics catalogue" data-status="Expired Quote" data-budget="38000" data-updated="2026-09-24">
-            <td data-l="Request"><div class="ttl">Prakash Optics catalogue</div><div class="ref">NL-REQ-2026-0003</div></td>
-            <td data-l="Status"><span class="pill pill--warn">Expired quote</span></td>
-            <td data-l="Category">E-commerce</td><td data-l="Budget" class="amt">₹38,000</td><td data-l="Updated">24 Sep 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Blue Oak interiors site" data-status="Closed" data-budget="71000" data-updated="2026-09-18">
-            <td data-l="Request"><div class="ttl">Blue Oak interiors site</div><div class="ref">NL-REQ-2026-0002</div></td>
-            <td data-l="Status"><span class="pill">Closed</span></td>
-            <td data-l="Category">Webflow</td><td data-l="Budget" class="amt">₹71,000</td><td data-l="Updated">18 Sep 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Tinker Studio portfolio" data-status="Submitted" data-budget="55000" data-updated="2026-09-12">
-            <td data-l="Request"><div class="ttl">Tinker Studio portfolio</div><div class="ref">NL-REQ-2026-0001</div></td>
-            <td data-l="Status"><span class="pill pill--info">Submitted</span></td>
-            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹55,000</td><td data-l="Updated">12 Sep 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-          <tr data-tab="requests" data-title="Vasanta Foods menu refresh" data-status="Quote accepted" data-budget="27000" data-updated="2026-09-05">
-            <td data-l="Request"><div class="ttl">Vasanta Foods menu refresh</div><div class="ref">NL-REQ-2026-0011</div></td>
-            <td data-l="Status"><span class="pill pill--ok">Quote accepted</span></td>
-            <td data-l="Category">Branding</td><td data-l="Budget" class="amt">₹27,000</td><td data-l="Updated">5 Sep 2026</td>
-            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
-
-          <tr class="emptyrow" data-empty hidden><td colspan="6">No requests match this filter.
-            <button class="link" id="clear2" style="font-size:12.5px">Clear filters</button></td></tr>
-        </tbody>
-      </table>
-      <div class="pager">
-        <span>Showing <b data-range>1–12</b> of 26 requests</span>
-        <div class="nums" aria-label="Pagination">
-          <a href="?page=1" aria-current="page">1</a><a href="?page=2">2</a><a href="?page=3">3</a>
-          <a href="?page=2" aria-label="Next page">→</a>
+    <main id="main" class="page">
+      <div class="phead">
+        <div class="phead__t">
+          <p class="kicker"><span class="led"></span>Pipeline · 10 requests · live</p>
+          <h1>Requests</h1>
+          <p class="phead__sub">Everything you have asked the studio for, from first brief to signed project.
+            Nothing is quoted yet — the oldest brief has been with the studio for 12 days.</p>
+          <div class="meta-row">
+            <span><b>10</b> open</span><span class="sep"></span>
+            <span><b>0</b> quoted</span><span class="sep"></span>
+            <span><b>0</b> converted</span><span class="sep"></span>
+            <span class="r" style="gap:5px"><span class="dot dot--warn"></span>2 older than 10 days</span>
+          </div>
+        </div>
+        <div class="phead__a">
+          <button class="btn btn-s" data-open-sheet="help"><svg class="i"><use href="#i-eye"/></svg>Request stages</button>
+          <a class="btn btn-p" href="../../F06-new-request/V1/index.html"><svg class="i"><use href="#i-plus"/></svg>New request</a>
         </div>
       </div>
-    </div>
 
-    <p class="note">Statuses come from <code>GET /api/v1/requests</code>. “Expired quote” means the quote passed its
-      validity date and can no longer be signed — a new quote has to be issued.</p>
+      <section class="stagebar" aria-label="Filter by stage">
+        <button class="stg" aria-pressed="true" data-dt-f="stage" data-fv="all">
+          <span class="l"><svg class="i"><use href="#i-rows"/></svg>All requests</span>
+          <span class="v" data-count="10">10</span><span class="m">nothing closed yet</span></button>
+        <button class="stg" aria-pressed="false" data-dt-f="stage" data-fv="brief">
+          <span class="l"><span class="dot dot--info"></span>Brief</span>
+          <span class="v" data-count="4">4</span><span class="m">awaiting studio review</span></button>
+        <button class="stg" aria-pressed="false" data-dt-f="stage" data-fv="pricing">
+          <span class="l"><span class="dot dot--warn"></span>Pricing</span>
+          <span class="v" data-count="6">6</span><span class="m">studio is costing it</span></button>
+        <button class="stg" aria-pressed="false" data-dt-f="stage" data-fv="quoted">
+          <span class="l"><span class="dot dot--ok"></span>Quoted</span>
+          <span class="v" data-count="0">0</span><span class="m">needs your signature</span></button>
+        <button class="stg" aria-pressed="false" data-dt-f="stage" data-fv="converted">
+          <span class="l"><span class="dot dot--ok"></span>Converted</span>
+          <span class="v" data-count="0">0</span><span class="m">became a project</span></button>
+      </section>
 
-    <div class="vfoot">
-      <a href="../../../index.html">← Gallery</a>
-      <span>F05 Requests Work Hub · V1 of 5 — Table Classic</span>
-      <span class="seg" style="margin-left:auto"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
-    </div>
-  </main>
+      <div class="splitwrap">
+        <section class="dt" data-dt aria-labelledby="rt-h">
+          <div class="card__h">
+            <div><h2 id="rt-h">All requests</h2><p><span data-dt-count>1–8 of 10</span> · newest first</p></div>
+            <div class="end">
+              <div class="segmented">
+                <button type="button" data-dt-density="normal" aria-pressed="true" data-tip="Comfortable rows"><svg class="i"><use href="#i-rows"/></svg></button>
+                <button type="button" data-dt-density="dense" aria-pressed="false" data-tip="Compact rows"><svg class="i"><use href="#i-rows-tight"/></svg></button>
+              </div>
+              <button class="fbtn" data-menu-btn="ex"><svg class="i i--sm"><use href="#i-download"/></svg>Export</button>
+              <div class="menu" id="ex" data-open="false" role="menu">
+                <p class="menu__h">Export current view</p>
+                <button class="menu__i" role="menuitem" data-toast="CSV of 10 requests queued"><svg class="i"><use href="#i-download"/></svg>CSV</button>
+                <button class="menu__i" role="menuitem" data-toast="Copied a shareable filtered link"><svg class="i"><use href="#i-copy"/></svg>Copy filtered link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="toolbar">
+            <div class="search">
+              <svg><use href="#i-search"/></svg>
+              <input type="search" data-dt-q placeholder="Search title, ref or service…" aria-label="Search requests" autocomplete="off">
+              <kbd class="kbd">/</kbd>
+              <button class="search__x" type="button" aria-label="Clear search" onclick="this.previousElementSibling.value='';this.previousElementSibling.dispatchEvent(new Event('input'))"><svg class="i i--sm"><use href="#i-x"/></svg></button>
+            </div>
+            <select class="fbtn" data-dt-sel="service" aria-label="Filter by service" style="padding-right:24px">
+              <option value="">All services</option>
+              <option value="design">Design</option>
+              <option value="development">Development</option>
+              <option value="content">Content</option>
+            </select>
+            <button class="fbtn" data-menu-btn="fl"><svg class="i i--sm"><use href="#i-filter"/></svg>Filter<span class="n" data-fcount hidden>0</span></button>
+            <div class="menu" id="fl" data-open="false" aria-label="Filter requests">
+              <p class="menu__h">Age</p>
+              <button class="menu__opt" data-dt-f="age" data-fv="old" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>Older than 10 days<span class="cnt">2</span></button>
+              <button class="menu__opt" data-dt-f="age" data-fv="mid" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>4–10 days<span class="cnt">5</span></button>
+              <button class="menu__opt" data-dt-f="age" data-fv="new" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>Under 4 days<span class="cnt">3</span></button>
+              <div class="menu__sep"></div>
+              <p class="menu__h">Has</p>
+              <button class="menu__opt" data-dt-f="files" data-fv="yes" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>Attachments<span class="cnt">4</span></button>
+              <button class="menu__opt" data-dt-f="files" data-fv="no" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>No attachments<span class="cnt">6</span></button>
+              <div class="menu__f"><button class="btn btn-s btn-sm grow" data-dt-clear>Reset</button>
+                <button class="btn btn-p btn-sm grow" data-keep onclick="this.closest('.menu').dataset.open='false';this.closest('.menu').previousElementSibling.setAttribute('aria-expanded','false')">Apply</button></div>
+            </div>
+            <button class="fbtn" data-menu-btn="so"><svg class="i i--sm"><use href="#i-sort"/></svg>Sort</button>
+            <div class="menu" id="so" data-open="false" aria-label="Sort requests">
+              <p class="menu__h">Order by</p>
+              <button class="menu__i" data-keep onclick="document.querySelector('[data-sort=submitted]').click()"><svg class="i"><use href="#i-clock"/></svg>Newest first</button>
+              <button class="menu__i" data-keep onclick="document.querySelector('[data-sort=age]').click()"><svg class="i"><use href="#i-alert"/></svg>Oldest first</button>
+              <button class="menu__i" data-keep onclick="document.querySelector('[data-sort=title]').click()"><svg class="i"><use href="#i-file"/></svg>Title, A–Z</button>
+              <button class="menu__i" data-keep onclick="document.querySelector('[data-sort=budget]').click()"><svg class="i"><use href="#i-card"/></svg>Budget, high to low</button>
+            </div>
+            <span class="sep"></span>
+            <div class="savedbar grow" data-views data-views-key="nl-views-requests" data-views-target="[data-dt]">
+              <span class="lbl">Views</span><span class="r" data-views-list style="gap:6px"></span>
+              <button class="chip chip--ghost" data-views-add data-tip="Save this view on this device"><svg class="i"><use href="#i-bookmark"/></svg>Save</button>
+            </div>
+          </div>
+
+          <div class="activef" data-activef hidden><span class="activef__l">Filtered</span>
+            <span class="chips" data-active-list></span><button class="chip chip--ghost" data-dt-clear>Clear all</button></div>
+
+          <div class="bulkbar" data-dt-bulk data-show="false" role="region" aria-label="Bulk actions">
+            <svg class="i i--sm"><use href="#i-check"/></svg><b data-dt-bulk-n>0</b> selected
+            <div class="end">
+              <button class="btn btn-sm btn-s" data-toast="Priority flag set on the selected requests"><svg class="i i--sm"><use href="#i-alert"/></svg>Prioritise</button>
+              <button class="btn btn-sm btn-s" data-toast="Follow-up sent to the studio"><svg class="i i--sm"><use href="#i-mail"/></svg>Follow up</button>
+              <button class="btn btn-sm btn-g" data-dt-clear-sel aria-label="Clear selection"><svg class="i i--sm"><use href="#i-x"/></svg></button>
+            </div>
+          </div>
+
+          <div class="dt__scroll">
+            <table class="rt">
+              <caption class="sr-only">Requests with stage, service, owner, budget and age</caption>
+              <thead>
+                <tr>
+                  <th style="width:34px"><input class="chk" type="checkbox" data-dt-checkall aria-label="Select all requests on this page"></th>
+                  <th><button class="th-s" data-sort="title" data-type="text">Request<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+                  <th><button class="th-s" data-sort="stage" data-type="text">Stage<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+                  <th class="hide-m"><button class="th-s" data-sort="service" data-type="text">Service<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+                  <th class="hide-m"><button class="th-s" data-sort="budget" data-type="num">Budget<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+                  <th><button class="th-s" data-sort="submitted" data-type="date">Submitted<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+                  <th class="act"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-f-stage="brief" data-f-service="design" data-f-age="new" data-f-files="yes"
+                    data-search="brand refresh khandesh spice nl-req-2026-0027 design brief logo">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select brand refresh request"></td>
+                  <td data-l=""><div class="ttl"><b>Brand refresh for the spice range</b>
+                    <span>NL-REQ-2026-0027</span>
+                    <div class="r" style="gap:4px"><span class="tag tag--info"><svg class="i"><use href="#i-file"/></svg>2 files</span>
+                      <span class="tag">Design</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--info"><span class="dot dot--info"></span>Brief</span></td>
+                  <td class="hide-m" data-l="Service">Design</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="85000">₹85,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-23"><span class="when">23 Oct<span>2 days ago</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="pricing" data-f-service="development" data-f-age="new" data-f-files="no"
+                    data-search="b2b wholesale ordering portal nl-req-2026-0026 development pricing">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select B2B portal request"></td>
+                  <td data-l=""><div class="ttl"><b>B2B wholesale ordering portal</b>
+                    <span>NL-REQ-2026-0026</span>
+                    <div class="r" style="gap:4px"><span class="tag">Development</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--warn"><span class="dot dot--warn"></span>Pricing</span></td>
+                  <td class="hide-m" data-l="Service">Development</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="240000">₹2,40,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-21"><span class="when">21 Oct<span>4 days ago</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="brief" data-f-service="content" data-f-age="mid" data-f-files="yes"
+                    data-search="packaging copy rewrite nl-req-2026-0024 content brief">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select packaging copy request"></td>
+                  <td data-l=""><div class="ttl"><b>Packaging copy rewrite</b>
+                    <span>NL-REQ-2026-0024</span>
+                    <div class="r" style="gap:4px"><span class="tag tag--info"><svg class="i"><use href="#i-file"/></svg>1 file</span>
+                      <span class="tag">Content</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--info"><span class="dot dot--info"></span>Brief</span></td>
+                  <td class="hide-m" data-l="Service">Content</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="35000">₹35,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-18"><span class="when">18 Oct<span>7 days ago</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="pricing" data-f-service="design" data-f-age="mid" data-f-files="no"
+                    data-search="festive campaign creative nl-req-2026-0023 design pricing">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select festive campaign request"></td>
+                  <td data-l=""><div class="ttl"><b>Festive campaign creative</b>
+                    <span>NL-REQ-2026-0023</span>
+                    <div class="r" style="gap:4px"><span class="tag">Design</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--warn"><span class="dot dot--warn"></span>Pricing</span></td>
+                  <td class="hide-m" data-l="Service">Design</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="60000">₹60,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-16"><span class="when">16 Oct<span>9 days ago</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="pricing" data-f-service="development" data-f-age="mid" data-f-files="yes"
+                    data-search="storefront performance audit nl-req-2026-0021 development pricing">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select performance audit request"></td>
+                  <td data-l=""><div class="ttl"><b>Storefront performance audit</b>
+                    <span>NL-REQ-2026-0021</span>
+                    <div class="r" style="gap:4px"><span class="tag">Development</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--warn"><span class="dot dot--warn"></span>Pricing</span></td>
+                  <td class="hide-m" data-l="Service">Development</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="45000">₹45,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-15"><span class="when">15 Oct<span>10 days ago</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="pricing" data-f-service="design" data-f-age="old" data-f-files="no"
+                    data-search="amazon listing imagery nl-req-2026-0019 design pricing"><td><input class="chk" type="checkbox" data-dt-check aria-label="Select listing imagery request"></td>
+                  <td data-l=""><div class="ttl"><b>Amazon listing imagery</b>
+                    <span>NL-REQ-2026-0019</span>
+                    <div class="r" style="gap:4px"><span class="tag">Design</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--warn"><span class="dot dot--warn"></span>Pricing</span></td>
+                  <td class="hide-m" data-l="Service">Design</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="30000">₹30,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-13"><span class="when">13 Oct<span class="age age--slow"><svg class="i" style="width:10px;height:10px"><use href="#i-alert"/></svg>12 days</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="brief" data-f-service="content" data-f-age="mid" data-f-files="no"
+                    data-search="diwali email sequence nl-req-2026-0018 content brief">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select email sequence request"></td>
+                  <td data-l=""><div class="ttl"><b>Diwali email sequence</b>
+                    <span>NL-REQ-2026-0018</span>
+                    <div class="r" style="gap:4px"><span class="tag">Content</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--info"><span class="dot dot--info"></span>Brief</span></td>
+                  <td class="hide-m" data-l="Service">Content</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="22000">₹22,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-12"><span class="when">12 Oct<span class="age age--slow"><svg class="i" style="width:10px;height:10px"><use href="#i-alert"/></svg>13 days</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="pricing" data-f-service="development" data-f-age="old" data-f-files="yes"
+                    data-search="payment gateway integration nl-req-2026-0016 development pricing">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select gateway integration request"></td>
+                  <td data-l=""><div class="ttl"><b>Payment gateway integration</b>
+                    <span>NL-REQ-2026-0016</span>
+                    <div class="r" style="gap:4px"><span class="tag">Development</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--warn"><span class="dot dot--warn"></span>Pricing</span></td>
+                  <td class="hide-m" data-l="Service">Development</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="120000">₹1,20,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-09"><span class="when">9 Oct<span class="age age--stuck"><svg class="i" style="width:10px;height:10px"><use href="#i-alert"/></svg>16 days</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="brief" data-f-service="design" data-f-age="mid" data-f-files="no"
+                    data-search="trade show stand design nl-req-2026-0014 design brief">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select trade show stand request"></td>
+                  <td data-l=""><div class="ttl"><b>Trade show stand design</b>
+                    <span>NL-REQ-2026-0014</span>
+                    <div class="r" style="gap:4px"><span class="tag">Design</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--info"><span class="dot dot--info"></span>Brief</span></td>
+                  <td class="hide-m" data-l="Service">Design</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="75000">₹75,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-06"><span class="when">6 Oct<span class="age age--stuck"><svg class="i" style="width:10px;height:10px"><use href="#i-alert"/></svg>19 days</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+                <tr data-f-stage="pricing" data-f-service="content" data-f-age="old" data-f-files="no"
+                    data-search="menu photography brief nl-req-2026-0011 content pricing">
+                  <td><input class="chk" type="checkbox" data-dt-check aria-label="Select menu photography request"></td>
+                  <td data-l=""><div class="ttl"><b>Menu photography brief</b>
+                    <span>NL-REQ-2026-0011</span>
+                    <div class="r" style="gap:4px"><span class="tag">Content</span></div></div></td>
+                  <td data-l="Stage"><span class="tag tag--warn"><span class="dot dot--warn"></span>Pricing</span></td>
+                  <td class="hide-m" data-l="Service">Content</td>
+                  <td class="hide-m num" data-l="Budget" data-col="budget" data-s="18000">₹18,000</td>
+                  <td data-l="Submitted" data-col="submitted" data-s="2026-10-02"><span class="when">2 Oct<span class="age age--stuck"><svg class="i" style="width:10px;height:10px"><use href="#i-alert"/></svg>23 days</span></span></td>
+                  <td class="act"><div class="rowacts">
+                    <button class="iconb" data-tip="Preview" data-open-sheet="rv" aria-label="Preview request"><svg class="i"><use href="#i-eye"/></svg></button>
+                    <a class="btn btn-s btn-sm" href="../../F07-request-details/V1/index.html">Open</a></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="dt__empty" data-dt-empty hidden>
+            <div class="empty2">
+              <span class="empty2__art"><svg class="i i--lg"><use href="#i-inbox"/></svg></span>
+              <h3>No requests match that</h3>
+              <p>Nothing is hidden — the filter is just narrow. Clear it to see all ten requests,
+                or start a fresh brief.</p>
+              <div class="actions"><button class="btn btn-p btn-sm" data-dt-clear>Clear filters</button>
+                <a class="btn btn-s btn-sm" href="../../F06-new-request/V1/index.html">New request</a></div>
+            </div>
+          </div>
+
+          <div class="dt__f">
+            <span class="pagesize"><span data-dt-count>1–8 of 10</span>
+              <label class="r" style="gap:5px">Rows
+                <select data-dt-size aria-label="Rows per page"><option>5</option><option selected>8</option><option>20</option></select>
+              </label></span>
+            <span class="sr-only" data-dt-live aria-live="polite"></span>
+            <div class="pager" data-dt-pager role="navigation" aria-label="Request pages"></div>
+          </div>
+        </section>
+
+        <aside class="pv" aria-label="Preview">
+          <div class="card">
+            <div class="card__h"><div><h2>Preview</h2><p>Click a row's eye to load it here</p></div>
+              <a class="iconb" href="../../F07-request-details/V1/index.html" data-tip="Open full page" aria-label="Open request">↗</a></div>
+            <div class="pv__b">
+              <p class="pv__t">Brand refresh for the spice range</p>
+              <div class="pv__meta"><span class="tag tag--info"><span class="dot dot--info"></span>Brief</span>
+                <span class="tag">Design</span><span class="tag">2 files</span></div>
+              <div class="pv__kv">
+                <div><span>Reference</span><b class="mono">NL-REQ-2026-0027</b></div>
+                <div><span>Submitted</span><b>23 Oct 2026</b></div>
+                <div><span>Budget guide</span><b>₹85,000</b></div>
+                <div><span>Owner</span><b>Riya Kapoor</b></div>
+              </div>
+              <p class="pv__desc">Full identity refresh across six SKUs, including label system, dielines
+                and a social kit. Existing logo is retained; typography is open.</p>
+              <div class="note note--info"><svg class="i i--sm"><use href="#i-shield"/></svg>
+                <span>No quote yet. Typical first response is under one working day.</span></div>
+              <a class="btn btn-p btn-sm btn-block" href="../../F07-request-details/V1/index.html">Open full request</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <p class="f12 muted mt4" style="max-width:92ch">Bodies, budgets and dates are sample records that exercise the
+        filter, sort and pagination states; the stage taxonomy (Brief → Pricing → Quoted → Converted) comes from the
+        requests API. Projects counts stay hidden while <span class="mono">GET /api/v1/projects</span> returns 502.</p>
+
+      <nav class="r" style="justify-content:space-between;margin-top:22px;border-top:1px solid var(--border);padding-top:16px" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../../index.html">← Gallery</a>
+        <span class="f12 muted">F05 Requests · variant 1 of 5 — Pipeline Desk</span>
+        <a class="btn btn-s btn-sm" href="../V2/index.html">Next: Triage Board →</a>
+      </nav>
+    </main>
+  </div>
 </div>
 
-<div class="toast" role="status" aria-live="polite" data-toast></div>
+<div class="sheet-scrim" data-sheet-scrim></div>
+<section class="sheet sheet--wide" id="rv" data-open="false" role="dialog" aria-modal="true" aria-labelledby="rv-h">
+  <div class="sheet__h">
+    <div><span class="tag tag--info mb2"><span class="dot dot--info"></span>Brief · awaiting review</span>
+      <h2 id="rv-h">Brand refresh for the spice range</h2>
+      <p class="mono">NL-REQ-2026-0027 · submitted 23 Oct 2026</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="sheet__b">
+    <div class="dv-amt"><div><b>₹85,000</b><span>Budget guide · 6 SKUs</span></div>
+      <span class="tag tag--info">Design</span></div>
+    <div>
+      <p class="f12 b650 mb2">Brief</p>
+      <p class="f13" style="line-height:1.65;color:var(--ink-2)">Full identity refresh across six SKUs, including
+        label system, dielines and a social kit. The existing logo is retained; typography is open. Deadline is the
+        Diwali dispatch window, so the first route needs to be reviewable within two weeks.</p>
+    </div>
+    <div>
+      <p class="f12 b650 mb2">Attachments</p>
+      <div class="stack-2">
+        <div class="filetile"><span class="filetile__ic filetile__ic--img">PDF</span>
+          <span class="filetile__t"><b>existing-label-dielines.pdf</b><span>2.4 MB · 6 pages</span></span>
+          <button class="iconb" data-toast="Preview prepared (demo)" aria-label="Preview"><svg class="i"><use href="#i-eye"/></svg></button></div>
+        <div class="filetile"><span class="filetile__ic filetile__ic--doc">ZN</span>
+          <span class="filetile__t"><b>competitor-shelf-reference.zip</b><span>18 MB · 24 images</span></span>
+          <button class="iconb" data-toast="Download started (demo)" aria-label="Download"><svg class="i"><use href="#i-download"/></svg></button></div>
+      </div>
+    </div>
+    <div>
+      <p class="f12 b650 mb2">Stage history</p>
+      <div class="timeline">
+        <div class="tl2" data-state="done"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-check"/></svg></span></div>
+          <div class="tl2__b"><p class="tl2__t">Submitted <time>23 Oct, 09:12</time></p></div></div>
+        <div class="tl2" data-state="now"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-eye"/></svg></span></div>
+          <div class="tl2__b"><p class="tl2__t">Studio review <time>in progress</time></p>
+            <p class="tl2__m">Riya opened it twice; a scope question is drafted but not sent.</p></div></div>
+        <div class="tl2"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-file"/></svg></span></div>
+          <div class="tl2__b"><p class="tl2__t">Pricing</p><p class="tl2__m">A quote is issued — you will be asked to sign it.</p></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="sheet__f"><button class="btn btn-s" data-close>Close</button>
+    <button class="btn btn-s" data-toast="Follow-up sent to the studio"><svg class="i"><use href="#i-mail"/></svg>Follow up</button>
+    <a class="btn btn-p" href="../../F07-request-details/V1/index.html">Open full request</a></div>
+</section>
+
+<section class="sheet" id="help" data-open="false" role="dialog" aria-modal="true" aria-labelledby="hp-h">
+  <div class="sheet__h"><div><h2 id="hp-h">Request stages</h2><p>Four states, one direction.</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div class="timeline">
+      <div class="tl2" data-state="now"><div class="tl2__rail"><span class="tl2__dot"><span class="dot dot--info"></span></span></div>
+        <div class="tl2__b"><p class="tl2__t">Brief</p><p class="tl2__m">You submitted it. The studio reads, asks at most one question, then moves it on.</p></div></div>
+      <div class="tl2"><div class="tl2__rail"><span class="tl2__dot"><span class="dot dot--warn"></span></span></div>
+        <div class="tl2__b"><p class="tl2__t">Pricing</p><p class="tl2__m">Scope is being costed. No action from you — this is the longest stage.</p></div></div>
+      <div class="tl2"><div class="tl2__rail"><span class="tl2__dot"><span class="dot dot--ok"></span></span></div>
+        <div class="tl2__b"><p class="tl2__t">Quoted</p><p class="tl2__m">A quote exists and is signable. It expires 15 days after issue.</p></div></div>
+      <div class="tl2"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-launch"/></svg></span></div>
+        <div class="tl2__b"><p class="tl2__t">Converted</p><p class="tl2__m">Signed and turned into a project with milestones. Appears under Projects.</p></div></div>
+    </div>
+    <div class="note note--warn"><svg class="i i--sm"><use href="#i-alert"/></svg>
+      <span><b>A request never disappears.</b> If the studio declines, it stays here with a reason rather than
+        being deleted.</span></div>
+  </div>
+  <div class="sheet__f"><a class="btn btn-p" href="../../F06-new-request/V1/index.html">Start a request</a></div>
+</section>
+
+<div class="palette" id="palette" data-open="false" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true">
+  <div class="palette__p">
+    <div class="palette__in"><svg class="i"><use href="#i-search"/></svg>
+      <input type="text" placeholder="Requests, quotes, invoices, pages…" aria-label="Search" autocomplete="off"><kbd class="kbd">Esc</kbd></div>
+    <div class="palette__b">
+      <p class="palette__g">Requests</p>
+      <a class="palette__i" href="../../F07-request-details/V1/index.html"><svg class="i"><use href="#i-file"/></svg>Brand refresh · NL-REQ-2026-0027<span class="r">Brief</span></a>
+      <a class="palette__i" href="../../F07-request-details/V1/index.html"><svg class="i"><use href="#i-file"/></svg>B2B wholesale portal<span class="r">₹2.4L</span></a>
+      <button class="palette__i" data-toast="Follow-up sent to the studio"><svg class="i"><use href="#i-mail"/></svg>Follow up on the 2 oldest</button>
+      <p class="palette__g">Elsewhere</p>
+      <a class="palette__i" href="../../F03-dashboard-overview/V1/index.html"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a class="palette__i" href="../../F16-checkout/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Checkout · ₹31,875</a>
+      <a class="palette__i" href="../../F06-new-request/V1/index.html"><svg class="i"><use href="#i-plus"/></svg>New request</a>
+    </div>
+    <div class="palette__f"><span><kbd class="kbd">↵</kbd> open</span><span><kbd class="kbd">Esc</kbd> close</span>
+      <span style="margin-left:auto">Press / to search the table</span></div>
+  </div>
+</div>
+
+<div class="toasts" role="status" aria-live="polite"></div>
+<script src="../../../shared/kit.js"></script>
 <script>
-(function(){
-  'use strict';
-  var root=document.documentElement;
-  var toast=document.querySelector('[data-toast]'), tm;
-  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2200);}
-  var tt=document.querySelector('[data-theme-toggle]');
-  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
-    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
-  sync();
-  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
-    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
-
-  var body=document.querySelector('[data-body]'), rows=[].slice.call(body.querySelectorAll('tr[data-title]'));
-  var qEl=document.getElementById('q'), st=document.getElementById('status'), cat=document.getElementById('cat');
-  var empty=document.querySelector('[data-empty]');
-
-  function apply(){
-    var term=qEl.value.trim().toLowerCase(), s=st.value, c=cat.value, n=0;
-    rows.forEach(function(r){
-      var okTerm=!term||r.dataset.title.toLowerCase().indexOf(term)>-1||
-        r.querySelector('.ref').textContent.toLowerCase().indexOf(term)>-1;
-      var okS=!s||r.dataset.status===s;
-      var okC=!c||r.children[2].textContent.trim()===c;
-      var show=okTerm&&okS&&okC;
-      r.hidden=!show; if(show)n++;
-    });
-    empty.hidden=n>0;
-    document.querySelector('[data-shown]').textContent=n+' of 26 shown';
-    document.querySelector('[data-range]').textContent=n?('1–'+n):'0';
-  }
-  qEl.addEventListener('input',apply);
-  st.addEventListener('change',apply);
-  cat.addEventListener('change',apply);
-  function clearAll(){qEl.value='';st.value='';cat.value='';apply();qEl.focus();}
-  document.getElementById('clear').addEventListener('click',clearAll);
-  document.getElementById('clear2').addEventListener('click',clearAll);
-
-  var sortKey=null, dir=1;
-  document.querySelectorAll('[data-sort]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var k=b.dataset.sort;
-      if(sortKey===k)dir=-dir; else {sortKey=k;dir=1;}
-      document.querySelectorAll('th[aria-sort]').forEach(function(th){th.setAttribute('aria-sort','none');
-        var svg=th.querySelector('svg use'); if(svg)svg.setAttribute('href','#i-arrow-dn');});
-      var th=b.closest('th'); th.setAttribute('aria-sort',dir===1?'ascending':'descending');
-      var use=th.querySelector('svg use'); if(use)use.setAttribute('href',dir===1?'#i-arrow-up':'#i-arrow-dn');
-      rows.sort(function(a,b2){
-        var av,bv;
-        if(k==='title'){av=a.dataset.title.toLowerCase();bv=b2.dataset.title.toLowerCase();}
-        else if(k==='budget'){av=+a.dataset.budget;bv=+b2.dataset.budget;}
-        else if(k==='updated'){av=a.dataset.updated;bv=b2.dataset.updated;}
-        else {av=a.dataset.status.toLowerCase();bv=b2.dataset.status.toLowerCase();}
-        return av<bv?-dir:av>bv?dir:0;
-      });
-      rows.forEach(function(r){body.insertBefore(r,empty);});
-    });
+/* V1 only: stage chips are grid filters, and the preview panel reads the clicked row. */
+document.querySelectorAll('.stg').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.stg').forEach(function(x){x.setAttribute('aria-pressed','false')});
+    b.setAttribute('aria-pressed','true');
   });
-  var sp=new URLSearchParams(location.search);
-  if(sp.get('status')){st.value=sp.get('status');}
-  if(sp.get('state')==='empty'){qEl.value='zzz';say('Demo: empty filter state.');}
-  apply();
-})();
+});
+document.querySelectorAll('[data-open-sheet="rv"]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var tr=b.closest('tr'); if(!tr) return;
+    var pv=document.querySelector('.pv');
+    if(!pv) return;
+    var t=tr.querySelector('.ttl b'), ref=tr.querySelector('.ttl span'), tags=tr.querySelectorAll('.ttl .tag');
+    pv.querySelector('.pv__t').textContent=t?t.textContent:'';
+    pv.querySelector('.pv__kv b').textContent=ref?ref.textContent:'';
+    var meta=pv.querySelector('.pv__meta'); meta.innerHTML='';
+    tags.forEach(function(tg){ meta.appendChild(tg.cloneNode(true)); });
+    var date=tr.querySelector('.when');
+    if(date) pv.querySelectorAll('.pv__kv b')[1].textContent=date.textContent.split(/\d/)[0].trim();
+    var budget=tr.querySelector('[data-col="budget"]');
+    if(budget) pv.querySelectorAll('.pv__kv b')[2].textContent=budget.textContent;
+    pv.querySelector('.pv__t').scrollIntoView({block:'nearest'});
+  });
+});
 </script>
 </body>
 </html>

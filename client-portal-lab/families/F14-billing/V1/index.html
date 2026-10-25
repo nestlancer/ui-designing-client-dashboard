@@ -3,350 +3,514 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Billing · V1 Ledger + Queue — Nestlancer Portal Lab</title>
-<meta name="description" content="F14 variant 1: an outstanding-payments work queue above a settled-versus-outstanding ledger, with Razorpay as the gateway and invoice links kept.">
+<title>Billing · V1 Ledger Console — Nestlancer Client Portal</title>
+<meta name="description" content="F14 billing upgrade: settled versus outstanding, one checkout for everything due, and a searchable, sortable, paginated transaction ledger with export and row receipts.">
 <link rel="stylesheet" href="../../../shared/tokens.css">
 <link rel="stylesheet" href="../../../shared/base.css">
-<script>
-(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+<link rel="stylesheet" href="../../../shared/kit.css">
+<script>(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
 var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
-document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
-</script>
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();</script>
 <style>
-/* V1 — Ledger + Queue. A queue + ledger · B money-first · C queue narrative · E filter/sort. */
-.page{max-width:1240px;margin:0 auto;padding:0 22px 60px}
-.hd{display:flex;align-items:end;gap:14px;flex-wrap:wrap;padding:24px 0 16px}
-.hd h1{font-size:26px;letter-spacing:-.035em}
-.hd p{margin:4px 0 0;font-size:12.5px;color:var(--muted-foreground)}
-.hd .r{margin-left:auto;display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
-@media(max-width:760px){.kpis{grid-template-columns:1fr}}
-.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:13px 15px}
-.kpi .k{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
-.kpi .v{font-size:27px;letter-spacing:-.04em;font-variant-numeric:var(--tabnum);margin-top:5px;line-height:1.1}
-.kpi .n{font-size:11px;color:var(--muted-foreground);margin-top:4px}
-.kpi[data-t="paid"] .v{color:var(--status-success-text)}
-.kpi[data-t="pend"] .v{color:var(--status-warning-text)}
-.rz{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius-md);padding:10px 14px;margin-bottom:18px;flex-wrap:wrap}
-.rz .mark{font-weight:800;font-size:12px;letter-spacing:-.02em;color:#0b2a6b;background:#e8efff;
-  border-radius:5px;padding:3px 7px}
-.dark .rz .mark{background:#1b2650;color:#c9d6ff}
-.rz p{margin:0;font-size:11.5px;color:var(--muted-foreground);line-height:1.5}
-.rz a{margin-left:auto;font-size:11.5px;font-weight:650;color:var(--brand-700)}
-.dark .rz a{color:#9db3ff}
-.qbox{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;
-  margin-bottom:20px}
-.qhd{display:flex;align-items:center;gap:9px;padding:10px 14px;border-bottom:1px solid var(--border);
-  background:var(--brand-50);flex-wrap:wrap}
-.dark .qhd{background:#161f3a}
-.qhd h2{font-size:12.5px;letter-spacing:-.02em}
-.qhd .c{font-size:10.5px;color:var(--muted-foreground)}
-.qhd .r{margin-left:auto;font-size:10.5px;color:var(--muted-foreground)}
-.qrow{display:grid;grid-template-columns:minmax(0,1fr) 120px 130px 132px;gap:10px;align-items:center;
-  padding:11px 14px;border-bottom:1px solid var(--border)}
-.qrow:last-child{border-bottom:0}
-.qrow b{font-size:12.5px;font-weight:650;display:block;letter-spacing:-.01em}
-.qrow .s{font-size:10.5px;color:var(--muted-foreground)}
-.qrow .amt{font-size:12.5px;font-variant-numeric:var(--tabnum);text-align:right}
-.qrow .act{display:flex;gap:5px;justify-content:flex-end}
-@media(max-width:720px){.qrow{grid-template-columns:minmax(0,1fr) 132px}.qrow .amt{display:none}}
-.lhd{display:flex;align-items:center;gap:9px;padding:12px 0 8px;flex-wrap:wrap}
-.lhd h2{font-size:15px;letter-spacing:-.02em}
-.chips{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
-.chip{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:3px 10px;
-  font-size:11px;font-weight:650;color:var(--muted-foreground)}
-.chip[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
-.tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
-table.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
-table.tbl thead th{text-align:left;padding:8px 12px;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--muted-foreground);font-weight:700;border-bottom:1px solid var(--border);background:var(--muted);
-  white-space:nowrap}
-table.tbl thead th button{font:inherit;text-transform:inherit;letter-spacing:inherit;color:inherit}
-table.tbl td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
-table.tbl tbody tr:last-child td{border-bottom:0}
-table.tbl tbody tr:hover{background:var(--brand-50)}
-.dark table.tbl tbody tr:hover{background:#161f3a}
-.desc b{display:block;font-weight:600;font-size:12.5px;letter-spacing:-.01em}
-.desc span{font-size:10.5px;color:var(--muted-foreground)}
-.amt{text-align:right;font-variant-numeric:var(--tabnum);white-space:nowrap;font-weight:600}
-.date{white-space:nowrap;color:var(--muted-foreground);font-size:11.5px}
-.none{padding:30px 14px;text-align:center;font-size:12px;color:var(--muted-foreground)}
-.none b{display:block;color:var(--foreground);font-size:13px;margin-bottom:3px}
-.lfoot{display:flex;gap:10px;align-items:center;padding:9px 12px;border-top:1px solid var(--border);
-  font-size:11px;color:var(--muted-foreground);flex-wrap:wrap}
-.pager{display:flex;gap:4px;margin-left:auto}
-.pager button{border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:11px;
-  background:var(--card);color:var(--muted-foreground)}
-.pager button[aria-current="true"]{background:var(--brand-50);border-color:var(--brand-200);
-  color:var(--brand-800);font-weight:700}
-.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:18px;
-  flex-wrap:wrap}
-.seg{display:inline-flex;gap:2px;margin-left:auto}
-.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
-.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
-.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
-.scrollx{overflow-x:auto}
-@media(max-width:720px){table.tbl{min-width:620px}}
+/* V1 · LEDGER CONSOLE — outstanding work queue at the top (action), settled
+   ledger below (evidence). Two different objects, two different treatments. */
+.duo{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:12px;margin-bottom:12px}
+@media(max-width:980px){.duo{grid-template-columns:1fr}}
+.due-card{position:relative;overflow:hidden;padding:20px 22px;border-radius:16px;
+  background:var(--grad-brand-soft);border:1px solid var(--brand-100);box-shadow:var(--shadow-1)}
+.dark .due-card{background:linear-gradient(150deg,#16203c,#111b2e 62%);border-color:#2a3c64}
+.due-card .k{font-size:10px;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:var(--brand-700)}
+.dark .due-card .k{color:#a9bcff}
+.due-card .amt{font-size:clamp(32px,4.2vw,42px);line-height:1;font-weight:730;letter-spacing:-.055em;
+  font-variant-numeric:tabular-nums;margin-top:8px}
+.due-card .amt small{font-size:.4em;font-weight:600;color:var(--ink-2);letter-spacing:0}
+.due-card .rows{margin-top:14px;display:flex;flex-direction:column;gap:0;border-top:1px solid
+  color-mix(in srgb,var(--primary) 16%,var(--border))}
+.due-card .rows div{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:12px;
+  border-bottom:1px solid color-mix(in srgb,var(--primary) 12%,var(--border))}
+.due-card .rows b{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:680}
+.due-card .btns{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}
+.due-card .trust{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--muted-foreground);
+  margin-top:11px}
+.duo-side{display:grid;grid-template-rows:auto auto;gap:12px}
+.jump{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.jump .j{display:flex;flex-direction:column;justify-content:center;gap:1px;min-height:70px;
+  border:1px solid var(--border);border-radius:11px;padding:11px 12px;background:var(--card);text-align:left;
+  transition:border-color var(--duration-fast),transform var(--duration-normal)}
+.jump .j:hover{border-color:var(--border-strong);transform:translateY(-1px)}
+.jump .l,.jump .v,.jump .m{display:block}
+.jump .l{font-size:10px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground)}
+.jump .v{font-size:19px;font-weight:720;letter-spacing:-.04em;font-variant-numeric:tabular-nums;margin-top:2px}
+.jump .m{font-size:10.5px;color:var(--muted-foreground);margin-top:1px}
+
+.lg thead th{white-space:nowrap}
+.lg .ttl b{display:block;font-size:12.5px;font-weight:620;letter-spacing:-.01em;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;max-width:34ch}
+.lg .ttl span{display:block;font-family:var(--mono);font-size:10px;color:var(--muted-foreground)}
+.lg .amt{text-align:right;font-variant-numeric:tabular-nums;font-weight:650;white-space:nowrap}
+.lg .amt span{display:block;font-size:10px;font-weight:500;color:var(--muted-foreground)}
+.lg .bal{font-variant-numeric:tabular-nums;font-size:12px;white-space:nowrap}
+.lg .bal--due{color:var(--status-warning-text);font-weight:650}
+.filter-tabs{display:flex;gap:2px;padding:6px 14px 0;border-bottom:1px solid var(--border);overflow-x:auto;
+  scrollbar-width:none}
+.filter-tabs::-webkit-scrollbar{display:none}
+.ftab{padding:8px 10px;font-size:12px;font-weight:620;color:var(--muted-foreground);white-space:nowrap;
+  border-bottom:2px solid transparent;margin-bottom:-1px}
+.ftab:hover{color:var(--foreground)}
+.ftab[aria-pressed="true"]{color:var(--foreground);border-bottom-color:var(--primary)}
+.ftab .n{font-size:10px;color:var(--muted-foreground);margin-left:4px}
+
+.hbar__fill--ok{width:100%}
+.hbar__fill--muted{width:18%}
+.mini-tl{display:flex;flex-direction:column;gap:9px}
+.mini-tl .row{display:flex;gap:9px;font-size:11.5px}
+.mini-tl .row .i{flex:none;color:var(--status-success-text);margin-top:1px}
+.mini-tl .row b{font-weight:650}
+.mini-tl .row span{color:var(--muted-foreground)}
 </style>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
-  <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5"/><path d="M4 20h16"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 17h12v4H6z"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 14h2"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.6 2.3c-.7.4-1.1 1-1.1 1.7M12 17v.5"/></symbol>
 </svg>
 <a class="skip" href="#main">Skip to billing</a>
-<div class="shell shell--top">
-  <header class="topbar">
-    <div class="topbar-in">
-      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
-      <nav class="nav" aria-label="Main">
-        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
-        <a href="../../F05-requests-work-hub/V1/index.html">Requests</a>
-        <a href="../../F08-projects-list/V1/index.html">Projects</a>
-        <a href="index.html" aria-current="page">Billing</a>
-        <a href="../../F18-invoices/V1/index.html">Invoices</a>
-        <a href="../../F15-payment-methods/V1/index.html">Payment methods</a>
-      </nav>
-      <div class="topbar-end">
-        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+<div class="scrim" data-nav-scrim data-nav-close></div>
+
+<div class="app">
+  <aside class="side" aria-label="Portal">
+    <a class="ws" href="../../../index.html"><span class="ws__mark">N</span>
+      <span class="ws__t"><b>Khandesh Spice</b><span>Client workspace</span></span>
+      <svg class="i i--sm ws__chev"><use href="#i-chevron-down"/></svg></a>
+    <nav class="snav" aria-label="Sections">
+      <p class="snav__g">Work</p>
+      <a href="../../F03-dashboard-overview/V1/index.html"><svg class="i"><use href="#i-home"/></svg>Overview</a>
+      <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="cnt">10</span></a>
+      <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="#i-file"/></svg>Quotes<span class="cnt">1</span></a>
+      <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="cnt">2</span></a>
+      <p class="snav__g">Money</p>
+      <a href="index.html" aria-current="page"><svg class="i"><use href="#i-card"/></svg>Billing<span class="cnt cnt--live">₹31.8k</span></a>
+      <a href="../../F18-invoices/V1/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F15-payment-methods/V1/index.html"><svg class="i"><use href="#i-shield"/></svg>Payment methods</a>
+      <p class="snav__g">Account</p>
+      <a href="../../F19-notifications/V1/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="cnt">6</span></a>
+      <a href="../../F20-profile/V1/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="#i-settings"/></svg>Settings</a>
+    </nav>
+    <div class="side__foot">
+      <div class="side__cta"><b>₹31,875 outstanding</b>
+        <p>Clear the processing payment and the open invoice in one checkout.</p>
+        <a class="btn btn-p btn-sm btn-block" href="../../F16-checkout/V1/index.html">Pay now</a></div>
+      <a class="side__user" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span>
+        <span class="nm"><b>Arjun Mehta</b><span>Owner · Khandesh Spice</span></span></a>
+    </div>
+  </aside>
+
+  <div class="app__col">
+    <header class="top">
+      <button class="iconb navtog" data-nav-open aria-label="Open navigation" aria-expanded="false"><svg class="i i--lg"><use href="#i-menu"/></svg></button>
+      <div class="top__crumb"><span>Money</span><svg class="i i--sm"><use href="#i-chevron"/></svg><b>Billing</b></div>
+      <div class="top__mid"><button class="trigger" data-palette-open="palette" aria-label="Search, Command K">
+        <svg class="i"><use href="#i-search"/></svg><span>Search payments, invoices…</span><kbd class="kbd">⌘K</kbd></button></div>
+      <div class="top__right">
+        <button class="iconb" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
           <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+        <a class="iconb" href="../../F19-notifications/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg><span class="dot">6</span></a>
+        <a class="me" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span><span class="me__n">Arjun</span></a>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main id="main" class="page">
-    <div class="hd">
-      <div><h1>Billing</h1>
-        <p>A work queue for anything that needs money moving, then the full ledger.</p></div>
-      <div class="r">
-        <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">Invoices</a>
-        <a class="btn btn-g btn-sm" href="../../F15-payment-methods/V1/index.html">
-          <svg class="i i--sm"><use href="#i-card"/></svg>Payment methods</a>
-      </div>
-    </div>
-
-    <div class="kpis">
-      <div class="kpi" data-t="paid"><span class="k">Total paid</span>
-        <p class="v">₹81,500.00</p><p class="n">5 settled transactions</p></div>
-      <div class="kpi" data-t="pend"><span class="k">Pending</span>
-        <p class="v">₹31,875.00</p><p class="n">2 unsettled · not-due milestones excluded</p></div>
-      <div class="kpi"><span class="k">In dispute</span>
-        <p class="v">₹0.00</p><p class="n">no open disputes</p></div>
-    </div>
-
-    <div class="rz">
-      <span class="mark">Razorpay</span>
-      <p>Card, UPI and netbanking are handled by Razorpay. Bank transfers are verified manually —
-        upload the proof and the payment shows as <b>processing</b> until it clears.</p>
-      <a href="../../F16-checkout/V1/index.html">Open checkout →</a>
-    </div>
-
-    <section class="qbox" aria-label="Payments needing action">
-      <div class="qhd">
-        <h2>Needs action</h2><span class="c">4 items · <code>GET /payments?status=processing</code> + pending invoices</span>
-        <span class="r">ordered by due date</span>
-      </div>
-      <div class="qrow">
-        <div><b>Milestone 2 · Khandesh Spice</b>
-          <span class="s">Due 30 Oct 2026 · bank transfer awaiting verification</span></div>
-        <span class="pill pill--warn">processing</span>
-        <div class="amt">₹30,000.00</div>
-        <div class="act"><a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Pay</a>
-          <a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Status</a></div>
-      </div>
-      <div class="qrow">
-        <div><b>Invoice NL-INV-2026-000044</b>
-          <span class="s">Issued 12 Oct 2026 · reference missing</span></div>
-        <span class="pill pill--warn">pending</span>
-        <div class="amt">₹1,875.00</div>
-        <div class="act"><a class="btn btn-p btn-sm" href="../../F18-invoices/V1/index.html">Open</a>
-          <a class="btn btn-g btn-sm" href="../../F16-checkout/V1/index.html">Pay</a></div>
-      </div>
-      <div class="qrow">
-        <div><b>Milestone 3 · B2B Wholesale</b>
-          <span class="s">Not due · unlocks when milestone 2 is approved</span></div>
-        <span class="pill pill--lock">not due</span>
-        <div class="amt">₹45,000.00</div>
-        <div class="act"><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div>
-      </div>
-      <div class="qrow">
-        <div><b>Milestone 3 · Khandesh Spice</b>
-          <span class="s">Not due · amount confirmed at handover</span></div>
-        <span class="pill pill--lock">not due</span>
-        <div class="amt">—</div>
-        <div class="act"><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div>
-      </div>
-    </section>
-
-    <div class="lhd">
-      <h2>Ledger</h2>
-      <span class="c" style="font-size:11px;color:var(--muted-foreground)" data-cnt>11 transactions</span>
-      <div class="chips" role="group" aria-label="Filter ledger">
-        <button class="chip" data-f="all" aria-pressed="true">All</button>
-        <button class="chip" data-f="completed" aria-pressed="false">Completed</button>
-        <button class="chip" data-f="processing" aria-pressed="false">Processing</button>
-        <button class="chip" data-f="pending" aria-pressed="false">Pending</button>
-        <button class="chip" data-f="not_due" aria-pressed="false">Not due</button>
-      </div>
-    </div>
-
-    <div class="tblwrap">
-      <div class="scrollx">
-      <table class="tbl" data-tbl>
-        <caption class="sr-only">Payment ledger with date, description, project, method, status and amount</caption>
-        <thead><tr>
-          <th scope="col"><button data-sort="date">Date</button></th>
-          <th scope="col">Description</th>
-          <th scope="col">Project</th>
-          <th scope="col">Method</th>
-          <th scope="col">Status</th>
-          <th scope="col" style="text-align:right"><button data-sort="amt">Amount</button></th>
-        </tr></thead>
-        <tbody data-body>
-          <tr data-st="completed" data-date="20261015" data-amt="48000">
-            <td class="date">15 Oct 2026</td>
-            <td class="desc"><b>Milestone 1 · approved</b><span>Discovery &amp; wireframes</span></td>
-            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill pill--ok">UPI</span></td>
-            <td><span class="pill pill--ok">completed</span></td>
-            <td class="amt">₹48,000.00</td></tr>
-          <tr data-st="processing" data-date="20261014" data-amt="30000">
-            <td class="date">14 Oct 2026</td>
-            <td class="desc"><b>Milestone 2 · bank transfer</b><span>Proof uploaded · UTR awaiting verification</span></td>
-            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill">Bank</span></td>
-            <td><span class="pill pill--warn">processing</span></td>
-            <td class="amt">₹30,000.00</td></tr>
-          <tr data-st="pending" data-date="20261012" data-amt="1875">
-            <td class="date">12 Oct 2026</td>
-            <td class="desc"><b>Invoice NL-INV-2026-000044</b><span>Issued · unpaid</span></td>
-            <td class="desc"><span>Horizon Retail</span></td><td><span class="pill">—</span></td>
-            <td><span class="pill pill--warn">pending</span></td>
-            <td class="amt">₹1,875.00</td></tr>
-          <tr data-st="completed" data-date="20261005" data-amt="625">
-            <td class="date">5 Oct 2026</td>
-            <td class="desc"><b>Audit deposit</b><span>Ref AUDIT-P25-20261005-73dhk</span></td>
-            <td class="desc"><span>Account</span></td><td><span class="pill pill--ok">Card</span></td>
-            <td><span class="pill pill--ok">completed</span></td>
-            <td class="amt">₹625.00</td></tr>
-          <tr data-st="completed" data-date="20260928" data-amt="22000">
-            <td class="date">28 Sep 2026</td>
-            <td class="desc"><b>Milestone 1 · approved</b><span>B2B Wholesale ordering portal</span></td>
-            <td class="desc"><span>B2B Wholesale</span></td><td><span class="pill pill--ok">Netbanking</span></td>
-            <td><span class="pill pill--ok">completed</span></td>
-            <td class="amt">₹22,000.00</td></tr>
-          <tr data-st="completed" data-date="20260920" data-amt="10625">
-            <td class="date">20 Sep 2026</td>
-            <td class="desc"><b>Change request · hero rebuild</b><span>Approved 19 Sep</span></td>
-            <td class="desc"><span>Horizon Retail</span></td><td><span class="pill pill--ok">UPI</span></td>
-            <td><span class="pill pill--ok">completed</span></td>
-            <td class="amt">₹10,625.00</td></tr>
-          <tr data-st="failed" data-date="20260918" data-amt="30000">
-            <td class="date">18 Sep 2026</td>
-            <td class="desc"><b>Milestone 2 · attempt</b><span>Card declined · no money moved</span></td>
-            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill pill--err">Card</span></td>
-            <td><span class="pill pill--err">failed</span></td>
-            <td class="amt">₹30,000.00</td></tr>
-          <tr data-st="completed" data-date="20260912" data-amt="250">
-            <td class="date">12 Sep 2026</td>
-            <td class="desc"><b>Platform fee</b><span>2.5% of milestone 1</span></td>
-            <td class="desc"><span>Account</span></td><td><span class="pill pill--ok">Card</span></td>
-            <td><span class="pill pill--ok">completed</span></td>
-            <td class="amt">₹250.00</td></tr>
-          <tr data-st="completed" data-date="20260830" data-amt="0">
-            <td class="date">30 Aug 2026</td>
-            <td class="desc"><b>Reversal · duplicate charge</b><span>Returned in 3 working days</span></td>
-            <td class="desc"><span>Account</span></td><td><span class="pill">—</span></td>
-            <td><span class="pill pill--info">refunded</span></td>
-            <td class="amt">₹0.00</td></tr>
-          <tr data-st="not_due" data-date="20261115" data-amt="45000">
-            <td class="date">15 Nov 2026</td>
-            <td class="desc"><b>Milestone 3 · B2B Wholesale</b><span>Unlocks on milestone 2 approval</span></td>
-            <td class="desc"><span>B2B Wholesale</span></td><td><span class="pill">—</span></td>
-            <td><span class="pill pill--lock">not due</span></td>
-            <td class="amt">₹45,000.00</td></tr>
-          <tr data-st="not_due" data-date="20261205" data-amt="0">
-            <td class="date">5 Dec 2026</td>
-            <td class="desc"><b>Milestone 3 · Khandesh Spice</b><span>Amount confirmed at handover</span></td>
-            <td class="desc"><span>Khandesh Spice D2C</span></td><td><span class="pill">—</span></td>
-            <td><span class="pill pill--lock">not due</span></td>
-            <td class="amt">—</td></tr>
-        </tbody>
-      </table>
-      </div>
-      <div class="lfoot">
-        <span data-shown>11 of 11 transactions</span>
-        <span>· amounts are inclusive of GST where invoiced</span>
-        <div class="pager" role="group" aria-label="Pagination">
-          <button aria-current="true">1</button><button>2</button><button>Next ›</button>
+    <main id="main" class="page">
+      <div class="phead">
+        <div class="phead__t">
+          <p class="kicker"><span class="led"></span>Ledger · synced 2 min ago</p>
+          <h1>Billing</h1>
+          <p class="phead__sub">One place for what you owe and what you have paid. ₹81,500 has settled across nine
+            payments; two records totalling ₹31,875 are still open.</p>
+          <div class="meta-row">
+            <span>Billed <b>₹1,13,375</b></span><span class="sep"></span>
+            <span>Settled <b>₹81,500</b></span><span class="sep"></span>
+            <span>Outstanding <b>₹31,875</b></span><span class="sep"></span>
+            <span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>no failed payments</span>
+          </div>
+        </div>
+        <div class="phead__a">
+          <button class="btn btn-s" data-open-sheet="help"><svg class="i"><use href="#i-help"/></svg>How billing works</button>
+          <button class="btn btn-s" data-toast="Statement of account prepared (demo)"><svg class="i"><use href="#i-download"/></svg>Statement</button>
+          <a class="btn btn-p" href="../../F16-checkout/V1/index.html">Pay ₹31,875</a>
         </div>
       </div>
-      <div class="none" data-none hidden><b>Nothing in this state</b>
-        No transactions match the selected filter.</div>
-    </div>
 
-    <div class="foot">
-      <a href="../../../index.html">← Gallery</a><span>F14 · V1 of 5</span>
-      <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
-    </div>
-  </main>
+      <div class="duo">
+        <section class="due-card" aria-labelledby="due-h">
+          <p class="k" id="due-h">Outstanding · 2 records</p>
+          <p class="amt">₹31,875<small>.00</small></p>
+          <div class="rows">
+            <div><span class="dot dot--warn"></span>Processing · Khandesh Spice D2C M2
+              <b>₹30,000.00</b></div>
+            <div><span class="dot dot--err"></span>Invoice NL-INV-2026-000031 · due 30 Oct
+              <b>₹1,875.00</b></div>
+          </div>
+          <div class="btns">
+            <a class="btn btn-p" href="../../F16-checkout/V1/index.html">Pay both · ₹31,875</a>
+            <a class="btn btn-s" href="../../F17-payment-status/V1/index.html">Track processing</a>
+            <button class="btn btn-g" data-open-sheet="split">Pay separately</button>
+          </div>
+          <p class="trust"><svg class="i i--sm"><use href="#i-shield"/></svg>
+            Razorpay · UPI mandate not required · no fee added at checkout</p>
+        </section>
+
+        <div class="duo-side">
+          <div class="jump">
+            <a class="j" href="#ledger"><span class="l">Settled</span><span class="v">₹81,500</span>
+              <span class="m">9 payments · 5 invoices</span></a>
+            <a class="j" href="../../F18-invoices/V1/index.html"><span class="l">Invoices</span><span class="v">5</span>
+              <span class="m">₹87,000 invoiced</span></a>
+            <button class="j" data-open-sheet="gst"><span class="l">GST</span><span class="v">₹12,115</span>
+              <span class="m">claimable · statement</span></button>
+            <a class="j" href="../../F15-payment-methods/V1/index.html"><span class="l">Methods</span><span class="v">1</span>
+              <span class="m">HDFC ····4242</span></a>
+          </div>
+          <div class="card">
+            <div class="card__b" style="padding:14px 16px">
+              <div class="r r--between mb2"><b class="f13">Payment thread</b>
+                <span class="tag tag--ok"><span class="dot dot--live"></span>healthy</span></div>
+              <div class="mini-tl">
+                <p class="row"><svg class="i i--sm"><use href="#i-check"/></svg>
+                  <span><b>M1 ₹48,000</b> · settled 16 Oct, receipt ready</span></p>
+                <p class="row"><svg class="i i--sm" style="color:var(--status-warning-text)"><use href="#i-clock"/></svg>
+                  <span><b>M2 ₹30,000</b> · processing since 22 Oct, UTR pending</span></p>
+                <p class="row"><svg class="i i--sm" style="color:var(--status-error-text)"><use href="#i-x"/></svg>
+                  <span><b>Invoice ₹1,875</b> · due 30 Oct, 5 days left</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="dt" id="ledger" data-dt aria-labelledby="lg-h">
+        <div class="card__h">
+          <div><h2 id="lg-h">Transaction ledger</h2><p><span data-dt-count>1–8 of 9</span> · every movement, newest first</p></div>
+          <div class="end">
+            <button class="fbtn" data-menu-btn="ex2"><svg class="i i--sm"><use href="#i-download"/></svg>Export</button>
+            <div class="menu menu--wide" id="ex2" data-open="false" role="menu">
+              <p class="menu__h">Export the ledger</p>
+              <button class="menu__i" data-toast="CSV of 9 transactions queued"><svg class="i"><use href="#i-download"/></svg>CSV · all rows</button>
+              <button class="menu__i" data-toast="Statement PDF prepared (demo)"><svg class="i"><use href="#i-file"/></svg>Statement PDF</button>
+              <button class="menu__i" data-toast="GST summary prepared (demo)"><svg class="i"><use href="#i-receipt"/></svg>GST summary (A10)</button>
+              <button class="menu__i" data-window-print><svg class="i"><use href="#i-print"/></svg>Print this ledger</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-tabs" role="group" aria-label="Filter ledger">
+          <button class="ftab" aria-pressed="true" data-dt-f="state" data-fv="all">All <span class="n">9</span></button>
+          <button class="ftab" aria-pressed="false" data-dt-f="state" data-fv="paid">Settled <span class="n">7</span></button>
+          <button class="ftab" aria-pressed="false" data-dt-f="state" data-fv="open">Open <span class="n">2</span></button>
+          <button class="ftab" aria-pressed="false" data-dt-f="state" data-fv="refunded">Refunds <span class="n">0</span></button>
+        </div>
+
+        <div class="toolbar">
+          <div class="search">
+            <svg><use href="#i-search"/></svg>
+            <input type="search" data-dt-q placeholder="Search ref, invoice, milestone…" aria-label="Search ledger" autocomplete="off">
+            <kbd class="kbd">/</kbd>
+            <button class="search__x" type="button" aria-label="Clear search" onclick="this.previousElementSibling.value='';this.previousElementSibling.dispatchEvent(new Event('input'))"><svg class="i i--sm"><use href="#i-x"/></svg></button>
+          </div>
+          <select class="fbtn" data-dt-sel="method" aria-label="Filter by method" style="padding-right:24px">
+            <option value="">All methods</option><option value="card">Card</option>
+              <option value="upi">UPI</option><option value="bank">Bank transfer</option><option value="razorpay">Razorpay</option>
+          </select>
+          <button class="fbtn" data-menu-btn="f14"><svg class="i i--sm"><use href="#i-search"/></svg>Filter<span class="n" data-fcount hidden>0</span></button>
+          <div class="menu" id="f14" data-open="false">
+            <p class="menu__h">Direction</p>
+            <button class="menu__opt" data-dt-f="dir" data-fv="in" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>Money in<span class="cnt">7</span></button>
+            <button class="menu__opt" data-dt-f="dir" data-fv="out" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>Money out<span class="cnt">0</span></button>
+            <div class="menu__sep"></div>
+            <p class="menu__h">Receipt</p>
+            <button class="menu__opt" data-dt-f="rcpt" data-fv="yes" role="menuitemcheckbox"><span class="box"><svg><use href="#i-check"/></svg></span>Has receipt<span class="cnt">7</span></button>
+            <div class="menu__f"><button class="btn btn-s btn-sm grow" data-dt-clear>Reset</button>
+              <button class="btn btn-p btn-sm grow" data-keep onclick="this.closest('.menu').dataset.open='false';this.closest('.menu').previousElementSibling.setAttribute('aria-expanded','false')">Apply</button></div>
+          </div>
+          <span class="grow"></span>
+          <span class="pagesize">Rows
+            <select data-dt-size aria-label="Rows per page"><option>5</option><option selected>8</option><option>20</option></select></span>
+        </div>
+
+        <div class="activef" data-activef hidden><span class="activef__l">Filtered</span>
+          <span class="chips" data-active-list></span><button class="chip chip--ghost" data-dt-clear>Clear all</button></div>
+
+        <div class="dt__scroll">
+          <table class="lg">
+            <caption class="sr-only">Billing transactions with date, reference, amount, balance and receipt</caption>
+            <thead><tr>
+              <th><button class="th-s" data-sort="date" data-type="date">Date<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+              <th><button class="th-s" data-sort="ref" data-type="text">Record<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+              <th class="hide-m">Method</th>
+              <th class="num"><button class="th-s" data-sort="amount" data-type="num">Amount<svg class="i"><use href="#i-chevron-down"/></svg></button></th>
+              <th class="hide-m">Balance</th>
+              <th>State</th>
+              <th class="act"><span class="sr-only">Receipt</span></th>
+            </tr></thead>
+            <tbody>
+              <tr data-f-state="open" data-f-method="razorpay" data-f-dir="in" data-f-rcpt="no"
+                  data-search="22 oct 2026 processing payment m2 30000 01a10a2b razorpay">
+                <td data-l="Date" data-col="date" data-s="2026-10-22"><span class="sub">22 Oct 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Processing · M2 milestone</b><span>01a10a2b-5ed2</span></div></td>
+                <td class="hide-m" data-l="Method">Razorpay</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="30000">₹30,000.00<span>M2 share</span></td>
+                <td class="hide-m bal bal--due" data-l="Balance">₹30,000 due</td>
+                <td data-l="State"><span class="tag tag--warn"><svg class="i"><use href="#i-clock"/></svg>Processing</span></td>
+                <td class="act"><a class="btn btn-p btn-sm" href="../../F17-payment-status/V1/index.html">Track</a></td>
+              </tr>
+              <tr data-f-state="open" data-f-method="bank" data-f-dir="in" data-f-rcpt="no"
+                  data-search="30 oct 2026 invoice nl-inv-2026-000031 1875 packaging">
+                <td data-l="Date" data-col="date" data-s="2026-10-30"><span class="sub">due 30 Oct</span></td>
+                <td data-l=""><div class="ttl"><b>Invoice NL-INV-2026-000031</b><span>packaging design</span></div></td>
+                <td class="hide-m" data-l="Method">Not chosen</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="1875">₹1,875.00<span>₹1,589 + GST</span></td>
+                <td class="hide-m bal bal--due" data-l="Balance">₹1,875 due</td>
+                <td data-l="State"><span class="tag tag--err"><svg class="i"><use href="#i-alert"/></svg>Due in 5 days</span></td>
+                <td class="act"><a class="btn btn-s btn-sm" href="../../F18-invoices/V1/index.html">Pay</a></td>
+              </tr>
+              <tr data-f-state="paid" data-f-method="upi" data-f-dir="in" data-f-rcpt="yes"
+                  data-search="16 oct 2026 milestone m1 48000 upi receipt">
+                <td data-l="Date" data-col="date" data-s="2026-10-22"><span class="sub">22 Oct 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Milestone M1 · creative direction</b><span>NL-PAY-2026-000441</span></div></td>
+                <td class="hide-m" data-l="Method">UPI · nestlancer@okhdfc</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="48000">₹48,000.00<span>settled</span></td>
+                <td class="hide-m bal" data-l="Balance">—</td>
+                <td data-l="State"><span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>Paid</span></td>
+                <td class="act"><button class="iconb" data-tip="Receipt" data-toast="Receipt prepared (demo)" aria-label="Receipt"><svg class="i"><use href="#i-receipt"/></svg></button></td>
+              </tr>
+              <tr data-f-state="paid" data-f-method="card" data-f-dir="in" data-f-rcpt="yes"
+                  data-search="13 oct 2026 quote deposit 885 card hdfc 4242">
+                <td data-l="Date" data-col="date" data-s="2026-10-13"><span class="sub">13 Oct 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Quote deposit · #01a10f80</b><span>NL-PAY-2026-000428</span></div></td>
+                <td class="hide-m" data-l="Method">Card ····4242</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="885">₹885.00<span>50% of ₹1,770</span></td>
+                <td class="hide-m bal" data-l="Balance">—</td>
+                <td data-l="State"><span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>Paid</span></td>
+                <td class="act"><button class="iconb" data-tip="Receipt" data-toast="Receipt prepared (demo)" aria-label="Receipt"><svg class="i"><use href="#i-receipt"/></svg></button></td>
+              </tr>
+              <tr data-f-state="paid" data-f-method="bank" data-f-dir="in" data-f-rcpt="yes"
+                  data-search="06 oct 2026 invoice nl-inv-2026-000028 12000 bank transfer">
+                <td data-l="Date" data-col="date" data-s="2026-10-06"><span class="sub">6 Oct 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Invoice NL-INV-2026-000028</b><span>storage &amp; handover</span></div></td>
+                <td class="hide-m" data-l="Method">Bank transfer</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="12000">₹12,000.00<span>settled</span></td>
+                <td class="hide-m bal" data-l="Balance">—</td>
+                <td data-l="State"><span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>Paid</span></td>
+                <td class="act"><button class="iconb" data-tip="Receipt" data-toast="Receipt prepared (demo)" aria-label="Receipt"><svg class="i"><use href="#i-receipt"/></svg></button></td>
+              </tr>
+              <tr data-f-state="paid" data-f-method="upi" data-f-dir="in" data-f-rcpt="yes"
+                  data-search="28 sep 2026 milestone 14600 upi">
+                <td data-l="Date" data-col="date" data-s="2026-09-28"><span class="sub">28 Sep 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Milestone M3 · B2B portal</b><span>NL-PAY-2026-000402</span></div></td>
+                <td class="hide-m" data-l="Method">UPI · nestlancer@okhdfc</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="14600">₹14,600.00<span>settled</span></td>
+                <td class="hide-m bal" data-l="Balance">—</td>
+                <td data-l="State"><span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>Paid</span></td>
+                <td class="act"><button class="iconb" data-tip="Receipt" data-toast="Receipt prepared (demo)" aria-label="Receipt"><svg class="i"><use href="#i-receipt"/></svg></button></td>
+              </tr>
+              <tr data-f-state="paid" data-f-method="card" data-f-dir="in" data-f-rcpt="yes"
+                  data-search="09 sep 2026 invoice nl-inv-2026-000022 1875 card">
+                <td data-l="Date" data-col="date" data-s="2026-09-09"><span class="sub">9 Sep 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Invoice NL-INV-2026-000022</b><span>label artwork</span></div></td>
+                <td class="hide-m" data-l="Method">Card ····4242</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="1875">₹1,875.00<span>settled</span></td>
+                <td class="hide-m bal" data-l="Balance">—</td>
+                <td data-l="State"><span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>Paid</span></td>
+                <td class="act"><button class="iconb" data-tip="Receipt" data-toast="Receipt prepared (demo)" aria-label="Receipt"><svg class="i"><use href="#i-receipt"/></svg></button></td>
+              </tr>
+              <tr data-f-state="paid" data-f-method="bank" data-f-dir="in" data-f-rcpt="yes"
+                  data-search="21 aug 2026 milestone 2400 bank">
+                <td data-l="Date" data-col="date" data-s="2026-08-21"><span class="sub">21 Aug 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Milestone M2 · B2B portal</b><span>NL-PAY-2026-000372</span></div></td>
+                <td class="hide-m" data-l="Method">Bank transfer</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="2400">₹2,400.00<span>settled</span></td>
+                <td class="hide-m bal" data-l="Balance">—</td>
+                <td data-l="State"><span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>Paid</span></td>
+                <td class="act"><button class="iconb" data-tip="Receipt" data-toast="Receipt prepared (demo)" aria-label="Receipt"><svg class="i"><use href="#i-receipt"/></svg></button></td>
+              </tr>
+              <tr data-f-state="paid" data-f-method="upi" data-f-dir="in" data-f-rcpt="yes"
+                  data-search="04 aug 2026 advance 1740 upi">
+                <td data-l="Date" data-col="date" data-s="2026-08-04"><span class="sub">4 Aug 2026</span></td>
+                <td data-l=""><div class="ttl"><b>Advance · discovery</b><span>NL-PAY-2026-000341</span></div></td>
+                <td class="hide-m" data-l="Method">UPI · nestlancer@okhdfc</td>
+                <td class="amt num" data-l="Amount" data-col="amount" data-s="1740">₹1,740.00<span>settled</span></td>
+                <td class="hide-m bal" data-l="Balance">—</td>
+                <td data-l="State"><span class="tag tag--ok"><svg class="i"><use href="#i-check"/></svg>Paid</span></td>
+                <td class="act"><button class="iconb" data-tip="Receipt" data-toast="Receipt prepared (demo)" aria-label="Receipt"><svg class="i"><use href="#i-receipt"/></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="dt__empty" data-dt-empty hidden>
+          <div class="empty2"><span class="empty2__art"><svg class="i i--lg"><use href="#i-receipt"/></svg></span>
+            <h3>No transactions match</h3>
+            <p>Try another method or clear the state filter. All nine movements are still recorded.</p>
+            <div class="actions"><button class="btn btn-p btn-sm" data-dt-clear>Clear filters</button>
+              <a class="btn btn-s btn-sm" href="../../F18-invoices/V1/index.html">Open invoices</a></div>
+          </div>
+        </div>
+
+        <div class="dt__f"><span class="pagesize"><span data-dt-count>1–8 of 9</span></span>
+          <span class="sr-only" data-dt-live aria-live="polite"></span>
+          <div class="pager" data-dt-pager role="navigation" aria-label="Ledger pages"></div></div>
+      </section>
+
+      <div class="col2 mt4">
+        <section class="card">
+          <div class="card__h"><div><h2>Where the ₹31,875 goes</h2><p>Obligations, in due order</p></div>
+            <span class="tag tag--warn">2</span></div>
+          <div class="card__b" style="display:flex;flex-direction:column;gap:10px">
+            <div class="r r--between"><div><b class="f13">M2 packaging · ₹30,000</b>
+              <p class="f12 muted">Releases the final files. Processing since 22 Oct.</p></div>
+              <a class="btn btn-s btn-sm" href="../../F17-payment-status/V1/index.html">Track</a></div>
+            <div class="hr"></div>
+            <div class="r r--between"><div><b class="f13">Invoice · ₹1,875</b>
+              <p class="f12 muted">Taxable ₹1,589 + GST ₹286. Due 30 Oct.</p></div>
+              <a class="btn btn-s btn-sm" href="../../F18-invoices/V1/index.html">Open</a></div>
+            <div class="hr"></div>
+            <div class="note note--info"><svg class="i i--sm"><use href="#i-shield"/></svg>
+              <span>Paying both together is one Razorpay order and one UTR, which is why checkout shows
+                ₹31,875 rather than two line payments.</span></div>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card__h"><div><h2>Never lose a receipt</h2><p>Every settled movement has one</p></div></div>
+          <div class="card__b">
+            <div class="hbars">
+              <div class="hbar"><div class="hbar__t"><b>Settled with a receipt</b><span>7 of 7</span></div>
+                <div class="hbar__track" data-bar="100"><span class="hbar__fill hbar__fill--ok"></span></div></div>
+              <div class="hbar"><div class="hbar__t"><b>Open records missing one</b><span>2 — raised after payment</span></div>
+                <div class="hbar__track" data-bar="18"><span class="hbar__fill hbar__fill--muted"></span></div></div>
+            </div>
+            <p class="f12 muted mt3">Receipts live on the transaction and again on the invoice. Downloading either
+              gives the same PDF with the same reference.</p>
+            <button class="btn btn-s btn-sm btn-block mt3" data-toast="Statement of account prepared (demo)">
+              <svg class="i i--sm"><use href="#i-download"/></svg>Download statement of account</button>
+            <p class="f12 muted mt2" style="font-size:10.5px">Demo affordance D4 — only per-invoice PDFs exist in the API.</p>
+          </div>
+        </section>
+      </div>
+
+      <nav class="r" style="justify-content:space-between;margin-top:24px;border-top:1px solid var(--border);padding-top:16px" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../../index.html">← Gallery</a>
+        <span class="f12 muted">F14 Billing · variant 1 of 5 — Ledger Console</span>
+        <a class="btn btn-s btn-sm" href="../V2/index.html">Next: Statement →</a>
+      </nav>
+    </main>
+  </div>
 </div>
-<div class="toast" role="status" aria-live="polite" data-toast></div>
-<script>
-(function(){
-  'use strict';
-  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
-  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
-  var tt=document.querySelector('[data-theme-toggle]');
-  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
-    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
-  sync();
-  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
-    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
 
-  var body=document.querySelector('[data-body]'), rows=[].slice.call(body.rows),
-      shown=document.querySelector('[data-shown]'), none=document.querySelector('[data-none]'),
-      cnt=document.querySelector('[data-cnt]'), filter='all', dir=-1;
-  function paint(){
-    var n=0;
-    rows.forEach(function(r){
-      var ok=filter==='all'||r.dataset.st===filter;
-      r.hidden=!ok; if(ok)n++;
-    });
-    shown.textContent=n+' of '+rows.length+' transactions';
-    cnt.textContent=n+' transaction'+(n===1?'':'s');
-    none.hidden=n>0;
-  }
-  document.querySelectorAll('.chip').forEach(function(c){
-    c.addEventListener('click',function(){
-      filter=c.dataset.f;
-      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===c));});
-      paint();
-      say('Filtered to '+filter.replace('_',' ')+'.');
-    });
-  });
-  document.querySelectorAll('[data-sort]').forEach(function(b){
-    b.addEventListener('click',function(){
-      var k=b.dataset.sort;
-      dir=-dir;
-      rows.sort(function(x,y){
-        var a=k==='date'?Number(x.dataset.date):Number(x.dataset.amt);
-        var c=k==='date'?Number(y.dataset.date):Number(y.dataset.amt);
-        return (a-c)*dir;
-      }).forEach(function(r){body.appendChild(r);});
-      say('Sorted by '+k+', '+(dir>0?'ascending':'descending')+'.');
-    });
-  });
-  document.querySelectorAll('.pager button').forEach(function(b){
-    b.addEventListener('click',function(){
-      if(b.textContent.trim()==='Next ›'){say('Page 2 is demo-only — the ledger shows all 11 rows here.');return;}
-      document.querySelectorAll('.pager button').forEach(function(x){x.removeAttribute('aria-current');});
-      b.setAttribute('aria-current','true');
-      say('Page '+b.textContent.trim()+' requested from GET /payments?page='+b.textContent.trim()+'.');
-    });
-  });
-  paint();
-})();
+<div class="sheet-scrim" data-sheet-scrim></div>
+<section class="sheet" id="split" data-open="false" role="dialog" aria-modal="true" aria-labelledby="sp-h">
+  <div class="sheet__h"><div><h2 id="sp-h">Pay separately</h2><p>Useful if accounts pays invoices and you pay milestones.</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div class="filetile"><span class="filetile__ic filetile__ic--doc">INV</span>
+      <span class="filetile__t"><b>Invoice NL-INV-2026-000031</b><span>₹1,875 · due 30 Oct</span></span>
+      <a class="btn btn-s btn-sm" href="../../F18-invoices/V1/index.html">Pay</a></div>
+    <div class="filetile"><span class="filetile__ic filetile__ic--img">M2</span>
+      <span class="filetile__t"><b>Processing · M2 milestone</b><span>₹30,000 · already in flight</span></span>
+      <a class="btn btn-s btn-sm" href="../../F17-payment-status/V1/index.html">Track</a></div>
+    <div class="note note--warn"><svg class="i i--sm"><use href="#i-alert"/></svg>
+      <span>Paying the invoice on its own does not release M2. The milestone releases when the processing payment
+        settles.</span></div>
+  </div>
+</section>
+
+<section class="sheet" id="gst" data-open="false" role="dialog" aria-modal="true" aria-labelledby="gst-h">
+  <div class="sheet__h"><div><h2 id="gst-h">GST summary</h2><p>Claimable input credit across the period.</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div class="calc" style="border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;font-size:12px">
+        <span>Taxable value (settled)</span><b class="tnum">₹69,385.00</b></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;font-size:12px;border-top:1px solid var(--border)">
+        <span>GST 18%</span><b class="tnum">₹12,115.00</b></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 12px;font-size:12.5px;border-top:1px solid var(--border);background:var(--surface-2);font-weight:700">
+        <span>Total paid</span><b class="tnum">₹81,500.00</b></div>
+    </div>
+    <p class="f12 muted">GSTIN 29AAFCS1234E1Z5. The summary is a view of the invoices — the invoice PDFs remain the
+      tax documents.</p>
+    <button class="btn btn-p" data-toast="GST summary prepared (demo)"><svg class="i"><use href="#i-download"/></svg>Download summary</button>
+  </div>
+</section>
+
+<section class="sheet" id="help" data-open="false" role="dialog" aria-modal="true" aria-labelledby="hp-h">
+  <div class="sheet__h"><div><h2 id="hp-h">How billing works</h2><p>Three objects, one money trail.</p></div>
+    <button class="iconb" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sheet__b">
+    <div class="timeline">
+      <div class="tl2" data-state="now"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-card"/></svg></span></div>
+        <div class="tl2__b"><p class="tl2__t">Milestone payment</p><p class="tl2__m">Tied to a project milestone. Processing until Razorpay confirms, then it settles and unlocks the deliverable.</p></div></div>
+      <div class="tl2"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-receipt"/></svg></span></div>
+        <div class="tl2__b"><p class="tl2__t">Invoice</p><p class="tl2__m">A tax document with its own due date. Payable by card, UPI or bank transfer (with UTR).</p></div></div>
+      <div class="tl2"><div class="tl2__rail"><span class="tl2__dot"><svg class="i"><use href="#i-check"/></svg></span></div>
+        <div class="tl2__b"><p class="tl2__t">Receipt</p><p class="tl2__m">Generated per settled payment. The ledger above is the index of all three.</p></div></div>
+    </div>
+    <div class="note note--info"><svg class="i i--sm"><use href="#i-shield"/></svg>
+      <span><b>Disputes:</b> any invoice can be disputed within 14 days from its page. A dispute pauses late-fee
+        logic, never access to files.</span></div>
+  </div>
+</section>
+
+<div class="palette" id="palette" data-open="false" role="dialog" aria-modal="true" aria-label="Search" aria-hidden="true">
+  <div class="palette__p">
+    <div class="palette__in"><svg class="i"><use href="#i-search"/></svg>
+      <input type="text" placeholder="Billing, invoice or action…" aria-label="Search" autocomplete="off"><kbd class="kbd">Esc</kbd></div>
+    <div class="palette__b">
+      <p class="palette__g">Money</p>
+      <a class="palette__i" href="../../F16-checkout/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Pay ₹31,875<span class="r">checkout</span></a>
+      <a class="palette__i" href="../../F18-invoices/V1/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoice NL-INV-2026-000031<span class="r">₹1,875</span></a>
+      <a class="palette__i" href="../../F17-payment-status/V1/index.html"><svg class="i"><use href="#i-clock"/></svg>Track processing payment</a>
+      <a class="palette__i" href="../../F15-payment-methods/V1/index.html"><svg class="i"><use href="#i-shield"/></svg>Payment methods</a>
+      <button class="palette__i" data-toast="Statement prepared (demo)"><svg class="i"><use href="#i-download"/></svg>Statement of account</button>
+    </div>
+    <div class="palette__f"><span><kbd class="kbd">↵</kbd> open</span><span><kbd class="kbd">Esc</kbd> close</span>
+      <span style="margin-left:auto">Press / to search the ledger</span></div>
+  </div>
+</div>
+
+<div class="toasts" role="status" aria-live="polite"></div>
+<script src="../../../shared/kit.js"></script>
+<script>
+document.querySelectorAll('[data-window-print]').forEach(function(b){b.addEventListener('click',function(){window.print()})});
+/* the filter tabs are just grid filters with a pressed state */
+document.querySelectorAll('.ftab').forEach(function(b){
+  b.addEventListener('click',function(){document.querySelectorAll('.ftab').forEach(function(x){x.setAttribute('aria-pressed','false')});b.setAttribute('aria-pressed','true')});
+});
 </script>
 </body>
 </html>

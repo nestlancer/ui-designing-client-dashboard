@@ -388,8 +388,9 @@ table{border-collapse:collapse;width:100%}
 }
 
 /* theme toggle icon swap */
-.ic-moon{display:block}.ic-sun{display:none}
-.dark .ic-moon{display:none}.dark .ic-sun{display:block}
+/* the generic .i rule below resets display, so these need the extra class to win */
+.i.ic-moon{display:block}.i.ic-sun{display:none}
+.dark .i.ic-moon{display:none}.dark .i.ic-sun{display:block}
 
 /* print: ledger families use it (F14/F18/F11) */
 @media print{
