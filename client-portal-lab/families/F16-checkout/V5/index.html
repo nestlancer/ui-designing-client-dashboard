@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout · V5 Express — Nestlancer Portal Lab</title>
+<meta name="description" content="F16 variant 5: a narrow two-step express checkout — confirm the amount, pick the one saved method, and pay from a sticky action bar.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Express. A narrow · D minimal · E sticky CTA · two steps. */
+body{background:var(--muted)}
+.wrap{max-width:520px;margin:0 auto;background:var(--background);min-height:100vh;padding-bottom:88px;
+  box-shadow:0 0 0 1px var(--border)}
+@media(min-width:640px){.wrap{margin:20px auto;min-height:calc(100vh - 40px);border-radius:18px;overflow:hidden}}
+.bar{display:flex;gap:9px;align-items:center;padding:13px 18px;border-bottom:1px solid var(--border);
+  background:var(--card)}
+.bar a{font-size:12px;color:var(--muted-foreground)}
+.bar .stepno{margin-left:auto;font-size:10.5px;color:var(--muted-foreground);font-variant-numeric:var(--tabnum)}
+main{padding:20px 18px 8px}
+h1{font-size:15px;letter-spacing:-.02em;color:var(--muted-foreground);font-weight:600}
+.amount{font-size:40px;letter-spacing:-.05em;font-variant-numeric:var(--tabnum);margin:4px 0 3px;line-height:1.05}
+.for{font-size:12px;color:var(--muted-foreground);line-height:1.55;margin:0 0 18px}
+.rows{display:grid;gap:6px;font-size:11.5px;border-top:1px solid var(--border);padding-top:12px;margin-bottom:16px}
+.rows div{display:flex;justify-content:space-between;gap:9px}
+.rows dt{color:var(--muted-foreground)}
+.rows dd{margin:0;text-align:right;font-weight:600;max-width:62%}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;font-weight:500;word-break:break-all}
+.method{display:flex;gap:10px;align-items:center;border:1px solid var(--brand-300);border-radius:12px;
+  padding:12px;background:var(--card);margin-bottom:10px}
+.method .logo{width:38px;height:24px;border-radius:4px;background:#e8efff;color:#0b2a6b;display:grid;
+  place-items:center;font-size:8.5px;font-weight:800;flex:none}
+.dark .method .logo{background:#1b2650;color:#c9d6ff}
+.method b{font-size:12.5px;font-weight:650;display:block}
+.method span{font-size:10.5px;color:var(--muted-foreground)}
+.method a{margin-left:auto;font-size:11px;font-weight:650;color:var(--brand-700)}
+.tabs{display:flex;gap:5px;margin-bottom:12px}
+.tabs button{flex:1;border:1px solid var(--border);background:var(--card);border-radius:8px;padding:7px 4px;
+  font-size:11.5px;font-weight:650;color:var(--muted-foreground)}
+.tabs button[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.dropzone{border:1.5px dashed var(--border);border-radius:8px;padding:14px;text-align:center;
+  background:var(--card);cursor:pointer}
+.dropzone b{display:block;font-size:12px}
+.dropzone span{font-size:10.5px;color:var(--muted-foreground)}
+.filepill{display:flex;gap:7px;align-items:center;border:1px solid var(--border);border-radius:5px;
+  padding:6px 8px;font-size:11px;margin-top:6px;background:var(--card)}
+.filepill .x{margin-left:auto;color:var(--muted-foreground)}
+input[type=text]{width:100%;padding:9px 10px;border:1px solid var(--border);border-radius:8px;font:inherit;
+  font-size:13px;background:var(--card);color:var(--foreground);outline:none;margin-bottom:9px}
+input[type=text]:focus{border-color:var(--primary)}
+.dock{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--border);padding:11px 18px 14px;
+  z-index:20}
+.dock .cta{width:100%}
+.dock .sub{margin-top:6px;text-align:center;font-size:10px;color:var(--muted-foreground);line-height:1.5}
+.rz{margin-top:14px;border:1px solid var(--border);border-radius:8px;padding:9px 11px;background:var(--card);
+  display:flex;gap:8px;align-items:center}
+.rz .m{font-weight:800;font-size:10px;color:#0b2a6b;background:#e8efff;border-radius:3px;padding:2px 5px}
+.dark .rz .m{background:#1b2650;color:#c9d6ff}
+.rz p{margin:0;font-size:10px;line-height:1.5;color:var(--muted-foreground)}
+.foot{display:flex;gap:8px;align-items:center;font-size:10.5px;color:var(--muted-foreground);margin-top:16px;
+  flex-wrap:wrap;padding-bottom:8px}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 6px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to payment</a>
+<div class="wrap">
+  <div class="bar">
+    <a href="../../F14-billing/V1/index.html">← Billing</a>
+    <span class="stepno" data-stepno>Step 1 of 2</span>
+    <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false"
+      style="margin-left:6px">
+      <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+  </div>
+
+  <main id="main">
+    <h1 data-kicker>Amount due</h1>
+    <p class="amount">₹30,000.00</p>
+    <p class="for">Milestone 2 · Homepage build<br>Khandesh Spice D2C E-Commerce Store</p>
+
+    <div data-s1>
+      <dl class="rows">
+        <div><dt>Currency</dt><dd>INR</dd></div>
+        <div><dt>Reference</dt><dd class="mono">01a10a2b-5ed2-73bc-8aee-d1c6262906e9</dd></div>
+        <div><dt>Created</dt><dd>22 Oct 2026</dd></div>
+        <div><dt>Already paid</dt><dd>₹48,000.00</dd></div>
+      </dl>
+      <div class="method">
+        <span class="logo">VISA</span>
+        <div><b>HDFC debit •••• 4242</b><span>Default method · expires 09 / 2028</span></div>
+        <a href="../../F15-payment-methods/V1/index.html">Change</a>
+      </div>
+      <p style="margin:0;font-size:10.5px;color:var(--muted-foreground);line-height:1.55">
+        Cancel by leaving this page — a second competing button would make the primary action ambiguous.</p>
+    </div>
+
+    <div data-s2 hidden>
+      <div class="tabs" role="group" aria-label="Payment route">
+        <button data-r="upi" aria-pressed="true">UPI</button>
+        <button data-r="bank" aria-pressed="false">Bank transfer</button>
+      </div>
+      <div data-pane="upi">
+        <p style="margin:0 0 10px;font-size:11.5px;line-height:1.6;color:var(--muted-foreground)">
+          Approve the collect request in your UPI app. On desktop you can scan the QR shown by the gateway.</p>
+      </div>
+      <div data-pane="bank" hidden>
+        <p style="margin:0 0 9px;font-size:11.5px;line-height:1.6;color:var(--muted-foreground)">
+          Transfer to A/C 5010 0291 8873, IFSC HDFC0001234, then add the UTR and proof.</p>
+        <input type="text" placeholder="UTR / reference" data-utr aria-label="UTR reference">
+        <div class="dropzone" data-drop tabindex="0" role="button" aria-label="Upload payment proof">
+          <b>Upload proof</b><span>PNG, JPG or PDF · required</span></div>
+        <div data-files></div>
+      </div>
+    </div>
+
+    <div class="rz">
+      <span class="m">Razorpay</span>
+      <p>Test mode is decided by the gateway key — a test payment never unlocks a milestone.</p>
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F16 · V5 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+    </div>
+  </main>
+
+  <div class="dock">
+    <button class="btn btn-p btn-lg cta" data-next>Continue to pay ₹30,000.00</button>
+    <p class="sub" data-docksub>One saved method · one action · no card details on this page</p>
+  </div>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2800);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var s1=document.querySelector('[data-s1]'), s2=document.querySelector('[data-s2]'),
+      next=document.querySelector('[data-next]'), stepno=document.querySelector('[data-stepno]'),
+      kicker=document.querySelector('[data-kicker]'), sub=document.querySelector('[data-docksub]');
+  var step=1, route='upi';
+
+  document.querySelectorAll('[data-r]').forEach(function(b){
+    b.addEventListener('click',function(){
+      route=b.dataset.r;
+      document.querySelectorAll('[data-r]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      document.querySelectorAll('[data-pane]').forEach(function(p){p.hidden=p.dataset.pane!==route;});
+    });
+  });
+
+  next.addEventListener('click',function(){
+    if(step===1){
+      step=2; s1.hidden=true; s2.hidden=false;
+      stepno.textContent='Step 2 of 2'; kicker.textContent='Confirm and pay';
+      next.textContent='Pay ₹30,000.00 now';
+      sub.textContent='Secure hand-off to Razorpay · cancel by leaving the page';
+      return;
+    }
+    if(route==='bank'){
+      if(!document.querySelector('[data-utr]').value.trim()){say('Enter the UTR first.');return;}
+      if(!document.querySelector('[data-files]').children.length){say('Payment proof is required.');return;}
+      say('Submitted — processing until the UTR is verified.');
+      return;
+    }
+    next.disabled=true; next.textContent='Creating order…';
+    setTimeout(function(){
+      next.disabled=false; next.textContent='Open Razorpay';
+      say('Order created. This lab cannot open the gateway window.');
+    },850);
+  });
+
+  var drop=document.querySelector('[data-drop]'), files=document.querySelector('[data-files]');
+  function add(){
+    var d=document.createElement('div'); d.className='filepill';
+    d.innerHTML='<span>proof-utr-2210.pdf</span><button class="x" aria-label="Remove proof">✕</button>';
+    d.querySelector('button').addEventListener('click',function(){d.remove();});
+    files.appendChild(d);
+  }
+  drop.addEventListener('click',add);
+  drop.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();add();}});
+})();
+</script>
+</body>
+</html>

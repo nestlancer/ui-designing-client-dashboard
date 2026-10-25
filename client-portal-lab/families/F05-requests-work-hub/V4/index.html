@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requests · V4 Status Board — Nestlancer Portal Lab</title>
+<meta name="description" content="F05 variant 4: four status columns of request cards, a honesty banner about the degraded projects feed, and column filtering without drag.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Status Board. A board · B status-first · D medium · E column filter → list. */
+.page{min-height:100vh;background:var(--background);display:flex;flex-direction:column}
+.hdr{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.wrap{max-width:1320px;width:100%;margin:0 auto;padding:18px 20px 40px;flex:1}
+.head{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.head h1{font-size:26px;letter-spacing:-.035em}
+.head p{font-size:12.5px;color:var(--muted-foreground);margin-top:3px}
+.banner{margin-bottom:14px}
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:start}
+@media(max-width:1080px){.board{grid-template-columns:1fr 1fr}}
+@media(max-width:680px){.board{grid-template-columns:1fr}}
+.col{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;
+  display:flex;flex-direction:column;min-height:120px}
+.col[data-focus="1"]{outline:2px solid var(--brand-300);outline-offset:1px}
+.colhd{display:flex;align-items:center;gap:8px;padding:11px 13px;border-bottom:1px solid var(--border);
+  background:var(--muted)}
+.colhd b{font-size:12.5px;letter-spacing:-.01em}
+.colhd .n{margin-left:auto;font-size:11px;font-weight:700;color:var(--muted-foreground);
+  font-variant-numeric:var(--tabnum)}
+.colhd .bar{width:3px;height:14px;border-radius:2px;background:var(--border)}
+.col[data-tone="warn"] .colhd .bar{background:var(--status-warning-text)}
+.col[data-tone="info"] .colhd .bar{background:var(--status-info-text)}
+.col[data-tone="ok"] .colhd .bar{background:var(--status-success-text)}
+.colhd button{font-size:10.5px;color:var(--muted-foreground);text-decoration:underline;text-underline-offset:2px}
+.stack{padding:9px;display:grid;gap:8px;align-content:start}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 12px;
+  box-shadow:var(--shadow-xs);display:grid;gap:7px;cursor:grab}
+.card:hover{border-color:var(--brand-300);box-shadow:var(--shadow-sm)}
+.card .t{font-size:13px;font-weight:650;letter-spacing:-.01em;line-height:1.35}
+.card .m{font-size:11px;color:var(--muted-foreground);display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.card .amt{font-size:12px;font-weight:650;font-variant-numeric:var(--tabnum)}
+.card .foot{display:flex;gap:6px;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--border);padding-top:7px;margin-top:1px}
+.card .foot a{font-size:11.5px;font-weight:650;color:var(--brand-700)}
+.dark .card .foot a{color:#a9bcff}
+.card .needs{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--status-warning-text)}
+.card .needs[data-ok="1"]{color:var(--status-success-text)}
+.colnote{padding:11px 13px;font-size:11.5px;color:var(--muted-foreground);border-top:1px solid var(--border);
+  background:var(--background);line-height:1.5}
+.draghint{font-size:11.5px;color:var(--muted-foreground);display:flex;gap:8px;align-items:center;
+  border:1px dashed var(--border);border-radius:var(--radius-sm);padding:8px 11px;margin-bottom:12px;background:var(--card)}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:18px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.wrap{padding:14px}.hdr{padding:0 14px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7v.3M12 17v.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the board</a>
+
+<div class="page">
+  <header class="hdr">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      <a class="btn btn-p btn-sm" href="../../F06-new-request/V1/index.html"><svg class="i i--sm"><use href="#i-plus"/></svg>New request</a>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="head">
+      <div>
+        <h1>Requests</h1>
+        <p>Grouped by the status the API actually returns — 26 requests, 12 with detail loaded.</p>
+      </div>
+      <span class="grow"></span>
+      <span class="pill pill--lock">Read-only board</span>
+    </div>
+
+    <div class="banner banner--warn" role="status">
+      <svg class="i"><use href="#i-alert"/></svg>
+      <div><strong>Projects feed is degraded.</strong> <code>GET /api/v1/projects</code> is returning
+        <code>502 origin_bad_gateway</code>, so the “Converted” column links to project pages that may show cached
+        data. Requests themselves are live.
+        <div class="row mt-8" style="gap:8px;flex-wrap:wrap">
+          <button class="btn btn-s btn-sm" data-retry><svg class="i i--sm"><use href="#i-refresh"/></svg>Retry</button>
+          <a class="btn btn-g btn-sm" href="../../F08-projects-list/V1/index.html">Project status</a>
+          <a class="btn btn-g btn-sm" href="../../F19-notifications/V1/index.html"><svg class="i i--sm"><use href="#i-help"/></svg>Contact support</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="draghint"><svg class="i i--sm"><use href="#i-help"/></svg>
+      Dragging is deliberately disabled — the status of a request changes through the studio, not by dragging a card.
+      Use the column header to filter the list view instead.</p>
+
+    <div class="board" data-board>
+      <section class="col" data-tone="warn" data-status="Expired quote">
+        <div class="colhd"><i class="bar"></i><b>Expired quote</b><span class="n">2</span>
+          <button data-filter="Expired quote">List view</button></div>
+        <div class="stack">
+          <article class="card"><p class="t">Aurora Coffee subscription flow</p>
+            <p class="m">Mobile app · <span class="amt">₹84,000</span></p>
+            <p class="needs">Expired 14 Oct · needs a new quote</p>
+            <div class="foot"><a href="../../F07-request-details/V1/index.html">Request new quote</a><span class="m">NL-0015</span></div></article>
+          <article class="card"><p class="t">Prakash Optics catalogue</p>
+            <p class="m">E-commerce · <span class="amt">₹38,000</span></p>
+            <p class="needs">Expired 24 Sep · still open</p>
+            <div class="foot"><a href="../../F07-request-details/V1/index.html">Request new quote</a><span class="m">NL-0003</span></div></article>
+        </div>
+        <p class="colnote">Expired quotes cannot be signed. A new quote has to be issued before work can begin.</p>
+      </section>
+
+      <section class="col" data-tone="info" data-status="Submitted">
+        <div class="colhd"><i class="bar"></i><b>Submitted &amp; review</b><span class="n">4</span>
+          <button data-filter="Submitted">List view</button></div>
+        <div class="stack">
+          <article class="card"><p class="t">Horizon Retail rebrand</p>
+            <p class="m">Branding · <span class="amt">₹1,20,000</span></p>
+            <p class="needs" data-ok="1">Waiting on the studio</p>
+            <div class="foot"><a href="../../F07-request-details/V1/index.html">Open</a><span class="m">NL-0023</span></div></article>
+          <article class="card"><p class="t">Sundara Yoga landing page</p>
+            <p class="m">Web design · <span class="amt">₹45,000</span></p>
+            <p class="needs" data-ok="1">Under review</p>
+            <div class="foot"><a href="../../F07-request-details/V1/index.html">Open</a><span class="m">NL-0006</span></div></article>
+          <article class="card"><p class="t">Tinker Studio portfolio</p>
+            <p class="m">Web design · <span class="amt">₹55,000</span></p>
+            <p class="needs" data-ok="1">Submitted 12 Sep</p>
+            <div class="foot"><a href="../../F07-request-details/V1/index.html">Open</a><span class="m">NL-0001</span></div></article>
+          <article class="card"><p class="t">Fern &amp; Field packaging</p>
+            <p class="m">Branding · <span class="amt">—</span></p>
+            <p class="needs">Draft — needs you</p>
+            <div class="foot"><a href="../../F06-new-request/V1/index.html">Resume draft</a><span class="m">Draft</span></div></article>
+        </div>
+        <p class="colnote">Drafts appear here because they have not been submitted yet; everything else is with the studio.</p>
+      </section>
+
+      <section class="col" data-tone="info" data-status="Quote sent">
+        <div class="colhd"><i class="bar"></i><b>Quote out</b><span class="n">2</span>
+          <button data-filter="Quote sent">List view</button></div>
+        <div class="stack">
+          <article class="card"><p class="t">Meridian Clinic website</p>
+            <p class="m">Web design · <span class="amt">₹96,000</span></p>
+            <p class="needs">Awaiting your signature</p>
+            <div class="foot"><a href="../../F11-quote-details/V1/index.html">Review quote</a><span class="m">NL-0012</span></div></article>
+          <article class="card"><p class="t">Vasanta Foods menu refresh</p>
+            <p class="m">Branding · <span class="amt">₹27,000</span></p>
+            <p class="needs" data-ok="1">Quote accepted 5 Sep</p>
+            <div class="foot"><a href="../../F11-quote-details/V1/index.html">View quote</a><span class="m">NL-0011</span></div></article>
+        </div>
+        <p class="colnote">Signing a quote raises the deposit invoice immediately — it does not wait for a second email.</p>
+      </section>
+
+      <section class="col" data-tone="ok" data-status="Converted">
+        <div class="colhd"><i class="bar"></i><b>Converted</b><span class="n">5</span>
+          <button data-filter="Converted">List view</button></div>
+        <div class="stack">
+          <article class="card"><p class="t">Khandesh Spice D2C e-commerce store</p>
+            <p class="m">E-commerce · <span class="amt">₹1,42,000</span></p>
+            <p class="needs">Milestone 2 due 30 Oct</p>
+            <div class="foot"><a href="../../F09-project-details/V1/index.html">Open project</a><span class="m">57%</span></div></article>
+          <article class="card"><p class="t">Kaveri Textiles lookbook</p>
+            <p class="m">Marketing · <span class="amt">₹62,000</span></p>
+            <p class="needs" data-ok="1">Delivered &amp; paid</p>
+            <div class="foot"><a href="../../F18-invoices/V1/index.html">Invoices</a><span class="m">NL-0009</span></div></article>
+          <article class="card"><p class="t">Northwind logistics dashboard</p>
+            <p class="m">Web design · <span class="amt">₹2,10,000</span></p>
+            <p class="needs" data-ok="1">In delivery</p>
+            <div class="foot"><a href="../../F09-project-details/V1/index.html">Open project</a><span class="m">NL-0004</span></div></article>
+          <article class="card"><p class="t">Blue Oak interiors site</p>
+            <p class="m">Webflow · <span class="amt">₹71,000</span></p>
+            <p class="needs" data-ok="1">Closed 18 Sep</p>
+            <div class="foot"><a href="../../F07-request-details/V1/index.html">Record</a><span class="m">NL-0002</span></div></article>
+        </div>
+        <p class="colnote">Project links may fall back to cached data while the projects feed is degraded.</p>
+      </section>
+    </div>
+
+    <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F05 Requests Work Hub · V4 of 5 — Status Board</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  document.querySelectorAll('[data-filter]').forEach(function(b){
+    b.addEventListener('click',function(){
+      location.href='../V1/index.html?status='+encodeURIComponent(b.dataset.filter);
+    });
+  });
+  document.querySelectorAll('.colhd').forEach(function(h){
+    h.addEventListener('click',function(e){
+      if(e.target.closest('button'))return;
+      var col=h.parentElement;
+      document.querySelectorAll('.col').forEach(function(c){c.dataset.focus='0';});
+      col.dataset.focus='1';
+      say(col.dataset.status+' — '+col.querySelectorAll('.card').length+' requests in view.');
+    });
+  });
+  var rt=document.querySelector('[data-retry]');
+  rt.addEventListener('click',function(){
+    rt.classList.add('is-loading');
+    setTimeout(function(){
+      rt.classList.remove('is-loading');
+      say('Still 502 · the projects feed has not recovered. Requests remain live.');
+    },900);
+  });
+})();
+</script>
+</body>
+</html>

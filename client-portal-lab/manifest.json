@@ -1,0 +1,1062 @@
+{
+  "lab": "Nestlancer client portal template lab",
+  "generated": "2026-10-25",
+  "branch": "arena/20f82082-ui-designing-client-dashboard",
+  "baseCommit": "161c02bdeb729f278f4425adfe10f056b310c525",
+  "serve": "python3 -m http.server 8130  (from the repository root, then /client-portal-lab/)",
+  "scheme": {
+    "tokens": "shared/tokens.css",
+    "base": "shared/base.css",
+    "brandRamp": [
+      "#ecf3ff",
+      "#dbe7ff",
+      "#b9ccff",
+      "#8fa8ff",
+      "#6b88ff",
+      "#465fff",
+      "#3439b8",
+      "#26237a",
+      "#161950"
+    ],
+    "primary": "#465fff",
+    "note": "one blue ramp; no second accent hue except the documented focus ring"
+  },
+  "counts": {
+    "families": 23,
+    "variantsPerFamily": 5,
+    "templates": 115,
+    "gallery": 1
+  },
+  "gates": {
+    "S": "pass",
+    "R": "pass",
+    "A": "pass",
+    "1": "pass",
+    "2a": "pass",
+    "2b": "pass",
+    "3": "see audit.json"
+  },
+  "demoOnly": [
+    {
+      "id": "D1",
+      "affordance": "Ask AI about this project / quote / billing",
+      "families": [
+        "F09",
+        "F11",
+        "F14"
+      ]
+    },
+    {
+      "id": "D2",
+      "affordance": "Project help & FAQ hub",
+      "families": [
+        "F09"
+      ]
+    },
+    {
+      "id": "D3",
+      "affordance": "Saved views / saved filters",
+      "families": [
+        "F05",
+        "F10",
+        "F14"
+      ]
+    },
+    {
+      "id": "D4",
+      "affordance": "Combined statement of account / GST summary PDF",
+      "families": [
+        "F14",
+        "F18"
+      ]
+    },
+    {
+      "id": "D5",
+      "affordance": "UPI mandate / auto-pay management",
+      "families": [
+        "F15"
+      ]
+    },
+    {
+      "id": "D6",
+      "affordance": "Typing indicator, read receipts, SLA timer",
+      "families": [
+        "F13"
+      ]
+    },
+    {
+      "id": "D7",
+      "affordance": "PWA install row",
+      "families": [
+        "F03"
+      ]
+    },
+    {
+      "id": "D8",
+      "affordance": "Skills autocomplete taxonomy",
+      "families": [
+        "F20"
+      ]
+    },
+    {
+      "id": "D9",
+      "affordance": "Open support thread deep link from an error card",
+      "families": [
+        "F08",
+        "F09"
+      ]
+    },
+    {
+      "id": "D10",
+      "affordance": "Quote negotiation chat thread",
+      "families": [
+        "F11"
+      ]
+    }
+  ],
+  "families": [
+    {
+      "id": "F01",
+      "slug": "F01-auth-login",
+      "dir": "families/F01-auth-login",
+      "title": "Login",
+      "summary": "Sign in",
+      "conceptFixes": "C4 C6 C17 C18",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Split Classic",
+          "path": "families/F01-auth-login/V1/index.html",
+          "bytes": 17837
+        },
+        {
+          "v": "V2",
+          "name": "Brand Field",
+          "path": "families/F01-auth-login/V2/index.html",
+          "bytes": 11482
+        },
+        {
+          "v": "V3",
+          "name": "Two Step",
+          "path": "families/F01-auth-login/V3/index.html",
+          "bytes": 12326
+        },
+        {
+          "v": "V4",
+          "name": "Proof Panel",
+          "path": "families/F01-auth-login/V4/index.html",
+          "bytes": 15839
+        },
+        {
+          "v": "V5",
+          "name": "Kiosk Minimal",
+          "path": "families/F01-auth-login/V5/index.html",
+          "bytes": 9877
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "slug": "F02-auth-register-forgot",
+      "dir": "families/F02-auth-register-forgot",
+      "title": "Register & forgot password",
+      "summary": "Two entries into one account",
+      "conceptFixes": "C4 C6 C17 C18",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Split Classic",
+          "path": "families/F02-auth-register-forgot/V1/index.html",
+          "bytes": 17259
+        },
+        {
+          "v": "V2",
+          "name": "Three Beats",
+          "path": "families/F02-auth-register-forgot/V2/index.html",
+          "bytes": 18472
+        },
+        {
+          "v": "V3",
+          "name": "Rule Card",
+          "path": "families/F02-auth-register-forgot/V3/index.html",
+          "bytes": 16315
+        },
+        {
+          "v": "V4",
+          "name": "Wizard Drawer",
+          "path": "families/F02-auth-register-forgot/V4/index.html",
+          "bytes": 19422
+        },
+        {
+          "v": "V5",
+          "name": "Calm Column",
+          "path": "families/F02-auth-register-forgot/V5/index.html",
+          "bytes": 12892
+        }
+      ]
+    },
+    {
+      "id": "F03",
+      "slug": "F03-dashboard-overview",
+      "dir": "families/F03-dashboard-overview",
+      "title": "Dashboard",
+      "summary": "Awaiting-you first, vitals second",
+      "conceptFixes": "C1 C2 C3 C14",
+      "addItems": "A9 A11 A13",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Verdict Hero",
+          "path": "families/F03-dashboard-overview/V1/index.html",
+          "bytes": 31024
+        },
+        {
+          "v": "V2",
+          "name": "Queue First",
+          "path": "families/F03-dashboard-overview/V2/index.html",
+          "bytes": 21512
+        },
+        {
+          "v": "V3",
+          "name": "Signal Grid",
+          "path": "families/F03-dashboard-overview/V3/index.html",
+          "bytes": 24931
+        },
+        {
+          "v": "V4",
+          "name": "Ops Dense",
+          "path": "families/F03-dashboard-overview/V4/index.html",
+          "bytes": 25649
+        },
+        {
+          "v": "V5",
+          "name": "Chapter Sticky",
+          "path": "families/F03-dashboard-overview/V5/index.html",
+          "bytes": 22385
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "slug": "F04-global-search",
+      "dir": "families/F04-global-search",
+      "title": "Global search",
+      "summary": "⌘K kept, results grouped",
+      "conceptFixes": "C12",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Centred Palette",
+          "path": "families/F04-global-search/V1/index.html",
+          "bytes": 14989
+        },
+        {
+          "v": "V2",
+          "name": "Command Bar",
+          "path": "families/F04-global-search/V2/index.html",
+          "bytes": 18740
+        },
+        {
+          "v": "V3",
+          "name": "Two Pane",
+          "path": "families/F04-global-search/V3/index.html",
+          "bytes": 20638
+        },
+        {
+          "v": "V4",
+          "name": "Filter Chips",
+          "path": "families/F04-global-search/V4/index.html",
+          "bytes": 15140
+        },
+        {
+          "v": "V5",
+          "name": "Search Takeover",
+          "path": "families/F04-global-search/V5/index.html",
+          "bytes": 16451
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "slug": "F05-requests-work-hub",
+      "dir": "families/F05-requests-work-hub",
+      "title": "Requests work hub",
+      "summary": "26 requests, statuses beyond colour",
+      "conceptFixes": "C16 C18",
+      "addItems": "A12 A13",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Table Classic",
+          "path": "families/F05-requests-work-hub/V1/index.html",
+          "bytes": 24014
+        },
+        {
+          "v": "V2",
+          "name": "Queue Cards",
+          "path": "families/F05-requests-work-hub/V2/index.html",
+          "bytes": 18063
+        },
+        {
+          "v": "V3",
+          "name": "Split Preview",
+          "path": "families/F05-requests-work-hub/V3/index.html",
+          "bytes": 22096
+        },
+        {
+          "v": "V4",
+          "name": "Status Board",
+          "path": "families/F05-requests-work-hub/V4/index.html",
+          "bytes": 15799
+        },
+        {
+          "v": "V5",
+          "name": "Ledger + Views",
+          "path": "families/F05-requests-work-hub/V5/index.html",
+          "bytes": 16533
+        }
+      ]
+    },
+    {
+      "id": "F06",
+      "slug": "F06-new-request",
+      "dir": "families/F06-new-request",
+      "title": "New request",
+      "summary": "A brief finishable in one sitting",
+      "conceptFixes": "C4 C6 C17 C18",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Three Cards",
+          "path": "families/F06-new-request/V1/index.html",
+          "bytes": 15888
+        },
+        {
+          "v": "V2",
+          "name": "Four Steps",
+          "path": "families/F06-new-request/V2/index.html",
+          "bytes": 16695
+        },
+        {
+          "v": "V3",
+          "name": "Two Column",
+          "path": "families/F06-new-request/V3/index.html",
+          "bytes": 16621
+        },
+        {
+          "v": "V4",
+          "name": "Dense Grid",
+          "path": "families/F06-new-request/V4/index.html",
+          "bytes": 15354
+        },
+        {
+          "v": "V5",
+          "name": "Conversation",
+          "path": "families/F06-new-request/V5/index.html",
+          "bytes": 14526
+        }
+      ]
+    },
+    {
+      "id": "F07",
+      "slug": "F07-request-details",
+      "dir": "families/F07-request-details",
+      "title": "Request details",
+      "summary": "Status timeline kept",
+      "conceptFixes": "C4 C6 C18",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Timeline Led",
+          "path": "families/F07-request-details/V1/index.html",
+          "bytes": 14889
+        },
+        {
+          "v": "V2",
+          "name": "Document Record",
+          "path": "families/F07-request-details/V2/index.html",
+          "bytes": 15724
+        },
+        {
+          "v": "V3",
+          "name": "Action Split",
+          "path": "families/F07-request-details/V3/index.html",
+          "bytes": 14863
+        },
+        {
+          "v": "V4",
+          "name": "Tabs Console",
+          "path": "families/F07-request-details/V4/index.html",
+          "bytes": 16058
+        },
+        {
+          "v": "V5",
+          "name": "Story Timeline",
+          "path": "families/F07-request-details/V5/index.html",
+          "bytes": 13093
+        }
+      ]
+    },
+    {
+      "id": "F08",
+      "slug": "F08-projects-list",
+      "dir": "families/F08-projects-list",
+      "title": "Projects list",
+      "summary": "Honest degraded state for the live 502",
+      "conceptFixes": "",
+      "addItems": "A13",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Card Grid",
+          "path": "families/F08-projects-list/V1/index.html",
+          "bytes": 12548
+        },
+        {
+          "v": "V2",
+          "name": "Progress Table",
+          "path": "families/F08-projects-list/V2/index.html",
+          "bytes": 10815
+        },
+        {
+          "v": "V3",
+          "name": "Split Preview",
+          "path": "families/F08-projects-list/V3/index.html",
+          "bytes": 14771
+        },
+        {
+          "v": "V4",
+          "name": "Health Board",
+          "path": "families/F08-projects-list/V4/index.html",
+          "bytes": 15243
+        },
+        {
+          "v": "V5",
+          "name": "Degraded First",
+          "path": "families/F08-projects-list/V5/index.html",
+          "bytes": 13014
+        }
+      ]
+    },
+    {
+      "id": "F09",
+      "slug": "F09-project-details",
+      "dir": "families/F09-project-details",
+      "title": "Project details",
+      "summary": "Milestone stepper kept",
+      "conceptFixes": "C19",
+      "addItems": "A1 A2 A3 A4 A13 A14 A15",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Tab Classic",
+          "path": "families/F09-project-details/V1/index.html",
+          "bytes": 21805
+        },
+        {
+          "v": "V2",
+          "name": "Step Journey",
+          "path": "families/F09-project-details/V2/index.html",
+          "bytes": 13368
+        },
+        {
+          "v": "V3",
+          "name": "Queue + Unlock",
+          "path": "families/F09-project-details/V3/index.html",
+          "bytes": 18756
+        },
+        {
+          "v": "V4",
+          "name": "Feed Story",
+          "path": "families/F09-project-details/V4/index.html",
+          "bytes": 15653
+        },
+        {
+          "v": "V5",
+          "name": "Delivery Console",
+          "path": "families/F09-project-details/V5/index.html",
+          "bytes": 19112
+        }
+      ]
+    },
+    {
+      "id": "F10",
+      "slug": "F10-quotes-list",
+      "dir": "families/F10-quotes-list",
+      "title": "Quotes list",
+      "summary": "Expiry is a hard stop",
+      "conceptFixes": "C16",
+      "addItems": "A12",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Table + KPIs",
+          "path": "families/F10-quotes-list/V1/index.html",
+          "bytes": 19033
+        },
+        {
+          "v": "V2",
+          "name": "Expiry Ledger",
+          "path": "families/F10-quotes-list/V2/index.html",
+          "bytes": 15178
+        },
+        {
+          "v": "V3",
+          "name": "Split Preview",
+          "path": "families/F10-quotes-list/V3/index.html",
+          "bytes": 15870
+        },
+        {
+          "v": "V4",
+          "name": "Awaiting Queue",
+          "path": "families/F10-quotes-list/V4/index.html",
+          "bytes": 15856
+        },
+        {
+          "v": "V5",
+          "name": "Saved Views",
+          "path": "families/F10-quotes-list/V5/index.html",
+          "bytes": 18372
+        }
+      ]
+    },
+    {
+      "id": "F11",
+      "slug": "F11-quote-details",
+      "dir": "families/F11-quote-details",
+      "title": "Quote details",
+      "summary": "The ₹1,770 quote, signable",
+      "conceptFixes": "C7",
+      "addItems": "A1 A8",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Sign in Three Breaths",
+          "path": "families/F11-quote-details/V1/index.html",
+          "bytes": 38810
+        },
+        {
+          "v": "V2",
+          "name": "Numbers First Ledger",
+          "path": "families/F11-quote-details/V2/index.html",
+          "bytes": 22933
+        },
+        {
+          "v": "V3",
+          "name": "Negotiation Led",
+          "path": "families/F11-quote-details/V3/index.html",
+          "bytes": 24337
+        },
+        {
+          "v": "V4",
+          "name": "Assurance Heavy",
+          "path": "families/F11-quote-details/V4/index.html",
+          "bytes": 26507
+        },
+        {
+          "v": "V5",
+          "name": "Compact Sign Dock",
+          "path": "families/F11-quote-details/V5/index.html",
+          "bytes": 20543
+        }
+      ]
+    },
+    {
+      "id": "F12",
+      "slug": "F12-messages-home",
+      "dir": "families/F12-messages-home",
+      "title": "Messages home",
+      "summary": "Three-pane kept; 360px safe",
+      "conceptFixes": "C11 C16 C18",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Three Pane",
+          "path": "families/F12-messages-home/V1/index.html",
+          "bytes": 18714
+        },
+        {
+          "v": "V2",
+          "name": "List + Preview",
+          "path": "families/F12-messages-home/V2/index.html",
+          "bytes": 15267
+        },
+        {
+          "v": "V3",
+          "name": "Inbox Table",
+          "path": "families/F12-messages-home/V3/index.html",
+          "bytes": 16607
+        },
+        {
+          "v": "V4",
+          "name": "Summary Strip",
+          "path": "families/F12-messages-home/V4/index.html",
+          "bytes": 15260
+        },
+        {
+          "v": "V5",
+          "name": "Mobile First",
+          "path": "families/F12-messages-home/V5/index.html",
+          "bytes": 13907
+        }
+      ]
+    },
+    {
+      "id": "F13",
+      "slug": "F13-messages-thread",
+      "dir": "families/F13-messages-thread",
+      "title": "Messages thread",
+      "summary": "Khandesh Spice thread",
+      "conceptFixes": "C16",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Classic 3-pane",
+          "path": "families/F13-messages-thread/V1/index.html",
+          "bytes": 17504
+        },
+        {
+          "v": "V2",
+          "name": "Full Width Composer",
+          "path": "families/F13-messages-thread/V2/index.html",
+          "bytes": 14848
+        },
+        {
+          "v": "V3",
+          "name": "Context Split",
+          "path": "families/F13-messages-thread/V3/index.html",
+          "bytes": 18357
+        },
+        {
+          "v": "V4",
+          "name": "Compact Log",
+          "path": "families/F13-messages-thread/V4/index.html",
+          "bytes": 17749
+        },
+        {
+          "v": "V5",
+          "name": "Focus Mode",
+          "path": "families/F13-messages-thread/V5/index.html",
+          "bytes": 11582
+        }
+      ]
+    },
+    {
+      "id": "F14",
+      "slug": "F14-billing",
+      "dir": "families/F14-billing",
+      "title": "Billing",
+      "summary": "₹81,500 collected / ₹31,875 pending",
+      "conceptFixes": "C16 C18",
+      "addItems": "A1 A5 A10 A12",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Ledger + Queue",
+          "path": "families/F14-billing/V1/index.html",
+          "bytes": 20760
+        },
+        {
+          "v": "V2",
+          "name": "Statement",
+          "path": "families/F14-billing/V2/index.html",
+          "bytes": 13306
+        },
+        {
+          "v": "V3",
+          "name": "Queue First",
+          "path": "families/F14-billing/V3/index.html",
+          "bytes": 16277
+        },
+        {
+          "v": "V4",
+          "name": "Ops Table",
+          "path": "families/F14-billing/V4/index.html",
+          "bytes": 22646
+        },
+        {
+          "v": "V5",
+          "name": "Split Timeline",
+          "path": "families/F14-billing/V5/index.html",
+          "bytes": 18794
+        }
+      ]
+    },
+    {
+      "id": "F15",
+      "slug": "F15-payment-methods",
+      "dir": "families/F15-payment-methods",
+      "title": "Payment methods",
+      "summary": "Empty by design, no fake card",
+      "conceptFixes": "",
+      "addItems": "A6",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Empty State Led",
+          "path": "families/F15-payment-methods/V1/index.html",
+          "bytes": 9391
+        },
+        {
+          "v": "V2",
+          "name": "Method Cards",
+          "path": "families/F15-payment-methods/V2/index.html",
+          "bytes": 13475
+        },
+        {
+          "v": "V3",
+          "name": "Minimal Column",
+          "path": "families/F15-payment-methods/V3/index.html",
+          "bytes": 10705
+        },
+        {
+          "v": "V4",
+          "name": "Type Tiles",
+          "path": "families/F15-payment-methods/V4/index.html",
+          "bytes": 13340
+        },
+        {
+          "v": "V5",
+          "name": "Verification Queue",
+          "path": "families/F15-payment-methods/V5/index.html",
+          "bytes": 12894
+        }
+      ]
+    },
+    {
+      "id": "F16",
+      "slug": "F16-checkout",
+      "dir": "families/F16-checkout",
+      "title": "Checkout",
+      "summary": "₹30,000 milestone, Razorpay strips kept",
+      "conceptFixes": "C8 C15",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Single CTA",
+          "path": "families/F16-checkout/V1/index.html",
+          "bytes": 17223
+        },
+        {
+          "v": "V2",
+          "name": "Ledger + Trust",
+          "path": "families/F16-checkout/V2/index.html",
+          "bytes": 12913
+        },
+        {
+          "v": "V3",
+          "name": "UPI First",
+          "path": "families/F16-checkout/V3/index.html",
+          "bytes": 17354
+        },
+        {
+          "v": "V4",
+          "name": "Assurance Heavy",
+          "path": "families/F16-checkout/V4/index.html",
+          "bytes": 16623
+        },
+        {
+          "v": "V5",
+          "name": "Express",
+          "path": "families/F16-checkout/V5/index.html",
+          "bytes": 11502
+        }
+      ]
+    },
+    {
+      "id": "F17",
+      "slug": "F17-payment-status",
+      "dir": "families/F17-payment-status",
+      "title": "Payment status",
+      "summary": "Processing is a state with a receipt",
+      "conceptFixes": "C9",
+      "addItems": "A3",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Receipt First",
+          "path": "families/F17-payment-status/V1/index.html",
+          "bytes": 11600
+        },
+        {
+          "v": "V2",
+          "name": "Unlock Chain",
+          "path": "families/F17-payment-status/V2/index.html",
+          "bytes": 10572
+        },
+        {
+          "v": "V3",
+          "name": "Split Status",
+          "path": "families/F17-payment-status/V3/index.html",
+          "bytes": 13358
+        },
+        {
+          "v": "V4",
+          "name": "Document Console",
+          "path": "families/F17-payment-status/V4/index.html",
+          "bytes": 13742
+        },
+        {
+          "v": "V5",
+          "name": "Minimal Card",
+          "path": "families/F17-payment-status/V5/index.html",
+          "bytes": 10875
+        }
+      ]
+    },
+    {
+      "id": "F18",
+      "slug": "F18-invoices",
+      "dir": "families/F18-invoices",
+      "title": "Invoices",
+      "summary": "₹87,000 invoiced / ₹31,875 open",
+      "conceptFixes": "C16 C18",
+      "addItems": "A10",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Table Classic",
+          "path": "families/F18-invoices/V1/index.html",
+          "bytes": 14389
+        },
+        {
+          "v": "V2",
+          "name": "Statement",
+          "path": "families/F18-invoices/V2/index.html",
+          "bytes": 10000
+        },
+        {
+          "v": "V3",
+          "name": "Card List",
+          "path": "families/F18-invoices/V3/index.html",
+          "bytes": 11852
+        },
+        {
+          "v": "V4",
+          "name": "Split Preview",
+          "path": "families/F18-invoices/V4/index.html",
+          "bytes": 13474
+        },
+        {
+          "v": "V5",
+          "name": "Archive Ledger",
+          "path": "families/F18-invoices/V5/index.html",
+          "bytes": 10774
+        }
+      ]
+    },
+    {
+      "id": "F19",
+      "slug": "F19-notifications",
+      "dir": "families/F19-notifications",
+      "title": "Notifications",
+      "summary": "Six real events, nine categories",
+      "conceptFixes": "C16",
+      "addItems": "A7",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Entity Groups",
+          "path": "families/F19-notifications/V1/index.html",
+          "bytes": 14684
+        },
+        {
+          "v": "V2",
+          "name": "Dense List",
+          "path": "families/F19-notifications/V2/index.html",
+          "bytes": 15616
+        },
+        {
+          "v": "V3",
+          "name": "Filter Rail",
+          "path": "families/F19-notifications/V3/index.html",
+          "bytes": 13536
+        },
+        {
+          "v": "V4",
+          "name": "Date Timeline",
+          "path": "families/F19-notifications/V4/index.html",
+          "bytes": 11250
+        },
+        {
+          "v": "V5",
+          "name": "Unread Queue",
+          "path": "families/F19-notifications/V5/index.html",
+          "bytes": 13040
+        }
+      ]
+    },
+    {
+      "id": "F20",
+      "slug": "F20-profile",
+      "dir": "families/F20-profile",
+      "title": "Profile",
+      "summary": "What the studio sees",
+      "conceptFixes": "C20",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Profile Card",
+          "path": "families/F20-profile/V1/index.html",
+          "bytes": 15303
+        },
+        {
+          "v": "V2",
+          "name": "Two Column Form",
+          "path": "families/F20-profile/V2/index.html",
+          "bytes": 13951
+        },
+        {
+          "v": "V3",
+          "name": "Public Preview",
+          "path": "families/F20-profile/V3/index.html",
+          "bytes": 15087
+        },
+        {
+          "v": "V4",
+          "name": "Section Console",
+          "path": "families/F20-profile/V4/index.html",
+          "bytes": 14025
+        },
+        {
+          "v": "V5",
+          "name": "Minimal Card",
+          "path": "families/F20-profile/V5/index.html",
+          "bytes": 10593
+        }
+      ]
+    },
+    {
+      "id": "F21",
+      "slug": "F21-settings",
+      "dir": "families/F21-settings",
+      "title": "Settings",
+      "summary": "18-switch matrix, 8 sessions",
+      "conceptFixes": "C10",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Sub-tab Classic",
+          "path": "families/F21-settings/V1/index.html",
+          "bytes": 23291
+        },
+        {
+          "v": "V2",
+          "name": "Sticky Rail",
+          "path": "families/F21-settings/V2/index.html",
+          "bytes": 21262
+        },
+        {
+          "v": "V3",
+          "name": "Card Grid",
+          "path": "families/F21-settings/V3/index.html",
+          "bytes": 14715
+        },
+        {
+          "v": "V4",
+          "name": "Switch Ledger",
+          "path": "families/F21-settings/V4/index.html",
+          "bytes": 18482
+        },
+        {
+          "v": "V5",
+          "name": "Mobile Stack",
+          "path": "families/F21-settings/V5/index.html",
+          "bytes": 12871
+        }
+      ]
+    },
+    {
+      "id": "F22",
+      "slug": "F22-settings-files",
+      "dir": "families/F22-settings-files",
+      "title": "Settings ▸ Files",
+      "summary": "Uploading, processing, failed all designed",
+      "conceptFixes": "C13 C16",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Grid + Groups",
+          "path": "families/F22-settings-files/V1/index.html",
+          "bytes": 25871
+        },
+        {
+          "v": "V2",
+          "name": "Dense List",
+          "path": "families/F22-settings-files/V2/index.html",
+          "bytes": 22159
+        },
+        {
+          "v": "V3",
+          "name": "Split Preview",
+          "path": "families/F22-settings-files/V3/index.html",
+          "bytes": 17768
+        },
+        {
+          "v": "V4",
+          "name": "Upload First",
+          "path": "families/F22-settings-files/V4/index.html",
+          "bytes": 15596
+        },
+        {
+          "v": "V5",
+          "name": "Minimal Table",
+          "path": "families/F22-settings-files/V5/index.html",
+          "bytes": 13688
+        }
+      ]
+    },
+    {
+      "id": "F23",
+      "slug": "F23-explore",
+      "dir": "families/F23-explore",
+      "title": "Explore",
+      "summary": "Editorial in the portal's brand",
+      "conceptFixes": "C4 C5 C6 C18",
+      "addItems": "",
+      "variants": [
+        {
+          "v": "V1",
+          "name": "Editorial Cards",
+          "path": "families/F23-explore/V1/index.html",
+          "bytes": 14210
+        },
+        {
+          "v": "V2",
+          "name": "Dense Index",
+          "path": "families/F23-explore/V2/index.html",
+          "bytes": 14291
+        },
+        {
+          "v": "V3",
+          "name": "Magazine Split",
+          "path": "families/F23-explore/V3/index.html",
+          "bytes": 12689
+        },
+        {
+          "v": "V4",
+          "name": "Filter Grid",
+          "path": "families/F23-explore/V4/index.html",
+          "bytes": 14731
+        },
+        {
+          "v": "V5",
+          "name": "Reading List",
+          "path": "families/F23-explore/V5/index.html",
+          "bytes": 9756
+        }
+      ]
+    }
+  ]
+}

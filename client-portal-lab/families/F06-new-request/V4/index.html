@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New request · V4 Dense Grid — Nestlancer Portal Lab</title>
+<meta name="description" content="F06 variant 4: a labelled two-column field grid with quick-fill category chips that prefill a budget range, built for fast entry.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Dense Grid. A grid · D dense · E chips prefill. */
+.page{min-height:100vh;background:var(--background);display:flex;flex-direction:column}
+.top{height:56px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:10px;padding:0 18px}
+.brandline{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:-.02em;font-size:13.5px}
+.wrap{max-width:1000px;margin:0 auto;width:100%;padding:18px 18px 30px;flex:1}
+.mast{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.mast h1{font-size:21px;letter-spacing:-.03em}
+.mast p{font-size:12px;color:var(--muted-foreground)}
+.sheet{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;
+  box-shadow:var(--shadow-xs)}
+.sheethd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;
+  border-bottom:1px solid var(--border);background:var(--muted);font-size:10.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.fgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+.cell{padding:11px 14px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-width:0}
+.cell:nth-child(4n){border-right:0}
+.cell.span2{grid-column:span 2}
+.cell.span3{grid-column:span 3}
+.cell.span4{grid-column:span 4}
+@media(max-width:820px){.fgrid{grid-template-columns:1fr 1fr}.cell:nth-child(4n){border-right:1px solid var(--border)}
+  .cell:nth-child(2n){border-right:0}.cell.span2,.cell.span3,.cell.span4{grid-column:span 2}}
+@media(max-width:560px){.fgrid{grid-template-columns:1fr}.cell{border-right:0!important}
+  .cell.span2,.cell.span3,.cell.span4{grid-column:span 1}}
+.cell label{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:700;margin-bottom:4px}
+.cell label .req{color:var(--status-error-text)}
+.cell input,.cell textarea,.cell select{width:100%;border:0;background:none;outline:none;font-size:13.5px;
+  color:var(--foreground);font-family:inherit;padding:2px 0;resize:vertical}
+.cell input::placeholder,.cell textarea::placeholder{color:var(--muted-foreground);opacity:.7}
+.cell:focus-within{background:var(--brand-50);box-shadow:inset 0 -2px 0 var(--primary)}
+.dark .cell:focus-within{background:#161f3a}
+.cell .hint{font-size:10.5px;color:var(--muted-foreground);margin-top:3px}
+.cell .err{font-size:10.5px;color:var(--status-error-text);margin-top:3px}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.qchip{border:1px solid var(--border);border-radius:999px;padding:3px 9px;font-size:11px;font-weight:600;
+  color:var(--muted-foreground);background:var(--card)}
+.qchip[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.catgrid{display:flex;gap:5px;flex-wrap:wrap}
+.catgrid button{border:1px solid var(--border);border-radius:var(--radius-sm);padding:4px 9px;font-size:11.5px;
+  color:var(--muted-foreground);background:var(--card);font-weight:600}
+.catgrid button[aria-pressed="true"]{background:var(--brand-50);border-color:var(--brand-300);color:var(--brand-700)}
+.dark .catgrid button[aria-pressed="true"]{background:#1b2650;border-color:#33447e;color:#c9d6ff}
+.foot{display:flex;align-items:center;gap:9px;padding:12px 14px;background:var(--card);flex-wrap:wrap;
+  border-top:1px solid var(--border)}
+.foot .meta{font-size:11.5px;color:var(--muted-foreground)}
+.foot .meta b{color:var(--foreground)}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:14px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.kbdhint{display:flex;gap:6px;align-items:center;font-size:11.5px;color:var(--muted-foreground)}
+@media(max-width:620px){.wrap{padding:12px}.top{padding:0 12px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the form</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F05-requests-work-hub/V1/index.html"><span class="brand-mark"
+      style="width:24px;height:24px;font-size:11px">N</span>Nestlancer</a>
+    <span class="muted" style="font-size:11.5px">Requests › New</span>
+    <span class="grow"></span>
+    <span class="kbdhint"><span class="kbd">Tab</span> moves cell to cell</span>
+    <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="mast">
+      <div><h1>New request</h1>
+        <p>One sheet, ten fields. Category chips prefill a budget range you can override.</p></div>
+      <span class="grow"></span>
+      <span class="pill pill--info" data-state>Draft</span>
+    </div>
+
+    <form class="sheet" data-form novalidate>
+      <div class="sheethd"><span>Brief · budget · timeline &amp; requirements</span><span data-filled>0 / 10 filled</span></div>
+
+      <div class="fgrid">
+        <div class="cell span2">
+          <label for="title">Request title <span class="req">*</span></label>
+          <input id="title" placeholder="Meridian Clinic website" required>
+          <p class="err" data-err="title" hidden>At least 4 characters.</p>
+        </div>
+        <div class="cell span2">
+          <label for="client">Client / brand</label>
+          <input id="client" placeholder="Horizon Retail">
+          <p class="hint">Shown on the quote and every invoice.</p>
+        </div>
+
+        <div class="cell span4">
+          <label>Category <span class="req">*</span></label>
+          <div class="catgrid" role="group" aria-label="Category">
+            <button type="button" aria-pressed="true" data-cat="Web design" data-min="50000" data-max="150000">Web design</button>
+            <button type="button" aria-pressed="false" data-cat="E-commerce" data-min="80000" data-max="220000">E-commerce</button>
+            <button type="button" aria-pressed="false" data-cat="Branding" data-min="27000" data-max="96000">Branding</button>
+            <button type="button" aria-pressed="false" data-cat="Mobile app" data-min="120000" data-max="300000">Mobile app</button>
+            <button type="button" aria-pressed="false" data-cat="Marketing" data-min="25000" data-max="90000">Marketing</button>
+            <button type="button" aria-pressed="false" data-cat="Webflow" data-min="45000" data-max="120000">Webflow</button>
+            <button type="button" aria-pressed="false" data-cat="SEO" data-min="20000" data-max="60000">SEO</button>
+            <button type="button" aria-pressed="false" data-cat="Content" data-min="15000" data-max="50000">Content</button>
+            <button type="button" aria-pressed="false" data-cat="Other" data-min="" data-max="">Other</button>
+          </div>
+        </div>
+
+        <div class="cell span4">
+          <label for="desc">Description <span class="req">*</span></label>
+          <textarea id="desc" rows="3" placeholder="What exists today, what should exist after, and what is already decided." required></textarea>
+          <p class="err" data-err="desc" hidden>At least 40 characters — the quote comes from this text.</p>
+          <p class="hint"><span data-c>0</span>/40 characters</p>
+        </div>
+
+        <div class="cell"><label for="bmin">Budget from ₹</label><input id="bmin" type="number" step="1000" placeholder="50000"></div>
+        <div class="cell"><label for="bmax">Budget to ₹</label><input id="bmax" type="number" step="1000" placeholder="150000"></div>
+        <div class="cell"><label for="flex">Flexibility</label>
+          <select id="flex"><option value="no">Fixed budget</option><option value="yes">Could stretch</option>
+            <option value="scope">Quote the right scope</option></select></div>
+        <div class="cell"><label for="gst">GST</label><input id="gst" value="18% extra" readonly>
+          <p class="hint">Added on the quote, never inside it.</p></div>
+
+        <div class="cell"><label for="start">Ideal start</label><input id="start" type="date" value="2026-11-02"></div>
+        <div class="cell"><label for="live">Live by</label><input id="live" type="date"></div>
+        <div class="cell span2"><label for="reqs">Requirements</label>
+          <input id="reqs" placeholder="Booking engine, Hindi + English, WCAG AA">
+          <div class="chips"><button type="button" class="qchip" data-req="Responsive">Responsive</button>
+            <button type="button" class="qchip" data-req="CMS">CMS</button>
+            <button type="button" class="qchip" data-req="Payments">Payments</button>
+            <button type="button" class="qchip" data-req="Multilingual">Multilingual</button>
+            <button type="button" class="qchip" data-req="WCAG AA">WCAG AA</button></div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <span class="meta" data-summary><b>Draft</b> · Web design · ₹50,000–₹1,50,000 suggested</span>
+        <span class="grow"></span>
+        <button class="btn btn-s btn-sm" type="button" data-draft>Save draft</button>
+        <button class="btn btn-p btn-sm" type="submit" data-submit>Submit request</button>
+      </div>
+    </form>
+
+    <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F06 New Request · V4 of 5 — Dense Grid</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var $=function(id){return document.getElementById(id);};
+  var ids=['title','client','desc','bmin','bmax','start','live','reqs'];
+  document.querySelectorAll('[data-cat]').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('[data-cat]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      if(b.dataset.min){$('bmin').value=b.dataset.min;$('bmax').value=b.dataset.max;}
+      paint();
+    });
+  });
+  document.querySelectorAll('[data-req]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var on=b.getAttribute('aria-pressed')==='true';
+      b.setAttribute('aria-pressed',String(!on));
+      var cur=$('reqs').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      if(on)cur=cur.filter(function(s){return s!==b.dataset.req;});
+      else if(cur.indexOf(b.dataset.req)<0)cur.push(b.dataset.req);
+      $('reqs').value=cur.join(', ');
+      paint();
+    });
+  });
+  function cat(){var c=document.querySelector('[data-cat][aria-pressed="true"]');return c?c.dataset.cat:'Web design';}
+  function money(v){return v?('₹'+Number(v).toLocaleString('en-IN')):'';}
+  function paint(){
+    var filled=ids.filter(function(id){return ($(id).value||'').trim().length>0;}).length;
+    document.querySelector('[data-filled]').textContent=filled+' / 10 filled';
+    var mn=money($('bmin').value), mx=money($('bmax').value);
+    var b=mn||mx?((mn||'₹0')+'–'+(mx||'open')):'budget not set';
+    var flex=$('flex').value, f=flex==='yes'?' (could stretch)':flex==='scope'?' (right scope)':'';
+    document.querySelector('[data-summary]').innerHTML='<b>'+($('title').value||'Draft')+'</b> · '+cat()+' · '+b+f;
+    document.querySelector('[data-c]').textContent=$('desc').value.length;
+    var ready=$('title').value.trim().length>=4&&$('desc').value.trim().length>=40;
+    var st=document.querySelector('[data-state]');
+    st.textContent=ready?'Ready to submit':'Draft';
+    st.className='pill '+(ready?'pill--ok':'pill--info');
+  }
+  ['title','client','desc','bmin','bmax','start','live','reqs','flex'].forEach(function(id){
+    $(id).addEventListener('input',paint); $(id).addEventListener('change',paint);
+  });
+  document.querySelector('[data-draft]').addEventListener('click',function(){say('Draft saved — resume from Requests.');});
+  document.querySelector('[data-form]').addEventListener('submit',function(e){
+    e.preventDefault();
+    var okT=$('title').value.trim().length>=4, okD=$('desc').value.trim().length>=40;
+    document.querySelector('[data-err="title"]').hidden=okT;
+    document.querySelector('[data-err="desc"]').hidden=okD;
+    if(!okT){$('title').focus();say('Add a title of at least 4 characters.');return;}
+    if(!okD){$('desc').focus();say('Describe the work in at least 40 characters.');return;}
+    if($('live').value&&$('start').value&&$('live').value<$('start').value){
+      $('live').focus();say('Live-by is before the start date.');return;}
+    var b=document.querySelector('[data-submit]'); b.classList.add('is-loading');
+    setTimeout(function(){
+      b.classList.remove('is-loading');
+      if(new URLSearchParams(location.search).get('state')==='error'){say('Submit failed — service error. Input kept.');return;}
+      location.href='../../F05-requests-work-hub/V1/index.html?status=Submitted';
+    },700);
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

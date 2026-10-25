@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing · V3 Queue First — Nestlancer Portal Lab</title>
+<meta name="description" content="F14 variant 3: the payments work queue is the page, with status chips, a per-item action and the ledger demoted to a compact secondary list.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Queue First. A queue-as-page · B action-first · C queue narrative · E chips + count. */
+.page{max-width:1000px;margin:0 auto;padding:0 22px 60px}
+.hd{padding:24px 0 14px;display:flex;gap:14px;align-items:end;flex-wrap:wrap}
+.hd h1{font-size:26px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12.5px;color:var(--muted-foreground);max-width:60ch}
+.hd .r{margin-left:auto;display:flex;gap:7px;align-items:center}
+.banner--info{margin:4px 0 16px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:14px 0 12px}
+.filters .lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;
+  color:var(--muted-foreground);margin-right:3px}
+.fc{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:5px 12px;font-size:12px;
+  font-weight:650;color:var(--muted-foreground);display:inline-flex;gap:6px;align-items:center}
+.fc b{font-variant-numeric:var(--tabnum);font-size:11px;color:var(--foreground)}
+.fc[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.fc[aria-pressed="true"] b{color:#fff}
+.cards{display:grid;gap:10px}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 15px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;position:relative;
+  overflow:hidden}
+.pc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--status-warning-text)}
+.pc[data-st="not_due"]::before{background:var(--border)}
+.pc[data-st="pending"]::before{background:var(--status-warning-text)}
+.pc[data-st="processing"]::before{background:var(--status-info-text)}
+.pc .t{font-size:13.5px;font-weight:700;letter-spacing:-.02em}
+.pc .s{font-size:11.5px;color:var(--muted-foreground);margin-top:3px;line-height:1.5}
+.pc .why{font-size:11px;margin-top:7px;padding:6px 9px;border-radius:6px;background:var(--muted);
+  color:var(--muted-foreground);display:flex;gap:6px;align-items:flex-start;line-height:1.5}
+.pc .right{text-align:right;display:grid;gap:7px;justify-items:end}
+.pc .right .a{font-size:19px;letter-spacing:-.03em;font-variant-numeric:var(--tabnum);font-weight:600}
+.pc .right .acts{display:flex;gap:5px}
+@media(max-width:640px){.pc{grid-template-columns:1fr}.pc .right{justify-items:start;text-align:left}
+  .pc .right .acts{flex-wrap:wrap}}
+.sec{margin-top:26px}
+.sec h2{font-size:14px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.sec h2 span{font-size:11px;color:var(--muted-foreground);font-weight:500}
+.compact{margin-top:9px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
+  overflow:hidden}
+.crow{display:grid;grid-template-columns:88px minmax(0,1fr) 96px 104px;gap:10px;align-items:center;
+  padding:8px 13px;border-bottom:1px solid var(--border);font-size:12px}
+.crow:last-child{border-bottom:0}
+.crow:hover{background:var(--brand-50)}
+.dark .crow:hover{background:#161f3a}
+.crow .d{font-size:11px;color:var(--muted-foreground);white-space:nowrap}
+.crow .n b{display:block;font-weight:600;font-size:12px}
+.crow .n span{font-size:10.5px;color:var(--muted-foreground)}
+.crow .a{text-align:right;font-variant-numeric:var(--tabnum);font-weight:600;white-space:nowrap}
+.crow .st{text-align:right}
+@media(max-width:640px){.crow{grid-template-columns:minmax(0,1fr) auto}.crow .d{display:none}
+  .crow .st{display:none}}
+.linkrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tot{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;padding:10px 13px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);background:var(--card);font-size:11.5px;color:var(--muted-foreground)}
+.tot b{color:var(--foreground);font-variant-numeric:var(--tabnum)}
+.empty{padding:34px 16px;text-align:center;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md)}
+.empty b{display:block;margin-bottom:4px;font-size:13px}
+.empty p{margin:0;font-size:12px;color:var(--muted-foreground)}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:22px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6z"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to billing queue</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F08-projects-list/V1/index.html">Projects</a>
+        <a href="index.html" aria-current="page">Billing</a>
+        <a href="../../F18-invoices/V1/index.html">Invoices</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div><h1>Money that needs you</h1>
+        <p>Four items are open: one transfer waiting on verification, one unpaid invoice, and two milestones that
+        are not due yet. Everything settled is listed below.</p></div>
+      <div class="r"><a class="btn btn-g btn-sm" href="../../F15-payment-methods/V1/index.html">Payment methods</a></div>
+    </div>
+
+    <div class="banner banner--info">
+      <svg class="i i--sm"><use href="#i-bolt"/></svg>
+      <span>Payments run through Razorpay. Bank transfers stay in <b>processing</b> until the studio verifies the
+        UTR — this is why the pending figure is ₹31,875.00 and not ₹0.00.</span>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filter items">
+      <span class="lbl">Show</span>
+      <button class="fc" data-f="all" aria-pressed="true">All <b>4</b></button>
+      <button class="fc" data-f="processing" aria-pressed="false">Processing <b>1</b></button>
+      <button class="fc" data-f="pending" aria-pressed="false">Pending <b>1</b></button>
+      <button class="fc" data-f="not_due" aria-pressed="false">Not due <b>2</b></button>
+    </div>
+
+    <div class="cards" data-cards>
+      <article class="pc" data-st="processing">
+        <div>
+          <p class="t">Milestone 2 · Khandesh Spice D2C</p>
+          <p class="s">₹30,000.00 · bank transfer · proof uploaded 14 Oct 2026</p>
+          <p class="why"><span>Waiting on the studio to verify the UTR. Nothing else is needed from you.</span></p>
+        </div>
+        <div class="right"><span class="pill pill--warn">processing</span>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Track</a></div></div>
+      </article>
+
+      <article class="pc" data-st="pending">
+        <div>
+          <p class="t">Invoice NL-INV-2026-000044</p>
+          <p class="s">₹1,875.00 · issued 12 Oct 2026 · Horizon Retail</p>
+          <p class="why"><span>Unpaid. Pay online or send a bank transfer with proof.</span></p>
+        </div>
+        <div class="right"><span class="pill pill--warn">pending</span>
+          <div class="acts"><a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Pay ₹1,875</a>
+            <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">Invoice</a></div></div>
+      </article>
+
+      <article class="pc" data-st="not_due">
+        <div>
+          <p class="t">Milestone 3 · B2B Wholesale</p>
+          <p class="s">₹45,000.00 · unlocks when milestone 2 is approved</p>
+          <p class="why"><span>Locked. Approving milestone 2 releases this payment.</span></p>
+        </div>
+        <div class="right"><span class="pill pill--lock">not due</span>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Milestone</a></div></div>
+      </article>
+
+      <article class="pc" data-st="not_due">
+        <div>
+          <p class="t">Milestone 3 · Khandesh Spice</p>
+          <p class="s">Amount confirmed at handover · no figure is due yet</p>
+          <p class="why"><span>Shown so the count matches the project plan rather than hiding a future step.</span></p>
+        </div>
+        <div class="right"><span class="pill pill--lock">not due</span>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div></div>
+      </article>
+    </div>
+
+    <div class="empty" data-empty hidden><b>Nothing open in this state</b>
+      <p>Switch to another chip to see the rest of your billing.</p></div>
+
+    <div class="tot">
+      <span>Collected <b>₹81,500.00</b></span>
+      <span>Outstanding <b>₹31,875.00</b></span>
+      <span>In dispute <b>₹0.00</b></span>
+      <span style="margin-left:auto">source <code>GET /payments/stats</code></span>
+    </div>
+
+    <section class="sec" aria-label="Settled ledger">
+      <h2>Everything else <span>11 transactions · 6 columns kept</span></h2>
+      <div class="compact">
+        <div class="crow"><span class="d">15 Oct 2026</span>
+          <span class="n"><b>Milestone 1 · Khandesh Spice</b><span>UPI · discovery &amp; wireframes</span></span>
+          <span class="a">₹48,000.00</span><span class="st"><span class="pill pill--ok">completed</span></span></div>
+        <div class="crow"><span class="d">14 Oct 2026</span>
+          <span class="n"><b>Milestone 2 · Khandesh Spice</b><span>Bank · UTR awaiting verification</span></span>
+          <span class="a">₹30,000.00</span><span class="st"><span class="pill pill--warn">processing</span></span></div>
+        <div class="crow"><span class="d">12 Oct 2026</span>
+          <span class="n"><b>Invoice NL-INV-2026-000044</b><span>Horizon Retail · issued</span></span>
+          <span class="a">₹1,875.00</span><span class="st"><span class="pill pill--warn">pending</span></span></div>
+        <div class="crow"><span class="d">5 Oct 2026</span>
+          <span class="n"><b>Audit deposit</b><span>Card · AUDIT-P25-20261005-73dhk</span></span>
+          <span class="a">₹625.00</span><span class="st"><span class="pill pill--ok">completed</span></span></div>
+        <div class="crow"><span class="d">28 Sep 2026</span>
+          <span class="n"><b>Milestone 1 · B2B Wholesale</b><span>Netbanking</span></span>
+          <span class="a">₹22,000.00</span><span class="st"><span class="pill pill--ok">completed</span></span></div>
+        <div class="crow"><span class="d">20 Sep 2026</span>
+          <span class="n"><b>Change request · hero rebuild</b><span>UPI · Horizon Retail</span></span>
+          <span class="a">₹10,625.00</span><span class="st"><span class="pill pill--ok">completed</span></span></div>
+        <div class="crow"><span class="d">18 Sep 2026</span>
+          <span class="n"><b>Milestone 2 · attempt</b><span>Card declined · no money moved</span></span>
+          <span class="a">₹30,000.00</span><span class="st"><span class="pill pill--err">failed</span></span></div>
+        <div class="crow"><span class="d">12 Sep 2026</span>
+          <span class="n"><b>Platform fee</b><span>2.5% of milestone 1</span></span>
+          <span class="a">₹250.00</span><span class="st"><span class="pill pill--ok">completed</span></span></div>
+        <div class="crow"><span class="d">30 Aug 2026</span>
+          <span class="n"><b>Reversal · duplicate charge</b><span>Returned in 3 working days</span></span>
+          <span class="a">₹0.00</span><span class="st"><span class="pill pill--info">refunded</span></span></div>
+        <div class="crow"><span class="d">15 Nov 2026</span>
+          <span class="n"><b>Milestone 3 · B2B Wholesale</b><span>Locked until milestone 2</span></span>
+          <span class="a">₹45,000.00</span><span class="st"><span class="pill pill--lock">not due</span></span></div>
+        <div class="crow"><span class="d">5 Dec 2026</span>
+          <span class="n"><b>Milestone 3 · Khandesh Spice</b><span>Priced at handover</span></span>
+          <span class="a">—</span><span class="st"><span class="pill pill--lock">not due</span></span></div>
+      </div>
+      <div class="linkrow">
+        <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">All invoices</a>
+        <a class="btn btn-g btn-sm" href="../V1/index.html">Open full ledger view</a>
+      </div>
+    </section>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F14 · V3 of 5 · deep link <code>?status=processing</code></span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var cards=[].slice.call(document.querySelectorAll('.pc')), empty=document.querySelector('[data-empty]');
+  function paint(f){
+    var n=0;
+    cards.forEach(function(c){var ok=f==='all'||c.dataset.st===f;c.hidden=!ok;if(ok)n++;});
+    empty.hidden=n>0;
+  }
+  document.querySelectorAll('.fc').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.fc').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      paint(b.dataset.f);
+      var u=new URL(location.href);
+      if(b.dataset.f==='all'){u.searchParams.delete('status');}else{u.searchParams.set('status',b.dataset.f);}
+      history.replaceState(null,'',u);
+      say('Showing '+b.dataset.f.replace('_',' ')+' items.');
+    });
+  });
+  var start=new URLSearchParams(location.search).get('status');
+  if(start){
+    var b=document.querySelector('.fc[data-f="'+start+'"]');
+    if(b){document.querySelectorAll('.fc').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});paint(start);}
+  }
+})();
+</script>
+</body>
+</html>

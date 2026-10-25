@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thread · V5 Focus Mode — Nestlancer Portal Lab</title>
+<meta name="description" content="F13 variant 5: one narrow conversation column, no rails, a large composer and quick replies that send in a single tap.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Focus Mode. A narrow · B conversation-first · D minimal · E quick-reply to send. */
+body{background:var(--muted)}
+.wrap{max-width:660px;margin:0 auto;background:var(--background);min-height:100vh;display:flex;
+  flex-direction:column;box-shadow:0 0 0 1px var(--border)}
+@media(min-width:720px){.wrap{margin:18px auto;min-height:calc(100vh - 36px);border-radius:20px;overflow:hidden;
+  box-shadow:0 20px 60px -30px rgba(15,28,46,.3),0 0 0 1px var(--border)}}
+.th{background:var(--card);border-bottom:1px solid var(--border);padding:11px 16px;display:flex;gap:10px;
+  align-items:center;position:sticky;top:0;z-index:6}
+.th .back{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--muted-foreground);
+  border:1px solid var(--border);flex:none}
+.th h1{font-size:14px;letter-spacing:-.02em;line-height:1.25}
+.th .s{font-size:10.5px;color:var(--muted-foreground);margin-top:1px}
+.th .dot3{margin-left:auto;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  color:var(--muted-foreground)}
+.th .dot3:hover{background:var(--muted)}
+.strip{background:var(--brand-50);border-bottom:1px solid var(--brand-100);padding:8px 16px;font-size:11px;
+  color:var(--brand-800);display:flex;gap:7px;align-items:center}
+.dark .strip{background:#161f3a;border-color:#2c3a6e;color:#c9d6ff}
+.stream{flex:1;padding:18px 16px 8px;display:flex;flex-direction:column;gap:14px}
+.sys{text-align:center;font-size:10px;color:var(--muted-foreground);letter-spacing:.02em}
+.m{max-width:86%;font-size:13px;line-height:1.6}
+.m .who{font-size:10.5px;color:var(--muted-foreground);margin-bottom:4px;padding-left:2px}
+.m .bub{background:var(--card);border:1px solid var(--border);border-radius:16px 16px 16px 5px;
+  padding:10px 13px}
+.m.me{margin-left:auto}
+.m.me .who{text-align:right;padding-right:2px}
+.m.me .bub{background:var(--brand-600);border:0;color:#fff;border-radius:16px 16px 5px 16px}
+.m .tm{font-size:9.5px;color:var(--muted-foreground);margin-top:4px;padding-left:3px}
+.m.me .tm{text-align:right;padding-right:3px}
+.composerbox{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--border);
+  padding:10px 14px 14px;z-index:8}
+.qr{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.qr::-webkit-scrollbar{display:none}
+.qr button{border:1px solid var(--border);background:var(--background);border-radius:999px;
+  padding:8px 14px;font-size:12px;font-weight:600;white-space:nowrap;color:var(--foreground);min-height:36px}
+.qr button:hover{border-color:var(--brand-300);background:var(--brand-50);color:var(--brand-800)}
+.crow{display:flex;gap:8px;align-items:flex-end}
+.crow textarea{flex:1;min-height:48px;max-height:140px;resize:none;font:inherit;font-size:14px;
+  padding:12px 14px;border:1px solid var(--border);border-radius:16px;background:var(--card);
+  color:var(--foreground);outline:none;line-height:1.45}
+.crow textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--brand-50)}
+.dark .crow textarea:focus{box-shadow:0 0 0 3px #1b2650}
+.crow .snd{width:48px;height:48px;border-radius:50%;background:var(--primary);color:#fff;display:grid;
+  place-items:center;flex:none}
+.crow .snd:hover{background:var(--brand-700)}
+.hint{font-size:10px;color:var(--muted-foreground);text-align:center;margin-top:7px}
+.foot{padding:0 16px 18px;font-size:11px;color:var(--muted-foreground);display:flex;gap:8px;flex-wrap:wrap;
+  align-items:center;background:var(--card)}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.menu{position:absolute;right:12px;top:48px;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);box-shadow:0 14px 30px -16px rgba(15,28,46,.35);padding:5px;min-width:180px;
+  z-index:20}
+.menu button{display:block;width:100%;text-align:left;padding:7px 10px;font-size:12px;border-radius:6px;
+  color:var(--foreground)}
+.menu button:hover{background:var(--muted)}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m3 20 18-8L3 4l4 8z"/></symbol>
+  <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to conversation</a>
+<div class="wrap">
+  <header class="th">
+    <a class="back" href="../../F12-messages-home/V1/index.html" aria-label="Back to messages">
+      <svg class="i i--sm"><use href="#i-back"/></svg></a>
+    <div><h1>Khandesh Spice · hero layout</h1>
+      <p class="s">Rahul and Riya · 3 members</p></div>
+    <button class="dot3" aria-label="Thread options" aria-expanded="false" data-menu-btn>
+      <svg class="i i--sm"><use href="#i-dots"/></svg></button>
+    <div class="menu" data-menu hidden>
+      <button data-theme-toggle2>Toggle dark mode</button>
+      <button data-demo>Search in conversation</button>
+      <button data-demo>Flag thread</button>
+      <button data-demo>Leave group</button>
+    </div>
+  </header>
+
+  <div class="strip">Milestone 2 · Homepage build · ₹30,000 — due 30 Oct</div>
+
+  <main id="main" class="stream" data-stream>
+    <p class="sys">21 October 2026</p>
+    <div class="m">
+      <p class="who">Rahul</p>
+      <div class="bub">Hero CTA above the fold? On a 375px screen the primary button sits below the fold.</div>
+      <p class="tm">10:12</p>
+    </div>
+    <div class="m me">
+      <p class="who">You</p>
+      <div class="bub">Yes — move it above and keep the carousel below the headline.</div>
+      <p class="tm">10:38 · delivered</p>
+    </div>
+    <p class="sys">Riya Kapoor joined the thread</p>
+    <div class="m">
+      <p class="who">Riya Kapoor</p>
+      <div class="bub">Noted. Keep the hero copy short enough that the CTA stays visible without scrolling.</div>
+      <p class="tm">11:00</p>
+    </div>
+    <p class="sys">22 October 2026</p>
+    <div class="m">
+      <p class="who">Rahul</p>
+      <div class="bub">Staging build pushed — CTA clears the fold at 375, 390 and 414. Confirm on device before we
+        lock the milestone.</div>
+      <p class="tm">17:42</p>
+    </div>
+  </main>
+
+  <div class="composerbox">
+    <div class="qr" role="group" aria-label="Quick replies — tap to send">
+      <button data-quick="Confirmed on my device — proceed.">Confirmed ✓</button>
+      <button data-quick="Please send a 360px screenshot too.">360px?</button>
+      <button data-quick="Locking milestone 2 now.">Lock milestone 2</button>
+    </div>
+    <div class="crow">
+      <textarea rows="1" placeholder="Message…" aria-label="Message" data-input></textarea>
+      <button class="snd" data-send aria-label="Send message"><svg class="i"><use href="#i-send"/></svg></button>
+    </div>
+    <p class="hint">Enter sends · tap a quick reply to send it straight away</p>
+  </div>
+
+  <div class="foot">
+    <a href="../../../index.html">← Gallery</a><span>F13 · V5 of 5</span>
+    <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}}
+  function flip(){var d=!root.classList.contains('dark');root.classList.toggle('dark',d);
+    try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();}
+  if(tt)tt.addEventListener('click',flip);
+  sync();
+
+  var stream=document.querySelector('[data-stream]'), input=document.querySelector('[data-input]');
+  function append(text){
+    var d=document.createElement('div'); d.className='m me';
+    d.innerHTML='<p class="who">You</p><div class="bub"></div><p class="tm">just now · delivered</p>';
+    d.querySelector('.bub').textContent=text;
+    stream.appendChild(d);
+    d.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+  function send(){
+    var v=input.value.trim(); if(!v){input.focus();return;}
+    append(v); input.value=''; input.style.height='auto'; say('Message sent.'); input.focus();
+  }
+  document.querySelector('[data-send]').addEventListener('click',send);
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}
+  });
+  input.addEventListener('input',function(){
+    input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,140)+'px';
+  });
+  document.querySelectorAll('[data-quick]').forEach(function(b){
+    b.addEventListener('click',function(){
+      append(b.dataset.quick);
+      say('Quick reply sent.');
+    });
+  });
+
+  var btn=document.querySelector('[data-menu-btn]'), menu=document.querySelector('[data-menu]');
+  btn.addEventListener('click',function(){
+    var open=menu.hidden;
+    menu.hidden=!open; btn.setAttribute('aria-expanded',String(open));
+  });
+  document.addEventListener('click',function(e){
+    if(!menu.hidden&&!menu.contains(e.target)&&e.target!==btn&&!btn.contains(e.target)){
+      menu.hidden=true; btn.setAttribute('aria-expanded','false');
+    }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&!menu.hidden){menu.hidden=true;btn.setAttribute('aria-expanded','false');btn.focus();}
+  });
+  menu.querySelector('[data-theme-toggle2]').addEventListener('click',function(){flip();menu.hidden=true;});
+  menu.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){
+      menu.hidden=true;
+      say(b.textContent.trim()+' is demo-only in this lab.');
+    });
+  });
+})();
+</script>
+</body>
+</html>

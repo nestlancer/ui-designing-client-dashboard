@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing · V4 Ops Table — Nestlancer Portal Lab</title>
+<meta name="description" content="F14 variant 4: a dense searchable, sortable payments console with column totals and a clearly labelled demo-only ask panel for billing questions.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Ops Table. A console · B data-first · C analytical · D dense · E search/sort/row action/A1. */
+.page{max-width:1400px;margin:0 auto;padding:0 18px 56px}
+.hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:16px 0 10px}
+.hd h1{font-size:18px;letter-spacing:-.025em}
+.hd .c{font-size:11px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tool{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:9px}
+.tool input[type=search]{border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px;
+  font:inherit;font-size:12px;min-width:240px;background:var(--card);color:var(--foreground);outline:none}
+.tool input[type=search]:focus{border-color:var(--primary)}
+.tool select{border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 8px;font:inherit;
+  font-size:12px;background:var(--card);color:var(--foreground)}
+.tool .sp{margin-left:auto;font-size:11px;color:var(--muted-foreground)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 264px;gap:14px;align-items:start}
+@media(max-width:1080px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.scrollx{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+thead th{text-align:left;font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:700;padding:6px 9px;border-bottom:1px solid var(--border);
+  background:var(--muted);white-space:nowrap;position:sticky;top:0;z-index:1}
+thead th button{font:inherit;text-transform:inherit;letter-spacing:inherit;color:inherit;padding:0;
+  display:inline-flex;gap:3px;align-items:center}
+thead th span.ar{font-size:8px;opacity:.55}
+tbody td{padding:6px 9px;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:middle}
+tbody tr:hover{background:var(--brand-50)}
+.dark tbody tr:hover{background:#161f3a}
+tbody tr[data-sel="1"]{background:var(--brand-50)}
+.dark tbody tr[data-sel="1"]{background:#1b2650}
+.mono{font-variant-numeric:var(--tabnum)}
+.dim{color:var(--muted-foreground);font-size:11px}
+.amt{text-align:right;font-variant-numeric:var(--tabnum);font-weight:600}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:1px}
+.s-ok{background:var(--status-success-text)}.s-pend{background:var(--status-warning-text)}
+.s-info{background:var(--status-info-text)}.s-err{background:var(--status-error-text)}
+.s-lock{background:var(--muted-foreground)}
+.arow{background:var(--background)}
+.arow td{font-size:11px;color:var(--muted-foreground)}
+.selbar{display:flex;gap:10px;align-items:center;padding:7px 9px;border-bottom:1px solid var(--border);
+  font-size:11px;color:var(--muted-foreground);flex-wrap:wrap;background:var(--card)}
+.selbar b{color:var(--foreground)}
+.selbar .r{margin-left:auto;display:flex;gap:5px}
+.foot1{display:flex;gap:10px;align-items:center;padding:7px 9px;font-size:11px;color:var(--muted-foreground);
+  border-top:1px solid var(--border);flex-wrap:wrap}
+.side{display:grid;gap:10px}
+.box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px}
+.box h3{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:7px;display:flex;gap:5px;align-items:center}
+.box p{margin:0;font-size:11.5px;line-height:1.6;color:var(--muted-foreground)}
+.box p+p{margin-top:6px}
+.box dl{margin:0;display:grid;gap:5px}
+.box dl div{display:flex;justify-content:space-between;font-size:11.5px}
+.box dt{color:var(--muted-foreground)}
+.box dd{margin:0;font-variant-numeric:var(--tabnum);font-weight:600}
+.box textarea{width:100%;min-height:58px;font:inherit;font-size:11.5px;padding:7px 8px;border:1px solid var(--border);
+  border-radius:5px;resize:vertical;background:var(--card);color:var(--foreground);outline:none;margin-top:7px}
+.box textarea:focus{border-color:var(--primary)}
+.demotag{font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;background:var(--muted);
+  color:var(--muted-foreground);border-radius:3px;padding:1px 4px;font-weight:700}
+.ans{font-size:11.5px;line-height:1.6;margin-top:8px;padding:8px 9px;background:var(--brand-50);
+  border-radius:5px;border-left:2px solid var(--primary)}
+.dark .ans{background:#161f3a}
+.empty{padding:28px 12px;text-align:center;font-size:12px;color:var(--muted-foreground)}
+.empty b{display:block;color:var(--foreground);margin-bottom:3px;font-size:12.5px}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:16px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to payments console</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F08-projects-list/V1/index.html">Projects</a>
+        <a href="index.html" aria-current="page">Billing</a>
+        <a href="../../F18-invoices/V1/index.html">Invoices</a>
+        <a href="../../F15-payment-methods/V1/index.html">Methods</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <h1>Payments console</h1>
+      <span class="c">11 transactions · ₹81,500.00 collected · ₹31,875.00 open</span>
+      <div class="r">
+        <a class="btn btn-g btn-sm" href="../../F16-checkout/V1/index.html">Checkout</a>
+        <a class="btn btn-g btn-sm" href="../V2/index.html">Statement</a>
+      </div>
+    </div>
+
+    <div class="tool">
+      <input type="search" placeholder="Search description, project or reference" aria-label="Search payments" data-q>
+      <select aria-label="Filter by status" data-st>
+        <option value="all">All statuses</option>
+        <option value="completed">Completed</option>
+        <option value="processing">Processing</option>
+        <option value="pending">Pending</option>
+        <option value="failed">Failed</option>
+        <option value="not_due">Not due</option>
+      </select>
+      <select aria-label="Filter by project" data-pj>
+        <option value="all">All projects</option>
+        <option value="Khandesh">Khandesh Spice</option>
+        <option value="B2B">B2B Wholesale</option>
+        <option value="Horizon">Horizon Retail</option>
+        <option value="Account">Account</option>
+      </select>
+      <button class="btn btn-g btn-sm" data-reset>Reset</button>
+      <span class="sp" data-count>11 rows</span>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="selbar">
+          <span><b data-selcount>0</b> selected</span>
+          <span>· totals below cover the filtered rows</span>
+          <span class="r">
+            <button class="btn btn-g btn-sm" data-bulk="export">Export CSV</button>
+            <button class="btn btn-g btn-sm" data-bulk="copy">Copy refs</button>
+          </span>
+        </div>
+        <div class="scrollx">
+        <table data-tbl>
+          <caption class="sr-only">Payments with date, description, project, method, status and amount</caption>
+          <thead><tr>
+            <th scope="col" style="width:26px"><input type="checkbox" aria-label="Select all rows" data-all></th>
+            <th scope="col"><button data-sort="date">Date <span class="ar">▼</span></button></th>
+            <th scope="col">Description</th>
+            <th scope="col">Project</th>
+            <th scope="col">Method</th>
+            <th scope="col"><button data-sort="st">Status <span class="ar">▼</span></button></th>
+            <th scope="col" style="text-align:right"><button data-sort="amt">Amount <span class="ar">▼</span></button></th>
+            <th scope="col"><span class="sr-only">Action</span></th>
+          </tr></thead>
+          <tbody data-body>
+            <tr data-st="completed" data-pj="Khandesh" data-date="20261015" data-amt="48000">
+              <td><input type="checkbox" aria-label="Select milestone 1 Khandesh" data-sel></td>
+              <td class="mono dim">15 Oct 2026</td><td>Milestone 1 · approved</td><td class="dim">Khandesh Spice</td>
+              <td class="dim">UPI</td><td><span class="dot s-ok"></span>completed</td>
+              <td class="amt">₹48,000.00</td><td><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">View</a></td></tr>
+            <tr data-st="processing" data-pj="Khandesh" data-date="20261014" data-amt="30000">
+              <td><input type="checkbox" aria-label="Select milestone 2 Khandesh" data-sel></td>
+              <td class="mono dim">14 Oct 2026</td><td>Milestone 2 · bank transfer</td><td class="dim">Khandesh Spice</td>
+              <td class="dim">Bank</td><td><span class="dot s-pend"></span>processing</td>
+              <td class="amt">₹30,000.00</td><td><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Track</a></td></tr>
+            <tr data-st="pending" data-pj="Horizon" data-date="20261012" data-amt="1875">
+              <td><input type="checkbox" aria-label="Select invoice 000044" data-sel></td>
+              <td class="mono dim">12 Oct 2026</td><td>Invoice NL-INV-2026-000044</td><td class="dim">Horizon Retail</td>
+              <td class="dim">—</td><td><span class="dot s-pend"></span>pending</td>
+              <td class="amt">₹1,875.00</td><td><a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Pay</a></td></tr>
+            <tr data-st="completed" data-pj="Account" data-date="20261005" data-amt="625">
+              <td><input type="checkbox" aria-label="Select audit deposit" data-sel></td>
+              <td class="mono dim">5 Oct 2026</td><td>Audit deposit</td><td class="dim">Account</td>
+              <td class="dim">Card</td><td><span class="dot s-ok"></span>completed</td>
+              <td class="amt">₹625.00</td><td><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">View</a></td></tr>
+            <tr data-st="completed" data-pj="B2B" data-date="20260928" data-amt="22000">
+              <td><input type="checkbox" aria-label="Select milestone 1 B2B" data-sel></td>
+              <td class="mono dim">28 Sep 2026</td><td>Milestone 1 · approved</td><td class="dim">B2B Wholesale</td>
+              <td class="dim">Netbanking</td><td><span class="dot s-ok"></span>completed</td>
+              <td class="amt">₹22,000.00</td><td><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">View</a></td></tr>
+            <tr data-st="completed" data-pj="Horizon" data-date="20260920" data-amt="10625">
+              <td><input type="checkbox" aria-label="Select change request" data-sel></td>
+              <td class="mono dim">20 Sep 2026</td><td>Change request · hero rebuild</td><td class="dim">Horizon Retail</td>
+              <td class="dim">UPI</td><td><span class="dot s-ok"></span>completed</td>
+              <td class="amt">₹10,625.00</td><td><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">View</a></td></tr>
+            <tr data-st="failed" data-pj="Khandesh" data-date="20260918" data-amt="30000">
+              <td><input type="checkbox" aria-label="Select failed attempt" data-sel></td>
+              <td class="mono dim">18 Sep 2026</td><td>Milestone 2 · card attempt</td><td class="dim">Khandesh Spice</td>
+              <td class="dim">Card</td><td><span class="dot s-err"></span>failed</td>
+              <td class="amt">₹30,000.00</td><td><a class="btn btn-g btn-sm" href="../../F16-checkout/V1/index.html">Retry</a></td></tr>
+            <tr data-st="completed" data-pj="Account" data-date="20260912" data-amt="250">
+              <td><input type="checkbox" aria-label="Select platform fee" data-sel></td>
+              <td class="mono dim">12 Sep 2026</td><td>Platform fee · 2.5%</td><td class="dim">Account</td>
+              <td class="dim">Card</td><td><span class="dot s-ok"></span>completed</td>
+              <td class="amt">₹250.00</td><td><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">View</a></td></tr>
+            <tr data-st="completed" data-pj="Account" data-date="20260830" data-amt="0">
+              <td><input type="checkbox" aria-label="Select reversal" data-sel></td>
+              <td class="mono dim">30 Aug 2026</td><td>Reversal · duplicate charge</td><td class="dim">Account</td>
+              <td class="dim">—</td><td><span class="dot s-info"></span>refunded</td>
+              <td class="amt">₹0.00</td><td><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">View</a></td></tr>
+            <tr data-st="not_due" data-pj="B2B" data-date="20261115" data-amt="45000">
+              <td><input type="checkbox" aria-label="Select milestone 3 B2B" data-sel></td>
+              <td class="mono dim">15 Nov 2026</td><td>Milestone 3 · locked</td><td class="dim">B2B Wholesale</td>
+              <td class="dim">—</td><td><span class="dot s-lock"></span>not due</td>
+              <td class="amt">₹45,000.00</td><td><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></td></tr>
+            <tr data-st="not_due" data-pj="Khandesh" data-date="20261205" data-amt="0">
+              <td><input type="checkbox" aria-label="Select milestone 3 Khandesh" data-sel></td>
+              <td class="mono dim">5 Dec 2026</td><td>Milestone 3 · priced at handover</td><td class="dim">Khandesh Spice</td>
+              <td class="dim">—</td><td><span class="dot s-lock"></span>not due</td>
+              <td class="amt">—</td><td><a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="empty" data-empty hidden><b>No rows match</b>
+          Clear a filter or search a different reference.</div>
+        <div class="foot1">
+          <span data-range>Showing 11 of 11 rows</span>
+          <span>· page 1 of 1</span>
+          <span style="margin-left:auto">Total filtered: <b data-total>₹2,18,250.00</b></span>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="box">
+          <h3>Column totals</h3>
+          <dl>
+            <div><dt>Completed</dt><dd>₹81,500.00</dd></div>
+            <div><dt>Processing</dt><dd>₹30,000.00</dd></div>
+            <div><dt>Pending</dt><dd>₹1,875.00</dd></div>
+            <div><dt>Failed</dt><dd>₹0.00 moved</dd></div>
+            <div><dt>In dispute</dt><dd>₹0.00</dd></div>
+          </dl>
+        </div>
+
+        <div class="box">
+          <h3>Ask about billing <span class="demotag">demo</span></h3>
+          <p>Ask a question about the rows above. Answers are illustrative — no AI endpoint exists in the API.</p>
+          <textarea data-ask aria-label="Ask about billing">Why is ₹31,875.00 still outstanding?</textarea>
+          <button class="btn btn-g btn-sm" style="margin-top:6px" data-askgo>Ask</button>
+          <div class="ans" data-ans hidden></div>
+        </div>
+
+        <div class="box">
+          <h3>Gateway</h3>
+          <p><b>Razorpay</b> processes card, UPI and netbanking. Bank transfers are verified by the studio and sit
+            in <b>processing</b> until the UTR matches.</p>
+          <p><a href="../../F15-payment-methods/V1/index.html">Manage methods →</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F14 · V4 of 5 · <code>GET /payments?page=&amp;limit=&amp;status=</code></span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var rows=[].slice.call(document.querySelectorAll('[data-body] tr')),
+      q=document.querySelector('[data-q]'), st=document.querySelector('[data-st]'), pj=document.querySelector('[data-pj]'),
+      total=document.querySelector('[data-total]'), range=document.querySelector('[data-range]'),
+      count=document.querySelector('[data-count]'), empty=document.querySelector('[data-empty]'),
+      all=document.querySelector('[data-all]');
+  function money(n){
+    return '₹'+n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  function paint(){
+    var v=q.value.toLowerCase().trim(), s=st.value, p=pj.value, n=0, sum=0;
+    rows.forEach(function(r){
+      var text=r.querySelectorAll('td')[2].textContent.toLowerCase()+' '+r.dataset.pj.toLowerCase();
+      var ok=(s==='all'||r.dataset.st===s)&&(p==='all'||r.dataset.pj===p)&&(!v||text.indexOf(v)>-1);
+      r.hidden=!ok; if(ok){n++;sum+=Number(r.dataset.amt);}
+    });
+    total.textContent=money(sum);
+    range.textContent='Showing '+n+' of '+rows.length+' rows';
+    count.textContent=n+' row'+(n===1?'':'s');
+    empty.hidden=n>0;
+    paintSel();
+  }
+  function paintSel(){
+    var sel=rows.filter(function(r){return !r.hidden&&r.querySelector('[data-sel]').checked;});
+    document.querySelector('[data-selcount]').textContent=sel.length;
+    var vis=rows.filter(function(r){return !r.hidden;});
+    all.checked=vis.length>0&&sel.length===vis.length;
+    all.indeterminate=sel.length>0&&sel.length<vis.length;
+  }
+  q.addEventListener('input',paint); st.addEventListener('change',paint); pj.addEventListener('change',paint);
+  document.querySelector('[data-reset]').addEventListener('click',function(){
+    q.value='';st.value='all';pj.value='all';paint();say('Filters cleared.');
+  });
+  document.querySelectorAll('[data-sel]').forEach(function(c){
+    c.addEventListener('change',function(){c.closest('tr').dataset.sel=c.checked?'1':'0';paintSel();});
+  });
+  all.addEventListener('change',function(){
+    rows.forEach(function(r){
+      if(r.hidden)return;
+      var c=r.querySelector('[data-sel]'); c.checked=all.checked; r.dataset.sel=all.checked?'1':'0';
+    });
+    paintSel();
+  });
+  document.querySelectorAll('[data-bulk]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var n=rows.filter(function(r){return r.querySelector('[data-sel]').checked;}).length;
+      if(!n){say('Select at least one row first.');return;}
+      say(b.dataset.bulk==='export'
+        ? 'CSV export of '+n+' row'+(n===1?'':'s')+' is demo-only in this lab.'
+        : n+' reference'+(n===1?'':'s')+' copied — demo-only.');
+    });
+  });
+  document.querySelectorAll('[data-sort]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.sort, body=document.querySelector('[data-body]');
+      var asc=b.dataset.dir!=='asc'; b.dataset.dir=asc?'asc':'desc';
+      document.querySelectorAll('[data-sort] .ar').forEach(function(s){s.textContent='';});
+      b.querySelector('.ar').textContent=asc?'▲':'▼';
+      rows.sort(function(x,y){
+        var a,bv;
+        if(k==='st'){a=x.dataset.st;bv=y.dataset.st;return a.localeCompare(bv)*(asc?1:-1);}
+        a=Number(x.dataset[k]);bv=Number(y.dataset[k]);
+        return (a-bv)*(asc?1:-1);
+      }).forEach(function(r){body.appendChild(r);});
+      say('Sorted by '+k+', '+(asc?'ascending':'descending')+'.');
+    });
+  });
+  document.querySelector('[data-askgo]').addEventListener('click',function(){
+    var a=document.querySelector('[data-ans]');
+    a.hidden=false;
+    a.innerHTML='<b>Demo answer.</b> ₹30,000.00 is a bank transfer still in <i>processing</i> (verification '+
+      'pending) and ₹1,875.00 is invoice NL-INV-2026-000044, which has not been paid. '+
+      'No AI endpoint exists in the API, so this panel is labelled demo-only.';
+  });
+  paint();
+})();
+</script>
+</body>
+</html>

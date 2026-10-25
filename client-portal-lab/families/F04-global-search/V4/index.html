@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search · V4 Filter Chips — Nestlancer Portal Lab</title>
+<meta name="description" content="F04 variant 4: an overlay palette with a chip row that filters by type, and a count that reacts without leaving the palette.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Filter Chips. A overlay+chips · B filter-first · E chip filter. */
+.backdrop{min-height:100vh;background:var(--background);padding:0}
+.hdr{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.bggrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:20px}
+.bgtile{height:150px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.bgtile:first-child{grid-column:span 2}
+.stage{position:fixed;inset:0;background:rgba(11,20,36,.42);z-index:50;display:grid;place-items:start center;
+  padding:8vh 16px 16px}
+.pal{width:min(620px,100%);background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:0 26px 60px rgba(11,20,36,.32);display:flex;flex-direction:column;max-height:78vh;overflow:hidden}
+.qrow{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid var(--border)}
+.qrow input{flex:1;border:0;background:none;outline:none;font-size:15px;min-width:0;color:var(--foreground)}
+.chips{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--border);overflow-x:auto;
+  background:var(--background)}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:999px;
+  padding:5px 11px;font-size:12px;font-weight:650;color:var(--muted-foreground);background:var(--card);
+  white-space:nowrap;flex:none}
+.chip .n{font-size:10.5px;font-variant-numeric:var(--tabnum);opacity:.75}
+.chip[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.chip[aria-pressed="true"] .n{opacity:.85}
+.chip:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.list{overflow:auto;flex:1;padding:4px 0}
+.grp{padding:9px 14px 3px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+.opt{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:9px 14px;cursor:pointer;
+  border-left:2px solid transparent;align-items:center}
+.opt b{display:block;font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.opt span.sub{display:block;font-size:11.5px;color:var(--muted-foreground);margin-top:1px}
+.opt .tag{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 7px;
+  border-radius:999px;background:var(--muted);color:var(--muted-foreground)}
+.opt[aria-selected="true"]{background:var(--brand-50);border-left-color:var(--primary)}
+.dark .opt[aria-selected="true"]{background:#1b2650}
+.foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 14px;border-top:1px solid var(--border);
+  background:var(--muted);font-size:11.5px;color:var(--muted-foreground)}
+.foot .r{margin-left:auto;display:flex;gap:8px;align-items:center}
+.nores{padding:26px 16px;text-align:center;font-size:13px;color:var(--muted-foreground)}
+.nores b{display:block;color:var(--foreground);font-size:13.5px;margin-bottom:3px}
+@media(max-width:700px){.bggrid{grid-template-columns:1fr}.bgtile:first-child{grid-column:auto}
+  .stage{padding-top:4vh}.chips{overflow-x:auto}}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:2px 6px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#pal">Skip to search</a>
+
+<div class="backdrop" aria-hidden="true" inert>
+  <div class="hdr">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <span class="pill pill--info" style="margin-left:auto">26 requests</span>
+  </div>
+  <div class="bggrid">
+    <div class="bgtile"></div><div class="bgtile"></div><div class="bgtile"></div>
+    <div class="bgtile" style="height:220px"></div><div class="bgtile" style="height:220px"></div>
+    <div class="bgtile" style="height:220px"></div>
+  </div>
+</div>
+
+<main class="stage">
+  <div class="pal" id="pal" role="dialog" aria-modal="true" aria-label="Search with filters">
+    <div class="qrow">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input id="q" type="text" placeholder="Search… then narrow with the chips below" autocomplete="off"
+        role="combobox" aria-expanded="true" aria-controls="res" aria-autocomplete="list" aria-activedescendant="o0"
+        aria-label="Search query">
+      <span class="kbd">esc</span>
+    </div>
+
+    <div class="chips" role="group" aria-label="Filter results by type">
+      <button class="chip" data-f="all" aria-pressed="true">All <span class="n" data-n="all">11</span></button>
+      <button class="chip" data-f="page" aria-pressed="false">Pages <span class="n" data-n="page">4</span></button>
+      <button class="chip" data-f="req" aria-pressed="false">Requests <span class="n" data-n="req">2</span></button>
+      <button class="chip" data-f="prj" aria-pressed="false">Projects <span class="n" data-n="prj">1</span></button>
+      <button class="chip" data-f="pay" aria-pressed="false">Payments <span class="n" data-n="pay">3</span></button>
+      <button class="chip" data-f="msg" aria-pressed="false">Messages <span class="n" data-n="msg">1</span></button>
+    </div>
+
+    <div class="list" id="res" role="listbox" aria-label="Results" data-res>
+      <div class="grp" role="presentation">Pages</div>
+      <div class="opt" id="o0" role="option" aria-selected="true" data-k="page" data-label="Overview dashboard" data-href="../../F03-dashboard-overview/V1/index.html">
+        <span><b>Overview dashboard</b><span class="sub">Verdict, KPIs, awaiting-you queue</span></span><span class="tag">Page</span></div>
+      <div class="opt" id="o1" role="option" aria-selected="false" data-k="page" data-label="Requests work hub" data-href="../../F05-requests-work-hub/V1/index.html">
+        <span><b>Requests work hub</b><span class="sub">26 requests · 12 shown</span></span><span class="tag">Page</span></div>
+      <div class="opt" id="o2" role="option" aria-selected="false" data-k="page" data-label="Settings files export" data-href="../../F22-settings-files/V1/index.html">
+        <span><b>Settings › Files</b><span class="sub">Uploads, exports, retention</span></span><span class="tag">Page</span></div>
+      <div class="opt" id="o3" role="option" aria-selected="false" data-k="page" data-label="Payment methods" data-href="../../F15-payment-methods/V1/index.html">
+        <span><b>Payment methods</b><span class="sub">Card, UPI, default method</span></span><span class="tag">Page</span></div>
+
+      <div class="grp" role="presentation">Requests</div>
+      <div class="opt" id="o4" role="option" aria-selected="false" data-k="req" data-label="Khandesh Spice D2C e-commerce store" data-href="../../F07-request-details/V1/index.html">
+        <span><b>Khandesh Spice D2C e-commerce store</b><span class="sub">In progress · quote signed</span></span><span class="tag">Request</span></div>
+      <div class="opt" id="o5" role="option" aria-selected="false" data-k="req" data-label="Horizon Retail rebrand" data-href="../../F07-request-details/V1/index.html">
+        <span><b>Horizon Retail rebrand</b><span class="sub">Awaiting quote · 21 Oct</span></span><span class="tag">Request</span></div>
+
+      <div class="grp" role="presentation">Projects</div>
+      <div class="opt" id="o6" role="option" aria-selected="false" data-k="prj" data-label="Khandesh Spice project 57%" data-href="../../F09-project-details/V1/index.html">
+        <span><b>Khandesh Spice D2C E-Commerce Store</b><span class="sub">57% · M2 due 30 Oct ₹30,000</span></span><span class="tag">Project</span></div>
+
+      <div class="grp" role="presentation">Payments</div>
+      <div class="opt" id="o7" role="option" aria-selected="false" data-k="pay" data-label="Pay now 4 pending ₹31,875" data-href="../../F14-billing/V1/index.html">
+        <span><b>Pay now · 4 pending</b><span class="sub">₹31,875.00 outstanding · ₹81,500.00 collected</span></span><span class="tag">Payment</span></div>
+      <div class="opt" id="o8" role="option" aria-selected="false" data-k="pay" data-label="Invoice NL-INV-2026-000045" data-href="../../F18-invoices/V1/index.html">
+        <span><b>NL-INV-2026-000045</b><span class="sub">Unpaid · ₹30,000.00 · issued 18 Oct</span></span><span class="tag">Payment</span></div>
+      <div class="opt" id="o9" role="option" aria-selected="false" data-k="pay" data-label="Deposit paid AUDIT-P25" data-href="../../F17-payment-status/V1/index.html">
+        <span><b>Deposit ₹625 · verified</b><span class="sub">AUDIT-P25-20261005-73dhk</span></span><span class="tag">Payment</span></div>
+
+      <div class="grp" role="presentation">Messages</div>
+      <div class="opt" id="o10" role="option" aria-selected="false" data-k="msg" data-label="Rahul Hero CTA above the fold" data-href="../../F13-messages-thread/V1/index.html">
+        <span><b>Rahul: Hero CTA above the fold?</b><span class="sub">Unread · 1h ago</span></span><span class="tag">Message</span></div>
+
+      <div class="nores" data-nores hidden><b>Nothing in this filter</b>
+        Clear the filter or search for a different term.</div>
+    </div>
+
+    <div class="foot">
+      <span><span class="kbd">↑↓</span> move</span><span><span class="kbd">↵</span> open</span>
+      <span><span class="kbd">⇥</span> chips</span>
+      <span class="r"><span data-count>11 results</span> · <a class="link--quiet" href="../../../index.html">Gallery</a>
+        · <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span></span>
+    </div>
+  </div>
+</main>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var q=document.getElementById('q'), box=document.querySelector('[data-res]');
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2200);}
+  var f='all', idx=0;
+
+  function opts(){return [].slice.call(box.querySelectorAll('.opt'));}
+  function vis(){return opts().filter(function(o){return !o.hidden;});}
+  function paint(){
+    var v=vis();
+    if(idx>=v.length)idx=Math.max(0,v.length-1);
+    opts().forEach(function(o){o.setAttribute('aria-selected','false');});
+    v.forEach(function(o,i){o.setAttribute('aria-selected',String(i===idx));});
+    if(v[idx])q.setAttribute('aria-activedescendant',v[idx].id);
+    box.querySelectorAll('.grp').forEach(function(g){
+      var n=g.nextElementSibling, any=false;
+      while(n&&!n.classList.contains('grp')&&!n.classList.contains('nores')){
+        if(n.classList.contains('opt')&&!n.hidden)any=true; n=n.nextElementSibling;}
+      g.hidden=!any;
+    });
+    document.querySelector('[data-nores]').hidden=v.length>0;
+    document.querySelector('[data-count]').textContent=v.length+' results';
+    /* per-chip counts respect the query, not the active chip */
+    var term=q.value.trim().toLowerCase();
+    var counts={all:0};
+    opts().forEach(function(o){
+      var hit=!term||o.dataset.label.toLowerCase().indexOf(term)>-1;
+      if(hit){counts.all++;counts[o.dataset.k]=(counts[o.dataset.k]||0)+1;}
+    });
+    document.querySelectorAll('.chip').forEach(function(c){
+      var k=c.dataset.f; if(k==='all')return;
+      var n=c.querySelector('.n'); if(n)n.textContent=counts[k]||0;
+    });
+    var an=document.querySelector('.chip[data-f="all"] .n'); if(an)an.textContent=counts.all;
+  }
+  function apply(){
+    var term=q.value.trim().toLowerCase();
+    opts().forEach(function(o){
+      var hit=!term||o.dataset.label.toLowerCase().indexOf(term)>-1;
+      var inF=f==='all'||o.dataset.k===f;
+      o.hidden=!(hit&&inF);
+    });
+    idx=0;paint();
+  }
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click',function(){f=c.dataset.f;
+      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===c));});
+      apply();});
+  });
+  q.addEventListener('input',apply);
+  q.addEventListener('keydown',function(e){
+    var v=vis();
+    if(e.key==='ArrowDown'){e.preventDefault();idx=Math.min(idx+1,v.length-1);paint();v[idx].scrollIntoView({block:'nearest'});}
+    else if(e.key==='ArrowUp'){e.preventDefault();idx=Math.max(idx-1,0);paint();v[idx].scrollIntoView({block:'nearest'});}
+    else if(e.key==='Enter'){e.preventDefault();if(v[idx]&&v[idx].dataset.href)location.href=v[idx].dataset.href;}
+    else if(e.key==='Escape'){ if(q.value!==''){q.value='';apply();} else {history.length>1?history.back():location.href='../../F03-dashboard-overview/V1/index.html';} }
+  });
+  box.addEventListener('mousemove',function(e){
+    var o=e.target.closest('.opt'); if(!o||o.hidden)return;
+    var i=vis().indexOf(o); if(i>-1&&i!==idx){idx=i;paint();}
+  });
+  box.addEventListener('click',function(e){var o=e.target.closest('.opt');if(o&&o.dataset.href)location.href=o.dataset.href;});
+  document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();q.focus();q.select();}});
+  q.focus(); apply();
+  if(new URLSearchParams(location.search).get('state')==='empty')say('Demo: this filter can be empty — chips still show live counts.');
+})();
+</script>
+</body>
+</html>

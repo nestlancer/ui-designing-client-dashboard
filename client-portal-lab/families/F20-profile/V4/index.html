@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile · V4 Section Console — Nestlancer Portal Lab</title>
+<meta name="description" content="F20 variant 4: the profile split into dense sections — identity, bio, skills, visibility — each saved on its own.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Section Console. A sections · B record-first · D dense · E per-section save. */
+.page{max-width:980px;margin:0 auto;padding:0 20px 56px}
+.hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:16px 0 10px}
+.hd h1{font-size:18px;letter-spacing:-.025em}
+.hd .c{font-size:11px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.sec{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);margin-bottom:9px;
+  overflow:hidden}
+.shd{display:flex;gap:9px;align-items:center;padding:8px 12px;background:var(--muted);
+  border-bottom:1px solid var(--border);flex-wrap:wrap}
+.shd h2{font-size:11.5px;letter-spacing:-.01em}
+.shd .n{font-size:10px;color:var(--muted-foreground)}
+.shd .st{margin-left:auto;display:flex;gap:6px;align-items:center;font-size:10px;color:var(--muted-foreground)}
+.shd .st[data-d="1"]{color:var(--status-warning-text);font-weight:650}
+.sbody{padding:10px 12px;display:grid;gap:9px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+@media(max-width:720px){.row3{grid-template-columns:1fr}}
+label{display:block;font-size:10px;font-weight:650;color:var(--muted-foreground);margin-bottom:3px;
+  letter-spacing:.02em}
+input[type=text],textarea,select{width:100%;font:inherit;font-size:12px;padding:6px 8px;border:1px solid var(--border);
+  border-radius:4px;background:var(--card);color:var(--foreground);outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 2px var(--brand-50)}
+.dark input:focus,.dark textarea:focus,.dark select:focus{box-shadow:0 0 0 2px #1b2650}
+textarea{resize:vertical;min-height:64px}
+.sfoot{display:flex;gap:6px;align-items:center;padding:7px 12px;border-top:1px solid var(--border);
+  font-size:10px;color:var(--muted-foreground);flex-wrap:wrap}
+.sfoot .r{margin-left:auto;display:flex;gap:5px}
+.chips{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.chips .c{display:inline-flex;gap:4px;align-items:center;font-size:10.5px;border:1px solid var(--border);
+  border-radius:4px;padding:1px 3px 1px 7px;background:var(--background)}
+.chips .c button{color:var(--muted-foreground);font-size:9px;width:13px;height:13px;display:grid;place-items:center}
+.togrow{display:flex;gap:10px;align-items:center;font-size:11.5px;padding:3px 0}
+.togrow b{font-weight:600;flex:1}
+.togrow span{font-size:10px;color:var(--muted-foreground)}
+.sw{width:30px;height:17px;border-radius:99px;background:var(--muted);position:relative;flex:none}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 2px rgba(15,28,46,.3);transition:transform .15s}
+.sw[aria-checked="true"]{background:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(13px)}
+@media(prefers-reduced-motion:reduce){.sw::after{transition:none}}
+.note{border-left:3px solid var(--primary);background:var(--brand-50);border-radius:var(--radius-sm);
+  padding:9px 11px;font-size:11px;line-height:1.6;color:var(--muted-foreground);margin-top:10px}
+.dark .note{background:#161f3a}
+.note b{color:var(--foreground);display:block;margin-bottom:2px}
+.end{margin-top:14px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to profile sections</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="index.html" aria-current="page">Profile</a>
+        <a href="../../F21-settings/V1/index.html">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd"><h1>Profile</h1><span class="c">4 sections · each saved independently</span>
+      <div class="r"><a class="btn btn-g btn-sm" href="../../F21-settings/V1/index.html">Security &amp;
+        notifications</a></div></div>
+
+    <section class="sec" data-s="identity">
+      <div class="shd"><h2>Identity</h2><span class="n">name, email, company</span>
+        <span class="st" data-st><span data-st-t>saved</span></span></div>
+      <div class="sbody">
+        <div class="row3">
+          <div><label for="i1">Full name</label><input id="i1" type="text" value="Arjun Mehta" data-f></div>
+          <div><label for="i2">Email</label><input id="i2" type="text" value="arjun@khandeshspice.example" readonly
+            style="background:var(--muted);color:var(--muted-foreground)"></div>
+          <div><label for="i3">Company</label><input id="i3" type="text" value="Khandesh Spice Pvt Ltd" data-f></div>
+        </div>
+      </div>
+      <div class="sfoot"><span>Email changes require re-verification in Settings ▸ Account.</span>
+        <span class="r"><button class="btn btn-g btn-sm" data-reset>Reset</button>
+          <button class="btn btn-p btn-sm" data-save>Save section</button></span></div>
+    </section>
+
+    <section class="sec" data-s="bio">
+      <div class="shd"><h2>Headline and bio</h2><span class="n">shown on your public card</span>
+        <span class="st" data-st><span data-st-t>saved</span></span></div>
+      <div class="sbody">
+        <div><label for="b1">Headline · 120 characters</label>
+          <input id="b1" type="text" maxlength="120" data-f
+            value="Founder, Khandesh Spice — building a D2C store with a wholesale arm."></div>
+        <div><label for="b2">Bio · 600 characters</label>
+          <textarea id="b2" maxlength="600" data-f>Running a 14-year-old spice business moving onto direct-to-consumer. Priorities: fast mobile checkout, honest product photography, and a wholesale portal my team can actually use.</textarea></div>
+      </div>
+      <div class="sfoot"><span data-bio-count>0 / 600</span>
+        <span class="r"><button class="btn btn-g btn-sm" data-reset>Reset</button>
+          <button class="btn btn-p btn-sm" data-save>Save section</button></span></div>
+    </section>
+
+    <section class="sec" data-s="skills">
+      <div class="shd"><h2>Skills</h2><span class="n">free text · max 12</span>
+        <span class="st" data-st><span data-st-t>saved</span></span></div>
+      <div class="sbody">
+        <div class="chips" data-chips>
+          <span class="c">Brand strategy<button aria-label="Remove Brand strategy" data-x>✕</button></span>
+          <span class="c">D2C<button aria-label="Remove D2C" data-x>✕</button></span>
+          <span class="c">Packaging<button aria-label="Remove Packaging" data-x>✕</button></span>
+          <span class="c">Shopify<button aria-label="Remove Shopify" data-x>✕</button></span>
+        </div>
+        <div><label for="sk">Add a skill</label>
+          <input id="sk" type="text" placeholder="Type and press Enter" data-add></div>
+      </div>
+      <div class="sfoot"><span>Skill autocomplete suggestions are demo-only — no skills endpoint exists.</span>
+        <span class="r"><button class="btn btn-p btn-sm" data-save>Save section</button></span></div>
+    </section>
+
+    <section class="sec" data-s="visibility">
+      <div class="shd"><h2>Visibility</h2><span class="n">what a studio can see</span>
+        <span class="st" data-st><span data-st-t>saved</span></span></div>
+      <div class="sbody">
+        <div class="togrow"><b>Show company on my card</b><span>Khandesh Spice Pvt Ltd</span>
+          <button class="sw" role="switch" aria-checked="true" aria-label="Show company" data-tog></button></div>
+        <div class="togrow"><b>Show city on my card</b><span>Nashik, Maharashtra</span>
+          <button class="sw" role="switch" aria-checked="false" aria-label="Show city" data-tog></button></div>
+        <div class="togrow"><b>Let any studio find me</b><span>currently studios only</span>
+          <button class="sw" role="switch" aria-checked="false" aria-label="Discoverable" data-tog></button></div>
+      </div>
+      <div class="sfoot"><span>Toggles save with this section only.</span>
+        <span class="r"><button class="btn btn-p btn-sm" data-save>Save section</button></span></div>
+    </section>
+
+    <div class="note">
+      <b>Looking for security or notifications?</b>
+      Password, 2FA, sessions and the 18-switch notification matrix are in Settings. They are not profile fields and
+      are not duplicated here.
+    </div>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F20 · V4 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  document.querySelectorAll('.sec').forEach(function(sec){
+    var fields=[].slice.call(sec.querySelectorAll('[data-f],[data-tog]')),
+        st=sec.querySelector('[data-st]'), stT=sec.querySelector('[data-st-t]');
+    var base=fields.map(function(f){return f.hasAttribute('data-f')?f.value:f.getAttribute('aria-checked');});
+    function check(){
+      var d=fields.some(function(f,i){
+        return (f.hasAttribute('data-f')?f.value:f.getAttribute('aria-checked'))!==base[i];
+      });
+      st.dataset.d=d?'1':'0';
+      stT.textContent=d?'unsaved':'saved';
+    }
+    fields.forEach(function(f){f.addEventListener('input',check);f.addEventListener('click',function(){if(f.dataset.tog!==undefined)setTimeout(check,0);});});
+    sec.querySelector('[data-save]').addEventListener('click',function(){
+      base=fields.map(function(f){return f.hasAttribute('data-f')?f.value:f.getAttribute('aria-checked');});
+      check(); say(sec.querySelector('h2').textContent+' saved.');
+    });
+    var reset=sec.querySelector('[data-reset]');
+    if(reset)reset.addEventListener('click',function(){
+      fields.forEach(function(f,i){
+        if(f.hasAttribute('data-f'))f.value=base[i];
+        else f.setAttribute('aria-checked',base[i]);
+      });
+      check(); say('Section reset to saved values.');
+    });
+  });
+
+  var chips=document.querySelector('[data-chips]'), add=document.getElementById('sk'),
+      bioCount=document.querySelector('[data-bio-count]'), bio=document.getElementById('b2');
+  function bioLen(){bioCount.textContent=bio.value.length+' / 600';}
+  bio.addEventListener('input',bioLen); bioLen();
+
+  chips.addEventListener('click',function(e){
+    var x=e.target.closest('[data-x]'); if(!x)return;
+    x.closest('.c').remove();
+    say('Skill removed — save the section to persist it.');
+  });
+  add.addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+    var v=add.value.trim(); if(!v)return;
+    if(chips.querySelectorAll('.c').length>=12){say('Twelve skills is the limit on this section.');return;}
+    var c=document.createElement('span'); c.className='c'; c.textContent=v;
+    var b=document.createElement('button'); b.setAttribute('aria-label','Remove '+v); b.textContent='✕';
+    c.appendChild(b); chips.appendChild(c); add.value='';
+    say('Skill added — press Save section to persist it.');
+  });
+  document.querySelectorAll('[data-tog]').forEach(function(sw){
+    sw.addEventListener('click',function(){
+      sw.setAttribute('aria-checked',sw.getAttribute('aria-checked')==='true'?'false':'true');
+    });
+  });
+})();
+</script>
+</body>
+</html>

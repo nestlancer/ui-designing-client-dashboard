@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Overview · V1 Verdict Hero — Nestlancer Portal Lab</title>
+<meta name="description" content="F03 dashboard variant 1: verdict-first layout with one hero action, four secondary KPIs, labelled pipeline and a four-tab workbench.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Verdict Hero. Geometry: sidebar shell, hero band, content column + sticky rail. */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:16px;margin-bottom:16px}
+.hero-a{position:relative;overflow:hidden;padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.hero-a .eyebrow{color:var(--brand-700);margin:0}
+.dark .hero-a .eyebrow{color:#a9baff}
+.hero-money{font-size:clamp(32px,4vw,40px);line-height:1;letter-spacing:-.04em;font-weight:700;font-variant-numeric:var(--tabnum)}
+.hero-meta{font-size:13px;color:var(--muted-foreground);display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.hero-cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.hero-note{font-size:12.5px;color:var(--muted-foreground);border-top:1px solid var(--border);padding-top:12px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kpis .kpi{padding:14px 16px;gap:4px}
+.kpis .kpi-v{font-size:24px}
+.body-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+.rail{display:flex;flex-direction:column;gap:16px;position:sticky;top:calc(var(--header) + 16px)}
+@media(max-width:1150px){.body-grid{grid-template-columns:1fr}.rail{position:static}}
+@media(max-width:860px){.hero{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.kpis{grid-template-columns:1fr 1fr}.main{padding:16px 12px 80px}}
+
+/* labelled pipeline (C3) */
+.bars{display:grid;gap:14px}
+.bar-row{display:grid;gap:7px}
+.bar-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;font-size:13.5px}
+.bar-top b{font-weight:650}
+.bar-top span{font-variant-numeric:var(--tabnum);color:var(--muted-foreground);font-size:12.5px}
+.bar-why{font-size:12px;color:var(--muted-foreground)}
+.split-money{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--border);
+  margin-top:16px;padding-top:14px}
+.split-money div span{display:block;font-size:12px;color:var(--muted-foreground)}
+.split-money div b{font-size:19px;letter-spacing:-.03em;font-variant-numeric:var(--tabnum)}
+
+/* awaiting you */
+.await{display:flex;flex-direction:column}
+.await a{display:flex;gap:12px;padding:14px 18px;border-top:1px solid var(--border);
+  transition:background var(--duration-fast)}
+.await a:first-child{border-top:0}
+.await a:hover{background:var(--muted)}
+.await .ic{width:32px;height:32px;border-radius:var(--radius-sm);display:grid;place-items:center;flex:none;
+  background:var(--status-warning-bg);color:var(--status-warning-text)}
+.await .ic--i{background:var(--status-info-bg);color:var(--status-info-text)}
+
+/* workbench */
+.panel{padding:14px 20px 18px}
+.p-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border)}
+.p-row:last-child{border-bottom:0}
+.p-row .grow{min-width:0}
+.p-row .t{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.p-row .m{font-size:12px;color:var(--muted-foreground);margin-top:1px}
+.p-amt{font-variant-numeric:var(--tabnum);font-weight:650;font-size:14px;white-space:nowrap}
+.tab-in{padding:14px 0 0}
+/* activity */
+.act-item{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);font-size:13px}
+.act-item:last-child{border-bottom:0}
+.act-dot{width:7px;height:7px;border-radius:50%;background:var(--status-warning-text);margin-top:6px;flex:none}
+.act-dot--info{background:var(--status-info-text)}
+.act-time{font-size:11.5px;color:var(--muted-foreground);white-space:nowrap;margin-left:auto;font-variant-numeric:var(--tabnum)}
+/* family nav */
+.vnav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:32px;padding-top:16px;
+  border-top:1px solid var(--border);font-size:13px}
+.vnav .seg{margin-left:auto}
+.state-note{font-size:12px;color:var(--muted-foreground);margin-top:10px}
+.is-loading .kpi-v,.is-loading .hero-money,.is-loading .bar-top span,.is-loading .p-amt{color:transparent;
+  position:relative;overflow:hidden;border-radius:var(--radius-sm)}
+.is-loading .kpi-v::after,.is-loading .hero-money::after,.is-loading .bar-top span::after,.is-loading .p-amt::after{
+  content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--muted) 25%,
+  color-mix(in srgb,var(--muted) 55%,var(--card)) 37%,var(--muted) 63%);
+  background-size:400% 100%;animation:shimmer 1.4s ease-in-out infinite}
+</style>
+</head>
+<body>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10.5 20a2 2 0 0 0 3 0"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6.3"/><path d="M20 4v7h-7"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="m19 15 .9 2.1 2.1.9-2.1.9L19 21l-.9-2.1-2.1-.9 2.1-.9z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="shell">
+  <aside class="side" aria-label="Primary">
+    <a class="brand" href="../../../index.html"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></a>
+    <nav class="nav" aria-label="Sections">
+      <p class="nav-g">Main</p>
+      <a href="index.html" aria-current="page"><svg class="i"><use href="#i-home"/></svg>Dashboard</a>
+      <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-inbox"/></svg>Requests<span class="count">10</span></a>
+      <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+      <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="#i-file"/></svg>Quotes</a>
+      <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="#i-msg"/></svg>Messages<span class="count">2</span></a>
+      <a href="../../F14-billing/V1/index.html"><svg class="i"><use href="#i-card"/></svg>Billing</a>
+      <a href="../../F18-invoices/V1/index.html"><svg class="i"><use href="#i-receipt"/></svg>Invoices</a>
+      <a href="../../F19-notifications/V1/index.html"><svg class="i"><use href="#i-bell"/></svg>Notifications<span class="count">6</span></a>
+      <p class="nav-g">Explore</p>
+      <a href="../../F23-explore/V1/index.html"><svg class="i"><use href="#i-search"/></svg>Blog</a>
+      <a href="../../F23-explore/V1/index.html#portfolio"><svg class="i"><use href="#i-folder"/></svg>Portfolio</a>
+      <p class="nav-g">Account</p>
+      <a href="../../F20-profile/V1/index.html"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+      <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="#i-sliders"/></svg>Settings</a>
+    </nav>
+    <div class="side-f">
+      <a class="btn btn-s btn-sm btn-block" href="../../F04-global-search/V1/index.html">Search <span class="mono">⌘K</span></a>
+    </div>
+  </aside>
+  <div class="nav-scrim" data-nav-close></div>
+
+  <div class="col">
+    <header class="hdr">
+      <button class="iconbtn navtoggle" data-nav-open aria-label="Open navigation" aria-expanded="false">
+        <svg class="i i--lg"><use href="#i-menu"/></svg>
+      </button>
+      <div class="crumb"><span>Dashboard</span><svg class="i i--sm"><use href="#i-chev"/></svg><strong>Overview</strong></div>
+      <div class="hdr-r">
+        <a class="iconbtn" href="../../F04-global-search/V1/index.html" aria-label="Search, Command K"><svg class="i"><use href="#i-search"/></svg></a>
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg>
+        </button>
+        <a class="iconbtn" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="#i-msg"/></svg><span class="count">2</span></a>
+        <a class="iconbtn" href="../../F19-notifications/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg><span class="count">6</span></a>
+        <a class="me" href="../../F20-profile/V1/index.html"><span class="avatar">AM</span><span class="hide-s">Arjun Mehta</span><svg class="i i--sm hide-s"><use href="#i-chev"/></svg></a>
+      </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="banner banner--warn" role="status" data-statusbar>
+        <svg class="i"><use href="#i-alert"/></svg>
+        <div class="grow"><strong>Projects data is temporarily unavailable.</strong>
+          The projects service is not responding (502). Everything else on this page is current.
+          <a class="link" href="../../F08-projects-list/V1/index.html">Open projects</a></div>
+        <button class="btn btn-s btn-sm" data-retry><svg class="i i--sm"><use href="#i-refresh"/></svg>Retry</button>
+      </div>
+
+      <div class="ph" style="margin-top:20px">
+        <div>
+          <p class="eyebrow">Sunday, 25 October 2026 · live</p>
+          <h1 class="h1">Overview</h1>
+          <p class="verdict">One checkout clears <b>₹31,875.00</b> and unblocks your workspace.
+            Your <b>10</b> open requests are with the studio, and no project is open yet.</p>
+        </div>
+        <div class="row">
+          <a class="btn btn-s" href="../../F05-requests-work-hub/V1/index.html#new">New request</a>
+          <a class="btn btn-p" href="../../F16-checkout/V1/index.html">Complete checkout</a>
+        </div>
+      </div>
+
+      <section class="hero" aria-label="What is most important today">
+        <div class="card kpi--hero hero-a">
+          <p class="eyebrow">One action will unblock your workspace</p>
+          <p class="hero-money">₹31,875.00</p>
+          <p class="hero-meta">
+            <span class="pill pill--warn">Pending payment</span>
+            <span>Mid-project payment · Khandesh Spice D2C E-Commerce Store</span>
+          </p>
+          <div class="hero-cta">
+            <a class="btn btn-p" href="../../F16-checkout/V1/index.html">Pay ₹31,875.00 online</a>
+            <a class="btn btn-s" href="../../F16-checkout/V1/index.html#bank">Bank / UPI transfer</a>
+          </div>
+          <p class="hero-note">Secured by Razorpay · 256-bit encryption · PCI-DSS compliant checkout.
+            Paid ₹81,500.00 so far. <a class="link link--quiet" href="../../F14-billing/V1/index.html">Billing history →</a></p>
+        </div>
+
+        <div class="kpis">
+          <a class="kpi kpi--link" href="../../F05-requests-work-hub/V1/index.html">
+            <span class="kpi-l">Open requests</span>
+            <span class="kpi-v" data-count="10">10</span>
+            <span class="kpi-w">In your pipeline · 0 quoted</span>
+          </a>
+          <a class="kpi kpi--link" href="../../F10-quotes-list/V1/index.html">
+            <span class="kpi-l">Pending quotes</span>
+            <span class="kpi-v" data-count="0">0</span>
+            <span class="kpi-w">Awaiting your decision</span>
+          </a>
+          <a class="kpi kpi--link" href="../../F12-messages-home/V1/index.html">
+            <span class="kpi-l">Unread messages</span>
+            <span class="kpi-v" data-count="0">0</span>
+            <span class="kpi-w">All caught up</span>
+          </a>
+          <a class="kpi kpi--link" href="../../F08-projects-list/V1/index.html">
+            <span class="kpi-l">Active projects <span class="pill pill--lock" style="height:20px;font-size:11px">unavailable</span></span>
+            <span class="kpi-v">—</span>
+            <span class="kpi-w">Projects service 502 · retrying</span>
+          </a>
+        </div>
+      </section>
+
+      <div class="body-grid">
+        <div class="stack">
+          <!-- Labelled pipeline (C3) -->
+          <section class="card" aria-labelledby="pipeline-h">
+            <div class="card-h">
+              <h2 id="pipeline-h">Workspace pulse <span class="muted small" style="font-weight:500">Live · 30s</span></h2>
+              <a class="link link--quiet small" href="../../F05-requests-work-hub/V1/index.html">View work hub →</a>
+            </div>
+            <div class="card-b">
+              <div class="bars">
+                <div class="bar-row">
+                  <div class="bar-top"><b>Requests</b><span>10 open · 0% quoted</span></div>
+                  <div class="prog"><div class="prog-b" style="width:100%"></div></div>
+                  <p class="bar-why">Every request is waiting on the studio to price it.</p>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-top"><b>Quotes</b><span>0 of 12 · 0% pending</span></div>
+                  <div class="prog"><div class="prog-b" style="width:0%"></div></div>
+                  <p class="bar-why">5 accepted, 7 expired — nothing needs your signature.</p>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-top"><b>Active projects</b><span>0 of 2 · 0% in progress</span></div>
+                  <div class="prog"><div class="prog-b" style="width:0%"></div></div>
+                  <p class="bar-why">Counts pause while the projects service recovers.</p>
+                </div>
+                <div class="bar-row">
+                  <div class="bar-top"><b>Completed milestones</b><span>1 of 2 · 50%</span></div>
+                  <div class="prog"><div class="prog-b" style="width:50%"></div></div>
+                  <p class="bar-why">Storefront MVP approved on 15 Oct; payment not yet due.</p>
+                </div>
+              </div>
+              <div class="split-money">
+                <div><span>Collected</span><b>₹81,500.00</b></div>
+                <div><span>Pending</span><b>₹31,875.00</b></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Live workbench -->
+          <section class="card" aria-labelledby="wb-h">
+            <div class="card-h">
+              <h2 id="wb-h">Live workbench</h2>
+              <span class="micro">One queue at a time</span>
+            </div>
+            <div class="card-b" style="padding-top:0">
+              <div class="tabs" role="tablist" aria-label="Workbench queues">
+                <button class="tab" role="tab" id="t-quotes" aria-controls="p-quotes" aria-selected="true">Quotes <span class="count">0</span></button>
+                <button class="tab" role="tab" id="t-pay" aria-controls="p-pay" aria-selected="false" tabindex="-1">Pay now <span class="count">4</span></button>
+                <button class="tab" role="tab" id="t-proj" aria-controls="p-proj" aria-selected="false" tabindex="-1">Projects <span class="count">0</span></button>
+                <button class="tab" role="tab" id="t-inbox" aria-controls="p-inbox" aria-selected="false" tabindex="-1">Inbox <span class="count">2</span></button>
+              </div>
+
+              <div class="tab-in" role="tabpanel" id="p-quotes" aria-labelledby="t-quotes" tabindex="0">
+                <div class="empty">
+                  <span class="empty-ic"><svg class="i i--lg"><use href="#i-file"/></svg></span>
+                  <h3>No quotes waiting</h3>
+                  <p>New quotes appear here when sent. 5 quotes were accepted and 7 expired.</p>
+                  <a class="btn btn-s btn-sm" href="../../F10-quotes-list/V1/index.html">View all quotes</a>
+                </div>
+              </div>
+
+              <div class="tab-in" role="tabpanel" id="p-pay" aria-labelledby="t-pay" tabindex="0" hidden>
+                <div class="p-row">
+                  <div class="grow"><div class="t">Mid-project payment</div><div class="m">Khandesh Spice D2C E-Commerce Store · due now</div></div>
+                  <span class="pill pill--warn">Pending</span>
+                  <span class="p-amt">₹30,000.00</span>
+                  <a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Checkout</a>
+                </div>
+                <div class="p-row">
+                  <div class="grow"><div class="t">Deposit</div><div class="m">Khandesh Spice D2C E-Commerce Store · paid 5 Oct 2026</div></div>
+                  <span class="pill pill--ok">Completed</span>
+                  <span class="p-amt">₹22,500.00</span>
+                  <a class="btn btn-s btn-sm" href="../../F17-payment-status/V1/index.html">Receipt</a>
+                </div>
+                <div class="p-row">
+                  <div class="grow"><div class="t">Final payment</div><div class="m">Khandesh Spice D2C E-Commerce Store · unlocks after milestone approval</div></div>
+                  <span class="pill pill--lock">Not due yet</span>
+                  <span class="p-amt">₹22,500.00</span>
+                  <a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html#notdue">Why?</a>
+                </div>
+                <div class="p-row">
+                  <div class="grow"><div class="t">Deposit</div><div class="m">AUDIT-P25-20261005-73dhk Project Fixture</div></div>
+                  <span class="pill pill--warn">Pending</span>
+                  <span class="p-amt">₹625.00</span>
+                  <a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Checkout</a>
+                </div>
+              </div>
+
+              <div class="tab-in" role="tabpanel" id="p-proj" aria-labelledby="t-proj" tabindex="0" hidden>
+                <div class="errc" role="group" aria-labelledby="proj-err">
+                  <h3 id="proj-err">Could not load projects</h3>
+                  <p>The projects service returned <span class="mono">502 origin_bad_gateway</span>.
+                    Accepting a quote is what opens your first project — that still works.</p>
+                  <div class="row">
+                    <button class="btn btn-p btn-sm" data-retry><svg class="i i--sm"><use href="#i-refresh"/></svg>Try again</button>
+                    <a class="btn btn-s btn-sm" href="../../F10-quotes-list/V1/index.html">Accept a quote to open your first project</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-in" role="tabpanel" id="p-inbox" aria-labelledby="t-inbox" tabindex="0" hidden>
+                <div class="p-row">
+                  <span class="avatar sq">AP</span>
+                  <div class="grow"><div class="t">Agency partner coordination — festive campaigns</div>
+                    <div class="m clip">Great — I'll schedule a joint review of Razorpay UPI checkout patterns that worked across both projects.</div></div>
+                  <span class="micro">Group</span>
+                  <a class="btn btn-s btn-sm" href="../../F13-messages-thread/V1/index.html">Open</a>
+                </div>
+                <div class="p-row">
+                  <span class="avatar sq">RK</span>
+                  <div class="grow"><div class="t">Riya Kapoor</div>
+                    <div class="m clip">Noted. Milestone 2 staging link stays live through the weekend for your team to test UPI flows.</div></div>
+                  <span class="micro">Direct</span>
+                  <a class="btn btn-s btn-sm" href="../../F13-messages-thread/V1/index.html#direct">Open</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="rail" aria-label="Needs you and recent activity">
+          <section class="card await" aria-labelledby="await-h">
+            <div class="card-h"><h2 id="await-h">Awaiting you</h2><span class="pill pill--warn">2 items</span></div>
+            <a href="../../F16-checkout/V1/index.html">
+              <span class="ic"><svg class="i"><use href="#i-card"/></svg></span>
+              <span class="grow"><strong style="font-size:13.5px">Pending payment</strong>
+                <span class="m muted" style="display:block;font-size:12px">₹31,875.00 · unlocks your workspace</span></span>
+              <svg class="i i--sm"><use href="#i-arrow"/></svg>
+            </a>
+            <a href="../../F19-notifications/V1/index.html">
+              <span class="ic ic--i"><svg class="i"><use href="#i-bell"/></svg></span>
+              <span class="grow"><strong style="font-size:13.5px">Notifications</strong>
+                <span class="m muted" style="display:block;font-size:12px">6 new · 4 quotes expire within 24 hours</span></span>
+              <svg class="i i--sm"><use href="#i-arrow"/></svg>
+            </a>
+            <div class="card-f" style="display:flex;gap:8px;align-items:center;border-radius:0 0 var(--radius-lg) var(--radius-lg)">
+              <svg class="i i--sm"><use href="#i-spark"/></svg>
+              <span>Ask the studio about any figure on this page.</span>
+              <a class="link link--quiet small" style="margin-left:auto" href="../../F13-messages-thread/V1/index.html">Ask</a>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="act-h">
+            <div class="card-h"><h2 id="act-h">Recent activity</h2>
+              <a class="link link--quiet small" href="../../F19-notifications/V1/index.html">View all</a></div>
+            <div class="card-b" style="padding-top:6px;padding-bottom:10px">
+              <div class="act-item"><span class="act-dot"></span><div><b style="font-weight:600">Quote expiring soon</b>
+                <div class="muted" style="font-size:12px">Your quote "AUDIT-P24-20261005-03ipf-sent Request" expires within 24 hours.</div></div>
+                <span class="act-time">5d ago</span></div>
+              <div class="act-item"><span class="act-dot"></span><div><b style="font-weight:600">Quote expiring soon</b>
+                <div class="muted" style="font-size:12px">Your quote "AUDIT-P23-20261005-zvc6j Request to Quote Builder" expires within 24 hours.</div></div>
+                <span class="act-time">5d ago</span></div>
+              <div class="act-item"><span class="act-dot"></span><div><b style="font-weight:600">Quote expiring soon</b>
+                <div class="muted" style="font-size:12px">Your quote "AUDIT-P24-20261005-uc3d4-sent Request" expires within 24 hours.</div></div>
+                <span class="act-time">5d ago</span></div>
+              <div class="act-item"><span class="act-dot act-dot--info"></span><div><b style="font-weight:600">Your data export is ready</b>
+                <div class="muted" style="font-size:12px">Your requested data export is ready to download.</div></div>
+                <span class="act-time">10/7/2026</span></div>
+            </div>
+          </section>
+
+          <section class="card" aria-labelledby="hlp-h">
+            <div class="card-b" style="display:flex;gap:12px;align-items:flex-start">
+              <span class="empty-ic" style="width:34px;height:34px;margin:0"><svg class="i"><use href="#i-clock"/></svg></span>
+              <div><h2 id="hlp-h" class="h3">Need this sooner?</h2>
+                <p class="small muted" style="margin-top:4px">Message your team — typical first reply within one working day.
+                  <a class="link" href="../../F13-messages-thread/V1/index.html">Open messages</a></p></div>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <nav class="vnav" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../../index.html">← Gallery</a>
+        <span class="muted small">F03 Dashboard Overview · variant 1 of 5 — Verdict Hero</span>
+        <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+        <a class="btn btn-s btn-sm" href="../V2/index.html">Next: Queue First →</a>
+      </nav>
+      <p class="state-note">States: append <span class="mono">?state=loading</span> for skeleton data or
+        <span class="mono">?state=error</span> to exercise the degraded path. Themed with
+        <span class="mono">?theme=dark</span>.</p>
+    </main>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, body=document.body, params=new URLSearchParams(location.search);
+  if(params.get('state')==='loading') body.classList.add('is-loading');
+  if(params.get('state')==='error'){
+    var b=document.querySelector('[data-statusbar]'); if(b) b.hidden=false;
+    var p=document.getElementById('p-proj'); if(p){ var t=document.getElementById('t-proj'); if(t) t.click(); }
+  }
+
+  /* theme */
+  var tt=document.querySelector('[data-theme-toggle]');
+  function syncTheme(){
+    var d=root.classList.contains('dark');
+    root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  }
+  syncTheme();
+  if(tt) tt.addEventListener('click',function(){
+    var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);
+    try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}
+    syncTheme();
+  });
+
+  /* mobile nav */
+  var openBtn=document.querySelector('[data-nav-open]');
+  function setNav(open){
+    body.classList.toggle('nav-open',open);
+    if(openBtn) openBtn.setAttribute('aria-expanded',String(open));
+  }
+  if(openBtn) openBtn.addEventListener('click',function(){setNav(!body.classList.contains('nav-open'));});
+  document.querySelectorAll('[data-nav-close]').forEach(function(el){el.addEventListener('click',function(){setNav(false);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape') setNav(false);});
+
+  /* tabs — arrow key roving focus */
+  document.querySelectorAll('[role="tablist"]').forEach(function(list){
+    var tabs=[].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab,focus){
+      tabs.forEach(function(t){
+        var on=t===tab;
+        t.setAttribute('aria-selected',String(on));
+        t.tabIndex=on?0:-1;
+        var panel=document.getElementById(t.getAttribute('aria-controls'));
+        if(panel) panel.hidden=!on;
+      });
+      if(focus) tab.focus();
+    }
+    tabs.forEach(function(tab,i){
+      tab.addEventListener('click',function(){select(tab,false);});
+      tab.addEventListener('keydown',function(e){
+        var n=null;
+        if(e.key==='ArrowRight') n=tabs[(i+1)%tabs.length];
+        if(e.key==='ArrowLeft') n=tabs[(i-1+tabs.length)%tabs.length];
+        if(e.key==='Home') n=tabs[0];
+        if(e.key==='End') n=tabs[tabs.length-1];
+        if(n){e.preventDefault();select(n,true);}
+      });
+    });
+  });
+
+  /* toast + retry */
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(msg){ if(!toast) return; toast.textContent=msg; toast.dataset.show='true';
+    clearTimeout(tm); tm=setTimeout(function(){toast.dataset.show='false';},2600); }
+  document.querySelectorAll('[data-retry]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      btn.classList.add('is-loading');
+      setTimeout(function(){btn.classList.remove('is-loading');say('Projects service still returning 502 — we have been notified.');},900);
+    });
+  });
+
+  /* count-up on first reveal (axis E, reduced-motion safe) */
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var counters=[].slice.call(document.querySelectorAll('[data-count]'));
+  function run(el){
+    var target=Number(el.dataset.count), start=performance.now(), dur=520;
+    if(reduce||target===0){el.textContent=String(target);return;}
+    function tick(now){
+      var p=Math.min(1,(now-start)/dur), v=Math.round(target*(1-Math.pow(1-p,3)));
+      el.textContent=String(v);
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ run(en.target); io.unobserve(en.target); } });
+    },{threshold:.4});
+    counters.forEach(function(el){io.observe(el);});
+  }
+})();
+</script>
+</body>
+</html>

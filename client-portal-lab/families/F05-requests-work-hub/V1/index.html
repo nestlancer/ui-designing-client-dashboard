@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requests · V1 Table Classic — Nestlancer Portal Lab</title>
+<meta name="description" content="F05 variant 1: KPI row, tabs, a toolbar of filters and a dense sticky-header request table with pagination.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Table Classic. A table · B metrics-first · D dense · E filter+sort+pagination. */
+.shell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
+.side{background:var(--card);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:3px;
+  position:sticky;top:0;height:100vh}
+.side .brandline{margin-bottom:14px;padding:0 8px}
+.navi{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;
+  color:var(--muted-foreground);font-weight:550}
+.navi[aria-current="page"]{background:var(--brand-50);color:var(--brand-700);font-weight:650}
+.dark .navi[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.navi .tag{margin-left:auto}
+.side .who{margin-top:auto;border-top:1px solid var(--border);padding-top:12px;display:flex;gap:9px;align-items:center;font-size:12.5px}
+.main{min-width:0;padding:20px 24px 36px}
+.crumb{font-size:12px;color:var(--muted-foreground);display:flex;gap:6px;align-items:center}
+.toprow{display:flex;align-items:flex-end;gap:14px;margin:6px 0 18px;flex-wrap:wrap}
+.toprow h1{font-size:26px;letter-spacing:-.035em;line-height:1.1}
+.toprow .sub{font-size:13px;color:var(--muted-foreground);margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media(max-width:900px){.kpis{grid-template-columns:1fr 1fr}}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:13px 15px}
+.kpi .l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.kpi .v{font-size:24px;font-weight:700;letter-spacing:-.04em;margin-top:4px;font-variant-numeric:var(--tabnum)}
+.kpi .d{font-size:11.5px;color:var(--muted-foreground);margin-top:2px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:0}
+.tabs a{padding:9px 13px;font-size:13px;font-weight:600;color:var(--muted-foreground);border-bottom:2px solid transparent;
+  display:flex;gap:6px;align-items:center}
+.tabs a[aria-current="page"]{color:var(--foreground);border-bottom-color:var(--primary)}
+.tabs .n{font-size:11px;background:var(--muted);border-radius:999px;padding:1px 6px;color:var(--muted-foreground)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:12px 0}
+.toolbar .search{display:flex;align-items:center;gap:7px;height:34px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:0 9px;background:var(--card);min-width:210px;flex:1;max-width:320px}
+.toolbar .search input{border:0;background:none;outline:none;font-size:13px;width:100%;color:var(--foreground)}
+.sel{height:34px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);
+  font-size:12.5px;padding:0 8px;color:var(--foreground)}
+.tblwrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{position:sticky;top:0;background:var(--muted);text-align:left;font-size:10.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted-foreground);font-weight:700;padding:9px 12px;border-bottom:1px solid var(--border);
+  white-space:nowrap;z-index:2}
+.tbl th button{color:inherit;font:inherit;display:inline-flex;gap:4px;align-items:center}
+.tbl th[aria-sort="ascending"] button,.tbl th[aria-sort="descending"] button{color:var(--foreground)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl tbody tr:hover{background:var(--brand-50)}
+.dark .tbl tbody tr:hover{background:#161f3a}
+.tbl .ttl{font-weight:600;letter-spacing:-.01em}
+.tbl .ttl + .ref{font-size:11px;color:var(--muted-foreground);margin-top:1px}
+.tbl .amt{font-variant-numeric:var(--tabnum);font-weight:600;white-space:nowrap}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 12px;
+  border-top:1px solid var(--border);background:var(--card);font-size:12px;color:var(--muted-foreground);flex-wrap:wrap}
+.pager .nums{display:flex;gap:4px}
+.pager .nums a{padding:3px 8px;border-radius:var(--radius-sm);border:1px solid var(--border);font-weight:600}
+.pager .nums a[aria-current="page"]{background:var(--primary);border-color:var(--primary);color:#fff}
+.note{font-size:12px;color:var(--muted-foreground);margin-top:10px;line-height:1.55}
+.emptyrow td{text-align:center;padding:26px 12px!important;color:var(--muted-foreground)}
+.skelrow td{padding:12px}
+.skelrow .bar{height:11px;border-radius:4px;background:var(--muted);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.5}}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:16px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:980px){.shell{grid-template-columns:1fr}.side{display:none}.main{padding:16px 14px 30px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6h6l2 3h10v10H3z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-arrow-dn" viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brandline"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></div>
+    <a class="navi" href="../../F03-dashboard-overview/V1/index.html"><svg class="i i--sm"><use href="#i-home"/></svg>Overview</a>
+    <a class="navi" href="index.html" aria-current="page"><svg class="i i--sm"><use href="#i-inbox"/></svg>Requests<span class="tag pill pill--info">26</span></a>
+    <a class="navi" href="../../F08-projects-list/V1/index.html"><svg class="i i--sm"><use href="#i-folder"/></svg>Projects</a>
+    <a class="navi" href="../../F10-quotes-list/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Quotes</a>
+    <a class="navi" href="../../F14-billing/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Billing</a>
+    <div class="who"><span class="avatar">AM</span><div><b style="font-size:12.5px">Arjun Mehta</b>
+      <div style="font-size:11px;color:var(--muted-foreground)">Horizon Retail</div></div></div>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="between" style="gap:12px;flex-wrap:wrap">
+      <p class="crumb">Requests</p>
+      <div class="row" style="gap:6px">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+        <a class="btn btn-p btn-sm" href="../../F06-new-request/V1/index.html"><svg class="i i--sm"><use href="#i-plus"/></svg>New request</a>
+      </div>
+    </div>
+
+    <div class="toprow">
+      <div>
+        <h1>Requests</h1>
+        <p class="sub">Everything you have asked the studio for, with the status it actually holds.</p>
+      </div>
+    </div>
+
+    <section class="kpis" aria-label="Request totals">
+      <div class="kpi"><p class="l">Total</p><p class="v">26</p><p class="d">All time</p></div>
+      <div class="kpi"><p class="l">Awaiting you</p><p class="v">0</p><p class="d">Nothing blocked on your side</p></div>
+      <div class="kpi"><p class="l">Needs attention</p><p class="v">0</p><p class="d">No expired quotes open</p></div>
+      <div class="kpi"><p class="l">Converted</p><p class="v">5</p><p class="d">Turned into projects</p></div>
+    </section>
+
+    <div class="tabs" role="tablist" aria-label="Request type">
+      <a role="tab" href="?tab=all" aria-selected="true" aria-current="page">All <span class="n">26</span></a>
+      <a role="tab" href="?tab=requests" aria-selected="false">Requests <span class="n">12</span></a>
+      <a role="tab" href="?tab=projects" aria-selected="false">Projects <span class="n">14</span></a>
+    </div>
+
+    <div class="toolbar">
+      <label class="search"><svg class="i i--sm"><use href="#i-search"/></svg>
+        <input id="q" type="search" placeholder="Filter by title or reference" aria-label="Filter requests"></label>
+      <label style="font-size:12px;color:var(--muted-foreground)">Status</label>
+      <select class="sel" id="status" aria-label="Filter by status">
+        <option value="">All statuses</option>
+        <option>Draft</option><option>Submitted</option><option>Under review</option>
+        <option>Quote sent</option><option>Quote accepted</option><option>Expired quote</option>
+        <option>Converted</option><option>Closed</option>
+      </select>
+      <select class="sel" id="cat" aria-label="Filter by category">
+        <option value="">All categories</option>
+        <option>E-commerce</option><option>Web design</option><option>Branding</option>
+        <option>Mobile app</option><option>Marketing</option><option>Webflow</option>
+        <option>SEO</option><option>Content</option><option>Other</option>
+      </select>
+      <button class="btn btn-g btn-sm" id="clear">Clear</button>
+      <span class="grow"></span>
+      <span style="font-size:12px;color:var(--muted-foreground)" data-shown>12 of 26 shown</span>
+    </div>
+
+    <div class="tblwrap">
+      <table class="tbl" data-tbl>
+        <caption class="sr-only">Requests with status, category, budget and last update</caption>
+        <thead>
+          <tr>
+            <th aria-sort="none"><button data-sort="title">Request <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
+            <th aria-sort="none"><button data-sort="status">Status <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
+            <th>Category</th>
+            <th aria-sort="none"><button data-sort="budget">Budget <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
+            <th aria-sort="none"><button data-sort="updated">Updated <svg class="i i--sm"><use href="#i-arrow-dn"/></svg></button></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody data-body>
+          <tr data-tab="requests" data-title="Khandesh Spice D2C e-commerce store" data-status="Converted" data-budget="142000" data-updated="2026-10-21">
+            <td data-l="Request"><div class="ttl">Khandesh Spice D2C e-commerce store</div><div class="ref">NL-REQ-2026-0018</div></td>
+            <td data-l="Status"><span class="pill pill--ok">Converted</span></td>
+            <td data-l="Category">E-commerce</td><td data-l="Budget" class="amt">₹1,42,000</td><td data-l="Updated">21 Oct 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Horizon Retail rebrand" data-status="Submitted" data-budget="120000" data-updated="2026-10-21">
+            <td data-l="Request"><div class="ttl">Horizon Retail rebrand</div><div class="ref">NL-REQ-2026-0023</div></td>
+            <td data-l="Status"><span class="pill pill--info">Submitted</span></td>
+            <td data-l="Category">Branding</td><td data-l="Budget" class="amt">₹1,20,000</td><td data-l="Updated">21 Oct 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Aurora Coffee subscription flow" data-status="Expired Quote" data-budget="84000" data-updated="2026-10-14">
+            <td data-l="Request"><div class="ttl">Aurora Coffee subscription flow</div><div class="ref">NL-REQ-2026-0015</div></td>
+            <td data-l="Status"><span class="pill pill--warn">Expired quote</span></td>
+            <td data-l="Category">Mobile app</td><td data-l="Budget" class="amt">₹84,000</td><td data-l="Updated">14 Oct 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Meridian Clinic website" data-status="Quote sent" data-budget="96000" data-updated="2026-10-12">
+            <td data-l="Request"><div class="ttl">Meridian Clinic website</div><div class="ref">NL-REQ-2026-0012</div></td>
+            <td data-l="Status"><span class="pill pill--pur">Quote sent</span></td>
+            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹96,000</td><td data-l="Updated">12 Oct 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Fern &amp; Field packaging" data-status="Draft" data-budget="0" data-updated="2026-10-10">
+            <td data-l="Request"><div class="ttl">Fern &amp; Field packaging</div><div class="ref">Draft</div></td>
+            <td data-l="Status"><span class="pill">Draft</span></td>
+            <td data-l="Category">Branding</td><td data-l="Budget" class="amt">—</td><td data-l="Updated">10 Oct 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F06-new-request/V1/index.html">Resume</a></td></tr>
+          <tr data-tab="requests" data-title="Kaveri Textiles lookbook" data-status="Converted" data-budget="62000" data-updated="2026-10-06">
+            <td data-l="Request"><div class="ttl">Kaveri Textiles lookbook</div><div class="ref">NL-REQ-2026-0009</div></td>
+            <td data-l="Status"><span class="pill pill--ok">Converted</span></td>
+            <td data-l="Category">Marketing</td><td data-l="Budget" class="amt">₹62,000</td><td data-l="Updated">6 Oct 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Sundara Yoga landing page" data-status="Under review" data-budget="45000" data-updated="2026-10-04">
+            <td data-l="Request"><div class="ttl">Sundara Yoga landing page</div><div class="ref">NL-REQ-2026-0006</div></td>
+            <td data-l="Status"><span class="pill pill--info">Under review</span></td>
+            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹45,000</td><td data-l="Updated">4 Oct 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Northwind logistics dashboard" data-status="Converted" data-budget="210000" data-updated="2026-09-29">
+            <td data-l="Request"><div class="ttl">Northwind logistics dashboard</div><div class="ref">NL-REQ-2026-0004</div></td>
+            <td data-l="Status"><span class="pill pill--ok">Converted</span></td>
+            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹2,10,000</td><td data-l="Updated">29 Sep 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Prakash Optics catalogue" data-status="Expired Quote" data-budget="38000" data-updated="2026-09-24">
+            <td data-l="Request"><div class="ttl">Prakash Optics catalogue</div><div class="ref">NL-REQ-2026-0003</div></td>
+            <td data-l="Status"><span class="pill pill--warn">Expired quote</span></td>
+            <td data-l="Category">E-commerce</td><td data-l="Budget" class="amt">₹38,000</td><td data-l="Updated">24 Sep 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Blue Oak interiors site" data-status="Closed" data-budget="71000" data-updated="2026-09-18">
+            <td data-l="Request"><div class="ttl">Blue Oak interiors site</div><div class="ref">NL-REQ-2026-0002</div></td>
+            <td data-l="Status"><span class="pill">Closed</span></td>
+            <td data-l="Category">Webflow</td><td data-l="Budget" class="amt">₹71,000</td><td data-l="Updated">18 Sep 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Tinker Studio portfolio" data-status="Submitted" data-budget="55000" data-updated="2026-09-12">
+            <td data-l="Request"><div class="ttl">Tinker Studio portfolio</div><div class="ref">NL-REQ-2026-0001</div></td>
+            <td data-l="Status"><span class="pill pill--info">Submitted</span></td>
+            <td data-l="Category">Web design</td><td data-l="Budget" class="amt">₹55,000</td><td data-l="Updated">12 Sep 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+          <tr data-tab="requests" data-title="Vasanta Foods menu refresh" data-status="Quote accepted" data-budget="27000" data-updated="2026-09-05">
+            <td data-l="Request"><div class="ttl">Vasanta Foods menu refresh</div><div class="ref">NL-REQ-2026-0011</div></td>
+            <td data-l="Status"><span class="pill pill--ok">Quote accepted</span></td>
+            <td data-l="Category">Branding</td><td data-l="Budget" class="amt">₹27,000</td><td data-l="Updated">5 Sep 2026</td>
+            <td data-l=""><a class="link" style="font-size:12.5px" href="../../F07-request-details/V1/index.html">Open</a></td></tr>
+
+          <tr class="emptyrow" data-empty hidden><td colspan="6">No requests match this filter.
+            <button class="link" id="clear2" style="font-size:12.5px">Clear filters</button></td></tr>
+        </tbody>
+      </table>
+      <div class="pager">
+        <span>Showing <b data-range>1–12</b> of 26 requests</span>
+        <div class="nums" aria-label="Pagination">
+          <a href="?page=1" aria-current="page">1</a><a href="?page=2">2</a><a href="?page=3">3</a>
+          <a href="?page=2" aria-label="Next page">→</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="note">Statuses come from <code>GET /api/v1/requests</code>. “Expired quote” means the quote passed its
+      validity date and can no longer be signed — a new quote has to be issued.</p>
+
+    <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F05 Requests Work Hub · V1 of 5 — Table Classic</span>
+      <span class="seg" style="margin-left:auto"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2200);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var body=document.querySelector('[data-body]'), rows=[].slice.call(body.querySelectorAll('tr[data-title]'));
+  var qEl=document.getElementById('q'), st=document.getElementById('status'), cat=document.getElementById('cat');
+  var empty=document.querySelector('[data-empty]');
+
+  function apply(){
+    var term=qEl.value.trim().toLowerCase(), s=st.value, c=cat.value, n=0;
+    rows.forEach(function(r){
+      var okTerm=!term||r.dataset.title.toLowerCase().indexOf(term)>-1||
+        r.querySelector('.ref').textContent.toLowerCase().indexOf(term)>-1;
+      var okS=!s||r.dataset.status===s;
+      var okC=!c||r.children[2].textContent.trim()===c;
+      var show=okTerm&&okS&&okC;
+      r.hidden=!show; if(show)n++;
+    });
+    empty.hidden=n>0;
+    document.querySelector('[data-shown]').textContent=n+' of 26 shown';
+    document.querySelector('[data-range]').textContent=n?('1–'+n):'0';
+  }
+  qEl.addEventListener('input',apply);
+  st.addEventListener('change',apply);
+  cat.addEventListener('change',apply);
+  function clearAll(){qEl.value='';st.value='';cat.value='';apply();qEl.focus();}
+  document.getElementById('clear').addEventListener('click',clearAll);
+  document.getElementById('clear2').addEventListener('click',clearAll);
+
+  var sortKey=null, dir=1;
+  document.querySelectorAll('[data-sort]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.sort;
+      if(sortKey===k)dir=-dir; else {sortKey=k;dir=1;}
+      document.querySelectorAll('th[aria-sort]').forEach(function(th){th.setAttribute('aria-sort','none');
+        var svg=th.querySelector('svg use'); if(svg)svg.setAttribute('href','#i-arrow-dn');});
+      var th=b.closest('th'); th.setAttribute('aria-sort',dir===1?'ascending':'descending');
+      var use=th.querySelector('svg use'); if(use)use.setAttribute('href',dir===1?'#i-arrow-up':'#i-arrow-dn');
+      rows.sort(function(a,b2){
+        var av,bv;
+        if(k==='title'){av=a.dataset.title.toLowerCase();bv=b2.dataset.title.toLowerCase();}
+        else if(k==='budget'){av=+a.dataset.budget;bv=+b2.dataset.budget;}
+        else if(k==='updated'){av=a.dataset.updated;bv=b2.dataset.updated;}
+        else {av=a.dataset.status.toLowerCase();bv=b2.dataset.status.toLowerCase();}
+        return av<bv?-dir:av>bv?dir:0;
+      });
+      rows.forEach(function(r){body.insertBefore(r,empty);});
+    });
+  });
+  var sp=new URLSearchParams(location.search);
+  if(sp.get('status')){st.value=sp.get('status');}
+  if(sp.get('state')==='empty'){qEl.value='zzz';say('Demo: empty filter state.');}
+  apply();
+})();
+</script>
+</body>
+</html>

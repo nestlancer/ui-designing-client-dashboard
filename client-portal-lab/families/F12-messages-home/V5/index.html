@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Messages · V5 Mobile First — Nestlancer Portal Lab</title>
+<meta name="description" content="F12 variant 5: a single-column chat list built phone-first with large touch rows, a sticky compose bar and a desktop frame that never widens the rows.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Mobile First. A single column · B chat-first · C conversational · D minimal · E tap targets. */
+body{background:var(--muted)}
+.desk{max-width:430px;margin:0 auto;background:var(--background);min-height:100vh;position:relative;
+  box-shadow:0 0 0 1px var(--border)}
+@media(min-width:900px){.desk{margin:22px auto;min-height:calc(100vh - 44px);border-radius:26px;overflow:hidden;
+  box-shadow:0 18px 50px -24px rgba(15,28,46,.35),0 0 0 1px var(--border)}}
+.appbar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--border);
+  padding:12px 16px 10px}
+.appbar .r1{display:flex;align-items:center;gap:10px}
+.appbar h1{font-size:19px;letter-spacing:-.03em}
+.appbar .r2{display:flex;gap:5px;margin-top:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.appbar .r2::-webkit-scrollbar{display:none}
+.tb{border:1px solid var(--border);border-radius:999px;padding:6px 13px;font-size:12px;font-weight:650;
+  white-space:nowrap;color:var(--muted-foreground);background:var(--card);min-height:32px}
+.tb[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+main{padding:8px 12px 96px}
+.glabel{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted-foreground);padding:14px 6px 7px;display:flex;justify-content:space-between;
+  align-items:center}
+.glabel span:last-child{font-weight:600;letter-spacing:0;text-transform:none;font-variant-numeric:var(--tabnum)}
+.chat{display:flex;gap:11px;align-items:center;background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:12px 13px;min-height:72px;text-decoration:none;color:inherit;margin-bottom:7px;
+  width:100%;text-align:left;font:inherit}
+.chat:active{transform:scale(.995)}
+.chat[data-unread="1"]{border-color:var(--brand-200);background:var(--brand-50)}
+.dark .chat[data-unread="1"]{background:#1a2342;border-color:#2c3a6e}
+.chat .av{width:42px;height:42px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:13px;font-weight:700;flex:none}
+.chat[data-unread="1"] .av{background:var(--brand-600);color:#fff}
+.chat .mid{min-width:0;flex:1}
+.chat .top{display:flex;gap:6px;align-items:baseline}
+.chat .nm{font-size:14px;font-weight:650;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.chat[data-unread="1"] .nm{font-weight:750}
+.chat .tm{margin-left:auto;font-size:11px;color:var(--muted-foreground);white-space:nowrap}
+.chat .pv2{font-size:12.5px;color:var(--muted-foreground);margin-top:3px;overflow:hidden;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.45}
+.chat[data-unread="1"] .pv2{color:var(--foreground)}
+.badge{min-width:20px;height:20px;border-radius:999px;background:var(--primary);color:#fff;font-size:11px;
+  font-weight:700;display:grid;place-items:center;padding:0 5px;margin-left:8px;flex:none}
+.dock{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--border);padding:9px 12px 12px;
+  display:flex;gap:6px;align-items:center;z-index:30}
+.dock input{flex:1;border:1px solid var(--border);border-radius:999px;padding:11px 15px;font-size:14px;
+  font-family:inherit;background:var(--background);color:var(--foreground);outline:none;min-height:44px}
+.dock input:focus{border-color:var(--primary);background:var(--card)}
+.dock .go{width:44px;height:44px;border-radius:50%;background:var(--primary);color:#fff;display:grid;
+  place-items:center;flex:none}
+.dock .go:hover{background:var(--brand-700)}
+.note{font-size:11px;color:var(--muted-foreground);padding:4px 16px 10px;text-align:center;line-height:1.5}
+.emptyc{text-align:center;padding:40px 20px 20px}
+.emptyc b{display:block;font-size:15px;margin-bottom:5px}
+.emptyc p{margin:0 0 14px;font-size:12.5px;color:var(--muted-foreground);line-height:1.6}
+.vfoot{padding:14px 16px 22px;text-align:center;font-size:11px;color:var(--muted-foreground)}
+.vfoot a{color:var(--brand-700)}
+.seg2{display:flex;gap:4px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+.seg2 a{padding:5px 11px;border-radius:999px;border:1px solid var(--border);background:var(--card);
+  font-weight:650}
+.seg2 a[aria-current="page"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.srch{display:flex;align-items:center;gap:8px;background:var(--background);border:1px solid var(--border);
+  border-radius:999px;padding:8px 13px;margin-top:9px}
+.srch input{border:0;background:transparent;font:inherit;font-size:13px;flex:1;color:var(--foreground);outline:none}
+.srch svg{color:var(--muted-foreground)}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m3 20 18-8L3 4l4 8z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to conversations</a>
+<div class="desk">
+  <header class="appbar">
+    <div class="r1">
+      <h1>Messages</h1>
+      <span class="pill pill--info" style="margin-left:2px">2 unread</span>
+      <button class="iconbtn" style="margin-left:auto" data-theme-toggle
+        aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+    <div class="srch">
+      <svg class="i i--sm"><use href="#i-search"/></svg>
+      <input type="search" placeholder="Search messages" aria-label="Search messages" data-q>
+    </div>
+    <div class="r2" role="group" aria-label="Filter conversations">
+      <button class="tb" data-f="all" aria-pressed="true">All 6</button>
+      <button class="tb" data-f="unread" aria-pressed="false">Unread 2</button>
+      <button class="tb" data-f="project" aria-pressed="false">Projects</button>
+      <button class="tb" data-f="group" aria-pressed="false">Groups</button>
+      <button class="tb" data-f="archived" aria-pressed="false">Archived</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="glabel"><span>Unread</span><span>2</span></div>
+    <div data-grp="unread">
+      <a class="chat" href="../../F13-messages-thread/V1/index.html" data-k="project" data-unread="1">
+        <span class="av">RH</span>
+        <span class="mid"><span class="top"><span class="nm">Rahul · Khandesh Spice</span>
+          <span class="tm">1h</span></span>
+          <span class="pv2">Hero CTA above the fold? On a 375px screen the primary button sits below the fold.</span></span>
+        <span class="badge">2</span></a>
+      <a class="chat" href="../../F13-messages-thread/V1/index.html" data-k="project" data-unread="1">
+        <span class="av">RK</span>
+        <span class="mid"><span class="top"><span class="nm">Riya Kapoor · Horizon</span>
+          <span class="tm">1d</span></span>
+          <span class="pv2">Invoice reminder for NL-INV-2026-000044 — the bank reference has not landed.</span></span>
+        <span class="badge">1</span></a>
+    </div>
+
+    <div class="glabel"><span>Earlier</span><span>3</span></div>
+    <div data-grp="read">
+      <a class="chat" href="../../F13-messages-thread/V1/index.html" data-k="project" data-unread="0">
+        <span class="av">ST</span>
+        <span class="mid"><span class="top"><span class="nm">Studio · B2B Wholesale</span>
+          <span class="tm">2d</span></span>
+          <span class="pv2">Milestone 3 is in review — notes attached.</span></span></a>
+      <a class="chat" href="../../F13-messages-thread/V1/index.html" data-k="group" data-unread="0">
+        <span class="av">KH</span>
+        <span class="mid"><span class="top"><span class="nm">Khandesh Spice · group</span>
+          <span class="tm">4d</span></span>
+          <span class="pv2">Arjun, Riya and Rahul · staging walkthrough Thursday 4pm.</span></span></a>
+      <a class="chat" href="../../F14-billing/V1/index.html" data-k="group" data-unread="0">
+        <span class="av">AV</span>
+        <span class="mid"><span class="top"><span class="nm">Billing · group</span>
+          <span class="tm">1w</span></span>
+          <span class="pv2">Your saved payment method expires soon.</span></span></a>
+    </div>
+
+    <div class="glabel"><span>Archived</span><span>1</span></div>
+    <div data-grp="arch">
+      <a class="chat" href="../../F11-quote-details/V1/index.html" data-k="archived" data-unread="0">
+        <span class="av">AR</span>
+        <span class="mid"><span class="top"><span class="nm">Aurora Coffee</span>
+          <span class="tm">3w</span></span>
+          <span class="pv2">Quote lapsed — re-quote requested.</span></span></a>
+    </div>
+
+    <div class="emptyc" data-empty hidden>
+      <b data-empty-t>Nothing here</b>
+      <p data-empty-p>No conversations match this filter.</p>
+      <button class="btn btn-s" data-reset>Show all messages</button>
+    </div>
+
+    <p class="note">Direct messages are not available in the portal — only project and group threads.</p>
+
+    <div class="vfoot">
+      <a href="../../../index.html">← Back to gallery</a>
+      <div>F12 · V5 of 5 · <code>POST /threads/{id}/messages</code></div>
+      <div class="seg2">
+        <a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a>
+        <a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a>
+      </div>
+    </div>
+  </main>
+
+  <div class="dock">
+    <input type="text" placeholder="Message the studio…" aria-label="Quick message" data-msg>
+    <button class="go" data-send aria-label="Send message"><svg class="i"><use href="#i-send"/></svg></button>
+  </div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var chats=[].slice.call(document.querySelectorAll('.chat'));
+  var groups=['unread','read','arch'].map(function(k){return document.querySelector('[data-grp="'+k+'"]');});
+  var empty=document.querySelector('[data-empty]');
+  function run(){
+    var f=document.querySelector('.tb[aria-pressed="true"]').dataset.f;
+    var q=document.querySelector('[data-q]').value.toLowerCase().trim();
+    var shown=0;
+    chats.forEach(function(c){
+      var ok = (f==='all' || c.dataset.k===f) && (!q || c.textContent.toLowerCase().indexOf(q)>-1);
+      c.hidden=!ok; if(ok)shown++;
+    });
+    groups.forEach(function(g){
+      var any=[].slice.call(g.querySelectorAll('.chat')).some(function(c){return !c.hidden;});
+      g.hidden=!any;
+      var lab=g.previousElementSibling;
+      if(lab&&lab.classList.contains('glabel'))lab.hidden=!any;
+    });
+    empty.hidden=shown>0;
+    if(!shown){
+      document.querySelector('[data-empty-t]').textContent = q?'No matching conversations':'Nothing in this filter';
+      document.querySelector('[data-empty-p]').textContent = q
+        ? 'Try a person, a project, or a keyword from the last message.'
+        : 'Nothing is waiting under this state right now.';
+    }
+  }
+  document.querySelectorAll('.tb').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.tb').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      run();
+    });
+  });
+  document.querySelector('[data-q]').addEventListener('input',run);
+  document.querySelector('[data-reset]').addEventListener('click',function(){
+    document.querySelectorAll('.tb').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.f==='all'));});
+    document.querySelector('[data-q]').value=''; run();
+  });
+  var msg=document.querySelector('[data-msg]');
+  function send(){
+    var v=msg.value.trim(); if(!v){msg.focus();return;}
+    say('Sent: “'+v.slice(0,40)+(v.length>40?'…':'')+'” to the studio thread.');
+    msg.value='';
+  }
+  document.querySelector('[data-send]').addEventListener('click',send);
+  msg.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();send();}});
+  run();
+})();
+</script>
+</body>
+</html>

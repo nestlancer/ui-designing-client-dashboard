@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoices · V3 Card List — Nestlancer Portal Lab</title>
+<meta name="description" content="F18 variant 3: invoices as status-led cards with filter chips, a per-card download and pay action, and a compact totals strip.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Card List. A cards · B status-first · C status narrative · E chips. */
+.page{max-width:900px;margin:0 auto;padding:0 22px 60px}
+.hd{display:flex;align-items:end;gap:14px;flex-wrap:wrap;padding:24px 0 14px}
+.hd h1{font-size:25px;letter-spacing:-.035em}
+.hd p{margin:4px 0 0;font-size:12.5px;color:var(--muted-foreground)}
+.hd .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.chips .lb{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-right:3px}
+.chip{border:1px solid var(--border);background:var(--card);border-radius:999px;padding:4px 11px;
+  font-size:11.5px;font-weight:650;color:var(--muted-foreground);display:inline-flex;gap:6px;align-items:center}
+.chip b{font-size:10.5px;color:var(--foreground);font-variant-numeric:var(--tabnum)}
+.chip[aria-pressed="true"]{background:var(--brand-600);border-color:var(--brand-600);color:#fff}
+.chip[aria-pressed="true"] b{color:#fff}
+.cards{display:grid;gap:10px}
+.ic{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 15px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;position:relative;
+  overflow:hidden}
+.ic::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--status-success-text)}
+.ic[data-st="pending"]::before{background:var(--status-warning-text)}
+.ic[data-st="issued"]::before{background:var(--status-info-text)}
+.ic .no{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;font-weight:600}
+.ic .pj{font-size:11.5px;color:var(--muted-foreground);margin-top:3px}
+.ic .meta{display:flex;gap:8px;align-items:center;margin-top:7px;flex-wrap:wrap;font-size:10.5px;
+  color:var(--muted-foreground)}
+.ic .right{text-align:right;display:grid;gap:7px;justify-items:end}
+.ic .amt{font-size:17px;font-variant-numeric:var(--tabnum);font-weight:650;letter-spacing:-.02em}
+.ic .acts{display:flex;gap:5px}
+@media(max-width:600px){.ic{grid-template-columns:1fr}.ic .right{justify-items:start;text-align:left}}
+.tot{display:flex;gap:16px;flex-wrap:wrap;padding:11px 13px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);background:var(--card);font-size:11.5px;color:var(--muted-foreground);
+  margin-bottom:14px}
+.tot b{color:var(--foreground);font-variant-numeric:var(--tabnum)}
+.empty{padding:40px 18px;text-align:center;background:var(--card);border:1px dashed var(--border);
+  border-radius:var(--radius-md);margin-top:6px}
+.empty b{display:block;font-size:14px;margin-bottom:4px}
+.empty p{margin:0 0 12px;font-size:12px;color:var(--muted-foreground)}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:18px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to invoices</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F14-billing/V1/index.html">Billing</a>
+        <a href="index.html" aria-current="page">Invoices</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div><h1>Your invoices</h1>
+        <p>Status leads each card, because the only invoice you need to act on is the one that is not paid.</p></div>
+      <div class="r"><a class="btn btn-g btn-sm" href="../../F14-billing/V1/index.html">View payments</a></div>
+    </div>
+
+    <div class="tot">
+      <span>Invoiced <b>₹87,000.00</b></span>
+      <span>Collected <b>₹55,125.00</b></span>
+      <span>Open <b>₹31,875.00</b></span>
+      <span style="margin-left:auto">5 invoices</span>
+    </div>
+
+    <div class="chips" role="group" aria-label="Filter by status">
+      <span class="lb">Status</span>
+      <button class="chip" data-f="all" aria-pressed="true">All <b>5</b></button>
+      <button class="chip" data-f="pending" aria-pressed="false">Pending <b>1</b></button>
+      <button class="chip" data-f="issued" aria-pressed="false">Issued <b>1</b></button>
+      <button class="chip" data-f="paid" aria-pressed="false">Paid <b>3</b></button>
+    </div>
+
+    <div class="cards" data-cards>
+      <article class="ic" data-st="pending">
+        <div><p class="no">NL-INV-2026-000045</p>
+          <p class="pj">Horizon Retail · issued 18 Oct 2026</p>
+          <div class="meta"><span class="pill pill--warn">pending</span>
+            <span>due 25 Oct 2026</span><span>GST included</span></div></div>
+        <div class="right"><span class="amt">₹1,875.00</span>
+          <div class="acts"><a class="btn btn-p btn-sm" href="../../F16-checkout/V1/index.html">Pay now</a>
+            <button class="btn btn-g btn-sm" data-dl>Download</button></div></div>
+      </article>
+
+      <article class="ic" data-st="issued">
+        <div><p class="no">NL-INV-2026-000004</p>
+          <p class="pj">Khandesh Spice D2C · issued 14 Oct 2026</p>
+          <div class="meta"><span class="pill pill--info">issued</span>
+            <span>bank transfer processing</span><span>₹30,000.00</span></div></div>
+        <div class="right"><span class="amt">₹30,000.00</span>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Track</a>
+            <button class="btn btn-g btn-sm" data-dl>Download</button></div></div>
+      </article>
+
+      <article class="ic" data-st="paid">
+        <div><p class="no">NL-INV-2026-000005</p>
+          <p class="pj">Khandesh Spice D2C · issued 15 Oct 2026</p>
+          <div class="meta"><span class="pill pill--ok">paid</span>
+            <span>paid 15 Oct 2026</span><span>receipt available</span></div></div>
+        <div class="right"><span class="amt">₹22,500.00</span>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Receipt</a>
+            <button class="btn btn-g btn-sm" data-dl>Download</button></div></div>
+      </article>
+
+      <article class="ic" data-st="paid">
+        <div><p class="no">NL-INV-2026-000002</p>
+          <p class="pj">B2B Wholesale · issued 28 Sep 2026</p>
+          <div class="meta"><span class="pill pill--ok">paid</span>
+            <span>paid 28 Sep 2026</span><span>netbanking</span></div></div>
+        <div class="right"><span class="amt">₹22,000.00</span>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Receipt</a>
+            <button class="btn btn-g btn-sm" data-dl>Download</button></div></div>
+      </article>
+
+      <article class="ic" data-st="paid">
+        <div><p class="no">NL-INV-2026-000001</p>
+          <p class="pj">Horizon Retail · issued 20 Sep 2026</p>
+          <div class="meta"><span class="pill pill--ok">paid</span>
+            <span>paid 20 Sep 2026</span><span>change request</span></div></div>
+        <div class="right"><span class="amt">₹10,625.00</span>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F17-payment-status/V1/index.html">Receipt</a>
+            <button class="btn btn-g btn-sm" data-dl>Download</button></div></div>
+      </article>
+    </div>
+
+    <div class="empty" data-empty hidden>
+      <b data-et>Nothing with this status</b>
+      <p data-ep>No invoice is in this state right now.</p>
+      <button class="btn btn-s btn-sm" data-reset>Show all invoices</button>
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a><span>F18 · V3 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var cards=[].slice.call(document.querySelectorAll('.ic')), empty=document.querySelector('[data-empty]');
+  function paint(f){
+    var n=0;
+    cards.forEach(function(c){var ok=f==='all'||c.dataset.st===f;c.hidden=!ok;if(ok)n++;});
+    empty.hidden=n>0;
+    if(!n){
+      document.querySelector('[data-et]').textContent = f==='pending'?'No pending invoices':'No invoices here';
+      document.querySelector('[data-ep]').textContent = f==='pending'
+        ? 'Everything issued to you has been paid. New invoices appear here when a milestone is raised.'
+        : 'Try another status.';
+    }
+  }
+  document.querySelectorAll('.chip').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+      paint(b.dataset.f);
+      say(b.dataset.f==='all'?'Showing all 5 invoices.':'Filtered to '+b.dataset.f+' invoices.');
+    });
+  });
+  document.querySelector('[data-reset]').addEventListener('click',function(){
+    document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.f==='all'));});
+    paint('all');
+  });
+  document.querySelectorAll('[data-dl]').forEach(function(b){
+    b.addEventListener('click',function(){say('Per-invoice PDF download is demo-only in this lab.');});
+  });
+})();
+</script>
+</body>
+</html>

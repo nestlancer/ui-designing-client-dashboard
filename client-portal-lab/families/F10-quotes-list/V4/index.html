@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quotes · V4 Awaiting Queue — Nestlancer Portal Lab</title>
+<meta name="description" content="F10 variant 4: a queue of quotes awaiting signature first, accepted quotes collapsed behind a toggle, with saved views labelled demo-only.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Awaiting Queue. A queue · B action-first · C queue · E collapse groups (+A12 demo). */
+.page{min-height:100vh;background:var(--background)}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.wrap{max-width:880px;margin:0 auto;padding:22px 20px 40px}
+.mast{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.mast h1{font-size:25px;letter-spacing:-.035em}
+.mast p{font-size:12.5px;color:var(--muted-foreground);margin-top:3px}
+.views{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.view{border:1px solid var(--border);border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:650;
+  background:var(--card);color:var(--muted-foreground)}
+.view[aria-pressed="true"]{background:var(--brand-50);border-color:var(--brand-300);color:var(--brand-700)}
+.dark .view[aria-pressed="true"]{background:#1b2650;border-color:#33447e;color:#c9d6ff}
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
+  margin-bottom:10px;box-shadow:var(--shadow-xs);border-left:3px solid var(--brand-500)}
+.qcard .r1{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.qcard .ref{font-size:13.5px;font-weight:700;font-variant-numeric:var(--tabnum);letter-spacing:-.01em}
+.qcard .cl{margin-left:auto;font-size:11.5px;color:var(--muted-foreground)}
+.qcard .amtline{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-top:9px}
+.qcard .amt{font-size:24px;font-weight:700;letter-spacing:-.035em;font-variant-numeric:var(--tabnum)}
+.qcard .split{font-size:11.5px;color:var(--muted-foreground)}
+.qcard .meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px;font-size:11px;color:var(--muted-foreground)}
+.qcard .meta span{border:1px solid var(--border);border-radius:999px;padding:2px 9px;background:var(--background)}
+.qcard .exp{margin-top:10px;font-size:12px;line-height:1.55;border-radius:var(--radius-sm);padding:8px 10px;
+  border:1px dashed var(--status-warning-border);background:var(--status-warning-bg);color:var(--status-warning-text)}
+.qcard .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.grp{margin-top:20px}
+.grphd{display:flex;align-items:center;gap:9px;width:100%;padding:9px 2px;border-bottom:1px solid var(--border);
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.grphd .n{font-size:10px;background:var(--muted);border-radius:999px;padding:1px 7px;color:var(--muted-foreground)}
+.grphd .chev{margin-left:auto;transition:transform var(--duration-fast)}
+.grphd[aria-expanded="false"] .chev{transform:rotate(-90deg)}
+.grpbody{padding-top:10px}
+.grpbody[hidden]{display:none}
+.compact{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:9px 12px;
+  border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);margin-bottom:6px;font-size:12px}
+.compact .l{min-width:0}
+.compact .l b{font-variant-numeric:var(--tabnum)}
+.compact .l span{display:block;font-size:10.5px;color:var(--muted-foreground);margin-top:1px}
+.compact .r{display:flex;gap:8px;align-items:center;white-space:nowrap}
+.compact .r .amt{font-variant-numeric:var(--tabnum);font-weight:650}
+.note{font-size:11.5px;color:var(--muted-foreground);margin-top:14px;line-height:1.6}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:16px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.wrap{padding:14px}.top{padding:0 14px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-chev-dn" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to quotes</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F05-requests-work-hub/V1/index.html">Requests</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="mast">
+      <div><h1>Quotes</h1>
+        <p>Only what needs a signature is open. Everything settled is one click away, collapsed.</p></div>
+      <span class="grow"></span>
+      <span class="pill pill--pur">2 awaiting you</span>
+    </div>
+
+    <div class="views" role="group" aria-label="Saved views">
+      <button class="view" data-v="await" aria-pressed="true">Awaiting you <span class="n">2</span></button>
+      <button class="view" data-v="expired" aria-pressed="false">Expired</button>
+      <button class="view" data-v="accepted" aria-pressed="false">Accepted</button>
+      <button class="view" data-v="all" aria-pressed="false">Everything</button>
+      <button class="btn btn-g btn-sm" data-save style="margin-left:auto">
+        <svg class="i i--sm"><use href="#i-bookmark"/></svg>Save view</button>
+    </div>
+
+    <div class="banner banner--info" data-saved hidden>
+      <svg class="i"><use href="#i-bookmark"/></svg>
+      <div><strong>“Awaiting you” is saved for this session only.</strong> Persisting saved views needs a preferences
+        store the API does not expose yet, so the control is labelled demo-only rather than pretending.</div>
+    </div>
+
+    <section class="grp" data-g="await">
+      <div>
+        <div class="qcard" data-in="await">
+          <div class="r1"><span class="ref">#01a11209</span>
+            <span class="pill pill--pur">Awaiting signature</span>
+            <span class="cl">Horizon Retail</span></div>
+          <div class="amtline"><span class="amt">₹2,83,200</span>
+            <span class="split">₹2,40,000 + ₹43,200 GST · 3 milestones 40/40/20</span></div>
+          <div class="meta"><span>valid until 24 Oct 2026</span><span>2 days left</span><span>phase one rebrand</span></div>
+          <p class="exp">Signing raises the first instalment of ₹1,13,280 immediately. The remaining two follow
+            approvals, not calendar dates.</p>
+          <div class="acts">
+            <a class="btn btn-p" href="../../F11-quote-details/V1/index.html">Review and sign</a>
+            <a class="btn btn-g" href="../../F13-messages-thread/V1/index.html">Ask about scope</a>
+          </div>
+        </div>
+
+        <div class="qcard" data-in="await" style="border-left-color:var(--status-warning-text)">
+          <div class="r1"><span class="ref">#01a10f80</span>
+            <span class="pill pill--warn">Expires today</span>
+            <span class="cl">Khandesh Spice</span></div>
+          <div class="amtline"><span class="amt">₹1,770</span>
+            <span class="split">₹1,500 + ₹270 GST · 50/50 (₹885 each)</span></div>
+          <div class="meta"><span>valid until 20 Oct 2026</span><span>hours left</span><span>storefront</span></div>
+          <p class="exp">This is the last day this quote can be signed. After the date passes it stops being
+            signable and the studio has to issue a new one.</p>
+          <div class="acts">
+            <a class="btn btn-p" href="../../F11-quote-details/V1/index.html">Review and sign</a>
+            <a class="btn btn-g" href="../../F11-quote-details/V1/index.html">Read the terms first</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grp">
+      <button class="grphd" data-collapse aria-expanded="false">
+        <svg class="i i--sm chev"><use href="#i-chev-dn"/></svg>Expired <span class="n">7</span>
+      </button>
+      <div class="grpbody" hidden data-in="expired">
+        <div class="compact"><div class="l"><b>#01a0ff22</b> Aurora Coffee
+          <span>expired 30 Sep 2026 · mobile app</span></div>
+          <div class="r"><span class="amt">₹84,000</span>
+            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
+        <div class="compact"><div class="l"><b>#01a0fe81</b> Meridian Clinic
+          <span>expired 2 Oct 2026 · web design</span></div>
+          <div class="r"><span class="amt">₹96,000</span>
+            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
+        <div class="compact"><div class="l"><b>#01a0e9c7</b> Prakash Optics
+          <span>expired 24 Sep 2026 · e-commerce</span></div>
+          <div class="r"><span class="amt">₹38,000</span>
+            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
+        <div class="compact"><div class="l"><b>#01a0d902</b> Sundara Yoga
+          <span>expired 18 Sep 2026 · landing page</span></div>
+          <div class="r"><span class="amt">₹45,000</span>
+            <button class="btn btn-g btn-sm" data-requote>Re-quote</button></div></div>
+      </div>
+    </section>
+
+    <section class="grp">
+      <button class="grphd" data-collapse aria-expanded="false">
+        <svg class="i i--sm chev"><use href="#i-chev-dn"/></svg>Accepted <span class="n">5</span>
+      </button>
+      <div class="grpbody" hidden data-in="accepted">
+        <div class="compact"><div class="l"><b>#01a10f80</b> Khandesh Spice
+          <span>signed 13 Oct 2026 · deposit paid</span></div>
+          <div class="r"><span class="amt">₹1,770</span>
+            <a class="btn btn-g btn-sm" href="../../F11-quote-details/V1/index.html">Open</a></div></div>
+        <div class="compact"><div class="l"><b>#01a10c14</b> Khandesh Spice
+          <span>signed 4 Oct 2026 · converted to project</span></div>
+          <div class="r"><span class="amt">₹1,42,000</span>
+            <a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div></div>
+        <div class="compact"><div class="l"><b>#01a0f3d0</b> Kaveri Textiles
+          <span>signed 3 Sep 2026 · paid in full</span></div>
+          <div class="r"><span class="amt">₹62,000</span>
+            <a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">Invoice</a></div></div>
+        <div class="compact"><div class="l"><b>#01a0e210</b> Northwind
+          <span>signed 18 Sep 2026 · in delivery</span></div>
+          <div class="r"><span class="amt">₹2,10,000</span>
+            <a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Project</a></div></div>
+      </div>
+    </section>
+
+    <p class="note">The queue order is deliberate: quotes you can still act on come first, and anything expired is
+      collapsed rather than left to look actionable.</p>
+
+<p style="margin-top:14px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);border-left:2px solid var(--border);padding-left:9px"><b style="color:var(--foreground)">Data honesty:</b> the quotes endpoint could not be read while this lab was built, so every amount and reference except <code>#01a10f80</code> (₹1,500 + ₹270 GST = ₹1,770, 50/50 at ₹885) is an illustrative record used to show the layout. They are sample rows, not real client quotes.</p>
+
+        <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F10 Quotes List · V4 of 5 — Awaiting Queue</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  document.querySelectorAll('[data-collapse]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var open=b.getAttribute('aria-expanded')==='true';
+      b.setAttribute('aria-expanded',String(!open));
+      b.nextElementSibling.hidden=open;
+    });
+  });
+  document.querySelectorAll('[data-requote]').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.classList.add('is-loading');
+      setTimeout(function(){b.classList.remove('is-loading');
+        say('Re-quote requested — a fresh quote with a new validity date will arrive here.');},700);
+    });
+  });
+  document.querySelector('[data-save]').addEventListener('click',function(){
+    document.querySelector('[data-saved]').hidden=false;
+    say('Saved view — demo only, kept for this session.');
+  });
+
+  document.querySelectorAll('.view').forEach(function(v){
+    v.addEventListener('click',function(){
+      document.querySelectorAll('.view').forEach(function(x){x.setAttribute('aria-pressed',String(x===v));});
+      var k=v.dataset.v;
+      /* reveal the group a view points at */
+      document.querySelectorAll('.grphd').forEach(function(h){
+        var body=h.nextElementSibling;
+        var want = k==='all' || body.dataset.in===k;
+        if(k!=='await'){h.setAttribute('aria-expanded',String(want)); body.hidden=!want;}
+      });
+      if(k==='await'){
+        document.querySelectorAll('.grphd').forEach(function(h){
+          h.setAttribute('aria-expanded','false'); h.nextElementSibling.hidden=true;});
+      }
+      say(k==='all'?'Showing everything':('Filtered to '+k+' quotes.'));
+    });
+  });
+})();
+</script>
+</body>
+</html>

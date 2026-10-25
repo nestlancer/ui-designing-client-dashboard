@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explore · V1 Editorial Cards — Nestlancer Portal Lab</title>
+<meta name="description" content="F23 variant 1: two-column editorial cards with hairline rules, category eyebrows and a hover reveal, in the portal's own brand.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Editorial Cards. A 2-col cards · B editorial · D airy · E hover reveal. */
+.page{max-width:1000px;margin:0 auto;padding:0 22px 64px}
+.hero{padding:34px 0 20px;border-bottom:1px solid var(--border);margin-bottom:22px}
+.hero .k{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand-700);font-weight:700}
+.dark .hero .k{color:#9db3ff}
+.hero h1{font-size:30px;letter-spacing:-.045em;line-height:1.15;margin-top:8px;max-width:22ch}
+.hero p{margin:10px 0 0;font-size:12.5px;line-height:1.7;color:var(--muted-foreground);max-width:56ch}
+.tabs{display:flex;gap:14px;border-bottom:1px solid var(--border);margin-bottom:18px;overflow-x:auto;
+  scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{padding:8px 0;font-size:11.5px;font-weight:650;color:var(--muted-foreground);
+  border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--foreground);border-bottom-color:var(--foreground)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 30px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+article{border-top:2px solid var(--foreground);padding-top:11px}
+article .k{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+article h2{font-size:18px;letter-spacing:-.03em;line-height:1.25;margin-top:6px}
+article h2 a:hover{color:var(--brand-700)}
+.dark article h2 a:hover{color:#9db3ff}
+article p{margin:7px 0 0;font-size:12px;line-height:1.7;color:var(--muted-foreground)}
+article .ft{display:flex;gap:10px;align-items:center;margin-top:10px;font-size:10.5px;
+  color:var(--muted-foreground)}
+article .ft .more{margin-left:auto;font-weight:700;color:var(--brand-700);opacity:0;
+  transition:opacity .15s;display:inline-flex;gap:4px}
+.dark article .ft .more{color:#9db3ff}
+article:hover .ft .more,article:focus-within .ft .more{opacity:1}
+@media(prefers-reduced-motion:reduce){article .ft .more{transition:none}}
+@media(hover:none){article .ft .more{opacity:1}}
+.wide{grid-column:1/-1}
+.wide .inner{display:grid;grid-template-columns:1.35fr 1fr;gap:22px;align-items:start}
+@media(max-width:760px){.wide .inner{grid-template-columns:1fr}}
+.ph{border:1px solid var(--border);border-radius:var(--radius-sm);aspect-ratio:16/9;display:grid;
+  place-items:center;font-size:10px;color:var(--muted-foreground);background:
+  repeating-linear-gradient(135deg,var(--muted),var(--muted) 7px,var(--background) 7px,var(--background) 14px)}
+.sect{margin-top:34px;padding-top:18px;border-top:1px solid var(--border)}
+.sect h2{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:12px}
+.plist{display:grid;gap:9px}
+.pitem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;
+  padding:11px 13px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card)}
+.pitem h3{font-size:12.5px;letter-spacing:-.015em}
+.pitem p{margin:2px 0 0;font-size:11px;color:var(--muted-foreground)}
+.pitem .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.pitem .tags span{font-size:9.5px;border:1px solid var(--border);border-radius:999px;padding:1px 7px;
+  color:var(--muted-foreground)}
+.pitem .go{font-size:11px;font-weight:700;color:var(--brand-700)}
+.dark .pitem .go{color:#9db3ff}
+.note{margin-top:22px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);
+  border-left:2px solid var(--border);padding-left:10px}
+.end{margin-top:18px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to explore</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="index.html" aria-current="page">Explore</a>
+        <a href="../../F21-settings/V1/index.html">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hero">
+      <div class="k">Explore · studio notes</div>
+      <h1>How the studio thinks about the work</h1>
+      <p>Short notes on briefs, milestones and handover — written for clients, not for award submissions.
+        Everything here uses the same design language as your portal, because it is the same product.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Explore sections">
+      <button role="tab" aria-selected="true" data-tab="all">All</button>
+      <button role="tab" aria-selected="false" data-tab="process">Process</button>
+      <button role="tab" aria-selected="false" data-tab="payments">Payments</button>
+      <button role="tab" aria-selected="false" data-tab="briefs">Briefs</button>
+      <button role="tab" aria-selected="false" data-tab="work">Work</button>
+    </div>
+
+    <div class="grid" data-grid>
+      <article class="wide" data-cat="process">
+        <div class="inner">
+          <div>
+            <div class="k">Process · 6 min read</div>
+            <h2><a href="#" data-open="Approving a milestone, and what happens next">Approving a milestone, and
+              what happens next</a></h2>
+            <p>A milestone is not a formality. Approving one unlocks the next payment, opens the next stage of
+              work and stamps the invoice — so it is worth knowing exactly which button does what.</p>
+            <div class="ft"><span>19 Oct 2026</span><span>·</span><span>Studio</span>
+              <a class="more" href="#" data-open="Approving a milestone">Read →</a></div>
+          </div>
+          <div class="ph">cover image · from the public post</div>
+        </div>
+      </article>
+
+      <article data-cat="payments">
+        <div class="k">Payments · 4 min read</div>
+        <h2><a href="#" data-open="Why a bank transfer shows as processing">Why a bank transfer shows as
+          processing</a></h2>
+        <p>UPI settles in seconds. A bank transfer does not — it clears when the bank confirms, and the portal
+          says “processing” until then instead of pretending it is paid.</p>
+        <div class="ft"><span>14 Oct 2026</span><a class="more" href="#" data-open="Bank transfer">Read →</a></div>
+      </article>
+
+      <article data-cat="briefs">
+        <div class="k">Briefs · 5 min read</div>
+        <h2><a href="#" data-open="A brief that survives the first week">A brief that survives the first
+          week</a></h2>
+        <p>The most useful thing you can send is not a moodboard. It is a paragraph about who buys, and what
+          they must be able to do without asking.</p>
+        <div class="ft"><span>11 Oct 2026</span><a class="more" href="#" data-open="A brief">Read →</a></div>
+      </article>
+
+      <article data-cat="process">
+        <div class="k">Process · 3 min read</div>
+        <h2><a href="#" data-open="Change requests are priced before they start">Change requests are priced
+          before they start</a></h2>
+        <p>Scope changes are fine. Unpriced scope changes are how projects stall. Here is how the request
+          becomes a quote, and a quote becomes an invoice.</p>
+        <div class="ft"><span>8 Oct 2026</span><a class="more" href="#" data-open="Change requests">Read →</a></div>
+      </article>
+
+      <article data-cat="work">
+        <div class="k">Work · 7 min read</div>
+        <h2><a href="#" data-open="Designing a wholesale portal for a shop floor">Designing a wholesale portal
+          for a shop floor</a></h2>
+        <p>Wholesale buyers are not browsing. They are reordering on a phone, between customers, with one hand.
+          The whole interface had to survive that.</p>
+        <div class="ft"><span>2 Oct 2026</span><a class="more" href="#" data-open="Wholesale portal">Read →</a></div>
+      </article>
+    </div>
+
+    <section class="sect">
+      <h2>Selected work</h2>
+      <div class="plist">
+        <a class="pitem" href="#" data-open="Khandesh Spice — D2C storefront">
+          <div><h3>Khandesh Spice — D2C storefront</h3>
+            <p>Storefront, packaging system and a checkout that does not lose people at the address step.</p>
+            <div class="tags"><span>Brand</span><span>Commerce</span><span>Packaging</span></div></div>
+          <span class="go">→</span></a>
+        <a class="pitem" href="#" data-open="B2B Wholesale Ordering Portal">
+          <div><h3>B2B Wholesale Ordering Portal</h3>
+            <p>Phone-first reordering for distributors, with tiered pricing and an approval step.</p>
+            <div class="tags"><span>Product</span><span>Design system</span></div></div>
+          <span class="go">→</span></a>
+        <a class="pitem" href="#" data-open="Horizon Retail — campaign site">
+          <div><h3>Horizon Retail — campaign site</h3>
+            <p>A single-page campaign surface built to be edited by the marketing team, not by us.</p>
+            <div class="tags"><span>Web</span><span>Editorial</span></div></div>
+          <span class="go">→</span></a>
+      </div>
+    </section>
+
+    <p class="note">Posts and portfolio items come from <code>GET /posts</code> and <code>GET /portfolio</code>.
+      Each card opens the public article; if a post fails to load the card says so rather than showing an empty
+      frame.</p>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F23 · V1 of 5</span>
+      <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<dialog class="dlg" data-dlg style="border:1px solid var(--border);border-radius:12px;padding:0;max-width:460px;width:calc(100vw - 36px);background:var(--card);color:var(--foreground)">
+  <div style="display:flex;gap:8px;align-items:center;padding:12px 15px;border-bottom:1px solid var(--border)">
+    <h3 style="font-size:13px;flex:1" data-dt>Post</h3>
+    <button data-close aria-label="Close" style="color:var(--muted-foreground)">✕</button></div>
+  <div style="padding:15px;font-size:11.5px;line-height:1.65;color:var(--muted-foreground)" data-db></div>
+</dialog>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var tabs=[].slice.call(document.querySelectorAll('[role="tab"]')),
+      arts=[].slice.call(document.querySelectorAll('[data-cat]'));
+  tabs.forEach(function(b){
+    b.addEventListener('click',function(){
+      tabs.forEach(function(x){x.setAttribute('aria-selected',String(x===b));});
+      var k=b.dataset.tab;
+      arts.forEach(function(a){a.style.display=(k==='all'||a.dataset.cat===k)?'':'none';});
+    });
+  });
+
+  var dlg=document.querySelector('[data-dlg]');
+  document.querySelectorAll('[data-open]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      document.querySelector('[data-dt]').textContent=a.dataset.open;
+      document.querySelector('[data-db]').textContent=
+        'This is the public article surface. In the portal it opens from GET /posts/{slug} in the same tab, '+
+        'with a back link to Explore — not in a new window that loses your place.';
+      if(typeof dlg.showModal==='function')dlg.showModal(); else dlg.setAttribute('open','');
+    });
+  });
+  document.querySelector('[data-close]').addEventListener('click',function(){
+    if(typeof dlg.close==='function')dlg.close(); else dlg.removeAttribute('open');
+  });
+})();
+</script>
+</body>
+</html>

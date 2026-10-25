@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Request · V1 Timeline Led — Nestlancer Portal Lab</title>
+<meta name="description" content="F07 variant 1: a nine-stage status history drawn as a connected timeline beside a details rail, with steps revealing as you scroll.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Timeline Led. A timeline+rail · B narrative-first · C timeline · E drawn connector. */
+.page{min-height:100vh;background:var(--background)}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px;position:sticky;top:0;z-index:20}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 20px 44px;display:grid;
+  grid-template-columns:minmax(0,60%) minmax(0,40%);gap:24px;align-items:start}
+@media(max-width:960px){.wrap{grid-template-columns:1fr;padding:14px 14px 34px}}
+.crumb{font-size:12px;color:var(--muted-foreground);margin-bottom:6px}
+h1{font-size:25px;letter-spacing:-.035em;line-height:1.2}
+.metaRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:9px}
+.metaRow span{font-size:11.5px;color:var(--muted-foreground)}
+.lede{font-size:13px;color:var(--muted-foreground);margin-top:10px;line-height:1.6;max-width:62ch}
+.tl{margin-top:24px;position:relative}
+.tl::before{content:"";position:absolute;left:15px;top:8px;bottom:10px;width:2px;background:var(--border)}
+.stg{position:relative;padding:0 0 20px 44px;opacity:.4;transform:translateY(6px);
+  transition:opacity var(--duration-slow),transform var(--duration-slow)}
+.stg[data-in="1"]{opacity:1;transform:none}
+.stg:last-child{padding-bottom:0}
+.stg .dot{position:absolute;left:7px;top:2px;width:18px;height:18px;border-radius:50%;background:var(--card);
+  border:2px solid var(--border);display:grid;place-items:center;font-size:9px;color:transparent;z-index:1}
+.stg[data-state="done"] .dot{background:var(--status-success-bg);border-color:var(--status-success-border);
+  color:var(--status-success-text)}
+.stg[data-state="current"] .dot{background:var(--primary);border-color:var(--primary);color:#fff;
+  box-shadow:0 0 0 4px var(--brand-50)}
+.dark .stg[data-state="current"] .dot{box-shadow:0 0 0 4px #1b2650}
+.stg h3{font-size:13.5px;font-weight:650;letter-spacing:-.01em;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stg .when{font-size:11px;color:var(--muted-foreground);font-variant-numeric:var(--tabnum)}
+.stg p{font-size:12.5px;color:var(--muted-foreground);margin-top:3px;line-height:1.55}
+.stg .who{font-size:11px;color:var(--muted-foreground);margin-top:3px}
+.rail{display:grid;gap:12px;position:sticky;top:calc(var(--header) + 16px)}
+@media(max-width:960px){.rail{position:static;order:2}}
+.rc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:15px;
+  box-shadow:var(--shadow-xs)}
+.rc header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.rc h2{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:6px 0;
+  border-bottom:1px solid var(--border)}
+.kv:last-child{border-bottom:0}
+.kv span{color:var(--muted-foreground)}
+.kv b{font-weight:600;text-align:right}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{border:1px solid var(--border);border-radius:999px;padding:2px 9px;font-size:11px;color:var(--muted-foreground);
+  background:var(--background)}
+.att{display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)}
+.att:last-child{border-bottom:0}
+.att span{margin-left:auto;color:var(--muted-foreground);font-size:10.5px}
+.quote{border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;background:var(--background)}
+.quote .amt{font-size:20px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:var(--tabnum)}
+.quote .sm{font-size:11.5px;color:var(--muted-foreground);margin-top:2px}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
+  margin-top:20px;grid-column:1/-1}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(prefers-reduced-motion:reduce){.stg{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-attach" viewBox="0 0 24 24"><path d="M21 11 12.5 19.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L16 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the request</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F05-requests-work-hub/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <span class="muted" style="font-size:12px;margin-left:8px">Requests › NL-REQ-2026-0018</span>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+      <a class="btn btn-g btn-sm" href="../../F05-requests-work-hub/V1/index.html">All requests</a>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section>
+      <p class="crumb">NL-REQ-2026-0018 · submitted 12 Oct 2026</p>
+      <h1>Khandesh Spice D2C e-commerce store</h1>
+      <div class="metaRow">
+        <span class="pill pill--ok">Converted</span>
+        <span>E-commerce</span><span>·</span><span>₹1,42,000 quoted</span><span>·</span>
+        <span>Owner: Riya Kapoor</span>
+      </div>
+      <p class="lede">A direct-to-consumer store for a spice brand: catalogue, subscription bundles and checkout.
+        The brief asked for speed on mobile and a first order under two minutes.</p>
+
+      <div class="tl" data-tl>
+        <article class="stg" data-state="done">
+          <span class="dot"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+          <h3>Submitted <span class="when">12 Oct 2026 · 10:04</span></h3>
+          <p>You submitted the brief with three attachments: brand guidelines, a reference storefront and a
+            product photography sheet.</p>
+          <p class="who">Arjun Mehta</p>
+        </article>
+        <article class="stg" data-state="done">
+          <span class="dot"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+          <h3>Under review <span class="when">12 Oct 2026 · 15:30</span></h3>
+          <p>The studio read the brief and asked one scoping question: whether subscription billing was in scope
+            for the first release. You confirmed it was.</p>
+          <p class="who">Studio · Rahul</p>
+        </article>
+        <article class="stg" data-state="done">
+          <span class="dot"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+          <h3>Quote sent <span class="when">13 Oct 2026 · 11:12</span></h3>
+          <p>Quote #01a10f80 issued at ₹1,770 total — ₹1,500 plus GST — split 50/50, valid until 20 Oct 2026.</p>
+          <p class="who">Studio · finance</p>
+        </article>
+        <article class="stg" data-state="done">
+          <span class="dot"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+          <h3>Quote accepted <span class="when">13 Oct 2026 · 16:41</span></h3>
+          <p>You signed. The first instalment of ₹885 became payable and the deposit invoice was raised
+            immediately — no second email required.</p>
+          <p class="who">Arjun Mehta</p>
+        </article>
+        <article class="stg" data-state="done">
+          <span class="dot"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+          <h3>Converted to project <span class="when">14 Oct 2026 · 09:20</span></h3>
+          <p>The request became a project with three milestones. Milestone 1 covered discovery and wireframes;
+            milestone 2 the storefront build.</p>
+          <p class="who">Studio · operations</p>
+        </article>
+        <article class="stg" data-state="done">
+          <span class="dot"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+          <h3>In progress <span class="when">15 Oct 2026</span></h3>
+          <p>Delivery started. Milestone 1 was approved the same day it was submitted for review.</p>
+          <p class="who">Studio · Rahul</p>
+        </article>
+        <article class="stg" data-state="current">
+          <span class="dot">●</span>
+          <h3>Awaiting milestone 2 approval <span class="when">now</span></h3>
+          <p>The storefront build was pushed to staging 14 minutes ago. Approving it releases the ₹30,000 payment
+            on 30 Oct — the milestone states the reason, so nothing is guessed.</p>
+          <p class="who">Waiting on you</p>
+        </article>
+        <article class="stg">
+          <span class="dot"></span>
+          <h3>Delivered <span class="when">expected 30 Oct 2026</span></h3>
+          <p>Final handover with source files, documentation and a walkthrough recording.</p>
+        </article>
+        <article class="stg">
+          <span class="dot"></span>
+          <h3>Closed <span class="when">after delivery</span></h3>
+          <p>The record stays readable with its quote, invoices and payment references.</p>
+        </article>
+      </div>
+    </section>
+
+    <aside class="rail" aria-label="Request details">
+      <div class="rc">
+        <header><h2>Details</h2><span class="pill pill--ok">Converted</span></header>
+        <div class="kv"><span>Reference</span><b>NL-REQ-2026-0018</b></div>
+        <div class="kv"><span>Category</span><b>E-commerce</b></div>
+        <div class="kv"><span>Budget given</span><b>₹1,20,000 – ₹1,60,000</b></div>
+        <div class="kv"><span>Quoted</span><b>₹1,42,000</b></div>
+        <div class="kv"><span>Ideal start</span><b>14 Oct 2026</b></div>
+        <div class="kv"><span>Live by</span><b>30 Oct 2026</b></div>
+      </div>
+
+      <div class="rc">
+        <header><h2>Requirements</h2></header>
+        <div class="chips">
+          <span class="chip">Razorpay checkout</span><span class="chip">Subscription bundles</span>
+          <span class="chip">Mobile-first</span><span class="chip">Hindi + English</span>
+          <span class="chip">WCAG AA</span><span class="chip">Inventory sync</span>
+        </div>
+      </div>
+
+      <div class="rc">
+        <header><h2>Attachments · 3</h2></header>
+        <div class="att"><svg class="i i--sm"><use href="#i-attach"/></svg>brand-guidelines.pdf<span>2.4 MB</span></div>
+        <div class="att"><svg class="i i--sm"><use href="#i-attach"/></svg>reference-storefront.png<span>860 KB</span></div>
+        <div class="att"><svg class="i i--sm"><use href="#i-attach"/></svg>product-photography-sheet.xlsx<span>96 KB</span></div>
+      </div>
+
+      <div class="rc">
+        <header><h2>Linked quote</h2><span class="pill pill--ok">Signed</span></header>
+        <div class="quote">
+          <p class="amt">₹1,770</p>
+          <p class="sm">#01a10f80 · ₹1,500 + ₹270 GST · 50/50 (₹885 each)</p>
+          <p class="sm">Valid until Oct 20, 2026 · signed 13 Oct</p>
+          <div class="row mt-12" style="gap:6px;flex-wrap:wrap">
+            <a class="btn btn-s btn-sm" href="../../F11-quote-details/V1/index.html">Open quote</a>
+            <a class="btn btn-g btn-sm" href="../../F09-project-details/V1/index.html">Open project</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F07 Request Details · V1 of 5 — Timeline Led</span>
+      <span class="seg" style="margin-left:auto"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2200);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var stages=[].slice.call(document.querySelectorAll('.stg'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){en.target.dataset.in='1';io.unobserve(en.target);} });
+    },{threshold:.2,rootMargin:'0px 0px -8% 0px'});
+    stages.forEach(function(s){io.observe(s);});
+  } else {
+    stages.forEach(function(s){s.dataset.in='1';});
+  }
+  if(new URLSearchParams(location.search).get('state')==='error'){
+    say('This history could not be refreshed — showing the last known timeline.');
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create account · V4 Wizard Drawer — Nestlancer Portal Lab</title>
+<meta name="description" content="F02 variant 4: a form card beside a 'what happens next' rail, with terms opening in a focus-trapped drawer.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V4 — Wizard Drawer. Geometry: card + rail. Narrative: wizard. Interaction: focus-trapped drawer. */
+.w5{min-height:100vh;background:var(--background);display:flex;flex-direction:column}
+.top5{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 28px;
+  background:var(--card);border-bottom:1px solid var(--border)}
+.b5{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}
+.b5 small{display:block;font-size:11px;color:var(--muted-foreground);font-weight:500}
+.body5{flex:1;max-width:1120px;width:100%;margin:0 auto;padding:28px 28px 44px;
+  display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+@media(max-width:940px){.body5{grid-template-columns:1fr;padding:20px 16px 34px}}
+.acard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);padding:26px;display:grid;gap:16px}
+.acard h1{font-size:clamp(23px,2.6vw,29px);letter-spacing:-.03em;line-height:1.15}
+.acard .lead{font-size:13px;color:var(--muted-foreground);margin-top:5px;line-height:1.55}
+.steps5{display:flex;gap:6px;margin-top:2px}
+.steps5 i{height:4px;border-radius:2px;background:var(--border);flex:1}
+.steps5 i[data-on="1"]{background:var(--primary)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.two{grid-template-columns:1fr}}
+.fieldrow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.termsline{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--muted);font-size:12.5px;line-height:1.5}
+.termsline .grow{color:var(--muted-foreground)}
+.rail5{display:grid;gap:12px;position:sticky;top:20px}
+@media(max-width:940px){.rail5{position:static;order:-1}}
+.rail5 .rc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
+  box-shadow:var(--shadow-xs)}
+.rail5 .rc h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:12px}
+.rail5 ol{display:grid;gap:0;counter-reset:r5;list-style:none}
+.rail5 li{position:relative;padding:0 0 16px 30px;margin-left:9px;border-left:2px solid var(--border);font-size:12.5px}
+.rail5 li:last-child{border-left-color:transparent;padding-bottom:0}
+.rail5 li::before{counter-increment:r5;content:counter(r5);position:absolute;left:-11px;top:-3px;width:20px;height:20px;
+  border-radius:50%;background:var(--card);border:1.5px solid var(--border);display:grid;place-items:center;
+  font-size:10px;font-weight:700;color:var(--muted-foreground)}
+.rail5 li b{display:block;font-weight:650;font-size:13px;letter-spacing:-.01em}
+.rail5 li span{color:var(--muted-foreground);line-height:1.5;display:block;margin-top:1px}
+.est{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--border)}
+.est:last-of-type{border-bottom:0}
+.est span{color:var(--muted-foreground)}
+.sent{border:1px solid var(--status-success-border);background:var(--status-success-bg);
+  color:var(--status-success-text);border-radius:var(--radius-md);padding:13px 14px;font-size:12.5px;line-height:1.55}
+.foot5{max-width:1120px;width:100%;margin:0 auto;padding:0 28px 30px;display:flex;gap:12px;flex-wrap:wrap;
+  align-items:center;font-size:12px;color:var(--muted-foreground)}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(11,20,36,.5);z-index:60;opacity:0;pointer-events:none;
+  transition:opacity var(--duration-normal)}
+.scrim[data-open="1"]{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--card);z-index:61;
+  border-left:1px solid var(--border);box-shadow:-18px 0 44px rgba(11,20,36,.22);
+  transform:translateX(100%);transition:transform var(--duration-normal) var(--ease-out);
+  display:flex;flex-direction:column;visibility:hidden}
+.drawer[data-open="1"]{transform:none;visibility:visible}
+.drawer header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;
+  align-items:center;gap:12px}
+.drawer header h2{font-size:16px;letter-spacing:-.02em}
+.drawer .dbody{padding:20px;overflow:auto;font-size:13px;line-height:1.65;color:var(--muted-foreground);flex:1}
+.drawer .dbody h3{font-size:13px;color:var(--foreground);margin:16px 0 4px;letter-spacing:-.01em}
+.drawer .dbody h3:first-child{margin-top:0}
+.drawer footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+.cookie{position:fixed;left:16px;right:16px;bottom:16px;z-index:40;max-width:540px;display:flex;gap:10px;
+  align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:12px 14px;font-size:12.5px;color:var(--muted-foreground)}
+@media(prefers-reduced-motion:reduce){.drawer,.scrim{transition:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="w5">
+  <div class="top5">
+    <a class="b5" href="../../../index.html"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="gap:8px">
+      <a class="link" style="font-size:12.5px" href="../../F01-auth-login/V1/index.html">Sign in</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </div>
+
+  <main id="main" class="body5">
+    <form class="acard" data-reg novalidate aria-labelledby="h5">
+      <div>
+        <div class="steps5" aria-hidden="true"><i data-on="1"></i><i data-on="1"></i><i data-on="0"></i></div>
+        <h1 id="h5">Create your client account</h1>
+        <p class="lead">Two steps in one card — details, then consent. Administrator and operator accounts are
+          issued by your team, not created here.</p>
+      </div>
+
+      <div class="two">
+        <div class="fld"><label class="lbl" for="fn">First name <span class="req" aria-hidden="true">*</span></label>
+          <input class="inp" id="fn" autocomplete="given-name" required autofocus></div>
+        <div class="fld"><label class="lbl" for="ln">Last name <span class="req" aria-hidden="true">*</span></label>
+          <input class="inp" id="ln" autocomplete="family-name" required></div>
+      </div>
+      <div class="fld"><label class="lbl" for="em">Email <span class="req" aria-hidden="true">*</span></label>
+        <input class="inp" id="em" type="email" autocomplete="email" placeholder="you@company.com" required>
+        <p class="err" data-err="em" hidden>Enter a valid email address.</p></div>
+      <div class="fld"><label class="lbl" for="pw">Password <span class="req" aria-hidden="true">*</span></label>
+        <input class="inp" id="pw" type="password" autocomplete="new-password" required minlength="8">
+        <p class="small muted">At least 8 characters. The rail explains why length wins over symbols.</p></div>
+      <div class="fld"><label class="lbl" for="pw2">Confirm password <span class="req" aria-hidden="true">*</span></label>
+        <input class="inp" id="pw2" type="password" autocomplete="new-password" required>
+        <p class="err" data-err="pw2" hidden>Passwords do not match yet.</p></div>
+
+      <div class="termsline">
+        <input type="checkbox" id="terms" aria-describedby="termshint">
+        <div class="grow">
+          <span id="termshint">I agree to the <b>Terms of Service</b> and <b>Privacy Policy</b>.</span>
+          <div class="mt-8 row" style="gap:8px;flex-wrap:wrap">
+            <button class="btn btn-g btn-sm" type="button" data-open-terms>Read terms</button>
+            <button class="btn btn-g btn-sm" type="button" data-open-privacy>Read privacy</button>
+          </div>
+        </div>
+      </div>
+      <label class="chk"><input type="checkbox" id="mkt"><span>Send me product updates and announcements. (optional)</span></label>
+
+      <button class="btn btn-p btn-block" type="submit" data-submit>Sign up</button>
+      <div class="sent" data-done hidden role="status">
+        <strong>Account created.</strong> Check your inbox for the verification link — it expires in 24 hours.
+        <div class="row mt-12"><a class="btn btn-s btn-sm" href="../../F01-auth-login/V1/index.html">Go to sign in</a></div>
+      </div>
+      <p class="small muted">Already have an account? <a class="link" href="../../F01-auth-login/V1/index.html">Sign in</a>
+        · <a class="link" href="#" data-open-forgot>Forgot your password?</a></p>
+    </form>
+
+    <aside class="rail5" aria-label="What happens next">
+      <div class="rc">
+        <h2>What happens next</h2>
+        <ol>
+          <li><b>Verify your email</b><span>A link lands within a minute; it stays valid for 24 hours.</span></li>
+          <li><b>Send your first request</b><span>Brief, budget and timeline in one form.</span></li>
+          <li><b>Approve a quote</b><span>Signing unlocks the deposit invoice.</span></li>
+          <li><b>Track milestones</b><span>Payment and delivery status side by side.</span></li>
+        </ol>
+      </div>
+      <div class="rc">
+        <h2>Typical first week</h2>
+        <div class="est"><span>Account created</span><b>2 min</b></div>
+        <div class="est"><span>Request reviewed</span><b>1 day</b></div>
+        <div class="est"><span>Quote signed</span><b>2–3 days</b></div>
+        <p class="small muted mt-12" style="margin-bottom:0">Typical timings, not a promise. The studio confirms
+          dates on your quote.</p>
+      </div>
+      <div class="rc">
+        <h2>Operator accounts</h2>
+        <p class="small muted" style="margin:0">Administrator and operator accounts are issued by your team inside
+          the operator console. <a class="link" href="../../F04-global-search/V1/index.html">Operator sign-in</a></p>
+      </div>
+    </aside>
+  </main>
+
+  <div class="foot5">
+    <a href="../../../index.html">← Gallery</a>
+    <span>F02 Auth – Register + Forgot · V4 of 5</span>
+    <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="index.html" aria-current="page">V4</a><a href="../V5/index.html">V5</a></span>
+  </div>
+</div>
+
+<div class="scrim" data-scrim data-open="0"></div>
+<aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dt" data-drawer data-open="0">
+  <header>
+    <h2 id="dt" data-drawer-title>Terms of Service</h2>
+    <button class="iconbtn" type="button" data-close-drawer aria-label="Close dialog"><svg class="i"><use href="#i-x"/></svg></button>
+  </header>
+  <div class="dbody" data-drawer-body></div>
+  <footer>
+    <button class="btn btn-s btn-sm" type="button" data-accept>Accept &amp; close</button>
+    <button class="btn btn-g btn-sm" type="button" data-close-drawer>Close</button>
+  </footer>
+</aside>
+
+<div class="cookie" data-cookie>
+  <p class="grow" style="margin:0">Essential cookies keep you signed in. <a class="link" href="../../F21-settings/V1/index.html">Privacy Policy</a></p>
+  <button class="btn btn-g btn-sm" data-cookie-dismiss>Dismiss</button>
+  <button class="btn btn-s btn-sm" data-cookie-dismiss>Accept</button>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, p=new URLSearchParams(location.search);
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);
+    tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  document.querySelectorAll('[data-cookie-dismiss]').forEach(function(b){
+    b.addEventListener('click',function(){document.querySelector('[data-cookie]').hidden=true;});});
+
+  /* drawer */
+  var drawer=document.querySelector('[data-drawer]'), scrim=document.querySelector('[data-scrim]'),
+      dtitle=document.querySelector('[data-drawer-title]'), dbody=document.querySelector('[data-drawer-body]');
+  var COPY={
+    terms:{t:'Terms of Service',h:'<h3>Scope of work</h3><p>Nestlancer delivers design and development in milestones. Each milestone lists deliverables, a payment amount and a due date before it starts.</p>'+
+      '<h3>Approval and payment</h3><p>A milestone is payable once you approve it. If a deliverable is rejected, the reason is recorded on the milestone and the studio revises it — the payment does not fall due.</p>'+
+      '<h3>Quotes</h3><p>Quotes are valid until the date printed on them. Signing a quote accepts its total, its payment split and its terms.</p>'+
+      '<h3>Termination</h3><p>Either party may end a project at a milestone boundary. Completed milestones remain payable; unused deposits are refunded to the original payment method.</p>'+
+      '<h3>Your data</h3><p>Files, messages and payment references stay available for the life of the account and can be exported from Settings › Files.</p>'},
+    privacy:{t:'Privacy Policy',h:'<h3>What we store</h3><p>Account details, project briefs, messages, uploaded files and payment references. Card details are never stored by Nestlancer — they are handled by Razorpay.</p>'+
+      '<h3>Who sees it</h3><p>Your studio team and the platform operators who support your account. Administrators can view audit logs; they cannot read your password.</p>'+
+      '<h3>Cookies</h3><p>Essential cookies only, used to keep you signed in and remember your theme preference. No advertising trackers.</p>'+
+      '<h3>Retention and export</h3><p>Records are kept while the account is active. You can export invoices and files at any time from Billing and Settings › Files.</p>'}
+  };
+  var lastFocus=null;
+  function focusables(){return [].slice.call(drawer.querySelectorAll('button,[href],input,summary,[tabindex]:not([tabindex="-1"])'))
+    .filter(function(el){return !el.disabled && el.offsetParent!==null;});}
+  function openDrawer(kind){
+    var c=COPY[kind]||COPY.terms;
+    dtitle.textContent=c.t; dbody.innerHTML=c.h;
+    lastFocus=document.activeElement;
+    drawer.dataset.open='1'; scrim.dataset.open='1';
+    document.body.style.overflow='hidden';
+    var f=focusables(); if(f[0])f[0].focus();
+  }
+  function closeDrawer(){
+    drawer.dataset.open='0'; scrim.dataset.open='0';
+    document.body.style.overflow='';
+    if(lastFocus)lastFocus.focus();
+  }
+  document.querySelector('[data-open-terms]').addEventListener('click',function(){openDrawer('terms');});
+  document.querySelector('[data-open-privacy]').addEventListener('click',function(){openDrawer('privacy');});
+  document.querySelectorAll('[data-close-drawer]').forEach(function(b){b.addEventListener('click',closeDrawer);});
+  scrim.addEventListener('click',closeDrawer);
+  drawer.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){e.preventDefault();closeDrawer();return;}
+    if(e.key!=='Tab')return;
+    var f=focusables(); if(!f.length)return;
+    var first=f[0], last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  });
+  document.querySelector('[data-accept]').addEventListener('click',function(){
+    document.getElementById('terms').checked=true; closeDrawer(); say('Terms accepted.');
+  });
+  var fg=document.querySelector('[data-open-forgot]');
+  fg.addEventListener('click',function(e){e.preventDefault();say('Use the reset form on variant V1, or email support@nestlancer.com.');});
+
+  /* validation */
+  var pw=document.getElementById('pw'), pw2=document.getElementById('pw2');
+  pw2.addEventListener('input',function(){
+    var bad=this.value.length>0&&this.value!==pw.value;
+    document.querySelector('[data-err="pw2"]').hidden=!bad;
+    this.setAttribute('aria-invalid',String(bad));
+  });
+  document.querySelector('[data-reg]').addEventListener('submit',function(e){
+    e.preventDefault();
+    var fn=document.getElementById('fn'), ln=document.getElementById('ln'), em=document.getElementById('em');
+    var emOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em.value.trim());
+    document.querySelector('[data-err="em"]').hidden=emOk;
+    if(!emOk){em.focus();say('Enter a valid email address.');return;}
+    if(!fn.value.trim()){fn.focus();return;}
+    if(!ln.value.trim()){ln.focus();return;}
+    if(pw.value.length<8){pw.focus();say('Password needs at least 8 characters.');return;}
+    if(pw.value!==pw2.value){pw2.focus();say('Passwords do not match yet.');return;}
+    if(!document.getElementById('terms').checked){document.getElementById('terms').focus();
+      say('Read and accept the terms — use “Read terms” to open them.');return;}
+    var b=document.querySelector('[data-submit]'); b.classList.add('is-loading');
+    setTimeout(function(){b.classList.remove('is-loading');
+      if(p.get('state')==='error'){say('That email already has an account — sign in instead.');return;}
+      document.querySelector('[data-done]').hidden=false; b.disabled=true;
+      say('Account created — check your inbox.');},700);
+  });
+})();
+</script>
+</body>
+</html>

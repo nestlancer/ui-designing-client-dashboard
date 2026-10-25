@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project · V1 Tab Classic — Nestlancer Portal Lab</title>
+<meta name="description" content="F09 variant 1: header with 57% and 1/2 milestones, a sticky six-tab bar with deep links, milestone dual status and approval actions.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Tab Classic. A tabbed · B status-first · D medium · E sticky tab bar + deep links. */
+.shell{min-height:100vh;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr)}
+@media(max-width:980px){.shell{grid-template-columns:1fr}}
+.side{background:var(--card);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:3px;
+  position:sticky;top:0;height:100vh}
+@media(max-width:980px){.side{display:none}}
+.side .brandline{margin-bottom:14px;padding:0 8px}
+.navi{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;
+  color:var(--muted-foreground);font-weight:550}
+.navi[aria-current="page"]{background:var(--brand-50);color:var(--brand-700);font-weight:650}
+.dark .navi[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+.main{min-width:0;padding:0 0 44px}
+.phead{background:var(--card);border-bottom:1px solid var(--border);padding:18px 24px 0;position:sticky;top:0;z-index:15}
+.hrow{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start}
+.crumb{font-size:11.5px;color:var(--muted-foreground);margin-bottom:5px}
+h1{font-size:24px;letter-spacing:-.035em;line-height:1.2}
+.hmeta{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-top:8px;font-size:11.5px;color:var(--muted-foreground)}
+.hacts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.progblock{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:14px 0 0;padding-bottom:14px}
+.ring{--v:57;width:62px;height:62px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:conic-gradient(var(--primary) calc(var(--v)*1%), var(--muted) 0);position:relative}
+.ring::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--card)}
+.ring b{position:relative;font-size:14px;letter-spacing:-.02em;font-variant-numeric:var(--tabnum)}
+.minis{display:flex;gap:22px;flex-wrap:wrap}
+.mini{font-size:11px;color:var(--muted-foreground);letter-spacing:.03em}
+.mini b{display:block;font-size:13.5px;color:var(--foreground);font-weight:650;margin-top:2px;letter-spacing:-.01em}
+.tabs{display:flex;gap:0;overflow-x:auto;margin-top:2px}
+.tabs button{padding:10px 13px;font-size:12.5px;font-weight:650;color:var(--muted-foreground);
+  border-bottom:2px solid transparent;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.tabs button[aria-selected="true"]{color:var(--foreground);border-bottom-color:var(--primary)}
+.tabs .n{font-size:10px;background:var(--muted);border-radius:999px;padding:1px 6px;color:var(--muted-foreground)}
+.tabs button[aria-selected="true"] .n{background:var(--brand-50);color:var(--brand-700)}
+.wrap{padding:18px 24px 0;max-width:1000px}
+.panel[hidden]{display:none}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
+  box-shadow:var(--shadow-xs);margin-bottom:14px}
+.card h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700;
+  margin-bottom:10px}
+.card p.body{font-size:13px;line-height:1.65;margin:0;max-width:68ch}
+.ms{display:grid;gap:0}
+.msrow{display:grid;grid-template-columns:26px minmax(0,1fr) 190px;gap:12px;padding:13px 0;
+  border-bottom:1px solid var(--border);align-items:start}
+.msrow:last-child{border-bottom:0}
+.msrow .n{width:22px;height:22px;border-radius:50%;background:var(--muted);color:var(--muted-foreground);
+  display:grid;place-items:center;font-size:11px;font-weight:700}
+.msrow[data-s="done"] .n{background:var(--status-success-bg);color:var(--status-success-text)}
+.msrow[data-s="next"] .n{background:var(--status-warning-bg);color:var(--status-warning-text)}
+.msrow b{font-size:13.5px;letter-spacing:-.01em}
+.msrow p{font-size:12px;color:var(--muted-foreground);margin:3px 0 0;line-height:1.55}
+.msrow .amt{font-size:12.5px;font-variant-numeric:var(--tabnum);font-weight:600}
+.dual{display:grid;gap:5px;margin-top:6px}
+.dual .d{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted-foreground);
+  border:1px solid var(--border);border-radius:var(--radius-sm);padding:4px 8px;background:var(--background)}
+.dual .d b{font-weight:650;color:var(--foreground);font-size:11px}
+.msacts{display:flex;flex-direction:column;gap:6px}
+@media(max-width:820px){.msrow{grid-template-columns:26px minmax(0,1fr)}
+  .msacts{grid-column:2;flex-direction:row;flex-wrap:wrap;margin-top:8px}}
+.dlv{display:grid;gap:8px}
+.dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:10px 12px;background:var(--background)}
+.dl b{font-size:12.5px;font-weight:650;display:block}
+.dl span{font-size:11px;color:var(--muted-foreground)}
+.filelist{display:grid;gap:6px}
+.file{display:flex;gap:9px;align-items:center;font-size:12.5px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:8px 10px;background:var(--card)}
+.file span{margin-left:auto;color:var(--muted-foreground);font-size:10.5px}
+.feed{display:grid;gap:0}
+.fev{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px;line-height:1.5}
+.fev:last-child{border-bottom:0}
+.fev .d{width:7px;height:7px;border-radius:50%;background:var(--brand-400);margin-top:6px;flex:none}
+.fev .when{margin-left:auto;color:var(--muted-foreground);font-size:10.5px;white-space:nowrap}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);
+  margin:8px 24px 0}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:720px){.phead,.wrap{padding-left:14px;padding-right:14px}.vfoot{margin-left:14px;margin-right:14px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 12h5l2 3h4l2-3h5"/><path d="M5 5h14l2 7v7H3v-7z"/></symbol>
+  <symbol id="i-attach" viewBox="0 0 24 24"><path d="M21 11 12.5 19.5a5 5 0 0 1-7-7L14 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L16 6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the project</a>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brandline"><span class="brand-mark">N</span><span>Nestlancer<small>Client portal</small></span></div>
+    <a class="navi" href="../../F03-dashboard-overview/V1/index.html"><svg class="i i--sm"><use href="#i-home"/></svg>Overview</a>
+    <a class="navi" href="../../F05-requests-work-hub/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Requests</a>
+    <a class="navi" href="../../F08-projects-list/V1/index.html" aria-current="page"><svg class="i i--sm"><use href="#i-inbox"/></svg>Projects</a>
+    <a class="navi" href="../../F14-billing/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Billing</a>
+    <a class="navi" href="../../F13-messages-thread/V1/index.html"><svg class="i i--sm"><use href="#i-inbox"/></svg>Messages</a>
+  </aside>
+
+  <main id="main" class="main">
+    <div class="phead">
+      <div class="hrow">
+        <div>
+          <p class="crumb">Projects › Khandesh Spice D2C E-Commerce Store</p>
+          <h1>Khandesh Spice D2C E-Commerce Store</h1>
+          <div class="hmeta">
+            <span class="pill pill--ok">In progress</span><span>Started 5 Oct 2026</span><span>·</span>
+            <span>Owner: Riya Kapoor</span><span>·</span><span>Request NL-REQ-2026-0018</span>
+          </div>
+        </div>
+        <div class="hacts">
+          <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+            <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+          <a class="btn btn-g btn-sm" href="../../F13-messages-thread/V1/index.html">Message</a>
+          <a class="btn btn-p btn-sm" href="#tab-deliverables" data-goto="deliverables">Review deliverable</a>
+        </div>
+      </div>
+
+      <div class="progblock">
+        <div class="ring" role="img" aria-label="57 percent complete"><b>57%</b></div>
+        <div class="minis">
+          <div class="mini">Milestones<b>1 of 2 approved</b></div>
+          <div class="mini">Next payment<b>₹30,000 · 30 Oct</b></div>
+          <div class="mini">Paid so far<b>₹48,000</b></div>
+          <div class="mini">Blocked on<b>your approval</b></div>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Project sections">
+        <button role="tab" id="t1" aria-controls="p1" aria-selected="true">Overview</button>
+        <button role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1">Milestones <span class="n">2</span></button>
+        <button role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1">Deliverables <span class="n">4</span></button>
+        <button role="tab" id="t4" aria-controls="p4" aria-selected="false" tabindex="-1">Files <span class="n">3</span></button>
+        <button role="tab" id="t5" aria-controls="p5" aria-selected="false" tabindex="-1">Messages <span class="n">2</span></button>
+        <button role="tab" id="t6" aria-controls="p6" aria-selected="false" tabindex="-1">Progress</button>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <section class="panel" id="p1" role="tabpanel" aria-labelledby="t1" tabindex="0">
+        <div class="card">
+          <h2>What this project is</h2>
+          <p class="body">A direct-to-consumer store for Khandesh Spice: catalogue, subscription bundles and
+            Razorpay checkout, built mobile-first with Hindi and English copy. Converted from request
+            NL-REQ-2026-0018 on 14 Oct 2026.</p>
+        </div>
+        <div class="card">
+          <h2>Milestone summary</h2>
+          <div class="ms">
+            <div class="msrow" data-s="done">
+              <span class="n"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+              <div><b>Milestone 1 — Discovery &amp; wireframes</b>
+                <p>Approved 15 Oct 2026 · ₹48,000 released to the studio.</p>
+                <div class="dual">
+                  <div class="d"><span>Delivery</span><b>Approved</b></div>
+                  <div class="d"><span>Payment</span><b>Paid · ₹48,000</b></div>
+                </div></div>
+              <div class="msacts"><a class="btn btn-g btn-sm" href="#tab-deliverables" data-goto="deliverables">View signs</a></div>
+            </div>
+            <div class="msrow" data-s="next">
+              <span class="n">2</span>
+              <div><b>Milestone 2 — Storefront build</b>
+                <p>In review since 21 Oct. Staging build pushed 14 minutes ago; due 30 Oct.</p>
+                <div class="dual">
+                  <div class="d"><span>Delivery</span><b>In review</b></div>
+                  <div class="d"><span>Payment</span><b>Not due yet · ₹30,000</b></div>
+                </div></div>
+              <div class="msacts">
+                <a class="btn btn-p btn-sm" href="#tab-deliverables" data-goto="deliverables">Review</a>
+                <button class="btn btn-g btn-sm" data-demo>Request changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" tabindex="0" hidden>
+        <div class="card">
+          <h2>Milestones · 2</h2>
+          <div class="ms">
+            <div class="msrow" data-s="done"><span class="n"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+              <div><b>Milestone 1 — Discovery &amp; wireframes</b><p>Approved 15 Oct · ₹48,000 paid.</p>
+                <div class="dual"><div class="d"><span>Delivery</span><b>Approved</b></div>
+                  <div class="d"><span>Payment</span><b>Paid</b></div></div></div>
+              <div class="msacts"><a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">Invoice</a></div></div>
+            <div class="msrow" data-s="next"><span class="n">2</span>
+              <div><b>Milestone 2 — Storefront build</b><p>Due 30 Oct · ₹30,000 · in review.</p>
+                <div class="dual"><div class="d"><span>Delivery</span><b>In review</b></div>
+                  <div class="d"><span>Payment</span><b>Not due yet</b></div></div></div>
+              <div class="msacts"><button class="btn btn-p btn-sm" data-approve>Approve</button>
+                <button class="btn btn-g btn-sm" data-demo>Reject with reason</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="p3" role="tabpanel" aria-labelledby="t3" tabindex="0" hidden>
+        <div class="card">
+          <h2>Deliverables · preview and approval</h2>
+          <div class="dlv">
+            <div class="dl"><div><b>Storefront — staging build</b><span>Pushed 14 min ago · preview link on staging</span></div>
+              <div class="row" style="gap:6px"><button class="btn btn-s btn-sm" data-demo>Open preview</button>
+                <button class="btn btn-p btn-sm" data-approve>Approve</button></div></div>
+            <div class="dl"><div><b>Product detail page</b><span>Includes variant picker and stock state</span></div>
+              <button class="btn btn-s btn-sm" data-demo>Open preview</button></div>
+            <div class="dl"><div><b>Cart &amp; checkout handoff</b><span>Razorpay redirect, failure copy reviewed</span></div>
+              <button class="btn btn-s btn-sm" data-demo>Open preview</button></div>
+            <div class="dl"><div><b>Wireframes (M1)</b><span>Approved 15 Oct · superseded by the build</span></div>
+              <span class="pill pill--ok">Approved</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Rejection needs a reason</h2>
+          <p class="body">Rejecting a deliverable records the reason on the milestone and pauses the instalment.
+            There is no silent rejection: the studio sees exactly which item failed and why.</p>
+          <div class="row mt-12" style="gap:6px;flex-wrap:wrap">
+            <button class="btn btn-g btn-sm" data-demo>Reject with reason</button>
+            <button class="btn btn-g btn-sm" data-demo>Request changes</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="p4" role="tabpanel" aria-labelledby="t4" tabindex="0" hidden>
+        <div class="card">
+          <h2>Files · 3</h2>
+          <div class="filelist">
+            <div class="file"><svg class="i i--sm"><use href="#i-attach"/></svg>brand-guidelines.pdf<span>2.4 MB · 12 Oct</span></div>
+            <div class="file"><svg class="i i--sm"><use href="#i-attach"/></svg>wireframes-v3.fig<span>18 MB · 15 Oct</span></div>
+            <div class="file"><svg class="i i--sm"><use href="#i-attach"/></svg>staging-build-notes.md<span>6 KB · 21 Oct</span></div>
+          </div>
+          <p class="body mt-12" style="font-size:11.5px;color:var(--muted-foreground)">Files belong to the project, not
+            to a single message — and stay downloadable after delivery. More in
+            <a class="link" href="../../F22-settings-files/V1/index.html">Settings › Files</a>.</p>
+        </div>
+      </section>
+
+      <section class="panel" id="p5" role="tabpanel" aria-labelledby="t5" tabindex="0" hidden>
+        <div class="card">
+          <h2>Messages · 2 unread</h2>
+          <div class="feed">
+            <div class="fev"><span class="d"></span><div><b>Rahul</b> — Hero CTA above the fold?
+              <div style="color:var(--muted-foreground);font-size:11.5px;margin-top:2px">Thread attached to milestone 2.</div></div>
+              <span class="when">1h</span></div>
+            <div class="fev"><span class="d"></span><div><b>Riya Kapoor</b> — Invoice reminder for NL-INV-2026-000044.
+              </div><span class="when">1d</span></div>
+          </div>
+          <a class="btn btn-s btn-sm mt-12" href="../../F13-messages-thread/V1/index.html">Open the thread</a>
+        </div>
+      </section>
+
+      <section class="panel" id="p6" role="tabpanel" aria-labelledby="t6" tabindex="0" hidden>
+        <div class="card">
+          <h2>Progress feed</h2>
+          <div class="feed">
+            <div class="fev"><span class="d"></span><div>Staging build pushed — 14 min ago</div><span class="when">21 Oct</span></div>
+            <div class="fev"><span class="d"></span><div>Milestone 2 entered review</div><span class="when">21 Oct</span></div>
+            <div class="fev"><span class="d"></span><div>Milestone 1 approved and ₹48,000 released</div><span class="when">15 Oct</span></div>
+            <div class="fev"><span class="d"></span><div>Project created from request NL-REQ-2026-0018</div><span class="when">14 Oct</span></div>
+          </div>
+            <p class="body mt-12" style="font-size:11.5px;color:var(--muted-foreground)">The progress feed reads from
+              <code>GET /api/v1/projects/{id}/progress</code>. Planned-versus-delivered and the full activity digest are
+              specified in V3, V4 and V5 of this family.</p>
+        </div>
+      </section>
+
+      <div class="vfoot">
+        <a href="../../../index.html">← Gallery</a>
+        <span>F09 Project Details · V1 of 5 — Tab Classic</span>
+        <span class="seg" style="margin-left:auto"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var tabs=[].slice.call(document.querySelectorAll('[role="tab"]'));
+  var ids=['overview','milestones','deliverables','files','messages','progress'];
+  function sel(i){
+    tabs.forEach(function(t,n){
+      var on=n===i; t.setAttribute('aria-selected',String(on)); t.tabIndex=on?0:-1;
+      var p=document.getElementById(t.getAttribute('aria-controls')); if(p)p.hidden=!on;
+    });
+    if(history.replaceState)history.replaceState(null,'','?tab='+ids[i]);
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){sel(i);});
+    t.addEventListener('keydown',function(e){
+      var n=null;
+      if(e.key==='ArrowRight')n=tabs[(i+1)%tabs.length];
+      if(e.key==='ArrowLeft')n=tabs[(i-1+tabs.length)%tabs.length];
+      if(n){e.preventDefault();var ni=tabs.indexOf(n);sel(ni);n.focus();}
+    });
+  });
+  document.querySelectorAll('[data-goto]').forEach(function(b){
+    b.addEventListener('click',function(e){
+      e.preventDefault();
+      var i=ids.indexOf(b.dataset.goto);
+      if(i>-1)sel(i);
+    });
+  });
+  var want=new URLSearchParams(location.search).get('tab');
+  if(want){var i=ids.indexOf(want);if(i>-1)sel(i);}
+
+  document.querySelectorAll('[data-approve]').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.classList.add('is-loading');
+      setTimeout(function(){
+        b.classList.remove('is-loading');
+        b.textContent='Approved'; b.disabled=true;
+        say('Milestone 2 approved — ₹30,000 releases on 30 Oct.');
+      },800);
+    });
+  });
+  document.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){say(b.textContent.trim()+' — demo action.');});
+  });
+  if(new URLSearchParams(location.search).get('state')==='error'){
+    say('Project feed degraded — milestones may be cached. Retry from Projects.');
+  }
+})();
+</script>
+</body>
+</html>

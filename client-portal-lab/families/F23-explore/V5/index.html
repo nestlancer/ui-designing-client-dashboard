@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explore · V5 Reading List — Nestlancer Portal Lab</title>
+<meta name="description" content="F23 variant 5: a narrow, typographic reading list of posts with generous type, hairline rules and no decoration.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Reading List. A narrow column · D minimal · E none beyond links. */
+.page{max-width:620px;margin:0 auto;padding:0 22px 64px}
+.hd{padding:30px 0 16px}
+.hd .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+.hd h1{font-size:26px;letter-spacing:-.04em;margin-top:7px}
+.hd p{margin:7px 0 0;font-size:12px;line-height:1.7;color:var(--muted-foreground)}\
+.list{margin-top:22px;border-top:1px solid var(--border)}
+.item{display:block;padding:17px 0;border-bottom:1px solid var(--border)}
+.item .k{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+.item h2{font-size:16.5px;letter-spacing:-.03em;line-height:1.3;margin-top:5px;font-weight:650}
+.item:hover h2{color:var(--brand-700)}
+.dark .item:hover h2{color:#9db3ff}
+.item p{margin:5px 0 0;font-size:11.5px;line-height:1.7;color:var(--muted-foreground)}
+.item .m{margin-top:6px;font-size:10px;color:var(--muted-foreground);display:flex;gap:8px}
+.work{margin-top:34px;padding-top:16px;border-top:2px solid var(--foreground)}
+.work h2{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+.work a{display:block;padding:9px 0;border-bottom:1px solid var(--border);font-size:12px;font-weight:600}
+.work a span{display:block;font-weight:500;font-size:10.5px;color:var(--muted-foreground);margin-top:2px}
+.work a:hover{color:var(--brand-700)}
+.dark .work a:hover{color:#9db3ff}
+.foot{margin-top:26px;font-size:10.5px;line-height:1.7;color:var(--muted-foreground)}
+.end{margin-top:16px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to reading list</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="index.html" aria-current="page">Explore</a>
+        <a href="../../F21-settings/V1/index.html">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd">
+      <div class="k">Explore</div>
+      <h1>Studio notes</h1>
+      <p>Nine short reads about how the work runs — written for clients, kept short on purpose. No carousel,
+        no cards, nothing that needs a hover to be useful.</p>
+    </div>
+
+    <div class="list">
+      <a class="item" href="#" data-open>
+        <div class="k">Process · 19 Oct 2026</div>
+        <h2>Approving a milestone, and what happens next</h2>
+        <p>A milestone is a commitment in both directions: approving one unlocks the next payment and closes the
+          stage before it. Here is the sequence, in order.</p>
+        <div class="m"><span>6 min read</span><span>·</span><span>Studio</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Payments · 14 Oct 2026</div>
+        <h2>Why a bank transfer shows as processing</h2>
+        <p>UPI settles immediately. A transfer clears when the bank confirms it, and until then the portal keeps
+          the payment in its own state instead of calling it paid.</p>
+        <div class="m"><span>4 min read</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Briefs · 11 Oct 2026</div>
+        <h2>A brief that survives the first week</h2>
+        <p>Not a moodboard. A paragraph about who buys, and what they must be able to do without asking.</p>
+        <div class="m"><span>5 min read</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Process · 8 Oct 2026</div>
+        <h2>Change requests are priced before they start</h2>
+        <p>Scope changes are fine. Unpriced scope changes are how projects stall. Request, quote, invoice — in
+          that order.</p>
+        <div class="m"><span>3 min read</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Payments · 5 Oct 2026</div>
+        <h2>Invoices, GST and what the PDF actually contains</h2>
+        <p>What is taxable value, what is GST, and why the invoice total is not the same as the amount you
+          approved.</p>
+        <div class="m"><span>5 min read</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Work · 2 Oct 2026</div>
+        <h2>Designing a wholesale portal for a shop floor</h2>
+        <p>Wholesale buyers are not browsing. They are reordering between customers, one-handed, on a mid-range
+          phone.</p>
+        <div class="m"><span>7 min read</span><span>·</span><span>Case study</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Process · 28 Sep 2026</div>
+        <h2>What handover includes</h2>
+        <p>Files, credentials, a design system and a walkthrough — plus the two things nobody documents.</p>
+        <div class="m"><span>4 min read</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Briefs · 21 Sep 2026</div>
+        <h2>Choosing a studio without a pitch deck</h2>
+        <p>Five questions that tell you more than a portfolio page — starting with what happens after week two.</p>
+        <div class="m"><span>6 min read</span></div>
+      </a>
+      <a class="item" href="#" data-open>
+        <div class="k">Work · 12 Sep 2026</div>
+        <h2>Khandesh Spice — from shelf to storefront</h2>
+        <p>A retail brand moving direct, without losing the packaging language its wholesale buyers already
+          recognise.</p>
+        <div class="m"><span>8 min read</span><span>·</span><span>Case study</span></div>
+      </a>
+    </div>
+
+    <section class="work">
+      <h2>Selected work</h2>
+      <a href="#" data-open>Khandesh Spice — D2C storefront
+        <span>Brand · Commerce · Packaging</span></a>
+      <a href="#" data-open>B2B Wholesale Ordering Portal
+        <span>Product · Design system</span></a>
+      <a href="#" data-open>Horizon Retail — campaign site
+        <span>Web · Editorial</span></a>
+    </section>
+
+    <p class="foot">Posts are paged from <code>GET /posts?page=&amp;limit=</code>; this column shows the first
+      nine. If more arrive, a plain “Older notes” link appears at the bottom rather than infinite scroll —
+      because a reading list should have an end you can see.</p>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F23 · V5 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  document.querySelectorAll('[data-open]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=a.querySelector('h2')||a;
+      say('Opening “'+t.textContent.trim()+'” in this tab.');
+    });
+  });
+})();
+</script>
+</body>
+</html>

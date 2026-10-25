@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · V2 Sticky Rail — Nestlancer Portal Lab</title>
+<meta name="description" content="F21 variant 2: a sticky vertical settings rail with scroll-spy sections, an unsaved-changes guard and inline validation.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Sticky Rail. A rail + column · B nav-first · D medium · E scroll-spy + unsaved guard. */
+.page{max-width:1080px;margin:0 auto;padding:0 22px 60px}
+.hd{padding:22px 0 12px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.hd h1{font-size:24px;letter-spacing:-.035em}
+.hd span{font-size:11.5px;color:var(--muted-foreground)}
+.split{display:grid;grid-template-columns:212px minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:860px){.split{grid-template-columns:1fr}}
+.rail{position:sticky;top:calc(var(--header) + 18px);display:grid;gap:2px}
+@media(max-width:860px){.rail{position:static;display:flex;gap:5px;overflow-x:auto;padding-bottom:6px}}
+.rail a{font-size:12px;padding:6px 10px;border-radius:5px;color:var(--muted-foreground);font-weight:600;
+  border-left:2px solid transparent;white-space:nowrap}
+.rail a[aria-current="true"]{background:var(--brand-50);color:var(--brand-800);border-left-color:var(--primary)}
+.dark .rail a[aria-current="true"]{background:#1b2650;color:#c9d6ff}
+.rail .grp{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:12px 10px 4px}
+.sections{display:grid;gap:22px}
+section{scroll-margin-top:calc(var(--header) + 20px)}
+.shd{display:flex;gap:8px;align-items:baseline;margin-bottom:8px;flex-wrap:wrap}
+.shd h2{font-size:15px;letter-spacing:-.02em}
+.shd p{margin:0;font-size:11px;color:var(--muted-foreground)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+.frow{display:grid;grid-template-columns:170px minmax(0,1fr);gap:12px;padding:11px 15px;align-items:center;
+  border-bottom:1px solid var(--border)}
+.frow:last-child{border-bottom:0}
+@media(max-width:640px){.frow{grid-template-columns:1fr;gap:5px}}
+.frow label{font-size:11.5px;font-weight:650}
+.frow label em{display:block;font-style:normal;font-weight:500;font-size:10.5px;color:var(--muted-foreground);
+  margin-top:1px}
+.frow input{width:100%;font:inherit;font-size:12.5px;padding:6px 9px;border:1px solid var(--border);
+  border-radius:5px;background:var(--card);color:var(--foreground);outline:none}
+.frow input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--brand-50)}
+.dark .frow input:focus{box-shadow:0 0 0 3px #1b2650}
+.frow input[aria-invalid="true"]{border-color:var(--status-error-text)}
+.err{font-size:10.5px;color:var(--status-error-text);margin-top:3px;font-weight:600}
+.sw{width:32px;height:18px;border-radius:99px;background:var(--muted);position:relative;flex:none;
+  justify-self:start}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 2px rgba(15,28,46,.3);transition:transform .15s}
+.sw[aria-checked="true"]{background:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(14px)}
+@media(prefers-reduced-motion:reduce){.sw::after{transition:none}}
+.foot{display:flex;gap:7px;align-items:center;padding:10px 15px;background:var(--muted);
+  border-top:1px solid var(--border);flex-wrap:wrap;font-size:10.5px;color:var(--muted-foreground)}
+.foot .r{margin-left:auto;display:flex;gap:5px}
+.savebar{position:sticky;bottom:0;z-index:4;margin-top:14px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 13px;display:flex;gap:9px;
+  align-items:center;flex-wrap:wrap;box-shadow:0 -8px 24px -20px rgba(15,28,46,.5)}
+.savebar .s{font-size:11.5px;font-weight:650;display:flex;gap:6px;align-items:center}
+.savebar .s .dot{width:7px;height:7px;border-radius:50%;background:var(--status-success-text)}
+.savebar[data-dirty="1"] .s .dot{background:var(--status-warning-text)}
+.savebar .r{margin-left:auto;display:flex;gap:6px}
+.end{margin-top:16px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to settings</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="../../F20-profile/V1/index.html">Profile</a>
+        <a href="index.html" aria-current="page">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd"><h1>Settings</h1><span>One long page with a rail — no tab hunt</span></div>
+
+    <div class="split">
+      <nav class="rail" aria-label="Settings sections">
+        <div class="grp">Account</div>
+        <a href="#s-account" aria-current="true">Details</a>
+        <a href="#s-privacy">Privacy</a>
+        <div class="grp">Security</div>
+        <a href="#s-password">Password</a>
+        <a href="#s-2fa">Two-factor</a>
+        <a href="#s-sessions">Sessions</a>
+        <div class="grp">Notifications</div>
+        <a href="#s-notif">Preferences</a>
+        <div class="grp">Data</div>
+        <a href="#s-files">Files</a>
+        <a href="#s-danger">Danger zone</a>
+      </nav>
+
+      <div class="sections">
+        <section id="s-account">
+          <div class="shd"><h2>Account details</h2><p>Used on receipts and quotes.</p></div>
+          <div class="card"><form data-form>
+            <div class="frow"><label for="d1">Display name<em>shown to your studio</em></label>
+              <input id="d1" type="text" value="Arjun Mehta" data-f></div>
+            <div class="frow"><label for="d2">Email<em>changes require verification</em></label>
+              <div><input id="d2" type="text" value="arjun@khandeshspice.example" data-f data-email>
+                <p class="err" data-err hidden></p></div></div>
+            <div class="frow"><label for="d3">Time zone</label>
+              <input id="d3" type="text" value="Asia/Kolkata (IST)" data-f></div>
+            <div class="foot"><span>Fields save together from the bar below.</span>
+              <span class="r"><a class="btn btn-g btn-sm" href="../../F20-profile/V1/index.html">Profile page</a></span>
+            </div></form></div>
+        </section>
+
+        <section id="s-privacy">
+          <div class="shd"><h2>Privacy</h2><p>Applies wherever your card appears.</p></div>
+          <div class="card">
+            <div class="frow"><label for="pv1">Show email to studios<em>otherwise messages only</em></label>
+              <button class="sw" role="switch" aria-checked="true" aria-label="Show email to studios" data-f></button></div>
+            <div class="frow"><label for="pv2">Show company on card</label>
+              <button class="sw" role="switch" aria-checked="true" aria-label="Show company" data-f></button></div>
+            <div class="frow"><label for="pv3">Discoverable by any studio<em>currently studios only</em></label>
+              <button class="sw" role="switch" aria-checked="false" aria-label="Discoverable" data-f></button></div>
+          </div>
+        </section>
+
+        <section id="s-password">
+          <div class="shd"><h2>Password</h2><p>Last changed 12 Aug 2026.</p></div>
+          <div class="card">
+            <div class="frow"><label for="p1">Current password</label>
+              <input id="p1" type="password" value="" autocomplete="current-password"></div>
+            <div class="frow"><label for="p2">New password<em>12 characters minimum</em></label>
+              <input id="p2" type="password" value="" autocomplete="new-password" data-pw></div>
+            <div class="foot"><span>Other sessions are signed out after a change.</span>
+              <span class="r"><button class="btn btn-p btn-sm" data-pwgo>Update password</button></span></div>
+          </div>
+        </section>
+
+        <section id="s-2fa">
+          <div class="shd"><h2>Two-factor authentication</h2><p>Off. Recommended before you add a bank account.</p></div>
+          <div class="card">
+            <div class="frow"><label for="t1">Authenticator app<em>6-digit rotating code</em></label>
+              <button class="sw" role="switch" aria-checked="false" aria-label="Authenticator app" data-f></button></div>
+            <div class="frow"><label for="t2">SMS backup<em>+91 ••••• 43210</em></label>
+              <button class="sw" role="switch" aria-checked="false" aria-label="SMS backup" data-f></button></div>
+          </div>
+        </section>
+
+        <section id="s-sessions">
+          <div class="shd"><h2>Sessions</h2><p>8 active — revoke anything unfamiliar.</p></div>
+          <div class="card" data-sessions>
+            <div class="frow"><label for="x">This device<em>Chrome on macOS · active now</em></label>
+              <span class="pill pill--ok" style="justify-self:start">current session</span></div>
+          </div>
+          <div class="card" style="margin-top:8px"><div class="foot" style="border-top:0;background:transparent">
+            <span><b data-scount>7</b> other sessions can be signed out at once.</span>
+            <span class="r"><button class="btn btn-g btn-sm" data-revokeall>Sign out everywhere else</button></span>
+          </div></div>
+        </section>
+
+        <section id="s-notif">
+          <div class="shd"><h2>Notification preferences</h2><p>18 switches across six categories.</p></div>
+          <div class="card">
+            <div class="frow"><label for="q1">Quotes<em>new, expiring, changed</em></label>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button class="sw" role="switch" aria-checked="true" aria-label="Quotes email" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Quotes in-app" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Quotes push" data-f></button>
+              </div></div>
+            <div class="frow"><label for="q2">Payments<em>receipts, failures</em></label>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button class="sw" role="switch" aria-checked="true" aria-label="Payments email" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Payments in-app" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Payments push" data-f></button>
+              </div></div>
+            <div class="frow"><label for="q3">Messages</label>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button class="sw" role="switch" aria-checked="true" aria-label="Messages email" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Messages in-app" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Messages push" data-f></button>
+              </div></div>
+            <div class="frow"><label for="q4">Projects</label>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button class="sw" role="switch" aria-checked="true" aria-label="Projects email" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Projects in-app" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Projects push" data-f></button>
+              </div></div>
+            <div class="frow"><label for="q5">Requests</label>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button class="sw" role="switch" aria-checked="true" aria-label="Requests email" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Requests in-app" data-f></button>
+                <button class="sw" role="switch" aria-checked="false" aria-label="Requests push" data-f></button>
+              </div></div>
+            <div class="frow"><label for="q6">Account</label>
+              <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <button class="sw" role="switch" aria-checked="true" aria-label="Account email" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Account in-app" data-f></button>
+                <button class="sw" role="switch" aria-checked="true" aria-label="Account push" data-f></button>
+              </div></div>
+          </div>
+        </section>
+
+        <section id="s-files">
+          <div class="shd"><h2>Files</h2><p>Uploads, downloads and generated PDFs.</p></div>
+          <div class="card"><div class="foot" style="border-top:0;background:transparent">
+            <span>The file browser has its own screen with a dropzone and six source tabs.</span>
+            <span class="r"><a class="btn btn-p btn-sm" href="../../F22-settings-files/V1/index.html">Open files</a></span>
+          </div></div>
+        </section>
+
+        <section id="s-danger">
+          <div class="shd"><h2>Danger zone</h2><p>Irreversible from the portal.</p></div>
+          <div class="card" style="border-color:#f3c4c0">
+            <div class="foot" style="border-top:0;background:transparent">
+              <span>Deleting your account removes access now; invoices are retained for statutory periods.</span>
+              <span class="r"><button class="btn btn-d btn-sm" data-del>Delete account</button></span>
+            </div>
+          </div>
+        </section>
+
+        <div class="savebar" data-bar data-dirty="0">
+          <span class="s"><span class="dot"></span><span data-bt>All changes saved</span></span>
+          <span class="r">
+            <button class="btn btn-g btn-sm" data-discard disabled>Discard</button>
+            <button class="btn btn-p btn-sm" data-save disabled>Save changes</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F21 · V2 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  // seven more sessions rendered into the sessions card
+  var host=document.querySelector('[data-sessions]');
+  [['Safari on iPhone 14','Hyderabad, IN · 2 hours ago'],['Chrome on Windows 11','Nashik, IN · 1 day ago'],
+   ['Edge on Windows 10','Mumbai, IN · 3 days ago'],['Chrome on Android','Pune, IN · 6 days ago'],
+   ['Firefox on Ubuntu','Hyderabad, IN · 12 days ago'],['Safari on iPad','Nashik, IN · 18 days ago'],
+   ['Chrome on macOS (old)','Bengaluru, IN · 30 days ago']].forEach(function(s){
+    var row=document.createElement('div'); row.className='frow';
+    var lb=document.createElement('div'); lb.style.cssText='font-size:11.5px;font-weight:650';
+    lb.textContent=s[0];
+    var em=document.createElement('em'); em.style.cssText='display:block;font-style:normal;font-weight:500;'+
+      'font-size:10.5px;color:var(--muted-foreground);margin-top:1px'; em.textContent=s[1];
+    lb.appendChild(em);
+    var btn=document.createElement('button'); btn.className='btn btn-g btn-sm'; btn.textContent='Revoke';
+    btn.style.justifySelf='start';
+    btn.addEventListener('click',function(){
+      row.remove();
+      var n=document.querySelectorAll('[data-sessions] .frow').length-1;
+      document.querySelector('[data-scount]').textContent=Math.max(0,n);
+      say('Session revoked.');
+    });
+    row.appendChild(lb); row.appendChild(btn); host.appendChild(row);
+  });
+
+  // dirty tracking
+  var fields=[].slice.call(document.querySelectorAll('[data-f]')),
+      bar=document.querySelector('[data-bar]'), bt=document.querySelector('[data-bt]'),
+      save=document.querySelector('[data-save]'), disc=document.querySelector('[data-discard]');
+  var base=fields.map(val);
+  function val(f){return f.tagName==='BUTTON'?f.getAttribute('aria-checked'):f.value;}
+  function dirty(){
+    var d=fields.some(function(f,i){return val(f)!==base[i];});
+    bar.dataset.dirty=d?'1':'0'; bt.textContent=d?'Unsaved changes':'All changes saved';
+    save.disabled=!d; disc.disabled=!d;
+  }
+  fields.forEach(function(f){
+    f.addEventListener('input',dirty);
+    if(f.tagName==='BUTTON')f.addEventListener('click',function(){
+      f.setAttribute('aria-checked',val(f)==='true'?'false':'true'); dirty();
+    });
+  });
+  save.addEventListener('click',function(){
+    var bad=document.querySelector('[data-email]'), e=document.querySelector('[data-err]');
+    if(bad.value.indexOf('@')<0){
+      bad.setAttribute('aria-invalid','true'); e.hidden=false; e.textContent='Enter a valid email address.';
+      bad.focus(); return;
+    }
+    bad.removeAttribute('aria-invalid'); e.hidden=true;
+    base=fields.map(val); dirty(); say('Settings saved.');
+  });
+  disc.addEventListener('click',function(){
+    fields.forEach(function(f,i){ if(f.tagName==='BUTTON')f.setAttribute('aria-checked',base[i]); else f.value=base[i]; });
+    document.querySelector('[data-err]').hidden=true;
+    document.querySelector('[data-email]').removeAttribute('aria-invalid');
+    dirty(); say('Changes discarded.');
+  });
+  window.addEventListener('beforeunload',function(e){
+    if(bar.dataset.dirty==='1'){e.preventDefault();e.returnValue='';}
+  });
+
+  document.querySelector('[data-pwgo]').addEventListener('click',function(){
+    var p=document.getElementById('p2');
+    if(p.value.length<12){say('Use at least 12 characters for the new password.');p.focus();return;}
+    p.value=''; document.getElementById('p1').value='';
+    say('Password updated — other sessions signed out.');
+  });
+  document.querySelector('[data-revokeall]').addEventListener('click',function(){
+    document.querySelectorAll('[data-sessions] .frow').forEach(function(r,i){ if(i>0)r.remove(); });
+    document.querySelector('[data-scount]').textContent='0';
+    say('Signed out of 7 other sessions.');
+  });
+  document.querySelector('[data-del]').addEventListener('click',function(){
+    say('Deletion needs a confirmation email — not performed in this lab.');
+  });
+
+  // scroll-spy
+  var links=[].slice.call(document.querySelectorAll('.rail a')),
+      secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(!en.isIntersecting)return;
+        var i=secs.indexOf(en.target);
+        links.forEach(function(a,j){a.setAttribute('aria-current',String(i===j));});
+      });
+    },{rootMargin:'-20% 0px -60% 0px'});
+    secs.forEach(function(s){if(s)io.observe(s);});
+  }
+  dirty();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects · V5 Degraded First — Nestlancer Portal Lab</title>
+<meta name="description" content="F08 variant 5: the incident leads the page — an expandable explainer with a retry, then the cached project cards and a support CTA.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Degraded First. A banner-first · B honesty-first · C narrative · E retry/expand. */
+.page{min-height:100vh;background:var(--background)}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.hero{background:var(--card);border-bottom:1px solid var(--border)}
+.heroin{max-width:1000px;margin:0 auto;padding:26px 20px 24px;display:grid;gap:14px}
+.hero .kicker{display:flex;gap:8px;align-items:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--status-warning-text);font-weight:700}
+.dotlive{width:7px;height:7px;border-radius:50%;background:var(--status-warning-text);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hero h1{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.04em;line-height:1.12;max-width:24ch}
+.hero p.sub{font-size:13.5px;color:var(--muted-foreground);line-height:1.65;max-width:64ch}
+.heroacts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.incident{border:1px solid var(--status-warning-border);background:var(--status-warning-bg);
+  border-radius:var(--radius-lg);padding:14px}
+.incident summary{cursor:pointer;list-style:none;display:flex;gap:10px;align-items:center;font-size:12.5px;
+  font-weight:650;color:var(--status-warning-text)}
+.incident summary::-webkit-details-marker{display:none}
+.incident summary::after{content:"Details";margin-left:auto;font-weight:600;font-size:11.5px;
+  text-decoration:underline;text-underline-offset:2px}
+.incident[open] summary::after{content:"Hide details"}
+.incident .ib{padding-top:12px;display:grid;gap:10px}
+.incident .ib table{width:100%;border-collapse:collapse;font-size:12px}
+.incident .ib th{text-align:left;font-size:10px;letter-spacing:.07em;text-transform:uppercase;opacity:.8;
+  padding:4px 8px 4px 0;font-weight:700}
+.incident .ib td{padding:4px 8px 4px 0;border-top:1px solid var(--status-warning-border);
+  color:var(--status-warning-text);font-variant-numeric:var(--tabnum)}
+.incident .ib p{margin:0;font-size:12px;color:var(--status-warning-text);line-height:1.6}
+.incident code{font-size:11.5px;background:rgba(138,90,0,.12);padding:1px 5px;border-radius:4px}
+.body{max-width:1000px;margin:0 auto;padding:22px 20px 44px}
+.body h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700;
+  margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;
+  box-shadow:var(--shadow-xs);display:grid;gap:9px;border-left:3px solid var(--status-warning-text)}
+.pc .hd{display:flex;gap:8px;align-items:flex-start}
+.pc h3{font-size:14px;letter-spacing:-.02em;line-height:1.35}
+.pc .m{font-size:11.5px;color:var(--muted-foreground)}
+.pc .bar{height:5px;border-radius:999px;background:var(--muted);overflow:hidden}
+.pc .bar i{display:block;height:100%;background:var(--brand-400)}
+.pc .kv{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted-foreground)}
+.pc .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.support{margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.support div b{display:block;font-size:13.5px;letter-spacing:-.01em}
+.support div p{font-size:12px;color:var(--muted-foreground);margin-top:3px;max-width:52ch;line-height:1.55}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:18px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(prefers-reduced-motion:reduce){.dotlive{animation:none}}
+@media(max-width:720px){.heroin,.body{padding-left:14px;padding-right:14px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7v.3M12 17v.5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F03-dashboard-overview/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F05-requests-work-hub/V1/index.html">Work Hub</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="heroin">
+      <p class="kicker"><i class="dotlive" aria-hidden="true"></i>Service incident · projects feed</p>
+      <h1>Projects can't refresh right now.</h1>
+      <p class="sub">The endpoint behind this page — <code>GET /api/v1/projects</code> — is answering with an error, so
+        live milestone and payment states are unavailable. Your projects still exist and nothing has been lost; what
+        you see below is the last successful copy, labelled as such.</p>
+
+      <div class="heroacts">
+        <button class="btn btn-p btn-sm" data-retry><svg class="i i--sm"><use href="#i-refresh"/></svg>Retry now</button>
+        <a class="btn btn-g btn-sm" href="../../F19-notifications/V1/index.html"><svg class="i i--sm"><use href="#i-help"/></svg>Contact support</a>
+        <a class="btn btn-g btn-sm" href="../../F05-requests-work-hub/V1/index.html">Requests still work</a>
+        <span class="muted" style="font-size:11.5px" data-tries>0 retries this session</span>
+      </div>
+
+      <details class="incident">
+        <summary><svg class="i i--sm"><use href="#i-alert"/></svg>What exactly is failing, and what still works</summary>
+        <div class="ib">
+          <table>
+            <tr><th>Endpoint</th><th>Response</th><th>Since</th></tr>
+            <tr><td>GET /api/v1/projects</td><td>502 origin_bad_gateway</td><td>~42 min</td></tr>
+            <tr><td>GET /api/v1/projects/stats</td><td>not attempted</td><td>—</td></tr>
+            <tr><td>GET /api/v1/requests</td><td>200 OK</td><td>live</td></tr>
+            <tr><td>GET /api/v1/quotes</td><td>200 OK</td><td>live</td></tr>
+          </table>
+          <p><code>Retry</code> re-requests the feed and reports the same result honestly rather than showing a
+            spinner that never ends. Requests, quotes, invoices and messaging stay live, so work never fully stops —
+            only project status is blind.</p>
+          <p>If this persists, support can read status server-side and will reply in the message thread attached to
+            your project.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <main id="main" class="body">
+    <h2>Last known project state · cached 42 minutes ago</h2>
+    <div class="grid">
+      <article class="pc">
+        <div class="hd"><h3>Khandesh Spice D2C E-Commerce Store</h3>
+          <span class="pill pill--warn" style="margin-left:auto">Needs you</span></div>
+        <p class="m">In progress · started 5 Oct 2026 · 1 of 2 milestones approved</p>
+        <div class="bar" role="img" aria-label="57 percent"><i style="width:57%"></i></div>
+        <div class="kv"><span>Delivery</span><b>57%</b></div>
+        <div class="kv"><span>Next payment</span><b>₹30,000 · 30 Oct</b></div>
+        <div class="kv"><span>Approval state</span><b>milestone 2 in review</b></div>
+        <div class="acts">
+          <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Open project (may show cache)</a>
+          <a class="btn btn-g btn-sm" href="../../F10-quotes-list/V1/index.html">View quotes</a>
+        </div>
+      </article>
+
+      <article class="pc">
+        <div class="hd"><h3>B2B Wholesale Ordering Portal</h3>
+          <span class="pill pill--info" style="margin-left:auto">On track</span></div>
+        <p class="m">In progress · started 10 May 2026 · 2 of 3 milestones approved</p>
+        <div class="bar" role="img" aria-label="78 percent"><i style="width:78%"></i></div>
+        <div class="kv"><span>Delivery</span><b>78%</b></div>
+        <div class="kv"><span>Next payment</span><b>₹45,000 · on M3 approval</b></div>
+        <div class="kv"><span>Approval state</span><b>milestone 3 in review</b></div>
+        <div class="acts">
+          <a class="btn btn-s btn-sm" href="../../F09-project-details/V1/index.html">Open project</a>
+          <a class="btn btn-g btn-sm" href="../../F13-messages-thread/V1/index.html">Message studio</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="support">
+      <div><b>Still blocked after a retry?</b>
+        <p>Support can confirm milestone and payment state directly from the database while the endpoint is down.
+          Mention <code>origin_bad_gateway</code> and the project name and the reply will be specific.</p></div>
+      <span class="grow"></span>
+      <a class="btn btn-p" href="../../F19-notifications/V1/index.html">Contact support</a>
+    </div>
+
+    <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F08 Projects List · V5 of 5 — Degraded First</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},3200);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var tries=0, btn=document.querySelector('[data-retry]');
+  btn.addEventListener('click',function(){
+    tries++;
+    document.querySelector('[data-tries]').textContent=tries+(tries===1?' retry this session':' retries this session');
+    btn.classList.add('is-loading');
+    setTimeout(function(){
+      btn.classList.remove('is-loading');
+      say(tries===1
+        ? 'Retry failed — still 502 origin_bad_gateway. The cached copy stays visible.'
+        : 'Still failing after '+tries+' attempts. Support is the faster route now — the link is right below.');
+    },1100);
+  });
+  if(new URLSearchParams(location.search).get('state')==='loading'){
+    btn.classList.add('is-loading');
+  }
+})();
+</script>
+</body>
+</html>

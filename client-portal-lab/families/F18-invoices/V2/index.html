@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoices · V2 Statement — Nestlancer Portal Lab</title>
+<meta name="description" content="F18 variant 2: a printable invoice statement with a GST note, per-invoice downloads and an honest demo label on the GST summary export.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Statement. A statement document · D ledger · E print + demo export. */
+body{background:var(--muted)}
+.bar{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.sheet{max-width:880px;margin:0 auto 36px;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:32px 36px 28px}
+.sh-top{display:flex;gap:14px;align-items:flex-start;padding-bottom:15px;border-bottom:2px solid var(--foreground)}
+.sh-top .b{font-weight:800;font-size:14px;letter-spacing:-.03em}
+.sh-top .b span{display:block;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--muted-foreground);margin-top:3px;font-weight:700}
+.sh-top .r{margin-left:auto;text-align:right;font-size:11px;color:var(--muted-foreground);line-height:1.7}
+.sh-top .r b{display:block;color:var(--foreground);font-size:12px}
+h1{font-size:21px;letter-spacing:-.035em;margin:20px 0 3px}
+.sub{font-size:11.5px;color:var(--muted-foreground);margin:0 0 16px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:6px 0;border-bottom:1px solid var(--border)}
+th.r,td.r{text-align:right}
+td{padding:8px 0;border-bottom:1px solid var(--border);vertical-align:middle}
+td .s{display:block;font-size:10.5px;color:var(--muted-foreground);margin-top:2px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10.5px}
+.amt{font-variant-numeric:var(--tabnum);font-weight:600}
+tr.sum td{border-bottom:0;border-top:2px solid var(--foreground);font-weight:700;padding-top:9px}
+tr.sum td.amt{font-size:13.5px}
+.gstbox{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;margin-top:18px;
+  font-size:11px;line-height:1.6;color:var(--muted-foreground);background:var(--background)}
+.gstbox b{color:var(--foreground);display:block;margin-bottom:3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media(max-width:620px){.two{grid-template-columns:1fr}.sheet{padding:20px 16px}}
+.cell{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px}
+.cell .k{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.cell .v{font-size:18px;letter-spacing:-.03em;font-variant-numeric:var(--tabnum);margin-top:4px}
+.footline{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:20px;
+  padding-top:11px;border-top:1px solid var(--border);font-size:10px;color:var(--muted-foreground);flex-wrap:wrap}
+.printonly{display:none}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media print{body{background:#fff}.bar,.seg,.toast{display:none!important}
+  .sheet{box-shadow:none;border:0;margin:0;padding:0;max-width:none}.printonly{display:block}
+  .gstbox{border:1px solid #999}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 17h12v4H6z"/></symbol>
+</svg>
+<a class="skip" href="#stmt">Skip to statement</a>
+<div class="bar">
+  <a class="btn btn-g btn-sm" href="../../F14-billing/V1/index.html">← Billing</a>
+  <strong style="font-size:12.5px">Invoice statement</strong>
+  <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+  <span class="r">
+    <button class="btn btn-g btn-sm" data-print><svg class="i i--sm"><use href="#i-print"/></svg>Print</button>
+    <button class="btn btn-g btn-sm" data-demo>GST summary PDF</button>
+    <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+  </span>
+</div>
+
+<main id="stmt">
+<article class="sheet">
+  <div class="sh-top">
+    <div class="b">Nestlancer<span>Invoice statement</span></div>
+    <div class="r"><b>STMT-INV-2026-10</b>
+      Period 20 Sep – 18 Oct 2026<br>Prepared for Arjun Mehta · 5 invoices</div>
+  </div>
+
+  <h1>Invoice statement</h1>
+  <p class="sub">Every invoice issued to your account in the period, with its status and total. GST is included in
+    each invoice value.</p>
+
+  <table>
+    <caption class="sr-only">Invoices in the statement period</caption>
+    <thead><tr><th scope="col">Invoice</th><th scope="col">Project</th><th scope="col">Issued</th>
+      <th scope="col">Status</th><th scope="col" class="r">Total</th><th scope="col"></th></tr></thead>
+    <tbody data-body>
+      <tr data-amt="1875"><td class="mono">NL-INV-2026-000045</td><td>Horizon Retail</td>
+        <td>18 Oct 2026</td><td><span class="pill pill--warn">pending</span></td>
+        <td class="r amt">₹1,875.00</td><td class="r"><button class="btn btn-g btn-sm" data-dl>PDF</button></td></tr>
+      <tr data-amt="22500"><td class="mono">NL-INV-2026-000005</td><td>Khandesh Spice D2C</td>
+        <td>15 Oct 2026</td><td><span class="pill pill--ok">paid</span></td>
+        <td class="r amt">₹22,500.00</td><td class="r"><button class="btn btn-g btn-sm" data-dl>PDF</button></td></tr>
+      <tr data-amt="30000"><td class="mono">NL-INV-2026-000004</td><td>Khandesh Spice D2C</td>
+        <td>14 Oct 2026</td><td><span class="pill pill--info">issued</span></td>
+        <td class="r amt">₹30,000.00</td><td class="r"><button class="btn btn-g btn-sm" data-dl>PDF</button></td></tr>
+      <tr data-amt="22000"><td class="mono">NL-INV-2026-000002</td><td>B2B Wholesale</td>
+        <td>28 Sep 2026</td><td><span class="pill pill--ok">paid</span></td>
+        <td class="r amt">₹22,000.00</td><td class="r"><button class="btn btn-g btn-sm" data-dl>PDF</button></td></tr>
+      <tr data-amt="10625"><td class="mono">NL-INV-2026-000001</td><td>Horizon Retail</td>
+        <td>20 Sep 2026</td><td><span class="pill pill--ok">paid</span></td>
+        <td class="r amt">₹10,625.00</td><td class="r"><button class="btn btn-g btn-sm" data-dl>PDF</button></td></tr>
+      <tr class="sum"><td colspan="4">Total invoiced</td>
+        <td class="r amt" data-total>₹87,000.00</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="two">
+    <div class="cell"><p class="k">Collected on these invoices</p><p class="v">₹55,125.00</p></div>
+    <div class="cell"><p class="k">Still open</p><p class="v">₹31,875.00</p></div>
+  </div>
+
+  <div class="gstbox">
+    <b>GST note</b>
+    Taxable value and GST are split inside each individual invoice PDF (for example ₹19,067.80 + ₹3,432.20 on
+    NL-INV-2026-000005). A combined GST summary export is <b>not</b> produced by the API — the button above is
+    labelled demo-only for that reason.
+  </div>
+
+  <div class="footline">
+    <span>STMT-INV-2026-10 · generated 22 Oct 2026 · Nestlancer</span>
+    <span class="printonly">Printed from the portal · page 1</span>
+    <span><a href="../../F14-billing/V1/index.html">Billing</a> · <a href="../../../index.html">Gallery</a></span>
+  </div>
+</article>
+</main>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2800);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  document.querySelector('[data-print]').addEventListener('click',function(){if(window.print)window.print();});
+  document.querySelector('[data-demo]').addEventListener('click',function(){
+    say('A combined GST summary PDF is demo-only — only per-invoice downloads exist.');
+  });
+  document.querySelectorAll('[data-dl]').forEach(function(b){
+    b.addEventListener('click',function(){say('Per-invoice PDF download is demo-only in this lab.');});
+  });
+})();
+</script>
+</body>
+</html>

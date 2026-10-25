@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project · V3 Queue + Unlock — Nestlancer Portal Lab</title>
+<meta name="description" content="F09 variant 3: a queue of items waiting on you beside an unlock rail, with reject-with-reason in a focus-trapped drawer and an expectation log.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Queue + Unlock. A queue+rail · B action-first · C queue · E reject drawer + A14 expectation log. */
+.page{min-height:100vh;background:var(--background)}
+.top{height:var(--header);background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;
+  gap:12px;padding:0 20px}
+.brandline{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:10.5px;color:var(--muted-foreground);font-weight:500}
+.wrap{max-width:1120px;margin:0 auto;padding:20px 20px 40px}
+.head{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:14px}
+.head h1{font-size:23px;letter-spacing:-.035em;line-height:1.2}
+.head p{font-size:12.5px;color:var(--muted-foreground);margin-top:4px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;align-items:start}
+@media(max-width:920px){.cols{grid-template-columns:1fr}}
+.qhd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.qhd h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700}
+.qhd .n{font-size:10.5px;background:var(--status-warning-bg);color:var(--status-warning-text);border-radius:999px;
+  padding:1px 7px;font-weight:700}
+.qitem{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;
+  margin-bottom:10px;box-shadow:var(--shadow-xs);border-left:3px solid var(--status-warning-text)}
+.qitem.done{border-left-color:var(--status-success-text);opacity:.85}
+.qitem .r1{display:flex;gap:10px;align-items:flex-start}
+.qitem h3{font-size:14px;letter-spacing:-.02em;line-height:1.35}
+.qitem .why{font-size:12px;color:var(--muted-foreground);margin-top:5px;line-height:1.55}
+.qitem .facts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px;font-size:11px;color:var(--muted-foreground)}
+.qitem .facts span{border:1px solid var(--border);border-radius:999px;padding:2px 9px;background:var(--background)}
+.qitem .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.rail{display:grid;gap:12px;position:sticky;top:16px}
+@media(max-width:920px){.rail{position:static}}
+.rc{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:15px;
+  box-shadow:var(--shadow-xs)}
+.rc h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);font-weight:700;
+  margin-bottom:10px}
+.unlock{display:grid;gap:9px}
+.ul{display:grid;grid-template-columns:26px minmax(0,1fr);gap:9px;align-items:start;font-size:12.5px}
+.ul .ic{width:24px;height:24px;border-radius:6px;display:grid;place-items:center;background:var(--muted);
+  color:var(--muted-foreground);font-size:11px;font-weight:700}
+.ul[data-on="1"] .ic{background:var(--status-success-bg);color:var(--status-success-text)}
+.ul[data-lock="1"] .ic{background:var(--status-warning-bg);color:var(--status-warning-text)}
+.ul b{display:block;font-weight:650;letter-spacing:-.01em}
+.ul span{font-size:11px;color:var(--muted-foreground);line-height:1.5;display:block;margin-top:1px}
+.expect{display:grid;gap:7px}
+.exp{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;font-size:12px;align-items:baseline;
+  padding-bottom:7px;border-bottom:1px solid var(--border)}
+.exp:last-child{border-bottom:0;padding-bottom:0}
+.exp .st{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.exp .st[data-k="yes"]{color:var(--status-success-text)}
+.exp .st[data-k="no"]{color:var(--status-warning-text)}
+.exp .st[data-k="pending"]{color:var(--muted-foreground)}
+.railnote{font-size:11px;color:var(--muted-foreground);line-height:1.55;margin-top:9px}
+.vfoot{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted-foreground);margin-top:16px}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:4px 8px;border-radius:var(--radius-sm);color:var(--muted-foreground);font-weight:600}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(11,20,36,.5);z-index:60;opacity:0;pointer-events:none;
+  transition:opacity var(--duration-normal)}
+.scrim[data-open="1"]{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--card);z-index:61;
+  border-left:1px solid var(--border);box-shadow:-16px 0 40px rgba(11,20,36,.2);transform:translateX(100%);
+  transition:transform var(--duration-normal) var(--ease-out);display:flex;flex-direction:column;visibility:hidden}
+.drawer[data-open="1"]{transform:none;visibility:visible}
+.drawer header{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.drawer header h2{font-size:15px;letter-spacing:-.02em;line-height:1.35}
+.drawer .db{padding:16px 18px;overflow:auto;flex:1;display:grid;gap:12px;font-size:12.5px;line-height:1.6}
+.drawer footer{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:7px;justify-content:flex-end}
+.reasons{display:grid;gap:6px}
+.reasons label{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:8px 10px;cursor:pointer;background:var(--card)}
+.reasons label:has(input:checked){border-color:var(--brand-300);background:var(--brand-50)}
+.dark .reasons label:has(input:checked){background:#1b2650;border-color:#33447e}
+@media(prefers-reduced-motion:reduce){.drawer,.scrim{transition:none}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the queue</a>
+
+<div class="page">
+  <header class="top">
+    <a class="brandline" href="../../F08-projects-list/V1/index.html"><span class="brand-mark">N</span>
+      <span>Nestlancer<small>Client portal</small></span></a>
+    <div class="row" style="margin-left:auto;gap:8px">
+      <a class="link link--quiet" style="font-size:12.5px" href="../../F08-projects-list/V1/index.html">All projects</a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <div class="head">
+      <div>
+        <h1>Khandesh Spice D2C E-Commerce Store</h1>
+        <p>57% · 1 of 2 milestones approved · ₹48,000 paid · ₹30,000 next on 30 Oct</p>
+      </div>
+      <span class="grow"></span>
+      <span class="pill pill--warn">1 item needs you</span>
+    </div>
+
+    <div class="cols">
+      <div>
+        <div class="qhd"><h2>Waiting on you</h2><span class="n">1</span>
+          <span class="grow"></span>
+          <span style="font-size:11.5px;color:var(--muted-foreground)">Approval and payment are separate decisions</span></div>
+
+        <article class="qitem">
+          <div class="r1"><h3>Milestone 2 — Storefront build</h3>
+            <span class="pill pill--warn" style="margin-left:auto">In review</span></div>
+          <p class="why">Four deliverables are ready: storefront, product detail, cart and checkout handoff. The
+            staging build was pushed 14 minutes ago with notes on what changed since milestone 1.</p>
+          <div class="facts"><span>₹30,000</span><span>due 30 Oct 2026</span><span>4 deliverables</span>
+            <span>preview on staging</span></div>
+          <div class="acts">
+            <button class="btn btn-p btn-sm" data-approve>Approve deliverable</button>
+            <button class="btn btn-s btn-sm" data-open-reject>Reject with reason</button>
+            <a class="btn btn-g btn-sm" href="../../F13-messages-thread/V1/index.html">Ask a question</a>
+          </div>
+        </article>
+
+        <article class="qitem done">
+          <div class="r1"><h3>Milestone 1 — Discovery &amp; wireframes</h3>
+            <span class="pill pill--ok" style="margin-left:auto">Approved</span></div>
+          <p class="why">Approved 15 Oct 2026 and paid the same day. The expectation log on the right records that
+            promise against delivery.</p>
+          <div class="facts"><span>₹48,000</span><span>paid</span><span>5 wireframe sheets</span></div>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F18-invoices/V1/index.html">View invoice</a></div>
+        </article>
+
+        <div class="qhd" style="margin-top:18px"><h2>Already settled</h2><span class="grow"></span>
+          <span style="font-size:11.5px;color:var(--muted-foreground)">kept visible for the audit trail</span></div>
+        <article class="qitem done" style="border-left-color:var(--border)">
+          <div class="r1"><h3>Quote #01a10f80</h3><span class="pill pill--ok" style="margin-left:auto">Signed</span></div>
+          <p class="why">₹1,770 total, split 50/50. Signature recorded 13 Oct 2026; the quote cannot be edited after
+            signing, which is why changed scope produces a new quote.</p>
+          <div class="acts"><a class="btn btn-g btn-sm" href="../../F11-quote-details/V1/index.html">Open quote</a></div>
+        </article>
+      </div>
+
+      <aside class="rail" aria-label="Unlock state and expectations">
+        <div class="rc">
+          <h2>What unlocks what</h2>
+          <div class="unlock">
+            <div class="ul" data-on="1"><span class="ic"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg></span>
+              <div><b>Milestone 1 approved</b><span>Unlocked ₹48,000 and the build phase.</span></div></div>
+            <div class="ul" data-lock="1"><span class="ic"><svg class="i" style="width:11px;height:11px"><use href="#i-lock"/></svg></span>
+              <div><b>Milestone 2 approval</b><span>Unlocks the ₹30,000 instalment due 30 Oct.</span></div></div>
+            <div class="ul" data-lock="1"><span class="ic"><svg class="i" style="width:11px;height:11px"><use href="#i-lock"/></svg></span>
+              <div><b>Milestone 3</b><span>Locked until milestone 2 clears — handover and launch.</span></div></div>
+            <div class="ul"><span class="ic">4</span>
+              <div><b>Files stay available</b><span>Downloads continue after delivery; nothing is archived away.</span></div></div>
+          </div>
+        </div>
+
+        <div class="rc">
+          <h2>Expectation log</h2>
+          <div class="expect">
+            <div class="exp"><span>Discovery notes</span><span class="st" data-k="yes">Delivered</span></div>
+            <div class="exp"><span>Wireframes</span><span class="st" data-k="yes">Delivered</span></div>
+            <div class="exp"><span>Storefront build</span><span class="st" data-k="pending">In review</span></div>
+            <div class="exp"><span>Product detail pages</span><span class="st" data-k="pending">In review</span></div>
+            <div class="exp"><span>Cart &amp; checkout</span><span class="st" data-k="pending">In review</span></div>
+            <div class="exp"><span>Launch walkthrough</span><span class="st" data-k="no">Not started</span></div>
+          </div>
+          <p class="railnote">Promised against delivered, item by item — so “almost done” is never the only status.</p>
+        </div>
+
+        <div class="rc">
+          <h2>Project</h2>
+          <p class="railnote" style="margin-top:0">Started 5 Oct 2026 · owner Riya Kapoor · converted from
+            NL-REQ-2026-0018.<br><br>
+            <a class="link" href="../../F07-request-details/V1/index.html">Open original request</a><br>
+            <a class="link" href="../../F22-settings-files/V1/index.html">All project files</a></p>
+        </div>
+      </aside>
+    </div>
+
+    <div class="vfoot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F09 Project Details · V3 of 5 — Queue + Unlock</span>
+      <span class="seg" style="margin-left:auto"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+
+<div class="scrim" data-scrim data-open="0"></div>
+<aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dt" data-drawer data-open="0">
+  <header><h2 id="dt">Reject with reason</h2>
+    <button class="iconbtn" style="margin-left:auto" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></header>
+  <div class="db">
+    <p style="margin:0">Rejecting milestone 2 pauses the ₹30,000 instalment and returns the deliverable to the studio.
+      The reason is recorded on the milestone and shown in the message thread — it cannot be sent anonymously.</p>
+    <div class="reasons" role="radiogroup" aria-label="Reason">
+      <label><input type="radio" name="why" value="scope"> Something in the brief is missing</label>
+      <label><input type="radio" name="why" value="quality"> A deliverable does not meet the brief</label>
+      <label><input type="radio" name="why" value="bug"> A flow is broken on staging</label>
+      <label><input type="radio" name="why" value="other"> Something else</label>
+    </div>
+    <div class="fld"><label class="lbl" for="note">What should change?</label>
+      <textarea class="inp" id="note" rows="4" placeholder="Be specific — the studio revises against this text."></textarea>
+      <p class="err" data-req hidden>Add a sentence so the studio knows what to fix.</p></div>
+    <p style="font-size:11.5px;color:var(--muted-foreground);margin:0">Sending this notifies the studio and pauses the
+      instalment. You can approve later from the same card.</p>
+  </div>
+  <footer>
+    <button class="btn btn-g btn-sm" data-close>Cancel</button>
+    <button class="btn btn-p btn-sm" data-send-reject>Send rejection</button>
+  </footer>
+</aside>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement;
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2800);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var drawer=document.querySelector('[data-drawer]'), scrim=document.querySelector('[data-scrim]'), lastFocus=null;
+  function focusables(){return [].slice.call(drawer.querySelectorAll('button,[href],input,textarea')).filter(function(e){return e.offsetParent!==null;});}
+  function open(){lastFocus=document.activeElement;drawer.dataset.open='1';scrim.dataset.open='1';
+    document.body.style.overflow='hidden';var f=focusables();if(f[0])f[0].focus();}
+  function close(){drawer.dataset.open='0';scrim.dataset.open='0';document.body.style.overflow='';
+    if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+  document.querySelector('[data-open-reject]').addEventListener('click',open);
+  document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',close);});
+  scrim.addEventListener('click',close);
+  drawer.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){e.preventDefault();close();return;}
+    if(e.key!=='Tab')return;
+    var f=focusables();if(!f.length)return;
+    var a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();}
+    else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();}
+  });
+  document.querySelector('[data-send-reject]').addEventListener('click',function(){
+    var note=document.getElementById('note');
+    var picked=drawer.querySelector('input[name="why"]:checked');
+    if(!picked||note.value.trim().length<8){document.querySelector('[data-req]').hidden=false;
+      (picked?note:drawer.querySelector('input[name="why"]')).focus();return;}
+    document.querySelector('[data-req]').hidden=true;
+    close();
+    say('Rejection sent with a reason. The ₹30,000 instalment is paused.');
+  });
+  document.querySelectorAll('[data-approve]').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.classList.add('is-loading');
+      setTimeout(function(){
+        b.classList.remove('is-loading');b.textContent='Approved';b.disabled=true;
+        var item=b.closest('.qitem');
+        item.classList.add('done');
+        var st=item.querySelector('.r1 .pill');
+        st.className='pill pill--ok'; st.textContent='Approved';
+        var hdr=document.querySelector('.head .pill--warn');
+        if(hdr){hdr.className='pill pill--ok'; hdr.textContent='Nothing waiting on you';}
+        say('Milestone 2 approved. ₹30,000 releases on 30 Oct.');
+      },900);
+    });
+  });
+  if(new URLSearchParams(location.search).get('state')==='error'){
+    say('Milestone state could not be refreshed — the queue may be stale.');
+  }
+})();
+</script>
+</body>
+</html>

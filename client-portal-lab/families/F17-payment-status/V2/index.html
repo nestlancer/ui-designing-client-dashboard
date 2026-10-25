@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment status · V2 Unlock Chain — Nestlancer Portal Lab</title>
+<meta name="description" content="F17 variant 2: the not-due-yet state drawn as a chain of milestones, showing exactly which payment blocks the next one and where to go to unlock it.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Unlock Chain. A chain · B blocking-cause-first · C unlock narrative · E deep link. */
+.page{max-width:820px;margin:0 auto;padding:0 22px 60px}
+.crumb{display:flex;gap:6px;align-items:center;font-size:11.5px;color:var(--muted-foreground);padding:18px 0 12px}
+h1{font-size:23px;letter-spacing:-.035em}
+.lede{margin:5px 0 16px;font-size:12.5px;line-height:1.65;color:var(--muted-foreground);max-width:62ch}
+.blocked{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--status-warning-text);
+  border-radius:var(--radius-md);padding:16px 18px;margin-bottom:18px}
+.blocked .k{font-size:10px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;
+  color:var(--status-warning-text)}
+.blocked h2{font-size:16px;letter-spacing:-.025em;margin-top:5px}
+.blocked p{margin:6px 0 0;font-size:12px;line-height:1.65;color:var(--muted-foreground)}
+.blocked .why{display:grid;gap:5px;margin-top:11px;padding-top:10px;border-top:1px solid var(--border);
+  font-size:11.5px}
+.blocked .why div{display:flex;justify-content:space-between;gap:10px}
+.blocked .why dt{color:var(--muted-foreground)}
+.blocked .why dd{margin:0;font-weight:600;text-align:right}
+.chain{position:relative;padding-left:26px;margin-bottom:18px}
+.chain::before{content:'';position:absolute;left:8px;top:10px;bottom:10px;width:2px;
+  background:linear-gradient(var(--status-success-text) 0 34%,var(--border) 34% 100%)}
+.link{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
+  padding:12px 14px;margin-bottom:9px}
+.link::before{content:'';position:absolute;left:-22px;top:17px;width:11px;height:11px;border-radius:50%;
+  background:var(--card);border:2px solid var(--border)}
+.link[data-s="done"]::before{background:var(--status-success-text);border-color:transparent}
+.link[data-s="block"]::before{background:var(--status-warning-text);border-color:transparent}
+.link[data-s="now"]{border-color:var(--brand-300);background:var(--brand-50)}
+.dark .link[data-s="now"]{background:#161f3a}
+.link .top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.link b{font-size:12.5px;font-weight:650;letter-spacing:-.01em}
+.link .amt{margin-left:auto;font-size:12.5px;font-variant-numeric:var(--tabnum);font-weight:600}
+.link p{margin:4px 0 0;font-size:11px;color:var(--muted-foreground);line-height:1.55}
+.link .go{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.unlock{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:15px 17px;
+  margin-bottom:14px}
+.unlock h2{font-size:12.5px;letter-spacing:-.01em;margin-bottom:7px}
+.unlock ol{margin:0 0 11px;padding-left:18px;font-size:12px;line-height:1.7;color:var(--muted-foreground)}
+.unlock ol b{color:var(--foreground)}
+.honest{border-left:3px solid var(--primary);background:var(--brand-50);border-radius:var(--radius-sm);
+  padding:10px 12px;font-size:11.5px;line-height:1.6;margin-top:14px}
+.dark .honest{background:#161f3a}
+.honest b{display:block;margin-bottom:2px}
+.foot{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted-foreground);margin-top:18px;
+  flex-wrap:wrap}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:620px){.page{padding:0 14px 44px}h1{font-size:20px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to unlock chain</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F14-billing/V1/index.html">Billing</a>
+        <a href="index.html" aria-current="page">Payment status</a>
+        <a href="../../F09-project-details/V1/index.html">Project</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <p class="crumb"><a href="../../F14-billing/V1/index.html">Billing</a> / <b>Milestone 3 · not due</b></p>
+    <h1>Milestone 3 is not due yet</h1>
+    <p class="lede">₹45,000.00 is blocked, and the blocker is not money you owe now — it is milestone 2 on the same
+      project, which is still in review. Here is the chain in order.</p>
+
+    <section class="blocked" aria-labelledby="b-h">
+      <p class="k">Blocked payment</p>
+      <h2 id="b-h">Milestone 3 · B2B Wholesale ordering portal · ₹45,000.00</h2>
+      <p>This milestone cannot be paid until milestone 2 is approved. Paying ahead is not possible, and no invoice
+        has been issued for it yet.</p>
+      <dl class="why">
+        <div><dt>Blocking milestone</dt><dd>M2 · Checkout flow (in review)</dd></div>
+        <div><dt>Blocking amount</dt><dd>₹30,000.00 · not yet settled</dd></div>
+        <div><dt>Owner of the next step</dt><dd>You — approve M2</dd></div>
+      </dl>
+    </section>
+
+    <div class="chain" aria-label="Milestone chain">
+      <article class="link" data-s="done">
+        <div class="top"><b>Milestone 1 · Discovery</b><span class="pill pill--ok">completed</span>
+          <span class="amt">₹22,000.00</span></div>
+        <p>Paid 28 Sep 2026 · receipt available on this page.</p>
+        <div class="go"><a class="btn btn-g btn-sm" href="../V1/index.html">View receipt</a></div>
+      </article>
+
+      <article class="link" data-s="block">
+        <div class="top"><b>Milestone 2 · Checkout flow</b><span class="pill pill--warn">in review</span>
+          <span class="amt">₹30,000.00</span></div>
+        <p>Deliverables are with you. Approving this milestone releases milestone 3 — it is the only thing standing
+          between you and paying ₹45,000.00.</p>
+        <div class="go">
+          <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Review milestone 2</a>
+          <a class="btn btn-g btn-sm" href="../../F08-projects-list/V1/index.html">All projects</a>
+        </div>
+      </article>
+
+      <article class="link" data-s="now">
+        <div class="top"><b>Milestone 3 · Launch &amp; handover</b><span class="pill pill--lock">not due</span>
+          <span class="amt">₹45,000.00</span></div>
+        <p>Unlocks on approval of milestone 2. No action is possible here until then — this page refuses to show a
+          pay button that would fail.</p>
+      </article>
+    </div>
+
+    <section class="unlock">
+      <h2>What unlocking will look like</h2>
+      <ol>
+        <li>You approve <b>milestone 2</b> on the project page (or request changes, which keeps this chain blocked).</li>
+        <li>An invoice is issued for <b>₹45,000.00</b> and the status here changes to <b>pending</b>.</li>
+        <li>You pay by UPI, card or bank transfer — the same checkout as every other milestone.</li>
+        <li>On settlement, milestone 3 moves to <b>completed</b> and the project closes.</li>
+      </ol>
+      <a class="btn btn-p btn-sm" href="../../F09-project-details/V1/index.html">Go to the project</a>
+      <a class="btn btn-g btn-sm" href="../../F14-billing/V1/index.html" style="margin-left:5px">Back to billing</a>
+    </section>
+
+    <div class="honest">
+      <b>Why there is no cancel button here</b>
+      Nothing has been created to cancel: this milestone has no payment record, no invoice and no intent. Showing a
+      cancel action would imply a charge exists. The real next step is the approval above.
+    </div>
+
+    <div class="foot">
+      <a href="../../../index.html">← Gallery</a>
+      <span>F17 · V2 of 5 · deep link via <code>GET /payments/projects/{id}/milestones</code></span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  document.querySelectorAll('a[href="../../F09-project-details/V1/index.html"]').forEach(function(a){
+    a.addEventListener('click',function(){say('Deep link to milestone 2 — approval happens on the project page.');});
+  });
+})();
+</script>
+</body>
+</html>

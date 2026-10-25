@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile · V5 Minimal Card — Nestlancer Portal Lab</title>
+<meta name="description" content="F20 variant 5: a centred minimal profile card with an avatar hero, editable name line and chip add/remove for skills.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V5 — Minimal Card. A centred · B identity-first · D minimal · E chip add/remove. */
+body{background:var(--muted)}
+.wrap{max-width:560px;margin:0 auto;background:var(--background);min-height:100vh;
+  box-shadow:0 0 0 1px var(--border)}
+@media(min-width:600px){.wrap{margin:22px auto;min-height:calc(100vh - 44px);border-radius:18px;overflow:hidden}}
+.bar{display:flex;gap:9px;align-items:center;padding:11px 16px;border-bottom:1px solid var(--border);
+  background:var(--card)}
+.bar a{font-size:12px;color:var(--muted-foreground)}
+.bar .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+main{padding:26px 18px 30px;text-align:center}
+.av{width:88px;height:88px;border-radius:50%;background:var(--brand-600);color:#fff;display:grid;
+  place-items:center;font-size:30px;font-weight:700;margin:0 auto 14px;letter-spacing:-.02em}
+h1{font-size:22px;letter-spacing:-.035em}
+.mail{font-size:11.5px;color:var(--muted-foreground);margin:4px 0 0}
+.headline{font-size:13px;line-height:1.6;margin:12px auto 0;max-width:38ch;color:var(--foreground)}
+.bio{font-size:11.5px;line-height:1.7;margin:10px auto 0;max-width:42ch;color:var(--muted-foreground)}
+.chips{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.chips .c{display:inline-flex;gap:5px;align-items:center;font-size:11px;border:1px solid var(--border);
+  border-radius:999px;padding:3px 5px 3px 10px;background:var(--card);color:var(--foreground)}
+.chips .c button{width:15px;height:15px;border-radius:50%;display:grid;place-items:center;font-size:9.5px;
+  color:var(--muted-foreground)}
+.chips .c button:hover{background:var(--muted);color:var(--status-error-text)}
+.addchip{display:inline-flex;gap:5px;align-items:center;margin-top:10px}
+.addchip input{border:1px dashed var(--border);border-radius:999px;padding:4px 11px;font:inherit;font-size:11px;
+  width:136px;background:transparent;outline:none;color:var(--foreground);text-align:center}
+.prefs{display:grid;gap:7px;margin-top:22px;text-align:left;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--card);padding:13px 14px}
+.prefs h2{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:3px}
+.prefs a{font-size:11.5px;font-weight:600;color:var(--brand-700);display:flex;justify-content:space-between;
+  padding:5px 0;border-top:1px solid var(--border)}
+.dark .prefs a{color:#9db3ff}
+.prefs a:first-of-type{border-top:0}
+.editrow{display:grid;gap:6px;margin-top:14px}
+.editrow input,.editrow textarea{font:inherit;font-size:12px;padding:7px 9px;border:1px solid var(--border);
+  border-radius:6px;background:var(--card);color:var(--foreground);outline:none;text-align:left}
+.editrow textarea{min-height:62px;resize:vertical}
+.editrow input:focus,.editrow textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--brand-50)}
+.dark .editrow input:focus,.dark .editrow textarea:focus{box-shadow:0 0 0 3px #1b2650}
+.savebar{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.honest{font-size:10.5px;line-height:1.6;color:var(--muted-foreground);margin-top:16px;text-align:center}
+.end{margin-top:18px;font-size:10.5px;color:var(--muted-foreground);display:flex;gap:8px;flex-wrap:wrap;
+  align-items:center;justify-content:center}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to profile</a>
+<div class="wrap">
+  <div class="bar">
+    <a href="../../F03-dashboard-overview/V1/index.html">← Overview</a>
+    <div class="r">
+      <button class="btn btn-g btn-sm" data-edit>Edit</button>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+    </div>
+  </div>
+
+  <main id="main">
+    <div class="av" data-av>AM</div>
+    <h1 data-name>Arjun Mehta</h1>
+    <p class="mail">arjun@khandeshspice.example · member since Mar 2026</p>
+    <p class="headline" data-headline>Founder, Khandesh Spice — building a D2C store with a wholesale arm.</p>
+    <p class="bio" data-bio>Running a 14-year-old spice business moving onto direct-to-consumer. Priorities: fast
+      mobile checkout, honest product photography, and a wholesale portal my team can actually use.</p>
+
+    <div class="chips" data-chips>
+      <span class="c">Brand strategy<button aria-label="Remove Brand strategy" data-x>✕</button></span>
+      <span class="c">D2C<button aria-label="Remove D2C" data-x>✕</button></span>
+      <span class="c">Packaging<button aria-label="Remove Packaging" data-x>✕</button></span>
+      <span class="c">Shopify<button aria-label="Remove Shopify" data-x>✕</button></span>
+    </div>
+
+    <div class="addchip">
+      <input type="text" placeholder="Add a skill" aria-label="Add a skill" data-add>
+    </div>
+
+    <div class="editrow" data-editor hidden>
+      <input type="text" value="Arjun Mehta" data-e-name aria-label="Full name">
+      <input type="text" value="Founder, Khandesh Spice — building a D2C store with a wholesale arm."
+        data-e-headline aria-label="Headline">
+      <textarea data-e-bio aria-label="Bio">Running a 14-year-old spice business moving onto direct-to-consumer. Priorities: fast mobile checkout, honest product photography, and a wholesale portal my team can actually use.</textarea>
+      <div class="savebar">
+        <button class="btn btn-p btn-sm" data-save>Save</button>
+        <button class="btn btn-g btn-sm" data-cancel>Cancel</button>
+      </div>
+    </div>
+
+    <div class="prefs">
+      <h2>Elsewhere</h2>
+      <a href="../../F21-settings/V1/index.html">Looking for security or notifications?<span>→</span></a>
+      <a href="../../F22-settings-files/V1/index.html">Your files<span>→</span></a>
+      <a href="../../F05-requests-work-hub/V1/index.html">Your requests<span>→</span></a>
+    </div>
+
+    <p class="honest">Skill suggestions and avatar upload are demo-only in this lab; the profile fields themselves
+      map to <code>PATCH /users/profile</code>.</p>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F20 · V5 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="index.html" aria-current="page">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2500);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var chips=document.querySelector('[data-chips]'), add=document.querySelector('[data-add]'),
+      editor=document.querySelector('[data-editor]');
+  chips.addEventListener('click',function(e){
+    var x=e.target.closest('[data-x]'); if(!x)return;
+    var name=x.closest('.c').textContent.replace('✕','').trim();
+    x.closest('.c').remove(); say(name+' removed from skills.');
+  });
+  add.addEventListener('keydown',function(e){
+    if(e.key!=='Enter')return;
+    e.preventDefault();
+    var v=add.value.trim(); if(!v)return;
+    var c=document.createElement('span'); c.className='c'; c.textContent=v;
+    var b=document.createElement('button'); b.setAttribute('aria-label','Remove '+v); b.textContent='✕';
+    c.appendChild(b); chips.appendChild(c); add.value='';
+    say('Skill added — suggestions are demo-only.');
+  });
+
+  document.querySelector('[data-edit]').addEventListener('click',function(){
+    editor.hidden=!editor.hidden;
+    if(!editor.hidden)editor.querySelector('[data-e-name]').focus();
+  });
+  document.querySelector('[data-cancel]').addEventListener('click',function(){
+    editor.hidden=true; say('Edit cancelled — nothing changed.');
+  });
+  document.querySelector('[data-save]').addEventListener('click',function(){
+    var n=editor.querySelector('[data-e-name]').value.trim(),
+        h=editor.querySelector('[data-e-headline]').value.trim(),
+        b=editor.querySelector('[data-e-bio]').value.trim();
+    if(!n){say('A name is required.');return;}
+    document.querySelector('[data-name]').textContent=n;
+    document.querySelector('[data-headline]').textContent=h;
+    document.querySelector('[data-bio]').textContent=b;
+    document.querySelector('[data-av]').textContent=n.split(' ').map(function(w){return w[0]||'';})
+      .join('').slice(0,2).toUpperCase();
+    editor.hidden=true; say('Profile saved.');
+  });
+})();
+</script>
+</body>
+</html>

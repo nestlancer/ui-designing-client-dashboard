@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Nestlancer Client Portal Lab — THE single colour + shape + type scheme
+   Locked by prompt §5.1–§5.2. No variant may add a hue, a radius family or a
+   shadow vocabulary outside this file. Consumed by all 115 templates.
+   ========================================================================== */
+
+:root {
+  /* Neutrals (shadcn-style, from the live app — AA-passing) */
+  --background:#f6f8fb; --card:#ffffff; --muted:#f1f5f9; --border:#dbe3ec;
+  --foreground:#0f1c2e; --muted-foreground:#45556b;
+
+  /* Brand — single ramp (the live --ta-brand-*). THE --primary. */
+  --brand-50:#ecf3ff; --brand-100:#d9e6ff; --brand-500:#465fff;
+  --brand-600:#3641f5; --brand-700:#2a31d8; --brand-950:#161950;
+  --primary:var(--brand-500); --primary-hover:var(--brand-600);
+  --ring:var(--brand-500);
+
+  /* Status — bg tint + darkened AA text + border (C4). Text ≥4.5:1 on its tint. */
+  --status-success-bg:#e5f6ec; --status-success-text:#166534; --status-success-border:#86c9a3;
+  --status-warning-bg:#fdf3e0; --status-warning-text:#8a5a00; --status-warning-border:#e8c477;
+  --status-error-bg:#fdecec;   --status-error-text:#b42318;   --status-error-border:#f0a8a0;
+  --status-info-bg:#e6f4fd;    --status-info-text:#0c5d8a;    --status-info-border:#8fcbe8;
+  --status-purple-bg:#f1e8fd;  --status-purple-text:#5b21b6;  --status-purple-border:#c4a8ef;
+  --status-neutral-bg:var(--muted); --status-neutral-text:var(--muted-foreground);
+  --status-neutral-border:var(--border);
+
+  /* Shape + type */
+  --radius-sm:6px; --radius-md:10px; --radius-lg:14px; --radius-xl:20px;
+  --shadow-xs:0 1px 2px rgba(15,28,46,.06); --shadow-sm:0 4px 14px rgba(15,28,46,.08);
+  --font:"Outfit",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"IBM Plex Mono","SF Mono",Menlo,Consolas,monospace;
+  --sidebar:232px; --header:64px; --content:1400px;
+
+  /* Motion (transform/opacity only; one stroke-dashoffset exception) */
+  --duration-fast:150ms; --duration-normal:280ms; --duration-slow:500ms;
+  --ease-spring:cubic-bezier(.22,1.2,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+
+  /* Money + data */
+  --tabnum:tabular-nums;
+}
+
+/* Dark theme — matching (not inverted), all surfaces tokenised (C6) */
+.dark {
+  --background:#0b1220; --card:#111b2e; --muted:#16233a; --border:#24344f;
+  --foreground:#e8eef4; --muted-foreground:#9fb0c3;
+  --brand-50:#141d3a; --brand-100:#1b2650;
+  --brand-500:#5b7bff; --primary:var(--brand-500); --primary-hover:#7a93ff;
+  --brand-950:#e8eef4;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4); --shadow-sm:0 8px 28px rgba(0,0,0,.45);
+
+  /* status text lift for dark */
+  --status-success-text:#4ade80; --status-warning-text:#fbbf24;
+  --status-error-text:#f87171; --status-info-text:#38bdf8; --status-purple-text:#c084fc;
+  /* status BGs: 16% of the status text over --card (same formula, every variant) */
+  --status-success-bg:#1a3a3b; --status-warning-bg:#36352c; --status-error-bg:#362939;
+  --status-info-bg:#28363f;    --status-purple-bg:#2e2d4b;
+  --status-success-border:#2c5f52; --status-warning-border:#6b5527;
+  --status-error-border:#6b3b3b;   --status-info-border:#2f5d75;
+  --status-purple-border:#4b3d75;
+}
+
+/* System dark (only when the user has not chosen a theme) */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --background:#0b1220; --card:#111b2e; --muted:#16233a; --border:#24344f;
+    --foreground:#e8eef4; --muted-foreground:#9fb0c3;
+    --brand-500:#5b7bff; --primary:var(--brand-500); --primary-hover:#7a93ff;
+    --shadow-xs:0 1px 2px rgba(0,0,0,.4); --shadow-sm:0 8px 28px rgba(0,0,0,.45);
+    --status-success-text:#4ade80; --status-warning-text:#fbbf24;
+    --status-error-text:#f87171; --status-info-text:#38bdf8; --status-purple-text:#c084fc;
+    --status-success-bg:#1a3a3b; --status-warning-bg:#36352c; --status-error-bg:#362939;
+    --status-info-bg:#28363f;    --status-purple-bg:#2e2d4b;
+    --status-success-border:#2c5f52; --status-warning-border:#6b5527;
+    --status-error-border:#6b3b3b;   --status-info-border:#2f5d75;
+    --status-purple-border:#4b3d75;
+  }
+}

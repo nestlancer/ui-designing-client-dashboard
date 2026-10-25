@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing · V2 Statement — Nestlancer Portal Lab</title>
+<meta name="description" content="F14 variant 2: a printable statement of account with a summary block, transaction rows, totals and an honest demo label on the combined PDF.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V2 — Statement. A statement document · B money-first · C formal record · D ledger · E print. */
+body{background:var(--muted)}
+.bar{max-width:900px;margin:0 auto;padding:16px 20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bar .r{margin-left:auto;display:flex;gap:7px;align-items:center}
+.sheet{max-width:900px;margin:0 auto 40px;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-md);padding:34px 38px 30px;box-shadow:0 20px 50px -40px rgba(15,28,46,.5)}
+.sh-top{display:flex;gap:16px;align-items:flex-start;padding-bottom:18px;border-bottom:2px solid var(--foreground)}
+.sh-top .brand{font-weight:800;font-size:15px;letter-spacing:-.03em}
+.sh-top .brand span{display:block;font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted-foreground);margin-top:3px}
+.sh-top .r{margin-left:auto;text-align:right;font-size:11px;color:var(--muted-foreground);line-height:1.7}
+.sh-top .r b{color:var(--foreground);font-size:13px;letter-spacing:-.02em;display:block}
+.stmt-title{margin:22px 0 4px;font-size:24px;letter-spacing:-.04em}
+.stmt-sub{font-size:11.5px;color:var(--muted-foreground);margin:0}
+.sumrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:20px 0 24px}
+.sumcell{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px}
+.sumcell .k{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700}
+.sumcell .v{font-size:21px;letter-spacing:-.03em;font-variant-numeric:var(--tabnum);margin-top:4px}
+.sumcell .h{font-size:10.5px;color:var(--muted-foreground);margin-top:2px}
+.sumcell[data-t="paid"]{background:var(--status-success-bg);border-color:transparent}
+.sumcell[data-t="paid"] .v{color:var(--status-success-text)}
+.sumcell[data-t="pend"]{background:var(--status-warning-bg);border-color:transparent}
+.sumcell[data-t="pend"] .v{color:var(--status-warning-text)}
+h2.sect{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin:22px 0 7px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;padding:6px 0;border-bottom:1px solid var(--border)}
+th.r,td.r{text-align:right}
+td{padding:7px 0;border-bottom:1px solid var(--border);vertical-align:top}
+td .s{display:block;font-size:10.5px;color:var(--muted-foreground)}
+td.amt{font-variant-numeric:var(--tabnum);white-space:nowrap;text-align:right;font-weight:600}
+.totalrow td{border-bottom:0;border-top:2px solid var(--foreground);font-weight:700;padding-top:9px}
+.totalrow td.amt{font-size:14px}
+.status{font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:1px 5px;
+  border-radius:3px;white-space:nowrap}
+.st-ok{background:var(--status-success-bg);color:var(--status-success-text)}
+.st-pend{background:var(--status-warning-bg);color:var(--status-warning-text)}
+.st-lock{background:var(--muted);color:var(--muted-foreground)}
+.st-err{background:var(--status-error-bg);color:var(--status-error-text)}
+.st-info{background:var(--status-info-bg);color:var(--status-info-text)}
+.note{display:flex;gap:9px;border:1px dashed var(--border);border-radius:var(--radius-sm);padding:10px 12px;
+  font-size:11px;line-height:1.6;color:var(--muted-foreground);margin-top:20px}
+.note b{color:var(--foreground);display:block;margin-bottom:2px}
+.footline{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:22px;
+  padding-top:12px;border-top:1px solid var(--border);font-size:10px;color:var(--muted-foreground);
+  flex-wrap:wrap}
+.printonly{display:none}
+.seg{display:inline-flex;gap:2px}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+@media(max-width:700px){.sheet{padding:22px 18px}.sumrow{grid-template-columns:1fr}
+  .sh-top{flex-wrap:wrap}.sh-top .r{text-align:left;margin-left:0}}
+@media print{
+  .bar,.toast,.seg,.printonly-hide{display:none!important}
+  body{background:#fff}
+  .sheet{box-shadow:none;border:0;margin:0;padding:0;max-width:none}
+  .printonly{display:block}
+  .note{border:1px solid #999}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 17h12v4H6z"/></symbol>
+</svg>
+<a class="skip" href="#stmt">Skip to statement</a>
+
+<div class="bar printonly-hide">
+  <a class="btn btn-g btn-sm" href="../../F03-dashboard-overview/V1/index.html">← Overview</a>
+  <strong style="font-size:12.5px">Statement of account</strong>
+  <span class="seg"><a href="../V1/index.html">V1</a><a href="index.html" aria-current="page">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+  <span class="r">
+    <button class="btn btn-g btn-sm" data-print><svg class="i i--sm"><use href="#i-print"/></svg>Print</button>
+    <button class="btn btn-p btn-sm" data-demo>Download PDF</button>
+    <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+  </span>
+</div>
+
+<main id="stmt">
+<article class="sheet">
+  <div class="sh-top">
+    <div class="brand">Nestlancer<span>Statement of account</span></div>
+    <div class="r">
+      <b>STMT-2026-10-0714</b>
+      Period 1 Aug 2026 – 22 Oct 2026<br>
+      Prepared for Arjun Mehta<br>
+      Account · arjun@khandeshspice.example
+    </div>
+  </div>
+
+  <h1 class="stmt-title">Statement of account</h1>
+  <p class="stmt-sub">All payments recorded against your account in the statement period. GST is shown on the
+    individual invoices.</p>
+
+  <div class="sumrow">
+    <div class="sumcell" data-t="paid"><span class="k">Collected</span>
+      <p class="v">₹81,500.00</p><p class="h">5 settled transactions</p></div>
+    <div class="sumcell" data-t="pend"><span class="k">Outstanding</span>
+      <p class="v">₹31,875.00</p><p class="h">1 processing · 1 unpaid invoice</p></div>
+    <div class="sumcell"><span class="k">In dispute</span>
+      <p class="v">₹0.00</p><p class="h">no open disputes</p></div>
+  </div>
+
+  <h2 class="sect">Settled</h2>
+  <table>
+    <caption class="sr-only">Settled payments in the statement period</caption>
+    <thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col">Status</th>
+      <th scope="col" class="r">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>15 Oct 2026</td><td>Milestone 1 · Khandesh Spice<span class="s">Discovery &amp; wireframes · UPI</span></td>
+        <td><span class="status st-ok">completed</span></td><td class="amt">₹48,000.00</td></tr>
+      <tr><td>5 Oct 2026</td><td>Audit deposit<span class="s">Ref AUDIT-P25-20261005-73dhk</span></td>
+        <td><span class="status st-ok">completed</span></td><td class="amt">₹625.00</td></tr>
+      <tr><td>28 Sep 2026</td><td>Milestone 1 · B2B Wholesale<span class="s">Ordering portal · netbanking</span></td>
+        <td><span class="status st-ok">completed</span></td><td class="amt">₹22,000.00</td></tr>
+      <tr><td>20 Sep 2026</td><td>Change request · hero rebuild<span class="s">Horizon Retail · UPI</span></td>
+        <td><span class="status st-ok">completed</span></td><td class="amt">₹10,625.00</td></tr>
+      <tr><td>12 Sep 2026</td><td>Platform fee<span class="s">2.5% of milestone 1</span></td>
+        <td><span class="status st-ok">completed</span></td><td class="amt">₹250.00</td></tr>
+      <tr class="totalrow"><td colspan="3">Total settled</td><td class="amt">₹81,500.00</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sect">Outstanding</h2>
+  <table>
+    <caption class="sr-only">Outstanding items</caption>
+    <thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col">Status</th>
+      <th scope="col" class="r">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>14 Oct 2026</td><td>Milestone 2 · Khandesh Spice<span class="s">Bank transfer · UTR awaiting verification</span></td>
+        <td><span class="status st-pend">processing</span></td><td class="amt">₹30,000.00</td></tr>
+      <tr><td>12 Oct 2026</td><td>Invoice NL-INV-2026-000044<span class="s">Horizon Retail · issued, unpaid</span></td>
+        <td><span class="status st-pend">pending</span></td><td class="amt">₹1,875.00</td></tr>
+      <tr class="totalrow"><td colspan="3">Total outstanding</td><td class="amt">₹31,875.00</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sect">Not yet due</h2>
+  <table>
+    <thead><tr><th scope="col">Date</th><th scope="col">Description</th><th scope="col">Status</th>
+      <th scope="col" class="r">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>15 Nov 2026</td><td>Milestone 3 · B2B Wholesale<span class="s">Unlocks on milestone 2 approval</span></td>
+        <td><span class="status st-lock">not due</span></td><td class="amt">₹45,000.00</td></tr>
+      <tr><td>5 Dec 2026</td><td>Milestone 3 · Khandesh Spice<span class="s">Amount confirmed at handover</span></td>
+        <td><span class="status st-lock">not due</span></td><td class="amt">—</td></tr>
+      <tr><td>18 Sep 2026</td><td>Milestone 2 · card attempt<span class="s">Declined · no money moved</span></td>
+        <td><span class="status st-err">failed</span></td><td class="amt">₹30,000.00</td></tr>
+      <tr><td>30 Aug 2026</td><td>Reversal · duplicate charge<span class="s">Returned in 3 working days</span></td>
+        <td><span class="status st-info">refunded</span></td><td class="amt">₹0.00</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <span><b>About this document</b>
+      This statement is assembled in the browser from your real payment and invoice records. A single combined
+      statement PDF is <b>not</b> produced by the API — only individual invoice PDFs
+      (<code>GET /invoices/{id}/download</code>) exist. So “Download PDF” is demo-only here, while “Print”
+      produces a usable copy from this page.</span>
+  </div>
+
+  <div class="footline">
+    <span>Statement STMT-2026-10-0714 · generated 22 Oct 2026 · Nestlancer</span>
+    <span class="printonly">Printed from the portal · page 1</span>
+    <span class="printonly-hide"><a href="../../F18-invoices/V1/index.html">Invoices</a> ·
+      <a href="../../F15-payment-methods/V1/index.html">Payment methods</a> ·
+      <a href="../../../index.html">Gallery</a></span>
+  </div>
+</article>
+</main>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2800);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+  document.querySelector('[data-print]').addEventListener('click',function(){
+    if(window.print){window.print();} else {say('Use your browser print dialog to save this statement.');}
+  });
+  document.querySelector('[data-demo]').addEventListener('click',function(){
+    say('A combined statement PDF is demo-only — the API only exposes per-invoice downloads.');
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · V1 Split Classic — Nestlancer Portal Lab</title>
+<meta name="description" content="F01 login variant 1: a two-column split — client sign-in form beside the project-hub hero panel, in the portal blue rather than the old auth teal.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V1 — Split Classic. Geometry: form column ‖ brand hero panel. No app shell on auth. */
+.auth{min-height:100vh;display:grid;grid-template-columns:minmax(0,44%) minmax(0,56%)}
+@media(max-width:980px){.auth{grid-template-columns:1fr}}
+.form-col{display:flex;flex-direction:column;padding:28px 32px 40px;gap:18px;background:var(--background)}
+.brandline{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.02em}
+.brandline small{display:block;font-size:11px;color:var(--muted-foreground);font-weight:500;letter-spacing:.02em}
+.form-wrap{margin:auto 0;width:min(392px,100%);align-self:center}
+.form-wrap h1{font-size:clamp(28px,3.4vw,34px);letter-spacing:-.03em;line-height:1.12}
+.lede2{font-size:13.5px;color:var(--muted-foreground);margin-top:8px;max-width:44ch}
+.card-a{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);padding:22px;margin-top:22px;display:grid;gap:16px}
+.rowpw{position:relative}
+.rowpw .inp{padding-right:66px}
+.reveal-btn{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:11.5px;font-weight:700;
+  color:var(--muted-foreground);padding:6px 8px;border-radius:var(--radius-sm);letter-spacing:.02em}
+.reveal-btn:hover{background:var(--muted);color:var(--foreground)}
+.opt-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.after{border-top:1px solid var(--border);padding-top:14px;display:grid;gap:10px;font-size:13px;color:var(--muted-foreground)}
+.hero{background:var(--brand-950);color:#eef2ff;padding:36px 40px;display:flex;flex-direction:column;gap:22px;
+  position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -60px -90px auto;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,rgba(70,95,255,.45),transparent 62%);pointer-events:none}
+.hero .tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:#b9c6ff;font-weight:700}
+.hero .tag i{width:6px;height:6px;border-radius:50%;background:#7d93ff;display:inline-block}
+.hero h2{font-size:clamp(28px,3.4vw,40px);line-height:1.1;letter-spacing:-.035em;font-weight:700;max-width:19ch}
+.hero p.sub{font-size:14px;line-height:1.6;color:#c3cdf7;max-width:44ch}
+.artefact{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14);
+  border-radius:var(--radius-lg);padding:16px 18px;display:grid;gap:12px;backdrop-filter:blur(2px);max-width:420px}
+.artefact .top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;color:#b9c6ff;font-weight:700}
+.artefact .pct{font-size:30px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:var(--tabnum)}
+.artefact .bar{height:5px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden}
+.artefact .bar i{display:block;height:100%;width:68%;background:#8fa4ff;border-radius:999px}
+.artefact .meta{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#c3cdf7}
+.artefact .ev{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:#dbe3ff;line-height:1.45;
+  border-top:1px solid rgba(255,255,255,.12);padding-top:10px}
+.artefact .ev .av{width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,.16);display:grid;
+  place-items:center;font-size:9.5px;font-weight:700;flex:none}
+.hero ul{display:grid;gap:10px;max-width:420px}
+.hero li{display:flex;gap:10px;font-size:13px;color:#c3cdf7;line-height:1.5}
+.hero li b{color:#fff;font-weight:600}
+.hero li svg{flex:none;margin-top:2px;color:#8fa4ff}
+.hero footer{margin-top:auto;font-size:11.5px;color:#93a3d6;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.cookie{position:fixed;left:16px;right:16px;bottom:16px;z-index:40;max-width:560px;display:flex;gap:12px;
+  align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:12px 16px;font-size:12.5px;
+  color:var(--muted-foreground)}
+.twofa{margin-top:14px;padding:14px 16px;border:1px solid var(--status-info-border);background:var(--status-info-bg);
+  border-radius:var(--radius-md);color:var(--status-info-text);font-size:13px;display:grid;gap:10px}
+.otp{display:flex;gap:8px}
+.otp input{width:44px;height:48px;text-align:center;font-size:18px;font-weight:700;font-variant-numeric:var(--tabnum)}
+.foot-links{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted-foreground);align-items:center}
+.vnav{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:12.5px;margin-top:auto;padding-top:18px}
+.vnav .seg{margin-left:auto}
+.state-note{font-size:11.5px;color:var(--muted-foreground);margin-top:6px}
+@media(max-width:980px){.hero{padding:24px 20px;order:2}.hero h2{font-size:26px}.form-col{padding:20px 18px 28px}}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17.5v.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to main content</a>
+
+<div class="auth">
+  <div class="form-col">
+    <div class="between">
+      <a class="brandline" href="../../../index.html"><span class="brand-mark">N</span>
+        <span>Nestlancer<small>Client portal</small></span></a>
+      <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="i ic-moon"><use href="#i-moon"/></svg><svg class="i ic-sun"><use href="#i-sun"/></svg></button>
+    </div>
+
+    <main id="main" class="form-wrap">
+      <h1 class="h1">Sign in</h1>
+      <p class="lede2">For clients only. Administrator and operator accounts must use the operator console — not this page.</p>
+
+      <form class="card-a" novalidate data-form>
+        <div class="banner banner--err" role="alert" data-error hidden>
+          <svg class="i"><use href="#i-alert"/></svg>
+          <div><strong>That email and password do not match.</strong> Check the password, or reset it below.
+            If you are an operator, use the operator console.</div>
+        </div>
+
+        <div class="fld">
+          <label class="lbl" for="email">Email <span class="req" aria-hidden="true">*</span></label>
+          <input class="inp" id="email" name="email" type="email" placeholder="you@company.com"
+            autocomplete="email" required aria-describedby="email-hint">
+          <p class="hint" id="email-hint">Use the address your studio contact invited.</p>
+          <p class="err" data-err="email" hidden><svg class="i i--sm"><use href="#i-alert"/></svg>Enter a valid email address.</p>
+        </div>
+
+        <div class="fld">
+          <label class="lbl" for="password">Password <span class="req" aria-hidden="true">*</span></label>
+          <div class="rowpw">
+            <input class="inp" id="password" name="password" type="password" placeholder="Enter your password"
+              autocomplete="current-password" required minlength="8" aria-describedby="pw-hint">
+            <button class="reveal-btn" type="button" data-reveal aria-pressed="false" aria-label="Show password">Show</button>
+          </div>
+          <p class="hint" id="pw-hint">At least 8 characters.</p>
+          <p class="err" data-err="password" hidden><svg class="i i--sm"><use href="#i-alert"/></svg>Enter your password.</p>
+        </div>
+
+        <div class="opt-row">
+          <label class="chk"><input type="checkbox" name="rememberMe" checked><span>Keep me signed in</span></label>
+          <a class="link" href="../V2/index.html#forgot">Forgot password?</a>
+        </div>
+
+        <button class="btn btn-p btn-block" type="submit" data-submit>Sign in</button>
+
+        <div data-twofa hidden>
+          <div class="twofa">
+            <strong style="font-weight:700">Two-factor code required</strong>
+            <p style="margin:0">Enter the 6-digit code from your authenticator app. Codes expire after 30 seconds.</p>
+            <div class="otp" role="group" aria-label="Six digit verification code">
+              <input class="inp" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+              <input class="inp" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+              <input class="inp" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+              <input class="inp" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+              <input class="inp" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+              <input class="inp" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+            </div>
+            <div class="row"><button class="btn btn-p btn-sm" type="button" data-verify>Verify &amp; continue</button>
+              <button class="btn btn-g btn-sm" type="button" data-demo="Verification email re-sent (demo).">Resend code</button></div>
+          </div>
+        </div>
+
+        <div class="after">
+          <p>Staff or platform operator? <a class="link" href="../../F04-global-search/V1/index.html">Operator sign-in</a></p>
+          <p class="small">Administrator accounts cannot finish signing in here.</p>
+          <p>Don't have an account? <a class="link" href="../../F02-auth-register-forgot/V1/index.html">Sign up</a></p>
+        </div>
+      </form>
+
+      <div class="foot-links mt-16">
+        <span>Client portal · live</span>
+        <a class="link link--quiet" href="../../F23-explore/V1/index.html">Terms</a>
+        <span aria-hidden="true">·</span>
+        <a class="link link--quiet" href="../../F21-settings/V1/index.html">Privacy</a>
+      </div>
+
+      <nav class="vnav" aria-label="Variant navigation">
+        <a class="btn btn-g btn-sm" href="../../../index.html">← Gallery</a>
+        <span class="muted">F01 Auth – Login · V1 of 5 — Split Classic</span>
+        <span class="seg"><a href="index.html" aria-current="page">V1</a><a href="../V2/index.html">V2</a><a href="../V3/index.html">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+        <a class="btn btn-s btn-sm" href="../V2/index.html">Next →</a>
+      </nav>
+      <p class="state-note">Demo sign-in: any valid email + 8-character password reveals the 2FA step.
+        <span class="mono">?state=error</span> forces the credential error.</p>
+    </main>
+  </div>
+
+  <aside class="hero" aria-label="What the client portal does">
+    <span class="tag"><i></i>FIG · Portal</span>
+    <h2>Your delivery OS — from brief to payout.</h2>
+    <p class="sub">Same studio surface as the public site: engineered panels and money you can read at a glance —
+      after you sign in.</p>
+
+    <div class="artefact">
+      <div class="top"><span>project-hub · NL-204</span><span>In progress</span></div>
+      <div class="pct">68%</div>
+      <div class="bar" role="img" aria-label="Project 68 percent complete"><i></i></div>
+      <div class="meta"><span>NL-204 · Milestone 3</span><span>Deposit paid ₹48,000</span></div>
+      <p style="font-size:13px;color:#fff;font-weight:600;margin:0">Frontend — SaaS Landing Redesign</p>
+      <div class="ev"><span class="av">NL</span><div><b style="color:#fff">Staging build pushed</b><br>14 min ago · deliverable linked</div></div>
+      <div class="ev"><span class="av">RH</span><div><b style="color:#fff">Rahul: Hero CTA above the fold?</b><br>1h ago · thread</div></div>
+    </div>
+
+    <ul>
+      <li><svg class="i"><use href="#i-folder"/></svg><span><b>Project Hub</b> — milestones, files and threads in one surface.</span></li>
+      <li><svg class="i"><use href="#i-card"/></svg><span><b>Milestone payments</b> — pay deposit, mid and final as work is approved.</span></li>
+      <li><svg class="i"><use href="#i-zap"/></svg><span><b>Razorpay / UPI</b> — tabular money, deposits and payouts clear.</span></li>
+    </ul>
+
+    <footer><span>Secured by Razorpay</span><span>256-bit encryption</span><span>PCI-DSS compliant</span></footer>
+  </aside>
+</div>
+
+<div class="cookie" data-cookie>
+  <svg class="i" style="color:var(--muted-foreground)"><use href="#i-check"/></svg>
+  <p class="grow" style="margin:0">We use essential cookies to keep you signed in and remember your preferences.
+    See our <a class="link" href="../../F21-settings/V1/index.html">Privacy Policy</a> for details.</p>
+  <div class="row"><button class="btn btn-g btn-sm" data-cookie-dismiss>Dismiss</button>
+    <button class="btn btn-s btn-sm" data-cookie-dismiss>Accept</button></div>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, p=new URLSearchParams(location.search);
+  var toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);
+    tm=setTimeout(function(){toast.dataset.show='false';},2600);}
+
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    if(tt){tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var cookie=document.querySelector('[data-cookie]');
+  document.querySelectorAll('[data-cookie-dismiss]').forEach(function(b){
+    b.addEventListener('click',function(){cookie.hidden=true;});});
+
+  var rev=document.querySelector('[data-reveal]');
+  rev.addEventListener('click',function(){
+    var pw=document.getElementById('password');
+    var on=pw.type==='password';
+    pw.type=on?'text':'password';
+    rev.textContent=on?'Hide':'Show';
+    rev.setAttribute('aria-pressed',String(on));
+    rev.setAttribute('aria-label',on?'Hide password':'Show password');
+  });
+
+  var form=document.querySelector('[data-form]');
+  function showErr(name,show){
+    var el=document.querySelector('[data-err="'+name+'"]'); if(el)el.hidden=!show;
+    var f=document.getElementById(name); if(f)f.setAttribute('aria-invalid',String(show));
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=document.getElementById('email'), pw=document.getElementById('password'),
+        emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()), pwOk=pw.value.length>=8;
+    showErr('email',!emailOk); showErr('password',!pwOk);
+    var err=document.querySelector('[data-error]');
+    if(!emailOk||!pwOk){ err.hidden=true; (emailOk?pw:email).focus(); return; }
+    var btn=document.querySelector('[data-submit]'); btn.classList.add('is-loading');
+    setTimeout(function(){
+      btn.classList.remove('is-loading');
+      if(p.get('state')==='error'){ err.hidden=false; err.scrollIntoView({block:'center',behavior:'smooth'}); return; }
+      document.querySelector('[data-twofa]').hidden=false;
+      document.querySelector('[data-twofa] input').focus();
+      say('Credentials accepted — 2FA step, as the live flow requires.');
+    },700);
+  });
+
+  document.querySelectorAll('.otp input').forEach(function(inp,i,all){
+    inp.addEventListener('input',function(){
+      if(inp.value && all[i+1])all[i+1].focus();
+    });
+    inp.addEventListener('keydown',function(e){
+      if(e.key==='Backspace'&&!inp.value&&all[i-1])all[i-1].focus();
+    });
+  });
+  var v=document.querySelector('[data-verify]');
+  v.addEventListener('click',function(){
+    var code=[].map.call(document.querySelectorAll('.otp input'),function(i){return i.value;}).join('');
+    if(code.length<6){say('Enter all six digits.');return;}
+    v.classList.add('is-loading');
+    setTimeout(function(){location.href='../../F03-dashboard-overview/V1/index.html';},700);
+  });
+  document.querySelectorAll('[data-demo]').forEach(function(b){
+    b.addEventListener('click',function(){say(b.getAttribute('data-demo'));});});
+  if(p.get('state')==='error'){document.querySelector('[data-error]').hidden=false;}
+})();
+</script>
+</body>
+</html>

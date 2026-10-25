@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explore · V3 Magazine Split — Nestlancer Portal Lab</title>
+<meta name="description" content="F23 variant 3: a featured story at 60% of the page beside a stack of secondary reads, where selecting a read swaps the feature.">
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<script>
+(function(){var t=null;try{t=localStorage.getItem('nl-theme')}catch(e){}
+var q=new URLSearchParams(location.search);var d=q.get('theme')?q.get('theme')==='dark':(t?t==='dark':matchMedia('(prefers-color-scheme:dark)').matches);
+document.documentElement.classList.toggle('dark',d);document.documentElement.dataset.theme=d?'dark':'light';})();
+</script>
+<style>
+/* V3 — Magazine Split. A 60/40 split · C featured-first · D airy · E featured swap. */
+.page{max-width:1040px;margin:0 auto;padding:0 22px 60px}
+.hd{padding:22px 0 14px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.hd h1{font-size:20px;letter-spacing:-.03em}
+.hd .c{font-size:11px;color:var(--muted-foreground)}
+.split{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:26px;align-items:start}
+@media(max-width:860px){.split{grid-template-columns:1fr}}
+.feature{border-top:3px solid var(--foreground);padding-top:13px}
+.feature .k{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-700);font-weight:700}
+.dark .feature .k{color:#9db3ff}
+.feature h2{font-size:26px;letter-spacing:-.04em;line-height:1.18;margin-top:7px}
+.feature h2 a:hover{color:var(--brand-700)}
+.dark .feature h2 a:hover{color:#9db3ff}
+.feature .dek{margin:9px 0 0;font-size:12.5px;line-height:1.7;color:var(--muted-foreground);max-width:52ch}
+.feature .ph{margin:14px 0;border:1px solid var(--border);border-radius:var(--radius-sm);aspect-ratio:16/8;
+  display:grid;place-items:center;font-size:10px;color:var(--muted-foreground);
+  background:repeating-linear-gradient(135deg,var(--muted),var(--muted) 7px,var(--background) 7px,
+  var(--background) 14px)}
+.feature .ft{display:flex;gap:9px;align-items:center;font-size:10.5px;color:var(--muted-foreground);
+  flex-wrap:wrap}
+.feature .ft .r{margin-left:auto;display:flex;gap:6px}
+.rail{border-left:1px solid var(--border);padding-left:18px}
+@media(max-width:860px){.rail{border-left:0;padding-left:0;border-top:1px solid var(--border);padding-top:14px}}
+.rail h2{font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-foreground);
+  font-weight:700;margin-bottom:9px}
+ul{list-style:none;margin:0;padding:0}
+li{border-top:1px solid var(--border)}
+li:first-child{border-top:0}
+li button{width:100%;text-align:left;padding:9px 0;display:grid;gap:3px}
+li button:hover{background:var(--background)}
+li b{font-size:12px;font-weight:650;line-height:1.4;letter-spacing:-.01em}
+li[aria-current="true"] b{color:var(--brand-700)}
+.dark li[aria-current="true"] b{color:#9db3ff}
+li span{font-size:10px;color:var(--muted-foreground);line-height:1.5}
+li .cat{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--muted-foreground)}
+.wide{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;
+  border-top:1px solid var(--border);padding-top:16px}
+@media(max-width:760px){.wide{grid-template-columns:1fr}}
+.wide h2{grid-column:1/-1;font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted-foreground);font-weight:700}
+.wcard{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 12px;background:var(--card);
+  text-align:left}
+.wcard .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.wcard .tags span{font-size:9px;border:1px solid var(--border);border-radius:999px;padding:1px 6px;
+  color:var(--muted-foreground)}
+.wcard b{font-size:11.5px;font-weight:650;display:block;line-height:1.4}
+.wcard p{margin:3px 0 0;font-size:10.5px;line-height:1.55;color:var(--muted-foreground)}
+.note{margin-top:20px;font-size:10.5px;line-height:1.65;color:var(--muted-foreground);
+  border-left:2px solid var(--border);padding-left:9px}
+.end{margin-top:16px;font-size:11px;color:var(--muted-foreground);display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center}
+.seg{display:inline-flex;gap:2px;margin-left:auto}
+.seg a{padding:3px 7px;border-radius:var(--radius-sm);font-weight:600;color:var(--muted-foreground)}
+.seg a[aria-current="page"]{background:var(--brand-50);color:var(--brand-700)}
+.dark .seg a[aria-current="page"]{background:#1b2650;color:#c9d6ff}
+</style>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to explore</a>
+<div class="shell shell--top">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="logo" href="../../F03-dashboard-overview/V1/index.html">Nestlancer</a>
+      <nav class="nav" aria-label="Main">
+        <a href="../../F03-dashboard-overview/V1/index.html">Overview</a>
+        <a href="index.html" aria-current="page">Explore</a>
+        <a href="../../F21-settings/V1/index.html">Settings</a>
+      </nav>
+      <div class="topbar-end">
+        <button class="iconbtn" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="i"><use href="#i-moon"/></svg><svg class="i"><use href="#i-sun"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="page">
+    <div class="hd"><h1>Explore</h1><span class="c">one story at a time · pick a read on the right</span></div>
+
+    <div class="split">
+      <article class="feature" data-feature>
+        <div class="k" data-fk>Process · featured</div>
+        <h2><a href="#" data-open data-ft>Approving a milestone, and what happens next</a></h2>
+        <p class="dek" data-fd>A milestone is a commitment in both directions: approving one unlocks the next
+          payment and closes the stage before it. Here is the sequence, in order.</p>
+        <div class="ph">cover image · from the post</div>
+        <div class="ft"><span data-fm>19 Oct 2026 · 6 min read</span>
+          <span class="r"><a class="btn btn-g btn-sm" href="#" data-open>Read the post</a>
+            <a class="btn btn-g btn-sm" href="#" data-save>Save for later</a></span></div>
+      </article>
+
+      <aside class="rail">
+        <h2>Also in Explore</h2>
+        <ul data-list>
+          <li><button data-pick data-k="Payments" data-t="Why a bank transfer shows as processing"
+              data-d="UPI settles immediately. A transfer clears when the bank confirms it, and until then the
+              portal keeps the payment in its own state." data-m="14 Oct 2026 · 4 min read" aria-current="false">
+            <span class="cat">Payments</span><b>Why a bank transfer shows as processing</b>
+            <span>14 Oct · 4 min</span></button></li>
+
+          <li><button data-pick data-k="Briefs" data-t="A brief that survives the first week"
+              data-d="Not a moodboard. A paragraph about who buys, and what they must be able to do without
+              asking." data-m="11 Oct 2026 · 5 min read" aria-current="false">
+            <span class="cat">Briefs</span><b>A brief that survives the first week</b>
+            <span>11 Oct · 5 min</span></button></li>
+
+          <li><button data-pick data-k="Process" data-t="Change requests are priced before they start"
+              data-d="Scope changes are fine. Unpriced scope changes are how projects stall. Request, quote,
+              invoice — in that order." data-m="8 Oct 2026 · 3 min read" aria-current="false">
+            <span class="cat">Process</span><b>Change requests are priced before they start</b>
+            <span>8 Oct · 3 min</span></button></li>
+
+          <li><button data-pick data-k="Payments" data-t="Invoices, GST and what the PDF actually contains"
+              data-d="What is taxable value, what is GST, and why the invoice total is not the amount you
+              approved." data-m="5 Oct 2026 · 5 min read" aria-current="false">
+            <span class="cat">Payments</span><b>Invoices, GST and what the PDF contains</b>
+            <span>5 Oct · 5 min</span></button></li>
+
+          <li><button data-pick data-k="Work" data-t="Designing a wholesale portal for a shop floor"
+              data-d="Wholesale buyers are not browsing. They are reordering between customers, one-handed, on
+              a mid-range phone." data-m="2 Oct 2026 · 7 min read" aria-current="false">
+            <span class="cat">Work</span><b>Designing a wholesale portal for a shop floor</b>
+            <span>2 Oct · 7 min</span></button></li>
+
+          <li><button data-pick data-k="Process" data-t="What handover includes"
+              data-d="Files, credentials, a design system and a walkthrough — plus the two things nobody
+              documents." data-m="28 Sep 2026 · 4 min read" aria-current="false">
+            <span class="cat">Process</span><b>What handover includes</b>
+            <span>28 Sep · 4 min</span></button></li>
+        </ul>
+      </aside>
+    </div>
+
+    <section class="wide">
+      <h2>Featured work</h2>
+      <button class="wcard" data-open><b>Khandesh Spice — D2C storefront</b>
+        <p>Retail brand moving direct without losing its packaging language.</p>
+        <div class="tags"><span>Brand</span><span>Commerce</span><span>Packaging</span></div></button>
+      <button class="wcard" data-open><b>B2B Wholesale Ordering Portal</b>
+        <p>Phone-first reordering with tiered pricing and an approval step.</p>
+        <div class="tags"><span>Product</span><span>Design system</span></div></button>
+      <button class="wcard" data-open><b>Horizon Retail — campaign site</b>
+        <p>A campaign surface the marketing team can edit themselves.</p>
+        <div class="tags"><span>Web</span><span>Editorial</span></div></button>
+    </section>
+
+    <p class="note">Swapping the feature does not reload the page and does not push a route — the selection is
+      local, so Back still returns you to wherever you came from. Featured work comes from
+      <code>GET /portfolio/featured</code>.</p>
+
+    <div class="end">
+      <a href="../../../index.html">← Gallery</a><span>F23 · V3 of 5</span>
+      <span class="seg"><a href="../V1/index.html">V1</a><a href="../V2/index.html">V2</a><a href="index.html" aria-current="page">V3</a><a href="../V4/index.html">V4</a><a href="../V5/index.html">V5</a></span>
+    </div>
+  </main>
+</div>
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+<script>
+(function(){
+  'use strict';
+  var root=document.documentElement, toast=document.querySelector('[data-toast]'), tm;
+  function say(m){toast.textContent=m;toast.dataset.show='true';clearTimeout(tm);tm=setTimeout(function(){toast.dataset.show='false';},2400);}
+  var tt=document.querySelector('[data-theme-toggle]');
+  function sync(){var d=root.classList.contains('dark');root.dataset.theme=d?'dark':'light';
+    tt.setAttribute('aria-pressed',String(d));tt.setAttribute('aria-label',d?'Switch to light theme':'Switch to dark theme');}
+  sync();
+  tt.addEventListener('click',function(){var d=!root.classList.contains('dark');
+    root.classList.toggle('dark',d);try{localStorage.setItem('nl-theme',d?'dark':'light');}catch(e){}sync();});
+
+  var picks=[].slice.call(document.querySelectorAll('[data-pick]')),
+      fk=document.querySelector('[data-fk]'), ft=document.querySelector('[data-ft]'),
+      fd=document.querySelector('[data-fd]'), fm=document.querySelector('[data-fm]');
+  picks.forEach(function(b){
+    b.addEventListener('click',function(){
+      picks.forEach(function(x){x.setAttribute('aria-current',String(x===b));});
+      fk.textContent=b.dataset.k+' · featured';
+      ft.textContent=b.dataset.t;
+      fd.textContent=b.dataset.d;
+      fm.textContent=b.dataset.m;
+      say('Feature swapped — scroll position kept.');
+    });
+  });
+  document.querySelectorAll('[data-open]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      say('Opens the public post or case study in this tab.');
+    });
+  });
+  document.querySelector('[data-save]').addEventListener('click',function(e){
+    e.preventDefault();
+    say('Saved to your reading list — stored on this device only in the lab.');
+  });
+})();
+</script>
+</body>
+</html>
