@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nestlancer Client Portal Lab — page-family design variants</title>
+<meta name="description" content="Hand-crafted design variants of the Nestlancer client portal: 23 page families × 5 variants, one locked colour scheme.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<script>
+(function(){try{var q=new URLSearchParams(location.search).get('theme');var s=localStorage.getItem('nl-theme');var d=(q==='dark')||(q!=='light'&&s==='dark')||(q!=='light'&&s!=='light'&&matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();
+</script>
+<link rel="stylesheet" href="shared/tokens.css">
+<link rel="stylesheet" href="shared/base.css">
+<style>
+.wrap{max-width:1100px;margin:0 auto;padding:32px 24px 48px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:17px;letter-spacing:-.01em;text-decoration:none}
+.brand img{width:36px;height:36px}
+.brand .logo-dark{display:none}
+.dark .brand .logo-light{display:none}
+.dark .brand .logo-dark{display:block}
+.theme-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);display:grid;place-items:center}
+.theme-btn:hover{background:var(--muted);color:var(--foreground)}
+.theme-btn svg{width:20px;height:20px}
+h1{font-size:clamp(28px,3vw,40px);letter-spacing:-.035em;margin-top:36px;max-width:22ch}
+.lede{margin-top:14px;font-size:16px;color:var(--muted-foreground);max-width:62ch;line-height:1.7}
+.meta-strip{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;border:1px solid var(--border);background:var(--card);padding:6px 13px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-foreground)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--status-success-text)}
+.fam{margin-top:48px}
+.fam-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:1px solid var(--border);padding-bottom:14px}
+.fam-head h2{font-size:22px;letter-spacing:-.02em}
+.fam-head .id{font-family:var(--mono);font-size:12px;color:var(--primary);font-weight:700}
+.fam-head p{width:100%;font-size:13.5px;color:var(--muted-foreground);margin-top:2px}
+.cards{margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 18px 16px;text-decoration:none;transition:transform var(--duration-fast) var(--ease-out),box-shadow var(--duration-fast) var(--ease-out)}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.card .vn{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--primary);font-weight:700}
+.card h3{font-size:15.5px;letter-spacing:-.01em}
+.card p{font-size:12px;color:var(--muted-foreground);line-height:1.6}
+.card .go{margin-top:auto;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--primary)}
+.docs{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+.docs a{font-family:var(--mono);font-size:11px;text-decoration:none;color:var(--muted-foreground);border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px 10px}
+.docs a:hover{color:var(--foreground);background:var(--muted)}
+.placeholder{margin-top:48px;border:1px dashed var(--border);border-radius:var(--radius-lg);padding:26px;font-size:13.5px;color:var(--muted-foreground)}
+.placeholder h2{font-size:16px;color:var(--foreground);margin-bottom:8px}
+footer.site-footer{margin-top:52px;border-top:1px solid var(--border);padding-top:20px;display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--muted-foreground)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="../index.html" aria-label="Back to repo">
+      <img class="logo-light" src="assets/logo-mark-light.svg" alt="" width="36" height="36">
+      <img class="logo-dark" src="assets/logo-mark-dark.svg" alt="" width="36" height="36" aria-hidden="true">
+      Nestlancer Client Portal Lab
+    </a>
+    <button type="button" class="theme-btn" id="themeBtn" aria-label="Use system appearance" title="Use system appearance">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/></svg>
+    </button>
+  </div>
+
+  <main id="main-content">
+    <h1>One portal story, five design ideas per page.</h1>
+    <p class="lede">A hand-crafted design lab for the Nestlancer client portal. Every page family ships five distinct variants — same locked content, same locked colour tokens, different geometry, hierarchy, narrative, density and interaction. Nothing is generated; every line is hand-authored.</p>
+    <p class="meta-strip">
+      <span class="pill"><span class="dot" aria-hidden="true"></span>Preview: <code>python3 -m http.server 8130</code></span>
+      <span class="pill">tokens: shared/tokens.css (one scheme)</span>
+      <span class="pill">WCAG 2.2 AA · light + dark · 360–1440</span>
+    </p>
+
+    <!-- ===== F01 section (owned by the F01 run; later runs add/replace only their own section) ===== -->
+    <section class="fam" aria-labelledby="f01h">
+      <div class="fam-head">
+        <span class="id">F01</span>
+        <h2 id="f01h">Auth · Login</h2>
+        <p>The sign-in door, rebuilt on the single blue ramp (C5+): locked hero story, honest states, AA badges (C4), display type (C18), token surfaces (C6).</p>
+      </div>
+      <div class="cards">
+        <a class="card" href="families/F01-auth-login/V1/index.html">
+          <span class="vn">V1</span>
+          <h3>Split classic</h3>
+          <p>Brand panel left, form right, restrained. IO reveal + live ping.</p>
+          <span class="go">Open V1 →</span>
+        </a>
+        <a class="card" href="families/F01-auth-login/V2/index.html">
+          <span class="vn">V2</span>
+          <h3>Quiet centered</h3>
+          <p>One calm card, trust line elevated, accordion narrative.</p>
+          <span class="go">Open V2 →</span>
+        </a>
+        <a class="card" href="families/F01-auth-login/V3/index.html">
+          <span class="vn">V3</span>
+          <h3>Full-bleed studio</h3>
+          <p>Brand-led field, chapter spine, form dock with focus mode.</p>
+          <span class="go">Open V3 →</span>
+        </a>
+        <a class="card" href="families/F01-auth-login/V4/index.html">
+          <span class="vn">V4</span>
+          <h3>Ops ledger</h3>
+          <p>Narrow dense column, work queue first, tabs + filter chips.</p>
+          <span class="go">Open V4 →</span>
+        </a>
+        <a class="card" href="families/F01-auth-login/V5/index.html">
+          <span class="vn">V5</span>
+          <h3>Flow rail</h3>
+          <p>Step-spine form flow + numbers-first reassurance rail.</p>
+          <span class="go">Open V5 →</span>
+        </a>
+      </div>
+      <p class="docs">
+        <a href="families/F01-auth-login/docs/BASELINE-MAP.md">BASELINE-MAP.md</a>
+        <a href="families/F01-auth-login/docs/REPORT-STUDY.md">REPORT-STUDY.md</a>
+        <a href="families/F01-auth-login/docs/API-MAP.md">API-MAP.md</a>
+        <a href="families/F01-auth-login/docs/CONCEPTS.md">CONCEPTS.md</a>
+        <a href="families/F01-auth-login/docs/DELIVERY-REPORT.md">DELIVERY-REPORT.md</a>
+      </p>
+    </section>
+
+    <!-- ===== later families add their own section here (F02–F23), merge-only ===== -->
+    <section class="placeholder" aria-label="Upcoming families">
+      <h2>F02–F23 — upcoming</h2>
+      <p>Each remaining page family (register + forgot, dashboard, work hub, projects, quotes, messages, billing, checkout, invoices, notifications, profile, settings, explore) adds its own section here when its prompt runs. This gallery is merge-only: runs never edit another family’s section.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>client-portal-lab</span>
+    <span aria-hidden="true">·</span>
+    <span>manifest.json records every variant</span>
+    <span aria-hidden="true">·</span>
+    <span>DECISIONS.md attests hand-authorship</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var btn=document.getElementById("themeBtn"),icons={
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"/>',
+  moon:'<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>',
+  sys:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/>'
+};
+function mode(){try{return localStorage.getItem("nl-theme")||"system"}catch(e){return "system"}}
+function apply(m){
+  var dark=(m==="dark")||(m==="system"&&matchMedia("(prefers-color-scheme: dark)").matches);
+  document.documentElement.classList.toggle("dark",dark);
+  var label=m==="dark"?"Dark theme":m==="light"?"Light theme":"Use system appearance";
+  btn.setAttribute("aria-label",label);btn.title=label;
+  btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">'+(m==="dark"?icons.moon:m==="light"?icons.sun:icons.sys)+"</svg>";
+}
+apply(mode());
+btn.addEventListener("click",function(){
+  var next=mode()==="light"?"dark":mode()==="dark"?"system":"light";
+  try{localStorage.setItem("nl-theme",next)}catch(e){}
+  apply(next);
+});
+})();
+</script>
+</body>
+</html>
