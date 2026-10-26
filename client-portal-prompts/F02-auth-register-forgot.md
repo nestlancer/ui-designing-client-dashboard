@@ -1,11 +1,13 @@
 # Nestlancer Client Portal Lab — F02 · Auth · Register + Forgot Password — AI Agent Prompt
-### Study this family's screenshots + HTML + report + Swagger → hand-craft 5 upgraded designs · one shared colour scheme
+### Study this family's screenshots + HTML + report + Swagger → hand-craft 5 Nestlancer-grade designs · one shared colour scheme
 
 > Paste this whole file into an agent (Arena Agent Mode, Cursor, Claude Code) with the **`ui-designing-client-dashboard`** repo open as the working directory.
 >
 > **Scope: ONE page family — F02 · Auth · Register + Forgot Password.** This is one of **23 independent family prompts** (F01–F23) that together replace the old master prompt: 23 families × 5 variants = **115 templates**, all sharing ONE locked colour/token scheme. This prompt builds **`client-portal-lab/families/F02-auth-register-forgot/V1…V5/`** — 5 hand-built variants of this one page — and nothing else. The other 22 families have their own prompts; never build, edit or delete theirs.
 >
-> **Style parent:** `example-demo-prompt/example.homepage-prompt.md` (gates + phases) and `example-demo-prompt/example.portfolio-listing-prompt.md` (**hand-crafted only, no generators**). Read those two files first to understand the expected discipline — but **this file is the task**.
+> **Style parents (discipline):** `example-demo-prompt/example.homepage-prompt.md` + `example-demo-prompt/example.portfolio-listing-prompt.md` (**hand-crafted only, no generators**).
+>
+> **Craft parents (visual bar — mandatory):** the Nestlancer homepage Top-5 and portfolio shortlist in the sibling repo (paths in §3). Auth pages must feel like those brand doors — **not** generic SaaS “centered white card + blue button.” F01’s first run failed this bar; do not repeat that failure. Portal **tokens stay §5 blue** (homepage teal is composition inspiration only — never a recolour).
 >
 > **Do not push, commit, create or switch a branch.**
 
@@ -68,12 +70,17 @@ State in `client-portal-lab/DECISIONS.md` (your `F02` section): "All F02 variant
 ## 3. READ FIRST — in this order, before any design
 
 1. **This prompt end-to-end.** Then `example-demo-prompt/example.homepage-prompt.md` and `example-demo-prompt/example.portfolio-listing-prompt.md` (discipline reference only — not the task).
-2. **No repo screenshot exists for this family** (auth surface — report finding #13). The two HTML snapshots are your only visual truth.
-3. **`nestlancer-client-pages-html/README.md`** — the file ↔ URL ↔ screenshot map. Then open this family's HTML snapshots (§4 table) + **`nestlancer-client-pages-html/audit-metadata.json`** (headings, buttons, inputs, tokens, failed requests, console errors — filter to this family's routes).
-4. **`reports/NESTLANCER_CLIENT_PORTAL_UI_RESEARCH_REPORT.md`** — read in full (§1 executive findings → §7 roadmap + acceptance checklist → §8 sources).
-5. **`reports/Nestlancer_Client_Portal_UI_Research_Report.xlsx`** — open **all 10 sheets**: `1. Executive Findings · 2. Design Tokens · 3. Page Inventory · 4. Benchmark Patterns · 5. CHANGE list · 6. ADD list · 7. KEEP list · 8. Roadmap · 9. Acceptance checklist · 10. Sources`. If `.md` and `.xlsx` disagree, the `.md` wins — record the difference in your `REPORT-STUDY.md`.
-6. **`backend-api-swagger/README.md`** + this family's specs: `auth.openapi.json` (register, forgot/reset) · `users.openapi.json` (profile bootstrap). Map every UI surface to its real endpoints (Gate A).
-7. `git status` — never overwrite uncommitted changes. **Touch only:** `client-portal-lab/families/F02-auth-register-forgot/` + the shared-infra merge rules (§9.1). Never edit screenshots, HTML snapshots, reports, Swagger specs, example prompts — or **any other family's folder**.
+2. **Craft parents (mandatory — open before Gate 1 concepts):**
+   - Sibling repo `ui-designing-homepage/homepage-compositor/review/rank-list.html` → open the **Top 5** folders under `review/top50/` (user ranks #1–#5; currently dominated by `hdr-P01` + heroes **H07 Money-First** / **H01 Ground Truth**). Study composition, dual logos, Hub window chrome, mesh atmosphere, pill CTAs, IO motion + reduced-motion — **borrow geometry/presence, not homepage teal hues**.
+   - Sibling repo `ui-designing-homepage/portfolio-listing-lab/` — `design-01.html` (Serpentine), `design-03.html` (Editorial Meander), `design-04.html` (Chromatic Rapids), `design-10.html` (Atelier Bend) + `assets/designs.css` / `flow-designs.css`. Study arched panels, editorial rules, route markers, restrained surfaces.
+   - Optional anti-pattern: skim existing `client-portal-lab/families/F01-auth-login/V1…V5/` — what to **avoid** (mark+text logos, icon-tile, card soup, ops chrome above the form). Prefer `client-portal-prompts/F01-auth-login-FIX.md` §4 craft bar as the written standard.
+3. **No repo screenshot exists for this family** (auth surface — report finding #13). The two HTML snapshots are your only *content* truth; craft parents are the *quality* truth.
+4. **`nestlancer-client-pages-html/README.md`** — the file ↔ URL ↔ screenshot map. Then open this family's HTML snapshots (§4 table) + **`nestlancer-client-pages-html/audit-metadata.json`** (headings, buttons, inputs, tokens, failed requests, console errors — filter to this family's routes).
+5. **`reports/NESTLANCER_CLIENT_PORTAL_UI_RESEARCH_REPORT.md`** — read in full (§1 executive findings → §7 roadmap + acceptance checklist → §8 sources).
+6. **`reports/Nestlancer_Client_Portal_UI_Research_Report.xlsx`** — open **all 10 sheets**: `1. Executive Findings · 2. Design Tokens · 3. Page Inventory · 4. Benchmark Patterns · 5. CHANGE list · 6. ADD list · 7. KEEP list · 8. Roadmap · 9. Acceptance checklist · 10. Sources`. If `.md` and `.xlsx` disagree, the `.md` wins — record the difference in your `REPORT-STUDY.md`.
+7. **`backend-api-swagger/README.md`** + this family's specs: `auth.openapi.json` (register, forgot/reset) · `users.openapi.json` (profile bootstrap). Map every UI surface to its real endpoints (Gate A).
+8. **Brand assets:** `client-portal-lab/assets/` must include real `logo-full-light.svg` · `logo-full-dark.svg` · `logo-mark-light.svg` · `logo-mark-dark.svg` (copy from repo-root `assets/` if missing). Never invent glyphs.
+9. `git status` — never overwrite uncommitted changes. **Touch only:** `client-portal-lab/families/F02-auth-register-forgot/` + the shared-infra merge rules (§9.1). Never edit screenshots, HTML snapshots, reports, Swagger specs, example prompts — or **any other family's folder**.
 
 ---
 ## 4. THIS FAMILY — F02 · Auth · Register + Forgot Password
@@ -102,6 +109,8 @@ Two light-weight auth flows sharing the login's split-brand treatment: the sign-
 - **Both flows in every variant** (tabbed, stacked, or linked — designer's choice; both reachable)
 - Validation, loading and success states for both flows
 - Links back to login; password rules/help surfaced honestly
+- **Real Nestlancer full logos** light + dark (`logo-full-*.svg`, aspect ≈ 3.63∶1, width+height set, theme swap) — mark-only + typed “Nestlancer” is a craft FAIL
+- **One first-viewport composition** (brand hero-level + title + short lead/honesty + one primary CTA cluster + ≤1 dominant visual plane) — see §5.4
 
 **Content lock (same story, upgraded hierarchy):** Freeze from `00b` + `00c`: the 7 signup fields (First name / Last name / Email / Password / Confirm password / "I agree to the Terms of Service and Privacy Policy" / "Send me product updates and announcements"), H1 "Sign up", hero "Your delivery OS — from brief to payout"; the reset field + "Send reset link" + "Enter your email and we will send you a secure reset link." + "Remembered it? Sign in" — exemplary microcopy, keep it.
 
@@ -163,6 +172,43 @@ The live app ships **three palettes** (portal blue `--ta-brand-*`, violet `--acc
 ### 5.3 Content lock (same story, upgraded hierarchy)
 
 Every variant keeps the **same IA, labels, counts, ₹ figures, microcopy and legal text** found in this family's screenshots + HTML (verify field-by-field at Gate S). What changes is *hierarchy, restraint, accessibility* per the report — **never** the story itself. **Never** rewrite the H1 story, invent clients/numbers, drop trust strips, or remove the "not available" honesty notes. The KEEP list (§6) must survive in every variant.
+
+### 5.4 Nestlancer craft bar (auth must match Top-5 / portfolio quality)
+
+**One-liner:** Auth pages must read as Nestlancer Top-5 / portfolio craft (dual full logos, one composition, Hub/mesh/editorial geometry, intentional IO motion + reduced-motion) — **never** as a generic centered SaaS card. Tokens stay §5 blue.
+
+#### Must
+
+1. **Full logos** — `logo-full-light.svg` / `logo-full-dark.svg` with theme swap. Aspect ≈ 3.63∶1. Mark OK only as a tiny companion, never as mark + typed wordmark.
+2. **One composition** — first viewport = brand (hero-level) + one title + one short lead + one primary CTA group + ≤1 dominant surface plane (split panel / Hub window / mesh field / arched panel / route rail). Cover the chrome: the page must still read Nestlancer.
+3. **Restrained surfaces** — ≤1 elevated card for the active form. No card soup (form card + feature cards + bento + timeline as equal boxes). Cards only when interaction needs a container.
+4. **Form craft** — labels above fields; body 14–16px; inputs ≥44px; one primary CTA; secondary links calm (Sign in / Forgot). No floating Material labels; no placeholder-only fields; no decorative icon-tile above the H1.
+5. **Signature motion** — each variant ships **2–3 intentional beats** (IO field stagger, Hub progress fill, live-dot ping, path draw, underline-draw, step reveal). Full `prefers-reduced-motion` path. Theme boot before paint (`?theme=`).
+6. **Atmosphere without hue drift** — soft mesh / `color-mix` radials / band fields using **only** §5 tokens. Dark = 3-step ramp (`--background` / `--card` / `--muted`), not flat void / pure black / homepage teal band paste.
+7. **Both flows reachable** without burying register behind forgot or vice versa; success states are designed (what happens next), not a bare toast.
+
+#### Must-not (instant FAIL)
+
+- Centered white card + purple/indigo gradient blob (AI-SaaS default)
+- Logo as 24px nav crumb; brand name only in `<title>`
+- Glass over dense form text; neon glow; particle / marquee noise beside fields
+- Pill / chip clusters competing with the primary CTA
+- OAuth walls that demote Nestlancer
+- CDN fonts / frameworks / emoji / invented logos / second brand hue
+- Copying F01’s weak patterns (mark+text, icon-tile, ops tabs above the form, triple proof rails)
+
+#### Borrowable patterns → F02 (geometry only)
+
+| Parent | Register / Forgot translation |
+|---|---|
+| **H07 Money-First split** | Split ~`.98fr/1.02fr`: brand + live pill one side; Hub window (dots + mono title + progress) holds the active form |
+| **H01 Ground Truth + quiet meridian** | Soft dual mesh radials; centered max-~420–480px form on a calm field; underline-draw on title accent |
+| **Portfolio 03 Editorial Meander** | Serif-or-display H1 optional *within Outfit stack* (no new font CDN); ink hairline; arched panel + hard offset shadow for the form |
+| **C03-style orbit reassurance** | 3–4 mono reassurance nodes around submit (encrypted session · reset link · Terms · support) — diagram, not icon-row spam |
+| **Portfolio 01 Serpentine** | Quiet vertical route: Account → Verify → Portal (register) or Email → Link → Sign in (forgot) — markers + hairline, not three card systems |
+| **Portfolio 10 Atelier Bend** | Warm atmosphere via brand/muted `color-mix`; arched form shell; serif italic only if local |
+
+Print in Gate 1 CONCEPTS: which craft parent each V# borrows + how §5.4 Must items are met.
 
 ---
 
@@ -263,17 +309,19 @@ Each variant must differ from its **4 siblings** on **≥3 of 5 axes**, one of w
 
 Recolouring, re-radiusing or re-shadowing alone is **not** a difference. Neighbouring variants must not share the same A+C combination. Coverage in your 5: ≥1 minimal · ≥1 dense · ≥1 action/queue-led · ≥1 narrative/stepper-led.
 
-### 8.3 Roster guidance (adapt freely — keep 5)
+### 8.3 Roster guidance (craft-named — keep 5 · same §5 tokens)
 
-| Variant | Suggested aspect (same tokens) |
-|---|---|
-| V1 | Single-form classic: both flows as calm stacked sections |
-| V2 | Stepper-led register with reassurance rail |
-| V3 | Two-column brief: form + live guidance panel |
-| V4 | Compact dense: narrow fast forms, minimal chrome |
-| V5 | Reassurance-led: "what happens next" narrative forward |
+| Variant | Name (adapt freely) | Geometry + craft parent |
+|---|---|---|
+| V1 | **Hub Gate** | Split ~`.98/1.02`: brand + live pill left; Hub window right holds **register** (forgot via in-Hub tab or calm secondary) — H07 twin |
+| V2 | **Ground Meridian** | Full soft mesh field; centered elevated form card; register/forgot as quiet segmented control — H01 + C01 calm |
+| V3 | **Editorial Ledger** | Editorial rules + arched/offset form panel; register primary, forgot as linked quiet state — Portfolio 03 |
+| V4 | **Orbit Credential** | Narrow dense nucleus; 3–4 mono reassurance nodes around submit; both flows via compact switcher — C03 orbit (no pill spam) |
+| V5 | **Route & Ribbon** | Vertical serpentine markers (Account→Verify→Portal / Email→Link→Sign-in) + arched form on a warm `color-mix` field — Portfolio 01 + 10 |
 
-Rename freely — still **5 variants**, still locked content + tokens.
+Every concept card must cite: craft parent · logo treatment (full light/dark) · first-viewport composition · signature motion (≤3 beats) · how both flows are reached.
+
+Rename freely — still **5 variants**, still locked content + tokens + §5.4 craft bar.
 
 ---
 
@@ -284,7 +332,7 @@ Rename freely — still **5 variants**, still locked content + tokens.
 ```
 client-portal-lab/
   index.html                  ← gallery: create if missing; otherwise add/replace ONLY the F02 section
-  assets/                     ← ONE shared logo/icon set (inline SVG preferred) — add to it, never fork it
+  assets/                     ← REAL Nestlancer logos: logo-full-{light,dark}.svg + logo-mark-{light,dark}.svg (+ favicon) — copy from repo-root assets/ if missing; never invent / recolour / stretch
   shared/
     tokens.css                ← §5 tokens ONLY — create with EXACTLY the §5.2 CSS if missing; if present, import AS-IS (never edit, never fork)
     base.css                  ← reset + primitives ONLY — same create-if-missing rule
@@ -372,15 +420,17 @@ No 80px headlines, no 600px hero art inside the portal, no giant decorative nume
 
 ## 12. GATE 1 / GATE 2a + 2b / GATE 3
 
-**Gate 1 — concepts review (before build).** 5 concept cards in your `docs/CONCEPTS.md`, each per §8.1 with ASCII sketch + axes + API refs + dark/mobile notes.
+**Gate 1 — concepts review (before build).** 5 concept cards in your `docs/CONCEPTS.md`, each per §8.1 with ASCII sketch + axes + API refs + dark/mobile notes + **craft parent + §5.4 composition plan**.
 
-- **Table 1:** `variant | keeps | fixes (C#) | adds (A#) | axes | signature interaction | API endpoints`
+- **Table 1:** `variant | keeps | fixes (C#) | adds (A#) | axes | craft parent | signature motion | API endpoints`
 - **Table 2 — distinctness:** 5 rows × axes A–E. FAIL if any two siblings share A+C, or differ by colour only.
 - **Table 3 — coverage:** every C-item present in 5/5; every P1 A-item 5/5; P2–P3 ≥3/5.
+- **Table 4 — craft bar:** `variant | full logos Y/N | first-viewport composition (1 line) | surfaces (≤1 form card?) | motion beats (≤3) | both flows reach`
 
 ```
 ## GATE 1 (F02)
 Concept cards: 5/5 · Sketches: 5/5 · Difference test: PASS/FAIL
+Craft parents cited: 5/5 · §5.4 plan: YES/NO
 C coverage 5/5: YES/NO · P1 A coverage 5/5: YES/NO · P2-P3 ≥3/5: YES/NO
 Gate: PASS / FAIL
 ```
@@ -393,15 +443,16 @@ Gate: PASS / FAIL
 
 - Confirm §1.3: no design-generation scripts; `DECISIONS.md` attests hand-authorship.
 - Anti-drift checks (manual): identical-skin side-by-side (fail if 2 siblings near-identical) · remote-URL check (no `http(s)` assets/fonts/scripts) · dead-link check (no `href="#"`) · token check (only §5 colours/radii/spacing) · scope check (only `families/F02-auth-register-forgot/` + shared-infra merges + family docs) · C/A coverage check from manifest.
-- Exercise every interaction in every variant: tabs, filters, search, sort, pagination, dialogs, drawers, theme, reduced-motion, no-JS fallback (content + links reachable), rapid-click races, broken-image placeholders.
+- **Craft bar check (§5.4):** full logos light/dark ×5 · one first-viewport composition ×5 · no card soup · no icon-tile · signature motion visible + reduced-motion ×5 · side-by-side vs Top-5/portfolio still feels Nestlancer (not generic SaaS). FAIL the gate if any variant fails §5.4 Must.
+- Exercise every interaction in every variant: register ↔ forgot switch, validation, loading, success, theme, reduced-motion, no-JS fallback (content + links reachable), rapid-click races.
 - Inspect at 360/390/768/1024/1440, light + dark, **if a browser is available**. If not, say so explicitly and do not claim screenshot QA.
 - Apply the report's acceptance checklist (§7.1 of the report — hierarchy <2s, KPI grammar, table completeness, nav ≤9, colour AA, type scale, dark parity, keyboard, empty/loading/error, mobile, performance, legal) to each variant. Classify findings **blocker · major · minor**. No blocker open at hand-off.
-- Write `docs/DELIVERY-REPORT.md` (in your family folder): file paths, run command, per-variant verification, and **1 family winner recommendation + why**.
+- Write `docs/DELIVERY-REPORT.md` (in your family folder): file paths, run command, craft parents studied, per-variant verification + craft notes, and **1 family winner recommendation + why**.
 
 ```
 ## GATE 3 (F02)
 Variants built by hand: 5/5 · Generator scripts: 0
-Widths×themes checked: <…> · Checklist pass: <…>/5 · Blockers open: 0
+Craft bar §5.4: PASS/FAIL · Widths×themes checked: <…> · Checklist pass: <…>/5 · Blockers open: 0
 Gate: PASS / FAIL
 ```
 
@@ -412,12 +463,13 @@ Gate: PASS / FAIL
 - **Do not** push, commit, create/switch/rename a branch.
 - **Do not** modify screenshots, HTML snapshots, reports, Swagger specs, example prompts — or **any other family's folder** (`families/F##-…` that is not yours).
 - **Do not** create templates with a generator script (`*.mjs`/Node/Python/shell-loop/compositor/factory). Hand-author every variant (§1.3).
-- **Do not** introduce colours outside §5. Same scheme as the other 22 families. Phase/status hues stay inside the token file.
+- **Do not** introduce colours outside §5. Same scheme as the other 22 families. Phase/status hues stay inside the token file. **Do not** paste homepage teal / mint band as a second brand — craft parents teach composition, not a hue swap.
 - **Do not** ship 5 recolours of one layout — the Difference Test (§8.2) is a gate, not guidance.
 - **Do not** invent portal features, clients, numbers, testimonials, or case metrics. Features come from Gate S current-UI + Gate R ADD list + Gate A Swagger — nothing else.
 - **Do not** drop KEEP items, trust strips, honesty notes, or legal/dispute routes.
 - **Do not** ship remote/expiring media, broken routes, `href="#"` destinations, external CDNs, font services, or chart libraries.
-- **Do not** present research you did not open; unopened = not verified. Do not claim browser QA you did not run.
+- **Do not** present research you did not open; unopened = not verified. Do not claim browser QA you did not run. Craft parents unopened = Gate 1 FAIL.
+- **Do not** ship generic SaaS auth (mark+text logo, icon-tile, centered white card as the whole idea, card soup, pill spam) — §5.4 Must-not is a gate.
 - **Do not** build outside `client-portal-lab/families/F02-auth-register-forgot/` + the shared-infra merge rules (§9.1) + your family docs. No `tools/generate-*`, no second lab folder, no blog/marketing work beyond this family's scope.
 
 ---
@@ -427,24 +479,27 @@ Gate: PASS / FAIL
 - [ ] Gate S PASS — this family's screenshots + HTML + audit metadata mapped, `docs/BASELINE-MAP.md` written
 - [ ] Gate R PASS — MD + all 10 XLSX sheets studied, `docs/REPORT-STUDY.md` written (this family's C/A/KEEP mapped)
 - [ ] Gate A PASS — this family's specs mapped, `docs/API-MAP.md` written (every CTA → real endpoint)
-- [ ] Gate 1 PASS — 5 concept cards + sketches + difference tables, `docs/CONCEPTS.md` written
-- [ ] Gate 2a PASS — V1 pilot hand-built and frozen
+- [ ] Craft parents opened — Top-5 homes + portfolio 01/03/04/10 studied before concepts
+- [ ] Gate 1 PASS — 5 concept cards + sketches + difference tables + craft-bar table, `docs/CONCEPTS.md` written
+- [ ] Gate 2a PASS — V1 pilot hand-built and frozen (full logos + one composition + both flows)
 - [ ] Gate 2b — all 5 variants **hand-authored** (§1.3); gallery section + `manifest.json` (5 records) + `DECISIONS.md` updated; zero generator scripts
 - [ ] Same token file imported by all 5; no new hues; C4 AA badges; C5 single brand; C6 tokenised cards
+- [ ] §5.4 craft bar PASS ×5 — full logos · one composition · restrained surfaces · ≤3 motion beats · no generic SaaS tells
 - [ ] Every C-item in 5/5; every P1 A-item in 5/5; P2–P3 in ≥3/5 (recorded in manifest)
-- [ ] Every variant: empty + skeleton + error states; light + dark; 360–1440; keyboard-clean; reduced-motion; no-JS content reachable
-- [ ] Gate 3 PASS — acceptance checklist applied ×5, 0 blockers, `docs/DELIVERY-REPORT.md` with 1 family winner
+- [ ] Every variant: register + forgot reachable; empty + skeleton + error + success; light + dark; 360–1440; keyboard-clean; reduced-motion; no-JS content reachable
+- [ ] Gate 3 PASS — acceptance + craft bar applied ×5, 0 blockers, `docs/DELIVERY-REPORT.md` with craft parents + 1 family winner
 - [ ] Reported: file paths, `python3 -m http.server 8130` run command, verification + limitations
 
 ### Operator shortcuts
 
-- **Colour drift:** "Restore tokens from §5 in every variant — one scheme, no new hues."
+- **Colour drift:** "Restore tokens from §5 in every variant — one scheme, no new hues. Homepage teal is not a portal token."
+- **Still generic:** "Fails §5.4 — full logos + one composition; kill card soup / icon-tile / centered-card-only."
 - **Fake variety:** "F02-V3 fails the Difference Test vs V1 — change geometry or narrative (axis A/C), not colour."
 - **No manual craft:** "Gate 2 FAIL — a generator script exists. Delete it and hand-rebuild."
-- **Shallow study:** "Gate R/A FAIL — REPORT-STUDY/API-MAP must quote every C/A item and endpoint mapping."
+- **Shallow study:** "Gate R/A FAIL — REPORT-STUDY/API-MAP must quote every C/A item and endpoint mapping. Craft parents unopened = Gate 1 FAIL."
 - **Dead CTA:** "Every button links to a Gate-A endpoint or is labelled demo-only in DECISIONS.md."
 - **Freeze:** "F02-V1 approved — never regenerate it."
 
 ---
 
-*End of prompt F02. Start at §3 Step 1. Print every gate block. Hand-craft all 5.*
+*End of prompt F02. Start at §3 Step 1. Print every gate block. Hand-craft all 5 to the Nestlancer craft bar.*

@@ -13,12 +13,27 @@
 3. The agent studies that family's screenshots + HTML + report + Swagger, prints its gates (S → R → A → 1 → 2a → 2b → 3), and hand-builds **5 variants** in `client-portal-lab/families/<slug>/V1…V5/`.
 4. Repeat with the next prompt — **any order works**; every prompt is standalone. Suggested order: **F03** (establishes the shell + dark + mobile proof) → **F11** (the revenue screen) → **F16** → **F09** → the rest in ID order.
 
+### Auth craft note (F01 / F02)
+
+F01’s first run passed lab gates but missed Nestlancer brand craft (generic SaaS auth). Auth prompts now require studying sibling craft parents before concepts:
+
+- `ui-designing-homepage/homepage-compositor/review/` — Top-5 under `top50/` (via `rank-list.html`)
+- `ui-designing-homepage/portfolio-listing-lab/` — `design-01/03/04/10.html`
+
+| Prompt | When to use |
+|---|---|
+| [`F01-auth-login-FIX.md`](F01-auth-login-FIX.md) | **F01 already built** — surgical craft restyle of `V1…V5` (full logos, one composition, restrained surfaces). Do **not** re-run greenfield F01. |
+| [`F01-auth-login.md`](F01-auth-login.md) | Greenfield only if the family folder is missing (historical). Prefer FIX when files exist. |
+| [`F02-auth-register-forgot.md`](F02-auth-register-forgot.md) | Greenfield F02 — includes §5.4 craft bar + craft-named roster (Hub Gate → Route & Ribbon). |
+
+Portal tokens stay the locked **blue** §5 scheme; homepage/portfolio teach composition — not a teal recolour.
+
 ## The 23 prompts
 
 | Prompt file | Family | Scope | Key fixes / adds |
 |---|---|---|---|
-| [`F01-auth-login.md`](F01-auth-login.md) | **F01** · Auth · Login | 1 HTML state · 0 screenshots | Fix C5 |
-| [`F02-auth-register-forgot.md`](F02-auth-register-forgot.md) | **F02** · Auth · Register + Forgot Password | 2 HTML states · 0 screenshots | Fix C5 |
+| [`F01-auth-login.md`](F01-auth-login.md) · **[`F01-auth-login-FIX.md`](F01-auth-login-FIX.md)** | **F01** · Auth · Login | 1 HTML state · 0 screenshots | Fix C5 · **FIX = Nestlancer craft restyle** |
+| [`F02-auth-register-forgot.md`](F02-auth-register-forgot.md) | **F02** · Auth · Register + Forgot Password | 2 HTML states · 0 screenshots | Fix C5 · **§5.4 craft bar (Top-5 / portfolio)** |
 | [`F03-dashboard-overview.md`](F03-dashboard-overview.md) | **F03** · Dashboard Overview | 6 HTML states · 4 screenshots | Fix C1, C14, C17, C2, C3 · Add A11, A9 |
 | [`F04-global-search-command-palette.md`](F04-global-search-command-palette.md) | **F04** · Global Search / ⌘K Command Palette | 1 HTML state · 1 screenshot | Fix C12 |
 | [`F05-requests-work-hub.md`](F05-requests-work-hub.md) | **F05** · Requests Work Hub | 3 HTML states · 2 screenshots | Fix C16 · Add A12 |
