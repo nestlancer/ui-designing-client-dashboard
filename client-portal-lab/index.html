@@ -16,6 +16,9 @@
 .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .brand{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:17px;letter-spacing:-.01em;text-decoration:none}
 .brand img{width:36px;height:36px}
+.brand .logo-dark{display:none}
+.dark .brand .logo-light{display:none}
+.dark .brand .logo-dark{display:block}
 .theme-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);display:grid;place-items:center}
 .theme-btn:hover{background:var(--muted);color:var(--foreground)}
 .theme-btn svg{width:20px;height:20px}
@@ -49,7 +52,8 @@ footer.site-footer{margin-top:52px;border-top:1px solid var(--border);padding-to
 <div class="wrap">
   <div class="top">
     <a class="brand" href="../index.html" aria-label="Back to repo">
-      <img src="assets/logo.svg" alt="" width="36" height="36">
+      <img class="logo-light" src="assets/logo-mark-light.svg" alt="" width="36" height="36">
+      <img class="logo-dark" src="assets/logo-mark-dark.svg" alt="" width="36" height="36" aria-hidden="true">
       Nestlancer Client Portal Lab
     </a>
     <button type="button" class="theme-btn" id="themeBtn" aria-label="Use system appearance" title="Use system appearance">

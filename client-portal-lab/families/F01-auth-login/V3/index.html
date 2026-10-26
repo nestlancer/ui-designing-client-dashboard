@@ -30,6 +30,9 @@
 .logo{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:15px;text-decoration:none;color:var(--foreground)}
 .dark .logo{color:var(--foreground)}
 .logo img{width:32px;height:32px}
+.logo .logo-dark{display:none}
+.dark .logo .logo-light{display:none}
+.dark .logo .logo-dark{display:block}
 .theme-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);display:grid;place-items:center}
 .theme-btn:hover{background:var(--muted);color:var(--foreground)}
 .theme-btn svg{width:20px;height:20px}
@@ -249,7 +252,8 @@ footer.site-footer a:hover{text-decoration:underline}
       </p>
       <div class="chrome-actions">
         <a class="logo" href="https://nestlancer.com" aria-label="Nestlancer home">
-          <img src="../../../assets/logo.svg" alt="" width="32" height="32">
+          <img class="logo-light" src="../../../assets/logo-mark-light.svg" alt="" width="32" height="32">
+          <img class="logo-dark" src="../../../assets/logo-mark-dark.svg" alt="" width="32" height="32" aria-hidden="true">
           Nestlancer
         </a>
         <button type="button" class="theme-btn" id="themeBtn" aria-label="Use system appearance" title="Use system appearance">

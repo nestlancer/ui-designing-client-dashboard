@@ -21,6 +21,9 @@ body{background:var(--background)}
 .logo{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.02em;text-decoration:none;color:var(--muted-foreground)}
 .logo:hover{color:var(--foreground)}
 .logo img{width:28px;height:28px}
+.logo .logo-dark{display:none}
+.dark .logo .logo-light{display:none}
+.dark .logo .logo-dark{display:block}
 .theme-btn{width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);display:grid;place-items:center}
 .theme-btn:hover{background:var(--muted);color:var(--foreground)}
 .theme-btn svg{width:18px;height:18px}
@@ -198,7 +201,8 @@ footer.site-footer a:hover{text-decoration:underline}
 <div class="ledger">
   <div class="topbar">
     <a class="logo" href="https://nestlancer.com" aria-label="Nestlancer home">
-      <img src="../../../assets/logo.svg" alt="" width="28" height="28">
+      <img class="logo-light" src="../../../assets/logo-mark-light.svg" alt="" width="28" height="28">
+      <img class="logo-dark" src="../../../assets/logo-mark-dark.svg" alt="" width="28" height="28" aria-hidden="true">
       NL · client portal
     </a>
     <button type="button" class="theme-btn" id="themeBtn" aria-label="Use system appearance" title="Use system appearance">

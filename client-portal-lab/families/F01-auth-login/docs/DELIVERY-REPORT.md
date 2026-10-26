@@ -18,7 +18,7 @@ client-portal-lab/
   DECISIONS.md                     ← F01 section: attestations + rulings
   shared/tokens.css                ← §5.2 locked scheme + §5.2 motion tokens (create-once, imported as-is)
   shared/base.css                  ← reset + primitives only
-  assets/logo.svg · favicon.svg    ← one shared mark
+  assets/logo-mark-{light,dark}.svg · logo-full-{light,dark}.svg · favicon.svg    ← shared brand set from repo assets/
   families/F01-auth-login/
     V1/index.html  V2/…  V3/…  V4/…  V5/…
     docs/BASELINE-MAP.md · REPORT-STUDY.md · API-MAP.md · CONCEPTS.md · DELIVERY-REPORT.md
