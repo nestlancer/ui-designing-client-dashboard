@@ -10,7 +10,7 @@
 
 1. Open the `ui-designing-client-dashboard` repo in your agent (Arena Agent Mode, Cursor, Claude Code).
 2. Paste **one** prompt file from this folder (e.g. `F11-quote-details.md`) as the task.
-3. The agent studies that family's screenshots + HTML + report + Swagger, prints its gates (S → R → A → 1 → 2a → 2b → 3), and hand-builds **5 variants** in `client-portal-lab/families/<slug>/V1…V5/`.
+3. The agent studies that family's screenshots + HTML + report + **Swagger**, locks the full UI page requirements, **then** searches online for similar great design templates, prints its gates (**S → R → A → T → 1 → 2a → 2b → 3**), and hand-builds **5 variants** in `client-portal-lab/families/<slug>/V1…V5/`.
 4. Repeat with the next prompt — **any order works**; every prompt is standalone. Suggested order: **F03** (establishes the shell + dark + mobile proof) → **F11** (the revenue screen) → **F16** → **F09** → the rest in ID order.
 
 ### Auth craft note (F01 / F02)
@@ -64,7 +64,8 @@ Portal tokens stay the locked **blue** §5 scheme; homepage/portfolio teach comp
 - `client-portal-lab/index.html` — the gallery; each run adds/replaces only its own family's section.
 - `client-portal-lab/manifest.json` — 5 records per family; merge-only, never delete other families' records.
 - `client-portal-lab/DECISIONS.md` — one section per family; append/extend only your own.
-- Family docs live in `client-portal-lab/families/<slug>/docs/` — `BASELINE-MAP.md` · `REPORT-STUDY.md` · `API-MAP.md` · `CONCEPTS.md` · `DELIVERY-REPORT.md`.
+- Family docs live in `client-portal-lab/families/<slug>/docs/` — `BASELINE-MAP.md` · `REPORT-STUDY.md` · `API-MAP.md` · `TEMPLATE-RESEARCH.md` · `CONCEPTS.md` · `DELIVERY-REPORT.md`.
+- **Gate T order (non-negotiable):** understand Swagger + complete UI requirements first → **then** search online for ≥8 similar great design templates. Templates inspire layout/hierarchy/interaction only; they never invent features.
 - Preview: `python3 -m http.server 8130` from the repo root → `/client-portal-lab/` (8124–8128 belong to sibling labs).
 
 ## The rules that did not change
@@ -75,7 +76,7 @@ Portal tokens stay the locked **blue** §5 scheme; homepage/portfolio teach comp
 - **Coverage:** C-items in 5/5 of each target family; P1 ADDs in 5/5; P2–P3 in ≥3/5 (manifest-recorded).
 - **WCAG 2.2 AA**, light + dark, 360–1440 px, keyboard, reduced-motion, honest empty/loading/error states.
 - **Do not** push, commit, or branch; **do not** modify the input captures (screenshots, HTML snapshots, reports, Swagger specs, example prompts).
-- Features come only from: the current UI (Gate S) + the report's CHANGE/ADD lists (Gate R) + the Swagger specs (Gate A). Nothing invented.
+- Features come only from: the current UI (Gate S) + the report's CHANGE/ADD lists (Gate R) + the Swagger specs (Gate A). Nothing invented. Online templates (Gate T) are composition references only.
 
 ## Family → input map (quick reference)
 

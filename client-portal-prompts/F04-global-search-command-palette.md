@@ -1,5 +1,5 @@
 # Nestlancer Client Portal Lab — F04 · Global Search / ⌘K Command Palette — AI Agent Prompt
-### Study this family's screenshots + HTML + report + Swagger → hand-craft 5 upgraded designs · one shared colour scheme
+### Study screenshots + HTML + report + Swagger → understand full UI requirements → search similar great design templates → hand-craft 5 upgraded designs · one shared colour scheme
 
 > Paste this whole file into an agent (Arena Agent Mode, Cursor, Claude Code) with the **`ui-designing-client-dashboard`** repo open as the working directory.
 >
@@ -17,10 +17,11 @@ You are, at the same time:
 
 1. **A product archaeologist.** You reconstruct the *current* global search / command palette exactly as it is from its screenshots + HTML + audit metadata before changing a single pixel.
 2. **A research analyst.** You study the UI research report (`.md` + `.xlsx`, all 10 sheets) and can quote every Finding, CHANGE (C1–C20), ADD (A1–A15) and KEEP item that touches this family.
-3. **An API analyst.** You read this family's OpenAPI specs and know which UI element maps to which endpoint, field, enum and error state.
-4. **A senior UI designer + art director.** Each of the 5 variants is a *different design idea* — not 5 recolours. Same tokens, different thinking.
-5. **A front-end craftsperson.** Self-contained HTML + CSS + small purposeful JS. Offline, accessible, responsive, no CDN.
-6. **A harsh design critic.** You reject generic admin templates, invented features, broken links, colour-only status, and any variant that does not fix this family's report findings.
+3. **An API analyst.** You read this family's OpenAPI specs (Swagger) and know which UI element maps to which endpoint, field, enum and error state.
+4. **A design-template researcher.** After Swagger + this family's complete UI requirements are locked, you search online for similar great design templates / live products and extract layout/hierarchy/interaction patterns (never invent features from them).
+5. **A senior UI designer + art director.** Each of the 5 variants is a *different design idea* — not 5 recolours. Same tokens, different thinking.
+6. **A front-end craftsperson.** Self-contained HTML + CSS + small purposeful JS. Offline, accessible, responsive, no CDN.
+7. **A harsh design critic.** You reject generic admin templates, invented features, broken links, colour-only status, and any variant that does not fix this family's report findings.
 
 ---
 
@@ -30,10 +31,11 @@ You are, at the same time:
 |---|---|---|
 | **0 · Baseline lock** | this family's screenshots + HTML + `audit-metadata.json` | Screenshot↔HTML map confirmed, content frozen |
 | **1 · Reports study** | report `.md` + `.xlsx` (10 sheets) | `families/F04-global-search-command-palette/docs/REPORT-STUDY.md` |
-| **2 · API study** | this family's `*.openapi.json` specs | `families/F04-global-search-command-palette/docs/API-MAP.md` |
-| **3 · Concepts** | stages 0–2 | `families/F04-global-search-command-palette/docs/CONCEPTS.md` — **5 concept cards**, printed **before** code |
-| **4 · Build (MANUAL)** | concepts | `families/F04-global-search-command-palette/V1…V5/index.html` — **5 hand-built variants** |
-| **5 · Verify** | all 5 variants @ 1440 + 390, light + dark | `families/F04-global-search-command-palette/docs/DELIVERY-REPORT.md` + gallery + manifest |
+| **2 · API study** | this family's `*.openapi.json` specs (Swagger) | `families/F04-global-search-command-palette/docs/API-MAP.md` |
+| **3 · Online template research** | **AFTER** full UI requirements (§4) + Gate A Swagger map | `families/F04-global-search-command-palette/docs/TEMPLATE-RESEARCH.md` — ≥8 similar great design templates |
+| **4 · Concepts** | stages 0–3 | `families/F04-global-search-command-palette/docs/CONCEPTS.md` — **5 concept cards**, printed **before** code |
+| **5 · Build (MANUAL)** | concepts | `families/F04-global-search-command-palette/V1…V5/index.html` — **5 hand-built variants** |
+| **6 · Verify** | all 5 variants @ 1440 + 390, light + dark | `families/F04-global-search-command-palette/docs/DELIVERY-REPORT.md` + gallery + manifest |
 
 ### The two most important rules in this file
 
@@ -43,7 +45,7 @@ All variants across all 23 families share **ONE locked token file** (§5). A var
 **Rule 2 — HAND-CRAFTED ONLY. NO GENERATOR SCRIPTS.**
 You write every variant's HTML/CSS/JS **manually, one by one, by eye** — exactly like the approved `example.portfolio-listing-prompt.md` §1.3 rule. Any script that *creates or overwrites* variant HTML/CSS is forbidden. See §1.3 below. This is non-negotiable.
 
-**Build narrow, study wide.** Read the full report + all of this family's inputs → exactly **5 variants** out. Never stub "same as V1 with different colour". Never invent portal features that are neither in the current UI nor in the report's ADD list nor in the Swagger specs.
+**Build narrow, study wide.** Read the full report + Swagger + this family's UI requirements, **then** search similar great design templates online → exactly **5 variants** out. Never stub "same as V1 with different colour". Never invent portal features that are neither in the current UI nor in the report's ADD list nor in the Swagger specs (templates never add features).
 
 ---
 
@@ -73,7 +75,8 @@ State in `client-portal-lab/DECISIONS.md` (your `F04` section): "All F04 variant
 4. **`reports/NESTLANCER_CLIENT_PORTAL_UI_RESEARCH_REPORT.md`** — read in full (§1 executive findings → §7 roadmap + acceptance checklist → §8 sources).
 5. **`reports/Nestlancer_Client_Portal_UI_Research_Report.xlsx`** — open **all 10 sheets**: `1. Executive Findings · 2. Design Tokens · 3. Page Inventory · 4. Benchmark Patterns · 5. CHANGE list · 6. ADD list · 7. KEEP list · 8. Roadmap · 9. Acceptance checklist · 10. Sources`. If `.md` and `.xlsx` disagree, the `.md` wins — record the difference in your `REPORT-STUDY.md`.
 6. **`backend-api-swagger/README.md`** + this family's specs: `requests.openapi.json` (New request target) · `messaging.openapi.json` (messages jump target) · `payments.openapi.json` (jump-to-payment target) · `quotes.openapi.json` (jump-to-pending-approval target) · `users.openapi.json` (profile/theme target). Map every UI surface to its real endpoints (Gate A).
-7. `git status` — never overwrite uncommitted changes. **Touch only:** `client-portal-lab/families/F04-global-search-command-palette/` + the shared-infra merge rules (§9.1). Never edit screenshots, HTML snapshots, reports, Swagger specs, example prompts — or **any other family's folder**.
+7. **Online design-template research (Gate T) — only after Swagger + complete UI requirements.** Do **not** search templates first. First understand this family's full UI page requirements (§4 + Gates S/R) and finish the Swagger map above (Gate A). Then search the open web for **similar great design templates** / live products that solve this family's page job; open ≥8 refs; write `docs/TEMPLATE-RESEARCH.md`. Steal layout/hierarchy/interaction only — never brand colours, never invent features without Gate-A endpoints / Gate-R ADDs.
+8. `git status` — never overwrite uncommitted changes. **Touch only:** `client-portal-lab/families/F04-global-search-command-palette/` + the shared-infra merge rules (§9.1). Never edit screenshots, HTML snapshots, reports, Swagger specs, example prompts — or **any other family's folder**.
 
 ---
 ## 4. THIS FAMILY — F04 · Global Search / ⌘K Command Palette
@@ -229,7 +232,40 @@ Specs read: <n>/<n> · Endpoints mapped: <n> · Demo-only CTAs listed: <n>
 Gate: PASS / FAIL
 ```
 
-Do not draw a single concept until S + R + A all PASS.
+### Gate T — Online design-template research (AFTER Swagger + full UI requirements)
+
+**Order is mandatory — never reverse it:**
+1. Finish Gates **S** + **R** (current UI + report requirements locked).
+2. Finish Gate **A** (this family's Swagger / OpenAPI map written — every surface → real endpoint).
+3. Be able to state this family's **complete UI page requirements** from §4 (routes, states, must-include, content lock, C/A/KEEP) in your own words.
+4. **Only then** search the open web for similar **great design templates** and live products that solve the *same page job* as this family.
+
+**What to search (adapt queries to this family):**
+- Client-portal / agency / SaaS screens matching this page job (e.g. work hub, request list, quote accept, billing ledger, inbox, checkout, settings).
+- Strong references from: live products, open-source shadcn/admin dashboards, Figma UI kits, Mobbin/Dribbble pattern boards, Envato/portal template galleries.
+- Prefer references that show hierarchy, density, empty/loading/error, and keyboard/interaction craft — not colour skins.
+
+**Rules:**
+- Open and study **≥8** references. Cite each with URL + the *pattern* you will steal (layout geometry, hierarchy, density, narrative, interaction — **never** brand colours, logos, or identity).
+- Cross-check every pattern against Gate A: if a template shows a feature Nestlancer has **no** endpoint for (and it is not a Gate-R ADD), mark it inspiration-only or drop it — **do not invent features**.
+- Extend report §5 benchmarks; do not replace the report's 13 sources — add fresh finds.
+- Locked Nestlancer content + §5 tokens stay unchanged. Templates change *how* you compose the page, not *what* the portal is.
+
+**Output:** write `docs/TEMPLATE-RESEARCH.md` (inside your family folder) containing:
+- Search queries used
+- Table of ≥8 refs: name · URL · page-job match · patterns to adopt · patterns rejected + why
+- Mapping of adopted patterns → V1–V5 concept axes (§8.2)
+- Explicit line: "No features invented from templates; all CTAs still Gate-A or demo-labelled."
+
+```
+## GATE T (F04)
+Queries run: <n> · Refs opened: <n>/≥8 · TEMPLATE-RESEARCH.md written: YES
+Patterns mapped to V1–V5: YES · No invented API features: YES · Order S→R→A→T respected: YES
+Gate: PASS / FAIL
+```
+
+Do not draw a single concept until S + R + A + T all PASS.
+
 
 ---
 
@@ -245,6 +281,7 @@ Differs on axes: A(layout) + C(narrative) + E(motion) — see §8.2
 Layout sketch: [ASCII sketch of the geometry]
 Signature interaction: <the one memorable behaviour>
 API basis: <endpoints from your API-MAP>
+Template refs (Gate T): <2–3 URLs / pattern names informing this variant — layout/hierarchy only>
 Shell: <shell notes> · Dark + 375px notes: …
 Risk: <what could break at 375px / in dark / keyboard>
 ```
@@ -295,6 +332,7 @@ client-portal-lab/
         BASELINE-MAP.md       ← Gate S output (this family only)
         REPORT-STUDY.md       ← Gate R output
         API-MAP.md            ← Gate A output
+        TEMPLATE-RESEARCH.md  ← Gate T output (≥8 similar design templates, after Swagger + UI requirements)
         CONCEPTS.md           ← 5 concept cards
         DELIVERY-REPORT.md    ← Gate 3 output + 1 family winner
   manifest.json               ← merge: add/replace this family's 5 records; never delete other families' records
@@ -372,7 +410,7 @@ No 80px headlines, no 600px hero art inside the portal, no giant decorative nume
 
 ## 12. GATE 1 / GATE 2a + 2b / GATE 3
 
-**Gate 1 — concepts review (before build).** 5 concept cards in your `docs/CONCEPTS.md`, each per §8.1 with ASCII sketch + axes + API refs + dark/mobile notes.
+**Gate 1 — concepts review (before build).** 5 concept cards in your `docs/CONCEPTS.md`, each per §8.1 with ASCII sketch + axes + API refs + Gate T template refs + dark/mobile notes.
 
 - **Table 1:** `variant | keeps | fixes (C#) | adds (A#) | axes | signature interaction | API endpoints`
 - **Table 2 — distinctness:** 5 rows × axes A–E. FAIL if any two siblings share A+C, or differ by colour only.
@@ -414,10 +452,10 @@ Gate: PASS / FAIL
 - **Do not** create templates with a generator script (`*.mjs`/Node/Python/shell-loop/compositor/factory). Hand-author every variant (§1.3).
 - **Do not** introduce colours outside §5. Same scheme as the other 22 families. Phase/status hues stay inside the token file.
 - **Do not** ship 5 recolours of one layout — the Difference Test (§8.2) is a gate, not guidance.
-- **Do not** invent portal features, clients, numbers, testimonials, or case metrics. Features come from Gate S current-UI + Gate R ADD list + Gate A Swagger — nothing else.
+- **Do not** invent portal features, clients, numbers, testimonials, or case metrics. Features come from Gate S current-UI + Gate R ADD list + Gate A Swagger — nothing else. Gate T templates inspire composition only; they never add features.
 - **Do not** drop KEEP items, trust strips, honesty notes, or legal/dispute routes.
 - **Do not** ship remote/expiring media, broken routes, `href="#"` destinations, external CDNs, font services, or chart libraries.
-- **Do not** present research you did not open; unopened = not verified. Do not claim browser QA you did not run.
+- **Do not** present research you did not open (report, Swagger, or online templates); unopened = not verified. Do not claim browser QA you did not run. Do not run Gate T before Gates S/R/A PASS.
 - **Do not** build outside `client-portal-lab/families/F04-global-search-command-palette/` + the shared-infra merge rules (§9.1) + your family docs. No `tools/generate-*`, no second lab folder, no blog/marketing work beyond this family's scope.
 
 ---
@@ -427,6 +465,7 @@ Gate: PASS / FAIL
 - [ ] Gate S PASS — this family's screenshots + HTML + audit metadata mapped, `docs/BASELINE-MAP.md` written
 - [ ] Gate R PASS — MD + all 10 XLSX sheets studied, `docs/REPORT-STUDY.md` written (this family's C/A/KEEP mapped)
 - [ ] Gate A PASS — this family's specs mapped, `docs/API-MAP.md` written (every CTA → real endpoint)
+- [ ] Gate T PASS — after Swagger + full UI requirements: ≥8 similar great design templates studied, `docs/TEMPLATE-RESEARCH.md` written
 - [ ] Gate 1 PASS — 5 concept cards + sketches + difference tables, `docs/CONCEPTS.md` written
 - [ ] Gate 2a PASS — V1 pilot hand-built and frozen
 - [ ] Gate 2b — all 5 variants **hand-authored** (§1.3); gallery section + `manifest.json` (5 records) + `DECISIONS.md` updated; zero generator scripts
@@ -441,7 +480,7 @@ Gate: PASS / FAIL
 - **Colour drift:** "Restore tokens from §5 in every variant — one scheme, no new hues."
 - **Fake variety:** "F04-V3 fails the Difference Test vs V1 — change geometry or narrative (axis A/C), not colour."
 - **No manual craft:** "Gate 2 FAIL — a generator script exists. Delete it and hand-rebuild."
-- **Shallow study:** "Gate R/A FAIL — REPORT-STUDY/API-MAP must quote every C/A item and endpoint mapping."
+- **Shallow study:** "Gate R/A/T FAIL — REPORT-STUDY/API-MAP/TEMPLATE-RESEARCH must quote every C/A item, endpoint mapping, and ≥8 template refs (Gate T only after Swagger + UI requirements)."
 - **Dead CTA:** "Every button links to a Gate-A endpoint or is labelled demo-only in DECISIONS.md."
 - **Freeze:** "F04-V1 approved — never regenerate it."
 
