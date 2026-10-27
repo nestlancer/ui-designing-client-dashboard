@@ -35,17 +35,17 @@
    {
     "key": "interaction",
     "label": "Interaction",
-    "desc": "Real working interactions: command palette, sort, stepper, live preview, board nav, dropzone."
+    "desc": "Real working interactions: command palette, sort, tab keyboard model, file-preview dialog, stepper, keyboard tiles, 1-6 tab keys, forms."
    },
    {
     "key": "states",
     "label": "State coverage",
-    "desc": "Populated, empty, loading/skeleton, error+retry, success, cancel-without-losing-work."
+    "desc": "Populated, empty (incl. captured in-tab empties), loading/skeleton, 502 error + retry + status banner."
    },
    {
     "key": "guidance",
     "label": "Guidance",
-    "desc": "Help affordances, inline validation, tooltips, budget guide, word count, in-context hints."
+    "desc": "Verdict lines, why-locked / unlock explainers, Help-FAQ, Ask-AI, inline validation, honest 'nothing due' cues."
    },
    {
     "key": "honesty",
@@ -63,131 +63,138 @@
   "craft_base": 58.0,
   "craft_gain": 2.0,
   "noise_sigma": 1.6,
+  "study": "Study 2 · F08 + F09",
+  "supersedes": "Study 1 · F05 + F06 (same 100 personas, same seed)",
   "expert_winners": {
-   "F05": "F05-V2",
-   "F06": "F06-V5"
+   "F08": "F08-V3",
+   "F09": "F09-V3"
   }
  },
  "variants": [
   {
-   "id": "F05-V1",
-   "family": "F05",
+   "id": "F08-V1",
+   "family": "F08",
    "v": "V1",
-   "name": "Calm Ledger",
-   "tag": "Airy single-col ledger · chips + URL state + focus-trapped drawer",
-   "path": "families/F05-requests-work-hub/V1/index.html",
-   "kb": 57,
-   "aria": 71,
-   "media": 4,
-   "keys": 4,
+   "name": "Calm Grid",
+   "tag": "Verdict strip + KPI row · classic card grid · ⌘K palette",
+   "path": "families/F08-projects-list/V1/index.html",
+   "kb": 34,
+   "aria": 35,
+   "media": 3,
+   "keys": 2,
    "geom": "airy",
+   "states": "4 states",
    "c": {
-    "clarity": 88,
-    "distinctness": 68,
-    "a11y": 92,
-    "responsive": 86,
-    "performance": 72,
-    "interaction": 84,
-    "states": 90,
-    "guidance": 82,
+    "clarity": 90,
+    "distinctness": 66,
+    "a11y": 90,
+    "responsive": 88,
+    "performance": 82,
+    "interaction": 92,
+    "states": 92,
+    "guidance": 86,
     "honesty": 96,
     "consistency": 92
    }
   },
   {
-   "id": "F05-V2",
-   "family": "F05",
+   "id": "F08-V2",
+   "family": "F08",
    "v": "V2",
-   "name": "Ops Console",
-   "tag": "Dense sticky table · aria-sort · ⌘K · density toggle · mobile cards",
-   "path": "families/F05-requests-work-hub/V2/index.html",
-   "kb": 47,
-   "aria": 61,
+   "name": "Ops Ledger",
+   "tag": "Dense sticky table · aria-sort · mobile card fallback",
+   "path": "families/F08-projects-list/V2/index.html",
+   "kb": 29,
+   "aria": 30,
    "media": 3,
-   "keys": 4,
+   "keys": 2,
    "geom": "dense",
+   "states": "4 states",
    "c": {
-    "clarity": 86,
-    "distinctness": 90,
+    "clarity": 84,
+    "distinctness": 88,
     "a11y": 88,
-    "responsive": 96,
+    "responsive": 94,
     "performance": 86,
-    "interaction": 96,
-    "states": 92,
-    "guidance": 86,
-    "honesty": 92,
+    "interaction": 88,
+    "states": 90,
+    "guidance": 80,
+    "honesty": 94,
     "consistency": 92
    }
   },
   {
-   "id": "F05-V3",
-   "family": "F05",
+   "id": "F08-V3",
+   "family": "F08",
    "v": "V3",
-   "name": "Attention Queue",
-   "tag": "Verdict hero · count-up KPIs · priority switch · Review next",
-   "path": "families/F05-requests-work-hub/V3/index.html",
-   "kb": 43,
-   "aria": 56,
+   "name": "Next-Step Hero",
+   "tag": "Split hero · count-up · sticky mobile CTA · / search",
+   "path": "families/F08-projects-list/V3/index.html",
+   "kb": 25,
+   "aria": 19,
    "media": 3,
-   "keys": 3,
+   "keys": 1,
    "geom": "airy",
+   "states": "4 states",
    "c": {
     "clarity": 96,
     "distinctness": 90,
-    "a11y": 80,
-    "responsive": 82,
+    "a11y": 82,
+    "responsive": 86,
     "performance": 90,
-    "interaction": 86,
+    "interaction": 84,
     "states": 90,
-    "guidance": 88,
-    "honesty": 92,
+    "guidance": 92,
+    "honesty": 94,
     "consistency": 92
    }
   },
   {
-   "id": "F05-V4",
-   "family": "F05",
+   "id": "F08-V4",
+   "family": "F08",
    "v": "V4",
-   "name": "Chapter Tabs",
-   "tag": "Sticky rail · scroll-spy · narrative chapters · in-page jumps",
-   "path": "families/F05-requests-work-hub/V4/index.html",
-   "kb": 44,
-   "aria": 70,
+   "name": "Delivery Story",
+   "tag": "Editorial column · kickoff chapter timeline · reveals",
+   "path": "families/F08-projects-list/V4/index.html",
+   "kb": 23,
+   "aria": 19,
    "media": 3,
-   "keys": 3,
+   "keys": 0,
    "geom": "narrative",
+   "states": "4 states",
+   "c": {
+    "clarity": 80,
+    "distinctness": 94,
+    "a11y": 78,
+    "responsive": 82,
+    "performance": 94,
+    "interaction": 74,
+    "states": 88,
+    "guidance": 84,
+    "honesty": 94,
+    "consistency": 92
+   }
+  },
+  {
+   "id": "F08-V5",
+   "family": "F08",
+   "v": "V5",
+   "name": "Bento Board",
+   "tag": "12-col bento · tile size = capture depth · arrow-key tiles",
+   "path": "families/F08-projects-list/V5/index.html",
+   "kb": 24,
+   "aria": 24,
+   "media": 3,
+   "keys": 1,
+   "geom": "bento",
+   "states": "4 states",
    "c": {
     "clarity": 82,
-    "distinctness": 94,
-    "a11y": 86,
+    "distinctness": 96,
+    "a11y": 88,
     "responsive": 78,
-    "performance": 90,
-    "interaction": 82,
-    "states": 88,
-    "guidance": 88,
-    "honesty": 92,
-    "consistency": 92
-   }
-  },
-  {
-   "id": "F05-V5",
-   "family": "F05",
-   "v": "V5",
-   "name": "Status Lanes",
-   "tag": "4 counted lanes · roving arrow-key board · read-only by design",
-   "path": "families/F05-requests-work-hub/V5/index.html",
-   "kb": 42,
-   "aria": 60,
-   "media": 4,
-   "keys": 4,
-   "geom": "bento",
-   "c": {
-    "clarity": 78,
-    "distinctness": 98,
-    "a11y": 96,
-    "responsive": 74,
-    "performance": 94,
-    "interaction": 86,
+    "performance": 92,
+    "interaction": 90,
     "states": 88,
     "guidance": 78,
     "honesty": 96,
@@ -195,126 +202,131 @@
    }
   },
   {
-   "id": "F06-V1",
-   "family": "F06",
+   "id": "F09-V1",
+   "family": "F09",
    "v": "V1",
-   "name": "Classic Brief",
-   "tag": "Single column · help popovers · autosave/restore · completion count",
-   "path": "families/F06-request-new-form/V1/index.html",
-   "kb": 52,
-   "aria": 88,
+   "name": "Classic Cockpit",
+   "tag": "Full-depth classic · underline tablist · C13 preview dialog",
+   "path": "families/F09-project-details/V1/index.html",
+   "kb": 57,
+   "aria": 56,
    "media": 3,
-   "keys": 1,
+   "keys": 3,
    "geom": "airy",
+   "states": "3 states · 6 tabs",
+   "c": {
+    "clarity": 88,
+    "distinctness": 68,
+    "a11y": 94,
+    "responsive": 84,
+    "performance": 60,
+    "interaction": 94,
+    "states": 94,
+    "guidance": 92,
+    "honesty": 96,
+    "consistency": 92
+   }
+  },
+  {
+   "id": "F09-V2",
+   "family": "F09",
+   "v": "V2",
+   "name": "Delivery Journey",
+   "tag": "Stepper spine · approved -> in-build -> locked payment gate",
+   "path": "families/F09-project-details/V2/index.html",
+   "kb": 47,
+   "aria": 61,
+   "media": 2,
+   "keys": 2,
+   "geom": "narrative",
+   "states": "3 states · 6 tabs",
    "c": {
     "clarity": 90,
-    "distinctness": 68,
-    "a11y": 90,
-    "responsive": 86,
-    "performance": 80,
-    "interaction": 80,
-    "states": 96,
-    "guidance": 94,
-    "honesty": 94,
-    "consistency": 92
-   }
-  },
-  {
-   "id": "F06-V2",
-   "family": "F06",
-   "v": "V2",
-   "name": "Three Steps",
-   "tag": "Gated wizard · aria-current=step · per-step validation · lossless Back",
-   "path": "families/F06-request-new-form/V2/index.html",
-   "kb": 51,
-   "aria": 90,
-   "media": 3,
-   "keys": 1,
-   "geom": "narrative",
-   "c": {
-    "clarity": 92,
-    "distinctness": 90,
-    "a11y": 96,
-    "responsive": 92,
-    "performance": 82,
+    "distinctness": 92,
+    "a11y": 92,
+    "responsive": 80,
+    "performance": 70,
     "interaction": 92,
-    "states": 96,
-    "guidance": 98,
+    "states": 90,
+    "guidance": 90,
     "honesty": 94,
     "consistency": 92
    }
   },
   {
-   "id": "F06-V3",
-   "family": "F06",
+   "id": "F09-V3",
+   "family": "F09",
    "v": "V3",
-   "name": "Compact Desk",
-   "tag": "12-col dense grid · native details help · live budget-band ruler",
-   "path": "families/F06-request-new-form/V3/index.html",
-   "kb": 48,
+   "name": "Your Moves",
+   "tag": "Sticky awaiting-you + unlock rail · answers 'whose move?'",
+   "path": "families/F09-project-details/V3/index.html",
+   "kb": 41,
    "aria": 48,
-   "media": 4,
-   "keys": 1,
-   "geom": "dense",
+   "media": 3,
+   "keys": 2,
+   "geom": "airy",
+   "states": "3 states · 6 tabs",
    "c": {
-    "clarity": 78,
+    "clarity": 94,
     "distinctness": 88,
+    "a11y": 86,
+    "responsive": 84,
+    "performance": 78,
+    "interaction": 88,
+    "states": 90,
+    "guidance": 96,
+    "honesty": 96,
+    "consistency": 92
+   }
+  },
+  {
+   "id": "F09-V4",
+   "family": "F09",
+   "v": "V4",
+   "name": "One Story",
+   "tag": "Single editorial column · A15 digest as spine · chapter tabs",
+   "path": "families/F09-project-details/V4/index.html",
+   "kb": 42,
+   "aria": 46,
+   "media": 2,
+   "keys": 2,
+   "geom": "narrative",
+   "states": "3 states · 6 tabs",
+   "c": {
+    "clarity": 84,
+    "distinctness": 96,
     "a11y": 84,
-    "responsive": 92,
-    "performance": 86,
-    "interaction": 86,
-    "states": 92,
+    "responsive": 80,
+    "performance": 76,
+    "interaction": 84,
+    "states": 88,
     "guidance": 88,
     "honesty": 94,
     "consistency": 92
    }
   },
   {
-   "id": "F06-V4",
-   "family": "F06",
-   "v": "V4",
-   "name": "Guided Narrative",
-   "tag": "Sticky TOC · scroll-spy · word count · resume-draft banner",
-   "path": "families/F06-request-new-form/V4/index.html",
-   "kb": 52,
-   "aria": 82,
+   "id": "F09-V5",
+   "family": "F09",
+   "v": "V5",
+   "name": "Delivery Console",
+   "tag": "Dense console · stat strip · ops tables · 1-6 tab keys",
+   "path": "families/F09-project-details/V5/index.html",
+   "kb": 41,
+   "aria": 49,
    "media": 3,
-   "keys": 1,
-   "geom": "narrative",
+   "keys": 3,
+   "geom": "dense",
+   "states": "3 states · 6 tabs",
    "c": {
     "clarity": 86,
-    "distinctness": 94,
-    "a11y": 86,
-    "responsive": 80,
-    "performance": 80,
-    "interaction": 86,
-    "states": 96,
-    "guidance": 94,
-    "honesty": 94,
-    "consistency": 92
-   }
-  },
-  {
-   "id": "F06-V5",
-   "family": "F06",
-   "v": "V5",
-   "name": "Bento Split",
-   "tag": "Bento accordion · sticky live request-card preview · autosave",
-   "path": "families/F06-request-new-form/V5/index.html",
-   "kb": 53,
-   "aria": 73,
-   "media": 4,
-   "keys": 1,
-   "geom": "bento",
-   "c": {
-    "clarity": 88,
-    "distinctness": 98,
-    "a11y": 84,
-    "responsive": 78,
+    "distinctness": 90,
+    "a11y": 90,
+    "responsive": 88,
     "performance": 78,
-    "interaction": 98,
-    "states": 96,
-    "guidance": 96,
+    "interaction": 92,
+    "states": 90,
+    "guidance": 82,
     "honesty": 94,
     "consistency": 92
    }
@@ -334,7 +346,7 @@
    "experience": "Novice",
    "aesthetic": "airy",
    "priority": "guidance",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 1,
    "weights": {
@@ -350,32 +362,32 @@
     "consistency": 0.449
    },
    "scores": [
-    73.1,
-    73.9,
-    82.35,
-    67.6,
-    58.51,
-    87.52,
-    89.38,
-    74.67,
-    77.07,
-    78.16
+    84.85,
+    74.2,
+    90.96,
+    74.45,
+    66.16,
+    76.43,
+    68.55,
+    83.38,
+    65.27,
+    70.05
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V3",
-    "F06-V5",
-    "F06-V4",
-    "F06-V3",
-    "F05-V2",
-    "F05-V1",
-    "F05-V4",
-    "F05-V5"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F09-V1",
+    "F08-V4",
+    "F08-V2",
+    "F09-V5",
+    "F09-V2",
+    "F08-V5",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it tells me what matters in under two seconds."
+   "verdict": "As a first-time client on Mobile 390, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P002",
@@ -390,7 +402,7 @@
    "experience": "Novice",
    "aesthetic": "airy",
    "priority": "guidance",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 1,
    "weights": {
@@ -406,32 +418,32 @@
     "consistency": 0.482
    },
    "scores": [
-    75.17,
-    76.52,
-    82.67,
-    65.45,
-    60.42,
-    86.42,
-    87.63,
-    75.58,
-    74.76,
-    76.88
+    86.55,
+    76.71,
+    91.37,
+    72.07,
+    68.32,
+    76.59,
+    67.17,
+    84.58,
+    63.32,
+    69.22
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V3",
-    "F06-V5",
-    "F05-V2",
-    "F06-V3",
-    "F05-V1",
-    "F06-V4",
-    "F05-V4",
-    "F05-V5"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V2",
+    "F09-V1",
+    "F08-V4",
+    "F09-V5",
+    "F08-V5",
+    "F09-V2",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it tells me what matters in under two seconds."
+   "verdict": "As a first-time client on Mobile 390, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P003",
@@ -446,7 +458,7 @@
    "experience": "Novice",
    "aesthetic": "airy",
    "priority": "guidance",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 1,
    "weights": {
@@ -462,32 +474,32 @@
     "consistency": 0.429
    },
    "scores": [
-    74.65,
-    76.57,
-    82.63,
-    65.29,
-    59.76,
-    90.32,
-    87.98,
-    77.16,
-    76.45,
-    77.13
+    86.3,
+    76.69,
+    91.31,
+    72.03,
+    67.73,
+    79.98,
+    67.37,
+    86.31,
+    64.78,
+    68.92
    ],
    "ranking": [
-    "F06-V1",
-    "F06-V2",
-    "F05-V3",
-    "F06-V3",
-    "F06-V5",
-    "F05-V2",
-    "F06-V4",
-    "F05-V1",
-    "F05-V4",
-    "F05-V5"
+    "F08-V3",
+    "F09-V3",
+    "F08-V1",
+    "F09-V1",
+    "F08-V2",
+    "F08-V4",
+    "F09-V5",
+    "F08-V5",
+    "F09-V2",
+    "F09-V4"
    ],
-   "top": "F06-V1",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Classic Brief first — it tells me what matters in under two seconds."
+   "verdict": "As a first-time client on Mobile 360, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P004",
@@ -502,7 +514,7 @@
    "experience": "Novice",
    "aesthetic": "airy",
    "priority": "guidance",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 1,
    "weights": {
@@ -518,32 +530,32 @@
     "consistency": 0.453
    },
    "scores": [
-    74.82,
-    76.79,
-    81.03,
-    67.93,
-    60.0,
-    88.46,
-    88.27,
-    76.33,
-    85.6,
-    82.72
+    85.96,
+    76.27,
+    90.07,
+    72.03,
+    67.68,
+    80.03,
+    71.72,
+    86.85,
+    73.55,
+    70.96
    ],
    "ranking": [
-    "F06-V1",
-    "F06-V2",
-    "F06-V4",
-    "F06-V5",
-    "F05-V3",
-    "F05-V2",
-    "F06-V3",
-    "F05-V1",
-    "F05-V4",
-    "F05-V5"
+    "F08-V3",
+    "F09-V3",
+    "F08-V1",
+    "F09-V1",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4",
+    "F09-V2",
+    "F09-V5",
+    "F08-V5"
    ],
-   "top": "F06-V1",
+   "top": "F08-V3",
    "reason_key": "guidance",
-   "verdict": "As a support agent on Laptop 1024, I put Classic Brief first — it holds my hand through the whole flow."
+   "verdict": "As a first-time client on Tablet 768, I put Next-Step Hero first — it holds my hand through the whole flow."
   },
   {
    "id": "P005",
@@ -558,7 +570,7 @@
    "experience": "Novice",
    "aesthetic": "airy",
    "priority": "guidance",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 1,
    "weights": {
@@ -574,32 +586,32 @@
     "consistency": 0.367
    },
    "scores": [
-    75.88,
-    77.03,
-    81.89,
-    63.01,
-    60.94,
-    88.72,
-    91.41,
-    74.06,
-    76.34,
-    78.56
+    87.68,
+    76.97,
+    90.69,
+    69.7,
+    68.73,
+    78.46,
+    70.5,
+    82.52,
+    64.43,
+    69.82
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V3",
-    "F06-V5",
-    "F05-V2",
-    "F06-V4",
-    "F05-V1",
-    "F06-V3",
-    "F05-V4",
-    "F05-V5"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F09-V1",
+    "F08-V2",
+    "F09-V2",
+    "F09-V5",
+    "F08-V4",
+    "F08-V5",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "guidance",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds my hand through the whole flow."
+   "verdict": "As a first-time client on Mobile 360, I put Next-Step Hero first — it holds my hand through the whole flow."
   },
   {
    "id": "P006",
@@ -614,7 +626,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 2,
    "weights": {
@@ -630,32 +642,32 @@
     "consistency": 0.664
    },
    "scores": [
-    66.09,
-    84.64,
-    74.09,
-    66.46,
-    72.42,
-    72.87,
-    83.63,
-    86.24,
-    79.83,
-    83.42
+    73.18,
+    78.99,
+    75.65,
+    63.85,
+    74.03,
+    72.0,
+    74.16,
+    81.04,
+    75.31,
+    84.9
    ],
    "ranking": [
-    "F06-V3",
-    "F05-V2",
-    "F06-V2",
-    "F06-V5",
-    "F06-V4",
-    "F05-V3",
-    "F06-V1",
-    "F05-V5",
-    "F05-V4",
-    "F05-V1"
+    "F09-V5",
+    "F09-V3",
+    "F08-V2",
+    "F08-V3",
+    "F09-V4",
+    "F09-V2",
+    "F08-V5",
+    "F08-V1",
+    "F09-V1",
+    "F08-V4"
    ],
-   "top": "F06-V3",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Compact Desk first — the controls actually do something real."
+   "verdict": "As a repeat client (agency) on Desktop 1440, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P007",
@@ -670,7 +682,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 2,
    "weights": {
@@ -686,32 +698,32 @@
     "consistency": 0.642
    },
    "scores": [
-    66.93,
-    87.01,
-    75.09,
-    69.45,
-    70.81,
-    75.62,
-    85.89,
-    83.65,
-    79.54,
-    83.8
+    74.16,
+    81.21,
+    76.57,
+    66.33,
+    72.38,
+    75.15,
+    76.9,
+    79.71,
+    74.7,
+    84.14
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V5",
-    "F06-V3",
-    "F06-V4",
-    "F06-V1",
-    "F05-V3",
-    "F05-V5",
-    "F05-V4",
-    "F05-V1"
+    "F09-V5",
+    "F08-V2",
+    "F09-V3",
+    "F09-V2",
+    "F08-V3",
+    "F09-V1",
+    "F09-V4",
+    "F08-V1",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a repeat client (agency) on Desktop 1440, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P008",
@@ -726,7 +738,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 2,
    "weights": {
@@ -742,32 +754,32 @@
     "consistency": 0.441
    },
    "scores": [
-    63.78,
-    84.59,
-    74.64,
-    68.34,
-    64.58,
-    76.47,
-    86.44,
-    87.29,
-    72.23,
-    77.35
+    70.91,
+    79.68,
+    77.08,
+    70.93,
+    66.78,
+    72.47,
+    71.0,
+    81.75,
+    67.7,
+    85.06
    ],
    "ranking": [
-    "F06-V3",
-    "F06-V2",
-    "F05-V2",
-    "F06-V5",
-    "F06-V1",
-    "F05-V3",
-    "F06-V4",
-    "F05-V4",
-    "F05-V5",
-    "F05-V1"
+    "F09-V5",
+    "F09-V3",
+    "F08-V2",
+    "F08-V3",
+    "F09-V1",
+    "F09-V2",
+    "F08-V4",
+    "F08-V1",
+    "F09-V4",
+    "F08-V5"
    ],
-   "top": "F06-V3",
+   "top": "F09-V5",
    "reason_key": "responsive",
-   "verdict": "As a support agent on Laptop 1024, I put Compact Desk first — it holds up on my smallest screen."
+   "verdict": "As a repeat client (agency) on Mobile 390, I put Delivery Console first — it holds up on my smallest screen."
   },
   {
    "id": "P009",
@@ -782,7 +794,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 2,
    "weights": {
@@ -798,32 +810,32 @@
     "consistency": 0.521
    },
    "scores": [
-    65.91,
-    86.71,
-    72.34,
-    72.99,
-    71.67,
-    77.84,
-    86.19,
-    84.9,
-    81.73,
-    85.59
+    72.63,
+    80.94,
+    74.03,
+    70.01,
+    73.22,
+    77.48,
+    77.07,
+    81.04,
+    76.87,
+    85.94
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V5",
-    "F06-V3",
-    "F06-V4",
-    "F06-V1",
-    "F05-V4",
-    "F05-V3",
-    "F05-V5",
-    "F05-V1"
+    "F09-V5",
+    "F09-V3",
+    "F08-V2",
+    "F09-V1",
+    "F09-V2",
+    "F09-V4",
+    "F08-V3",
+    "F08-V5",
+    "F08-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a repeat client (agency) on Desktop 1440, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P010",
@@ -838,7 +850,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 2,
    "weights": {
@@ -854,32 +866,32 @@
     "consistency": 0.601
    },
    "scores": [
-    64.71,
-    87.92,
-    74.21,
-    70.11,
-    69.15,
-    72.07,
-    89.88,
-    80.78,
-    81.52,
-    87.71
+    71.81,
+    81.98,
+    75.55,
+    66.65,
+    70.84,
+    72.96,
+    81.28,
+    76.35,
+    77.2,
+    89.02
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V2",
-    "F06-V5",
-    "F06-V4",
-    "F06-V3",
-    "F05-V3",
-    "F06-V1",
-    "F05-V4",
-    "F05-V5",
-    "F05-V1"
+    "F09-V5",
+    "F08-V2",
+    "F09-V2",
+    "F09-V4",
+    "F09-V3",
+    "F08-V3",
+    "F09-V1",
+    "F08-V1",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — the controls actually do something real."
+   "verdict": "As a repeat client (agency) on Desktop 1440, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P011",
@@ -894,7 +906,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 3,
    "weights": {
@@ -910,32 +922,32 @@
     "consistency": 0.536
    },
    "scores": [
-    69.77,
-    95.38,
-    79.69,
-    75.84,
-    80.59,
-    63.95,
-    79.0,
-    79.68,
-    71.98,
-    77.76
+    73.36,
+    83.12,
+    74.18,
+    66.15,
+    77.31,
+    71.97,
+    76.66,
+    78.54,
+    73.12,
+    84.44
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V5",
-    "F05-V3",
-    "F06-V3",
-    "F06-V2",
-    "F06-V5",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F09-V5",
+    "F08-V2",
+    "F09-V3",
+    "F08-V5",
+    "F09-V2",
+    "F08-V3",
+    "F08-V1",
+    "F09-V4",
+    "F09-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a freelancer / service provider on Laptop 1024, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P012",
@@ -950,7 +962,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 3,
    "weights": {
@@ -966,32 +978,32 @@
     "consistency": 0.434
    },
    "scores": [
-    69.07,
-    95.28,
-    79.08,
-    73.21,
-    71.17,
-    67.22,
-    80.56,
-    81.89,
-    66.46,
-    71.21
+    71.54,
+    84.5,
+    75.1,
+    70.1,
+    67.96,
+    70.73,
+    71.37,
+    78.13,
+    68.31,
+    85.88
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F05-V3",
-    "F05-V4",
-    "F06-V5",
-    "F05-V5",
-    "F05-V1",
-    "F06-V1",
-    "F06-V4"
+    "F09-V5",
+    "F08-V2",
+    "F09-V3",
+    "F08-V3",
+    "F08-V1",
+    "F09-V2",
+    "F09-V1",
+    "F08-V4",
+    "F09-V4",
+    "F08-V5"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "responsive",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — it holds up on my smallest screen."
+   "verdict": "As a freelancer / service provider on Mobile 390, I put Delivery Console first — it holds up on my smallest screen."
   },
   {
    "id": "P013",
@@ -1006,7 +1018,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 3,
    "weights": {
@@ -1022,32 +1034,32 @@
     "consistency": 0.399
    },
    "scores": [
-    71.42,
-    95.73,
-    77.37,
-    69.49,
-    73.44,
-    63.36,
-    78.91,
-    81.65,
-    67.54,
-    73.99
+    74.93,
+    84.35,
+    72.76,
+    65.52,
+    70.28,
+    67.51,
+    70.29,
+    78.27,
+    68.79,
+    86.94
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F05-V3",
-    "F06-V5",
-    "F05-V5",
-    "F05-V1",
-    "F05-V4",
-    "F06-V4",
-    "F06-V1"
+    "F09-V5",
+    "F08-V2",
+    "F09-V3",
+    "F08-V1",
+    "F08-V3",
+    "F09-V2",
+    "F08-V5",
+    "F09-V4",
+    "F09-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a freelancer / service provider on Mobile 390, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P014",
@@ -1062,7 +1074,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 3,
    "weights": {
@@ -1078,32 +1090,32 @@
     "consistency": 0.562
    },
    "scores": [
-    67.79,
-    93.76,
-    78.25,
-    75.21,
-    77.44,
-    65.52,
-    79.36,
-    79.93,
-    73.7,
-    77.79
+    71.47,
+    81.65,
+    72.83,
+    65.68,
+    74.02,
+    73.09,
+    76.66,
+    78.42,
+    74.66,
+    84.69
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F05-V3",
-    "F06-V5",
-    "F05-V5",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F09-V5",
+    "F08-V2",
+    "F09-V3",
+    "F09-V2",
+    "F09-V4",
+    "F08-V5",
+    "F09-V1",
+    "F08-V3",
+    "F08-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a freelancer / service provider on Laptop 1024, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P015",
@@ -1118,7 +1130,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 3,
    "weights": {
@@ -1134,32 +1146,32 @@
     "consistency": 0.393
    },
    "scores": [
-    68.65,
-    94.49,
-    76.5,
-    69.19,
-    73.46,
-    68.48,
-    79.49,
-    79.73,
-    67.73,
-    72.95
+    71.55,
+    83.47,
+    72.52,
+    65.94,
+    70.59,
+    72.35,
+    70.04,
+    75.96,
+    69.45,
+    87.75
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F05-V3",
-    "F05-V5",
-    "F06-V5",
-    "F05-V4",
-    "F05-V1",
-    "F06-V1",
-    "F06-V4"
+    "F09-V5",
+    "F08-V2",
+    "F09-V3",
+    "F08-V3",
+    "F09-V1",
+    "F08-V1",
+    "F08-V5",
+    "F09-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "responsive",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — it holds up on my smallest screen."
+   "verdict": "As a freelancer / service provider on Mobile 390, I put Delivery Console first — it holds up on my smallest screen."
   },
   {
    "id": "P016",
@@ -1174,7 +1186,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 4,
    "weights": {
@@ -1190,32 +1202,32 @@
     "consistency": 0.579
    },
    "scores": [
-    70.49,
-    94.28,
-    76.31,
-    75.53,
-    80.34,
-    63.93,
-    79.67,
-    77.66,
-    74.31,
-    80.2
+    78.8,
+    87.99,
+    76.67,
+    71.77,
+    82.26,
+    66.27,
+    71.73,
+    70.67,
+    70.24,
+    82.15
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V5",
-    "F06-V5",
-    "F06-V2",
-    "F06-V3",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F08-V1",
+    "F08-V3",
+    "F08-V4",
+    "F09-V2",
+    "F09-V3",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a agency ops lead on Laptop 1024, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P017",
@@ -1230,7 +1242,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 4,
    "weights": {
@@ -1246,32 +1258,32 @@
     "consistency": 0.484
    },
    "scores": [
-    66.86,
-    94.15,
-    78.39,
-    74.06,
-    80.79,
-    63.76,
-    79.74,
-    80.43,
-    71.98,
-    78.73
+    75.64,
+    87.56,
+    78.58,
+    70.31,
+    82.8,
+    65.7,
+    71.56,
+    72.95,
+    67.88,
+    80.33
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V5",
-    "F06-V3",
-    "F06-V2",
-    "F06-V5",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a agency ops lead on Desktop 1440, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P018",
@@ -1286,7 +1298,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 4,
    "weights": {
@@ -1302,32 +1314,32 @@
     "consistency": 0.475
    },
    "scores": [
-    70.68,
-    93.81,
-    78.1,
-    74.93,
-    83.09,
-    64.88,
-    82.27,
-    80.46,
-    69.6,
-    79.36
+    79.11,
+    87.45,
+    78.37,
+    71.27,
+    84.77,
+    66.5,
+    74.28,
+    73.16,
+    65.64,
+    80.86
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V5",
-    "F06-V2",
-    "F06-V3",
-    "F06-V5",
-    "F05-V3",
-    "F05-V4",
-    "F05-V1",
-    "F06-V4",
-    "F06-V1"
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F08-V1",
+    "F08-V3",
+    "F09-V2",
+    "F09-V3",
+    "F08-V4",
+    "F09-V1",
+    "F09-V4"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a agency ops lead on Desktop 1440, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P019",
@@ -1342,7 +1354,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 4,
    "weights": {
@@ -1358,32 +1370,32 @@
     "consistency": 0.424
    },
    "scores": [
-    70.1,
-    94.11,
-    80.06,
-    73.6,
-    80.9,
-    64.62,
-    80.81,
-    81.32,
-    71.51,
-    82.14
+    78.97,
+    87.32,
+    80.12,
+    69.29,
+    82.93,
+    67.68,
+    73.09,
+    74.35,
+    67.16,
+    83.23
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V5",
-    "F06-V3",
-    "F05-V5",
-    "F06-V2",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V5",
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F09-V1",
+    "F09-V4"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a agency ops lead on Laptop 1024, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P020",
@@ -1398,7 +1410,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 4,
    "weights": {
@@ -1414,32 +1426,32 @@
     "consistency": 0.546
    },
    "scores": [
-    71.76,
-    93.22,
-    78.73,
-    75.81,
-    82.54,
-    64.33,
-    81.84,
-    78.9,
-    72.98,
-    80.51
+    80.31,
+    87.01,
+    78.99,
+    72.34,
+    84.31,
+    65.68,
+    73.6,
+    71.52,
+    68.59,
+    82.08
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V5",
-    "F06-V2",
-    "F06-V5",
-    "F06-V3",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F08-V1",
+    "F08-V3",
+    "F09-V2",
+    "F08-V4",
+    "F09-V3",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a agency ops lead on Laptop 1024, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P021",
@@ -1454,7 +1466,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 5,
    "weights": {
@@ -1470,32 +1482,32 @@
     "consistency": 0.499
    },
    "scores": [
-    83.36,
-    80.5,
-    88.11,
-    80.39,
-    81.16,
-    81.26,
-    83.82,
-    72.27,
-    78.15,
-    79.05
+    87.64,
+    76.97,
+    89.58,
+    78.1,
+    82.38,
+    81.09,
+    77.53,
+    84.67,
+    73.64,
+    74.12
    ],
    "ranking": [
-    "F05-V3",
-    "F06-V2",
-    "F05-V1",
-    "F06-V1",
-    "F05-V5",
-    "F05-V2",
-    "F05-V4",
-    "F06-V5",
-    "F06-V4",
-    "F06-V3"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V5",
+    "F09-V1",
+    "F08-V4",
+    "F09-V2",
+    "F08-V2",
+    "F09-V5",
+    "F09-V4"
    ],
-   "top": "F05-V3",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Attention Queue first — it tells me what matters in under two seconds."
+   "verdict": "As a enterprise pmo on Desktop 1440, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P022",
@@ -1510,7 +1522,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 5,
    "weights": {
@@ -1526,32 +1538,32 @@
     "consistency": 0.649
    },
    "scores": [
-    82.18,
-    83.49,
-    90.34,
-    77.02,
-    80.15,
-    79.32,
-    85.06,
-    73.9,
-    77.01,
-    81.38
+    86.16,
+    80.03,
+    91.89,
+    75.05,
+    81.13,
+    78.75,
+    78.42,
+    85.25,
+    72.26,
+    76.36
    ],
    "ranking": [
-    "F05-V3",
-    "F06-V2",
-    "F05-V2",
-    "F05-V1",
-    "F06-V5",
-    "F05-V5",
-    "F06-V1",
-    "F05-V4",
-    "F06-V4",
-    "F06-V3"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V5",
+    "F08-V2",
+    "F09-V1",
+    "F09-V2",
+    "F09-V5",
+    "F08-V4",
+    "F09-V4"
    ],
-   "top": "F05-V3",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Attention Queue first — it tells me what matters in under two seconds."
+   "verdict": "As a enterprise pmo on Desktop 1440, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P023",
@@ -1566,7 +1578,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 5,
    "weights": {
@@ -1582,32 +1594,32 @@
     "consistency": 0.543
    },
    "scores": [
-    80.74,
-    85.87,
-    91.13,
-    75.82,
-    77.75,
-    81.38,
-    81.79,
-    72.36,
-    78.03,
-    78.13
+    85.27,
+    82.15,
+    92.48,
+    73.27,
+    79.05,
+    81.07,
+    74.9,
+    84.71,
+    72.76,
+    73.28
    ],
    "ranking": [
-    "F05-V3",
-    "F05-V2",
-    "F06-V2",
-    "F06-V1",
-    "F05-V1",
-    "F06-V5",
-    "F06-V4",
-    "F05-V5",
-    "F05-V4",
-    "F06-V3"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V2",
+    "F09-V1",
+    "F08-V5",
+    "F09-V2",
+    "F09-V5",
+    "F08-V4",
+    "F09-V4"
    ],
-   "top": "F05-V3",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Attention Queue first — it tells me what matters in under two seconds."
+   "verdict": "As a enterprise pmo on Laptop 1024, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P024",
@@ -1622,7 +1634,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 5,
    "weights": {
@@ -1638,32 +1650,32 @@
     "consistency": 0.524
    },
    "scores": [
-    80.46,
-    85.74,
-    87.58,
-    78.48,
-    79.26,
-    79.93,
-    82.61,
-    74.04,
-    78.25,
-    78.72
+    84.57,
+    82.29,
+    89.15,
+    76.63,
+    80.52,
+    79.38,
+    76.26,
+    86.01,
+    73.86,
+    73.62
    ],
    "ranking": [
-    "F05-V3",
-    "F05-V2",
-    "F06-V2",
-    "F05-V1",
-    "F06-V1",
-    "F05-V5",
-    "F06-V5",
-    "F05-V4",
-    "F06-V4",
-    "F06-V3"
+    "F08-V3",
+    "F09-V3",
+    "F08-V1",
+    "F08-V2",
+    "F08-V5",
+    "F09-V1",
+    "F08-V4",
+    "F09-V2",
+    "F09-V4",
+    "F09-V5"
    ],
-   "top": "F05-V3",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Attention Queue first — it tells me what matters in under two seconds."
+   "verdict": "As a enterprise pmo on Desktop 1440, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P025",
@@ -1678,7 +1690,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 5,
    "weights": {
@@ -1694,32 +1706,32 @@
     "consistency": 0.591
    },
    "scores": [
-    83.37,
-    84.54,
-    90.13,
-    76.22,
-    76.78,
-    81.37,
-    80.85,
-    72.73,
-    76.98,
-    77.79
+    87.44,
+    81.12,
+    91.62,
+    73.9,
+    78.31,
+    80.78,
+    74.3,
+    86.45,
+    72.15,
+    73.25
    ],
    "ranking": [
-    "F05-V3",
-    "F05-V2",
-    "F05-V1",
-    "F06-V1",
-    "F06-V2",
-    "F06-V5",
-    "F06-V4",
-    "F05-V5",
-    "F05-V4",
-    "F06-V3"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V2",
+    "F09-V1",
+    "F08-V5",
+    "F09-V2",
+    "F08-V4",
+    "F09-V5",
+    "F09-V4"
    ],
-   "top": "F05-V3",
+   "top": "F08-V3",
    "reason_key": "clarity",
-   "verdict": "As a support agent on Laptop 1024, I put Attention Queue first — it tells me what matters in under two seconds."
+   "verdict": "As a enterprise pmo on Laptop 1024, I put Next-Step Hero first — it tells me what matters in under two seconds."
   },
   {
    "id": "P026",
@@ -1734,7 +1746,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 6,
    "weights": {
@@ -1750,32 +1762,32 @@
     "consistency": 1.382
    },
    "scores": [
-    81.15,
-    75.74,
-    84.93,
-    73.95,
-    75.6,
-    84.94,
-    89.05,
-    81.43,
-    82.97,
-    84.8
+    90.58,
+    78.69,
+    92.24,
+    77.9,
+    81.91,
+    79.43,
+    77.6,
+    86.49,
+    73.89,
+    76.29
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V3",
-    "F06-V5",
-    "F06-V4",
-    "F06-V3",
-    "F05-V1",
-    "F05-V2",
-    "F05-V5",
-    "F05-V4"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V5",
+    "F09-V1",
+    "F08-V2",
+    "F08-V4",
+    "F09-V2",
+    "F09-V5",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it never invents data I cannot verify."
+   "verdict": "As a procurement manager on Laptop 1024, I put Next-Step Hero first — it never invents data I cannot verify."
   },
   {
    "id": "P027",
@@ -1790,7 +1802,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 6,
    "weights": {
@@ -1806,32 +1818,32 @@
     "consistency": 1.42
    },
    "scores": [
-    77.53,
-    80.4,
-    85.38,
-    74.18,
-    75.32,
-    85.45,
-    86.41,
-    81.28,
-    85.94,
-    86.83
+    86.92,
+    82.92,
+    92.48,
+    77.59,
+    81.91,
+    80.47,
+    75.45,
+    87.61,
+    76.82,
+    77.46
    ],
    "ranking": [
-    "F06-V5",
-    "F06-V2",
-    "F06-V4",
-    "F06-V1",
-    "F05-V3",
-    "F06-V3",
-    "F05-V2",
-    "F05-V1",
-    "F05-V5",
-    "F05-V4"
+    "F08-V3",
+    "F09-V3",
+    "F08-V1",
+    "F08-V2",
+    "F08-V5",
+    "F09-V1",
+    "F08-V4",
+    "F09-V5",
+    "F09-V4",
+    "F09-V2"
    ],
-   "top": "F06-V5",
+   "top": "F08-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Bento Split first — it never invents data I cannot verify."
+   "verdict": "As a procurement manager on Laptop 1024, I put Next-Step Hero first — it never invents data I cannot verify."
   },
   {
    "id": "P028",
@@ -1846,7 +1858,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 6,
    "weights": {
@@ -1862,32 +1874,32 @@
     "consistency": 1.326
    },
    "scores": [
-    81.26,
-    76.96,
-    84.21,
-    73.97,
-    78.8,
-    87.72,
-    87.24,
-    80.37,
-    82.05,
-    83.32
+    90.77,
+    79.96,
+    91.41,
+    78.05,
+    85.28,
+    82.62,
+    76.29,
+    85.46,
+    73.11,
+    74.43
    ],
    "ranking": [
-    "F06-V1",
-    "F06-V2",
-    "F05-V3",
-    "F06-V5",
-    "F06-V4",
-    "F05-V1",
-    "F06-V3",
-    "F05-V5",
-    "F05-V2",
-    "F05-V4"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V5",
+    "F09-V1",
+    "F08-V2",
+    "F08-V4",
+    "F09-V2",
+    "F09-V5",
+    "F09-V4"
    ],
-   "top": "F06-V1",
+   "top": "F08-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Classic Brief first — it never invents data I cannot verify."
+   "verdict": "As a procurement manager on Laptop 1024, I put Next-Step Hero first — it never invents data I cannot verify."
   },
   {
    "id": "P029",
@@ -1902,7 +1914,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 6,
    "weights": {
@@ -1918,32 +1930,32 @@
     "consistency": 1.39
    },
    "scores": [
-    80.83,
-    80.19,
-    86.31,
-    74.76,
-    76.13,
-    88.43,
-    89.08,
-    80.92,
-    83.33,
-    87.28
+    89.82,
+    83.06,
+    93.6,
+    78.75,
+    82.57,
+    83.51,
+    78.37,
+    86.47,
+    74.5,
+    77.88
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F06-V5",
-    "F05-V3",
-    "F06-V4",
-    "F06-V3",
-    "F05-V1",
-    "F05-V2",
-    "F05-V5",
-    "F05-V4"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F09-V1",
+    "F08-V2",
+    "F08-V5",
+    "F08-V4",
+    "F09-V2",
+    "F09-V5",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it never invents data I cannot verify."
+   "verdict": "As a procurement manager on Desktop 1440, I put Next-Step Hero first — it never invents data I cannot verify."
   },
   {
    "id": "P030",
@@ -1958,7 +1970,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 6,
    "weights": {
@@ -1974,32 +1986,32 @@
     "consistency": 1.055
    },
    "scores": [
-    79.44,
-    83.02,
-    84.16,
-    72.74,
-    75.19,
-    85.24,
-    89.83,
-    82.02,
-    87.06,
-    86.43
+    88.42,
+    85.97,
+    91.58,
+    76.78,
+    81.72,
+    80.06,
+    78.79,
+    88.14,
+    78.18,
+    77.44
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V4",
-    "F06-V5",
-    "F06-V1",
-    "F05-V3",
-    "F05-V2",
-    "F06-V3",
-    "F05-V1",
-    "F05-V5",
-    "F05-V4"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V2",
+    "F08-V5",
+    "F09-V1",
+    "F09-V2",
+    "F09-V4",
+    "F09-V5",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it never invents data I cannot verify."
+   "verdict": "As a procurement manager on Desktop 1440, I put Next-Step Hero first — it never invents data I cannot verify."
   },
   {
    "id": "P031",
@@ -2014,7 +2026,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 7,
    "weights": {
@@ -2030,32 +2042,32 @@
     "consistency": 0.49
    },
    "scores": [
-    78.23,
-    88.9,
-    80.91,
-    80.72,
-    82.59,
-    74.27,
-    86.24,
-    81.95,
-    78.45,
-    82.84
+    76.62,
+    80.0,
+    76.98,
+    73.39,
+    78.09,
+    79.88,
+    85.2,
+    86.09,
+    79.02,
+    89.26
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V5",
-    "F05-V5",
-    "F06-V3",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F09-V5",
+    "F09-V3",
+    "F09-V2",
+    "F08-V2",
+    "F09-V1",
+    "F09-V4",
+    "F08-V5",
+    "F08-V3",
+    "F08-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — it never invents data I cannot verify."
+   "verdict": "As a finance approver on Desktop 1440, I put Delivery Console first — it never invents data I cannot verify."
   },
   {
    "id": "P032",
@@ -2070,7 +2082,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 7,
    "weights": {
@@ -2086,32 +2098,32 @@
     "consistency": 0.513
    },
    "scores": [
-    79.3,
-    88.14,
-    87.53,
-    75.36,
-    80.97,
-    77.32,
-    85.9,
-    79.15,
-    76.67,
-    79.44
+    78.04,
+    79.46,
+    83.57,
+    68.15,
+    76.31,
+    81.76,
+    84.14,
+    83.27,
+    76.62,
+    86.18
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V3",
-    "F06-V2",
-    "F05-V5",
-    "F06-V5",
-    "F05-V1",
-    "F06-V3",
-    "F06-V1",
-    "F06-V4",
-    "F05-V4"
+    "F09-V5",
+    "F09-V2",
+    "F08-V3",
+    "F09-V3",
+    "F09-V1",
+    "F08-V2",
+    "F08-V1",
+    "F09-V4",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a finance approver on Laptop 1024, I put Delivery Console first — every failure and empty state is handled."
   },
   {
    "id": "P033",
@@ -2126,7 +2138,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 7,
    "weights": {
@@ -2142,32 +2154,32 @@
     "consistency": 0.665
    },
    "scores": [
-    74.55,
-    88.43,
-    85.58,
-    78.08,
-    81.77,
-    75.02,
-    83.22,
-    79.22,
-    78.84,
-    80.65
+    73.25,
+    79.24,
+    81.36,
+    70.44,
+    77.07,
+    80.21,
+    82.16,
+    83.15,
+    79.21,
+    86.47
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V3",
-    "F06-V2",
-    "F05-V5",
-    "F06-V5",
-    "F06-V3",
-    "F06-V4",
-    "F05-V4",
-    "F06-V1",
-    "F05-V1"
+    "F09-V5",
+    "F09-V3",
+    "F09-V2",
+    "F08-V3",
+    "F09-V1",
+    "F08-V2",
+    "F09-V4",
+    "F08-V5",
+    "F08-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a finance approver on Desktop 1440, I put Delivery Console first — every failure and empty state is handled."
   },
   {
    "id": "P034",
@@ -2182,7 +2194,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 7,
    "weights": {
@@ -2198,32 +2210,32 @@
     "consistency": 0.698
    },
    "scores": [
-    78.17,
-    92.58,
-    82.45,
-    78.66,
-    80.75,
-    76.51,
-    83.01,
-    80.15,
-    77.17,
-    81.8
+    77.09,
+    83.43,
+    78.47,
+    71.01,
+    76.06,
+    81.9,
+    81.14,
+    83.31,
+    77.09,
+    88.41
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F05-V3",
-    "F06-V5",
-    "F05-V5",
-    "F06-V3",
-    "F05-V4",
-    "F05-V1",
-    "F06-V4",
-    "F06-V1"
+    "F09-V5",
+    "F08-V2",
+    "F09-V3",
+    "F09-V1",
+    "F09-V2",
+    "F08-V3",
+    "F08-V1",
+    "F09-V4",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a finance approver on Laptop 1024, I put Delivery Console first — every failure and empty state is handled."
   },
   {
    "id": "P035",
@@ -2238,7 +2250,7 @@
    "experience": "Regular",
    "aesthetic": "dense",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 7,
    "weights": {
@@ -2254,32 +2266,32 @@
     "consistency": 0.586
    },
    "scores": [
-    79.21,
-    88.34,
-    82.92,
-    77.58,
-    79.38,
-    76.52,
-    85.34,
-    83.38,
-    77.52,
-    80.75
+    77.63,
+    79.32,
+    78.99,
+    70.5,
+    74.82,
+    81.38,
+    83.82,
+    86.97,
+    77.57,
+    86.5
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V3",
-    "F05-V3",
-    "F06-V5",
-    "F05-V5",
-    "F05-V1",
-    "F05-V4",
-    "F06-V4",
-    "F06-V1"
+    "F09-V3",
+    "F09-V5",
+    "F09-V2",
+    "F09-V1",
+    "F08-V2",
+    "F08-V3",
+    "F08-V1",
+    "F09-V4",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V3",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a finance approver on Desktop 1440, I put Your Moves first — every failure and empty state is handled."
   },
   {
    "id": "P036",
@@ -2310,32 +2322,32 @@
     "consistency": 1.073
    },
    "scores": [
-    60.26,
-    80.07,
-    75.81,
-    78.77,
-    87.54,
-    63.31,
-    81.24,
-    71.49,
-    76.5,
-    92.13
+    65.56,
+    74.89,
+    76.0,
+    75.67,
+    87.62,
+    64.26,
+    76.56,
+    72.04,
+    74.3,
+    79.45
    ],
    "ranking": [
-    "F06-V5",
-    "F05-V5",
-    "F06-V2",
-    "F05-V2",
-    "F05-V4",
-    "F06-V4",
-    "F05-V3",
-    "F06-V3",
-    "F06-V1",
-    "F05-V1"
+    "F08-V5",
+    "F09-V5",
+    "F09-V2",
+    "F08-V3",
+    "F08-V4",
+    "F08-V2",
+    "F09-V4",
+    "F09-V3",
+    "F08-V1",
+    "F09-V1"
    ],
-   "top": "F06-V5",
+   "top": "F08-V5",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Bento Split first — it doesn't look like every other template in the set."
+   "verdict": "As a product designer on Laptop 1024, I put Bento Board first — it doesn't look like every other template in the set."
   },
   {
    "id": "P037",
@@ -2366,32 +2378,32 @@
     "consistency": 1.11
    },
    "scores": [
-    60.78,
-    83.52,
-    77.23,
-    76.81,
-    90.35,
-    62.67,
-    81.67,
-    74.56,
-    81.75,
-    91.68
+    65.5,
+    78.24,
+    77.29,
+    73.72,
+    90.44,
+    64.28,
+    77.84,
+    75.29,
+    79.9,
+    78.2
    ],
    "ranking": [
-    "F06-V5",
-    "F05-V5",
-    "F05-V2",
-    "F06-V4",
-    "F06-V2",
-    "F05-V3",
-    "F05-V4",
-    "F06-V3",
-    "F06-V1",
-    "F05-V1"
+    "F08-V5",
+    "F09-V4",
+    "F08-V2",
+    "F09-V5",
+    "F09-V2",
+    "F08-V3",
+    "F09-V3",
+    "F08-V4",
+    "F08-V1",
+    "F09-V1"
    ],
-   "top": "F06-V5",
+   "top": "F08-V5",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Bento Split first — it doesn't look like every other template in the set."
+   "verdict": "As a product designer on Laptop 1024, I put Bento Board first — it doesn't look like every other template in the set."
   },
   {
    "id": "P038",
@@ -2422,32 +2434,32 @@
     "consistency": 1.234
    },
    "scores": [
-    64.06,
-    84.65,
-    76.46,
-    77.06,
-    90.9,
-    60.79,
-    81.71,
-    74.62,
-    78.04,
-    90.19
+    68.67,
+    79.63,
+    76.65,
+    73.94,
+    90.67,
+    62.25,
+    77.65,
+    75.04,
+    76.15,
+    77.37
    ],
    "ranking": [
-    "F05-V5",
-    "F06-V5",
-    "F05-V2",
-    "F06-V2",
-    "F06-V4",
-    "F05-V4",
-    "F05-V3",
-    "F06-V3",
-    "F05-V1",
-    "F06-V1"
+    "F08-V5",
+    "F08-V2",
+    "F09-V2",
+    "F09-V5",
+    "F08-V3",
+    "F09-V4",
+    "F09-V3",
+    "F08-V4",
+    "F08-V1",
+    "F09-V1"
    ],
-   "top": "F05-V5",
+   "top": "F08-V5",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Status Lanes first — it doesn't look like every other template in the set."
+   "verdict": "As a product designer on Laptop 1024, I put Bento Board first — it doesn't look like every other template in the set."
   },
   {
    "id": "P039",
@@ -2478,32 +2490,32 @@
     "consistency": 1.136
    },
    "scores": [
-    61.35,
-    84.28,
-    79.25,
-    78.02,
-    88.14,
-    63.31,
-    80.18,
-    75.77,
-    79.39,
-    91.05
+    65.66,
+    79.2,
+    79.5,
+    75.02,
+    88.19,
+    65.22,
+    76.29,
+    76.44,
+    77.6,
+    78.15
    ],
    "ranking": [
-    "F06-V5",
-    "F05-V5",
-    "F05-V2",
-    "F06-V2",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4",
-    "F06-V3",
-    "F06-V1",
-    "F05-V1"
+    "F08-V5",
+    "F08-V3",
+    "F08-V2",
+    "F09-V5",
+    "F09-V4",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F08-V1",
+    "F09-V1"
    ],
-   "top": "F06-V5",
+   "top": "F08-V5",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Bento Split first — it doesn't look like every other template in the set."
+   "verdict": "As a product designer on Desktop 1440, I put Bento Board first — it doesn't look like every other template in the set."
   },
   {
    "id": "P040",
@@ -2534,32 +2546,32 @@
     "consistency": 1.099
    },
    "scores": [
-    62.65,
-    82.46,
-    77.43,
-    75.77,
-    89.58,
-    61.81,
-    81.11,
-    75.54,
-    78.53,
-    90.77
+    66.9,
+    77.35,
+    77.67,
+    72.84,
+    89.55,
+    63.45,
+    77.21,
+    76.17,
+    76.77,
+    77.65
    ],
    "ranking": [
-    "F06-V5",
-    "F05-V5",
-    "F05-V2",
-    "F06-V2",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4",
-    "F06-V3",
-    "F05-V1",
-    "F06-V1"
+    "F08-V5",
+    "F08-V3",
+    "F09-V5",
+    "F08-V2",
+    "F09-V2",
+    "F09-V4",
+    "F09-V3",
+    "F08-V4",
+    "F08-V1",
+    "F09-V1"
    ],
-   "top": "F06-V5",
+   "top": "F08-V5",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Bento Split first — it doesn't look like every other template in the set."
+   "verdict": "As a product designer on Desktop 1440, I put Bento Board first — it doesn't look like every other template in the set."
   },
   {
    "id": "P041",
@@ -2590,32 +2602,32 @@
     "consistency": 0.934
    },
    "scores": [
-    62.27,
-    81.74,
-    81.31,
-    84.31,
-    82.02,
-    63.75,
-    89.1,
-    77.09,
-    86.24,
-    86.92
+    65.89,
+    76.51,
+    82.65,
+    81.4,
+    81.62,
+    64.43,
+    83.96,
+    79.27,
+    83.27,
+    77.85
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F06-V4",
-    "F05-V4",
-    "F05-V5",
-    "F05-V2",
-    "F05-V3",
-    "F06-V3",
-    "F06-V1",
-    "F05-V1"
+    "F09-V2",
+    "F09-V4",
+    "F08-V3",
+    "F08-V5",
+    "F08-V4",
+    "F09-V3",
+    "F09-V5",
+    "F08-V2",
+    "F08-V1",
+    "F09-V1"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it doesn't look like every other template in the set."
+   "verdict": "As a visual / ui designer on Desktop 1440, I put Delivery Journey first — it doesn't look like every other template in the set."
   },
   {
    "id": "P042",
@@ -2646,32 +2658,32 @@
     "consistency": 1.027
    },
    "scores": [
-    61.9,
-    81.59,
-    80.53,
-    81.97,
-    82.39,
-    67.63,
-    91.63,
-    75.13,
-    88.58,
-    85.73
+    65.51,
+    76.15,
+    81.71,
+    78.46,
+    82.18,
+    69.56,
+    86.93,
+    77.92,
+    85.53,
+    76.69
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V4",
-    "F06-V5",
-    "F05-V5",
-    "F05-V4",
-    "F05-V2",
-    "F05-V3",
-    "F06-V3",
-    "F06-V1",
-    "F05-V1"
+    "F09-V2",
+    "F09-V4",
+    "F08-V5",
+    "F08-V3",
+    "F08-V4",
+    "F09-V3",
+    "F09-V5",
+    "F08-V2",
+    "F09-V1",
+    "F08-V1"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it doesn't look like every other template in the set."
+   "verdict": "As a visual / ui designer on Desktop 1440, I put Delivery Journey first — it doesn't look like every other template in the set."
   },
   {
    "id": "P043",
@@ -2702,32 +2714,32 @@
     "consistency": 0.975
    },
    "scores": [
-    63.48,
-    81.22,
-    76.34,
-    79.17,
-    76.78,
-    68.32,
-    89.78,
-    73.07,
-    82.94,
-    84.18
+    67.4,
+    75.66,
+    77.43,
+    75.66,
+    76.9,
+    70.5,
+    85.02,
+    75.67,
+    80.14,
+    75.75
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F06-V4",
-    "F05-V2",
-    "F05-V4",
-    "F05-V5",
-    "F05-V3",
-    "F06-V3",
-    "F06-V1",
-    "F05-V1"
+    "F09-V2",
+    "F09-V4",
+    "F08-V3",
+    "F08-V5",
+    "F09-V5",
+    "F09-V3",
+    "F08-V2",
+    "F08-V4",
+    "F09-V1",
+    "F08-V1"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it doesn't look like every other template in the set."
+   "verdict": "As a visual / ui designer on Desktop 1440, I put Delivery Journey first — it doesn't look like every other template in the set."
   },
   {
    "id": "P044",
@@ -2758,32 +2770,32 @@
     "consistency": 1.158
    },
    "scores": [
-    64.23,
-    82.76,
-    77.86,
-    80.39,
-    80.17,
-    66.83,
-    89.34,
-    75.83,
-    86.31,
-    86.24
+    67.89,
+    77.49,
+    78.9,
+    77.39,
+    80.05,
+    68.26,
+    84.8,
+    77.85,
+    83.74,
+    77.54
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V4",
-    "F06-V5",
-    "F05-V2",
-    "F05-V4",
-    "F05-V5",
-    "F05-V3",
-    "F06-V3",
-    "F06-V1",
-    "F05-V1"
+    "F09-V2",
+    "F09-V4",
+    "F08-V5",
+    "F08-V3",
+    "F09-V3",
+    "F09-V5",
+    "F08-V2",
+    "F08-V4",
+    "F09-V1",
+    "F08-V1"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it doesn't look like every other template in the set."
+   "verdict": "As a visual / ui designer on Desktop 1440, I put Delivery Journey first — it doesn't look like every other template in the set."
   },
   {
    "id": "P045",
@@ -2814,32 +2826,32 @@
     "consistency": 1.112
    },
    "scores": [
-    65.24,
-    78.29,
-    75.43,
-    74.74,
-    77.32,
-    70.12,
-    90.97,
-    76.98,
-    84.67,
-    79.87
+    68.39,
+    73.78,
+    77.5,
+    75.04,
+    77.6,
+    70.02,
+    83.97,
+    77.89,
+    81.9,
+    76.75
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V4",
-    "F06-V5",
-    "F05-V2",
-    "F05-V5",
-    "F06-V3",
-    "F05-V3",
-    "F05-V4",
-    "F06-V1",
-    "F05-V1"
+    "F09-V2",
+    "F09-V4",
+    "F09-V3",
+    "F08-V5",
+    "F08-V3",
+    "F09-V5",
+    "F08-V4",
+    "F08-V2",
+    "F09-V1",
+    "F08-V1"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it doesn't look like every other template in the set."
+   "verdict": "As a visual / ui designer on Tablet 768, I put Delivery Journey first — it doesn't look like every other template in the set."
   },
   {
    "id": "P046",
@@ -2870,32 +2882,32 @@
     "consistency": 0.785
    },
    "scores": [
-    66.79,
-    91.28,
-    74.56,
-    74.42,
-    74.89,
-    64.15,
-    83.5,
-    81.61,
-    73.16,
-    79.11
+    75.68,
+    84.94,
+    74.73,
+    70.73,
+    76.67,
+    65.4,
+    75.59,
+    74.36,
+    69.58,
+    81.01
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V3",
-    "F06-V5",
-    "F05-V5",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V5",
+    "F08-V1",
+    "F09-V2",
+    "F08-V3",
+    "F09-V3",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a frontend engineer on Desktop 1440, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P047",
@@ -2926,32 +2938,32 @@
     "consistency": 0.812
    },
    "scores": [
-    68.94,
-    87.59,
-    76.02,
-    75.03,
-    76.15,
-    65.99,
-    82.27,
-    83.42,
-    71.81,
-    79.78
+    77.78,
+    81.84,
+    76.31,
+    71.84,
+    77.52,
+    65.59,
+    73.94,
+    76.23,
+    68.06,
+    82.01
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F06-V5",
-    "F05-V5",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F09-V5",
+    "F08-V2",
+    "F08-V1",
+    "F08-V5",
+    "F08-V3",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a frontend engineer on Desktop 1440, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P048",
@@ -2982,32 +2994,32 @@
     "consistency": 0.926
    },
    "scores": [
-    67.06,
-    91.27,
-    75.4,
-    74.32,
-    76.37,
-    64.8,
-    79.93,
-    81.98,
-    72.51,
-    77.41
+    75.82,
+    85.32,
+    75.52,
+    71.17,
+    77.98,
+    64.77,
+    71.94,
+    74.67,
+    68.83,
+    79.17
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F06-V5",
-    "F05-V5",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V5",
+    "F08-V1",
+    "F08-V3",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a frontend engineer on Desktop 1440, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P049",
@@ -3038,32 +3050,32 @@
     "consistency": 1.034
    },
    "scores": [
-    62.99,
-    87.4,
-    76.2,
-    72.56,
-    76.42,
-    67.28,
-    82.28,
-    82.08,
-    73.18,
-    78.94
+    71.65,
+    81.69,
+    76.63,
+    69.63,
+    78.02,
+    67.17,
+    73.63,
+    74.22,
+    69.32,
+    81.71
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V3",
-    "F06-V5",
-    "F05-V5",
-    "F05-V3",
-    "F06-V4",
-    "F05-V4",
-    "F06-V1",
-    "F05-V1"
+    "F09-V5",
+    "F08-V2",
+    "F08-V5",
+    "F08-V3",
+    "F09-V3",
+    "F09-V2",
+    "F08-V1",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a frontend engineer on Laptop 1024, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P050",
@@ -3094,32 +3106,32 @@
     "consistency": 0.929
    },
    "scores": [
-    63.64,
-    87.71,
-    74.14,
-    73.46,
-    76.49,
-    67.13,
-    81.94,
-    82.18,
-    74.27,
-    81.25
+    72.36,
+    82.15,
+    74.69,
+    70.68,
+    78.0,
+    66.34,
+    72.95,
+    74.4,
+    70.53,
+    84.53
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F06-V5",
-    "F05-V5",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4",
-    "F06-V1",
-    "F05-V1"
+    "F09-V5",
+    "F08-V2",
+    "F08-V5",
+    "F08-V3",
+    "F09-V3",
+    "F09-V2",
+    "F08-V1",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a frontend engineer on Laptop 1024, I put Delivery Console first — the controls actually do something real."
   },
   {
    "id": "P051",
@@ -3150,32 +3162,32 @@
     "consistency": 0.45
    },
    "scores": [
-    67.5,
-    88.47,
-    78.6,
-    76.88,
-    80.25,
-    73.69,
-    82.72,
-    83.31,
-    78.74,
-    81.58
+    73.76,
+    84.1,
+    79.05,
+    74.96,
+    81.01,
+    71.8,
+    75.16,
+    78.42,
+    73.22,
+    81.46
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V2",
-    "F06-V5",
-    "F05-V5",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4",
-    "F06-V1",
-    "F05-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V5",
+    "F08-V3",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F08-V1",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a qa engineer on Desktop 1440, I put Ops Ledger first — every failure and empty state is handled."
   },
   {
    "id": "P052",
@@ -3206,32 +3218,32 @@
     "consistency": 0.509
    },
    "scores": [
-    71.65,
-    87.74,
-    80.87,
-    74.27,
-    78.02,
-    75.83,
-    82.55,
-    80.39,
     77.27,
-    84.02
+    83.81,
+    81.68,
+    72.36,
+    78.68,
+    74.06,
+    74.99,
+    76.43,
+    72.03,
+    84.95
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V5",
-    "F06-V2",
-    "F05-V3",
-    "F06-V3",
-    "F05-V5",
-    "F06-V4",
-    "F06-V1",
-    "F05-V4",
-    "F05-V1"
+    "F09-V5",
+    "F08-V2",
+    "F08-V3",
+    "F08-V5",
+    "F08-V1",
+    "F09-V3",
+    "F09-V2",
+    "F09-V1",
+    "F08-V4",
+    "F09-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a qa engineer on Desktop 1440, I put Delivery Console first — every failure and empty state is handled."
   },
   {
    "id": "P053",
@@ -3262,32 +3274,32 @@
     "consistency": 0.442
    },
    "scores": [
-    68.62,
-    88.36,
-    78.06,
-    72.2,
-    76.49,
-    72.74,
-    85.77,
-    79.46,
-    78.5,
-    83.25
+    75.2,
+    84.01,
+    78.48,
+    70.06,
+    77.63,
+    71.04,
+    78.04,
+    75.51,
+    72.63,
+    83.51
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V5",
-    "F06-V3",
-    "F06-V4",
-    "F05-V3",
-    "F05-V5",
-    "F06-V1",
-    "F05-V4",
-    "F05-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V3",
+    "F09-V2",
+    "F08-V5",
+    "F09-V3",
+    "F08-V1",
+    "F09-V4",
+    "F09-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a qa engineer on Laptop 1024, I put Ops Ledger first — every failure and empty state is handled."
   },
   {
    "id": "P054",
@@ -3318,32 +3330,32 @@
     "consistency": 0.497
    },
    "scores": [
-    67.81,
-    84.51,
-    78.48,
-    71.43,
-    76.22,
-    73.19,
-    83.01,
-    77.71,
-    78.01,
-    83.05
+    74.52,
+    80.42,
+    79.11,
+    69.54,
+    77.02,
+    69.8,
+    74.46,
+    73.7,
+    72.31,
+    84.2
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V5",
-    "F06-V2",
-    "F05-V3",
-    "F06-V4",
-    "F06-V3",
-    "F05-V5",
-    "F06-V1",
-    "F05-V4",
-    "F05-V1"
+    "F09-V5",
+    "F08-V2",
+    "F08-V3",
+    "F08-V5",
+    "F08-V1",
+    "F09-V2",
+    "F09-V3",
+    "F09-V4",
+    "F09-V1",
+    "F08-V4"
    ],
-   "top": "F05-V2",
+   "top": "F09-V5",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — every failure and empty state is handled."
+   "verdict": "As a qa engineer on Laptop 1024, I put Delivery Console first — every failure and empty state is handled."
   },
   {
    "id": "P055",
@@ -3374,32 +3386,32 @@
     "consistency": 0.587
    },
    "scores": [
-    69.83,
-    85.51,
-    79.55,
-    76.02,
-    72.87,
-    72.92,
-    86.12,
-    80.5,
-    79.57,
-    84.53
+    76.04,
+    81.1,
+    80.09,
+    73.78,
+    73.96,
+    71.64,
+    78.46,
+    76.45,
+    73.97,
+    85.09
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V2",
-    "F06-V5",
-    "F06-V3",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4",
-    "F06-V1",
-    "F05-V5",
-    "F05-V1"
+    "F09-V5",
+    "F08-V2",
+    "F08-V3",
+    "F09-V2",
+    "F09-V3",
+    "F08-V1",
+    "F09-V4",
+    "F08-V5",
+    "F08-V4",
+    "F09-V1"
    ],
-   "top": "F06-V2",
+   "top": "F09-V5",
    "reason_key": "states",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — every failure and empty state is handled."
+   "verdict": "As a qa engineer on Laptop 1024, I put Delivery Console first — every failure and empty state is handled."
   },
   {
    "id": "P056",
@@ -3430,32 +3442,32 @@
     "consistency": 0.782
    },
    "scores": [
-    77.52,
-    84.18,
-    78.75,
-    74.63,
-    80.89,
-    79.71,
-    87.1,
-    76.99,
-    73.66,
-    78.53
+    80.9,
+    80.91,
+    80.23,
+    67.94,
+    77.03,
+    83.37,
+    81.0,
+    85.01,
+    70.37,
+    78.58
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V2",
-    "F05-V5",
-    "F06-V1",
-    "F05-V3",
-    "F06-V5",
-    "F05-V1",
-    "F06-V3",
-    "F05-V4",
-    "F06-V4"
+    "F09-V3",
+    "F09-V1",
+    "F09-V2",
+    "F08-V2",
+    "F08-V1",
+    "F08-V3",
+    "F09-V5",
+    "F08-V5",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a accessibility specialist on Desktop 1440, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P057",
@@ -3486,32 +3498,32 @@
     "consistency": 0.76
    },
    "scores": [
-    81.48,
-    77.97,
-    78.51,
-    75.98,
-    81.62,
-    78.05,
-    86.77,
-    74.07,
-    76.2,
-    78.32
+    84.94,
+    74.64,
+    80.02,
+    69.38,
+    77.92,
+    82.02,
+    80.74,
+    81.88,
+    72.92,
+    78.18
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V5",
-    "F05-V1",
-    "F05-V3",
-    "F06-V5",
-    "F06-V1",
-    "F05-V2",
-    "F06-V4",
-    "F05-V4",
-    "F06-V3"
+    "F08-V1",
+    "F09-V1",
+    "F09-V3",
+    "F09-V2",
+    "F08-V3",
+    "F09-V5",
+    "F08-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a accessibility specialist on Laptop 1024, I put Calm Grid first — I can complete the whole task without a mouse."
   },
   {
    "id": "P058",
@@ -3542,32 +3554,32 @@
     "consistency": 0.961
    },
    "scores": [
-    76.09,
-    82.19,
-    77.82,
-    72.95,
-    82.19,
-    78.32,
-    84.18,
-    73.69,
-    76.82,
-    79.63
+    79.72,
+    78.84,
+    79.28,
+    66.59,
+    78.72,
+    81.59,
+    77.83,
+    81.51,
+    73.4,
+    79.55
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V2",
-    "F05-V5",
-    "F06-V5",
-    "F06-V1",
-    "F05-V3",
-    "F06-V4",
-    "F05-V1",
-    "F06-V3",
-    "F05-V4"
+    "F09-V1",
+    "F09-V3",
+    "F08-V1",
+    "F09-V5",
+    "F08-V3",
+    "F08-V2",
+    "F08-V5",
+    "F09-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a accessibility specialist on Laptop 1024, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P059",
@@ -3598,32 +3610,32 @@
     "consistency": 0.836
    },
    "scores": [
-    81.73,
-    81.52,
-    77.11,
-    73.43,
-    82.8,
-    78.19,
-    88.54,
-    72.57,
-    75.26,
-    78.16
+    85.21,
+    78.53,
+    78.7,
+    67.03,
+    78.72,
+    81.07,
+    82.03,
+    80.09,
+    71.89,
+    78.64
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V5",
-    "F05-V1",
-    "F05-V2",
-    "F06-V1",
-    "F06-V5",
-    "F05-V3",
-    "F06-V4",
-    "F05-V4",
-    "F06-V3"
+    "F08-V1",
+    "F09-V2",
+    "F09-V1",
+    "F09-V3",
+    "F08-V5",
+    "F08-V3",
+    "F09-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a accessibility specialist on Laptop 1024, I put Calm Grid first — I can complete the whole task without a mouse."
   },
   {
    "id": "P060",
@@ -3654,32 +3666,32 @@
     "consistency": 0.846
    },
    "scores": [
-    77.53,
-    81.3,
-    77.19,
-    74.58,
-    85.6,
-    79.39,
-    86.3,
-    75.99,
-    74.71,
-    77.06
+    80.83,
+    78.44,
+    78.85,
+    68.83,
+    81.9,
+    82.13,
+    79.96,
+    83.38,
+    71.41,
+    77.18
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V5",
-    "F05-V2",
-    "F06-V1",
-    "F05-V1",
-    "F05-V3",
-    "F06-V5",
-    "F06-V3",
-    "F06-V4",
-    "F05-V4"
+    "F09-V3",
+    "F09-V1",
+    "F08-V5",
+    "F08-V1",
+    "F09-V2",
+    "F08-V3",
+    "F08-V2",
+    "F09-V5",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a accessibility specialist on Desktop 1440, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P061",
@@ -3710,32 +3722,32 @@
     "consistency": 0.81
    },
    "scores": [
-    81.53,
-    81.62,
-    79.34,
-    71.67,
-    83.76,
-    85.85,
-    88.97,
-    72.98,
-    77.08,
-    77.77
+    82.95,
+    79.65,
+    81.78,
+    65.8,
+    78.9,
+    88.13,
+    82.12,
+    81.6,
+    73.07,
+    78.58
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V5",
-    "F05-V2",
-    "F05-V1",
-    "F05-V3",
-    "F06-V5",
-    "F06-V4",
-    "F06-V3",
-    "F05-V4"
+    "F09-V1",
+    "F08-V1",
+    "F09-V2",
+    "F08-V3",
+    "F09-V3",
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a screen-reader user on Desktop 1440, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P062",
@@ -3766,32 +3778,32 @@
     "consistency": 0.871
    },
    "scores": [
-    81.65,
-    77.69,
-    77.0,
-    74.24,
-    84.17,
-    81.77,
-    87.11,
-    76.19,
-    74.99,
-    77.48
+    83.03,
+    75.54,
+    79.53,
+    67.8,
+    78.89,
+    84.09,
+    79.94,
+    84.8,
+    71.0,
+    78.62
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V5",
-    "F06-V1",
-    "F05-V1",
-    "F05-V2",
-    "F06-V5",
-    "F05-V3",
-    "F06-V3",
-    "F06-V4",
-    "F05-V4"
+    "F09-V3",
+    "F09-V1",
+    "F08-V1",
+    "F09-V2",
+    "F08-V3",
+    "F08-V5",
+    "F09-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a screen-reader user on Desktop 1440, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P063",
@@ -3822,32 +3834,32 @@
     "consistency": 0.848
    },
    "scores": [
-    83.77,
-    80.5,
-    77.66,
-    71.45,
-    82.51,
-    84.91,
-    90.97,
-    74.21,
-    79.45,
-    78.68
+    85.26,
+    78.4,
+    80.18,
+    64.62,
+    77.04,
+    87.84,
+    83.66,
+    82.72,
+    75.06,
+    80.22
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V1",
-    "F05-V5",
-    "F05-V2",
-    "F06-V4",
-    "F06-V5",
-    "F05-V3",
-    "F06-V3",
-    "F05-V4"
+    "F09-V1",
+    "F08-V1",
+    "F09-V2",
+    "F09-V3",
+    "F09-V5",
+    "F08-V3",
+    "F08-V2",
+    "F08-V5",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a screen-reader user on Laptop 1024, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P064",
@@ -3878,32 +3890,32 @@
     "consistency": 0.852
    },
    "scores": [
-    84.66,
-    79.86,
-    77.25,
-    73.42,
-    84.87,
-    87.62,
-    88.93,
-    78.0,
-    76.59,
-    79.99
+    85.93,
+    77.88,
+    79.81,
+    66.91,
+    79.56,
+    90.47,
+    81.89,
+    86.77,
+    72.32,
+    81.22
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V5",
-    "F05-V1",
-    "F06-V5",
-    "F05-V2",
-    "F06-V3",
-    "F05-V3",
-    "F06-V4",
-    "F05-V4"
+    "F09-V1",
+    "F09-V3",
+    "F08-V1",
+    "F09-V2",
+    "F09-V5",
+    "F08-V3",
+    "F08-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a screen-reader user on Laptop 1024, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P065",
@@ -3934,32 +3946,32 @@
     "consistency": 0.802
    },
    "scores": [
-    81.6,
-    78.61,
-    78.98,
-    73.93,
-    82.88,
-    84.19,
-    86.72,
-    73.59,
-    78.08,
-    81.72
+    82.81,
+    76.68,
+    81.45,
+    67.79,
+    77.64,
+    86.58,
+    79.99,
+    82.24,
+    74.27,
+    82.68
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V5",
-    "F06-V5",
-    "F05-V1",
-    "F05-V3",
-    "F05-V2",
-    "F06-V4",
-    "F05-V4",
-    "F06-V3"
+    "F09-V1",
+    "F08-V1",
+    "F09-V5",
+    "F09-V3",
+    "F08-V3",
+    "F09-V2",
+    "F08-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a screen-reader user on Desktop 1440, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P066",
@@ -3974,7 +3986,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "Low vision",
    "archetype": 14,
    "weights": {
@@ -3990,32 +4002,32 @@
     "consistency": 0.427
    },
    "scores": [
-    84.39,
-    82.28,
-    86.13,
-    75.41,
-    85.35,
-    82.64,
-    85.76,
-    68.34,
-    76.82,
-    78.3
+    81.12,
+    73.8,
+    82.61,
+    64.09,
+    76.94,
+    89.73,
+    84.12,
+    85.55,
+    77.69,
+    83.07
    ],
    "ranking": [
-    "F05-V3",
-    "F06-V2",
-    "F05-V5",
-    "F05-V1",
-    "F06-V1",
-    "F05-V2",
-    "F06-V5",
-    "F06-V4",
-    "F05-V4",
-    "F06-V3"
+    "F09-V1",
+    "F09-V3",
+    "F09-V2",
+    "F09-V5",
+    "F08-V3",
+    "F08-V1",
+    "F09-V4",
+    "F08-V5",
+    "F08-V2",
+    "F08-V4"
    ],
-   "top": "F05-V3",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Attention Queue first — I can complete the whole task without a mouse."
+   "verdict": "As a low-vision user on Desktop 1440, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P067",
@@ -4030,7 +4042,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "Low vision",
    "archetype": 14,
    "weights": {
@@ -4046,32 +4058,32 @@
     "consistency": 0.41
    },
    "scores": [
-    84.61,
-    82.32,
-    84.66,
-    74.13,
-    76.94,
-    81.2,
-    86.05,
-    71.74,
-    74.69,
-    75.65
+    81.69,
+    74.05,
+    81.71,
+    66.39,
+    69.54,
+    86.53,
+    82.79,
+    88.03,
+    75.5,
+    83.54
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V3",
-    "F05-V1",
-    "F05-V2",
-    "F06-V1",
-    "F05-V5",
-    "F06-V5",
-    "F06-V4",
-    "F05-V4",
-    "F06-V3"
+    "F09-V3",
+    "F09-V1",
+    "F09-V5",
+    "F09-V2",
+    "F08-V3",
+    "F08-V1",
+    "F09-V4",
+    "F08-V2",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a low-vision user on Tablet 768, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P068",
@@ -4086,7 +4098,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "Low vision",
    "archetype": 14,
    "weights": {
@@ -4102,32 +4114,32 @@
     "consistency": 0.522
    },
    "scores": [
-    83.09,
-    83.2,
-    84.72,
-    76.9,
-    82.14,
-    79.89,
-    86.55,
-    73.98,
-    74.39,
-    75.58
+    80.32,
+    74.7,
+    81.01,
+    66.62,
+    74.77,
+    86.28,
+    85.1,
+    91.26,
+    75.09,
+    79.23
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V3",
-    "F05-V2",
-    "F05-V1",
-    "F05-V5",
-    "F06-V1",
-    "F05-V4",
-    "F06-V5",
-    "F06-V4",
-    "F06-V3"
+    "F09-V3",
+    "F09-V1",
+    "F09-V2",
+    "F08-V3",
+    "F08-V1",
+    "F09-V5",
+    "F09-V4",
+    "F08-V5",
+    "F08-V2",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a low-vision user on Desktop 1440, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P069",
@@ -4142,7 +4154,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "Low vision",
    "archetype": 14,
    "weights": {
@@ -4158,32 +4170,32 @@
     "consistency": 0.478
    },
    "scores": [
-    86.0,
-    84.55,
-    85.66,
-    72.21,
-    82.47,
-    80.84,
-    86.36,
-    71.39,
-    73.36,
-    77.1
+    83.12,
+    75.9,
+    82.12,
+    61.08,
+    74.35,
+    87.91,
+    84.59,
+    88.25,
+    73.91,
+    81.19
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V1",
-    "F05-V3",
-    "F05-V2",
-    "F05-V5",
-    "F06-V1",
-    "F06-V5",
-    "F06-V4",
-    "F05-V4",
-    "F06-V3"
+    "F09-V3",
+    "F09-V1",
+    "F09-V2",
+    "F08-V1",
+    "F08-V3",
+    "F09-V5",
+    "F08-V2",
+    "F08-V5",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a low-vision user on Desktop 1440, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P070",
@@ -4198,7 +4210,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "accuracy",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "Low vision",
    "archetype": 14,
    "weights": {
@@ -4214,32 +4226,32 @@
     "consistency": 0.481
    },
    "scores": [
-    83.81,
-    82.33,
-    83.91,
-    75.73,
-    75.97,
-    83.93,
-    83.56,
-    73.7,
-    74.22,
-    73.93
+    80.73,
+    74.11,
+    80.86,
+    67.37,
+    68.3,
+    89.73,
+    80.59,
+    90.79,
+    74.99,
+    82.11
    ],
    "ranking": [
-    "F06-V1",
-    "F05-V3",
-    "F05-V1",
-    "F06-V2",
-    "F05-V2",
-    "F05-V5",
-    "F05-V4",
-    "F06-V4",
-    "F06-V5",
-    "F06-V3"
+    "F09-V3",
+    "F09-V1",
+    "F09-V5",
+    "F08-V3",
+    "F08-V1",
+    "F09-V2",
+    "F09-V4",
+    "F08-V2",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F06-V1",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Classic Brief first — I can complete the whole task without a mouse."
+   "verdict": "As a low-vision user on Tablet 768, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P071",
@@ -4254,7 +4266,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "compliance",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "Motor precision",
    "archetype": 15,
    "weights": {
@@ -4270,32 +4282,32 @@
     "consistency": 0.877
    },
    "scores": [
-    82.4,
-    76.85,
-    76.07,
-    69.62,
-    79.68,
-    86.74,
-    90.78,
-    79.45,
-    79.54,
-    79.79
+    84.07,
+    74.79,
+    78.73,
+    63.38,
+    74.79,
+    89.62,
+    83.33,
+    87.56,
+    75.68,
+    82.03
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V1",
-    "F06-V5",
-    "F05-V5",
-    "F06-V4",
-    "F06-V3",
-    "F05-V2",
-    "F05-V3",
-    "F05-V4"
+    "F09-V1",
+    "F09-V3",
+    "F08-V1",
+    "F09-V2",
+    "F09-V5",
+    "F08-V3",
+    "F09-V4",
+    "F08-V2",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a motor-impaired keyboard user on Laptop 1024, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P072",
@@ -4310,7 +4322,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "compliance",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "Motor precision",
    "archetype": 15,
    "weights": {
@@ -4326,32 +4338,32 @@
     "consistency": 0.96
    },
    "scores": [
-    78.84,
-    75.25,
-    77.4,
-    72.16,
-    79.27,
-    84.25,
-    90.56,
-    85.02,
-    81.22,
-    83.93
+    80.96,
+    72.69,
+    79.94,
+    67.13,
+    75.79,
+    86.66,
+    83.37,
+    92.86,
+    77.68,
+    84.43
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V3",
-    "F06-V1",
-    "F06-V5",
-    "F06-V4",
-    "F05-V5",
-    "F05-V1",
-    "F05-V3",
-    "F05-V2",
-    "F05-V4"
+    "F09-V3",
+    "F09-V1",
+    "F09-V5",
+    "F09-V2",
+    "F08-V1",
+    "F08-V3",
+    "F09-V4",
+    "F08-V5",
+    "F08-V2",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a motor-impaired keyboard user on Desktop 1440, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P073",
@@ -4366,7 +4378,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "compliance",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "Motor precision",
    "archetype": 15,
    "weights": {
@@ -4382,32 +4394,32 @@
     "consistency": 0.775
    },
    "scores": [
-    80.95,
-    76.67,
-    76.76,
-    72.79,
-    77.9,
-    83.54,
-    89.85,
-    79.33,
-    82.89,
-    82.38
+    82.49,
+    74.33,
+    79.47,
+    67.14,
+    73.62,
+    86.26,
+    82.63,
+    87.6,
+    79.35,
+    83.58
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F06-V4",
-    "F06-V5",
-    "F05-V1",
-    "F06-V3",
-    "F05-V5",
-    "F05-V3",
-    "F05-V2",
-    "F05-V4"
+    "F09-V3",
+    "F09-V1",
+    "F09-V5",
+    "F09-V2",
+    "F08-V1",
+    "F08-V3",
+    "F09-V4",
+    "F08-V2",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a motor-impaired keyboard user on Desktop 1440, I put Your Moves first — I can complete the whole task without a mouse."
   },
   {
    "id": "P074",
@@ -4422,7 +4434,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "compliance",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "Motor precision",
    "archetype": 15,
    "weights": {
@@ -4438,32 +4450,32 @@
     "consistency": 0.906
    },
    "scores": [
-    83.83,
-    82.36,
-    75.22,
-    72.24,
-    80.04,
-    89.28,
-    92.84,
-    80.55,
-    79.03,
-    83.18
+    85.56,
+    80.23,
+    77.81,
+    66.57,
+    75.82,
+    91.96,
+    85.55,
+    88.82,
+    75.19,
+    84.86
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V1",
-    "F06-V5",
-    "F05-V2",
-    "F06-V3",
-    "F05-V5",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4"
+    "F09-V1",
+    "F09-V3",
+    "F08-V1",
+    "F09-V2",
+    "F09-V5",
+    "F08-V2",
+    "F08-V3",
+    "F08-V5",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a motor-impaired keyboard user on Laptop 1024, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P075",
@@ -4478,7 +4490,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "compliance",
-   "task": "submit_request",
+   "task": "review_delivery",
    "ability": "Motor precision",
    "archetype": 15,
    "weights": {
@@ -4494,32 +4506,32 @@
     "consistency": 1.015
    },
    "scores": [
-    79.81,
-    79.2,
-    76.61,
-    72.95,
-    81.08,
-    86.74,
-    89.84,
-    81.58,
-    78.88,
-    80.01
+    81.64,
+    76.87,
+    79.16,
+    67.66,
+    77.24,
+    89.32,
+    82.57,
+    89.3,
+    75.36,
+    81.51
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F06-V3",
-    "F05-V5",
-    "F06-V5",
-    "F05-V1",
-    "F05-V2",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4"
+    "F09-V1",
+    "F09-V3",
+    "F09-V2",
+    "F08-V1",
+    "F09-V5",
+    "F08-V3",
+    "F08-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a motor-impaired keyboard user on Desktop 1440, I put Classic Cockpit first — I can complete the whole task without a mouse."
   },
   {
    "id": "P076",
@@ -4534,7 +4546,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "Reduced motion",
    "archetype": 16,
    "weights": {
@@ -4550,32 +4562,32 @@
     "consistency": 1.218
    },
    "scores": [
-    83.69,
-    78.3,
-    79.86,
-    72.98,
-    74.08,
-    90.54,
-    88.57,
-    79.84,
-    81.01,
-    78.34
+    91.05,
+    81.71,
+    88.12,
+    76.49,
+    76.79,
+    86.11,
+    75.12,
+    82.37,
+    72.0,
+    76.79
    ],
    "ranking": [
-    "F06-V1",
-    "F06-V2",
-    "F05-V1",
-    "F06-V4",
-    "F05-V3",
-    "F06-V3",
-    "F06-V5",
-    "F05-V2",
-    "F05-V5",
-    "F05-V4"
+    "F08-V1",
+    "F08-V3",
+    "F09-V1",
+    "F09-V3",
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F08-V4",
+    "F09-V2",
+    "F09-V4"
    ],
-   "top": "F06-V1",
+   "top": "F08-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Classic Brief first — I can complete the whole task without a mouse."
+   "verdict": "As a reduced-motion sensitive on Tablet 768, I put Calm Grid first — I can complete the whole task without a mouse."
   },
   {
    "id": "P077",
@@ -4590,7 +4602,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "Reduced motion",
    "archetype": 16,
    "weights": {
@@ -4606,32 +4618,32 @@
     "consistency": 1.01
    },
    "scores": [
-    81.76,
-    79.13,
-    79.9,
-    68.84,
-    73.96,
-    84.75,
-    88.93,
-    79.28,
-    76.05,
-    72.83
+    89.96,
+    82.69,
+    88.25,
+    74.8,
+    77.15,
+    78.04,
+    70.92,
+    81.75,
+    66.8,
+    72.82
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V1",
-    "F05-V3",
-    "F06-V3",
-    "F05-V2",
-    "F06-V4",
-    "F05-V5",
-    "F06-V5",
-    "F05-V4"
+    "F08-V1",
+    "F08-V3",
+    "F08-V2",
+    "F09-V3",
+    "F09-V1",
+    "F08-V5",
+    "F08-V4",
+    "F09-V5",
+    "F09-V2",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a reduced-motion sensitive on Mobile 390, I put Calm Grid first — I can complete the whole task without a mouse."
   },
   {
    "id": "P078",
@@ -4646,7 +4658,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "Reduced motion",
    "archetype": 16,
    "weights": {
@@ -4662,32 +4674,32 @@
     "consistency": 1.259
    },
    "scores": [
-    82.73,
-    80.99,
-    77.58,
-    70.73,
-    73.58,
-    87.86,
-    88.47,
-    80.34,
-    79.91,
-    80.02
+    90.1,
+    84.63,
+    85.99,
+    74.49,
+    76.28,
+    83.12,
+    74.77,
+    82.62,
+    71.06,
+    79.16
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V1",
-    "F05-V2",
-    "F06-V3",
-    "F06-V5",
-    "F06-V4",
-    "F05-V3",
-    "F05-V5",
-    "F05-V4"
+    "F08-V1",
+    "F08-V3",
+    "F08-V2",
+    "F09-V1",
+    "F09-V3",
+    "F09-V5",
+    "F08-V5",
+    "F09-V2",
+    "F08-V4",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V1",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a reduced-motion sensitive on Tablet 768, I put Calm Grid first — I can complete the whole task without a mouse."
   },
   {
    "id": "P079",
@@ -4702,7 +4714,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "Reduced motion",
    "archetype": 16,
    "weights": {
@@ -4718,32 +4730,32 @@
     "consistency": 1.264
    },
    "scores": [
-    78.48,
-    76.82,
-    78.64,
-    65.32,
-    71.61,
-    88.41,
-    89.52,
-    79.8,
-    73.62,
-    73.35
+    86.77,
+    80.35,
+    86.89,
+    71.78,
+    75.21,
+    81.47,
+    71.56,
+    81.72,
+    64.55,
+    73.3
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F06-V3",
-    "F05-V3",
-    "F05-V1",
-    "F05-V2",
-    "F06-V4",
-    "F06-V5",
-    "F05-V5",
-    "F05-V4"
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F09-V1",
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F08-V4",
+    "F09-V2",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a reduced-motion sensitive on Mobile 390, I put Next-Step Hero first — I can complete the whole task without a mouse."
   },
   {
    "id": "P080",
@@ -4758,7 +4770,7 @@
    "experience": "Regular",
    "aesthetic": "airy",
    "priority": "trust",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "Reduced motion",
    "archetype": 16,
    "weights": {
@@ -4774,32 +4786,32 @@
     "consistency": 1.167
    },
    "scores": [
-    79.68,
-    80.68,
-    80.42,
-    72.46,
-    74.99,
-    85.15,
-    90.09,
-    81.38,
-    79.52,
-    82.01
+    87.47,
+    84.01,
+    88.68,
+    76.95,
+    78.57,
+    79.95,
+    76.39,
+    83.61,
+    70.53,
+    79.94
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F06-V5",
-    "F06-V3",
-    "F05-V2",
-    "F05-V3",
-    "F05-V1",
-    "F06-V4",
-    "F05-V5",
-    "F05-V4"
+    "F08-V3",
+    "F08-V1",
+    "F08-V2",
+    "F09-V3",
+    "F09-V1",
+    "F09-V5",
+    "F08-V5",
+    "F08-V4",
+    "F09-V2",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "a11y",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — I can complete the whole task without a mouse."
+   "verdict": "As a reduced-motion sensitive on Tablet 768, I put Next-Step Hero first — I can complete the whole task without a mouse."
   },
   {
    "id": "P081",
@@ -4814,7 +4826,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 17,
    "weights": {
@@ -4830,32 +4842,32 @@
     "consistency": 0.454
    },
    "scores": [
-    70.86,
-    90.78,
-    80.57,
-    74.46,
-    80.46,
-    65.83,
-    80.57,
-    80.39,
-    71.3,
-    78.14
+    79.85,
+    84.38,
+    80.68,
+    70.56,
+    82.26,
+    67.49,
+    72.49,
+    73.39,
+    67.0,
+    79.67
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V3",
-    "F06-V2",
-    "F05-V5",
-    "F06-V3",
-    "F06-V5",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F08-V5",
+    "F08-V3",
+    "F08-V1",
+    "F09-V5",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F09-V1",
+    "F09-V4"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a power user / admin on Laptop 1024, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P082",
@@ -4870,7 +4882,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 17,
    "weights": {
@@ -4886,32 +4898,32 @@
     "consistency": 0.541
    },
    "scores": [
-    69.87,
-    91.14,
-    81.3,
-    75.27,
-    77.74,
-    62.01,
-    81.11,
-    80.74,
-    69.79,
-    80.95
+    78.21,
+    84.99,
+    81.84,
+    71.9,
+    79.62,
+    63.3,
+    72.46,
+    73.42,
+    65.65,
+    83.4
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V3",
-    "F06-V2",
-    "F06-V5",
-    "F06-V3",
-    "F05-V5",
-    "F05-V4",
-    "F05-V1",
-    "F06-V4",
-    "F06-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V3",
+    "F08-V5",
+    "F08-V1",
+    "F09-V3",
+    "F09-V2",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a power user / admin on Laptop 1024, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P083",
@@ -4926,7 +4938,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 17,
    "weights": {
@@ -4942,32 +4954,32 @@
     "consistency": 0.528
    },
    "scores": [
-    70.83,
-    93.17,
-    79.47,
-    75.5,
-    79.04,
-    68.14,
-    77.97,
-    81.12,
-    73.85,
-    80.41
+    79.55,
+    86.86,
+    79.67,
+    71.59,
+    80.65,
+    69.74,
+    69.74,
+    74.0,
+    69.35,
+    81.97
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V3",
-    "F06-V5",
-    "F05-V3",
-    "F05-V5",
-    "F06-V2",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V5",
+    "F08-V3",
+    "F08-V1",
+    "F09-V3",
+    "F08-V4",
+    "F09-V1",
+    "F09-V2",
+    "F09-V4"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a power user / admin on Laptop 1024, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P084",
@@ -4982,7 +4994,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 17,
    "weights": {
@@ -4998,32 +5010,32 @@
     "consistency": 0.495
    },
    "scores": [
-    67.46,
-    93.53,
-    80.72,
-    73.99,
-    84.41,
-    62.5,
-    81.39,
-    80.39,
-    72.68,
-    80.27
+    76.05,
+    86.91,
+    80.78,
+    69.83,
+    86.2,
+    65.15,
+    73.95,
+    73.44,
+    68.73,
+    81.33
    ],
    "ranking": [
-    "F05-V2",
-    "F05-V5",
-    "F06-V2",
-    "F05-V3",
-    "F06-V3",
-    "F06-V5",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F08-V5",
+    "F09-V5",
+    "F08-V3",
+    "F08-V1",
+    "F09-V2",
+    "F09-V3",
+    "F08-V4",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a power user / admin on Desktop 1440, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P085",
@@ -5038,7 +5050,7 @@
    "experience": "Expert",
    "aesthetic": "dense",
    "priority": "speed",
-   "task": "manage_requests",
+   "task": "find_project",
    "ability": "None",
    "archetype": 17,
    "weights": {
@@ -5054,32 +5066,32 @@
     "consistency": 0.519
    },
    "scores": [
-    70.64,
-    95.45,
-    78.95,
-    76.27,
-    78.54,
-    65.72,
-    82.78,
-    80.4,
-    71.81,
-    80.06
+    79.53,
+    88.44,
+    79.02,
+    71.61,
+    80.88,
+    69.88,
+    75.22,
+    73.63,
+    67.68,
+    81.64
    ],
    "ranking": [
-    "F05-V2",
-    "F06-V2",
-    "F06-V3",
-    "F06-V5",
-    "F05-V3",
-    "F05-V5",
-    "F05-V4",
-    "F06-V4",
-    "F05-V1",
-    "F06-V1"
+    "F08-V2",
+    "F09-V5",
+    "F08-V5",
+    "F08-V1",
+    "F08-V3",
+    "F09-V2",
+    "F09-V3",
+    "F08-V4",
+    "F09-V1",
+    "F09-V4"
    ],
-   "top": "F05-V2",
+   "top": "F08-V2",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Ops Console first — the controls actually do something real."
+   "verdict": "As a power user / admin on Laptop 1024, I put Ops Ledger first — the controls actually do something real."
   },
   {
    "id": "P086",
@@ -5094,7 +5106,7 @@
    "experience": "Regular",
    "aesthetic": "bento",
    "priority": "exploration",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 18,
    "weights": {
@@ -5110,32 +5122,32 @@
     "consistency": 0.485
    },
    "scores": [
-    66.43,
-    82.3,
-    73.38,
-    63.94,
-    72.99,
-    73.74,
-    88.69,
-    79.86,
-    76.89,
-    83.79
+    77.08,
+    83.81,
+    80.8,
+    72.11,
+    80.09,
+    65.74,
+    70.96,
+    76.38,
+    68.15,
+    73.31
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F05-V2",
-    "F06-V3",
-    "F06-V4",
-    "F06-V1",
-    "F05-V3",
-    "F05-V5",
-    "F05-V1",
-    "F05-V4"
+    "F08-V2",
+    "F08-V3",
+    "F08-V5",
+    "F08-V1",
+    "F09-V3",
+    "F09-V5",
+    "F08-V4",
+    "F09-V2",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F06-V2",
+   "top": "F08-V2",
    "reason_key": "responsive",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds up on my smallest screen."
+   "verdict": "As a startup founder on Mobile 390, I put Ops Ledger first — it holds up on my smallest screen."
   },
   {
    "id": "P087",
@@ -5150,7 +5162,7 @@
    "experience": "Regular",
    "aesthetic": "bento",
    "priority": "exploration",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 18,
    "weights": {
@@ -5166,32 +5178,32 @@
     "consistency": 0.665
    },
    "scores": [
-    67.07,
-    80.37,
-    78.62,
-    73.9,
-    79.83,
-    74.45,
-    87.38,
-    79.18,
-    83.01,
-    93.46
+    77.33,
+    80.88,
+    85.2,
+    76.03,
+    86.41,
+    71.32,
+    76.38,
+    77.55,
+    73.98,
+    75.83
    ],
    "ranking": [
-    "F06-V5",
-    "F06-V2",
-    "F06-V4",
-    "F05-V2",
-    "F05-V5",
-    "F06-V3",
-    "F05-V3",
-    "F06-V1",
-    "F05-V4",
-    "F05-V1"
+    "F08-V5",
+    "F08-V3",
+    "F08-V2",
+    "F09-V3",
+    "F08-V1",
+    "F09-V2",
+    "F08-V4",
+    "F09-V5",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F06-V5",
+   "top": "F08-V5",
    "reason_key": "interaction",
-   "verdict": "As a support agent on Laptop 1024, I put Bento Split first — the controls actually do something real."
+   "verdict": "As a startup founder on Laptop 1024, I put Bento Board first — the controls actually do something real."
   },
   {
    "id": "P088",
@@ -5206,7 +5218,7 @@
    "experience": "Regular",
    "aesthetic": "bento",
    "priority": "exploration",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 18,
    "weights": {
@@ -5222,32 +5234,32 @@
     "consistency": 0.438
    },
    "scores": [
-    65.3,
-    80.31,
-    75.76,
-    67.83,
-    74.35,
-    73.15,
-    87.97,
-    81.62,
-    74.67,
-    87.3
+    75.79,
+    81.53,
+    83.14,
+    75.69,
+    81.37,
+    65.71,
+    70.27,
+    77.95,
+    65.71,
+    76.32
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F06-V3",
-    "F05-V2",
-    "F05-V3",
-    "F06-V4",
-    "F05-V5",
-    "F06-V1",
-    "F05-V4",
-    "F05-V1"
+    "F08-V3",
+    "F08-V2",
+    "F08-V5",
+    "F09-V3",
+    "F09-V5",
+    "F08-V1",
+    "F08-V4",
+    "F09-V2",
+    "F09-V1",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "responsive",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds up on my smallest screen."
+   "verdict": "As a startup founder on Mobile 390, I put Next-Step Hero first — it holds up on my smallest screen."
   },
   {
    "id": "P089",
@@ -5262,7 +5274,7 @@
    "experience": "Regular",
    "aesthetic": "bento",
    "priority": "exploration",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 18,
    "weights": {
@@ -5278,32 +5290,32 @@
     "consistency": 0.463
    },
    "scores": [
-    65.63,
-    79.53,
-    74.48,
-    67.65,
-    70.4,
-    74.65,
-    86.26,
-    78.8,
-    73.16,
-    84.14
+    76.79,
+    80.86,
+    81.85,
+    75.78,
+    77.34,
+    66.28,
+    67.99,
+    74.42,
+    63.91,
+    73.26
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F05-V2",
-    "F06-V3",
-    "F06-V1",
-    "F05-V3",
-    "F06-V4",
-    "F05-V5",
-    "F05-V4",
-    "F05-V1"
+    "F08-V3",
+    "F08-V2",
+    "F08-V5",
+    "F08-V1",
+    "F08-V4",
+    "F09-V3",
+    "F09-V5",
+    "F09-V2",
+    "F09-V1",
+    "F09-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V3",
    "reason_key": "responsive",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds up on my smallest screen."
+   "verdict": "As a startup founder on Mobile 390, I put Next-Step Hero first — it holds up on my smallest screen."
   },
   {
    "id": "P090",
@@ -5318,7 +5330,7 @@
    "experience": "Regular",
    "aesthetic": "bento",
    "priority": "exploration",
-   "task": "submit_request",
+   "task": "find_project",
    "ability": "None",
    "archetype": 18,
    "weights": {
@@ -5334,32 +5346,32 @@
     "consistency": 0.508
    },
    "scores": [
-    65.05,
-    79.6,
-    74.6,
-    65.51,
-    73.57,
-    72.19,
-    84.83,
-    81.26,
-    74.85,
-    86.79
+    75.49,
+    81.0,
+    81.84,
+    73.47,
+    80.48,
+    64.6,
+    67.61,
+    77.72,
+    66.2,
+    75.72
    ],
    "ranking": [
-    "F06-V5",
-    "F06-V2",
-    "F06-V3",
-    "F05-V2",
-    "F06-V4",
-    "F05-V3",
-    "F05-V5",
-    "F06-V1",
-    "F05-V4",
-    "F05-V1"
+    "F08-V3",
+    "F08-V2",
+    "F08-V5",
+    "F09-V3",
+    "F09-V5",
+    "F08-V1",
+    "F08-V4",
+    "F09-V2",
+    "F09-V4",
+    "F09-V1"
    ],
-   "top": "F06-V5",
+   "top": "F08-V3",
    "reason_key": "distinctness",
-   "verdict": "As a support agent on Laptop 1024, I put Bento Split first — it doesn't look like every other template in the set."
+   "verdict": "As a startup founder on Mobile 390, I put Next-Step Hero first — it doesn't look like every other template in the set."
   },
   {
    "id": "P091",
@@ -5390,32 +5402,32 @@
     "consistency": 1.369
    },
    "scores": [
-    84.73,
-    82.32,
-    85.65,
-    76.81,
-    80.73,
-    85.36,
-    86.78,
-    77.79,
-    81.19,
-    86.6
+    88.23,
+    80.3,
+    87.6,
+    75.59,
+    81.28,
+    86.61,
+    81.69,
+    87.44,
+    77.92,
+    83.66
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F05-V3",
-    "F06-V1",
-    "F05-V1",
-    "F05-V2",
-    "F06-V4",
-    "F05-V5",
-    "F06-V3",
-    "F05-V4"
+    "F08-V1",
+    "F08-V3",
+    "F09-V3",
+    "F09-V1",
+    "F09-V5",
+    "F09-V2",
+    "F08-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F08-V1",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it never invents data I cannot verify."
+   "verdict": "As a legal / compliance officer on Laptop 1024, I put Calm Grid first — it never invents data I cannot verify."
   },
   {
    "id": "P092",
@@ -5446,32 +5458,32 @@
     "consistency": 1.24
    },
    "scores": [
-    84.08,
-    81.38,
-    86.16,
-    75.54,
-    76.64,
-    81.44,
-    83.05,
-    77.92,
-    81.53,
-    81.82
+    87.65,
+    79.17,
+    88.19,
+    74.24,
+    77.18,
+    81.94,
+    77.39,
+    88.02,
+    77.97,
+    78.65
    ],
    "ranking": [
-    "F05-V3",
-    "F05-V1",
-    "F06-V2",
-    "F06-V5",
-    "F06-V4",
-    "F06-V1",
-    "F05-V2",
-    "F06-V3",
-    "F05-V5",
-    "F05-V4"
+    "F08-V3",
+    "F09-V3",
+    "F08-V1",
+    "F09-V1",
+    "F08-V2",
+    "F09-V5",
+    "F09-V4",
+    "F09-V2",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F05-V3",
+   "top": "F08-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Attention Queue first — it never invents data I cannot verify."
+   "verdict": "As a legal / compliance officer on Laptop 1024, I put Next-Step Hero first — it never invents data I cannot verify."
   },
   {
    "id": "P093",
@@ -5502,32 +5514,32 @@
     "consistency": 1.144
    },
    "scores": [
-    84.73,
-    82.17,
-    83.29,
-    78.24,
-    77.64,
-    84.06,
-    83.65,
-    79.46,
-    82.86,
-    81.96
+    88.38,
+    79.99,
+    85.31,
+    77.2,
+    78.35,
+    85.14,
+    78.41,
+    89.07,
+    79.6,
+    78.57
    ],
    "ranking": [
-    "F05-V1",
-    "F06-V1",
-    "F06-V2",
-    "F05-V3",
-    "F06-V4",
-    "F05-V2",
-    "F06-V5",
-    "F06-V3",
-    "F05-V4",
-    "F05-V5"
+    "F09-V3",
+    "F08-V1",
+    "F08-V3",
+    "F09-V1",
+    "F08-V2",
+    "F09-V4",
+    "F09-V5",
+    "F09-V2",
+    "F08-V5",
+    "F08-V4"
    ],
-   "top": "F05-V1",
+   "top": "F09-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Calm Ledger first — it never invents data I cannot verify."
+   "verdict": "As a legal / compliance officer on Laptop 1024, I put Your Moves first — it never invents data I cannot verify."
   },
   {
    "id": "P094",
@@ -5558,32 +5570,32 @@
     "consistency": 1.241
    },
    "scores": [
-    80.29,
-    81.44,
-    84.31,
-    74.41,
-    79.4,
-    84.4,
-    86.41,
-    76.34,
-    79.64,
-    82.03
+    84.02,
+    79.07,
+    86.35,
+    73.11,
+    80.24,
+    84.76,
+    80.84,
+    87.21,
+    76.18,
+    78.45
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V1",
-    "F05-V3",
-    "F06-V5",
-    "F05-V2",
-    "F05-V1",
-    "F06-V4",
-    "F05-V5",
-    "F06-V3",
-    "F05-V4"
+    "F09-V3",
+    "F08-V3",
+    "F09-V1",
+    "F08-V1",
+    "F09-V2",
+    "F08-V5",
+    "F08-V2",
+    "F09-V5",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it never invents data I cannot verify."
+   "verdict": "As a legal / compliance officer on Laptop 1024, I put Your Moves first — it never invents data I cannot verify."
   },
   {
    "id": "P095",
@@ -5614,32 +5626,32 @@
     "consistency": 1.317
    },
    "scores": [
-    83.08,
-    81.49,
-    85.43,
-    77.09,
-    79.8,
-    88.6,
-    87.68,
-    80.39,
-    81.28,
-    84.02
+    86.69,
+    79.2,
+    87.29,
+    75.75,
+    80.18,
+    88.79,
+    82.0,
+    90.11,
+    77.64,
+    80.65
    ],
    "ranking": [
-    "F06-V1",
-    "F06-V2",
-    "F05-V3",
-    "F06-V5",
-    "F05-V1",
-    "F05-V2",
-    "F06-V4",
-    "F06-V3",
-    "F05-V5",
-    "F05-V4"
+    "F09-V3",
+    "F09-V1",
+    "F08-V3",
+    "F08-V1",
+    "F09-V2",
+    "F09-V5",
+    "F08-V5",
+    "F08-V2",
+    "F09-V4",
+    "F08-V4"
    ],
-   "top": "F06-V1",
+   "top": "F09-V3",
    "reason_key": "honesty",
-   "verdict": "As a support agent on Laptop 1024, I put Classic Brief first — it never invents data I cannot verify."
+   "verdict": "As a legal / compliance officer on Laptop 1024, I put Your Moves first — it never invents data I cannot verify."
   },
   {
    "id": "P096",
@@ -5654,7 +5666,7 @@
    "experience": "Regular",
    "aesthetic": "narrative",
    "priority": "guidance",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 20,
    "weights": {
@@ -5670,32 +5682,32 @@
     "consistency": 0.604
    },
    "scores": [
-    74.97,
-    81.56,
-    83.76,
-    81.74,
-    74.42,
-    78.09,
-    92.21,
-    74.28,
-    83.64,
-    85.37
+    74.79,
+    70.24,
+    80.9,
+    72.39,
+    69.64,
+    82.02,
+    88.09,
+    86.86,
+    81.66,
+    80.73
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F05-V3",
-    "F06-V4",
-    "F05-V4",
-    "F05-V2",
-    "F06-V1",
-    "F05-V1",
-    "F05-V5",
-    "F06-V3"
+    "F09-V2",
+    "F09-V3",
+    "F09-V1",
+    "F09-V4",
+    "F08-V3",
+    "F09-V5",
+    "F08-V1",
+    "F08-V4",
+    "F08-V2",
+    "F08-V5"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "guidance",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds my hand through the whole flow."
+   "verdict": "As a support agent on Laptop 1024, I put Delivery Journey first — it holds my hand through the whole flow."
   },
   {
    "id": "P097",
@@ -5710,7 +5722,7 @@
    "experience": "Regular",
    "aesthetic": "narrative",
    "priority": "guidance",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 20,
    "weights": {
@@ -5726,32 +5738,32 @@
     "consistency": 0.535
    },
    "scores": [
-    74.71,
-    81.29,
-    83.08,
-    82.7,
-    74.13,
-    77.73,
-    93.27,
-    72.35,
-    81.95,
-    81.65
+    75.14,
+    69.67,
+    80.32,
+    73.24,
+    69.33,
+    81.46,
+    88.8,
+    84.51,
+    80.09,
+    76.74
    ],
    "ranking": [
-    "F06-V2",
-    "F05-V3",
-    "F05-V4",
-    "F06-V4",
-    "F06-V5",
-    "F05-V2",
-    "F06-V1",
-    "F05-V1",
-    "F05-V5",
-    "F06-V3"
+    "F09-V2",
+    "F09-V3",
+    "F09-V1",
+    "F08-V3",
+    "F09-V4",
+    "F09-V5",
+    "F08-V1",
+    "F08-V4",
+    "F08-V2",
+    "F08-V5"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "guidance",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds my hand through the whole flow."
+   "verdict": "As a support agent on Laptop 1024, I put Delivery Journey first — it holds my hand through the whole flow."
   },
   {
    "id": "P098",
@@ -5766,7 +5778,7 @@
    "experience": "Regular",
    "aesthetic": "narrative",
    "priority": "guidance",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 20,
    "weights": {
@@ -5782,32 +5794,32 @@
     "consistency": 0.507
    },
    "scores": [
-    73.24,
-    83.12,
-    81.92,
-    81.19,
-    72.47,
-    76.66,
-    95.13,
-    72.34,
-    83.09,
-    83.96
+    73.58,
+    71.41,
+    78.95,
+    71.55,
+    67.91,
+    80.88,
+    90.83,
+    84.81,
+    81.1,
+    79.27
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V5",
-    "F05-V2",
-    "F06-V4",
-    "F05-V3",
-    "F05-V4",
-    "F06-V1",
-    "F05-V1",
-    "F05-V5",
-    "F06-V3"
+    "F09-V2",
+    "F09-V3",
+    "F09-V4",
+    "F09-V1",
+    "F09-V5",
+    "F08-V3",
+    "F08-V1",
+    "F08-V4",
+    "F08-V2",
+    "F08-V5"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "guidance",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds my hand through the whole flow."
+   "verdict": "As a support agent on Laptop 1024, I put Delivery Journey first — it holds my hand through the whole flow."
   },
   {
    "id": "P099",
@@ -5822,7 +5834,7 @@
    "experience": "Regular",
    "aesthetic": "narrative",
    "priority": "guidance",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 20,
    "weights": {
@@ -5838,32 +5850,32 @@
     "consistency": 0.545
    },
    "scores": [
-    71.55,
-    80.52,
-    79.55,
-    82.59,
-    72.59,
-    78.7,
-    89.32,
-    76.25,
-    82.65,
-    81.7
+    72.01,
+    68.71,
+    76.71,
+    73.02,
+    68.2,
+    82.85,
+    84.95,
+    88.83,
+    80.99,
+    77.08
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V4",
-    "F05-V4",
-    "F06-V5",
-    "F05-V2",
-    "F05-V3",
-    "F06-V1",
-    "F06-V3",
-    "F05-V5",
-    "F05-V1"
+    "F09-V3",
+    "F09-V2",
+    "F09-V1",
+    "F09-V4",
+    "F09-V5",
+    "F08-V3",
+    "F08-V4",
+    "F08-V1",
+    "F08-V2",
+    "F08-V5"
    ],
-   "top": "F06-V2",
+   "top": "F09-V3",
    "reason_key": "guidance",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds my hand through the whole flow."
+   "verdict": "As a support agent on Laptop 1024, I put Your Moves first — it holds my hand through the whole flow."
   },
   {
    "id": "P100",
@@ -5878,7 +5890,7 @@
    "experience": "Regular",
    "aesthetic": "narrative",
    "priority": "guidance",
-   "task": "manage_requests",
+   "task": "review_delivery",
    "ability": "None",
    "archetype": 20,
    "weights": {
@@ -5894,400 +5906,400 @@
     "consistency": 0.495
    },
    "scores": [
-    74.97,
-    82.49,
-    80.23,
-    82.6,
-    72.63,
-    75.47,
-    90.62,
-    74.32,
-    85.89,
-    83.15
+    75.46,
+    70.72,
+    77.46,
+    73.1,
+    67.98,
+    79.76,
+    86.05,
+    85.88,
+    84.05,
+    78.54
    ],
    "ranking": [
-    "F06-V2",
-    "F06-V4",
-    "F06-V5",
-    "F05-V4",
-    "F05-V2",
-    "F05-V3",
-    "F06-V1",
-    "F05-V1",
-    "F06-V3",
-    "F05-V5"
+    "F09-V2",
+    "F09-V3",
+    "F09-V4",
+    "F09-V1",
+    "F09-V5",
+    "F08-V3",
+    "F08-V1",
+    "F08-V4",
+    "F08-V2",
+    "F08-V5"
    ],
-   "top": "F06-V2",
+   "top": "F09-V2",
    "reason_key": "guidance",
-   "verdict": "As a support agent on Laptop 1024, I put Three Steps first — it holds my hand through the whole flow."
+   "verdict": "As a support agent on Laptop 1024, I put Delivery Journey first — it holds my hand through the whole flow."
   }
  ],
  "agg": [
   {
-   "id": "F06-V2",
-   "mean": 85.75,
-   "stdev": 3.85,
-   "firsts": 45,
-   "top3": 89,
-   "borda": 894,
-   "min": 77.97,
-   "max": 95.13,
+   "id": "F08-V3",
+   "mean": 81.55,
+   "stdev": 5.37,
+   "firsts": 21,
+   "top3": 41,
+   "borda": 724,
+   "min": 72.52,
+   "max": 93.6,
    "rank": 1,
-   "margin": 11.69
-  },
-  {
-   "id": "F05-V2",
-   "mean": 84.09,
-   "stdev": 5.53,
-   "firsts": 31,
-   "top3": 50,
-   "borda": 731,
-   "min": 73.9,
-   "max": 95.73,
-   "rank": 2,
    "margin": 10.03
   },
   {
-   "id": "F06-V5",
-   "mean": 81.38,
-   "stdev": 4.33,
-   "firsts": 7,
-   "top3": 34,
-   "borda": 676,
-   "min": 71.21,
-   "max": 93.46,
+   "id": "F09-V3",
+   "mean": 81.34,
+   "stdev": 5.49,
+   "firsts": 14,
+   "top3": 56,
+   "borda": 731,
+   "min": 70.67,
+   "max": 92.86,
+   "rank": 2,
+   "margin": 9.82
+  },
+  {
+   "id": "F09-V5",
+   "mean": 79.86,
+   "stdev": 4.52,
+   "firsts": 20,
+   "top3": 41,
+   "borda": 642,
+   "min": 68.92,
+   "max": 89.26,
    "rank": 3,
-   "margin": 7.32
+   "margin": 8.34
   },
   {
-   "id": "F05-V3",
-   "mean": 79.99,
-   "stdev": 4.1,
-   "firsts": 7,
-   "top3": 28,
-   "borda": 607,
-   "min": 72.34,
-   "max": 91.13,
+   "id": "F08-V2",
+   "mean": 79.83,
+   "stdev": 4.33,
+   "firsts": 15,
+   "top3": 42,
+   "borda": 640,
+   "min": 68.71,
+   "max": 88.44,
    "rank": 4,
-   "margin": 5.93
+   "margin": 8.31
   },
   {
-   "id": "F06-V3",
-   "mean": 78.19,
-   "stdev": 3.77,
-   "firsts": 2,
-   "top3": 22,
-   "borda": 488,
-   "min": 68.34,
-   "max": 87.29,
+   "id": "F08-V1",
+   "mean": 79.08,
+   "stdev": 6.81,
+   "firsts": 6,
+   "top3": 34,
+   "borda": 606,
+   "min": 65.5,
+   "max": 91.05,
    "rank": 5,
-   "margin": 4.13
+   "margin": 7.56
   },
   {
-   "id": "F06-V4",
-   "mean": 77.65,
-   "stdev": 4.57,
-   "firsts": 0,
-   "top3": 12,
-   "borda": 454,
-   "min": 66.46,
-   "max": 88.58,
+   "id": "F09-V2",
+   "mean": 77.67,
+   "stdev": 5.39,
+   "firsts": 9,
+   "top3": 25,
+   "borda": 560,
+   "min": 67.17,
+   "max": 90.83,
    "rank": 6,
-   "margin": 3.59
+   "margin": 6.15
   },
   {
-   "id": "F05-V5",
-   "mean": 77.55,
-   "stdev": 6.16,
-   "firsts": 1,
-   "top3": 21,
-   "borda": 502,
-   "min": 58.51,
-   "max": 90.9,
-   "rank": 7,
-   "margin": 3.49
-  },
-  {
-   "id": "F06-V1",
-   "mean": 76.24,
-   "stdev": 8.66,
+   "id": "F08-V5",
+   "mean": 77.59,
+   "stdev": 5.44,
    "firsts": 6,
    "top3": 27,
-   "borda": 485,
-   "min": 60.79,
-   "max": 90.54,
+   "borda": 519,
+   "min": 66.16,
+   "max": 90.67,
+   "rank": 7,
+   "margin": 6.07
+  },
+  {
+   "id": "F09-V1",
+   "mean": 76.55,
+   "stdev": 8.26,
+   "firsts": 9,
+   "top3": 26,
+   "borda": 514,
+   "min": 62.25,
+   "max": 91.96,
    "rank": 8,
-   "margin": 2.18
+   "margin": 5.03
   },
   {
-   "id": "F05-V4",
-   "mean": 74.17,
-   "stdev": 4.29,
+   "id": "F09-V4",
+   "mean": 73.42,
+   "stdev": 5.01,
    "firsts": 0,
-   "top3": 2,
-   "borda": 288,
-   "min": 63.01,
-   "max": 84.31,
+   "top3": 8,
+   "borda": 311,
+   "min": 63.32,
+   "max": 85.53,
    "rank": 9,
-   "margin": 0.11
+   "margin": 1.9
   },
   {
-   "id": "F05-V1",
-   "mean": 74.06,
-   "stdev": 7.43,
-   "firsts": 1,
-   "top3": 15,
-   "borda": 375,
-   "min": 60.26,
-   "max": 86.0,
+   "id": "F08-V4",
+   "mean": 71.52,
+   "stdev": 4.06,
+   "firsts": 0,
+   "top3": 0,
+   "borda": 253,
+   "min": 61.08,
+   "max": 81.4,
    "rank": 10,
    "margin": 0.0
   }
  ],
  "fam_rank": {
-  "F05": [
+  "F08": [
    {
-    "id": "F05-V2",
-    "mean": 84.09,
-    "stdev": 5.53,
-    "firsts": 31,
-    "top3": 50,
-    "borda": 731,
-    "min": 73.9,
-    "max": 95.73,
+    "id": "F08-V3",
+    "mean": 81.55,
+    "stdev": 5.37,
+    "firsts": 21,
+    "top3": 41,
+    "borda": 724,
+    "min": 72.52,
+    "max": 93.6,
     "rank": 1,
     "margin": 10.03
    },
    {
-    "id": "F05-V3",
-    "mean": 79.99,
-    "stdev": 4.1,
-    "firsts": 7,
-    "top3": 28,
-    "borda": 607,
-    "min": 72.34,
-    "max": 91.13,
+    "id": "F08-V2",
+    "mean": 79.83,
+    "stdev": 4.33,
+    "firsts": 15,
+    "top3": 42,
+    "borda": 640,
+    "min": 68.71,
+    "max": 88.44,
     "rank": 2,
-    "margin": 5.93
+    "margin": 8.31
    },
    {
-    "id": "F05-V5",
-    "mean": 77.55,
-    "stdev": 6.16,
-    "firsts": 1,
-    "top3": 21,
-    "borda": 502,
-    "min": 58.51,
-    "max": 90.9,
+    "id": "F08-V1",
+    "mean": 79.08,
+    "stdev": 6.81,
+    "firsts": 6,
+    "top3": 34,
+    "borda": 606,
+    "min": 65.5,
+    "max": 91.05,
     "rank": 3,
-    "margin": 3.49
+    "margin": 7.56
    },
    {
-    "id": "F05-V4",
-    "mean": 74.17,
-    "stdev": 4.29,
-    "firsts": 0,
-    "top3": 2,
-    "borda": 288,
-    "min": 63.01,
-    "max": 84.31,
+    "id": "F08-V5",
+    "mean": 77.59,
+    "stdev": 5.44,
+    "firsts": 6,
+    "top3": 27,
+    "borda": 519,
+    "min": 66.16,
+    "max": 90.67,
     "rank": 4,
-    "margin": 0.11
+    "margin": 6.07
    },
    {
-    "id": "F05-V1",
-    "mean": 74.06,
-    "stdev": 7.43,
-    "firsts": 1,
-    "top3": 15,
-    "borda": 375,
-    "min": 60.26,
-    "max": 86.0,
+    "id": "F08-V4",
+    "mean": 71.52,
+    "stdev": 4.06,
+    "firsts": 0,
+    "top3": 0,
+    "borda": 253,
+    "min": 61.08,
+    "max": 81.4,
     "rank": 5,
     "margin": 0.0
    }
   ],
-  "F06": [
+  "F09": [
    {
-    "id": "F06-V2",
-    "mean": 85.75,
-    "stdev": 3.85,
-    "firsts": 45,
-    "top3": 89,
-    "borda": 894,
-    "min": 77.97,
-    "max": 95.13,
+    "id": "F09-V3",
+    "mean": 81.34,
+    "stdev": 5.49,
+    "firsts": 14,
+    "top3": 56,
+    "borda": 731,
+    "min": 70.67,
+    "max": 92.86,
     "rank": 1,
-    "margin": 11.69
+    "margin": 9.82
    },
    {
-    "id": "F06-V5",
-    "mean": 81.38,
-    "stdev": 4.33,
-    "firsts": 7,
-    "top3": 34,
-    "borda": 676,
-    "min": 71.21,
-    "max": 93.46,
+    "id": "F09-V5",
+    "mean": 79.86,
+    "stdev": 4.52,
+    "firsts": 20,
+    "top3": 41,
+    "borda": 642,
+    "min": 68.92,
+    "max": 89.26,
     "rank": 2,
-    "margin": 7.32
+    "margin": 8.34
    },
    {
-    "id": "F06-V3",
-    "mean": 78.19,
-    "stdev": 3.77,
-    "firsts": 2,
-    "top3": 22,
-    "borda": 488,
-    "min": 68.34,
-    "max": 87.29,
+    "id": "F09-V2",
+    "mean": 77.67,
+    "stdev": 5.39,
+    "firsts": 9,
+    "top3": 25,
+    "borda": 560,
+    "min": 67.17,
+    "max": 90.83,
     "rank": 3,
-    "margin": 4.13
+    "margin": 6.15
    },
    {
-    "id": "F06-V4",
-    "mean": 77.65,
-    "stdev": 4.57,
-    "firsts": 0,
-    "top3": 12,
-    "borda": 454,
-    "min": 66.46,
-    "max": 88.58,
+    "id": "F09-V1",
+    "mean": 76.55,
+    "stdev": 8.26,
+    "firsts": 9,
+    "top3": 26,
+    "borda": 514,
+    "min": 62.25,
+    "max": 91.96,
     "rank": 4,
-    "margin": 3.59
+    "margin": 5.03
    },
    {
-    "id": "F06-V1",
-    "mean": 76.24,
-    "stdev": 8.66,
-    "firsts": 6,
-    "top3": 27,
-    "borda": 485,
-    "min": 60.79,
-    "max": 90.54,
+    "id": "F09-V4",
+    "mean": 73.42,
+    "stdev": 5.01,
+    "firsts": 0,
+    "top3": 8,
+    "borda": 311,
+    "min": 63.32,
+    "max": 85.53,
     "rank": 5,
-    "margin": 2.18
+    "margin": 1.9
    }
   ]
  },
  "pairwise": [
   [
    null,
-   27.0,
-   18.0,
    49.0,
-   37.0,
-   36.0,
-   4.0,
-   38.0,
-   41.0,
-   25.0
-  ],
-  [
-   73.0,
-   null,
-   66.0,
-   94.0,
-   77.0,
-   66.0,
-   39.0,
-   82.0,
-   77.0,
-   56.0
-  ],
-  [
-   82.0,
-   34.0,
-   null,
-   91.0,
+   29.0,
+   87.0,
    60.0,
-   62.0,
-   13.0,
-   59.0,
-   65.0,
-   40.0
+   60.0,
+   60.0,
+   39.0,
+   77.0,
+   44.0
   ],
   [
    51.0,
-   6.0,
-   9.0,
    null,
-   19.0,
-   41.0,
-   0.0,
-   27.0,
-   29.0,
-   6.0
-  ],
-  [
-   63.0,
-   22.0,
-   40.0,
-   81.0,
-   null,
-   52.0,
-   13.0,
-   48.0,
-   53.0,
-   30.0
-  ],
-  [
-   64.0,
-   34.0,
    38.0,
-   59.0,
-   48.0,
+   88.0,
+   71.0,
+   57.0,
+   62.0,
+   41.0,
+   82.0,
+   48.0
+  ],
+  [
+   71.0,
+   62.0,
    null,
-   8.0,
+   100.0,
+   71.0,
+   69.0,
+   59.0,
+   58.0,
+   86.0,
+   48.0
+  ],
+  [
+   13.0,
+   11.0,
+   0.0,
+   null,
+   12.0,
+   32.0,
+   20.0,
+   6.0,
+   43.0,
+   16.0
+  ],
+  [
+   40.0,
+   28.0,
+   29.0,
+   88.0,
+   null,
+   46.0,
    49.0,
-   47.0,
+   33.0,
+   67.0,
    38.0
   ],
   [
-   96.0,
-   61.0,
-   86.0,
-   100.0,
-   87.0,
-   92.0,
+   40.0,
+   43.0,
+   31.0,
+   68.0,
+   54.0,
    null,
-   86.0,
-   99.0,
-   87.0
+   48.0,
+   13.0,
+   65.0,
+   50.0
   ],
   [
-   62.0,
-   18.0,
+   40.0,
+   38.0,
    41.0,
-   73.0,
-   52.0,
+   80.0,
    51.0,
-   14.0,
+   51.0,
    null,
-   50.0,
-   27.0
+   27.0,
+   93.0,
+   39.0
   ],
   [
+   61.0,
    59.0,
-   23.0,
-   35.0,
-   71.0,
-   47.0,
-   53.0,
-   1.0,
-   50.0,
+   42.0,
+   94.0,
+   67.0,
+   87.0,
+   73.0,
+   null,
+   89.0,
+   59.0
+  ],
+  [
+   22.0,
+   18.0,
+   14.0,
+   57.0,
+   33.0,
+   34.0,
+   7.0,
+   11.0,
    null,
    15.0
   ],
   [
-   75.0,
-   44.0,
-   60.0,
-   94.0,
-   70.0,
-   62.0,
-   13.0,
-   73.0,
+   56.0,
+   52.0,
+   52.0,
+   84.0,
+   61.0,
+   50.0,
+   61.0,
+   41.0,
    85.0,
    null
   ]
@@ -6301,78 +6313,80 @@
      "n": 37,
      "top": [
       [
-       "F06-V2",
-       85.71
+       "F09-V3",
+       81.61
       ],
       [
-       "F05-V2",
-       84.63
+       "F09-V5",
+       80.79
       ],
       [
-       "F06-V5",
-       81.96
+       "F08-V3",
+       80.65
       ]
      ],
      "votes": {
-      "F06-V3": 1,
-      "F05-V2": 13,
-      "F06-V2": 17,
-      "F05-V3": 4,
-      "F06-V5": 2
+      "F09-V5": 8,
+      "F08-V2": 6,
+      "F08-V3": 5,
+      "F09-V3": 8,
+      "F08-V5": 2,
+      "F09-V2": 4,
+      "F09-V1": 4
      },
-     "winner_votes": 17
+     "winner_votes": 8
     },
     {
      "label": "Laptop 1024",
      "n": 42,
      "top": [
       [
-       "F06-V2",
-       85.23
+       "F08-V3",
+       81.29
       ],
       [
-       "F05-V2",
-       84.92
+       "F09-V3",
+       80.99
       ],
       [
-       "F06-V5",
-       82.35
+       "F09-V5",
+       80.46
       ]
      ],
      "votes": {
-      "F05-V2": 15,
-      "F05-V3": 3,
-      "F06-V2": 16,
-      "F06-V5": 4,
-      "F06-V1": 2,
-      "F05-V5": 1,
-      "F05-V1": 1
+      "F09-V5": 8,
+      "F08-V2": 8,
+      "F08-V3": 6,
+      "F08-V5": 4,
+      "F08-V1": 3,
+      "F09-V1": 5,
+      "F09-V3": 4,
+      "F09-V2": 4
      },
-     "winner_votes": 16
+     "winner_votes": 8
     },
     {
      "label": "Mobile 360–390",
      "n": 14,
      "top": [
       [
-       "F06-V2",
-       86.29
+       "F08-V3",
+       83.18
       ],
       [
-       "F05-V2",
-       82.27
+       "F08-V2",
+       80.49
       ],
       [
-       "F06-V3",
-       79.48
+       "F09-V3",
+       80.06
       ]
      ],
      "votes": {
-      "F06-V2": 8,
-      "F06-V1": 1,
-      "F06-V3": 1,
-      "F05-V2": 3,
-      "F06-V5": 1
+      "F08-V3": 8,
+      "F09-V5": 4,
+      "F08-V1": 1,
+      "F08-V2": 1
      },
      "winner_votes": 8
     },
@@ -6381,23 +6395,25 @@
      "n": 7,
      "top": [
       [
-       "F06-V2",
-       88.0
+       "F08-V3",
+       84.7
       ],
       [
-       "F06-V1",
-       83.89
+       "F09-V3",
+       84.59
       ],
       [
-       "F05-V3",
-       80.41
+       "F08-V1",
+       83.63
       ]
      ],
      "votes": {
-      "F06-V1": 3,
-      "F06-V2": 4
+      "F08-V3": 2,
+      "F09-V2": 1,
+      "F09-V3": 2,
+      "F08-V1": 2
      },
-     "winner_votes": 4
+     "winner_votes": 2
     }
    ]
   },
@@ -6409,142 +6425,144 @@
      "n": 5,
      "top": [
       [
-       "F06-V2",
-       86.58
+       "F09-V3",
+       82.37
       ],
       [
-       "F05-V5",
-       82.62
+       "F08-V1",
+       82.32
       ],
       [
-       "F05-V2",
-       81.43
+       "F09-V1",
+       82.04
       ]
      ],
      "votes": {
-      "F06-V2": 5
+      "F09-V3": 2,
+      "F08-V1": 2,
+      "F09-V1": 1
      },
-     "winner_votes": 5
+     "winner_votes": 2
     },
     {
      "label": "Low vision",
      "n": 5,
      "top": [
       [
-       "F06-V2",
-       85.66
+       "F09-V3",
+       88.78
       ],
       [
-       "F05-V3",
-       85.02
+       "F09-V1",
+       88.04
       ],
       [
-       "F05-V1",
-       84.38
+       "F09-V2",
+       83.44
       ]
      ],
      "votes": {
-      "F05-V3": 1,
-      "F06-V2": 3,
-      "F06-V1": 1
+      "F09-V1": 1,
+      "F09-V3": 4
      },
-     "winner_votes": 3
+     "winner_votes": 4
     },
     {
      "label": "Motor precision",
      "n": 5,
      "top": [
       [
-       "F06-V2",
-       90.77
+       "F09-V3",
+       89.23
       ],
       [
-       "F06-V1",
-       86.11
+       "F09-V1",
+       88.76
       ],
       [
-       "F06-V5",
-       81.86
+       "F09-V2",
+       83.49
       ]
      ],
      "votes": {
-      "F06-V2": 5
+      "F09-V1": 3,
+      "F09-V3": 2
      },
-     "winner_votes": 5
+     "winner_votes": 3
     },
     {
      "label": "None",
      "n": 75,
      "top": [
       [
-       "F05-V2",
-       85.37
+       "F08-V3",
+       81.52
       ],
       [
-       "F06-V2",
-       84.96
+       "F08-V2",
+       80.52
       ],
       [
-       "F06-V5",
-       82.33
+       "F09-V3",
+       80.03
       ]
      ],
      "votes": {
-      "F06-V2": 23,
-      "F06-V1": 4,
-      "F06-V3": 2,
-      "F05-V2": 31,
-      "F05-V3": 6,
-      "F06-V5": 7,
-      "F05-V5": 1,
-      "F05-V1": 1
+      "F08-V3": 19,
+      "F09-V5": 20,
+      "F08-V2": 15,
+      "F09-V3": 5,
+      "F08-V5": 6,
+      "F09-V2": 9,
+      "F08-V1": 1
      },
-     "winner_votes": 31
+     "winner_votes": 20
     },
     {
      "label": "Reduced motion",
      "n": 5,
      "top": [
       [
-       "F06-V2",
-       89.12
+       "F08-V1",
+       89.07
       ],
       [
-       "F06-V1",
-       87.34
+       "F08-V3",
+       87.59
       ],
       [
-       "F05-V1",
-       81.27
+       "F08-V2",
+       82.68
       ]
      ],
      "votes": {
-      "F06-V1": 1,
-      "F06-V2": 4
+      "F08-V1": 3,
+      "F08-V3": 2
      },
-     "winner_votes": 4
+     "winner_votes": 3
     },
     {
      "label": "Screen reader",
      "n": 5,
      "top": [
       [
-       "F06-V2",
-       88.54
+       "F09-V1",
+       87.42
       ],
       [
-       "F06-V1",
-       84.87
+       "F08-V1",
+       84.0
       ],
       [
-       "F05-V5",
-       83.64
+       "F09-V3",
+       83.63
       ]
      ],
      "votes": {
-      "F06-V2": 5
+      "F09-V1": 4,
+      "F09-V3": 1
      },
-     "winner_votes": 5
+     "winner_votes": 4
     }
    ]
   },
@@ -6556,76 +6574,78 @@
      "n": 35,
      "top": [
       [
-       "F05-V2",
-       88.86
+       "F08-V2",
+       82.74
       ],
       [
-       "F06-V2",
-       82.12
+       "F09-V5",
+       81.63
       ],
       [
-       "F06-V5",
-       81.0
+       "F08-V5",
+       80.12
       ]
      ],
      "votes": {
-      "F05-V2": 24,
-      "F06-V5": 4,
-      "F05-V5": 1,
-      "F06-V2": 6
+      "F09-V5": 11,
+      "F08-V2": 14,
+      "F08-V5": 5,
+      "F09-V3": 2,
+      "F08-V1": 2,
+      "F09-V1": 1
      },
-     "winner_votes": 24
+     "winner_votes": 14
     },
     {
      "label": "Novice",
      "n": 5,
      "top": [
       [
-       "F06-V2",
-       88.93
+       "F08-V3",
+       90.88
       ],
       [
-       "F06-V1",
-       88.29
+       "F08-V1",
+       86.27
       ],
       [
-       "F05-V3",
-       82.11
+       "F09-V3",
+       84.73
       ]
      ],
      "votes": {
-      "F06-V2": 3,
-      "F06-V1": 2
+      "F08-V3": 5
      },
-     "winner_votes": 3
+     "winner_votes": 5
     },
     {
      "label": "Regular",
      "n": 60,
      "top": [
       [
-       "F06-V2",
-       87.6
+       "F09-V3",
+       84.16
       ],
       [
-       "F05-V2",
-       81.97
+       "F08-V3",
+       82.97
       ],
       [
-       "F06-V5",
-       81.83
+       "F08-V1",
+       80.56
       ]
      ],
      "votes": {
-      "F06-V3": 2,
-      "F05-V2": 7,
-      "F06-V2": 36,
-      "F05-V3": 7,
-      "F06-V5": 3,
-      "F06-V1": 4,
-      "F05-V1": 1
+      "F09-V5": 9,
+      "F08-V3": 16,
+      "F09-V3": 12,
+      "F09-V2": 9,
+      "F09-V1": 8,
+      "F08-V1": 4,
+      "F08-V2": 1,
+      "F08-V5": 1
      },
-     "winner_votes": 36
+     "winner_votes": 16
     }
    ]
   },
@@ -6637,48 +6657,47 @@
      "n": 45,
      "top": [
       [
-       "F06-V2",
-       87.36
+       "F09-V3",
+       85.75
       ],
       [
-       "F06-V1",
-       84.31
+       "F08-V3",
+       85.47
       ],
       [
-       "F05-V3",
-       82.02
+       "F08-V1",
+       85.39
       ]
      ],
      "votes": {
-      "F06-V2": 30,
-      "F06-V1": 6,
-      "F05-V3": 7,
-      "F06-V5": 1,
-      "F05-V1": 1
+      "F08-V3": 18,
+      "F09-V3": 12,
+      "F08-V1": 6,
+      "F09-V1": 9
      },
-     "winner_votes": 30
+     "winner_votes": 18
     },
     {
      "label": "Bento / playful",
      "n": 10,
      "top": [
       [
-       "F06-V5",
-       89.13
+       "F08-V5",
+       85.22
       ],
       [
-       "F06-V2",
-       84.1
+       "F08-V3",
+       79.99
       ],
       [
-       "F05-V5",
-       81.77
+       "F08-V2",
+       79.74
       ]
      ],
      "votes": {
-      "F06-V5": 6,
-      "F05-V5": 1,
-      "F06-V2": 3
+      "F08-V5": 6,
+      "F08-V2": 1,
+      "F08-V3": 3
      },
      "winner_votes": 6
     },
@@ -6687,46 +6706,47 @@
      "n": 35,
      "top": [
       [
-       "F05-V2",
-       90.44
+       "F09-V5",
+       84.0
       ],
       [
-       "F06-V2",
-       82.61
+       "F08-V2",
+       83.42
       ],
       [
-       "F06-V3",
-       81.26
+       "F08-V3",
+       77.62
       ]
      ],
      "votes": {
-      "F06-V3": 2,
-      "F05-V2": 31,
-      "F06-V2": 2
+      "F09-V5": 20,
+      "F08-V2": 14,
+      "F09-V3": 1
      },
-     "winner_votes": 31
+     "winner_votes": 20
     },
     {
      "label": "Narrative / editorial",
      "n": 10,
      "top": [
       [
-       "F06-V2",
-       91.14
+       "F09-V2",
+       86.34
       ],
       [
-       "F06-V4",
-       84.6
+       "F09-V4",
+       82.25
       ],
       [
-       "F06-V5",
-       83.88
+       "F09-V3",
+       81.95
       ]
      ],
      "votes": {
-      "F06-V2": 10
+      "F09-V2": 9,
+      "F09-V3": 1
      },
-     "winner_votes": 10
+     "winner_votes": 9
     }
    ]
   },
@@ -6738,101 +6758,102 @@
      "n": 10,
      "top": [
       [
-       "F06-V2",
-       87.56
+       "F09-V1",
+       84.73
       ],
       [
-       "F05-V5",
-       83.13
+       "F08-V1",
+       83.16
       ],
       [
-       "F06-V1",
-       81.8
+       "F09-V3",
+       83.0
       ]
      ],
      "votes": {
-      "F06-V2": 10
+      "F09-V3": 3,
+      "F08-V1": 2,
+      "F09-V1": 5
      },
-     "winner_votes": 10
+     "winner_votes": 5
     },
     {
      "label": "Evaluate templates",
      "n": 25,
      "top": [
       [
-       "F06-V2",
-       84.58
+       "F08-V5",
+       80.74
       ],
       [
-       "F05-V2",
-       84.37
+       "F09-V5",
+       80.12
       ],
       [
-       "F06-V5",
-       84.32
+       "F08-V3",
+       79.85
       ]
      ],
      "votes": {
-      "F06-V5": 4,
-      "F05-V5": 1,
-      "F06-V2": 8,
-      "F05-V2": 9,
-      "F05-V3": 1,
-      "F05-V1": 1,
-      "F06-V1": 1
+      "F08-V5": 5,
+      "F09-V2": 5,
+      "F08-V2": 4,
+      "F09-V5": 6,
+      "F08-V1": 1,
+      "F08-V3": 1,
+      "F09-V3": 3
      },
-     "winner_votes": 9
+     "winner_votes": 6
     },
     {
-     "label": "Manage existing work",
+     "label": "Find & triage projects",
      "n": 35,
      "top": [
       [
-       "F05-V2",
-       88.53
+       "F08-V3",
+       86.17
       ],
       [
-       "F06-V2",
-       83.78
+       "F08-V1",
+       83.51
       ],
       [
-       "F05-V3",
-       82.39
+       "F08-V2",
+       82.41
       ]
      ],
      "votes": {
-      "F05-V2": 20,
-      "F05-V3": 6,
-      "F06-V2": 8,
-      "F06-V1": 1
+      "F08-V3": 20,
+      "F08-V2": 11,
+      "F08-V1": 3,
+      "F08-V5": 1
      },
      "winner_votes": 20
     },
     {
-     "label": "Submit a new request",
+     "label": "Review delivery & approve",
      "n": 30,
      "top": [
       [
-       "F06-V2",
-       88.43
+       "F09-V3",
+       84.43
       ],
       [
-       "F06-V1",
-       82.78
+       "F09-V5",
+       83.78
       ],
       [
-       "F06-V5",
-       82.38
+       "F09-V2",
+       81.17
       ]
      ],
      "votes": {
-      "F06-V2": 19,
-      "F06-V1": 4,
-      "F06-V3": 2,
-      "F05-V2": 2,
-      "F06-V5": 3
+      "F09-V5": 14,
+      "F09-V3": 8,
+      "F09-V1": 4,
+      "F09-V2": 4
      },
-     "winner_votes": 19
+     "winner_votes": 14
     }
    ]
   },
@@ -6844,67 +6865,70 @@
      "n": 20,
      "top": [
       [
-       "F05-V2",
-       85.79
+       "F09-V3",
+       83.71
       ],
       [
-       "F05-V3",
-       84.37
+       "F08-V3",
+       83.04
       ],
       [
-       "F06-V2",
-       84.31
+       "F09-V5",
+       81.79
       ]
      ],
      "votes": {
-      "F05-V3": 6,
-      "F05-V2": 9,
-      "F06-V2": 4,
-      "F06-V1": 1
+      "F08-V3": 5,
+      "F09-V5": 7,
+      "F09-V3": 5,
+      "F08-V2": 2,
+      "F09-V1": 1
      },
-     "winner_votes": 9
+     "winner_votes": 7
     },
     {
      "label": "Compliance",
      "n": 15,
      "top": [
       [
-       "F06-V2",
-       88.63
+       "F09-V1",
+       86.07
       ],
       [
-       "F06-V1",
-       83.24
+       "F09-V3",
+       85.08
       ],
       [
-       "F05-V5",
-       81.95
+       "F08-V1",
+       83.09
       ]
      ],
      "votes": {
-      "F06-V2": 15
+      "F09-V3": 5,
+      "F08-V1": 2,
+      "F09-V1": 8
      },
-     "winner_votes": 15
+     "winner_votes": 8
     },
     {
      "label": "Delight",
      "n": 5,
      "top": [
       [
-       "F06-V2",
-       90.16
+       "F09-V2",
+       84.94
       ],
       [
-       "F06-V4",
-       85.75
+       "F09-V4",
+       82.92
       ],
       [
-       "F06-V5",
-       84.59
+       "F08-V5",
+       79.67
       ]
      ],
      "votes": {
-      "F06-V2": 5
+      "F09-V2": 5
      },
      "winner_votes": 5
     },
@@ -6913,22 +6937,22 @@
      "n": 10,
      "top": [
       [
-       "F06-V5",
-       89.13
+       "F08-V5",
+       85.22
       ],
       [
-       "F06-V2",
-       84.1
+       "F08-V3",
+       79.99
       ],
       [
-       "F05-V5",
-       81.77
+       "F08-V2",
+       79.74
       ]
      ],
      "votes": {
-      "F06-V5": 6,
-      "F05-V5": 1,
-      "F06-V2": 3
+      "F08-V5": 6,
+      "F08-V2": 1,
+      "F08-V3": 3
      },
      "winner_votes": 6
     },
@@ -6937,73 +6961,71 @@
      "n": 10,
      "top": [
       [
-       "F06-V2",
-       90.52
+       "F09-V3",
+       85.45
       ],
       [
-       "F06-V1",
-       82.81
+       "F08-V3",
+       84.87
       ],
       [
-       "F05-V3",
-       81.91
+       "F08-V1",
+       80.23
       ]
      ],
      "votes": {
-      "F06-V2": 8,
-      "F06-V1": 2
+      "F08-V3": 5,
+      "F09-V2": 4,
+      "F09-V3": 1
      },
-     "winner_votes": 8
+     "winner_votes": 5
     },
     {
      "label": "Speed",
      "n": 25,
      "top": [
       [
-       "F05-V2",
-       91.38
+       "F08-V2",
+       84.19
       ],
       [
-       "F06-V2",
-       81.9
+       "F09-V5",
+       83.35
       ],
       [
-       "F06-V3",
-       81.55
+       "F08-V5",
+       77.29
       ]
      ],
      "votes": {
-      "F06-V3": 2,
-      "F05-V2": 22,
-      "F06-V2": 1
+      "F09-V5": 13,
+      "F08-V2": 12
      },
-     "winner_votes": 22
+     "winner_votes": 13
     },
     {
      "label": "Trust",
      "n": 15,
      "top": [
       [
-       "F06-V2",
-       87.65
+       "F08-V3",
+       88.93
       ],
       [
-       "F06-V1",
-       86.16
+       "F08-V1",
+       88.46
       ],
       [
-       "F05-V3",
-       83.08
+       "F09-V3",
+       85.87
       ]
      ],
      "votes": {
-      "F06-V2": 9,
-      "F06-V5": 1,
-      "F06-V1": 3,
-      "F05-V3": 1,
-      "F05-V1": 1
+      "F08-V3": 8,
+      "F08-V1": 4,
+      "F09-V3": 3
      },
-     "winner_votes": 9
+     "winner_votes": 8
     }
    ]
   },
@@ -7015,184 +7037,313 @@
      "n": 8,
      "top": [
       [
-       "F06-V2",
-       86.43
+       "F08-V2",
+       80.95
       ],
       [
-       "F05-V2",
-       85.44
+       "F08-V1",
+       80.12
       ],
       [
-       "F06-V5",
+       "F09-V3",
        80.12
       ]
      ],
      "votes": {
-      "F05-V2": 3,
-      "F06-V2": 5
+      "F09-V5": 1,
+      "F08-V2": 3,
+      "F08-V3": 1,
+      "F08-V1": 1,
+      "F09-V1": 1,
+      "F09-V2": 1
      },
-     "winner_votes": 5
+     "winner_votes": 3
     },
     {
      "label": "Africa",
      "n": 8,
      "top": [
       [
-       "F05-V2",
-       88.12
+       "F08-V2",
+       82.42
       ],
       [
-       "F06-V2",
-       82.17
+       "F09-V5",
+       81.86
       ],
       [
-       "F06-V5",
-       81.25
+       "F08-V5",
+       80.43
       ]
      ],
      "votes": {
-      "F05-V2": 6,
-      "F06-V5": 1,
-      "F06-V1": 1
+      "F09-V5": 3,
+      "F08-V5": 1,
+      "F08-V2": 3,
+      "F09-V3": 1
      },
-     "winner_votes": 6
+     "winner_votes": 3
     },
     {
      "label": "Europe",
      "n": 17,
      "top": [
       [
-       "F06-V2",
-       85.3
+       "F09-V3",
+       82.73
       ],
       [
-       "F05-V2",
-       85.09
+       "F09-V5",
+       81.38
       ],
       [
-       "F06-V5",
-       81.06
+       "F08-V3",
+       80.86
       ]
      ],
      "votes": {
-      "F05-V2": 7,
-      "F05-V3": 3,
-      "F06-V1": 1,
-      "F06-V2": 5,
-      "F05-V1": 1
+      "F09-V5": 6,
+      "F08-V3": 3,
+      "F08-V2": 1,
+      "F09-V1": 3,
+      "F08-V1": 1,
+      "F09-V3": 1,
+      "F09-V2": 2
      },
-     "winner_votes": 7
+     "winner_votes": 6
     },
     {
      "label": "India",
      "n": 24,
      "top": [
       [
-       "F06-V2",
-       86.65
+       "F09-V3",
+       82.07
       ],
       [
-       "F05-V2",
-       83.68
+       "F08-V3",
+       81.74
       ],
       [
-       "F06-V5",
-       80.86
+       "F09-V5",
+       80.08
       ]
      ],
      "votes": {
-      "F06-V2": 12,
-      "F06-V1": 2,
-      "F06-V3": 1,
-      "F05-V2": 7,
-      "F05-V3": 1,
-      "F06-V5": 1
+      "F08-V3": 4,
+      "F09-V5": 6,
+      "F08-V2": 2,
+      "F09-V3": 4,
+      "F09-V2": 3,
+      "F09-V1": 2,
+      "F08-V1": 2,
+      "F08-V5": 1
      },
-     "winner_votes": 12
+     "winner_votes": 6
     },
     {
      "label": "LATAM",
      "n": 8,
      "top": [
       [
-       "F06-V2",
-       85.92
+       "F09-V3",
+       81.07
       ],
       [
-       "F06-V5",
-       81.53
+       "F08-V3",
+       80.83
       ],
       [
-       "F05-V2",
-       81.32
+       "F08-V2",
+       79.14
       ]
      ],
      "votes": {
-      "F06-V5": 2,
-      "F05-V2": 1,
-      "F06-V2": 4,
-      "F06-V1": 1
+      "F08-V5": 1,
+      "F08-V2": 1,
+      "F09-V1": 2,
+      "F09-V3": 1,
+      "F08-V1": 1,
+      "F08-V3": 2
      },
-     "winner_votes": 4
+     "winner_votes": 2
     },
     {
      "label": "MENA",
      "n": 7,
      "top": [
       [
-       "F06-V2",
-       86.41
+       "F08-V3",
+       84.38
       ],
       [
-       "F05-V2",
-       82.78
+       "F08-V1",
+       83.28
       ],
       [
-       "F06-V5",
-       81.38
+       "F09-V3",
+       81.93
       ]
      ],
      "votes": {
-      "F06-V2": 6,
-      "F05-V2": 1
+      "F08-V3": 2,
+      "F09-V5": 1,
+      "F09-V3": 2,
+      "F08-V1": 1,
+      "F08-V2": 1
      },
-     "winner_votes": 6
+     "winner_votes": 2
     },
     {
      "label": "N. America",
      "n": 28,
      "top": [
       [
-       "F06-V2",
-       85.86
+       "F08-V3",
+       82.34
       ],
       [
-       "F05-V2",
-       83.43
+       "F09-V3",
+       81.41
       ],
       [
-       "F06-V5",
-       82.38
+       "F08-V2",
+       79.48
       ]
      ],
      "votes": {
-      "F06-V1": 1,
-      "F06-V3": 1,
-      "F05-V2": 6,
-      "F05-V3": 3,
-      "F06-V5": 3,
-      "F06-V2": 13,
-      "F05-V5": 1
+      "F08-V3": 9,
+      "F09-V5": 3,
+      "F08-V2": 4,
+      "F08-V5": 3,
+      "F09-V2": 3,
+      "F09-V3": 5,
+      "F09-V1": 1
      },
-     "winner_votes": 13
+     "winner_votes": 9
     }
    ]
   }
  ],
  "notes": {
-  "most_agreed": "F06-V3",
-  "most_polarizing": "F06-V1",
-  "most_firsts": "F06-V2",
-  "unanimous_segments": 7
+  "most_agreed": "F08-V4",
+  "most_polarizing": "F09-V1",
+  "most_firsts": "F08-V3",
+  "unanimous_segments": 2
+ },
+ "previous_study": {
+  "study": "Study 1 · F05 + F06",
+  "generated": "2026-10-27",
+  "seed": 20261027,
+  "reviewers": 100,
+  "overall": [
+   {
+    "rank": 1,
+    "id": "F06-V2",
+    "name": "Three Steps",
+    "mean": 85.75,
+    "firsts": 45,
+    "top3": 89,
+    "borda": 894
+   },
+   {
+    "rank": 2,
+    "id": "F05-V2",
+    "name": "Ops Console",
+    "mean": 84.09,
+    "firsts": 31,
+    "top3": 50,
+    "borda": 731
+   },
+   {
+    "rank": 3,
+    "id": "F06-V5",
+    "name": "Bento Split",
+    "mean": 81.38,
+    "firsts": 7,
+    "top3": 34,
+    "borda": 676
+   },
+   {
+    "rank": 4,
+    "id": "F05-V3",
+    "name": "Attention Queue",
+    "mean": 79.99,
+    "firsts": 7,
+    "top3": 28,
+    "borda": 607
+   },
+   {
+    "rank": 5,
+    "id": "F06-V3",
+    "name": "Compact Desk",
+    "mean": 78.19,
+    "firsts": 2,
+    "top3": 22,
+    "borda": 488
+   },
+   {
+    "rank": 6,
+    "id": "F06-V4",
+    "name": "Guided Narrative",
+    "mean": 77.65,
+    "firsts": 0,
+    "top3": 12,
+    "borda": 454
+   },
+   {
+    "rank": 7,
+    "id": "F05-V5",
+    "name": "Status Lanes",
+    "mean": 77.55,
+    "firsts": 1,
+    "top3": 21,
+    "borda": 502
+   },
+   {
+    "rank": 8,
+    "id": "F06-V1",
+    "name": "Classic Brief",
+    "mean": 76.24,
+    "firsts": 6,
+    "top3": 27,
+    "borda": 485
+   },
+   {
+    "rank": 9,
+    "id": "F05-V4",
+    "name": "Chapter Tabs",
+    "mean": 74.17,
+    "firsts": 0,
+    "top3": 2,
+    "borda": 288
+   },
+   {
+    "rank": 10,
+    "id": "F05-V1",
+    "name": "Calm Ledger",
+    "mean": 74.06,
+    "firsts": 1,
+    "top3": 15,
+    "borda": 375
+   }
+  ],
+  "fam_rank": {
+   "F05": [
+    "F05-V2",
+    "F05-V3",
+    "F05-V5",
+    "F05-V4",
+    "F05-V1"
+   ],
+   "F06": [
+    "F06-V2",
+    "F06-V5",
+    "F06-V3",
+    "F06-V4",
+    "F06-V1"
+   ]
+  },
+  "note": "Full Study 1 panel (100 personas x 10 scores) preserved in git history; headline results kept here so nothing is silently lost."
  }
 }

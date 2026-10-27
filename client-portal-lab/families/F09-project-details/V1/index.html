@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F09 · V1 Classic Cockpit · Khandesh Spice D2C E-Commerce Store · Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F09 V1 Classic Cockpit — hand-written: faithful 6-tab IA, upgraded hierarchy, verdict band. */
+.page{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:18px;padding:20px 14px;background:var(--card);border-right:1px solid var(--border);overflow:auto;z-index:70}
+.brand{display:flex;gap:10px;align-items:center;padding:0 8px}.brand img{height:26px}.brand .logo-dark{display:none}.dark .brand .logo-light{display:none}.dark .brand .logo-dark{display:block}
+.brand span{font-weight:700;font-size:17px}.nav-group h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);margin:14px 10px 6px}
+.nav-item{display:flex;gap:10px;align-items:center;width:100%;min-height:40px;padding:8px 10px;border-radius:var(--radius-md);font-size:14px;color:var(--muted-foreground);text-align:left}
+.nav-item:hover{background:var(--muted);color:var(--foreground)}.nav-item[aria-current="page"]{background:var(--brand-50);color:var(--primary);font-weight:600}
+.nav-item .ico{width:18px;height:18px}.explore-list{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-left:18px}
+.side-foot{margin-top:auto;font-size:11px;color:var(--muted-foreground);padding:10px;border-top:1px solid var(--border)}
+.frame{min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;display:flex;gap:14px;align-items:center;height:var(--header);padding:0 24px;background:var(--card);border-bottom:1px solid var(--border)}
+.crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted-foreground)}.crumb strong{color:var(--foreground)}
+.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.icon-btn{display:grid;place-items:center;width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);position:relative}.icon-btn .ico{width:18px;height:18px}
+.badge-count{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--primary);color:#fff;font-size:11px;line-height:18px;text-align:center;font-weight:700}
+.kbd{font:600 11px var(--mono);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--muted)}
+.search-trigger{display:flex;gap:10px;align-items:center;height:36px;padding:0 10px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--muted);color:var(--muted-foreground);font-size:13px}
+.avatar{display:flex;gap:9px;align-items:center;font-size:13px;font-weight:600}.avatar i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--brand-50);color:var(--primary);font-style:normal;font-size:12px}
+main{width:100%;max-width:var(--content);margin:0 auto;padding:30px 32px;flex:1}
+.back{font-size:13px;font-weight:600;color:var(--primary)}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--primary);margin-top:14px}
+h1{font-size:clamp(32px,3.6vw,40px);letter-spacing:-.035em;line-height:1.1;margin-top:8px;max-width:900px}
+.desc{font-size:15px;color:var(--muted-foreground);line-height:1.65;margin-top:10px;max-width:860px}
+.badge{display:inline-flex;gap:6px;align-items:center;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--status-info-border);background:var(--status-info-bg);color:var(--status-info-text);white-space:nowrap}
+.badge .ico{width:12px;height:12px}
+.badge.ok{border-color:var(--status-success-border);background:var(--status-success-bg);color:var(--status-success-text)}
+.badge.warn{border-color:var(--status-warning-border);background:var(--status-warning-bg);color:var(--status-warning-text)}
+.badge.purple{border-color:var(--status-purple-border);background:var(--status-purple-bg);color:var(--status-purple-text)}
+.head-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.verdict{margin-top:16px;background:var(--brand-50);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius-lg);padding:16px 18px;font-size:15px;line-height:1.6;max-width:980px}
+.progress-wrap{margin-top:20px;max-width:980px}
+.progress-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted-foreground);margin-bottom:8px}
+.bar{height:10px;background:var(--muted);border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:57%;background:var(--primary);border-radius:999px}
+.action-bar{margin-top:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;box-shadow:var(--shadow-xs);max-width:980px}
+.action-bar .next{font-size:13px;color:var(--muted-foreground)}.action-bar .next strong{color:var(--foreground)}
+.money{font:700 32px/1 var(--font);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.money small{font-size:16px;color:var(--muted-foreground);font-weight:600}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:600}
+.btn:hover{background:var(--muted)}.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-hover)}
+.btn-danger{border-color:var(--status-error-border);color:var(--status-error-text)}.btn .ico{width:16px;height:16px}
+.btn-sm{min-height:36px;padding:0 12px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin:26px 0 22px;overflow-x:auto}
+.tab{position:relative;min-height:46px;padding:0 18px;font-size:14px;font-weight:600;color:var(--muted-foreground);white-space:nowrap}
+.tab:hover{color:var(--foreground)}.tab[aria-selected="true"]{color:var(--primary)}
+.tab[aria-selected="true"]::after{content:"";position:absolute;inset:auto 12px -1px;height:3px;border-radius:3px 3px 0 0;background:var(--primary)}
+.panel-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs);padding:22px;margin-bottom:16px}
+.panel-card h2{font-size:19px;letter-spacing:-.02em}.panel-card h3{font-size:16px}
+.sub{font-size:13px;color:var(--muted-foreground);line-height:1.6;margin-top:6px}
+.status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+.mini{border:1px solid var(--border);border-radius:var(--radius-md);padding:16px;background:var(--muted)}
+.mini .lab{font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted-foreground)}
+.mini .val{font-size:16px;font-weight:700;margin-top:8px}.mini p{font-size:12px;color:var(--muted-foreground);line-height:1.55;margin-top:6px}
+.mini a,.text-link{color:var(--primary);font-weight:700;font-size:13px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.empty-note{border:1px dashed var(--border);border-radius:var(--radius-md);padding:18px;text-align:center;font-size:13px;color:var(--muted-foreground);line-height:1.6;background:var(--muted)}
+.empty-note strong{display:block;color:var(--foreground);font-size:14px;margin-bottom:4px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.chip{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);font-size:12px;color:var(--muted-foreground)}
+.chip[aria-pressed="true"]{background:var(--brand-50);border-color:var(--primary);color:var(--primary);font-weight:700}
+.timeline{position:relative;padding-left:28px;margin-top:18px}
+.timeline::before{content:"";position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:var(--border)}
+.mstone{position:relative;border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;background:var(--card)}
+.mstone::before{content:"";position:absolute;left:-28px;top:22px;width:22px;height:22px;border-radius:50%;background:var(--primary);border:3px solid var(--card)}
+.mstone-top{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;justify-content:space-between}
+.mstone h3{font-size:17px}.mono{font:500 12px var(--mono);color:var(--muted-foreground)}
+.dual{display:flex;gap:8px;flex-wrap:wrap}
+.why{margin-top:12px;display:flex;gap:10px;padding:12px 14px;background:var(--status-warning-bg);border:1px solid var(--status-warning-border);color:var(--status-warning-text);border-radius:var(--radius-md);font-size:13px;line-height:1.55}
+.why .ico{width:16px;height:16px;flex:none;margin-top:1px}
+.unlock{margin-top:10px;font-size:13px;color:var(--muted-foreground);line-height:1.6}
+table{font-size:13px;margin-top:14px}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font:600 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted-foreground)}
+.feed{list-style:none;margin-top:14px;display:grid;gap:10px}
+.feed li{display:flex;gap:12px;padding:13px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--muted)}
+.feed .dot{width:10px;height:10px;border-radius:50%;background:var(--primary);flex:none;margin-top:5px}
+.feed p{font-size:13px;line-height:1.55}.feed .when{font:500 11px var(--mono);color:var(--muted-foreground)}
+.msg{display:flex;gap:12px;margin-top:16px}.msg.you{flex-direction:row-reverse}
+.ava{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--brand-50);color:var(--primary);font-size:12px;font-weight:700;flex:none}
+.bubble{max-width:680px;border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;background:var(--card)}
+.msg.you .bubble{background:var(--primary);color:#fff;border-color:var(--primary)}
+.bubble .who{font-size:12px;font-weight:700;margin-bottom:4px}.bubble p{font-size:14px;line-height:1.6}
+.bubble .act{font-size:11px;margin-top:8px;display:flex;gap:12px;opacity:.85}
+.composer{display:flex;gap:10px;margin-top:18px}.composer textarea{flex:1}
+textarea,input[type=text],input[type=search],select{width:100%;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);padding:11px 13px;font-size:14px;color:var(--foreground)}
+textarea{min-height:84px;resize:vertical}
+.field-lab{display:block;font-size:13px;font-weight:600;margin:14px 0 7px}
+.help-text{font-size:12px;color:var(--muted-foreground);margin-top:6px}
+.err{font-size:12px;color:var(--status-error-text);margin-top:6px;font-weight:600}
+.file-card{display:flex;gap:16px;align-items:center;border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;background:var(--muted);margin-top:14px;flex-wrap:wrap}
+.file-ico{display:grid;place-items:center;width:52px;height:52px;border-radius:var(--radius-md);background:var(--card);border:1px solid var(--border);color:var(--primary)}
+.file-ico .ico{width:24px;height:24px}
+dialog{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);color:var(--foreground);padding:0;width:min(760px,calc(100vw - 32px));box-shadow:var(--shadow-sm)}
+dialog::backdrop{background:rgba(15,28,46,.5)}
+.dlg-head{display:flex;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+.dlg-head h2{font-size:15px;word-break:break-all}
+.dlg-body{padding:20px}.dlg-body svg.wire{width:100%;height:auto;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--muted)}
+.dlg-foot{display:flex;gap:10px;flex-wrap:wrap;padding:16px 20px;border-top:1px solid var(--border)}
+details.faq{border:1px solid var(--border);border-radius:var(--radius-md);padding:13px 15px;margin-top:10px;background:var(--muted)}
+details.faq summary{cursor:pointer;font-weight:600;font-size:14px}details.faq p{font-size:13px;color:var(--muted-foreground);line-height:1.65;margin-top:8px}
+.ai-q{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.ai-a{border-left:3px solid var(--primary);background:var(--brand-50);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:14px 16px;font-size:14px;line-height:1.65}
+.demo-tag{font:600 11px var(--mono);color:var(--status-purple-text);background:var(--status-purple-bg);border:1px solid var(--status-purple-border);border-radius:999px;padding:3px 8px}
+.banner{display:flex;gap:12px;padding:14px 16px;border:1px solid var(--status-warning-border);background:var(--status-warning-bg);color:var(--status-warning-text);border-radius:var(--radius-lg);margin-bottom:16px;font-size:13px;line-height:1.55}
+.banner .ico{width:18px;height:18px;flex:none}.banner button{margin-left:auto;font-weight:700;text-decoration:underline;flex:none}
+.state-box{background:var(--card);border:1px solid var(--status-error-border);border-radius:var(--radius-lg);padding:44px 28px;text-align:center}
+.state-box h2{font-size:20px;margin-bottom:8px}.state-box p{font-size:14px;color:var(--muted-foreground);max-width:520px;margin:0 auto 18px;line-height:1.6}
+.state-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.sk{height:20px;background:var(--muted);border-radius:var(--radius-sm);margin-bottom:12px;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.lab-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.lab-states{font-size:12px;position:relative}.lab-states summary{cursor:pointer;list-style:none;color:var(--muted-foreground);border:1px dashed var(--border);padding:9px 12px;border-radius:var(--radius-md)}
+.lab-states summary::-webkit-details-marker{display:none}.lab-states .state-btns{position:absolute;z-index:25;display:flex;flex-direction:column;gap:4px;margin-top:6px;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);min-width:190px}
+.lab-states .state-btns button{text-align:left;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;color:var(--muted-foreground)}
+.lab-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}.lab-nav .sp{flex:1}.lab-nav a:hover{color:var(--primary)}
+footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}
+.toast{position:fixed;right:18px;bottom:18px;z-index:130;max-width:min(440px,calc(100vw - 36px));background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:13px 16px;font-size:13px;line-height:1.5}
+.flash{outline:2px solid var(--primary);outline-offset:3px}
+@media(max-width:1000px){.status-grid,.two-col{grid-template-columns:1fr}}
+@media(max-width:900px){.page{grid-template-columns:minmax(0,1fr)}.side{position:fixed;width:min(280px,86vw);transform:translateX(-102%);transition:transform var(--duration-normal)}.side.on{transform:none}main{padding:24px 18px}.search-trigger .txt{display:none}.avatar span{display:none}.crumb span{display:none}table{display:block;overflow-x:auto}}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+</style>
+</head>
+<body>
+<svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+<symbol id="i-req" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+<symbol id="i-invoice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+<symbol id="i-dot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21h-4v-.1A1.7 1.7 0 0 0 7 19.4l-.1.1L4.1 16.7l.1-.1A1.7 1.7 0 0 0 3 13.7H3v-4h.1A1.7 1.7 0 0 0 4.9 7l-.1-.1 2.8-2.8.1.1A1.7 1.7 0 0 0 10.6 3.1V3h4v.1A1.7 1.7 0 0 0 17.5 5l.1-.1 2.8 2.8-.1.1a1.7 1.7 0 0 0 1.2 2.9h.1v4h-.1a1.7 1.7 0 0 0-1.9 1.1z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="page">
+ <aside class="side" id="side" aria-label="Primary navigation">
+  <a class="brand" href="../../../index.html"><img class="logo-light" src="../../../assets/logo-full-light.svg" alt="" width="100" height="28"><img class="logo-dark" src="../../../assets/logo-full-dark.svg" alt="" width="100" height="28"><span>Nestlancer</span></a>
+  <nav aria-label="Main"><div class="nav-group"><h2>Main</h2>
+   <button class="nav-item" data-demo="/dashboard"><svg class="ico"><use href="#i-dash"/></svg><span>Dashboard</span></button>
+   <a class="nav-item" href="../../F05-requests-work-hub/V1/index.html"><svg class="ico"><use href="#i-req"/></svg><span>Requests</span></a>
+   <a class="nav-item" aria-current="page" href="../../F08-projects-list/V1/index.html"><svg class="ico"><use href="#i-folder"/></svg><span>Projects</span></a>
+   <button class="nav-item" data-demo="/quotes"><svg class="ico"><use href="#i-quote"/></svg><span>Quotes</span></button>
+   <button class="nav-item" data-demo="/messages"><svg class="ico"><use href="#i-msg"/></svg><span>Messages</span></button>
+   <button class="nav-item" data-demo="/payments"><svg class="ico"><use href="#i-card"/></svg><span>Billing</span></button>
+   <button class="nav-item" data-demo="/invoices"><svg class="ico"><use href="#i-invoice"/></svg><span>Invoices</span></button>
+   <button class="nav-item" data-demo="/notifications"><svg class="ico"><use href="#i-bell"/></svg><span>Notifications</span></button></div>
+  <div class="nav-group"><h2>Explore</h2><button class="nav-item" id="exploreBtn" aria-expanded="false" aria-controls="exploreList"><svg class="ico"><use href="#i-globe"/></svg><span>Explore</span></button><div class="explore-list" id="exploreList" hidden><button class="nav-item" data-demo="/blog"><span>Blog</span></button><button class="nav-item" data-demo="/portfolio"><span>Portfolio</span></button></div></div>
+  <div class="nav-group"><h2>Account</h2><button class="nav-item" data-demo="/profile"><svg class="ico"><use href="#i-user"/></svg><span>Profile</span></button><button class="nav-item" data-demo="/settings/account"><svg class="ico"><use href="#i-settings"/></svg><span>Settings</span></button></div></nav>
+  <div class="side-foot">F09 · V1 Classic Cockpit<br>Best screen — scaled, not broken</div>
+ </aside>
+ <div class="frame">
+  <header class="topbar"><button class="icon-btn" id="menuBtn" aria-label="Open navigation menu" aria-expanded="false"><svg class="ico"><use href="#i-menu"/></svg></button>
+   <div class="crumb"><span>Dashboard</span><svg class="ico" style="width:14px;height:14px"><use href="#i-chev"/></svg><span>Projects</span><svg class="ico" style="width:14px;height:14px"><use href="#i-chev"/></svg><strong>Khandesh Spice…</strong></div>
+   <div class="top-actions"><button class="search-trigger" id="jumpBtn"><svg class="ico" style="width:16px;height:16px"><use href="#i-search"/></svg><span class="txt">Search</span><span class="kbd">⌘K</span></button>
+   <button class="icon-btn" id="themeBtn" aria-label="Switch to dark mode" aria-pressed="false"><svg class="ico"><use href="#i-moon"/></svg></button>
+   <button class="icon-btn" data-demo="/notifications" aria-label="6 unread notifications"><svg class="ico"><use href="#i-bell"/></svg><span class="badge-count">6</span></button>
+   <span class="avatar"><i>AM</i><span>Arjun Mehta</span></span></div></header>
+  <main id="main">
+   <div class="banner" id="sysBanner" role="status" hidden><svg class="ico"><use href="#i-alert"/></svg><span><strong>Project data is temporarily unavailable — retrying.</strong> System status: projects service error (502 in production). Retry, or contact support.</span><button id="bannerRetry">Retry now</button></div>
+   <div class="lab-row"><a class="back" href="../../F08-projects-list/V1/index.html">← All projects</a><span style="flex:1"></span>
+    <details class="lab-states"><summary>Lab states ▾</summary><div class="state-btns"><button data-state="populated">Populated</button><button data-state="loading">Loading skeleton</button><button data-state="error">502 error (A13)</button></div></details></div>
+
+   <div id="state-populated">
+   <p class="eyebrow">Project · Delivery cockpit</p>
+   <h1>Khandesh Spice D2C E-Commerce Store</h1>
+   <p class="desc">Direct-to-consumer storefront for authentic Khandesh spices with subscription boxes, Razorpay checkout, and Delhivery shipping integration.</p>
+   <div class="head-badges"><span class="badge"><svg class="ico"><use href="#i-dot"/></svg>In progress</span><span class="badge purple">57% complete</span><span class="badge ok"><svg class="ico"><use href="#i-check"/></svg>Delivery milestones 1/2 completed</span><span class="mono">01a10a2b-5eaa-769e-a5d9-0d58fcca6924</span></div>
+   <p class="verdict"><strong>Khandesh Spice D2C E-Commerce Store is 57% complete.</strong> Milestone 1 — Storefront MVP &amp; Catalog (<span class="money" style="font-size:16px">₹30,000<small>.00</small></span>) — is approved, Milestone 2 is in progress, and <strong>no payment is due yet</strong>.</p>
+   <div class="progress-wrap"><div class="progress-top"><span>Overall progress</span><span>57%</span></div><div class="bar" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" aria-label="Overall progress 57 percent"><i></i></div></div>
+   <div class="action-bar"><span class="badge"><svg class="ico"><use href="#i-dot"/></svg>In progress</span><span style="font-size:13px"><strong>57%</strong> complete</span><span class="next">Next: <strong>Razorpay Checkout &amp; Delhivery Integration</strong></span><span style="flex:1"></span><button class="btn" data-goto-tab="messages"><svg class="ico"><use href="#i-msg"/></svg>Message</button><button class="btn btn-primary" data-goto-tab="milestones">View milestones</button></div>
+
+   <div class="tabs" role="tablist" aria-label="Project sections" id="tablist">
+    <button class="tab" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true" data-tab="overview">Overview</button>
+    <button class="tab" role="tab" id="tab-progress" aria-controls="panel-progress" aria-selected="false" tabindex="-1" data-tab="progress">Progress</button>
+    <button class="tab" role="tab" id="tab-milestones" aria-controls="panel-milestones" aria-selected="false" tabindex="-1" data-tab="milestones">Milestones</button>
+    <button class="tab" role="tab" id="tab-deliverables" aria-controls="panel-deliverables" aria-selected="false" tabindex="-1" data-tab="deliverables">Deliverables</button>
+    <button class="tab" role="tab" id="tab-messages" aria-controls="panel-messages" aria-selected="false" tabindex="-1" data-tab="messages">Messages</button>
+    <button class="tab" role="tab" id="tab-files" aria-controls="panel-files" aria-selected="false" tabindex="-1" data-tab="files">Files</button>
+   </div>
+
+   <section role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" tabindex="0">
+    <div class="panel-card"><h2>Project status</h2><p class="sub">Overall contract status, milestone delivery, and file reviews are tracked separately.</p>
+     <div class="status-grid">
+      <div class="mini"><span class="lab">Project</span><div class="val"><span class="badge"><svg class="ico"><use href="#i-dot"/></svg>In progress</span></div><p>Set by your delivery team for the whole engagement.</p></div>
+      <div class="mini"><span class="lab">Milestones</span><div class="val">1/2 approved</div><p>Delivery milestones (payment schedule excluded)<br>Current: Razorpay Checkout &amp; Delhivery Integration · Work in progress</p><p><button class="text-link" data-goto-tab="milestones" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">View all milestones</button></p></div>
+      <div class="mini"><span class="lab">Deliverables</span><div class="val">0/0 approved</div><p>No deliverable is waiting for review.</p><p><button class="text-link" data-goto-tab="deliverables" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">View deliverables</button></p></div>
+     </div></div>
+    <div class="two-col">
+     <div class="panel-card"><h2>Daily progress</h2><p class="sub"><strong>Team updates</strong> — End-of-day work logs and delivery notes from your team.</p><div class="empty-note" style="margin-top:14px"><strong>No progress entries yet</strong>Your team will post daily updates here as work continues.</div><p style="margin-top:12px"><button class="text-link" data-goto-tab="progress" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">View progress timeline</button></p>
+      <h3 style="margin-top:20px">Latest progress</h3><p class="sub">Recent daily updates from your delivery team.</p><p class="sub">No progress entries yet. · <button class="text-link" data-goto-tab="progress" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">View all progress</button></p>
+      <h3 style="margin-top:16px">Recent updates</h3><p class="sub">Summary from the progress feed. No recent progress entries.</p></div>
+     <div>
+      <div class="panel-card" id="askai"><h2><svg class="ico" style="width:18px;height:18px;vertical-align:-3px;color:var(--primary)"><use href="#i-spark"/></svg> Ask AI about this project <span class="demo-tag">A1 · DEMO</span></h2><p class="sub">Answers use only this project’s captured data — there is no AI endpoint in the API specs, so this is a labelled demo (see DECISIONS.md).</p>
+       <div class="ai-q"><button class="chip" data-ai="next">What’s next?</button><button class="chip" data-ai="pay">Is a payment due?</button><button class="chip" data-ai="approved">What has been approved?</button></div>
+       <div class="ai-a" id="aiAnswer" aria-live="polite">Pick a question — I’ll answer from the project record above and link you to the exact tab.</div></div>
+      <div class="panel-card" id="helphub"><h2>Help &amp; FAQ — this project</h2><p class="sub">Project-scoped help hub (A2). Copy is lab-authored from the frozen record + real endpoints.</p>
+       <details class="faq"><summary>Why does payment say “Not due yet”?</summary><p>Payment is gated behind delivery. It unlocks when the milestone delivery is complete and approved — see the unlock explainer on the Milestones tab. No payment is due today.</p></details>
+       <details class="faq"><summary>How do I request changes?</summary><p>Use “Request changes” on the Progress tab. It posts to the project revision endpoint with your description — ask your team to adjust scope or delivery based on recent progress.</p></details>
+       <details class="faq"><summary>Where are my files?</summary><p>The Files tab holds <span class="mono">arjun-mehta-e-commerce-platform-milestone-1-wireframes.pdf</span> (Media library · 20.3 KB) with a real preview.</p></details>
+      </div>
+     </div>
+    </div>
+    <div class="panel-card"><h2>Submit feedback</h2><p class="sub">Share notes with your delivery team.</p>
+     <form id="feedbackForm" novalidate><label class="field-lab" for="feedbackText">Your feedback</label><textarea id="feedbackText" placeholder="Share your feedback…"></textarea><p class="err" id="feedbackErr" hidden>Please write a little feedback first — an empty note cannot be sent.</p><p style="margin-top:14px"><button class="btn btn-primary" type="submit">Submit feedback</button></p><p class="help-text">Maps to <span class="mono">POST /api/v1/projects/{id}/feedback</span>. This offline lab validates only and sends nothing.</p></form></div>
+   </section>
+
+   <section role="tabpanel" id="panel-progress" aria-labelledby="tab-progress" tabindex="0" hidden>
+    <div class="panel-card"><h2>Daily progress</h2><p class="sub">End-of-day updates from your delivery team, grouped by date.</p>
+     <div class="chips" role="group" aria-label="Filter progress"><button class="chip" data-pfilter="all" aria-pressed="true">All</button><button class="chip" data-pfilter="updates" aria-pressed="false">Updates</button><button class="chip" data-pfilter="milestones" aria-pressed="false">Milestones</button><button class="chip" data-pfilter="deliverables" aria-pressed="false">Deliverables</button></div>
+     <div class="empty-note" id="progressEmpty"><strong>No progress entries yet</strong>Your team will post daily updates here as work continues.</div>
+     <h3 style="margin-top:22px">Activity digest — everything in one story <span class="demo-tag">A15</span></h3><p class="sub">Only captured events, in order. Dates not in the capture are labelled as such.</p>
+     <ul class="feed">
+      <li data-cat="milestones"><span class="dot"></span><div><p><strong>Project started</strong> — Khandesh Spice D2C E-Commerce Store appears in your projects list.</p><span class="when">10/5/2026 · Projects list</span></div></li>
+      <li data-cat="deliverables"><span class="dot"></span><div><p><strong>Milestone 1 wireframes uploaded</strong> — Riya Kapoor shared the wireframes file (20.3 KB PDF).</p><span class="when">Monday, Oct 5 · 3:46 AM · Messages + Files</span></div></li>
+      <li data-cat="updates"><span class="dot"></span><div><p><strong>You set Milestone 2 priorities</strong> — Razorpay UPI and COD before wishlist; Navratri orders from mid-September.</p><span class="when">Oct 5 · 3:46 AM · Messages</span></div></li>
+      <li data-cat="milestones"><span class="dot"></span><div><p><strong>Milestone 1 delivery approved</strong> — Storefront MVP &amp; Catalog · ₹30,000.00 · Payment: Not due yet.</p><span class="when">Date not in capture · Milestones</span></div></li>
+      <li data-cat="updates"><span class="dot"></span><div><p><strong>Now: Razorpay Checkout &amp; Delhivery Integration</strong> — work in progress · overall 57% complete.</p><span class="when">Current · Due Oct 30, 2026</span></div></li>
+     </ul></div>
+    <div class="panel-card"><h2>Request changes</h2><p class="sub">Ask your team to adjust scope or delivery based on recent progress.</p>
+     <form id="changesForm" novalidate><label class="field-lab" for="changesText">Request changes</label><textarea id="changesText" placeholder="Describe what should change…"></textarea>
+     <div class="two-col"><div><label class="field-lab" for="changesArea">Area</label><input type="text" id="changesArea" placeholder="e.g. Checkout"></div><div><label class="field-lab" for="changesPriority">Priority</label><select id="changesPriority"><option>low</option><option selected>medium</option><option>high</option><option>critical</option></select></div></div>
+     <p class="err" id="changesErr" hidden>Please describe the change (and its area) so your team can act on it.</p>
+     <p style="margin-top:14px"><button class="btn btn-primary" type="submit">Send request</button></p><p class="help-text">Maps to <span class="mono">POST /api/v1/projects/{id}/request-revision</span> (area · priority · description · details). Offline lab: validated, not sent.</p></form></div>
+   </section>
+
+   <section role="tabpanel" id="panel-milestones" aria-labelledby="tab-milestones" tabindex="0" hidden>
+    <div class="panel-card"><h2>Milestones — delivery &amp; payment, tracked separately</h2><p class="sub">The milestone stepper with Delivery/Payment dual status and gated locks — kept exactly as designed in production, now with “why is this locked” answers (C19/A3).</p>
+     <div class="timeline">
+      <article class="mstone" id="m1"><div class="mstone-top"><div><h3>1 · Storefront MVP &amp; Catalog</h3><p class="mono">Due Oct 15, 2026</p></div><span class="money">₹30,000<small>.00</small></span></div>
+       <div class="dual" style="margin-top:12px"><span class="badge ok"><svg class="ico"><use href="#i-check"/></svg>Delivery · Approved</span><span class="badge warn"><svg class="ico"><use href="#i-lock"/></svg>Payment · Not due yet</span></div>
+       <div class="why"><svg class="ico"><use href="#i-lock"/></svg><span><strong>Why is payment locked?</strong> Delivery is approved, but this instalment is not due yet in the payment schedule. It unlocks when your delivery team requests the instalment — you will then see it here and in Billing. Nothing is waiting on you for this milestone today.</span></div>
+       <p class="unlock"><strong>Whose move?</strong> Your delivery team (payment scheduling). <strong>Your move:</strong> none — delivery already approved. <button class="text-link" data-goto-tab="files" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">See the Milestone 1 wireframes →</button></p></article>
+      <article class="mstone" id="m2"><div class="mstone-top"><div><h3>2 · Razorpay Checkout &amp; Delhivery Integration</h3><p class="mono">Due Oct 30, 2026</p></div><span class="money">₹30,000<small>.00</small></span></div>
+       <div class="dual" style="margin-top:12px"><span class="badge"><svg class="ico"><use href="#i-clock"/></svg>Delivery · Work in progress</span><span class="badge warn"><svg class="ico"><use href="#i-lock"/></svg>Payment · Not due yet</span></div>
+       <div class="why"><svg class="ico"><use href="#i-lock"/></svg><span><strong>Why is this locked?</strong> Complete the current milestone (payment or delivery review) before moving to later milestones. Payment for Milestone 2 unlocks after its delivery is finished and you approve it — approval here is what releases the instalment.</span></div>
+       <p class="unlock"><strong>Whose move?</strong> Your delivery team (finish checkout + shipping integration), then <strong>you</strong> (review &amp; approve). <button class="text-link" data-goto-tab="messages" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">Message Riya Kapoor about Milestone 2 →</button></p></article>
+     </div>
+     <h3 style="margin-top:20px">Expectation log — promised vs delivered <span class="demo-tag">A14</span></h3>
+     <table aria-label="Expectation log"><thead><tr><th>Milestone</th><th>Promised</th><th>Delivered</th><th>Payment</th></tr></thead><tbody>
+      <tr><td><strong>Storefront MVP &amp; Catalog</strong></td><td>Due Oct 15, 2026 · ₹30,000.00</td><td><span class="badge ok"><svg class="ico"><use href="#i-check"/></svg>Approved</span></td><td>Not due yet</td></tr>
+      <tr><td><strong>Razorpay Checkout &amp; Delhivery Integration</strong></td><td>Due Oct 30, 2026 · ₹30,000.00</td><td><span class="badge"><svg class="ico"><use href="#i-clock"/></svg>Work in progress</span></td><td>Not due yet — unlocks on your delivery approval</td></tr>
+     </tbody></table>
+     <p class="help-text">Built only from the two captured milestones. Approval actions map to <span class="mono">POST /milestones/{id}/approve</span> · <span class="mono">/request-revision</span>.</p></div>
+   </section>
+
+   <section role="tabpanel" id="panel-deliverables" aria-labelledby="tab-deliverables" tabindex="0" hidden>
+    <div class="panel-card"><h2>Deliverables · 0/0 approved</h2><div class="empty-note" style="margin-top:14px"><strong>No deliverables yet</strong>Files and assets from your team will appear here when uploaded.</div>
+     <h3 style="margin-top:22px">Review pattern — approve, or request revision with a reason <span class="demo-tag">A4</span></h3>
+     <p class="sub">Today production only lets you Approve. This adds the missing “no” path. Because the captured account has 0 deliverables, the controls below are exercised on the one captured file (Milestone 1 wireframes) as a labelled pattern — they enable exactly like this when a deliverable arrives.</p>
+     <div class="file-card"><span class="file-ico"><svg class="ico"><use href="#i-file"/></svg></span><div style="flex:1;min-width:220px"><strong style="word-break:break-all">arjun-mehta-e-commerce-platform-milestone-1-wireframes.pdf</strong><p class="sub">Media library · 20.3 KB · Milestone 1</p><span class="badge warn" id="reviewStatus"><svg class="ico"><use href="#i-clock"/></svg>Ready for your review (pattern demo)</span></div><button class="btn btn-sm" id="previewBtn2" type="button">Preview</button></div>
+     <form id="reviewForm" novalidate><label class="field-lab" for="reviewReason">Reason (required to request revision)</label><textarea id="reviewReason" placeholder="What should change, and why?"></textarea><p class="err" id="reviewErr" hidden>A reason is required to request revision — your team needs to know what to fix.</p>
+     <p style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn btn-primary" type="button" id="approveBtn"><svg class="ico"><use href="#i-check"/></svg>Approve</button><button class="btn btn-danger" type="submit">Request revision</button></p>
+     <p class="help-text">Approve → <span class="mono">POST /deliverables/{id}/approve</span> · Request revision → <span class="mono">POST /deliverables/{id}/reject</span> / <span class="mono">/milestones/{id}/request-revision</span>. Offline: state changes locally only.</p></form></div>
+   </section>
+
+   <section role="tabpanel" id="panel-messages" aria-labelledby="tab-messages" tabindex="0" hidden>
+    <div class="panel-card"><div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center"><div><h2>Project messages</h2><p class="sub">Chat with Riya Kapoor about this project. · <span class="mono">Monday, Oct 5</span></p></div><span style="flex:1"></span><button class="btn btn-sm" id="markReadBtn">Mark read</button></div>
+     <label class="field-lab" for="msgSearch">Search in conversation</label><div style="display:flex;gap:8px"><input type="search" id="msgSearch" placeholder="Search messages…"><button class="btn" id="msgSearchBtn" type="button">Search</button></div><p class="help-text" id="msgCount" aria-live="polite">3 messages</p>
+     <div id="thread">
+      <div class="msg" data-text="Riya Kapoor milestone 1 wireframes uploaded checkout upi cards cod"><span class="ava">RK</span><div class="bubble"><div class="who">Riya Kapoor</div><p>Arjun ji — Milestone 1 wireframes uploaded. Checkout shows UPI, cards, and COD under ₹2,000.</p><div class="act"><span>Oct 5 3:46 AM</span><span>Reply</span><span>Pin</span><span>Flag</span></div></div></div>
+      <div class="msg you" data-text="you milestone 2 razorpay upi cod wishlist navratri"><span class="ava">Y</span><div class="bubble"><p>Looks good. For milestone 2, please prioritise Razorpay UPI and COD before wishlist — Navratri orders start mid-September.</p><div class="act"><span>Oct 5 3:46 AM ✓</span><span>Reply</span><span>Pin</span><span>Edit</span><span>Delete</span></div></div></div>
+      <div class="msg" data-text="Riya Kapoor checkout Shiprocket sprint backlog hindi descriptions"><span class="ava">RK</span><div class="bubble"><div class="who">Riya Kapoor</div><p>Noted — checkout and Shiprocket integration are first in the sprint backlog. Hindi product descriptions will follow in parallel.</p><div class="act"><span>Oct 5 3:46 AM</span><span>Reply</span><span>Pin</span><span>Flag</span></div></div></div>
+     </div>
+     <form class="composer" id="composerForm"><label class="sr-only" for="composerText">Write a message</label><textarea id="composerText" placeholder="Write a message…" style="min-height:48px"></textarea><button class="btn btn-primary" type="submit">Send</button></form>
+     <p class="help-text">Maps to <span class="mono">GET/POST /messages/projects/{projectId}</span>, search + read-all endpoints. Offline sends append locally only.</p></div>
+   </section>
+
+   <section role="tabpanel" id="panel-files" aria-labelledby="tab-files" tabindex="0" hidden>
+    <div class="panel-card"><h2>Files</h2><p class="sub">Published project files from the media library. Preview always shows real content — never a blank box (C13).</p>
+     <div class="file-card"><span class="file-ico"><svg class="ico"><use href="#i-file"/></svg></span><div style="flex:1;min-width:220px"><strong style="word-break:break-all">arjun-mehta-e-commerce-platform-milestone-1-wireframes.pdf</strong><p class="sub">Media library · 20.3 KB · PDF</p></div><button class="btn btn-primary" id="previewBtn" type="button">Preview</button><button class="btn" data-demo-file type="button">Download</button></div>
+     <p class="help-text">Preview renders page 1 as a lab rendering (the original PDF binary is not in this repo — labelled honestly). Unsupported types get a designed card with icon, size and “Open in new tab” instead of a blank modal. Endpoints: <span class="mono">GET /media/{id}</span> · <span class="mono">/download</span>.</p></div>
+   </section>
+   </div><!-- /populated -->
+
+   <div id="state-loading" hidden><div class="panel-card" aria-hidden="true"><div class="sk" style="width:55%"></div><div class="sk" style="width:85%"></div><div class="sk" style="width:70%"></div><div class="sk" style="height:120px"></div></div><p class="sr-only" role="status">Loading project…</p></div>
+   <div id="state-error" hidden><div class="state-box"><h2>Something went wrong</h2><p>Network Error — this project could not load (in production, the project endpoint returned HTTP 502 and was CORS-blocked). Your project data is safe; please try again.</p><div class="state-actions"><button class="btn btn-primary" id="retryBtn"><svg class="ico"><use href="#i-refresh"/></svg>Try again</button><button class="btn" data-demo="/messages">Contact support</button><a class="btn" href="../../F08-projects-list/V1/index.html">Back to projects</a></div></div></div>
+
+   <nav class="lab-nav"><a href="../../../index.html">← Gallery</a><span>F09 · V1 Classic Cockpit</span><span class="sp"></span><span>Prev —</span><a href="../V2/index.html">Next: V2 Delivery Journey →</a></nav>
+  </main>
+  <footer>© 2026 Nestlancer · F09 V1 · Verdict from frozen 57% + ₹30,000.00 milestones · No payment due — no Pay-now invented</footer>
+ </div>
+</div>
+
+<dialog id="previewDialog" aria-labelledby="previewTitle">
+ <div class="dlg-head"><svg class="ico" style="width:20px;height:20px;color:var(--primary)"><use href="#i-file"/></svg><h2 id="previewTitle">arjun-mehta-e-commerce-platform-milestone-1-wireframes.pdf</h2><span style="flex:1"></span><button class="btn btn-sm" data-demo-file type="button">Open</button><button class="btn btn-sm" id="previewClose" type="button">Close</button></div>
+ <div class="dlg-body">
+  <p class="sub" style="margin-bottom:12px">Page 1 preview — <strong>lab rendering</strong> of the wireframes document (original PDF not stored in this repo). In production this area embeds the PDF directly; it is never blank.</p>
+  <svg class="wire" viewBox="0 0 720 420" role="img" aria-label="Wireframe preview: storefront header, product grid and checkout panel sketch">
+   <rect x="24" y="24" width="672" height="372" rx="12" fill="none" stroke="currentColor" stroke-width="2"/>
+   <rect x="48" y="48" width="624" height="44" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="66" y="76" font-size="15" fill="currentColor">Khandesh Spice — Storefront header · Search · Cart</text>
+   <rect x="48" y="110" width="190" height="120" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="66" y="140" font-size="13" fill="currentColor">Product card</text><text x="66" y="162" font-size="12" fill="currentColor">Spice · price · Add</text>
+   <rect x="254" y="110" width="190" height="120" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="272" y="140" font-size="13" fill="currentColor">Product card</text><text x="272" y="162" font-size="12" fill="currentColor">Subscription box</text>
+   <rect x="460" y="110" width="212" height="120" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="478" y="140" font-size="13" fill="currentColor">Checkout panel</text><text x="478" y="162" font-size="12" fill="currentColor">UPI · Cards · COD &lt; ₹2,000</text>
+   <rect x="48" y="248" width="396" height="56" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="66" y="282" font-size="13" fill="currentColor">Catalog filters — Milestone 1: Storefront MVP &amp; Catalog</text>
+   <rect class="a" x="460" y="248" width="212" height="56" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><text x="478" y="282" font-size="13" fill="currentColor">Delhivery shipping</text>
+   <text x="48" y="342" font-size="12" fill="currentColor">Milestone 1 wireframes · uploaded by Riya Kapoor · Oct 5</text>
+   <text x="48" y="366" font-size="12" fill="currentColor">Media library · 20.3 KB · PDF · 1 file in capture</text>
+  </svg>
+  <table aria-label="File details"><tbody><tr><th>File</th><td class="mono">arjun-mehta-e-commerce-platform-milestone-1-wireframes.pdf</td></tr><tr><th>Source</th><td>Media library</td></tr><tr><th>Size</th><td>20.3 KB</td></tr><tr><th>Milestone</th><td>1 · Storefront MVP &amp; Catalog</td></tr></tbody></table>
+ </div>
+ <div class="dlg-foot"><button class="btn btn-primary" data-demo-file type="button">Open in new tab</button><button class="btn" data-demo-file type="button">Download</button><span class="help-text">Open/Download need the live media service — demo-labelled offline.</span></div>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var toastEl=$('#toast'),tt=null;function toast(m){toastEl.textContent=m;toastEl.hidden=false;clearTimeout(tt);tt=setTimeout(function(){toastEl.hidden=true},4500)}
+$$('[data-demo]').forEach(function(b){b.addEventListener('click',function(){toast('\u201C'+b.dataset.demo+'\u201D is another family\u2019s route \u2014 demo affordance (DECISIONS.md).')})});
+$$('[data-demo-file]').forEach(function(b){b.addEventListener('click',function(){toast('File bytes need the live media service (GET /media/{id}/download) \u2014 demo-labelled in this offline lab. The preview above is the designed C13 state.')})});
+var themeBtn=$('#themeBtn');function syncTheme(){var d=document.documentElement.classList.contains('dark');themeBtn.setAttribute('aria-pressed',String(d));themeBtn.innerHTML='<svg class="ico"><use href="#i-'+(d?'sun':'moon')+'"/></svg>'}syncTheme();
+themeBtn.addEventListener('click',function(){var d=document.documentElement.classList.toggle('dark');try{localStorage.setItem('lab-theme',d?'dark':'light')}catch(e){}syncTheme()});
+$('#menuBtn').addEventListener('click',function(){var on=$('#side').classList.toggle('on');this.setAttribute('aria-expanded',String(on))});
+$('#exploreBtn').addEventListener('click',function(){var l=$('#exploreList'),o=l.hidden;l.hidden=!o;this.setAttribute('aria-expanded',String(o))});
+/* tabs */
+var tabs=$$('#tablist .tab');
+function setTab(name,focus){tabs.forEach(function(t){var on=t.dataset.tab===name;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;$('#panel-'+t.dataset.tab).hidden=!on});
+ try{var u=new URL(location.href);u.searchParams.set('tab',name);history.replaceState(null,'',u)}catch(e){}
+ if(focus){var p=$('#panel-'+name);if(p)p.focus()}}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){setTab(t.dataset.tab,false)});
+ t.addEventListener('keydown',function(e){var n=null;if(e.key==='ArrowRight')n=tabs[(i+1)%tabs.length];else if(e.key==='ArrowLeft')n=tabs[(i+tabs.length-1)%tabs.length];else if(e.key==='Home')n=tabs[0];else if(e.key==='End')n=tabs[tabs.length-1];if(n){e.preventDefault();setTab(n.dataset.tab,false);n.focus()}})});
+$$('[data-goto-tab]').forEach(function(b){b.addEventListener('click',function(){setTab(b.dataset.gotoTab,true);var p=$('#panel-'+b.dataset.gotoTab);if(p)p.scrollIntoView({behavior:'smooth',block:'start'})})});
+$('#jumpBtn').addEventListener('click',function(){setTab('messages',false);$('#msgSearch').focus();toast('Jumped to Messages search. Tip: tabs are deep-linkable with ?tab=messages.')});
+/* page states */
+var states={populated:$('#state-populated'),loading:$('#state-loading'),error:$('#state-error')};
+function setState(n,f){Object.keys(states).forEach(function(k){states[k].hidden=k!==n});$('#sysBanner').hidden=n!=='error';try{var u=new URL(location.href);u.searchParams.set('state',n);history.replaceState(null,'',u)}catch(e){}if(f&&states[n].querySelector('h2,button'))states[n].querySelector('h2,button').focus()}
+$$('.lab-states [data-state]').forEach(function(b){b.addEventListener('click',function(){setState(b.dataset.state,true);b.closest('details').removeAttribute('open')})});
+function retry(){setState('loading');setTimeout(function(){setState('populated');toast('Project loaded \u2014 57% complete, no payment due yet.')},700)}
+$('#retryBtn').addEventListener('click',retry);$('#bannerRetry').addEventListener('click',retry);
+/* progress filters over digest */
+$$('[data-pfilter]').forEach(function(ch){ch.addEventListener('click',function(){$$('[data-pfilter]').forEach(function(x){x.setAttribute('aria-pressed',String(x===ch))});
+ var f=ch.dataset.pfilter,n=0;$$('.feed li').forEach(function(li){var ok=f==='all'||li.dataset.cat===f;li.hidden=!ok;if(ok)n++});
+ toast('Digest filtered: '+n+' captured event'+(n===1?'':'s')+'. The daily feed itself is still empty \u2014 honestly shown above.')})});
+/* forms */
+$('#feedbackForm').addEventListener('submit',function(e){e.preventDefault();var v=$('#feedbackText').value.trim();$('#feedbackErr').hidden=!!v;if(!v){$('#feedbackText').focus();return}this.reset();toast('Feedback ready for POST /projects/{id}/feedback \u2014 offline lab, nothing sent. Thank you.')});
+$('#changesForm').addEventListener('submit',function(e){e.preventDefault();var ok=$('#changesText').value.trim()&&$('#changesArea').value.trim();$('#changesErr').hidden=!!ok;if(!ok)return;this.reset();toast('Change request validated for POST /projects/{id}/request-revision \u2014 offline, not sent.')});
+/* deliverable review A4 */
+$('#approveBtn').addEventListener('click',function(){var s=$('#reviewStatus');s.className='badge ok';s.innerHTML='<svg class="ico"><use href="#i-check"/></svg>Approved (pattern demo)';toast('Approved locally. In production: POST /deliverables/{id}/approve.')});
+$('#reviewForm').addEventListener('submit',function(e){e.preventDefault();var v=$('#reviewReason').value.trim();$('#reviewErr').hidden=!!v;if(!v){$('#reviewReason').focus();return}var s=$('#reviewStatus');s.className='badge warn';s.innerHTML='<svg class="ico"><use href="#i-clock"/></svg>Revision requested (pattern demo)';toast('Revision requested with reason. In production: POST /deliverables/{id}/reject.')});
+/* messages */
+function filterMsgs(){var q=$('#msgSearch').value.trim().toLowerCase(),n=0;$$('#thread .msg').forEach(function(m){var ok=!q||m.dataset.text.toLowerCase().indexOf(q)>-1||m.textContent.toLowerCase().indexOf(q)>-1;m.hidden=!ok;if(ok)n++});$('#msgCount').textContent=n+' message'+(n===1?'':'s')+(q?' matching your search':'')}
+$('#msgSearchBtn').addEventListener('click',filterMsgs);$('#msgSearch').addEventListener('input',filterMsgs);
+$('#markReadBtn').addEventListener('click',function(){toast('Marked read locally. In production: POST /messages/projects/{projectId}/read-all.')});
+$('#composerForm').addEventListener('submit',function(e){e.preventDefault();var v=$('#composerText').value.trim();if(!v){$('#composerText').focus();return}
+ var d=document.createElement('div');d.className='msg you';d.dataset.text='you '+v.toLowerCase();
+ d.innerHTML='<span class="ava">Y</span><div class="bubble"><p></p><div class="act"><span>Just now \u00B7 offline demo</span></div></div>';d.querySelector('p').textContent=v;$('#thread').appendChild(d);this.reset();filterMsgs();toast('Message appended locally (POST /messages/projects/{projectId} in production).')});
+/* preview dialog C13 */
+var dlg=$('#previewDialog'),lastFocus=null;
+function openDlg(){lastFocus=document.activeElement;if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','');$('#previewClose').focus()}
+function closeDlg(){if(dlg.close)dlg.close();else dlg.removeAttribute('open');if(lastFocus)lastFocus.focus()}
+$('#previewBtn').addEventListener('click',openDlg);$('#previewBtn2').addEventListener('click',openDlg);$('#previewClose').addEventListener('click',closeDlg);
+dlg.addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();closeDlg()}});
+/* Ask AI A1 — frozen-fact answers */
+var AI={next:'Next is <strong>Razorpay Checkout &amp; Delhivery Integration</strong> (Milestone 2, due Oct 30, 2026) \u2014 delivery is work in progress and the project is 57% complete. <button class="text-link" data-ai-goto="milestones" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">Open Milestones \u2192</button>',
+pay:'<strong>No payment is due yet.</strong> Both milestones (\u20B930,000.00 each) show Payment: Not due yet. Payment unlocks after delivery approval \u2014 Milestone 1 delivery is approved but its instalment is not yet scheduled as due. <button class="text-link" data-ai-goto="milestones" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">See why it\u2019s locked \u2192</button>',
+approved:'<strong>Milestones: 1/2 approved</strong> \u2014 Storefront MVP &amp; Catalog delivery is Approved. <strong>Deliverables: 0/0 approved</strong> \u2014 none uploaded for review yet; the wireframes PDF lives in Files. <button class="text-link" data-ai-goto="deliverables" style="font:inherit;background:none;border:0;padding:0;cursor:pointer">Open Deliverables \u2192</button>'};
+$$('[data-ai]').forEach(function(b){b.addEventListener('click',function(){$('#aiAnswer').innerHTML=AI[b.dataset.ai]||'';$$('#aiAnswer [data-ai-goto]').forEach(function(g){g.addEventListener('click',function(){setTab(g.dataset.aiGoto,true)})})})});
+/* boot from URL */
+try{var qs=new URLSearchParams(location.search);var tb=qs.get('tab');if(tb&&$('#panel-'+tb))setTab(tb,false);var st=qs.get('state');if(st&&states[st])setState(st,false)}catch(e){}
+document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setTab('messages',false);$('#msgSearch').focus()}});
+})();
+</script>
+</body>
+</html>

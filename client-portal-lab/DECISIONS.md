@@ -88,3 +88,33 @@ python3 -m http.server 8130
 ```
 
 Then open `/client-portal-lab/` (gallery). Every variant renders standalone over relative paths and links back to the gallery with prev/next family navigation.
+
+---
+
+## 7 · F08 Projects List + F09 Project Details (added 2026-10-27)
+
+**All F08/F09 variants were hand-authored; no design-generation script was used.** Each of the ten `index.html` files was written manually, one by one, importing `shared/tokens.css` + `shared/base.css` as-is. One locked colour scheme across all ten; colour is never used as a difference axis.
+
+### 7.1 Content locks & conflict resolutions
+- F08 locks to Arjun Mehta's two captured projects (Khandesh Spice D2C, B2B Wholesale), both “In progress · Started 10/5/2026” — no invented %, money, or third project. Khandesh cards link to the same-numbered F09 variant; the B2B card carries an honest “no captured detail” note rather than invented content.
+- F09 locks to `14b–14g`: 57%, 1/2 milestones, two ₹30,000.00 milestones, “Not due yet” ×2, 0/0 deliverables, Riya Kapoor's three messages, the 20.3 KB wireframes PDF. The report's ₹20,880 / “Corporate LMS” figures are treated as illustrations — captures win. The Shiprocket-vs-Delhivery inconsistency in the captured thread is preserved as captured.
+- The live `GET /api/v1/projects[/{id}]` 502 (Cloudflare `origin_bad_gateway` + CORS) is designed honestly as the A13 degraded state in all ten variants — never pretend-fixed.
+
+### 7.2 Demo-labelled CTAs (F08/F09 additions)
+| CTA | Behaviour | Rationale |
+|---|---|---|
+| F08→F09 card links | same-numbered F09 variant (real local page) | `/projects/{id}` is real; lab link is the working target. |
+| F09 Ask AI (A1) | answers quote frozen facts only, tagged DEMO | **No AI endpoint exists** in any spec — demo-labelled, never invents. |
+| F09 Help/FAQ hub (A2) | FAQ from frozen facts, actions deep-link to tabs | No FAQ endpoint; feature = report A2, content = captures. |
+| F09 approve / request-revision (A4) | validates reason, flips status locally | Real endpoints exist (`POST /deliverables/{id}/approve|reject`); account is 0/0 so the pattern is exercised on the captured wireframes file and labelled. |
+| F09 file preview (C13) | designed lab rendering + metadata; Open/Download demo-labelled | The original PDF bytes are not in the repo; production embeds via the media endpoint. Never the captured blank modal. |
+| F09 “Pay now” | **Does not exist** | Both payments are “Not due yet” — gates are kept and explained (C19/A3), never bypassed. |
+| Other routes (quotes/invoices/etc.) | demo toast | Owned by their own families. |
+
+### 7.3 Coverage (5/5 unless noted)
+- **F08**: C17/C4/C5/C6/C18 in 5/5 · A13 (502 degraded state, report C5→A mapping) in 5/5 · C14 empty-state CTA “Accept a quote to open your first project →” in 5/5.
+- **F09**: C2/C13/C19/C17/C4/C5/C6/C18 in 5/5 · P1 A1/A2/A3/A4/A13 in 5/5 · P3 A14/A15 in 5/5 (exceeds the ≥3/5 bar). Dual Delivery/Payment milestone status, “Awaiting you” pattern and captured graceful wording preserved (KEEP list).
+
+### 7.4 Winners (one per family — see DELIVERY-REPORT.md in each family)
+- **F08: V3 Next-Step Hero** — for a two-project list, the job-to-be-done is “what's my next move”; V3 answers it in one glance without inventing data.
+- **F09: V3 Your Moves** — the sticky awaiting-you + unlock rail is the only layout that answers “do I need to do anything?” from every tab, which is the client's first question on this page.

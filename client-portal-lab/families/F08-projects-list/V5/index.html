@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F08 · V5 Bento Board · Projects · Nestlancer Client Portal Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F08 V5 Bento Board — hand-written bento tiles + crossfade preview pane, arrow-key tile focus. */
+.page{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:18px;padding:20px 14px;background:var(--card);border-right:1px solid var(--border);overflow:auto;z-index:70}
+.brand{display:flex;gap:10px;align-items:center;padding:0 8px}.brand img{height:26px}.brand .logo-dark{display:none}.dark .brand .logo-light{display:none}.dark .brand .logo-dark{display:block}
+.brand span{font-weight:700;font-size:17px}.nav-group h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);margin:14px 10px 6px}
+.nav-item{display:flex;gap:10px;align-items:center;width:100%;min-height:40px;padding:8px 10px;border-radius:var(--radius-md);font-size:14px;color:var(--muted-foreground);text-align:left}
+.nav-item:hover{background:var(--muted);color:var(--foreground)}.nav-item[aria-current="page"]{background:var(--brand-50);color:var(--primary);font-weight:600}
+.nav-item .ico{width:18px;height:18px}.explore-list{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-left:18px}
+.side-foot{margin-top:auto;font-size:11px;color:var(--muted-foreground);padding:10px;border-top:1px solid var(--border)}
+.frame{min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;display:flex;gap:14px;align-items:center;height:var(--header);padding:0 24px;background:var(--card);border-bottom:1px solid var(--border)}
+.crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted-foreground)}.crumb strong{color:var(--foreground)}
+.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.icon-btn{display:grid;place-items:center;width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);position:relative}.icon-btn .ico{width:18px;height:18px}
+.badge-count{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--primary);color:#fff;font-size:11px;line-height:18px;text-align:center;font-weight:700}
+.kbd{font:600 11px var(--mono);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--muted)}
+.search-trigger{display:flex;gap:10px;align-items:center;height:36px;padding:0 10px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--muted);color:var(--muted-foreground);font-size:13px}
+.avatar{display:flex;gap:9px;align-items:center;font-size:13px;font-weight:600}.avatar i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--brand-50);color:var(--primary);font-style:normal;font-size:12px}
+main{width:100%;max-width:var(--content);margin:0 auto;padding:30px 32px;flex:1}
+.eyebrow{font:600 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--primary)}
+h1{font-size:clamp(32px,3.4vw,38px);letter-spacing:-.035em;margin-top:8px}
+.lede{color:var(--muted-foreground);font-size:15px;margin-top:8px}
+.btn{display:inline-flex;gap:8px;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:600}
+.btn:hover{background:var(--muted)}.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-hover)}.btn .ico{width:16px;height:16px}
+.head-links{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:22px}
+.tile{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-xs);padding:22px;text-align:left;width:100%}
+.tile-main{grid-column:span 7;cursor:pointer}.tile-side{grid-column:span 5;cursor:pointer}.tile-wide{grid-column:span 12}
+.tile[aria-pressed="true"]{border-color:var(--primary);outline:2px solid var(--brand-100)}
+.tile h2{font-size:21px;line-height:1.3;margin:10px 0 6px}.tile h3{font-size:17px;margin:10px 0 6px}
+.tile p{font-size:13px;color:var(--muted-foreground);line-height:1.6}
+.badge{display:inline-flex;gap:6px;align-items:center;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid var(--status-info-border);background:var(--status-info-bg);color:var(--status-info-text)}.badge .ico{width:12px;height:12px}
+.mono{font:500 12px var(--mono);color:var(--muted-foreground)}
+.stat-row{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px}.stat b{display:block;font:700 26px/1.1 var(--font);font-variant-numeric:tabular-nums}.stat span{font-size:11px;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:.06em}
+.preview{grid-column:span 12;background:var(--brand-50);border:1px solid var(--border);border-radius:var(--radius-xl);padding:24px;min-height:150px}
+.preview-inner{transition:opacity var(--duration-fast)}
+.preview-inner.fading{opacity:0}
+.preview h2{font-size:20px;margin-bottom:8px}.preview p{font-size:14px;color:var(--muted-foreground);line-height:1.65;max-width:780px}
+.preview .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;align-items:center}
+.hint{font:500 11px var(--mono);color:var(--muted-foreground);margin-top:10px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:20px}
+.field{display:flex;gap:8px;align-items:center;min-height:42px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card)}.field .ico{width:16px;height:16px;color:var(--muted-foreground)}
+input[type=search]{background:transparent;border:0;outline:0;min-height:40px;font-size:14px;color:var(--foreground)}
+.lab-states{margin-left:auto;font-size:12px;position:relative}.lab-states summary{cursor:pointer;list-style:none;color:var(--muted-foreground);border:1px dashed var(--border);padding:9px 12px;border-radius:var(--radius-md)}
+.lab-states summary::-webkit-details-marker{display:none}.lab-states .state-btns{position:absolute;right:0;z-index:25;display:flex;flex-direction:column;gap:4px;margin-top:6px;padding:8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);min-width:180px}
+.lab-states .state-btns button{text-align:left;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;color:var(--muted-foreground)}
+.banner{display:flex;gap:12px;padding:13px 16px;border:1px solid var(--status-warning-border);background:var(--status-warning-bg);color:var(--status-warning-text);border-radius:var(--radius-lg);margin-bottom:14px;font-size:13px;line-height:1.5}
+.banner .ico{width:18px;height:18px;flex:none}.banner button{margin-left:auto;font-weight:700;text-decoration:underline;flex:none}
+.state-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:44px 28px;text-align:center;margin-top:20px}
+.state-box h2{font-size:20px;margin-bottom:8px}.state-box p{font-size:14px;color:var(--muted-foreground);max-width:500px;margin:0 auto 18px;line-height:1.6}
+.state-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.error-box{border-color:var(--status-error-border)}
+.sk{height:150px;background:var(--muted);border-radius:var(--radius-xl);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45}}
+.lab-nav{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}.lab-nav .sp{flex:1}.lab-nav a:hover{color:var(--primary)}
+footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}
+.toast{position:fixed;right:18px;bottom:18px;z-index:130;max-width:min(420px,calc(100vw - 36px));background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:13px 16px;font-size:13px}
+@media(max-width:900px){.page{grid-template-columns:minmax(0,1fr)}.side{position:fixed;width:min(280px,86vw);transform:translateX(-102%);transition:transform var(--duration-normal)}.side.on{transform:none}main{padding:24px 18px}.tile-main,.tile-side{grid-column:span 12}.search-trigger .txt{display:none}}
+@media(max-width:640px){.avatar span{display:none}.crumb span{display:none}.field{flex:1 1 100%}.lab-states{margin-left:0}}
+@media(prefers-reduced-motion:reduce){.preview-inner{transition:none}.sk{animation:none}}
+</style>
+</head>
+<body>
+<svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+<symbol id="i-req" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+<symbol id="i-invoice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21h-4v-.1A1.7 1.7 0 0 0 7 19.4l-.1.1L4.1 16.7l.1-.1A1.7 1.7 0 0 0 3 13.7H3v-4h.1A1.7 1.7 0 0 0 4.9 7l-.1-.1 2.8-2.8.1.1A1.7 1.7 0 0 0 10.6 3.1V3h4v.1A1.7 1.7 0 0 0 17.5 5l.1-.1 2.8 2.8-.1.1a1.7 1.7 0 0 0 1.2 2.9h.1v4h-.1a1.7 1.7 0 0 0-1.9 1.1z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
+<symbol id="i-dot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="page">
+ <aside class="side" id="side" aria-label="Primary navigation">
+  <a class="brand" href="../../../index.html"><img class="logo-light" src="../../../assets/logo-full-light.svg" alt="" width="100" height="28"><img class="logo-dark" src="../../../assets/logo-full-dark.svg" alt="" width="100" height="28"><span>Nestlancer</span></a>
+  <nav aria-label="Main"><div class="nav-group"><h2>Main</h2>
+   <button class="nav-item" data-demo="/dashboard"><svg class="ico"><use href="#i-dash"/></svg><span>Dashboard</span></button>
+   <a class="nav-item" href="../../F05-requests-work-hub/V5/index.html"><svg class="ico"><use href="#i-req"/></svg><span>Requests</span></a>
+   <a class="nav-item" aria-current="page" href="../V5/index.html"><svg class="ico"><use href="#i-folder"/></svg><span>Projects</span></a>
+   <button class="nav-item" data-demo="/quotes"><svg class="ico"><use href="#i-quote"/></svg><span>Quotes</span></button>
+   <button class="nav-item" data-demo="/messages"><svg class="ico"><use href="#i-msg"/></svg><span>Messages</span></button>
+   <button class="nav-item" data-demo="/payments"><svg class="ico"><use href="#i-card"/></svg><span>Billing</span></button>
+   <button class="nav-item" data-demo="/invoices"><svg class="ico"><use href="#i-invoice"/></svg><span>Invoices</span></button>
+   <button class="nav-item" data-demo="/notifications"><svg class="ico"><use href="#i-bell"/></svg><span>Notifications</span></button></div>
+  <div class="nav-group"><h2>Explore</h2><button class="nav-item" id="exploreBtn" aria-expanded="false" aria-controls="exploreList"><svg class="ico"><use href="#i-globe"/></svg><span>Explore</span></button><div class="explore-list" id="exploreList" hidden><button class="nav-item" data-demo="/blog"><span>Blog</span></button><button class="nav-item" data-demo="/portfolio"><span>Portfolio</span></button></div></div>
+  <div class="nav-group"><h2>Account</h2><button class="nav-item" data-demo="/profile"><svg class="ico"><use href="#i-user"/></svg><span>Profile</span></button><button class="nav-item" data-demo="/settings/account"><svg class="ico"><use href="#i-settings"/></svg><span>Settings</span></button></div></nav>
+  <div class="side-foot">F08 · V5 Bento Board<br>Select a tile to preview</div>
+ </aside>
+ <div class="frame">
+  <header class="topbar"><button class="icon-btn" id="menuBtn" aria-label="Open navigation menu" aria-expanded="false"><svg class="ico"><use href="#i-menu"/></svg></button>
+   <div class="crumb"><span>Dashboard</span><svg class="ico" style="width:14px;height:14px"><use href="#i-chev"/></svg><strong>Projects</strong></div>
+   <div class="top-actions"><button class="search-trigger" id="focusSearch"><svg class="ico" style="width:16px;height:16px"><use href="#i-search"/></svg><span class="txt">Search</span><span class="kbd">⌘K</span></button>
+   <button class="icon-btn" id="themeBtn" aria-label="Switch to dark mode" aria-pressed="false"><svg class="ico"><use href="#i-moon"/></svg></button>
+   <button class="icon-btn" data-demo="/notifications" aria-label="6 unread notifications"><svg class="ico"><use href="#i-bell"/></svg><span class="badge-count">6</span></button>
+   <span class="avatar"><i>AM</i><span>Arjun Mehta</span></span></div></header>
+  <main id="main">
+   <div class="banner" id="sysBanner" role="status" hidden><svg class="ico"><use href="#i-alert"/></svg><span><strong>Project data is temporarily unavailable — retrying.</strong> Board could not refresh (502).</span><button id="bannerRetry">Retry now</button></div>
+   <p class="eyebrow">Delivery · Projects · Board</p><h1>Projects</h1><p class="lede">Follow active work, milestones, and delivery from kickoff through completion.</p>
+   <div class="head-links"><a class="btn" href="../../F05-requests-work-hub/V5/index.html">Work Hub</a><button class="btn" data-demo="/quotes">View quotes</button></div>
+
+   <section id="panel-populated">
+    <div class="bento" role="group" aria-label="Project board. Use arrow keys to move between project tiles.">
+     <button class="tile tile-main" data-project="khandesh" data-title="Khandesh Spice D2C E-Commerce Store" aria-pressed="true">
+      <span class="badge"><svg class="ico"><use href="#i-dot"/></svg>In progress</span>
+      <h2>Khandesh Spice D2C E-Commerce Store</h2>
+      <p class="mono">Started 10/5/2026</p>
+      <div class="stat-row"><div class="stat"><b>2</b><span>Projects</span></div><div class="stat"><b>2</b><span>In progress</span></div><div class="stat"><b style="font-family:var(--mono);font-size:16px;padding-top:8px">10/5/2026</b><span>Started</span></div></div>
+     </button>
+     <button class="tile tile-side" data-project="b2b" data-title="B2B Wholesale Ordering Portal" aria-pressed="false">
+      <span class="badge"><svg class="ico"><use href="#i-dot"/></svg>In progress</span>
+      <h3>B2B Wholesale Ordering Portal</h3>
+      <p class="mono">Started 10/5/2026</p>
+      <p>Second captured project. Detail chapter not in the audit capture.</p>
+     </button>
+     <div class="preview" aria-live="polite"><div class="preview-inner" id="previewInner">
+      <p class="eyebrow">Preview · frozen fields only</p>
+      <h2 id="pvTitle">Khandesh Spice D2C E-Commerce Store</h2>
+      <p id="pvText">In progress · Started 10/5/2026. This is the project whose full delivery cockpit was captured — milestones, daily progress, deliverables, messages and files are on its detail page.</p>
+      <div class="row"><a class="btn btn-primary" id="pvLink" href="../../F09-project-details/V5/index.html">Open project detail</a><span class="mono" id="pvMeta">GET /api/v1/projects/{id}</span></div>
+     </div><p class="hint">← → move between tiles · Enter opens detail · preview never invents fields</p></div>
+    </div>
+    <div class="toolbar"><label class="field"><svg class="ico"><use href="#i-search"/></svg><span class="sr-only">Search projects</span><input id="q" type="search" placeholder="Search projects…" autocomplete="off"></label><span class="mono" id="resultCount" aria-live="polite">2 tiles</span>
+    <details class="lab-states"><summary>Lab states ▾</summary><div class="state-btns"><button data-state="populated">Populated</button><button data-state="empty">Empty</button><button data-state="loading">Loading skeleton</button><button data-state="error">502 error (A13)</button></div></details></div>
+   </section>
+   <section id="panel-empty" hidden><div class="state-box"><h2>No projects yet</h2><p>Accept a quote to open your first project →</p><div class="state-actions"><button class="btn btn-primary" data-demo="/quotes">View quotes</button></div></div></section>
+   <section id="panel-loading" hidden><div class="bento" aria-hidden="true"><div class="sk" style="grid-column:span 7"></div><div class="sk" style="grid-column:span 5"></div></div><p class="sr-only" role="status">Loading projects…</p></section>
+   <section id="panel-error" hidden><div class="state-box error-box"><h2>Could not load projects</h2><p>Network Error — board data unavailable (HTTP 502 in production). Try again or contact support.</p><div class="state-actions"><button class="btn btn-primary" id="retryBtn"><svg class="ico"><use href="#i-refresh"/></svg>Try again</button><button class="btn" data-demo="/messages">Contact support</button></div></div></section>
+   <nav class="lab-nav"><a href="../../../index.html">← Gallery</a><span>F08 · V5 Bento Board</span><span class="sp"></span><a href="../V4/index.html">← Prev: V4</a><span>Next — (end of F08)</span></nav>
+  </main>
+  <footer>© 2026 Nestlancer · F08 V5 · Bento sizes encode capture depth, not invented priority</footer>
+ </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var toastEl=$('#toast'),tt=null;function toast(m){toastEl.textContent=m;toastEl.hidden=false;clearTimeout(tt);tt=setTimeout(function(){toastEl.hidden=true},4200)}
+$$('[data-demo]').forEach(function(b){b.addEventListener('click',function(){toast('\u201C'+b.dataset.demo+'\u201D is another family\u2019s route \u2014 demo affordance (DECISIONS.md).')})});
+var themeBtn=$('#themeBtn');function syncTheme(){var d=document.documentElement.classList.contains('dark');themeBtn.setAttribute('aria-pressed',String(d));themeBtn.innerHTML='<svg class="ico"><use href="#i-'+(d?'sun':'moon')+'"/></svg>'}syncTheme();
+themeBtn.addEventListener('click',function(){var d=document.documentElement.classList.toggle('dark');try{localStorage.setItem('lab-theme',d?'dark':'light')}catch(e){}syncTheme()});
+$('#menuBtn').addEventListener('click',function(){var on=$('#side').classList.toggle('on');this.setAttribute('aria-expanded',String(on))});
+$('#exploreBtn').addEventListener('click',function(){var l=$('#exploreList'),o=l.hidden;l.hidden=!o;this.setAttribute('aria-expanded',String(o))});
+$('#focusSearch').addEventListener('click',function(){$('#q').focus()});
+var panels={populated:$('#panel-populated'),empty:$('#panel-empty'),loading:$('#panel-loading'),error:$('#panel-error')};
+function setState(n,f){Object.keys(panels).forEach(function(k){panels[k].hidden=k!==n});$('#sysBanner').hidden=n!=='error';try{var u=new URL(location.href);u.searchParams.set('state',n);history.replaceState(null,'',u)}catch(e){}if(f){var h=panels[n].querySelector('h2,button,a');if(h)h.focus()}}
+$$('.lab-states [data-state]').forEach(function(b){b.addEventListener('click',function(){setState(b.dataset.state,true);b.closest('details').removeAttribute('open')})});
+function retry(){setState('loading');setTimeout(function(){setState('populated');toast('Projects loaded.')},650)}
+$('#retryBtn').addEventListener('click',retry);$('#bannerRetry').addEventListener('click',retry);
+var PREVIEWS={
+ khandesh:{title:'Khandesh Spice D2C E-Commerce Store',text:'In progress \u00B7 Started 10/5/2026. This is the project whose full delivery cockpit was captured \u2014 milestones, daily progress, deliverables, messages and files are on its detail page.',meta:'GET /api/v1/projects/{id}'},
+ b2b:{title:'B2B Wholesale Ordering Portal',text:'In progress \u00B7 Started 10/5/2026. Captured in the projects grid only \u2014 no detail page exists in the audit, so this preview shows exactly the frozen list fields and links to the captured Khandesh detail as the lab\u2019s detail example.',meta:'List record only \u00B7 GET /api/v1/projects'}
+};
+var tiles=$$('[data-project]'),inner=$('#previewInner'),reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function select(tile,focus){tiles.forEach(function(t){t.setAttribute('aria-pressed',String(t===tile))});var d=PREVIEWS[tile.dataset.project];
+ function swap(){$('#pvTitle').textContent=d.title;$('#pvText').textContent=d.text;$('#pvMeta').textContent=d.meta;inner.classList.remove('fading')}
+ if(reduced){swap()}else{inner.classList.add('fading');setTimeout(swap,140)}
+ if(focus)tile.focus()}
+tiles.forEach(function(t,i){t.addEventListener('click',function(){select(t,false)});t.addEventListener('keydown',function(e){
+ if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();select(tiles[(i+1)%tiles.length],true)}
+ else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();select(tiles[(i+tiles.length-1)%tiles.length],true)}
+ else if(e.key==='Enter'){e.preventDefault();location.href='../../F09-project-details/V5/index.html'}})});
+$('#pvLink').addEventListener('click',function(e){/* real link to F09 V5 */});
+$('#q').addEventListener('input',function(){var q=this.value.trim().toLowerCase(),n=0;tiles.forEach(function(t){var ok=!q||t.dataset.title.toLowerCase().indexOf(q)>-1;t.hidden=!ok;if(ok)n++});$('#resultCount').textContent=n+' tile'+(n===1?'':'s')});
+try{var sp=new URLSearchParams(location.search).get('state');if(sp&&panels[sp])setState(sp)}catch(e){}
+})();
+</script>
+</body>
+</html>

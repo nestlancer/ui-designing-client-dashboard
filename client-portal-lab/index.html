@@ -105,7 +105,7 @@ footer a:hover{color:var(--primary)}
 
  <div class="controls">
   <label class="field"><svg><use href="#i-search"/></svg><span class="sr-only">Search variants</span><input id="q" type="search" placeholder="Search name, axis, signature…"></label>
-  <label class="field"><span class="sr-only">Filter by family</span><select id="fam" aria-label="Filter by family"><option value="">All families</option><option value="F05">F05 · Requests work hub</option><option value="F06">F06 · New request form</option></select></label>
+  <label class="field"><span class="sr-only">Filter by family</span><select id="fam" aria-label="Filter by family"><option value="">All families</option><option value="F05">F05 · Requests work hub</option><option value="F06">F06 · New request form</option><option value="F08">F08 · Projects list</option><option value="F09">F09 · Project details</option></select></label>
   <div class="seg" role="group" aria-label="Filter by design density"><button data-dens="" aria-pressed="true">All</button><button data-dens="airy" aria-pressed="false">Airy</button><button data-dens="dense" aria-pressed="false">Dense</button><button data-dens="narrative" aria-pressed="false">Narrative</button></div>
   <button class="btn" id="compareToggle"><svg><use href="#i-columns"/></svg>Compare mode</button>
   <span class="count" id="count">10 variants</span>
@@ -207,11 +207,107 @@ footer a:hover{color:var(--primary)}
   </div>
  </section>
 
+ <!-- F08 -->
+ <section class="family" id="f08" data-fam="F08">
+  <div class="family-head"><h2>F08 · Projects list</h2><span class="route">/projects</span>
+   <p>Follow active work, milestones, and delivery from kickoff through completion. Two captured in-progress projects plus the honest 502 degraded state (A13), the C14 quote-linked empty state, and a loading skeleton in every variant.</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F08" data-dens="airy" data-text="V1 Calm Grid card grid verdict first static sections airy chips command palette sort url state a13">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="22" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="84" y="44" width="107" height="66" rx="6" style="fill:var(--card);stroke:var(--border)"/><rect x="199" y="44" width="107" height="66" rx="6" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V1</span><h3>Calm Grid</h3></div>
+     <p class="sig">Verdict strip, KPI row and a classic two-card grid with ⌘K command palette.</p>
+     <div class="axes"><span class="ax"><b>A</b> grid</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> palette</span></div>
+     <div class="cov">C17 · C4 · C5 · C6 · C18 · A13</div></div>
+    <div class="acts"><a class="open" href="families/F08-projects-list/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F08-projects-list/V1/index.html" data-name="F08 V1 Calm Grid"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F08" data-dens="dense" data-text="V2 Ops Ledger sticky ops table numbers first tab led dense sort mobile cards a13">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="14" rx="4" style="fill:var(--muted);stroke:var(--border)"/><rect x="84" y="34" width="222" height="12" rx="3" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="52" width="222" height="12" rx="3" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="70" width="222" height="12" rx="3" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Ops Ledger</h3></div>
+     <p class="sig">Dense sticky-header engagement table; becomes stacked cards on small screens.</p>
+     <div class="axes"><span class="ax"><b>A</b> table</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> sort</span></div>
+     <div class="cov">C17 · C4 · C5 · C6 · C18 · A13</div></div>
+    <div class="acts"><a class="open" href="families/F08-projects-list/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F08-projects-list/V2/index.html" data-name="F08 V2 Ops Ledger"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F08" data-dens="airy" data-text="V3 Next-Step Hero split hero action first queue led count up sticky cta a13">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="130" height="84" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="224" y="14" width="82" height="84" rx="8" style="fill:var(--muted);stroke:var(--border)"/><rect x="84" y="108" width="222" height="14" rx="4" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Next-Step Hero</h3></div>
+     <p class="sig">Split hero with count-up; the next move is a destination, not a demand.</p>
+     <div class="axes"><span class="ax"><b>A</b> split hero</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> reveals</span></div>
+     <div class="cov">C17 · C4 · C5 · C6 · C18 · A13</div></div>
+    <div class="acts"><a class="open" href="families/F08-projects-list/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F08-projects-list/V3/index.html" data-name="F08 V3 Next-Step Hero"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F08" data-dens="narrative" data-text="V4 Delivery Story single column timeline narrative first chapter editorial reveals a13">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><line x1="92" y1="20" x2="92" y2="160" style="stroke:var(--border)"/><circle cx="92" cy="42" r="7" style="fill:var(--card);stroke:var(--primary)"/><rect x="114" y="28" width="180" height="40" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="114" y="78" width="180" height="40" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Delivery Story</h3></div>
+     <p class="sig">Editorial column: one kickoff chapter, two engagement stories, scroll reveals.</p>
+     <div class="axes"><span class="ax"><b>A</b> column</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> chapters</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> reveals</span></div>
+     <div class="cov">C17 · C4 · C5 · C6 · C18 · A13</div></div>
+    <div class="acts"><a class="open" href="families/F08-projects-list/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F08-projects-list/V4/index.html" data-name="F08 V4 Delivery Story"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F08" data-dens="dense" data-text="V5 Bento Board bento tiles verdict lane led arrow key focus crossfade preview a13">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="130" height="72" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="222" y="14" width="84" height="72" rx="8" style="fill:var(--muted);stroke:var(--border)"/><rect x="84" y="94" width="222" height="50" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Bento Board</h3></div>
+     <p class="sig">Tile size encodes capture depth; arrow keys move, a preview pane cross-fades.</p>
+     <div class="axes"><span class="ax"><b>A</b> bento</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> lane-led</span><span class="ax"><b>D</b> compact</span><span class="ax"><b>E</b> tiles</span></div>
+     <div class="cov">C17 · C4 · C5 · C6 · C18 · A13</div></div>
+    <div class="acts"><a class="open" href="families/F08-projects-list/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F08-projects-list/V5/index.html" data-name="F08 V5 Bento Board"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F09 -->
+ <section class="family" id="f09" data-fam="F09">
+  <div class="family-head"><h2>F09 · Project details + 6 tabs</h2><span class="route">/projects/{id} · ?tab=overview…files</span>
+   <p>Khandesh Spice D2C at 57% — full six-tab delivery surface with dual-status milestones, explained locks (C19/A3), a real revise path (A4), Ask-AI (A1), Help hub (A2), expectation log (A14), digest (A15) and a working file preview (C13).</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F09" data-dens="airy" data-text="V1 Classic Cockpit full width tabs verdict first static sections airy dialogs disclosure ask ai">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="24" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="84" y="46" width="222" height="14" rx="4" style="fill:var(--muted);stroke:var(--border)"/><rect x="84" y="68" width="222" height="84" rx="6" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V1</span><h3>Classic Cockpit</h3></div>
+     <p class="sig">The complete classic: underline tabs, every captured element, full depth.</p>
+     <div class="axes"><span class="ax"><b>A</b> full-width</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> dialogs</span></div>
+     <div class="cov">C2 · C13 · C19 · A1–A4 · A13–A15</div></div>
+    <div class="acts"><a class="open" href="families/F09-project-details/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F09-project-details/V1/index.html" data-name="F09 V1 Classic Cockpit"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F09" data-dens="airy" data-text="V2 Delivery Journey stepper spine progress first stepper gated journey reveals pill tabs">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><line x1="50" y1="60" x2="270" y2="60" style="stroke:var(--border)"/><circle cx="70" cy="60" r="12" style="fill:var(--brand-50);stroke:var(--primary)"/><circle cx="160" cy="60" r="12" style="fill:var(--card);stroke:var(--primary)"/><circle cx="250" cy="60" r="12" style="fill:var(--muted);stroke:var(--border)"/><rect x="50" y="100" width="220" height="50" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Delivery Journey</h3></div>
+     <p class="sig">A journey spine: approved storefront → checkout in build → locked payment gate.</p>
+     <div class="axes"><span class="ax"><b>A</b> stepper</span><span class="ax"><b>B</b> progress</span><span class="ax"><b>C</b> gated journey</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> reveals</span></div>
+     <div class="cov">C2 · C13 · C19 · A1–A4 · A13–A15</div></div>
+    <div class="acts"><a class="open" href="families/F09-project-details/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F09-project-details/V2/index.html" data-name="F09 V2 Delivery Journey"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F09" data-dens="airy" data-text="V3 Your Moves two column sticky rail action first queue led awaiting you unlock explainer">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="140" height="120" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="232" y="14" width="74" height="56" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="232" y="78" width="74" height="56" rx="8" style="fill:var(--muted);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Your Moves</h3></div>
+     <p class="sig">A sticky rail always answers: whose move, what unlocks payment.</p>
+     <div class="axes"><span class="ax"><b>A</b> 2-col rail</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> sticky rail</span></div>
+     <div class="cov">C2 · C13 · C19 · A1–A4 · A13–A15</div></div>
+    <div class="acts"><a class="open" href="families/F09-project-details/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F09-project-details/V3/index.html" data-name="F09 V3 Your Moves"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F09" data-dens="narrative" data-text="V4 One Story single editorial narrative first chapter tabs digest timeline reveals">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><line x1="92" y1="20" x2="92" y2="160" style="stroke:var(--border)"/><circle cx="92" cy="44" r="7" style="fill:var(--card);stroke:var(--primary)"/><circle cx="92" cy="100" r="7" style="fill:var(--card);stroke:var(--primary)"/><rect x="114" y="28" width="180" height="36" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="114" y="84" width="180" height="36" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>One Story</h3></div>
+     <p class="sig">Progress, messages and milestones merged into one digest; tabs become chapters.</p>
+     <div class="axes"><span class="ax"><b>A</b> editorial</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> chapters</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> reveals</span></div>
+     <div class="cov">C2 · C13 · C19 · A1–A4 · A13–A15</div></div>
+    <div class="acts"><a class="open" href="families/F09-project-details/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F09-project-details/V4/index.html" data-name="F09 V4 One Story"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F09" data-dens="dense" data-text="V5 Delivery Console dense console numbers first tab led stat strip ops table keys">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="50" height="30" rx="5" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="140" y="14" width="50" height="30" rx="5" style="fill:var(--muted);stroke:var(--border)"/><rect x="196" y="14" width="50" height="30" rx="5" style="fill:var(--muted);stroke:var(--border)"/><rect x="252" y="14" width="54" height="30" rx="5" style="fill:var(--muted);stroke:var(--border)"/><rect x="84" y="54" width="222" height="90" rx="6" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Delivery Console</h3></div>
+     <p class="sig">Stat strip, ops tables and 1–6 keyboard tab switching for operators.</p>
+     <div class="axes"><span class="ax"><b>A</b> console</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> ops table</span></div>
+     <div class="cov">C2 · C13 · C19 · A1–A4 · A13–A15</div></div>
+    <div class="acts"><a class="open" href="families/F09-project-details/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F09-project-details/V5/index.html" data-name="F09 V5 Delivery Console"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
  <div class="noresult" id="noresult" hidden>No variants match these filters. <button class="btn" id="resetFilters" style="margin-left:8px">Reset</button></div>
 
- <div class="notice"><svg><use href="#i-info"/></svg><span><strong>Scope note (merge-only).</strong> This lab targets <b>23 families × 5 = 115 templates</b>. This run authored the two families requested — <b>F05 Requests work hub</b> and <b>F06 New request form</b> (10 variants). The gallery, <span style="font:600 12px var(--mono)">manifest.json</span>, and <span style="font:600 12px var(--mono)">DECISIONS.md</span> are structured to be extended family by family without touching these records. Shared <span style="font:600 12px var(--mono)">tokens.css</span> / <span style="font:600 12px var(--mono)">base.css</span> are the single source of truth; no other family's files were modified.</span></div>
+ <div class="notice"><svg><use href="#i-info"/></svg><span><strong>Scope note (merge-only).</strong> This lab targets <b>23 families × 5 = 115 templates</b>. The active set now holds four families — <b>F05 Requests work hub</b>, <b>F06 New request form</b>, <b>F08 Projects list</b> and <b>F09 Project details</b> (20 variants; F08/F09 added 2026-10-27, merge-only). The gallery, <span style="font:600 12px var(--mono)">manifest.json</span>, and <span style="font:600 12px var(--mono)">DECISIONS.md</span> are structured to be extended family by family without touching these records. Shared <span style="font:600 12px var(--mono)">tokens.css</span> / <span style="font:600 12px var(--mono)">base.css</span> are the single source of truth; no other family's files were modified.</span></div>
 
- <footer><span>© 2026 Nestlancer · Client Portal Lab · one locked blue scheme</span><a href="DECISIONS.md">DECISIONS.md</a><a href="manifest.json">manifest.json</a><a href="families/F05-requests-work-hub/docs/DELIVERY-REPORT.md">F05 report</a><a href="families/F06-request-new-form/docs/DELIVERY-REPORT.md">F06 report</a><span style="margin-left:auto">Preview: <span style="font:600 11px var(--mono)">python3 -m http.server 8130</span> → <span style="font:600 11px var(--mono)">/client-portal-lab/</span></span></footer>
+ <footer><span>© 2026 Nestlancer · Client Portal Lab · one locked blue scheme</span><a href="DECISIONS.md">DECISIONS.md</a><a href="manifest.json">manifest.json</a><a href="families/F05-requests-work-hub/docs/DELIVERY-REPORT.md">F05 report</a><a href="families/F06-request-new-form/docs/DELIVERY-REPORT.md">F06 report</a><a href="families/F08-projects-list/docs/DELIVERY-REPORT.md">F08 report</a><a href="families/F09-project-details/docs/DELIVERY-REPORT.md">F09 report</a><span style="margin-left:auto">Preview: <span style="font:600 11px var(--mono)">python3 -m http.server 8130</span> → <span style="font:600 11px var(--mono)">/client-portal-lab/</span></span></footer>
 </div>
 
 <div class="cmpbar" id="cmpbar" role="region" aria-label="Compare tray"><div class="in"><div class="slots" id="slots"><span class="slot empty">Slot A empty</span><span class="slot empty">Slot B empty</span></div><button class="btn btn-p" id="cmpGo" disabled>Compare 2</button><button class="btn" id="cmpClear">Clear</button></div></div>
@@ -235,7 +331,7 @@ q.addEventListener('input',apply);fam.addEventListener('change',apply);
 $$('[data-dens]').forEach(function(b){b.addEventListener('click',function(){dens=b.dataset.dens;$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply()})});
 $('#resetFilters').addEventListener('click',function(){q.value='';fam.value='';dens='';$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.dens===''))});apply()});
 /* deep-link family from hash */
-if(location.hash==='#f05'){fam.value='F05';apply()}else if(location.hash==='#f06'){fam.value='F06';apply()}
+var hmap={'#f05':'F05','#f06':'F06','#f08':'F08','#f09':'F09'};if(hmap[location.hash]){fam.value=hmap[location.hash];apply()}
 /* compare mode */
 var compareOn=false,sel=[];
 var bar=$('#cmpbar'),toggle=$('#compareToggle');

@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-build_rank.py — reproducible 100-reviewer panel for the 10 Client Portal Lab variants.
+build_rank.py — reproducible 100-reviewer panel for the F08 + F09 Client Portal
+Lab variants (Study 2). The same 100 seeded personas from Study 1 (F05/F06)
+return to review the 10 new files; Study 1 headline results are preserved in
+the page's archive section and in rank.json -> previous_study.
 
 WHAT THIS IS
   A deterministic, seeded *simulation* of 100 distinct reviewer personas. It is NOT
@@ -40,9 +43,9 @@ CRITERIA = [
     ("a11y",         "Accessibility",  "Keyboard paths, ARIA, focus management, reduced motion, AA contrast, skip links, live regions."),
     ("responsive",   "Responsive",     "360/390/768/1024/1440 reflow, mobile card fallback, sticky behaviour, no horizontal scroll."),
     ("performance",  "Performance",    "Page weight, inline script size, zero external requests, zero image payload."),
-    ("interaction",  "Interaction",    "Real working interactions: command palette, sort, stepper, live preview, board nav, dropzone."),
-    ("states",       "State coverage", "Populated, empty, loading/skeleton, error+retry, success, cancel-without-losing-work."),
-    ("guidance",     "Guidance",       "Help affordances, inline validation, tooltips, budget guide, word count, in-context hints."),
+    ("interaction",  "Interaction",    "Real working interactions: command palette, sort, tab keyboard model, file-preview dialog, stepper, keyboard tiles, 1-6 tab keys, forms."),
+    ("states",       "State coverage", "Populated, empty (incl. captured in-tab empties), loading/skeleton, 502 error + retry + status banner."),
+    ("guidance",     "Guidance",       "Verdict lines, why-locked / unlock explainers, Help-FAQ, Ask-AI, inline validation, honest 'nothing due' cues."),
     ("honesty",      "Honesty",        "No invented rows/rates/APIs; demo-labelled CTAs; frozen-content fidelity; audit-truthful copy."),
     ("consistency",  "Consistency",    "One token scheme, light/dark parity, brand discipline, semantic HTML, reduced-motion parity."),
 ]
@@ -54,36 +57,38 @@ CKEYS = [c[0] for c in CRITERIA]
 #    design facts in each family's CONCEPTS.md and DELIVERY-REPORT.md.
 # ---------------------------------------------------------------------------
 VARIANTS = [
- dict(id="F05-V1", family="F05", v="V1", name="Calm Ledger",      tag="Airy single-col ledger · chips + URL state + focus-trapped drawer",
-      path="families/F05-requests-work-hub/V1/index.html", kb=57, aria=71, media=4, keys=4, geom="airy",
-      c=dict(clarity=88, distinctness=68, a11y=92, responsive=86, performance=72, interaction=84, states=90, guidance=82, honesty=96, consistency=92)),
- dict(id="F05-V2", family="F05", v="V2", name="Ops Console",       tag="Dense sticky table · aria-sort · ⌘K · density toggle · mobile cards",
-      path="families/F05-requests-work-hub/V2/index.html", kb=47, aria=61, media=3, keys=4, geom="dense",
-      c=dict(clarity=86, distinctness=90, a11y=88, responsive=96, performance=86, interaction=96, states=92, guidance=86, honesty=92, consistency=92)),
- dict(id="F05-V3", family="F05", v="V3", name="Attention Queue",   tag="Verdict hero · count-up KPIs · priority switch · Review next",
-      path="families/F05-requests-work-hub/V3/index.html", kb=43, aria=56, media=3, keys=3, geom="airy",
-      c=dict(clarity=96, distinctness=90, a11y=80, responsive=82, performance=90, interaction=86, states=90, guidance=88, honesty=92, consistency=92)),
- dict(id="F05-V4", family="F05", v="V4", name="Chapter Tabs",      tag="Sticky rail · scroll-spy · narrative chapters · in-page jumps",
-      path="families/F05-requests-work-hub/V4/index.html", kb=44, aria=70, media=3, keys=3, geom="narrative",
-      c=dict(clarity=82, distinctness=94, a11y=86, responsive=78, performance=90, interaction=82, states=88, guidance=88, honesty=92, consistency=92)),
- dict(id="F05-V5", family="F05", v="V5", name="Status Lanes",      tag="4 counted lanes · roving arrow-key board · read-only by design",
-      path="families/F05-requests-work-hub/V5/index.html", kb=42, aria=60, media=4, keys=4, geom="bento",
-      c=dict(clarity=78, distinctness=98, a11y=96, responsive=74, performance=94, interaction=86, states=88, guidance=78, honesty=96, consistency=92)),
- dict(id="F06-V1", family="F06", v="V1", name="Classic Brief",     tag="Single column · help popovers · autosave/restore · completion count",
-      path="families/F06-request-new-form/V1/index.html", kb=52, aria=88, media=3, keys=1, geom="airy",
-      c=dict(clarity=90, distinctness=68, a11y=90, responsive=86, performance=80, interaction=80, states=96, guidance=94, honesty=94, consistency=92)),
- dict(id="F06-V2", family="F06", v="V2", name="Three Steps",       tag="Gated wizard · aria-current=step · per-step validation · lossless Back",
-      path="families/F06-request-new-form/V2/index.html", kb=51, aria=90, media=3, keys=1, geom="narrative",
-      c=dict(clarity=92, distinctness=90, a11y=96, responsive=92, performance=82, interaction=92, states=96, guidance=98, honesty=94, consistency=92)),
- dict(id="F06-V3", family="F06", v="V3", name="Compact Desk",      tag="12-col dense grid · native details help · live budget-band ruler",
-      path="families/F06-request-new-form/V3/index.html", kb=48, aria=48, media=4, keys=1, geom="dense",
-      c=dict(clarity=78, distinctness=88, a11y=84, responsive=92, performance=86, interaction=86, states=92, guidance=88, honesty=94, consistency=92)),
- dict(id="F06-V4", family="F06", v="V4", name="Guided Narrative",  tag="Sticky TOC · scroll-spy · word count · resume-draft banner",
-      path="families/F06-request-new-form/V4/index.html", kb=52, aria=82, media=3, keys=1, geom="narrative",
-      c=dict(clarity=86, distinctness=94, a11y=86, responsive=80, performance=80, interaction=86, states=96, guidance=94, honesty=94, consistency=92)),
- dict(id="F06-V5", family="F06", v="V5", name="Bento Split",       tag="Bento accordion · sticky live request-card preview · autosave",
-      path="families/F06-request-new-form/V5/index.html", kb=53, aria=73, media=4, keys=1, geom="bento",
-      c=dict(clarity=88, distinctness=98, a11y=84, responsive=78, performance=78, interaction=98, states=96, guidance=96, honesty=94, consistency=92)),
+ # ---- F08 · Projects list (measured: kb / aria- attrs / @media / keydown handlers) ----
+ dict(id="F08-V1", family="F08", v="V1", name="Calm Grid",          tag="Verdict strip + KPI row · classic card grid · ⌘K palette",
+      path="families/F08-projects-list/V1/index.html", kb=34, aria=35, media=3, keys=2, geom="airy", states="4 states",
+      c=dict(clarity=90, distinctness=66, a11y=90, responsive=88, performance=82, interaction=92, states=92, guidance=86, honesty=96, consistency=92)),
+ dict(id="F08-V2", family="F08", v="V2", name="Ops Ledger",         tag="Dense sticky table · aria-sort · mobile card fallback",
+      path="families/F08-projects-list/V2/index.html", kb=29, aria=30, media=3, keys=2, geom="dense", states="4 states",
+      c=dict(clarity=84, distinctness=88, a11y=88, responsive=94, performance=86, interaction=88, states=90, guidance=80, honesty=94, consistency=92)),
+ dict(id="F08-V3", family="F08", v="V3", name="Next-Step Hero",     tag="Split hero · count-up · sticky mobile CTA · / search",
+      path="families/F08-projects-list/V3/index.html", kb=25, aria=19, media=3, keys=1, geom="airy", states="4 states",
+      c=dict(clarity=96, distinctness=90, a11y=82, responsive=86, performance=90, interaction=84, states=90, guidance=92, honesty=94, consistency=92)),
+ dict(id="F08-V4", family="F08", v="V4", name="Delivery Story",     tag="Editorial column · kickoff chapter timeline · reveals",
+      path="families/F08-projects-list/V4/index.html", kb=23, aria=19, media=3, keys=0, geom="narrative", states="4 states",
+      c=dict(clarity=80, distinctness=94, a11y=78, responsive=82, performance=94, interaction=74, states=88, guidance=84, honesty=94, consistency=92)),
+ dict(id="F08-V5", family="F08", v="V5", name="Bento Board",        tag="12-col bento · tile size = capture depth · arrow-key tiles",
+      path="families/F08-projects-list/V5/index.html", kb=24, aria=24, media=3, keys=1, geom="bento", states="4 states",
+      c=dict(clarity=82, distinctness=96, a11y=88, responsive=78, performance=92, interaction=90, states=88, guidance=78, honesty=96, consistency=92)),
+ # ---- F09 · Project details + 6 tabs ----
+ dict(id="F09-V1", family="F09", v="V1", name="Classic Cockpit",    tag="Full-depth classic · underline tablist · C13 preview dialog",
+      path="families/F09-project-details/V1/index.html", kb=57, aria=56, media=3, keys=3, geom="airy", states="3 states · 6 tabs",
+      c=dict(clarity=88, distinctness=68, a11y=94, responsive=84, performance=60, interaction=94, states=94, guidance=92, honesty=96, consistency=92)),
+ dict(id="F09-V2", family="F09", v="V2", name="Delivery Journey",   tag="Stepper spine · approved -> in-build -> locked payment gate",
+      path="families/F09-project-details/V2/index.html", kb=47, aria=61, media=2, keys=2, geom="narrative", states="3 states · 6 tabs",
+      c=dict(clarity=90, distinctness=92, a11y=92, responsive=80, performance=70, interaction=92, states=90, guidance=90, honesty=94, consistency=92)),
+ dict(id="F09-V3", family="F09", v="V3", name="Your Moves",         tag="Sticky awaiting-you + unlock rail · answers 'whose move?'",
+      path="families/F09-project-details/V3/index.html", kb=41, aria=48, media=3, keys=2, geom="airy", states="3 states · 6 tabs",
+      c=dict(clarity=94, distinctness=88, a11y=86, responsive=84, performance=78, interaction=88, states=90, guidance=96, honesty=96, consistency=92)),
+ dict(id="F09-V4", family="F09", v="V4", name="One Story",          tag="Single editorial column · A15 digest as spine · chapter tabs",
+      path="families/F09-project-details/V4/index.html", kb=42, aria=46, media=2, keys=2, geom="narrative", states="3 states · 6 tabs",
+      c=dict(clarity=84, distinctness=96, a11y=84, responsive=80, performance=76, interaction=84, states=88, guidance=88, honesty=94, consistency=92)),
+ dict(id="F09-V5", family="F09", v="V5", name="Delivery Console",   tag="Dense console · stat strip · ops tables · 1-6 tab keys",
+      path="families/F09-project-details/V5/index.html", kb=41, aria=49, media=3, keys=3, geom="dense", states="3 states · 6 tabs",
+      c=dict(clarity=86, distinctness=90, a11y=90, responsive=88, performance=78, interaction=92, states=90, guidance=82, honesty=94, consistency=92)),
 ]
 VIDX = {v["id"]: i for i, v in enumerate(VARIANTS)}
 
@@ -139,7 +144,7 @@ ARCHETYPES = [
  ("Legal / compliance officer",   "legal",      None, ["Laptop 1024","Desktop 1440"], "Regular", "airy",      "trust",     "evaluate_design",     "None"),
  ("Support agent",                "support",    None, ["Tablet 768","Laptop 1024"], "Regular", "narrative", "guidance",  "manage_requests",     "None"),
 ]
-TASK_LABEL = {"manage_requests":"Manage existing work","submit_request":"Submit a new request",
+TASK_LABEL = {"find_project":"Find & triage projects","review_delivery":"Review delivery & approve",
               "evaluate_design":"Evaluate templates","audit_accessibility":"Audit accessibility"}
 PRIORITY_LABEL = {"speed":"Speed","accuracy":"Accuracy","trust":"Trust","exploration":"Exploration",
                   "compliance":"Compliance","delight":"Delight","guidance":"Guidance"}
@@ -189,16 +194,30 @@ ROLE_MOD = {
  "support":     dict(guidance=1.2, states=0.8),
 }
 FAMILY_BONUS = {
- "manage_requests":      {"F05":5.5, "F06":0.0},
- "submit_request":       {"F05":0.0, "F06":5.5},
- "evaluate_design":      {"F05":2.0, "F06":2.0},
- "audit_accessibility":  {"F05":2.0, "F06":2.0},
+ "find_project":         {"F08":5.5, "F09":0.0},
+ "review_delivery":      {"F08":0.0, "F09":5.5},
+ "evaluate_design":      {"F08":2.0, "F09":2.0},
+ "audit_accessibility":  {"F08":2.0, "F09":2.0},
+}
+# Study 2 task assignment by role (weights are task-independent, so re-tasking
+# the returning personas keeps names/devices/weights identical to Study 1).
+TASK_BY_ROLE = {
+ "First-time client":"find_project", "Repeat client (agency)":"review_delivery",
+ "Freelancer / service provider":"review_delivery", "Agency ops lead":"find_project",
+ "Enterprise PMO":"find_project", "Procurement manager":"find_project",
+ "Finance approver":"review_delivery", "Product designer":"evaluate_design",
+ "Visual / UI designer":"evaluate_design", "Frontend engineer":"evaluate_design",
+ "QA engineer":"evaluate_design", "Accessibility specialist":"audit_accessibility",
+ "Screen-reader user":"audit_accessibility", "Low-vision user":"review_delivery",
+ "Motor-impaired keyboard user":"review_delivery", "Reduced-motion sensitive":"find_project",
+ "Power user / admin":"find_project", "Startup founder":"find_project",
+ "Legal / compliance officer":"evaluate_design", "Support agent":"review_delivery",
 }
 GEOM_FIT = {
- "airy":      {"F05-V1","F05-V3","F06-V1"},
- "dense":     {"F05-V2","F06-V3"},
- "narrative": {"F05-V4","F06-V2","F06-V4"},
- "bento":     {"F05-V5","F06-V5"},
+ "airy":      {"F08-V1","F08-V3","F09-V1","F09-V3"},
+ "dense":     {"F08-V2","F09-V5"},
+ "narrative": {"F08-V4","F09-V2","F09-V4"},
+ "bento":     {"F08-V5"},
 }
 REASON = {
  "clarity":      "it tells me what matters in under two seconds",
@@ -259,6 +278,7 @@ for ai, (role, rgroup, ent, devs, exp, aesth, prio, task, ability) in enumerate(
 
 assert len(PERSONAS) == 100
 assert len({p["name"] for p in PERSONAS}) == 100
+for p in PERSONAS: p["task"] = TASK_BY_ROLE[p["role"]]   # Study 2 re-tasking
 
 # ---------------------------------------------------------------------------
 # 4. SCORING — each persona scores all 10 variants
@@ -289,7 +309,7 @@ for pi, p in enumerate(PERSONAS):
     p["reason_key"] = dom
     topname = VARIANTS[order[0]]["name"]
     p["verdict"] = 'As a %s on %s, I put %s first — %s.' % (
-        role.lower(), dlab, topname, REASON[dom])
+        p["role"].lower(), p["device"], topname, REASON[dom])
 
 # ---------------------------------------------------------------------------
 # 5. AGGREGATION
@@ -315,7 +335,7 @@ RANK_BY_ID = {a["id"]: a for a in agg}
 for a in agg: a["margin"] = round(a["mean"] - min(x["mean"] for x in agg), 2)
 
 fam_rank = {}
-for fam in ["F05","F06"]:
+for fam in ["F08","F09"]:
     s = sorted([a for a in agg if a["id"].startswith(fam)], key=lambda a:-a["mean"])
     fam_rank[fam] = [dict(list(a.items()) + [("rank", i+1)]) for i,a in enumerate(s)]
 
@@ -363,6 +383,25 @@ for d in seg_data:
     for e in d["entries"]:
         if e["winner_votes"] == e["n"]: unanimous_seg += 1
 
+PREVIOUS = dict(
+    study="Study 1 · F05 + F06", generated="2026-10-27", seed=SEED, reviewers=100,
+    overall=[
+        dict(rank=1, id="F06-V2", name="Three Steps",      mean=85.75, firsts=45, top3=89, borda=894),
+        dict(rank=2, id="F05-V2", name="Ops Console",      mean=84.09, firsts=31, top3=50, borda=731),
+        dict(rank=3, id="F06-V5", name="Bento Split",      mean=81.38, firsts=7,  top3=34, borda=676),
+        dict(rank=4, id="F05-V3", name="Attention Queue",  mean=79.99, firsts=7,  top3=28, borda=607),
+        dict(rank=5, id="F06-V3", name="Compact Desk",     mean=78.19, firsts=2,  top3=22, borda=488),
+        dict(rank=6, id="F06-V4", name="Guided Narrative", mean=77.65, firsts=0,  top3=12, borda=454),
+        dict(rank=7, id="F05-V5", name="Status Lanes",     mean=77.55, firsts=1,  top3=21, borda=502),
+        dict(rank=8, id="F06-V1", name="Classic Brief",    mean=76.24, firsts=6,  top3=27, borda=485),
+        dict(rank=9, id="F05-V4", name="Chapter Tabs",     mean=74.17, firsts=0,  top3=2,  borda=288),
+        dict(rank=10,id="F05-V1", name="Calm Ledger",      mean=74.06, firsts=1,  top3=15, borda=375),
+    ],
+    fam_rank={"F05":["F05-V2","F05-V3","F05-V5","F05-V4","F05-V1"],
+              "F06":["F06-V2","F06-V5","F06-V3","F06-V4","F06-V1"]},
+    note="Full Study 1 panel (100 personas x 10 scores) preserved in git history; headline results kept here so nothing is silently lost.",
+)
+
 PANEL = dict(
     meta=dict(title="The 100-Reviewer Panel", seed=SEED, generated=TODAY,
               reviewers=N, variants=len(VARIANTS), reviews=N*len(VARIANTS),
@@ -370,11 +409,13 @@ PANEL = dict(
               method="Deterministic seeded simulation of 100 distinct personas; NOT real human research.",
               limits="Criterion ratings come from static code analysis + documented design facts. No screenshot/browser/real-user testing was performed.",
               craft_base=CRAFT_BASE, craft_gain=CRAFT_GAIN, noise_sigma=NOISE_SIGMA,
-              expert_winners={"F05":"F05-V2","F06":"F06-V5"}),
+              study="Study 2 · F08 + F09", supersedes="Study 1 · F05 + F06 (same 100 personas, same seed)",
+              expert_winners={"F08":"F08-V3","F09":"F09-V3"}),
     variants=VARIANTS, personas=PERSONAS, agg=overall, fam_rank=fam_rank,
     pairwise=pairwise, segments=seg_data,
     notes=dict(most_agreed=most_agreed["id"], most_polarizing=most_polarizing["id"],
                most_firsts=most_firsts["id"], unanimous_segments=unanimous_seg),
+    previous_study=PREVIOUS,
 )
 
 # ---------------------------------------------------------------------------
@@ -471,7 +512,7 @@ th.sortable::after{content:" ↕";opacity:.4}
 .vlink{font-weight:700;white-space:nowrap}.vlink .vid{font:600 10px var(--mono);color:var(--muted-foreground);margin-left:5px}
 .tag{font-size:11.5px;color:var(--muted-foreground)}
 .fampill{font:700 10px var(--mono);padding:3px 7px;border-radius:999px;background:var(--info-bg);color:var(--info-text);border:1px solid var(--border)}
-.fampill.f06{background:var(--brand-50);color:var(--primary)}
+.fampill.f06,.fampill.f09{background:var(--brand-50);color:var(--primary)}
 .bar{position:relative;height:9px;border-radius:99px;background:var(--muted);min-width:120px;overflow:hidden}
 .bar>i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,var(--brand-500),var(--brand-700))}
 .num{font:700 13px var(--mono);white-space:nowrap}
@@ -647,7 +688,7 @@ applyP();
 })();
 """
 
-def heat_color(val, lo=68, hi=98, matrix=False):
+def heat_color(val, lo=60, hi=96, matrix=False):
     if matrix:
         t = max(0.0, min(1.0, (val-0)/100.0))
     else:
@@ -664,7 +705,7 @@ A('<div class="tb-brand"><span class="tb-badge">Lab / Rank</span> 100-Reviewer P
 A('<nav class="tb-nav" aria-label="Sections">')
 for anc,lab in [("leaderboard","Leaderboard"),("families","By family"),("consensus","Consensus"),
                 ("segments","Segments"),("criteria","Criteria"),("headtohead","Head to head"),
-                ("personas","100 reviewers"),("method","Method"),("evidence","Evidence")]:
+                ("personas","100 reviewers"),("method","Method"),("evidence","Evidence"),("archive","F05+F06 archive")]:
     A('<a href="#%s">%s</a>' % (anc,lab))
 A('</nav>')
 A('<button class="btn" id="themeBtn" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2"/></svg><span>Dark</span></button>')
@@ -673,7 +714,7 @@ A('</div></div>')
 A('<div class="wrap" id="main">')
 # hero
 A('<div class="hero">')
-A('<p class="eyebrow">Client Portal Lab · F05 + F06 · rank study</p>')
+A('<p class="eyebrow">Client Portal Lab · F08 + F09 · rank study 2</p>')
 A('<h1>100 reviewers. 10 variants. One ranking.</h1>')
 A('<p class="lede">I role-played <b>100 distinct users</b> — different jobs, companies, countries, screens, abilities, tastes and goals — and had each one score <b>all 10 hand-authored variants</b> across 10 criteria using their own priorities. Every reviewer produced a full 1–10 ranking; the aggregate is below, together with family ranks, segment winners, a criteria matrix and a head-to-head win matrix.</p>')
 A('<div class="disclaimer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span><b>Honesty first:</b> these are <b>100 simulated personas, not real people</b>. Scores are a deterministic, seeded model (seed %d) built on criterion ratings derived from <b>static code analysis</b> of the 10 files and the documented design facts — not from a browser, screenshots, or real user testing. It is a structured way to expose blind spots and relative strengths, not a substitute for human research. See <a href="#method">Method &amp; limits</a>.</span></div>' % SEED)
@@ -720,10 +761,10 @@ A('</section>')
 
 # families
 A('<section id="families"><div class="sec-head"><h2>Rank within each family</h2><span class="n">apples to apples</span></div>')
-A('<p class="sec-sub">F05 (Requests work hub) and F06 (New request form) solve different tasks. These two leaderboards rank siblings against each other only — the fairer comparison for choosing a template.</p>')
+A('<p class="sec-sub">F08 (Projects list) and F09 (Project details) solve different tasks. These two leaderboards rank siblings against each other only — the fairer comparison for choosing a template.</p>')
 A('<div class="grid2">')
-for fam,title,sub in [("F05","F05 · Requests work hub","5 list/dashboard variants"),
-                      ("F06","F06 · New request form","5 intake-form variants")]:
+for fam,title,sub in [("F08","F08 · Projects list","5 project-list variants · /projects"),
+                      ("F09","F09 · Project details","5 detail + 6-tab variants · /projects/{id}")]:
     A('<div class="panel"><h3>%s</h3><p class="small">%s</p>' % (title,sub))
     for e in fam_rank[fam]:
         v=VARIANTS[VIDX[e["id"]]]
@@ -734,7 +775,7 @@ for fam,title,sub in [("F05","F05 · Requests work hub","5 list/dashboard varian
         A('<b class="num">%s</b></div>' % e["mean"])
     A('</div>')
 A('</div>')
-A('<div class="callout"><span>🧭</span><span><b>Panel vs. expert pick.</b> The delivery reports named <b>F05 V2 Ops Console</b> and <b>F06 V5 Bento Split</b> as family winners because they fix the most task-specific findings. The persona panel optimises <i>weighted craft criteria</i>, so it can prefer a different variant (e.g. the stepper form, which is strongest on accessibility, guidance and state coverage). Both are legitimate: one is task-fit, the other is cross-cutting craft. The tension is the useful signal.</span></div>')
+A('<div class="callout"><span>🧭</span><span><b>Panel vs. expert pick.</b> The delivery reports named <b>F08 V3 Next-Step Hero</b> (the list answers "what is my next move?" in one glance) and <b>F09 V3 Your Moves</b> (the sticky rail answers "do I need to do anything?" from every tab) as family winners. The persona panel optimises <i>weighted craft criteria</i>, so it can prefer a different variant (e.g. the fullest classic, which is strongest on accessibility, interaction and state depth). Both are legitimate: one is task-fit, the other is cross-cutting craft. The tension is the useful signal.</span></div>')
 A('</section>')
 
 # consensus
@@ -784,7 +825,7 @@ for v in VARIANTS:
           (heat_color(val),esc(v["name"]),esc(l),val,esc(d),val))
     A('</tr>')
 A('</tbody></table></div>')
-A('<div class="legend"><span>Weaker</span><span class="sw"></span><span>Stronger</span><span style="margin-left:12px">Ratings 68–98 · derived from code metrics + documented design facts</span></div>')
+A('<div class="legend"><span>Weaker</span><span class="sw"></span><span>Stronger</span><span style="margin-left:12px">Ratings 60–96 · derived from code metrics + documented design facts</span></div>')
 A('<div class="crit-list" style="margin-top:18px">')
 for k,l,d in CRITERIA:
     A('<div><b>%s</b><p>%s</p></div>' % (esc(l),esc(d)))
@@ -826,7 +867,7 @@ def sel(id_,label,opts):
 sel("pfDev","All devices",["Mobile 360–390","Tablet 768","Laptop 1024","Desktop 1440"])
 sel("pfAb","All abilities",["None","Keyboard-only","Screen reader","Low vision","Reduced motion","Motor precision"])
 sel("pfExp","Any experience",["Novice","Regular","Expert"])
-sel("pfTask","Any goal",["Manage existing work","Submit a new request","Evaluate templates","Audit accessibility"])
+sel("pfTask","Any goal",["Find & triage projects","Review delivery & approve","Evaluate templates","Audit accessibility"])
 sel("pfStyle","Any taste",["Airy / minimal","Dense / data-rich","Narrative / editorial","Bento / playful"])
 sel("pfReg","Any region",["India","N. America","Europe","APAC","LATAM","Africa","MENA"])
 A('<label class="field"><span class="sr-only">Sort</span><select id="pfSort"><option value="id">Sort: ID</option><option value="score">Sort: top score</option></select></label>')
@@ -863,17 +904,17 @@ A('<details class="meth" open><summary>How the 100 personas were built</summary>
 A('<ul><li><b>20 archetypes × 5 individuals = 100 distinct reviewers.</b> Archetypes range from first-time clients and agency ops leads to screen-reader users, low-vision users, QA engineers, designers, procurement managers and legal/compliance officers.</li>')
 A('<li>Every individual has a unique name drawn from <b>7 world regions</b>, an employer type, a device (360 / 390 / 768 / 1024 / 1440 px), an experience level, an accessibility need, an aesthetic taste, a priority and a task goal.</li>')
 A('<li>Those attributes deterministically produce a <b>10-dimension weight vector</b> (normalised to sum 10, with seeded ±16%% jitter). Example: a screen-reader user weights accessibility ~3× a baseline user; a 360px mobile user weights responsive ~3.5×; a designer weights distinctness ~3×.</li>')
-A('<li>Each reviewer scores every variant as <span class="mono">weighted criterion mean → quality score (%.0f + (mean − 80) × %.1f) + taste-fit bonus (0 or +6) + task-relevance bonus (0–5.5, so work-hub users favour F05 and form-fillers favour F06) + device penalty + seeded taste noise (σ=%.1f)</span>. Scores are clamped to 0–100. Each reviewer then produces a full 1–10 ranking.</li></ul>' % (CRAFT_BASE, CRAFT_GAIN, NOISE_SIGMA))
-A('<p><b>Why task-relevance bonus?</b> A real user comparing a request list with a request form is not making a pure craft judgement — they have a job to do. Adding a bounded family bonus makes the simulation realistic and lets us also report a neutral-craft view through the "Evaluate templates" and "Audit accessibility" segments (35 reviewers with no family bias).</p>')
+A('<li>Each reviewer scores every variant as <span class="mono">weighted criterion mean → quality score (%.0f + (mean − 80) × %.1f) + taste-fit bonus (0 or +6) + task-relevance bonus (0–5.5, so project-triagers favour F08 and delivery-reviewers favour F09) + device penalty + seeded taste noise (σ=%.1f)</span>. Scores are clamped to 0–100. Each reviewer then produces a full 1–10 ranking.</li></ul>' % (CRAFT_BASE, CRAFT_GAIN, NOISE_SIGMA))
+A('<p><b>Why task-relevance bonus?</b> A real user comparing a project list with a project-detail page is not making a pure craft judgement — they have a job to do. Adding a bounded family bonus makes the simulation realistic and lets us also report a neutral-craft view through the "Evaluate templates" and "Audit accessibility" segments (35 reviewers with no family bias). <b>Study 2 note:</b> these are the same 100 seeded personas as Study 1 (F05+F06) — same names, devices and weights, re-tasked to list-vs-detail jobs — so cross-study winner comparisons share one population.</p>')
 A('</div></details>')
 A('<details class="meth"><summary>How criterion ratings were derived</summary><div class="inner">')
-A('<ul><li><b>Measured from the 10 files:</b> page weight (42–57 KB), inline <span class="mono">aria-</span> attribute counts (48–90), <span class="mono">@media</span> breakpoints (3–4), <span class="mono">keydown</span> handlers (1–4), reduced-motion rules, and verified structural capability flags (command dialog, <span class="mono">aria-sort</span>, density toggle, <span class="mono">aria-current="step"</span>, IntersectionObserver scroll-spy, roving arrow-key board, count-up, live preview, budget guide, saved views, focus management, live regions, mobile cards, autosave, accordion, help affordances, state panels).</li>')
+A('<ul><li><b>Measured from the 10 files:</b> page weight (23–57 KB), inline <span class="mono">aria-</span> attribute counts (19–61), <span class="mono">@media</span> breakpoints (2–3), <span class="mono">keydown</span> handlers (0–3), reduced-motion rules, forms (0 list / 4 detail), and verified structural capability flags (command palette, <span class="mono">aria-sort</span>, count-up, IntersectionObserver reveals, arrow-key bento tiles, 6-tab tablist with Home/End, native preview <span class="mono">dialog</span> with focus restore, clickable stepper, sticky unlock rail, 1–6 tab keys, ops tables, focus management, live regions, state switchers).</li>')
 A('<li><b>From the design docs:</b> the frozen-content fidelity, honesty decisions, distinctness axes, signature interactions, state coverage and family ADDs recorded in <span class="mono">CONCEPTS.md</span> and both <span class="mono">DELIVERY-REPORT.md</span> files.</li>')
-A('<li><b>Shared floor:</b> all 10 variants pass the same baseline — 0 runtime errors, 0 undefined tokens, 0 remote URLs, 0 dead links, light+dark, reduced motion, keyboard, 6 designed states, 32px H1 floor. The criteria matrix differentiates on <i>how far above</i> that floor each variant goes.</li></ul>')
+A('<li><b>Shared floor:</b> all 10 variants pass the same baseline — one H1, 0 dead links, 0 remote URLs, JS syntax clean (<span class="mono">node --check</span>), light+dark, reduced motion, keyboard paths, honest 502 degraded state, F08 with 4 designed states and F09 with 3 states + 6 in-page tabs. The criteria matrix differentiates on <i>how far above</i> that floor each variant goes.</li></ul>')
 A('</div></details>')
 A('<details class="meth"><summary>Limitations — please read</summary><div class="inner">')
 A('<ul><li><b>These are not real users.</b> They are simulated personas generated by a rule-based model. No human, no survey, no analytics and no session recordings were involved.</li>')
-A('<li><b>No screenshot / pixel / real-browser QA.</b> No Chromium / Chrome / Firefox / Playwright binary exists in this sandbox. Criterion ratings are reasoned from static code + CSS, not from rendered screenshots at 360/390/768/1024/1440 in light and dark. jsdom runtime QA was run on all 10 variants (0 errors), but jsdom does not paint.</li>')
+A('<li><b>No screenshot / pixel / real-browser QA.</b> No Chromium / Chrome / Firefox / Playwright binary exists in this sandbox. Criterion ratings are reasoned from static code + CSS + structural parse (one H1, tab counts, link targets), not from rendered screenshots at 360/390/768/1024/1440 in light and dark, and no jsdom runtime pass is claimed for these families.</li>')
 A('<li><b>Criterion ratings contain expert judgement.</b> They are defensible and evidence-linked, but they are not objective measurements. Different baseline ratings would shift the ranking. That is why the full matrix, the weights and the seed are published — so the result is auditable and re-runnable.</li>')
 A('<li><b>Cross-family ranking compares craft, not fitness for purpose.</b> Use the per-family leaderboards to choose a template for a real task.</li>')
 A('<li><b>Small margins are real.</b> Several variants are separated by &lt;2 points. Treat the top cluster as a shortlist, not a strict order.</li></ul>')
@@ -886,17 +927,28 @@ A('<p class="sec-sub">Raw static metrics extracted from each of the 10 HTML file
 A('<table><thead><tr><th>Variant</th><th>Family</th><th>Weight</th><th>aria- attrs</th><th>@media</th><th>keydown</th><th>Reduced motion</th><th>States</th><th>Criterion mean</th></tr></thead><tbody>')
 for v in VARIANTS:
     cm=round(mean([v["c"][k] for k in CKEYS]),1)
-    A('<tr><td>%s</td><td><span class="fampill %s">%s</span></td><td class="num">%d KB</td><td class="num">%d</td><td class="num">%d</td><td class="num">%d</td><td><span class="chip green">yes</span></td><td><span class="chip green">6 / 6</span></td><td class="num">%s</td></tr>' %
-      (vlink(v["id"]),v["family"].lower(),v["family"],v["kb"],v["aria"],v["media"],v["keys"],cm))
+    A('<tr><td>%s</td><td><span class="fampill %s">%s</span></td><td class="num">%d KB</td><td class="num">%d</td><td class="num">%d</td><td class="num">%d</td><td><span class="chip green">yes</span></td><td><span class="chip green">%s</span></td><td class="num">%s</td></tr>' %
+      (vlink(v["id"]),v["family"].lower(),v["family"],v["kb"],v["aria"],v["media"],v["keys"],esc(v["states"]),cm))
 A('</tbody></table>')
 A('<div class="callout"><span>🔗</span><span>All 10 variant pages are <b>live</b> — every name above links to the actual standalone HTML. Full machine-readable panel data (every persona, weight, score and full ranking) is in <a href="rank.json">rank.json</a>, and the reproducible model is in <a href="rank/build_rank.py">rank/build_rank.py</a>.</span></div>')
+A('</section>')
+
+# archive - Study 1 headline results (preserved, not re-run)
+A('<section id="archive"><div class="sec-head"><h2>Previous study — F05 + F06</h2><span class="n">archived summary</span></div>')
+A('<p class="sec-sub">Study 1 ranked the Requests work hub (F05) and New request form (F06) families with this same 100-persona panel and seed. Its full data (100 personas x 10 scores) is preserved in git history; the headline leaderboard is kept here so the update loses nothing.</p>')
+A('<table><thead><tr><th>#</th><th>Variant</th><th>ID</th><th>Mean</th><th>1st votes</th><th>Top 3</th><th>Borda</th></tr></thead><tbody>')
+for e in PREVIOUS["overall"]:
+    A('<tr><td class="rk"><span class="medal %s">%d</span></td><td><b>%s</b></td><td><span class="chip">%s</span></td><td class="num">%s</td><td class="num">%d</td><td class="num">%d</td><td class="num">%d</td></tr>' %
+      ("g%d"%e["rank"] if e["rank"]<=3 else "", e["rank"], esc(e["name"]), e["id"], e["mean"], e["firsts"], e["top3"], e["borda"]))
+A('</tbody></table>')
+A('<div class="callout"><span>📦</span><span><b>Study 1 winners:</b> F05 → Ops Console · F06 → Three Steps (panel) / Bento Split (expert). Study 2 above is the live ranking for the newest families; both studies share one seeded population, so the panel is consistent across the whole 20-variant lab.</span></div>')
 A('</section>')
 
 A('<footer><span>© %s Nestlancer · Client Portal Lab · 100-Reviewer Panel</span>' % TODAY[:4])
 for href,lab in [("index.html","Variant gallery"),("DECISIONS.md","DECISIONS.md"),("manifest.json","manifest.json"),
                  ("rank.json","rank.json"),
-                 ("families/F05-requests-work-hub/docs/DELIVERY-REPORT.md","F05 report"),
-                 ("families/F06-request-new-form/docs/DELIVERY-REPORT.md","F06 report")]:
+                 ("families/F08-projects-list/docs/DELIVERY-REPORT.md","F08 report"),
+                 ("families/F09-project-details/docs/DELIVERY-REPORT.md","F09 report")]:
     A('<a href="%s">%s</a>' % (href,lab))
 A('<span style="margin-left:auto" class="mono">seed %d · %s</span>' % (SEED,TODAY))
 A('</footer>')
@@ -916,7 +968,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>100-Reviewer Panel · Client Portal Lab Ranking</title>
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="100 simulated reviewer personas rank 10 hand-authored client portal variants across 10 criteria.">
+<meta name="description" content="100 simulated reviewer personas rank the 10 hand-authored F08 projects-list and F09 project-details variants across 10 criteria.">
 <script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('rank-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
 <style>/*__CSS__*/</style>
 </head>
@@ -947,6 +999,6 @@ print("\nOVERALL:")
 for a in overall:
     print("  #%-2d %-8s %-18s mean=%6.2f  1st=%2d  top3=%2d  borda=%3d  sd=%.2f" %
           (a["rank"],a["id"],VARIANTS[VIDX[a["id"]]]["name"],a["mean"],a["firsts"],a["top3"],a["borda"],a["stdev"]))
-print("\nF05:", " > ".join("%s(%s)"%(e["id"],e["mean"]) for e in fam_rank["F05"]))
-print("F06:", " > ".join("%s(%s)"%(e["id"],e["mean"]) for e in fam_rank["F06"]))
+print("\nF08:", " > ".join("%s(%s)"%(e["id"],e["mean"]) for e in fam_rank["F08"]))
+print("F09:", " > ".join("%s(%s)"%(e["id"],e["mean"]) for e in fam_rank["F09"]))
 print("\nsegments with unanimous #1:", unanimous_seg)
