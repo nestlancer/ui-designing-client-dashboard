@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F05 · V1 Calm Ledger · Nestlancer Client Portal Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* V1 Calm Ledger — hand-written layout CSS: one airy column, one filter row, honest states. */
+.page{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:18px;padding:20px 14px;
+  background:var(--card);border-right:1px solid var(--border);overflow:auto;z-index:70}
+.page.side-collapsed{grid-template-columns:64px minmax(0,1fr)}
+.side-collapsed .side{padding:20px 10px}
+.side-collapsed .brand span,.side-collapsed .nav-label,.side-collapsed .nav-group h2,.side-collapsed .side-foot,
+.side-collapsed .explore-list,.side-collapsed .nav-item span,.side-collapsed .nav-group{display:none}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px;min-height:36px}
+.brand img{height:26px;width:auto}
+.brand .logo-dark{display:none}.dark .brand .logo-light{display:none}.dark .brand .logo-dark{display:block}
+.brand span{font-weight:700;font-size:17px;letter-spacing:-.02em}
+.nav-group h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);margin:14px 10px 6px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;min-height:40px;padding:8px 10px;border-radius:var(--radius-md);
+  font-size:14px;color:var(--muted-foreground);text-align:left;transition:background var(--duration-fast),color var(--duration-fast)}
+.nav-item:hover{background:var(--muted);color:var(--foreground)}
+.nav-item[aria-current="page"]{background:var(--brand-50);color:var(--primary);font-weight:600}
+.nav-item .ico{width:18px;height:18px;flex:none}
+.side-foot{margin-top:auto;font-size:11px;color:var(--muted-foreground);padding:10px;border-top:1px solid var(--border)}
+.explore-list{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-left:18px}
+.frame{min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;height:var(--header);padding:0 24px;
+  background:var(--card);border-bottom:1px solid var(--border)}
+.crumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted-foreground);white-space:nowrap}
+.crumb strong{color:var(--foreground);font-weight:600}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.icon-btn{display:grid;place-items:center;width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--border);
+  background:var(--card);color:var(--muted-foreground);position:relative}
+.icon-btn:hover{background:var(--muted);color:var(--foreground)}
+.icon-btn .ico{width:18px;height:18px}
+.badge-count{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;
+  background:var(--primary);color:#fff;font-size:11px;line-height:18px;text-align:center;font-weight:700}
+.kbd{font:600 11px var(--mono);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--muted)}
+.search-trigger{display:flex;align-items:center;gap:10px;min-width:190px;height:36px;padding:0 10px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--muted);color:var(--muted-foreground);font-size:13px}
+.avatar{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;padding:4px 8px;border-radius:var(--radius-md)}
+.avatar i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--brand-50);color:var(--primary);font-style:normal;font-size:12px}
+main{width:100%;max-width:var(--content);margin:0 auto;padding:34px 32px 28px;flex:1}
+.page-head{display:flex;flex-wrap:wrap;align-items:flex-start;gap:18px;margin-bottom:26px}
+.eyebrow{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+h1{font-size:clamp(32px,3.4vw,38px);line-height:1.12;letter-spacing:-.035em;font-weight:700}
+.lede{margin-top:8px;font-size:15px;color:var(--muted-foreground)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--radius-md);
+  border:1px solid var(--border);background:var(--card);color:var(--foreground);font-size:14px;font-weight:600;
+  transition:background var(--duration-fast),border-color var(--duration-fast),transform var(--duration-fast)}
+.btn:hover{background:var(--muted)}
+.btn:active{transform:translateY(1px)}
+.btn .ico{width:17px;height:17px}
+.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover);border-color:var(--primary-hover)}
+.btn-ghost{border-color:transparent;background:transparent;color:var(--muted-foreground)}
+.btn-sm{min-height:36px;padding:0 12px;font-size:13px}
+.head-cta{margin-left:auto}
+.kpis{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:14px;margin-bottom:28px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow-xs)}
+.kpi.hero{border-left:4px solid var(--primary)}
+.kpi-label{font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--muted-foreground)}
+.kpi-val{display:block;margin-top:8px;font:700 30px/1 var(--font);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.kpi.hero .kpi-val{font-size:40px}
+.kpi-why{margin-top:8px;font-size:12px;color:var(--muted-foreground);line-height:1.45}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:18px;overflow-x:auto}
+.tab{position:relative;min-height:46px;padding:0 18px;font-size:14px;font-weight:600;color:var(--muted-foreground);white-space:nowrap}
+.tab:hover{color:var(--foreground)}
+.tab[aria-selected="true"]{color:var(--primary)}
+.tab[aria-selected="true"]::after{content:"";position:absolute;inset:auto 12px -1px;height:3px;border-radius:3px 3px 0 0;background:var(--primary)}
+.tab .count{font:600 12px var(--mono);margin-left:6px;color:inherit;opacity:.7}
+.saved-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px}
+.saved-row>p{font-size:12px;color:var(--muted-foreground);margin-right:4px}
+.chip{display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 10px;border-radius:999px;border:1px solid var(--border);
+  background:var(--card);font-size:12px;color:var(--muted-foreground)}
+.chip:hover{border-color:var(--primary);color:var(--foreground)}
+.chip[aria-pressed="true"]{background:var(--brand-50);border-color:var(--primary);color:var(--primary);font-weight:600}
+.chip .ico{width:13px;height:13px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px}
+.field{display:flex;align-items:center;gap:8px;min-height:42px;padding:0 12px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card)}
+.field .ico{width:16px;height:16px;color:var(--muted-foreground);flex:none}
+select,input[type=search],input[type=text],input[type=number],input[type=date],textarea{background:transparent;border:0;outline:0;min-height:40px;font-size:14px;color:var(--foreground)}
+.field:focus-within{outline:2px solid var(--primary);outline-offset:1px}
+#q{min-width:210px;flex:1}
+#status,#sort{min-width:150px}
+.lab-states{margin-left:auto;font-size:12px;position:relative}
+.lab-states summary{cursor:pointer;list-style:none;color:var(--muted-foreground);border:1px dashed var(--border);padding:9px 12px;border-radius:var(--radius-md)}
+.lab-states summary::-webkit-details-marker{display:none}
+.lab-states[open] summary{border-style:solid;color:var(--foreground)}
+.lab-states .state-btns{position:absolute;z-index:25;display:flex;flex-direction:column;gap:4px;margin-top:6px;padding:8px;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm)}
+.lab-states .state-btns button{text-align:left;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;color:var(--muted-foreground)}
+.lab-states .state-btns button:hover{background:var(--muted);color:var(--foreground)}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs);overflow:hidden}
+.panel-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}
+.panel-head .result{font-weight:600;color:var(--foreground)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 110px 130px 120px 190px 30px;gap:12px;align-items:center;
+  padding:15px 18px;border-bottom:1px solid var(--border);transition:background var(--duration-fast)}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--muted)}
+.row-title{font-size:14px;font-weight:600;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-title:hover{color:var(--primary);text-decoration:underline}
+.row-meta{font-size:12px;color:var(--muted-foreground);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-date{font:500 12px var(--mono);color:var(--muted-foreground)}
+.badge{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:700;
+  border:1px solid var(--status-info-border);background:var(--status-info-bg);color:var(--status-info-text);white-space:nowrap}
+.badge .ico{width:12px;height:12px;flex:none}
+.badge.s-draft{background:var(--status-warning-bg);color:var(--status-warning-text);border-color:var(--status-warning-border)}
+.badge.s-submitted{background:var(--status-info-bg);color:var(--status-info-text);border-color:var(--status-info-border)}
+.badge.s-expired{background:var(--status-error-bg);color:var(--status-error-text);border-color:var(--status-error-border)}
+.badge.s-converted{background:var(--status-success-bg);color:var(--status-success-text);border-color:var(--status-success-border)}
+.badge.s-project{background:var(--status-purple-bg);color:var(--status-purple-text);border-color:var(--status-purple-border)}
+.row-open{display:grid;place-items:center;width:28px;height:28px;border-radius:var(--radius-sm);color:var(--muted-foreground)}
+.row-open:hover{background:var(--brand-50);color:var(--primary)}
+.state{padding:44px 24px;text-align:center}
+.state .art{display:grid;place-items:center;width:56px;height:56px;margin:0 auto 16px;border-radius:var(--radius-xl);
+  background:var(--brand-50);color:var(--primary)}
+.state .art .ico{width:26px;height:26px}
+.state h2{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.state p{margin:8px auto 0;max-width:430px;font-size:14px;color:var(--muted-foreground)}
+.state .actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:20px}
+.state.error .art{background:var(--status-error-bg);color:var(--status-error-text)}
+.why-line{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:8px 12px;border-radius:var(--radius-md);
+  background:var(--muted);font:500 12px var(--mono);color:var(--muted-foreground)}
+.skeleton{padding:0}
+.sk-row{display:grid;grid-template-columns:minmax(0,1fr) 110px 130px 120px 170px;gap:14px;padding:18px;align-items:center;border-bottom:1px solid var(--border)}
+.sk{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--muted),var(--border),var(--muted));background-size:200% 100%;
+  animation:shimmer 1.3s linear infinite}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.sk.sm{width:60%}.sk.md{width:80%}.sk.lg{width:92%;height:16px}
+.pager{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px;font-size:13px;color:var(--muted-foreground)}
+.pager .page-no{font:600 13px var(--mono);color:var(--foreground)}
+.pager .right{margin-left:auto;display:flex;gap:8px}
+.foot{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:34px;padding-top:20px;border-top:1px solid var(--border);
+  font-size:12px;color:var(--muted-foreground)}
+.foot a:hover{color:var(--primary)}
+.foot .spacer{margin-left:auto}
+.scrim{position:fixed;inset:0;background:rgba(8,15,28,.55);z-index:60;opacity:0;pointer-events:none;transition:opacity var(--duration-fast)}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--card);border-left:1px solid var(--border);
+  z-index:70;box-shadow:var(--shadow-sm);transform:translateX(102%);transition:transform var(--duration-normal) var(--ease-spring);
+  display:flex;flex-direction:column;overflow:auto}
+.drawer.on{transform:none}
+.drawer-head{display:flex;align-items:flex-start;gap:12px;padding:22px;border-bottom:1px solid var(--border)}
+.drawer-head h2{font-size:19px;font-weight:700;line-height:1.3}
+.drawer-body{padding:22px;display:grid;gap:16px}
+.drawer-body dl{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;font-size:13px}
+.drawer-body dt{color:var(--muted-foreground)}.drawer-body dd{margin:0;font-weight:600;word-break:break-word}
+.endpoint{font:500 12px/1.6 var(--mono);background:var(--muted);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;word-break:break-all}
+.palette{position:fixed;left:50%;top:min(18vh,140px);transform:translate(-50%,-8px);width:min(560px,calc(100% - 32px));
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);z-index:80;
+  opacity:0;pointer-events:none;transition:opacity var(--duration-fast),transform var(--duration-fast)}
+.palette.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.palette input{width:100%;padding:16px 18px;border-bottom:1px solid var(--border);font-size:15px}
+.palette ul{max-height:330px;overflow:auto;padding:8px}
+.palette li button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:var(--radius-md);text-align:left;font-size:14px}
+.palette li button:hover,.palette li button:focus-visible{background:var(--muted)}
+.palette li .ico{width:16px;height:16px;color:var(--primary)}
+.palette .hint{display:flex;gap:14px;padding:10px 18px;border-top:1px solid var(--border);font:500 11px var(--mono);color:var(--muted-foreground)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,12px);z-index:90;max-width:min(520px,calc(100% - 32px));
+  background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius-md);
+  box-shadow:var(--shadow-sm);padding:12px 16px;font-size:13px;opacity:0;pointer-events:none;transition:opacity var(--duration-fast),transform var(--duration-fast)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.reveal{opacity:0;transform:translateY(6px);transition:opacity var(--duration-normal),transform var(--duration-normal)}
+.reveal.seen{opacity:1;transform:none}
+@media (max-width:1100px){.row{grid-template-columns:minmax(0,1fr) 90px 110px 170px 30px}.row .col-cat{display:none}}
+@media (max-width:900px){.page{grid-template-columns:minmax(0,1fr)}.side{position:fixed;left:0;top:0;width:min(280px,86vw);transform:translateX(-102%);transition:transform var(--duration-normal) var(--ease-spring)}.side.on{transform:none}.page.side-collapsed{grid-template-columns:minmax(0,1fr)}.topbar{padding:0 16px}.search-trigger{min-width:0}.search-trigger .txt{display:none}main{padding:26px 18px}.kpis{grid-template-columns:1fr 1fr}.kpi.hero{grid-column:1/-1}}
+@media (max-width:640px){
+  .kpis{gap:10px}.kpi{padding:14px}.kpi.hero .kpi-val{font-size:34px}.kpi-val{font-size:26px}
+  .row{display:block;padding:14px 16px}.row .col-type,.row .col-cat,.row .col-date{display:inline-block;margin-right:10px}
+  .row-title{white-space:normal;margin-bottom:8px}.badge{margin-top:10px}.row-open{position:absolute;right:16px;margin-top:-30px}
+  .row{position:relative}.row .row-arrow{display:none}
+  .toolbar{gap:8px}.field{flex:1 1 100%}#q{flex:1 1 100%}.lab-states{margin-left:0}
+  .avatar span{display:none}.crumb span{display:none}.head-cta{margin-left:0}
+  .state{padding:32px 16px}.sk-row{grid-template-columns:1fr 90px}.sk-row .sk:nth-child(n+3){display:none}
+}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.sk{animation:none}}
+</style>
+</head>
+<body>
+<svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+<symbol id="i-req" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 9h8M8 13h5"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+<symbol id="i-invoice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+<symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21 12 16l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+<symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5 5h14l3 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></symbol>
+<symbol id="i-dot" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21h-4v-.1A1.7 1.7 0 0 0 7 19.4l-.1.1L4.1 16.7l.1-.1A1.7 1.7 0 0 0 3 13.7H3v-4h.1A1.7 1.7 0 0 0 4.9 7l-.1-.1 2.8-2.8.1.1A1.7 1.7 0 0 0 10.6 3.1V3h4v.1A1.7 1.7 0 0 0 17.5 5l.1-.1 2.8 2.8-.1.1a1.7 1.7 0 0 0 1.2 2.9h.1v4h-.1a1.7 1.7 0 0 0-1.9 1.1z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
+</defs></svg>
+
+<a class="skip" href="#main">Skip to main content</a>
+<div class="page" id="page">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html" aria-label="Nestlancer lab gallery">
+      <img class="logo-light" src="../../../assets/logo-full-light.svg" alt="" width="100" height="28">
+      <img class="logo-dark" src="../../../assets/logo-full-dark.svg" alt="" width="100" height="28">
+      <span>Nestlancer</span>
+    </a>
+    <nav aria-label="Main">
+      <div class="nav-group"><h2>Main</h2>
+        <button class="nav-item" data-demo="/dashboard"><svg class="ico"><use href="#i-dash"/></svg><span>Dashboard</span></button>
+        <a class="nav-item" aria-current="page" href="../V1/index.html"><svg class="ico"><use href="#i-req"/></svg><span>Requests</span></a>
+        <button class="nav-item" data-demo="/projects"><svg class="ico"><use href="#i-folder"/></svg><span>Projects</span></button>
+        <button class="nav-item" data-demo="/quotes"><svg class="ico"><use href="#i-quote"/></svg><span>Quotes</span></button>
+        <button class="nav-item" data-demo="/messages"><svg class="ico"><use href="#i-msg"/></svg><span>Messages</span></button>
+        <button class="nav-item" data-demo="/payments"><svg class="ico"><use href="#i-card"/></svg><span>Billing</span></button>
+        <button class="nav-item" data-demo="/invoices"><svg class="ico"><use href="#i-invoice"/></svg><span>Invoices</span></button>
+        <button class="nav-item" data-demo="/notifications"><svg class="ico"><use href="#i-bell"/></svg><span>Notifications</span></button>
+      </div>
+      <div class="nav-group"><h2>Explore</h2>
+        <button class="nav-item" id="exploreBtn" aria-expanded="false" aria-controls="exploreList"><svg class="ico"><use href="#i-globe"/></svg><span>Explore</span><svg class="ico" style="margin-left:auto"><use href="#i-chev"/></svg></button>
+        <div class="explore-list" id="exploreList" hidden>
+          <button class="nav-item" data-demo="/blog"><span>Blog</span></button>
+          <button class="nav-item" data-demo="/portfolio"><span>Portfolio</span></button>
+        </div>
+      </div>
+      <div class="nav-group"><h2>Account</h2>
+        <button class="nav-item" data-demo="/profile"><svg class="ico"><use href="#i-user"/></svg><span>Profile</span></button>
+        <button class="nav-item" data-demo="/settings/account"><svg class="ico"><use href="#i-settings"/></svg><span>Settings</span></button>
+      </div>
+    </nav>
+    <div class="side-foot">Client portal lab · F05 · V1<br>Shared tokens v1</div>
+  </aside>
+
+  <div class="frame">
+    <header class="topbar">
+      <button class="icon-btn" id="menuBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="side"><svg class="ico"><use href="#i-menu"/></svg></button>
+      <button class="icon-btn" id="collapseBtn" aria-label="Collapse sidebar" aria-pressed="false"><svg class="ico"><use href="#i-chev"/></svg></button>
+      <div class="crumb"><span>Dashboard</span><svg class="ico" style="width:14px;height:14px"><use href="#i-chev"/></svg><strong>Requests</strong></div>
+      <div class="top-actions">
+        <button class="search-trigger" id="paletteBtn" aria-label="Open command menu"><svg class="ico" style="width:16px;height:16px"><use href="#i-search"/></svg><span class="txt">Search</span><span class="kbd">⌘K</span></button>
+        <button class="icon-btn" id="themeBtn" aria-label="Switch to dark mode" aria-pressed="false"><svg class="ico"><use href="#i-moon"/></svg></button>
+        <button class="icon-btn" data-demo="/messages" aria-label="Messages"><svg class="ico"><use href="#i-msg"/></svg></button>
+        <button class="icon-btn" data-demo="/notifications" aria-label="6 unread notifications"><svg class="ico"><use href="#i-bell"/></svg><span class="badge-count">6</span></button>
+        <span class="avatar"><i>AM</i><span>Arjun Mehta</span></span>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="page-head">
+        <div>
+          <p class="eyebrow">Work hub · Requests</p>
+          <h1>Work Hub</h1>
+          <p class="lede">All your service requests and active projects in one place.</p>
+        </div>
+        <a class="btn btn-primary head-cta" href="../../F06-request-new-form/V1/index.html"><svg class="ico"><use href="#i-plus"/></svg>New request</a>
+      </div>
+
+      <section class="kpis" aria-label="Work hub summary">
+        <article class="kpi hero reveal"><p class="kpi-label">Total requests</p><span class="kpi-val" data-count="26">26</span><p class="kpi-why">12 verified rows on this page · 3 pages in the captured list.</p></article>
+        <article class="kpi reveal"><p class="kpi-label">Under review</p><span class="kpi-val" data-count="0">0</span><p class="kpi-why">Nothing is being reviewed right now.</p></article>
+        <article class="kpi reveal"><p class="kpi-label">Quoted</p><span class="kpi-val" data-count="0">0</span><p class="kpi-why">No quote is waiting on your decision.</p></article>
+        <article class="kpi reveal"><p class="kpi-label">Projects</p><span class="kpi-val" data-count="5">5</span><p class="kpi-why">Active projects in this workspace.</p></article>
+      </section>
+
+      <div class="tabs" role="tablist" aria-label="Work item views">
+        <button class="tab" role="tab" id="tab-all" aria-controls="workpanel" aria-selected="false" tabindex="-1" data-view="all">All</button>
+        <button class="tab" role="tab" id="tab-requests" aria-controls="workpanel" aria-selected="true" tabindex="0" data-view="requests">Requests <span class="count">(12)</span></button>
+        <button class="tab" role="tab" id="tab-projects" aria-controls="workpanel" aria-selected="false" tabindex="-1" data-view="projects">Projects</button>
+      </div>
+
+      <div class="saved-row" role="group" aria-label="Saved views (A12)">
+        <p>Saved views</p>
+        <button class="chip" data-saved="approvals" aria-pressed="false"><svg class="ico"><use href="#i-bookmark"/></svg>My pending approvals</button>
+        <button class="chip" data-saved="month" aria-pressed="false"><svg class="ico"><use href="#i-clock"/></svg>This month</button>
+        <button class="chip" data-saved="awaiting" aria-pressed="false"><svg class="ico"><use href="#i-inbox"/></svg>Awaiting me</button>
+      </div>
+
+      <div class="toolbar" role="search">
+        <label class="field"><svg class="ico"><use href="#i-search"/></svg><span class="sr-only">Search work items</span><input id="q" type="search" placeholder="Search work items…" autocomplete="off"></label>
+        <label class="field"><span class="sr-only">Filter by status</span><select id="status" aria-label="Filter by status">
+          <option value="">All statuses</option><option>Draft</option><option>Submitted</option><option>Under review</option><option>Quoted</option><option>Changes requested</option><option>Converted to project</option><option>Rejected</option><option>Cancelled</option>
+        </select></label>
+        <label class="field"><span class="sr-only">Sort by</span><select id="sort" aria-label="Sort by">
+          <option value="date-desc">Newest first</option><option value="date-asc">Oldest first</option><option value="title">Title A–Z</option><option value="status">Status</option>
+        </select></label>
+        <button class="btn btn-sm btn-ghost" id="clearBtn">Clear filters</button>
+        <details class="lab-states"><summary>Lab states ▾</summary><div class="state-btns" role="group" aria-label="Preview designed states">
+          <button data-state="populated">Populated</button><button data-state="empty">Empty</button><button data-state="loading">Loading skeleton</button><button data-state="error">502 error</button>
+        </div></details>
+      </div>
+
+      <section id="workpanel" role="tabpanel" aria-labelledby="tab-requests" tabindex="0">
+        <div class="panel" id="panel-populated" aria-live="polite">
+          <div class="panel-head"><svg class="ico" style="width:14px;height:14px"><use href="#i-inbox"/></svg><span class="result" id="resultCount">Showing 1–12 of 26 work items</span><span id="filterNote"></span></div>
+          <ul id="rows">
+            <li class="row" data-title="AUDIT-P24-20261005-6y6fa-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Expired Quote" data-id="01a10f84-31f1-75a6-aeb1-cbe61a191581"><button class="row-title" data-open="01a10f84-31f1-75a6-aeb1-cbe61a191581">AUDIT-P24-20261005-6y6fa-sent Request</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-expired"><svg class="ico"><use href="#i-dot"/></svg>Expired Quote</span><button class="row-open row-arrow" data-open="01a10f84-31f1-75a6-aeb1-cbe61a191581" aria-label="Open details for AUDIT-P24-20261005-6y6fa-sent Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P24-20261005-6v89t-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Expired Quote" data-id="01a10f82-1ddb-75cc-ba1b-93609e9e7dc4"><button class="row-title" data-open="01a10f82-1ddb-75cc-ba1b-93609e9e7dc4">AUDIT-P24-20261005-6v89t-sent Request</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-expired"><svg class="ico"><use href="#i-dot"/></svg>Expired Quote</span><button class="row-open row-arrow" data-open="01a10f82-1ddb-75cc-ba1b-93609e9e7dc4" aria-label="Open details for AUDIT-P24-20261005-6v89t-sent Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P23-20261005-6rdsf Request to Quote Builder" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Expired Quote" data-id="01a10f7f-7698-71f1-8c99-709e45f72b67"><button class="row-title" data-open="01a10f7f-7698-71f1-8c99-709e45f72b67">AUDIT-P23-20261005-6rdsf Request to Quote Builder</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-expired"><svg class="ico"><use href="#i-dot"/></svg>Expired Quote</span><button class="row-open row-arrow" data-open="01a10f7f-7698-71f1-8c99-709e45f72b67" aria-label="Open details for AUDIT-P23-20261005-6rdsf Request to Quote Builder"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P24-20261005-03ipf-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10b3a-07a6-7274-8c9c-1f6ef658920e"><button class="row-title" data-open="01a10b3a-07a6-7274-8c9c-1f6ef658920e">AUDIT-P24-20261005-03ipf-sent Request</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 5, 2026</span><span class="badge s-expired"><svg class="ico"><use href="#i-dot"/></svg>Expired Quote</span><button class="row-open row-arrow" data-open="01a10b3a-07a6-7274-8c9c-1f6ef658920e" aria-label="Open details for AUDIT-P24-20261005-03ipf-sent Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P23-20261005-zvc6j Request to Quote Builder" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10b34-2eac-72ce-8c23-512c72f74f04"><button class="row-title" data-open="01a10b34-2eac-72ce-8c23-512c72f74f04">AUDIT-P23-20261005-zvc6j Request to Quote Builder</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 5, 2026</span><span class="badge s-expired"><svg class="ico"><use href="#i-dot"/></svg>Expired Quote</span><button class="row-open row-arrow" data-open="01a10b34-2eac-72ce-8c23-512c72f74f04" aria-label="Open details for AUDIT-P23-20261005-zvc6j Request to Quote Builder"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P24-20261005-uc3d4-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10aa6-6b4b-7007-ac47-11856a77fce8"><button class="row-title" data-open="01a10aa6-6b4b-7007-ac47-11856a77fce8">AUDIT-P24-20261005-uc3d4-sent Request</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 5, 2026</span><span class="badge s-expired"><svg class="ico"><use href="#i-dot"/></svg>Expired Quote</span><button class="row-open row-arrow" data-open="01a10aa6-6b4b-7007-ac47-11856a77fce8" aria-label="Open details for AUDIT-P24-20261005-uc3d4-sent Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P23-20261005-u7d0j Request to Quote Builder" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10aa2-f00b-761b-9198-dc733b562bef"><button class="row-title" data-open="01a10aa2-f00b-761b-9198-dc733b562bef">AUDIT-P23-20261005-u7d0j Request to Quote Builder</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 5, 2026</span><span class="badge s-expired"><svg class="ico"><use href="#i-dot"/></svg>Expired Quote</span><button class="row-open row-arrow" data-open="01a10aa2-f00b-761b-9198-dc733b562bef" aria-label="Open details for AUDIT-P23-20261005-u7d0j Request to Quote Builder"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P23-LINE-20261005-7r0l Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Submitted" data-id="01a10fa4-8fd5-712e-97d7-7d3d12f94976"><button class="row-title" data-open="01a10fa4-8fd5-712e-97d7-7d3d12f94976">AUDIT-P23-LINE-20261005-7r0l Request</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-submitted"><svg class="ico"><use href="#i-dot"/></svg>Submitted</span><button class="row-open row-arrow" data-open="01a10fa4-8fd5-712e-97d7-7d3d12f94976" aria-label="Open details for AUDIT-P23-LINE-20261005-7r0l Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P23-SUPP-20261005-6grw Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Submitted" data-id="01a10fa3-acfd-702b-a224-a956a39a7bc6"><button class="row-title" data-open="01a10fa3-acfd-702b-a224-a956a39a7bc6">AUDIT-P23-SUPP-20261005-6grw Request</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-submitted"><svg class="ico"><use href="#i-dot"/></svg>Submitted</span><button class="row-open row-arrow" data-open="01a10fa3-acfd-702b-a224-a956a39a7bc6" aria-label="Open details for AUDIT-P23-SUPP-20261005-6grw Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P25-20261005-73dhk Project Fixture" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Converted To Project" data-id="01a10f87-f3cf-73ac-9a0a-62335d571d11"><button class="row-title" data-open="01a10f87-f3cf-73ac-9a0a-62335d571d11">AUDIT-P25-20261005-73dhk Project Fixture</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-converted"><svg class="ico"><use href="#i-dot"/></svg>Converted To Project</span><button class="row-open row-arrow" data-open="01a10f87-f3cf-73ac-9a0a-62335d571d11" aria-label="Open details for AUDIT-P25-20261005-73dhk Project Fixture"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="Copy of AUDIT-P24-20261005-6y6fa-sent Request" data-type="Draft" data-cat="Web Development" data-date="2026-10-06" data-status="Draft" data-id="01a10f86-72a4-75f5-be0e-66bf26a8a6ec"><button class="row-title" data-open="01a10f86-72a4-75f5-be0e-66bf26a8a6ec">Copy of AUDIT-P24-20261005-6y6fa-sent Request</button><span class="row-meta col-type">Draft</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-draft"><svg class="ico"><use href="#i-dot"/></svg>Draft</span><button class="row-open row-arrow" data-open="01a10f86-72a4-75f5-be0e-66bf26a8a6ec" aria-label="Open details for Copy of AUDIT-P24-20261005-6y6fa-sent Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-title="AUDIT-P24-20261005-6y6fa-draft Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Submitted" data-id="01a10f84-ddf5-75c8-9110-113258a17674"><button class="row-title" data-open="01a10f84-ddf5-75c8-9110-113258a17674">AUDIT-P24-20261005-6y6fa-draft Request</button><span class="row-meta col-type">Request</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 6, 2026</span><span class="badge s-submitted"><svg class="ico"><use href="#i-dot"/></svg>Submitted</span><button class="row-open row-arrow" data-open="01a10f84-ddf5-75c8-9110-113258a17674" aria-label="Open details for AUDIT-P24-20261005-6y6fa-draft Request"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+            <li class="row" data-kind="project" data-title="Razorpay Settlement Reconciliation Engine" data-type="Project" data-cat="Web Development" data-date="2026-10-05" data-status="Revision Requested" data-id="razorpay-project"><button class="row-title" data-open="razorpay-project">Razorpay Settlement Reconciliation Engine</button><span class="row-meta col-type">Project</span><span class="row-meta col-cat">Web Development</span><span class="row-date col-date">Oct 5, 2026</span><span class="badge s-project"><svg class="ico"><use href="#i-dot"/></svg>Revision Requested</span><button class="row-open row-arrow" data-open="razorpay-project" aria-label="Open details for Razorpay Settlement Reconciliation Engine"><svg class="ico" style="width:16px;height:16px"><use href="#i-chev"/></svg></button></li>
+          </ul>
+        </div>
+
+        <div class="panel state" id="panel-empty" hidden>
+          <div class="art"><svg class="ico"><use href="#i-inbox"/></svg></div>
+          <h2>No work items match these filters</h2>
+          <p>That is okay — clear the filters to see all requests, or start a new request and it will appear here once saved.</p>
+          <div class="actions"><button class="btn" id="emptyClear">Clear filters</button><a class="btn btn-primary" href="../../F06-request-new-form/V1/index.html"><svg class="ico"><use href="#i-plus"/></svg>New request</a></div>
+        </div>
+
+        <div class="panel skeleton" id="panel-loading" hidden aria-label="Loading work items">
+          <div class="panel-head"><span class="sk sm" style="width:180px"></span></div>
+          <div class="sk-row"><span class="sk lg"></span><span class="sk"></span><span class="sk"></span><span class="sk sm"></span><span class="sk"></span></div>
+          <div class="sk-row"><span class="sk md"></span><span class="sk"></span><span class="sk"></span><span class="sk sm"></span><span class="sk"></span></div>
+          <div class="sk-row"><span class="sk lg"></span><span class="sk"></span><span class="sk"></span><span class="sk sm"></span><span class="sk"></span></div>
+          <div class="sk-row"><span class="sk"></span><span class="sk"></span><span class="sk"></span><span class="sk sm"></span><span class="sk"></span></div>
+          <div class="sk-row"><span class="sk md"></span><span class="sk"></span><span class="sk"></span><span class="sk sm"></span><span class="sk"></span></div>
+          <p class="sr-only" role="status">Loading work items…</p>
+        </div>
+
+        <div class="panel state error" id="panel-error" role="alert" hidden>
+          <div class="art"><svg class="ico"><use href="#i-alert"/></svg></div>
+          <h2>Something went wrong</h2>
+          <p>Could not load work items. The projects service returned HTTP 502 and the request was CORS-blocked. Your saved requests are safe — try again, or contact support if it keeps happening.</p>
+          <div class="why-line"><svg class="ico" style="width:14px;height:14px"><use href="#i-alert"/></svg>GET /api/v1/projects → 502 · net::ERR_FAILED</div>
+          <div class="actions"><button class="btn btn-primary" id="retryBtn"><svg class="ico"><use href="#i-refresh"/></svg>Try again</button><button class="btn" id="supportBtn">Contact support</button></div>
+        </div>
+
+        <div class="pager" aria-label="Pagination">
+          <span id="showingText">Showing <strong>1–12</strong> of <strong>26</strong></span>
+          <div class="right"><button class="btn btn-sm" id="prevBtn" disabled>Prev</button><span class="page-no">1 / 3</span><button class="btn btn-sm" id="nextBtn">Next</button></div>
+        </div>
+        <p class="foot" style="margin-top:10px;border:0;padding:0" id="pageNote" hidden>Only the first page (12 of 26 rows) was captured in the audit. Later pages are not invented — <button class="btn btn-sm btn-ghost" id="backPage">Back to page 1</button></p>
+      </section>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F05 Requests Work Hub · V1 Calm Ledger</span>
+        <a href="../docs/BASELINE-MAP.md">Gate S notes</a><a href="../docs/API-MAP.md">API map</a>
+        <span class="spacer"></span>
+        <a href="../V5/index.html">← V5</a><a href="../../../index.html#f05">Gallery</a><a href="../V2/index.html">V2 →</a>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer-head"><div><p class="eyebrow">Request detail · demo</p><h2 id="drawerTitle">Request</h2></div><button class="icon-btn" id="drawerClose" aria-label="Close details" style="margin-left:auto"><svg class="ico"><use href="#i-x"/></svg></button></div>
+  <div class="drawer-body">
+    <span class="badge s-submitted" id="drawerBadge"><svg class="ico"><use href="#i-dot"/></svg>Submitted</span>
+    <dl><dt>Title</dt><dd id="dTitle">—</dd><dt>Type</dt><dd id="dType">—</dd><dt>Category</dt><dd id="dCat">—</dd><dt>Date</dt><dd id="dDate">—</dd><dt>Reference</dt><dd class="sr-only" id="dId">—</dd></dl>
+    <div class="endpoint" id="dEndpoint">GET /api/v1/requests/{id}</div>
+    <p style="font-size:13px;color:var(--muted-foreground)">This lab drawer stands in for the F07 request-detail route. It shows only fields verified in the captured list; the status-history timeline belongs to that family.</p>
+    <a class="btn btn-primary" href="../../F06-request-new-form/V1/index.html">Go to new request form</a>
+  </div>
+</aside>
+
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Command menu" hidden>
+  <label class="sr-only" for="paletteInput">Search actions</label><input id="paletteInput" type="text" placeholder="Search actions…" autocomplete="off">
+  <ul id="paletteList"></ul>
+  <div class="hint"><span>↑↓ navigate</span><span>↵ select</span><span>esc close</span></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var params=new URLSearchParams(location.search);
+function url(p){var u=new URL(location.href);Object.keys(p).forEach(function(k){p[k]===null||p[k]===''?u.searchParams.delete(k):u.searchParams.set(k,p[k])});return u.toString()}
+function toast(msg){var t=$('#toast');t.textContent=msg;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on')},3600)}
+/* theme */
+var themeBtn=$('#themeBtn');
+function syncTheme(){var d=document.documentElement.classList.contains('dark');themeBtn.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');themeBtn.setAttribute('aria-pressed',String(d));themeBtn.innerHTML='<svg class="ico"><use href="#i-'+(d?'sun':'moon')+'"/></svg>'}
+syncTheme();
+themeBtn.addEventListener('click',function(){var d=document.documentElement.classList.toggle('dark');try{localStorage.setItem('lab-theme',d?'dark':'light')}catch(e){}syncTheme();toast(d?'Dark theme on':'Light theme on')});
+/* shell: collapse, mobile drawer, demo nav */
+var page=$('#page'),side=$('#side'),scrim=$('#scrim');
+$('#collapseBtn').addEventListener('click',function(){var c=page.classList.toggle('side-collapsed');this.setAttribute('aria-pressed',String(c));this.setAttribute('aria-label',c?'Expand sidebar':'Collapse sidebar');toast(c?'Sidebar collapsed':'Sidebar expanded')});
+function setDrawer(on){side.classList.toggle('on',on);scrim.classList.toggle('on',on||$('#drawer').classList.contains('on'));$('#menuBtn').setAttribute('aria-expanded',String(on))}
+$('#menuBtn').addEventListener('click',function(){setDrawer(!side.classList.contains('on'))});
+$('#exploreBtn').addEventListener('click',function(){var ex=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!ex));$('#exploreList').hidden=ex});
+$$('[data-demo]').forEach(function(b){b.addEventListener('click',function(){toast('Demo affordance · '+b.getAttribute('data-demo')+' belongs to another family. See the gallery for built pages.')})});
+scrim.addEventListener('click',function(){setDrawer(false);closeDetail()});
+/* tabs */
+var state=params.get('state')||'populated', view=params.get('view')||'requests', saved=params.get('saved')||'';
+var tabs=$$('.tab');
+function setView(v,focus){view=['all','requests','projects'].indexOf(v)>-1?v:'requests';
+  tabs.forEach(function(t){var on=t.dataset.view===view;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(on&&focus)t.focus()});
+  $('#workpanel').setAttribute('aria-labelledby','tab-'+view);
+  apply();
+}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){history.replaceState(null,'',url({view:t.dataset.view}));setView(t.dataset.view,false)});
+  t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];history.replaceState(null,'',url({view:n.dataset.view}));setView(n.dataset.view,true)}else if(e.key==='Home'){setView('all',true)}else if(e.key==='End'){setView('projects',true)}})});
+/* filters, search, sort, saved views */
+var rowsEl=$('#rows'), allRows=$$('.row',rowsEl);
+var statusEl=$('#status'),qEl=$('#q'),sortEl=$('#sort');
+if(params.get('status'))statusEl.value=params.get('status');
+if(params.get('q'))qEl.value=params.get('q');
+if(params.get('sort'))sortEl.value=params.get('sort');
+var savedMap={approvals:['Quoted','Changes requested'],month:[],awaiting:['Quoted','Changes requested','Under review']};
+function activeStatuses(){if(saved==='approvals')return savedMap.approvals;if(saved==='awaiting')return savedMap.awaiting;return []}
+function apply(){
+  var q=qEl.value.trim().toLowerCase(),st=statusEl.value,stx=activeStatuses(),n=0;
+  var list=allRows.filter(function(r){
+    var okQ=!q||(r.dataset.title+' '+r.dataset.type+' '+r.dataset.cat+' '+r.dataset.status).toLowerCase().indexOf(q)>-1;
+    var okS=(!st&&!stx.length)||(st&&r.dataset.status.toLowerCase()===st.toLowerCase())||(!st&&stx.length&&stx.indexOf(r.dataset.status)>-1);
+    var okV=view==='all'||(view==='projects'?r.dataset.kind==='project':r.dataset.kind!=='project');
+    return okQ&&okS&&okV});
+  var mode=sortEl.value;
+  list.sort(function(a,b){if(mode==='title')return a.dataset.title.localeCompare(b.dataset.title);if(mode==='status')return a.dataset.status.localeCompare(b.dataset.status)||b.dataset.date.localeCompare(a.dataset.date);if(mode==='date-asc')return a.dataset.date.localeCompare(b.dataset.date)||a.dataset.title.localeCompare(b.dataset.title);return b.dataset.date.localeCompare(a.dataset.date)||a.dataset.title.localeCompare(b.dataset.title)});
+  allRows.forEach(function(r){r.hidden=true});list.forEach(function(r){rowsEl.appendChild(r);r.hidden=false;n++});
+  $('#resultCount').textContent=n?('Showing 1–'+n+' of '+n+' verified work items'):'No matching work items';
+  $('#filterNote').textContent=(st?' · status: '+st:'')+(saved?' · saved view: '+saved:'')+(view!=='requests'?' · '+view+' tab':'');
+  var forced=state==='error'||state==='loading';
+  $('#panel-populated').hidden=state!=='populated'||(!n&&state==='populated');
+  $('#panel-empty').hidden=state!=='empty'&&!(state==='populated'&&!n);
+  $('#panel-error').hidden=state!=='error';$('#panel-loading').hidden=state!=='loading';
+  $('.pager').hidden=forced||!n;
+  $('#showingText').innerHTML=n?('Showing <strong>1–'+n+'</strong> of <strong>26</strong>'):'Showing 0 verified rows';
+  try{history.replaceState(null,'',url({view:view,state:state==='populated'?null:state,saved:saved||null,status:st||null,q:q||null,sort:mode==='date-desc'?null:mode}))}catch(e){}
+}
+[statusEl,qEl,sortEl].forEach(function(el){el.addEventListener(el===qEl?'input':'change',apply)});
+$$('.chip').forEach(function(c){c.setAttribute('aria-pressed',String(c.dataset.saved===saved));c.addEventListener('click',function(){saved=saved===c.dataset.saved?'':c.dataset.saved;$$('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.saved===saved))});if(saved==='month'){qEl.value='';statusEl.value=''}apply();toast(saved?'Saved view applied: '+c.textContent.trim():'Saved view cleared')})});
+$('#clearBtn').addEventListener('click',function(){statusEl.value='';qEl.value='';sortEl.value='date-desc';saved='';$$('.chip').forEach(function(x){x.setAttribute('aria-pressed','false')});state='populated';apply();toast('Filters cleared')});
+$('#emptyClear').addEventListener('click',function(){$('#clearBtn').click()});
+$$('[data-state]').forEach(function(b){b.addEventListener('click',function(){state=b.dataset.state;$('.lab-states').open=false;apply();toast('State: '+b.textContent)})});
+$('#retryBtn').addEventListener('click',function(){state='loading';apply();setTimeout(function(){state='populated';apply();toast('Reconnected · GET /api/v1/projects + /api/v1/requests')},900)});
+$('#supportBtn').addEventListener('click',function(){toast('Demo affordance · /messages belongs to F12. No message was sent.')});
+/* detail drawer with focus trap + restore */
+var drawer=$('#drawer'),lastFocus=null;
+function openDetail(id){var r=$$('.row').filter(function(x){return x.dataset.id===id})[0];if(!r)return;
+  lastFocus=document.activeElement;$('#dTitle').textContent=r.dataset.title;$('#dType').textContent=r.dataset.type;$('#dCat').textContent=r.dataset.cat;$('#dDate').textContent=r.querySelector('.row-date').textContent;$('#dId').textContent=id;
+  var b=$('#drawerBadge');b.className='badge '+(r.dataset.status==='Draft'?'s-draft':r.dataset.status==='Converted To Project'?'s-converted':r.dataset.status==='Expired Quote'?'s-expired':r.dataset.kind==='project'?'s-project':'s-submitted');
+  b.innerHTML='<svg class="ico"><use href="#i-dot"/></svg>'+r.dataset.status;
+  $('#drawerTitle').textContent=r.dataset.title;
+  $('#dEndpoint').textContent=(r.dataset.kind==='project'?'GET /api/v1/projects/{id}':'GET /api/v1/requests/{id}')+'  ·  id = '+id;
+  drawer.hidden=false;requestAnimationFrame(function(){drawer.classList.add('on')});scrim.classList.add('on');$('#drawerClose').focus()}
+function closeDetail(){if(drawer.hidden)return;drawer.classList.remove('on');drawer.hidden=true;scrim.classList.toggle('on',side.classList.contains('on'));if(lastFocus)lastFocus.focus()}
+$$('[data-open]').forEach(function(b){b.addEventListener('click',function(){openDetail(b.dataset.open)})});
+$('#drawerClose').addEventListener('click',closeDetail);
+drawer.addEventListener('keydown',function(e){if(e.key==='Tab'){var f=$$('button,a[href],input,[tabindex="0"]',drawer).filter(function(x){return !x.disabled});if(!f.length)return;var first=f[0],last=f[f.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+/* command palette — real actions only */
+var palette=$('#palette'),pInput=$('#paletteInput'),pList=$('#paletteList'),pIdx=0;
+var actions=[
+ {n:'New request · open F06 V1',i:'i-plus',f:function(){location.href='../../F06-request-new-form/V1/index.html'}},
+ {n:'Show All tab',i:'i-inbox',f:function(){history.replaceState(null,'',url({view:'all'}));setView('all',false)}},
+ {n:'Show Requests (12) tab',i:'i-req',f:function(){history.replaceState(null,'',url({view:'requests'}));setView('requests',false)}},
+ {n:'Show Projects tab',i:'i-folder',f:function(){history.replaceState(null,'',url({view:'projects'}));setView('projects',false)}},
+ {n:'Saved view · My pending approvals',i:'i-bookmark',f:function(){$('.chip[data-saved="approvals"]').click()}},
+ {n:'Filter · Draft',i:'i-dot',f:function(){statusEl.value='Draft';apply()}},
+ {n:'Filter · Submitted',i:'i-dot',f:function(){statusEl.value='Submitted';apply()}},
+ {n:'State · 502 error with retry',i:'i-alert',f:function(){state='error';apply()}},
+ {n:'Switch theme',i:'i-moon',f:function(){themeBtn.click()}},
+ {n:'Open F05 V2 Ops Console',i:'i-chev',f:function(){location.href='../V2/index.html'}},
+ {n:'Back to lab gallery',i:'i-dash',f:function(){location.href='../../../index.html#f05'}}
+];
+function renderPalette(){var q=pInput.value.toLowerCase();pList.innerHTML='';actions.filter(function(a){return a.n.toLowerCase().indexOf(q)>-1}).forEach(function(a,idx){var li=document.createElement('li');var b=document.createElement('button');b.type='button';b.innerHTML='<svg class="ico"><use href="#'+a.i+'"/></svg><span>'+a.n+'</span>';b.addEventListener('click',function(){closePalette();a.f()});b.addEventListener('mouseenter',function(){pIdx=idx;mark()});li.appendChild(b);pList.appendChild(li)});pIdx=0;mark()}
+function mark(){$$('#paletteList button').forEach(function(b,i){b.style.background=i===pIdx?'var(--muted)':''})}
+function openPalette(){palette.hidden=false;pInput.value='';renderPalette();requestAnimationFrame(function(){palette.classList.add('on')});pInput.focus()}
+function closePalette(){palette.classList.remove('on');palette.hidden=true;$('#paletteBtn').focus()}
+$('#paletteBtn').addEventListener('click',openPalette);pInput.addEventListener('input',renderPalette);
+pInput.addEventListener('keydown',function(e){var b=$$('#paletteList button');if(e.key==='ArrowDown'){e.preventDefault();pIdx=(pIdx+1)%b.length;mark()}else if(e.key==='ArrowUp'){e.preventDefault();pIdx=(pIdx+b.length-1)%b.length;mark()}else if(e.key==='Enter'){e.preventDefault();if(b[pIdx])b[pIdx].click()}});
+document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();palette.hidden?openPalette():closePalette()}
+ else if(e.key==='Escape'){if(!palette.hidden)closePalette();else if(!drawer.hidden)closeDetail();else if(side.classList.contains('on'))setDrawer(false)}});
+/* pagination honesty — no invented rows */
+$('#nextBtn').addEventListener('click',function(){$('#pageNote').hidden=false;toast('Only page 1 of 3 was captured in the audit — no rows invented.')});
+$('#backPage').addEventListener('click',function(){$('#pageNote').hidden=true;qEl.focus()});
+/* reveal + count-up (IO only, reduced-motion aware) */
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if('IntersectionObserver' in window&&!reduce){var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('seen');io.unobserve(en.target)}})},{threshold:.1});$$('.reveal').forEach(function(el){io.observe(el)});
+ var io2=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;var el=en.target,end=+el.dataset.count,start=0,t0=performance.now();function tick(t){var p=Math.min(1,(t-t0)/650);el.textContent=Math.round(end*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick);io2.unobserve(el)})},{threshold:.5});$$('[data-count]').forEach(function(el){io2.observe(el)});
+}else{$$('.reveal').forEach(function(el){el.classList.add('seen')})}
+setView(view,false);
+})();
+</script>
+</body>
+</html>

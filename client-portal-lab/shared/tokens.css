@@ -1,0 +1,42 @@
+/* Nestlancer Client Portal Lab — ONE locked colour scheme (§5.2 of every family prompt).
+   Created once by this run; every later family imports AS-IS. Never edit, never fork. */
+:root{
+  /* Neutrals (shadcn-style, from live app — AA-passing) */
+  --background:#f6f8fb; --card:#ffffff; --muted:#f1f5f9; --border:#dbe3ec;
+  --foreground:#0f1c2e; --muted-foreground:#45556b;
+  /* Brand — single ramp (live --ta-brand-*) */
+  --brand-50:#ecf3ff; --brand-100:#d9e6ff; --brand-500:#465fff;
+  --brand-600:#3641f5; --brand-700:#2a31d8; --brand-950:#161950;
+  --primary:var(--brand-500); --primary-hover:var(--brand-600);
+  --ring:var(--brand-500);
+  /* Status — bg tint + darkened AA text + border (FIX C4) */
+  --status-success-bg:#e5f6ec; --status-success-text:#166534; --status-success-border:#86c9a3;
+  --status-warning-bg:#fdf3e0; --status-warning-text:#8a5a00; --status-warning-border:#e8c477;
+  --status-error-bg:#fdecec;   --status-error-text:#b42318;   --status-error-border:#f0a8a0;
+  --status-info-bg:#e6f4fd;    --status-info-text:#0c5d8a;    --status-info-border:#8fcbe8;
+  --status-purple-bg:#f1e8fd;  --status-purple-text:#5b21b6;  --status-purple-border:#c4a8ef;
+  /* Shape + type */
+  --radius-sm:6px; --radius-md:10px; --radius-lg:14px; --radius-xl:20px;
+  --shadow-xs:0 1px 2px rgba(15,28,46,.06); --shadow-sm:0 4px 14px rgba(15,28,46,.08);
+  --font:"Outfit",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"IBM Plex Mono","SF Mono",Menlo,Consolas,monospace;
+  --sidebar:232px; --header:64px; --content:1400px;
+  /* Motion tokens (§5.2 bullet) */
+  --duration-fast:150ms; --duration-normal:280ms; --duration-slow:500ms;
+  --ease-spring:cubic-bezier(.2,.8,.2,1);
+}
+.dark{
+  --background:#0b1220; --card:#111b2e; --muted:#16233a; --border:#24344f;
+  --foreground:#e8eef4; --muted-foreground:#9fb0c3;
+  --brand-500:#5b7bff; --primary:var(--brand-500);
+  --brand-50:rgba(91,123,255,.14); --brand-100:rgba(91,123,255,.22);
+  --status-success-text:#4ade80; --status-warning-text:#fbbf24;
+  --status-error-text:#f87171; --status-info-text:#38bdf8; --status-purple-text:#c084fc;
+  /* status BGs in dark: 14% tint of the SAME hue over --card (one shared formula) */
+  --status-success-bg:rgba(74,222,128,.14); --status-success-border:rgba(74,222,128,.42);
+  --status-warning-bg:rgba(251,191,36,.14); --status-warning-border:rgba(251,191,36,.42);
+  --status-error-bg:rgba(248,113,113,.14); --status-error-border:rgba(248,113,113,.42);
+  --status-info-bg:rgba(56,189,248,.14); --status-info-border:rgba(56,189,248,.42);
+  --status-purple-bg:rgba(192,132,252,.14); --status-purple-border:rgba(192,132,252,.42);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4); --shadow-sm:0 8px 28px rgba(0,0,0,.45);
+}

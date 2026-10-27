@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F05 · V2 Ops Console · Nestlancer Client Portal Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* V2 Ops Console — hand-written: dense table-first geometry, sticky header, command palette first. */
+.shell{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.rail{position:sticky;top:0;height:100vh;z-index:70;background:var(--card);border-right:1px solid var(--border);padding:18px 12px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.rail .logo{display:flex;align-items:center;gap:8px;padding:4px 8px 14px;border-bottom:1px solid var(--border);font-weight:700}
+.rail .logo img{height:24px}.rail .logo .dark-logo{display:none}.dark .rail .logo .light-logo{display:none}.dark .rail .logo .dark-logo{display:block}
+.rail h2{font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted-foreground);margin:12px 10px 4px}
+.nav{display:flex;align-items:center;gap:9px;width:100%;min-height:36px;padding:7px 10px;border-radius:var(--radius-sm);font-size:13px;color:var(--muted-foreground);text-align:left}
+.nav:hover{background:var(--muted);color:var(--foreground)}
+.nav[aria-current="page"]{background:var(--brand-50);color:var(--primary);font-weight:700}
+.nav svg{width:16px;height:16px;flex:none}
+.rail .sub{padding-left:22px;font-size:12px;min-height:30px}
+.rail .foot{margin-top:auto;border-top:1px solid var(--border);padding-top:12px;font:500 11px var(--mono);color:var(--muted-foreground)}
+.right{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:30;height:var(--header);display:flex;align-items:center;gap:12px;padding:0 20px;background:var(--card);border-bottom:1px solid var(--border)}
+.crumb{font:500 12px var(--mono);color:var(--muted-foreground)}.crumb b{color:var(--foreground)}
+.top .sp{margin-left:auto}
+.ibtn{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--muted-foreground)}
+.ibtn:hover{background:var(--muted);color:var(--foreground)}.ibtn svg{width:16px;height:16px}
+.kbd{font:600 11px var(--mono);border:1px solid var(--border);border-radius:4px;padding:3px 6px;background:var(--muted)}
+.pal-trigger{display:flex;align-items:center;gap:9px;height:34px;padding:0 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--muted);color:var(--muted-foreground);font-size:12px}
+main{width:100%;max-width:var(--content);margin:0 auto;padding:24px 24px 30px;flex:1}
+.console-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px;margin-bottom:20px}
+.eyebrow{font:600 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--primary)}
+h1{font-size:clamp(32px,3.2vw,36px);line-height:1.1;font-weight:700;letter-spacing:-.035em;margin-top:8px}
+.lede{font-size:14px;color:var(--muted-foreground);margin-top:6px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-left:auto;min-width:min(520px,100%)}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 14px}
+.metric:first-child{border-left:3px solid var(--primary)}
+.metric span{display:block;font:600 11px var(--mono);color:var(--muted-foreground)}
+.metric strong{display:block;font:700 24px var(--font);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.metric small{display:block;font-size:11px;color:var(--muted-foreground)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:0 13px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:600;color:var(--foreground)}
+.btn:hover{background:var(--muted)}.btn svg{width:15px;height:15px}
+.btn-p{background:var(--primary);border-color:var(--primary);color:#fff}.btn-p:hover{background:var(--primary-hover)}
+.btn-g{border-color:transparent;background:transparent;color:var(--muted-foreground)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.tab{min-height:40px;padding:0 15px;font-size:13px;font-weight:600;color:var(--muted-foreground);border-bottom:2px solid transparent}
+.tab[aria-selected="true"]{color:var(--primary);border-bottom-color:var(--primary)}
+.tab i{font:600 11px var(--mono);opacity:.75}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.ctl{display:flex;align-items:center;gap:7px;height:40px;padding:0 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card)}
+.ctl svg{width:15px;height:15px;color:var(--muted-foreground)}
+select,input[type=search],input[type=text]{border:0;outline:0;background:transparent;font-size:13px;min-height:38px;color:var(--foreground)}
+#q{min-width:180px;flex:1}
+.ctl:focus-within{outline:2px solid var(--primary);outline-offset:1px}
+.hint{font:500 11px var(--mono);color:var(--muted-foreground);margin-left:auto}
+.console{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-xs);overflow:hidden}
+.scroll{max-height:min(58vh,620px);overflow:auto}
+table{font-size:13px}
+thead th{position:sticky;top:0;z-index:2;background:var(--card);text-align:left;font:600 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted-foreground);padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap}
+thead th button{display:inline-flex;align-items:center;gap:5px;font:inherit;color:inherit;text-transform:inherit}
+thead th[aria-sort] button{color:var(--primary)}
+tbody td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--muted-foreground);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--muted)}
+th.rowid{font:500 11px var(--mono);color:var(--muted-foreground);white-space:nowrap}
+td.title{color:var(--foreground);font-weight:600;max-width:340px}
+td.title button{text-align:left;font-weight:600;color:inherit;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+td.title button:hover{color:var(--primary);text-decoration:underline}
+td.num{text-align:right;font:500 12px var(--mono);font-variant-numeric:tabular-nums}
+.compact tbody td{padding:3px 12px}.compact tbody tr{height:36px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap;
+  background:var(--status-info-bg);color:var(--status-info-text);border:1px solid var(--status-info-border)}
+.badge svg{width:10px;height:10px}
+.b-draft{background:var(--status-warning-bg);color:var(--status-warning-text);border-color:var(--status-warning-border)}
+.b-expired{background:var(--status-error-bg);color:var(--status-error-text);border-color:var(--status-error-border)}
+.b-converted{background:var(--status-success-bg);color:var(--status-success-text);border-color:var(--status-success-border)}
+.b-project{background:var(--status-purple-bg);color:var(--status-purple-text);border-color:var(--status-purple-border)}
+.openbtn{color:var(--muted-foreground);width:26px;height:26px;display:grid;place-items:center;border-radius:var(--radius-sm)}
+.openbtn:hover{background:var(--brand-50);color:var(--primary)}
+.pfoot{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:11px 14px;border-top:1px solid var(--border);font:500 12px var(--mono);color:var(--muted-foreground)}
+.pfoot .r{margin-left:auto;display:flex;gap:6px;align-items:center}
+.statebox{padding:44px 20px;text-align:center}
+.statebox .ico{display:grid;place-items:center;width:50px;height:50px;margin:0 auto 14px;border-radius:var(--radius-lg);background:var(--brand-50);color:var(--primary)}
+.statebox .ico svg{width:24px;height:24px}
+.statebox h2{font-size:19px;font-weight:700}.statebox p{margin:8px auto 0;max-width:450px;font-size:13px;color:var(--muted-foreground)}
+.statebox .acts{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+.statebox.err .ico{background:var(--status-error-bg);color:var(--status-error-text)}
+.line{display:inline-block;margin-top:12px;padding:7px 10px;border-radius:var(--radius-sm);background:var(--muted);font:500 11px var(--mono)}
+.sk{padding:0}.skrow{display:grid;grid-template-columns:100px 2fr 90px 110px 100px 160px;gap:14px;padding:14px;border-bottom:1px solid var(--border)}
+.skbar{height:11px;border-radius:5px;background:linear-gradient(90deg,var(--muted),var(--border),var(--muted));background-size:200% 100%;animation:sh 1.3s linear infinite}
+@keyframes sh{from{background-position:200% 0}to{background-position:-200% 0}}
+.scrim{position:fixed;inset:0;background:rgba(8,15,28,.55);z-index:60;opacity:0;pointer-events:none;transition:opacity var(--duration-fast)}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;right:0;top:0;bottom:0;width:min(420px,100%);background:var(--card);border-left:1px solid var(--border);z-index:75;
+  transform:translateX(102%);transition:transform var(--duration-normal) var(--ease-spring);display:flex;flex-direction:column;overflow:auto}
+.sheet.on{transform:none}.sheet .h{display:flex;gap:12px;padding:20px;border-bottom:1px solid var(--border)}
+.sheet h2{font-size:18px;line-height:1.35}.sheet .b{padding:20px;display:grid;gap:14px;font-size:13px}
+.sheet dl{display:grid;grid-template-columns:110px 1fr;gap:9px}.sheet dt{color:var(--muted-foreground)}.sheet dd{margin:0;font-weight:600;word-break:break-word}
+.ep{font:500 11px var(--mono);padding:11px;border-radius:var(--radius-sm);background:var(--muted);word-break:break-all}
+.palette{position:fixed;left:50%;top:14vh;transform:translate(-50%,-8px);width:min(560px,calc(100% - 28px));background:var(--card);
+  border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);z-index:80;opacity:0;pointer-events:none;transition:opacity var(--duration-fast),transform var(--duration-fast)}
+.palette.on{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.palette input{width:100%;padding:15px 17px;border-bottom:1px solid var(--border);font-size:14px}
+.palette ul{max-height:320px;overflow:auto;padding:6px}.palette li button{display:flex;gap:9px;align-items:center;width:100%;padding:10px 11px;border-radius:var(--radius-sm);font-size:13px;text-align:left}
+.palette li button:hover,.palette li button.sel{background:var(--muted)}.palette li svg{width:15px;height:15px;color:var(--primary)}
+.palette .ph{display:flex;gap:12px;padding:9px 16px;border-top:1px solid var(--border);font:500 10px var(--mono);color:var(--muted-foreground)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,10px);background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);
+  border-radius:var(--radius-sm);padding:11px 15px;font-size:13px;box-shadow:var(--shadow-sm);z-index:90;opacity:0;pointer-events:none;transition:opacity var(--duration-fast),transform var(--duration-fast)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}
+footer a:hover{color:var(--primary)}footer .sp{margin-left:auto}
+@media(max-width:1000px){.shell{grid-template-columns:minmax(0,1fr)}.rail{position:fixed;left:0;top:0;width:min(260px,84vw);transform:translateX(-102%);transition:transform var(--duration-normal) var(--ease-spring)}.rail.on{transform:none}.metrics{min-width:100%;order:3}main{padding:20px 16px}}
+@media(max-width:640px){
+ thead{display:none}.scroll{max-height:none;overflow:visible}
+ tbody tr{display:block;padding:12px 14px;border-bottom:1px solid var(--border);position:relative}
+ tbody td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0;text-align:left}
+ tbody td::before{content:attr(data-label);font:600 10px var(--mono);text-transform:uppercase;color:var(--muted-foreground);letter-spacing:.06em}
+ td.title{display:block;max-width:none;padding:0 0 7px;white-space:normal}
+ td.title button{white-space:normal}
+ td.title::before{content:"Work item"}
+ th.rowid{display:none}
+ td.actcell{position:absolute;right:12px;top:12px;padding:0}td.actcell::before{content:""}
+ .compact tbody tr{height:auto}.compact tbody td{padding:3px 0}
+ .hint{display:none}.metrics{grid-template-columns:1fr 1fr}
+}
+@media(prefers-reduced-motion:reduce){.skbar{animation:none}}
+</style>
+</head>
+<body>
+<svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+<symbol id="i-req" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h5"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16"/><path d="M8 9h8M8 13h5"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14"/><path d="M2 10h20"/></symbol>
+<symbol id="i-invoice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+<symbol id="i-dot" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></symbol>
+<symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2M5 5h14l3 7v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z"/></symbol>
+<symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21 12 16l-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="shell" id="shell">
+ <aside class="rail" id="rail" aria-label="Primary navigation">
+  <a class="logo" href="../../../index.html"><img class="light-logo" src="../../../assets/logo-full-light.svg" alt="" width="90" height="25"><img class="dark-logo" src="../../../assets/logo-full-dark.svg" alt="" width="90" height="25">Lab · F05</a>
+  <h2>Main · 8</h2>
+  <button class="nav" data-demo="/dashboard"><svg><use href="#i-dash"/></svg>Dashboard</button>
+  <a class="nav" aria-current="page" href="../V2/index.html"><svg><use href="#i-req"/></svg>Requests</a>
+  <button class="nav" data-demo="/projects"><svg><use href="#i-folder"/></svg>Projects</button>
+  <button class="nav" data-demo="/quotes"><svg><use href="#i-quote"/></svg>Quotes</button>
+  <button class="nav" data-demo="/messages"><svg><use href="#i-msg"/></svg>Messages</button>
+  <button class="nav" data-demo="/payments"><svg><use href="#i-card"/></svg>Billing</button>
+  <button class="nav" data-demo="/invoices"><svg><use href="#i-invoice"/></svg>Invoices</button>
+  <button class="nav" data-demo="/notifications"><svg><use href="#i-bell"/></svg>Notifications</button>
+  <h2>Explore</h2>
+  <button class="nav" id="exploreBtn" aria-expanded="false" aria-controls="exp"><svg><use href="#i-globe"/></svg>Explore <svg style="margin-left:auto"><use href="#i-chev"/></svg></button>
+  <div id="exp" hidden><button class="nav sub" data-demo="/blog">Blog</button><button class="nav sub" data-demo="/portfolio">Portfolio</button></div>
+  <h2>Account</h2>
+  <button class="nav" data-demo="/profile">Profile</button><button class="nav" data-demo="/settings/account">Settings</button>
+  <div class="foot">F05 · V2 Ops Console<br>tokens.css · one scheme</div>
+ </aside>
+ <div class="right">
+  <header class="top">
+   <button class="ibtn" id="menuBtn" aria-label="Open navigation menu" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
+   <div class="crumb">DASHBOARD <span>›</span> <b>REQUESTS</b></div>
+   <div class="sp"></div>
+   <button class="pal-trigger" id="palBtn"><svg style="width:15px;height:15px"><use href="#i-search"/></svg>Quick actions <span class="kbd">⌘K</span></button>
+   <button class="ibtn" id="densityBtn" aria-pressed="false" aria-label="Toggle compact density" title="Density"><svg><use href="#i-grid"/></svg></button>
+   <button class="ibtn" id="themeBtn" aria-label="Switch to dark mode" aria-pressed="false"><svg><use href="#i-moon"/></svg></button>
+   <button class="ibtn" data-demo="/notifications" aria-label="6 unread notifications"><svg><use href="#i-bell"/></svg></button>
+   <span class="kbd" title="Signed in as Arjun Mehta">AM</span>
+  </header>
+  <main id="main">
+   <div class="console-head">
+    <div><p class="eyebrow">Requests work hub · operations view</p><h1>Work Hub</h1><p class="lede">All your service requests and active projects in one place.</p></div>
+    <div class="metrics" aria-label="Work hub summary">
+     <div class="metric"><span>TOTAL REQUESTS</span><strong>26</strong><small>Why: 12 captured rows</small></div>
+     <div class="metric"><span>UNDER REVIEW</span><strong>0</strong><small>Why: none in review</small></div>
+     <div class="metric"><span>QUOTED</span><strong>0</strong><small>Why: no decision due</small></div>
+     <div class="metric"><span>PROJECTS</span><strong>5</strong><small>Why: active workspace</small></div>
+    </div>
+    <a class="btn btn-p" href="../../F06-request-new-form/V1/index.html"><svg><use href="#i-plus"/></svg>New request</a>
+   </div>
+
+   <div class="tabs" role="tablist" aria-label="Work item views">
+    <button class="tab" role="tab" data-view="all" aria-selected="false" tabindex="-1" aria-controls="work">All</button>
+    <button class="tab" role="tab" data-view="requests" aria-selected="true" tabindex="0" aria-controls="work">Requests <i>(12)</i></button>
+    <button class="tab" role="tab" data-view="projects" aria-selected="false" tabindex="-1" aria-controls="work">Projects</button>
+   </div>
+
+   <div class="bar" role="search">
+    <label class="ctl"><svg><use href="#i-search"/></svg><span class="sr-only">Search work items</span><input id="q" type="search" placeholder="Search work items…"></label>
+    <label class="ctl"><span class="sr-only">Filter by status</span><select id="status" aria-label="Filter by status"><option value="">All statuses</option><option>Draft</option><option>Submitted</option><option>Under review</option><option>Quoted</option><option>Changes requested</option><option>Converted to project</option><option>Rejected</option><option>Cancelled</option></select></label>
+    <label class="ctl"><svg><use href="#i-bookmark"/></svg><span class="sr-only">Saved view</span><select id="saved" aria-label="Saved views (A12)"><option value="">Saved views…</option><option value="approvals">My pending approvals</option><option value="month">This month</option><option value="awaiting">Awaiting me</option></select></label>
+    <button class="btn btn-g" id="clearBtn">Clear</button>
+    <button class="btn" data-state-btn="populated">Loaded</button>
+    <button class="btn" data-state-btn="empty">Empty</button>
+    <button class="btn" data-state-btn="loading">Skeleton</button>
+    <button class="btn" data-state-btn="error">502</button>
+    <span class="hint">↑↓ sort · ⌘K actions · D density</span>
+   </div>
+
+   <section class="console" id="work" role="tabpanel" aria-label="Work items" tabindex="0">
+    <div id="tableWrap" class="scroll">
+     <table id="grid" aria-label="Service requests and projects">
+      <caption class="sr-only">12 verified work items. Column headers are sortable buttons.</caption>
+      <thead><tr>
+       <th scope="col" class="rowid">REF</th>
+       <th scope="col" id="h-title" aria-sort="none"><button data-sort="title">TITLE <span aria-hidden="true">↕</span></button></th>
+       <th scope="col">TYPE</th><th scope="col">CATEGORY</th>
+       <th scope="col" id="h-date" aria-sort="ascending"><button data-sort="date">DATE <span aria-hidden="true">↓</span></button></th>
+       <th scope="col" id="h-status" aria-sort="none"><button data-sort="status">STATUS <span aria-hidden="true">↕</span></button></th>
+       <th scope="col"><span class="sr-only">Open details</span></th>
+      </tr></thead>
+      <tbody id="tbody">
+       <tr data-title="AUDIT-P24-20261005-6y6fa-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Expired Quote" data-id="01a10f84-31f1-75a6-aeb1-cbe61a191581"><th scope="row" class="rowid">01a10f84</th><td class="title" data-label="Work item"><button data-open="01a10f84-31f1-75a6-aeb1-cbe61a191581">AUDIT-P24-20261005-6y6fa-sent Request</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge b-expired"><svg><use href="#i-dot"/></svg>Expired Quote</span></td><td class="actcell"><button class="openbtn" data-open="01a10f84-31f1-75a6-aeb1-cbe61a191581" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P24-20261005-6v89t-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Expired Quote" data-id="01a10f82-1ddb-75cc-ba1b-93609e9e7dc4"><th scope="row" class="rowid">01a10f82</th><td class="title" data-label="Work item"><button data-open="01a10f82-1ddb-75cc-ba1b-93609e9e7dc4">AUDIT-P24-20261005-6v89t-sent Request</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge b-expired"><svg><use href="#i-dot"/></svg>Expired Quote</span></td><td class="actcell"><button class="openbtn" data-open="01a10f82-1ddb-75cc-ba1b-93609e9e7dc4" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P23-20261005-6rdsf Request to Quote Builder" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Expired Quote" data-id="01a10f7f-7698-71f1-8c99-709e45f72b67"><th scope="row" class="rowid">01a10f7f</th><td class="title" data-label="Work item"><button data-open="01a10f7f-7698-71f1-8c99-709e45f72b67">AUDIT-P23-20261005-6rdsf Request to Quote Builder</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge b-expired"><svg><use href="#i-dot"/></svg>Expired Quote</span></td><td class="actcell"><button class="openbtn" data-open="01a10f7f-7698-71f1-8c99-709e45f72b67" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P24-20261005-03ipf-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10b3a-07a6-7274-8c9c-1f6ef658920e"><th scope="row" class="rowid">01a10b3a</th><td class="title" data-label="Work item"><button data-open="01a10b3a-07a6-7274-8c9c-1f6ef658920e">AUDIT-P24-20261005-03ipf-sent Request</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 5, 2026</td><td data-label="Status"><span class="badge b-expired"><svg><use href="#i-dot"/></svg>Expired Quote</span></td><td class="actcell"><button class="openbtn" data-open="01a10b3a-07a6-7274-8c9c-1f6ef658920e" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P23-20261005-zvc6j Request to Quote Builder" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10b34-2eac-72ce-8c23-512c72f74f04"><th scope="row" class="rowid">01a10b34</th><td class="title" data-label="Work item"><button data-open="01a10b34-2eac-72ce-8c23-512c72f74f04">AUDIT-P23-20261005-zvc6j Request to Quote Builder</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 5, 2026</td><td data-label="Status"><span class="badge b-expired"><svg><use href="#i-dot"/></svg>Expired Quote</span></td><td class="actcell"><button class="openbtn" data-open="01a10b34-2eac-72ce-8c23-512c72f74f04" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P24-20261005-uc3d4-sent Request" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10aa6-6b4b-7007-ac47-11856a77fce8"><th scope="row" class="rowid">01a10aa6</th><td class="title" data-label="Work item"><button data-open="01a10aa6-6b4b-7007-ac47-11856a77fce8">AUDIT-P24-20261005-uc3d4-sent Request</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 5, 2026</td><td data-label="Status"><span class="badge b-expired"><svg><use href="#i-dot"/></svg>Expired Quote</span></td><td class="actcell"><button class="openbtn" data-open="01a10aa6-6b4b-7007-ac47-11856a77fce8" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P23-20261005-u7d0j Request to Quote Builder" data-type="Request" data-cat="Web Development" data-date="2026-10-05" data-status="Expired Quote" data-id="01a10aa2-f00b-761b-9198-dc733b562bef"><th scope="row" class="rowid">01a10aa2</th><td class="title" data-label="Work item"><button data-open="01a10aa2-f00b-761b-9198-dc733b562bef">AUDIT-P23-20261005-u7d0j Request to Quote Builder</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 5, 2026</td><td data-label="Status"><span class="badge b-expired"><svg><use href="#i-dot"/></svg>Expired Quote</span></td><td class="actcell"><button class="openbtn" data-open="01a10aa2-f00b-761b-9198-dc733b562bef" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P23-LINE-20261005-7r0l Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Submitted" data-id="01a10fa4-8fd5-712e-97d7-7d3d12f94976"><th scope="row" class="rowid">01a10fa4</th><td class="title" data-label="Work item"><button data-open="01a10fa4-8fd5-712e-97d7-7d3d12f94976">AUDIT-P23-LINE-20261005-7r0l Request</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge"><svg><use href="#i-dot"/></svg>Submitted</span></td><td class="actcell"><button class="openbtn" data-open="01a10fa4-8fd5-712e-97d7-7d3d12f94976" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P23-SUPP-20261005-6grw Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Submitted" data-id="01a10fa3-acfd-702b-a224-a956a39a7bc6"><th scope="row" class="rowid">01a10fa3</th><td class="title" data-label="Work item"><button data-open="01a10fa3-acfd-702b-a224-a956a39a7bc6">AUDIT-P23-SUPP-20261005-6grw Request</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge"><svg><use href="#i-dot"/></svg>Submitted</span></td><td class="actcell"><button class="openbtn" data-open="01a10fa3-acfd-702b-a224-a956a39a7bc6" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P25-20261005-73dhk Project Fixture" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Converted To Project" data-id="01a10f87-f3cf-73ac-9a0a-62335d571d11"><th scope="row" class="rowid">01a10f87</th><td class="title" data-label="Work item"><button data-open="01a10f87-f3cf-73ac-9a0a-62335d571d11">AUDIT-P25-20261005-73dhk Project Fixture</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge b-converted"><svg><use href="#i-dot"/></svg>Converted To Project</span></td><td class="actcell"><button class="openbtn" data-open="01a10f87-f3cf-73ac-9a0a-62335d571d11" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="Copy of AUDIT-P24-20261005-6y6fa-sent Request" data-type="Draft" data-cat="Web Development" data-date="2026-10-06" data-status="Draft" data-id="01a10f86-72a4-75f5-be0e-66bf26a8a6ec"><th scope="row" class="rowid">01a10f86</th><td class="title" data-label="Work item"><button data-open="01a10f86-72a4-75f5-be0e-66bf26a8a6ec">Copy of AUDIT-P24-20261005-6y6fa-sent Request</button></td><td data-label="Type">Draft</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge b-draft"><svg><use href="#i-dot"/></svg>Draft</span></td><td class="actcell"><button class="openbtn" data-open="01a10f86-72a4-75f5-be0e-66bf26a8a6ec" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-title="AUDIT-P24-20261005-6y6fa-draft Request" data-type="Request" data-cat="Web Development" data-date="2026-10-06" data-status="Submitted" data-id="01a10f84-ddf5-75c8-9110-113258a17674"><th scope="row" class="rowid">01a10f84</th><td class="title" data-label="Work item"><button data-open="01a10f84-ddf5-75c8-9110-113258a17674">AUDIT-P24-20261005-6y6fa-draft Request</button></td><td data-label="Type">Request</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 6, 2026</td><td data-label="Status"><span class="badge"><svg><use href="#i-dot"/></svg>Submitted</span></td><td class="actcell"><button class="openbtn" data-open="01a10f84-ddf5-75c8-9110-113258a17674" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+       <tr data-kind="project" data-title="Razorpay Settlement Reconciliation Engine" data-type="Project" data-cat="Web Development" data-date="2026-10-05" data-status="Revision Requested" data-id="razorpay-project"><th scope="row" class="rowid">project</th><td class="title" data-label="Work item"><button data-open="razorpay-project">Razorpay Settlement Reconciliation Engine</button></td><td data-label="Type">Project</td><td data-label="Category">Web Development</td><td class="num" data-label="Date">Oct 5, 2026</td><td data-label="Status"><span class="badge b-project"><svg><use href="#i-dot"/></svg>Revision Requested</span></td><td class="actcell"><button class="openbtn" data-open="razorpay-project" aria-label="Open details"><svg style="width:15px;height:15px"><use href="#i-chev"/></svg></button></td></tr>
+      </tbody>
+     </table>
+    </div>
+    <div class="pfoot" id="pfoot"><span id="count">Showing 1–12 of 26 · 1 / 3</span><div class="r"><button class="btn" id="prev" disabled>Prev</button><span class="kbd">1 / 3</span><button class="btn" id="next">Next</button></div></div>
+
+    <div class="statebox" id="empty" hidden><div class="ico"><svg><use href="#i-inbox"/></svg></div><h2>No rows match this query</h2><p>The filter removed every verified row. Clear the filters to see all 12 captured work items, or start a new request.</p><div class="acts"><button class="btn" id="emptyClear">Clear filters</button><a class="btn btn-p" href="../../F06-request-new-form/V1/index.html">New request</a></div></div>
+    <div class="sk" id="loading" hidden><div class="skrow"><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span></div><div class="skrow"><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span></div><div class="skrow"><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span></div><div class="skrow"><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span><span class="skbar"></span></div><p class="sr-only" role="status">Loading work items…</p></div>
+    <div class="statebox err" id="error" role="alert" hidden><div class="ico"><svg><use href="#i-alert"/></svg></div><h2>Something went wrong</h2><p>Could not load work items. GET /api/v1/projects returned 502 and was CORS-blocked. Your requests are safe — retry the service or contact support.</p><span class="line">502 · net::ERR_FAILED · GET /api/v1/projects</span><div class="acts"><button class="btn btn-p" id="retry"><svg><use href="#i-refresh"/></svg>Try again</button><button class="btn" id="support">Contact support</button></div></div>
+   </section>
+
+   <footer><span>© 2026 Nestlancer · F05 · V2 Ops Console</span><a href="../docs/API-MAP.md">API map</a><span class="sp"></span><a href="../V1/index.html">← V1</a><a href="../../../index.html#f05">Gallery</a><a href="../V3/index.html">V3 →</a></footer>
+  </main>
+ </div>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="shTitle" hidden>
+ <div class="h"><div><p class="eyebrow">Detail · demo affordance</p><h2 id="shTitle">Work item</h2></div><button class="ibtn" id="shClose" aria-label="Close details" style="margin-left:auto"><svg><use href="#i-x"/></svg></button></div>
+ <div class="b"><span class="badge" id="shBadge"><svg><use href="#i-dot"/></svg>Submitted</span><dl><dt>Title</dt><dd id="shT"></dd><dt>Type</dt><dd id="shType"></dd><dt>Category</dt><dd id="shCat"></dd><dt>Date</dt><dd id="shDate"></dd></dl><div class="ep" id="shEp"></div><p style="color:var(--muted-foreground)">Stands in for the F07 detail route; only captured fields are shown.</p></div>
+</aside>
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Command menu" hidden><label class="sr-only" for="pIn">Search actions</label><input id="pIn" type="text" placeholder="Search actions…"><ul id="pList"></ul><div class="ph"><span>↑↓ navigate</span><span>↵ select</span><span>esc close</span></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var P=new URLSearchParams(location.search);
+function link(o){var u=new URL(location.href);Object.keys(o).forEach(function(k){!o[k]?u.searchParams.delete(k):u.searchParams.set(k,o[k])});return u.toString()}
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on')},3400)}
+var th=$('#themeBtn');function syncTh(){var d=document.documentElement.classList.contains('dark');th.setAttribute('aria-pressed',String(d));th.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');th.innerHTML='<svg><use href="#i-'+(d?'sun':'moon')+'"/></svg>'}syncTh();
+th.addEventListener('click',function(){var d=document.documentElement.classList.toggle('dark');try{localStorage.setItem('lab-theme',d?'dark':'light')}catch(e){}syncTh()});
+var rail=$('#rail'),scrim=$('#scrim');function nav(on){rail.classList.toggle('on',on);scrim.classList.toggle('on',on||!$('#sheet').hidden);$('#menuBtn').setAttribute('aria-expanded',String(on))}
+$('#menuBtn').addEventListener('click',function(){nav(!rail.classList.contains('on'))});
+$('#exploreBtn').addEventListener('click',function(){var e=this.getAttribute('aria-expanded')==='true';this.setAttribute('aria-expanded',String(!e));$('#exp').hidden=e});
+$$('[data-demo]').forEach(function(b){b.addEventListener('click',function(){toast('Demo affordance · '+b.dataset.demo+' is another family’s route.')})});
+scrim.addEventListener('click',function(){nav(false);closeSheet()});
+var state=P.get('state')||'populated',view=P.get('view')||'requests',sortKey='date',sortDir=-1,saved=P.get('saved')||'';
+var tabs=$$('.tab'),rows=$$('#tbody tr'),tb=$('#tbody'),q=$('#q'),st=$('#status'),sv=$('#saved');
+if(P.get('q'))q.value=P.get('q');if(P.get('status'))st.value=P.get('status');if(saved)sv.value=saved;
+function setView(v,f){view=['all','requests','projects'].indexOf(v)>-1?v:'requests';tabs.forEach(function(t){var on=t.dataset.view===view;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(on&&f)t.focus()});apply()}
+tabs.forEach(function(t,i){t.addEventListener('click',function(){history.replaceState(null,'',link({view:t.dataset.view}));setView(t.dataset.view,false)});t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();var n=tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length];setView(n.dataset.view,true)}else if(e.key==='Home')setView('all',true);else if(e.key==='End')setView('projects',true)})});
+$$('[data-sort]').forEach(function(b){b.addEventListener('click',function(){var k=b.dataset.sort;if(k===sortKey)sortDir=-sortDir;else{sortKey=k;sortDir=k==='date'?-1:1}
+ $$('thead th').forEach(function(h){h.setAttribute('aria-sort','none')});
+ var h=$('#h-'+k);h.setAttribute('aria-sort',sortDir===1?'ascending':'descending');apply();toast('Sorted by '+k+(sortDir===1?' ↑':' ↓'))})});
+function apply(){
+ var query=q.value.trim().toLowerCase(),status=st.value,svs=saved==='approvals'?['Quoted','Changes requested']:saved==='awaiting'?['Quoted','Changes requested','Under review']:[];
+ var list=rows.filter(function(r){var d=r.dataset;
+  var okQ=!query||(d.title+' '+d.type+' '+d.cat+' '+d.status).toLowerCase().indexOf(query)>-1;
+  var okS=(!status&&!svs.length)||(status&&d.status.toLowerCase()===status.toLowerCase())||(!status&&svs.length&&svs.indexOf(d.status)>-1);
+  var okV=view==='all'||(view==='projects'?d.kind==='project':d.kind!=='project');
+  return okQ&&okS&&okV});
+ list.sort(function(a,b){var x=sortKey==='date'?a.dataset.date:a.dataset[sortKey],y=sortKey==='date'?b.dataset.date:b.dataset[sortKey];return (x<y?-1:x>y?1:0)*sortDir});
+ rows.forEach(function(r){r.hidden=true});list.forEach(function(r){tb.appendChild(r);r.hidden=false});
+ var n=list.length;
+ $('#count').textContent=n?('Showing 1–'+n+' of 26 · 1 / 3'):'Showing 0 verified rows';
+ $('#tableWrap').hidden=state!=='populated'||!n;$('#pfoot').hidden=state!=='populated'||!n;
+ $('#empty').hidden=state!=='empty'&&!(state==='populated'&&!n);$('#loading').hidden=state!=='loading';$('#error').hidden=state!=='error';
+ try{history.replaceState(null,'',link({view:view,state:state==='populated'?null:state,q:q.value||null,status:status||null,saved:saved||null}))}catch(e){}
+}
+[q,st,sv].forEach(function(el){el.addEventListener(el===q?'input':'change',function(){if(el===sv)saved=sv.value;apply()})});
+$('#clearBtn').addEventListener('click',function(){q.value='';st.value='';sv.value='';saved='';state='populated';apply();toast('Filters cleared')});
+$('#emptyClear').addEventListener('click',function(){$('#clearBtn').click()});
+$$('[data-state-btn]').forEach(function(b){b.addEventListener('click',function(){state=b.dataset.stateBtn;apply();toast('State · '+b.textContent)})});
+$('#retry').addEventListener('click',function(){state='loading';apply();setTimeout(function(){state='populated';apply();toast('Service retried · GET /api/v1/projects')},850)});
+$('#support').addEventListener('click',function(){toast('Demo affordance · /messages belongs to F12.')});
+$('#next').addEventListener('click',function(){toast('Only page 1 (12 of 26 rows) was captured — no rows invented.')});
+/* detail sheet */
+var sheet=$('#sheet'),last=null;
+function openSheet(id){var r=rows.filter(function(x){return x.dataset.id===id})[0];if(!r)return;last=document.activeElement;
+ $('#shTitle').textContent=r.dataset.title;$('#shT').textContent=r.dataset.title;$('#shType').textContent=r.dataset.type;$('#shCat').textContent=r.dataset.cat;$('#shDate').textContent=r.querySelector('.num').textContent;
+ $('#shEp').textContent=(r.dataset.kind==='project'?'GET /api/v1/projects/{id}':'GET /api/v1/requests/{id}')+' · '+id;
+ var b=$('#shBadge');b.className='badge '+(/Draft/.test(r.dataset.status)?'b-draft':/Expired/.test(r.dataset.status)?'b-expired':/Converted/.test(r.dataset.status)?'b-converted':r.dataset.kind==='project'?'b-project':'');b.innerHTML='<svg><use href="#i-dot"/></svg>'+r.dataset.status;
+ sheet.hidden=false;requestAnimationFrame(function(){sheet.classList.add('on')});scrim.classList.add('on');$('#shClose').focus()}
+function closeSheet(){if(sheet.hidden)return;sheet.classList.remove('on');sheet.hidden=true;scrim.classList.toggle('on',rail.classList.contains('on'));if(last)last.focus()}
+$$('[data-open]').forEach(function(b){b.addEventListener('click',function(){openSheet(b.dataset.open)})});
+$('#shClose').addEventListener('click',closeSheet);
+sheet.addEventListener('keydown',function(e){if(e.key==='Tab'){var f=$$('button,[href]',sheet);if(!f.length)return;if(e.shiftKey&&document.activeElement===f[0]){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&document.activeElement===f[f.length-1]){e.preventDefault();f[0].focus()}}});
+/* palette */
+var pal=$('#palette'),pin=$('#pIn'),plist=$('#pList'),idx=0;
+var acts=[{n:'New request · F06 V1',i:'i-plus',f:function(){location.href='../../F06-request-new-form/V1/index.html'}},
+{n:'Tab · All',i:'i-inbox',f:function(){setView('all',false)}},{n:'Tab · Requests (12)',i:'i-req',f:function(){setView('requests',false)}},{n:'Tab · Projects',i:'i-folder',f:function(){setView('projects',false)}},
+{n:'Saved view · My pending approvals',i:'i-bookmark',f:function(){sv.value='approvals';saved='approvals';apply()}},
+{n:'Filter · Draft',i:'i-dot',f:function(){st.value='Draft';apply()}},{n:'Filter · Submitted',i:'i-dot',f:function(){st.value='Submitted';apply()}},
+{n:'Density · compact / comfortable',i:'i-grid',f:function(){$('#densityBtn').click()}},
+{n:'Sort by title',i:'i-chev',f:function(){$('[data-sort="title"]').click()}},
+{n:'State · 502 error',i:'i-alert',f:function(){state='error';apply()}},
+{n:'Switch theme',i:'i-moon',f:function(){th.click()}},{n:'Gallery',i:'i-dash',f:function(){location.href='../../../index.html#f05'}}];
+function render(){var s=pin.value.toLowerCase();plist.innerHTML='';acts.filter(function(a){return a.n.toLowerCase().indexOf(s)>-1}).forEach(function(a,k){var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.innerHTML='<svg><use href="#'+a.i+'"/></svg><span>'+a.n+'</span>';b.onclick=function(){closePal();a.f()};b.onmouseenter=function(){idx=k;mark()};li.appendChild(b);plist.appendChild(li)});idx=0;mark()}
+function mark(){$$('#pList button').forEach(function(b,i){b.classList.toggle('sel',i===idx)})}
+function openPal(){pal.hidden=false;pin.value='';render();requestAnimationFrame(function(){pal.classList.add('on')});pin.focus()}
+function closePal(){pal.classList.remove('on');pal.hidden=true;$('#palBtn').focus()}
+$('#palBtn').addEventListener('click',openPal);pin.addEventListener('input',render);
+pin.addEventListener('keydown',function(e){var b=$$('#pList button');if(e.key==='ArrowDown'){e.preventDefault();idx=(idx+1)%b.length;mark()}else if(e.key==='ArrowUp'){e.preventDefault();idx=(idx+b.length-1)%b.length;mark()}else if(e.key==='Enter'){e.preventDefault();if(b[idx])b[idx].click()}});
+$('#densityBtn').addEventListener('click',function(){var c=$('#grid').classList.toggle('compact');this.setAttribute('aria-pressed',String(c));toast(c?'Compact rows (36px)':'Comfortable rows (48px)')});
+document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();pal.hidden?openPal():closePal()}
+ else if(e.key==='d'&&!/input|select|textarea/i.test(document.activeElement.tagName)){$('#densityBtn').click()}
+ else if(e.key==='Escape'){if(!pal.hidden)closePal();else if(!sheet.hidden)closeSheet();else if(rail.classList.contains('on'))nav(false)}});
+/* IO reveal for metric values (no scroll listeners) */
+if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.style.opacity=1;io.unobserve(en.target)}})});$$('.metric').forEach(function(m){m.style.opacity=.4;m.style.transition='opacity var(--duration-normal)';io.observe(m)})}
+setView(view,false);
+})();
+</script>
+</body>
+</html>

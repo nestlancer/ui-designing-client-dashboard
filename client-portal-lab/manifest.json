@@ -1,0 +1,718 @@
+{
+  "meta": {
+    "lab": "Nestlancer Client Portal Lab",
+    "schema_version": 1,
+    "description": "Hand-maintained manifest. id, family, axes, C/A coverage, API refs, verification per variant. Schema supports 23 families x 5 = 115 records; this file holds only the ACTIVE families built so far (merge-only — never delete/overwrite a sibling family's records).",
+    "capacity_total": 115,
+    "families_total": 23,
+    "variants_per_family": 5,
+    "active_families": [
+      "F05-requests-work-hub",
+      "F06-request-new-form"
+    ],
+    "families_recorded": 2,
+    "records_count": 10,
+    "tokens": "shared/tokens.css (single locked blue scheme) + shared/base.css (reset/primitives only)",
+    "authorship": "All 10 variants hand-authored; no design-generation script used. See DECISIONS.md.",
+    "verification_method": {
+      "static": "node --check on all 20 inline scripts (0 errors) · BeautifulSoup HTML parse · link/asset target existence check (0 missing after gallery created) · CSS var() token definition check (0 undefined) · remote-URL scan (0 http(s) assets) · dead-link scan (0 real href=\"#\")",
+      "runtime": "jsdom headless execution of every page: theme, state switcher, tabs, chips, command palette, help, detail drawers, search/filter, form validation+submit, stepper, budget guide, dropzone, cancel dialogs — 0 runtime errors across 10/10; 30 DOM-mutation assertions pass",
+      "screenshot": "NOT RUN — no Chromium/Chrome/Firefox/wkhtmltoimage binary available in the sandbox. Light/dark visual parity and 360/390/768/1024/1440 layout were reasoned from CSS + jsdom, not from pixel screenshots. Stated explicitly per Gate 3."
+    },
+    "preview": "python3 -m http.server 8130  (from repo root)  ->  /client-portal-lab/",
+    "generated_note": "records[].verification.widths lists CSS breakpoints implemented, not measured pixels",
+    "generated_on": "2026-10-27"
+  },
+  "records": [
+    {
+      "id": "F05-requests-work-hub/V1",
+      "family": "F05",
+      "family_dir": "F05-requests-work-hub",
+      "variant": "V1",
+      "name": "Calm Ledger",
+      "path": "families/F05-requests-work-hub/V1/index.html",
+      "routes": [
+        "/requests",
+        "/requests?view=all",
+        "/requests?view=projects"
+      ],
+      "axes": {
+        "A": "single-column ledger",
+        "B": "verdict-first",
+        "C": "static sections",
+        "D": "airy minimal",
+        "E": "filter-chips + focus-trapped drawer",
+        "A+C": "single-col/static"
+      },
+      "C_coverage": [
+        "C16",
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "A12"
+      ],
+      "A_coverage_optional": [
+        "A12"
+      ],
+      "signature_interaction": "Removable filter chips + URL state + detail drawer",
+      "api_refs": [
+        "GET /api/v1/requests/stats",
+        "GET /api/v1/projects/stats",
+        "GET /api/v1/requests?page&limit&status",
+        "GET /api/v1/projects",
+        "GET /api/v1/requests/{id}",
+        "GET /api/v1/requests/{id}/status",
+        "GET /api/v1/requests/{id}/quotes",
+        "POST /api/v1/requests",
+        "POST /api/v1/requests/{id}/submit"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "502-error+retry"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F05-requests-work-hub/V2",
+      "family": "F05",
+      "family_dir": "F05-requests-work-hub",
+      "variant": "V2",
+      "name": "Ops Console",
+      "path": "families/F05-requests-work-hub/V2/index.html",
+      "routes": [
+        "/requests",
+        "/requests?view=all",
+        "/requests?view=projects"
+      ],
+      "axes": {
+        "A": "sticky ops table",
+        "B": "numbers-first",
+        "C": "tab-led",
+        "D": "dense",
+        "E": "command-palette + aria-sort + density toggle",
+        "A+C": "table/tab-led"
+      },
+      "C_coverage": [
+        "C16",
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "A12"
+      ],
+      "A_coverage_optional": [
+        "A12"
+      ],
+      "signature_interaction": "⌘K real actions + sortable sticky-header table + mobile card fallback",
+      "api_refs": [
+        "GET /api/v1/requests/stats",
+        "GET /api/v1/projects/stats",
+        "GET /api/v1/requests?page&limit&status",
+        "GET /api/v1/projects",
+        "GET /api/v1/requests/{id}",
+        "GET /api/v1/requests/{id}/status",
+        "GET /api/v1/requests/{id}/quotes",
+        "POST /api/v1/requests",
+        "POST /api/v1/requests/{id}/submit"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "502-error+retry"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F05-requests-work-hub/V3",
+      "family": "F05",
+      "family_dir": "F05-requests-work-hub",
+      "variant": "V3",
+      "name": "Attention Queue",
+      "path": "families/F05-requests-work-hub/V3/index.html",
+      "routes": [
+        "/requests",
+        "/requests?view=all",
+        "/requests?view=projects"
+      ],
+      "axes": {
+        "A": "split hero + workbench",
+        "B": "action-first",
+        "C": "queue-led",
+        "D": "airy cards",
+        "E": "count-up + review-next + priority switch",
+        "A+C": "split/queue-led"
+      },
+      "C_coverage": [
+        "C16",
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "A12"
+      ],
+      "A_coverage_optional": [
+        "A12"
+      ],
+      "signature_interaction": "Verdict hero + 3 attention cards + Review next opens first expired quote",
+      "api_refs": [
+        "GET /api/v1/requests/stats",
+        "GET /api/v1/projects/stats",
+        "GET /api/v1/requests?page&limit&status",
+        "GET /api/v1/projects",
+        "GET /api/v1/requests/{id}",
+        "GET /api/v1/requests/{id}/status",
+        "GET /api/v1/requests/{id}/quotes",
+        "POST /api/v1/requests",
+        "POST /api/v1/requests/{id}/submit"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "502-error+retry"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F05-requests-work-hub/V4",
+      "family": "F05",
+      "family_dir": "F05-requests-work-hub",
+      "variant": "V4",
+      "name": "Chapter Tabs",
+      "path": "families/F05-requests-work-hub/V4/index.html",
+      "routes": [
+        "/requests",
+        "/requests?view=all",
+        "/requests?view=projects"
+      ],
+      "axes": {
+        "A": "2-column sticky rail",
+        "B": "narrative-first",
+        "C": "chapter tabs",
+        "D": "editorial rules",
+        "E": "scroll-spy + crossfade chapter panels",
+        "A+C": "rail/chapters"
+      },
+      "C_coverage": [
+        "C16",
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "A12"
+      ],
+      "A_coverage_optional": [
+        "A12"
+      ],
+      "signature_interaction": "Sticky chapter nav with scroll-spy, crossfade and in-page jump",
+      "api_refs": [
+        "GET /api/v1/requests/stats",
+        "GET /api/v1/projects/stats",
+        "GET /api/v1/requests?page&limit&status",
+        "GET /api/v1/projects",
+        "GET /api/v1/requests/{id}",
+        "GET /api/v1/requests/{id}/status",
+        "GET /api/v1/requests/{id}/quotes",
+        "POST /api/v1/requests",
+        "POST /api/v1/requests/{id}/submit"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "502-error+retry"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F05-requests-work-hub/V5",
+      "family": "F05",
+      "family_dir": "F05-requests-work-hub",
+      "variant": "V5",
+      "name": "Status Lanes",
+      "path": "families/F05-requests-work-hub/V5/index.html",
+      "routes": [
+        "/requests",
+        "/requests?view=all",
+        "/requests?view=projects"
+      ],
+      "axes": {
+        "A": "4-lane card board",
+        "B": "queue-first",
+        "C": "lane-led",
+        "D": "bento",
+        "E": "roving arrow-key focus + detail drawer",
+        "A+C": "board/lane-led"
+      },
+      "C_coverage": [
+        "C16",
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "A12"
+      ],
+      "A_coverage_optional": [
+        "A12"
+      ],
+      "signature_interaction": "Counted ordered lanes with full keyboard navigation; read-only (no status endpoint)",
+      "api_refs": [
+        "GET /api/v1/requests/stats",
+        "GET /api/v1/projects/stats",
+        "GET /api/v1/requests?page&limit&status",
+        "GET /api/v1/projects",
+        "GET /api/v1/requests/{id}",
+        "GET /api/v1/requests/{id}/status",
+        "GET /api/v1/requests/{id}/quotes",
+        "POST /api/v1/requests",
+        "POST /api/v1/requests/{id}/submit"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "502-error+retry"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F06-request-new-form/V1",
+      "family": "F06",
+      "family_dir": "F06-request-new-form",
+      "variant": "V1",
+      "name": "Classic Brief",
+      "path": "families/F06-request-new-form/V1/index.html",
+      "routes": [
+        "/requests/new"
+      ],
+      "axes": {
+        "A": "single column",
+        "B": "narrative-first",
+        "C": "static sections",
+        "D": "airy",
+        "E": "validation + help popovers + autosave",
+        "A+C": "single/static"
+      },
+      "C_coverage": [
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "attachment-at-creation",
+        "inline-budget-guide"
+      ],
+      "A_coverage_optional": [],
+      "signature_interaction": "Three stacked sections, per-field help, live completion count, local autosave/restore",
+      "api_refs": [
+        "POST /api/v1/requests (CreateRequestDto: BudgetDto, TimelineDto, TechnicalRequirementsDto, attachments[]<=10)",
+        "POST /api/v1/media/upload/direct",
+        "POST /api/v1/media/upload (chunked init/complete)",
+        "GET /api/v1/media/{id}/status",
+        "requests.openapi.json · media.openapi.json"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "submit-error+retry",
+        "success",
+        "cancel-without-losing-work"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F06-request-new-form/V2",
+      "family": "F06",
+      "family_dir": "F06-request-new-form",
+      "variant": "V2",
+      "name": "Three Steps",
+      "path": "families/F06-request-new-form/V2/index.html",
+      "routes": [
+        "/requests/new"
+      ],
+      "axes": {
+        "A": "centred step stage",
+        "B": "progress-first",
+        "C": "stepper",
+        "D": "airy",
+        "E": "per-step validation gates + aria-current=step",
+        "A+C": "stage/stepper"
+      },
+      "C_coverage": [
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "attachment-at-creation",
+        "inline-budget-guide"
+      ],
+      "A_coverage_optional": [],
+      "signature_interaction": "Gated wizard: Next validates the step, Back is lossless, restore saved step",
+      "api_refs": [
+        "POST /api/v1/requests (CreateRequestDto: BudgetDto, TimelineDto, TechnicalRequirementsDto, attachments[]<=10)",
+        "POST /api/v1/media/upload/direct",
+        "POST /api/v1/media/upload (chunked init/complete)",
+        "GET /api/v1/media/{id}/status",
+        "requests.openapi.json · media.openapi.json"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "submit-error+retry",
+        "success",
+        "cancel-without-losing-work"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F06-request-new-form/V3",
+      "family": "F06",
+      "family_dir": "F06-request-new-form",
+      "variant": "V3",
+      "name": "Compact Desk",
+      "path": "families/F06-request-new-form/V3/index.html",
+      "routes": [
+        "/requests/new"
+      ],
+      "axes": {
+        "A": "12-column compact grid",
+        "B": "numbers-first",
+        "C": "static sections",
+        "D": "dense",
+        "E": "live budget-band ruler + stat chips + native details help",
+        "A+C": "grid/static"
+      },
+      "C_coverage": [
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "attachment-at-creation",
+        "inline-budget-guide"
+      ],
+      "A_coverage_optional": [],
+      "signature_interaction": "All 10 fields on one screen; live validity stats and ₹ band ruler",
+      "api_refs": [
+        "POST /api/v1/requests (CreateRequestDto: BudgetDto, TimelineDto, TechnicalRequirementsDto, attachments[]<=10)",
+        "POST /api/v1/media/upload/direct",
+        "POST /api/v1/media/upload (chunked init/complete)",
+        "GET /api/v1/media/{id}/status",
+        "requests.openapi.json · media.openapi.json"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "submit-error+retry",
+        "success",
+        "cancel-without-losing-work"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F06-request-new-form/V4",
+      "family": "F06",
+      "family_dir": "F06-request-new-form",
+      "variant": "V4",
+      "name": "Guided Narrative",
+      "path": "families/F06-request-new-form/V4/index.html",
+      "routes": [
+        "/requests/new"
+      ],
+      "axes": {
+        "A": "2-column sticky rail",
+        "B": "narrative-first",
+        "C": "chapter-sticky",
+        "D": "editorial",
+        "E": "scroll-spy + resume draft + word count",
+        "A+C": "rail/chapters"
+      },
+      "C_coverage": [
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "attachment-at-creation",
+        "inline-budget-guide"
+      ],
+      "A_coverage_optional": [],
+      "signature_interaction": "Question-led long form, sticky TOC, scroll-spy, resume-draft banner",
+      "api_refs": [
+        "POST /api/v1/requests (CreateRequestDto: BudgetDto, TimelineDto, TechnicalRequirementsDto, attachments[]<=10)",
+        "POST /api/v1/media/upload/direct",
+        "POST /api/v1/media/upload (chunked init/complete)",
+        "GET /api/v1/media/{id}/status",
+        "requests.openapi.json · media.openapi.json"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "submit-error+retry",
+        "success",
+        "cancel-without-losing-work"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    },
+    {
+      "id": "F06-request-new-form/V5",
+      "family": "F06",
+      "family_dir": "F06-request-new-form",
+      "variant": "V5",
+      "name": "Bento Split",
+      "path": "families/F06-request-new-form/V5/index.html",
+      "routes": [
+        "/requests/new"
+      ],
+      "axes": {
+        "A": "bento split + rail",
+        "B": "verdict-first",
+        "C": "accordion",
+        "D": "bento",
+        "E": "live request-card preview + toasts",
+        "A+C": "split/accordion"
+      },
+      "C_coverage": [
+        "C17",
+        "C4",
+        "C5",
+        "C6",
+        "C18"
+      ],
+      "A_coverage_P1": [
+        "attachment-at-creation",
+        "inline-budget-guide"
+      ],
+      "A_coverage_optional": [],
+      "signature_interaction": "Collapsible bento form with a sticky live preview card of all 10 fields",
+      "api_refs": [
+        "POST /api/v1/requests (CreateRequestDto: BudgetDto, TimelineDto, TechnicalRequirementsDto, attachments[]<=10)",
+        "POST /api/v1/media/upload/direct",
+        "POST /api/v1/media/upload (chunked init/complete)",
+        "GET /api/v1/media/{id}/status",
+        "requests.openapi.json · media.openapi.json"
+      ],
+      "states": [
+        "populated",
+        "empty",
+        "loading-skeleton",
+        "submit-error+retry",
+        "success",
+        "cancel-without-losing-work"
+      ],
+      "verification": {
+        "js_runtime_errors": 0,
+        "js_syntax_check": "PASS (node --check)",
+        "undefined_css_tokens": 0,
+        "remote_urls": 0,
+        "dead_links": 0,
+        "light_dark": true,
+        "reduced_motion": true,
+        "keyboard": true,
+        "widths_css_breakpoints_px": [
+          360,
+          390,
+          768,
+          1000,
+          1024,
+          1440
+        ],
+        "screenshot_qa": "not run (no browser binary)"
+      }
+    }
+  ]
+}
