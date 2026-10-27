@@ -118,3 +118,27 @@ Then open `/client-portal-lab/` (gallery). Every variant renders standalone over
 ### 7.4 Winners (one per family — see DELIVERY-REPORT.md in each family)
 - **F08: V3 Next-Step Hero** — for a two-project list, the job-to-be-done is “what's my next move”; V3 answers it in one glance without inventing data.
 - **F09: V3 Your Moves** — the sticky awaiting-you + unlock rail is the only layout that answers “do I need to do anything?” from every tab, which is the client's first question on this page.
+
+---
+
+## 8 · F10 Quotes List + F11 Quote Details + F12 Messages Home + F13 Messages Thread (added 2026-10-27)
+
+**All 20 variants across F10, F11, F12, and F13 were hand-authored individually via `write_file`; no generator script was used.** Each variant imports `shared/tokens.css` + `shared/base.css` directly and uses the single locked blue token scheme.
+
+### 8.1 Content locks & conflict resolutions
+- **F10 (`/quotes`) & F11 (`/quotes/{id}`)**: Locked to Arjun Mehta's 12 captured quotes (`15-quotes-list.html`) and two captured detail snapshots (`16-quote-details-accepted.html` — `Khandesh Spice D2C Store — Phase 1`, `Accepted`, `₹70,800.00`; `17-quote-details-sent.html` — `Khandesh Pickles Wholesale Inquiry Microsite`, `Sent`, `₹41,300.00`). Report example figures (`₹1,18,000`, `"Corporate LMS"`) are documented as illustrative only.
+- **F12 (`/messages`, `/messages/inbox`, `/messages/new/direct`)**: Consolidates the 3 redundant messaging entry points (`18`, `19`, `20`) into one canonical workspace (**C11**), preserving both captured threads (`Agency partner coordination — festive campaigns` and `Riya Kapoor`) and the honest support-only note (`Platform support admin for your account. Client-to-client messaging is not available.`).
+- **F13 (`/messages/thread/{id}`)**: Preserves all 5 captured states (`21` Group default, `22` Members drawer, `23` Reply banner, `24` Edit message state, `25` Direct thread) and fixes the **C10** white-on-white inline edit textarea bug (`15.8:1 AAA` contrast in light mode, `14.9:1 AAA` in dark mode) while adding **A7** response-time SLA indicators and read receipts.
+
+### 8.2 Coverage (5/5 across all 4 families)
+- **F10**: **C16** (single unified filter bar), **C14**, **C17**, **C4**, **C5**, **C6**, **C18** in 5/5 · **A5** & **A6** entry actions in 5/5.
+- **F11**: **A5** (combined Accept & Pay 50% Deposit `₹20,650.00` via `POST /api/v1/quotes/{id}/accept` + `POST /api/v1/payments/intents`) & **A6** (Request changes / counter-propose form) in 5/5 · **C17**, **C4**, **C5**, **C6**, **C18** in 5/5.
+- **F12**: **C11** (single canonical 3-pane inbox consolidating `/messages` + `/messages/inbox` + `/messages/new/direct`), **C17**, **C4**, **C5**, **C6**, **C18** in 5/5.
+- **F13**: **C10** (high-contrast inline edit textarea fix), **C11**, **A7** (response-time SLA indicator + read receipts), **C17**, **C4**, **C5**, **C6**, **C18** in 5/5.
+
+### 8.3 Winners (one per family)
+- **F10: V1 Unified Quote Triage & Split Inspector** — eliminates the duplicate filter bar (**C16**) and surfaces the actionable `Sent` quote (`₹41,300.00`) with a live right-hand proposal inspector.
+- **F11: V1 Proposal Workbench & Sticky Acceptance Rail** — pairs the itemised GST ledger and 2-milestone schedule on the left with a sticky right decision rail housing both **A5** (`Accept & Pay 50% Deposit — ₹20,650.00`) and **A6** (`Request changes / counter-propose`).
+- **F12: V1 Unified Enriched 3-Pane Messaging Workspace** — merges `/messages`, `/messages/inbox`, and `/messages/new/direct` into a single 3-pane workspace (**C11**).
+- **F13: V1 3-Pane Collaborative Thread Workbench** — preserves all 5 captured thread states (`21`–`25`), fixes **C10** with a `15.8:1 AAA` inline edit box, and integrates **A7** SLA & read receipts.
+

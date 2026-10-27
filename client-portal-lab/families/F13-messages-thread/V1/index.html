@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages Thread · V1 3-Pane Collaborative Workbench (C10 Fixed + A7 SLA) — Nestlancer</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F13 · Messages Thread — V1: 3-Pane Collaborative Thread Workbench
+       Includes C10 White-on-White Inline Edit Fix (15.8:1 AAA) & A7 SLA + Read Receipts
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; width: var(--sidebar-w);
+      background: var(--card); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: var(--sp-4) var(--sp-3); z-index: 30;
+    }
+    .sidebar-brand { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-1) var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-4); }
+    .brand-link { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; font-size: var(--fs-md); }
+    .brand-mark { width: 28px; height: 28px; border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--fs-sm); }
+    .portal-pill { font-size: var(--fs-xs); font-weight: 600; padding: 2px 8px; border-radius: var(--r-pill); background: var(--brand-50); color: var(--brand-700); }
+    .dark .portal-pill { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .sidebar-cta { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); width: 100%; padding: 10px var(--sp-3); border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); font-weight: 600; font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+    .nav-section-label { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-fg); padding: var(--sp-2) var(--sp-2) var(--sp-1); }
+    .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-3); }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: var(--r-md); font-size: var(--fs-sm); font-weight: 500; color: var(--muted-fg); }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+    .dark .nav-link[aria-current="page"] { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .nav-count { font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; padding: 1px 7px; border-radius: var(--r-pill); background: var(--muted); color: var(--fg); }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); position: relative; }
+    .explore-popover { position: absolute; bottom: calc(100% + 6px); left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow-md); padding: var(--sp-2); display: none; flex-direction: column; gap: 2px; z-index: 40; }
+    .explore-popover.is-open { display: flex; }
+
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky; top: 0; height: var(--header-h);
+      background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--sp-6); z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn { display: none; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); align-items: center; justify-content: center; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--muted-fg); }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 6px 12px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--muted); color: var(--muted-fg); font-size: var(--fs-xs); }
+    .icon-btn { position: relative; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); display: inline-flex; align-items: center; justify-content: center; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--primary); color: var(--primary-fg); font-family: var(--mono); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); font-size: var(--fs-xs); font-weight: 600; }
+    .avatar-circle { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--brand-600); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; }
+
+    .lab-bar {
+      background: var(--muted); border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--sp-3); font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill { padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); color: var(--muted-fg); font-weight: 600; font-size: var(--fs-xs); }
+    .lab-pill.is-active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    /* --- V1 3-Pane Thread Workbench --- */
+    .page-container {
+      width: 100%; max-width: var(--container-max);
+      margin: 0 auto; padding: var(--sp-4) var(--sp-6);
+      display: flex; flex-direction: column; gap: var(--sp-4);
+    }
+    .top-bar-row {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--sp-3);
+    }
+    .thread-3pane {
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr) 300px;
+      gap: var(--sp-4);
+      align-items: start;
+    }
+    .pane-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .search-input, .select-sm {
+      width: 100%; padding: 6px 10px; border-radius: var(--r-md);
+      border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: var(--fs-xs);
+    }
+    .queue-row {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .queue-row.is-active {
+      background: var(--brand-50);
+      border-left: 3px solid var(--primary);
+    }
+    .dark .queue-row.is-active { background: rgba(91, 123, 255, 0.16); }
+
+    /* Centre Active Thread Header + Stream + Composer */
+    .thread-header {
+      padding: var(--sp-4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+    }
+    /* A7 Response-Time SLA Pill */
+    .a7-sla-banner {
+      background: var(--status-info-bg);
+      color: var(--status-info-text);
+      border-bottom: 1px solid var(--status-info-border);
+      padding: 8px 16px;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .quick-replies-bar {
+      padding: 8px 16px;
+      background: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .qr-pill {
+      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      font-size: 11.5px;
+      font-weight: 500;
+    }
+    .qr-pill:hover { border-color: var(--primary); color: var(--primary); }
+
+    .message-stream {
+      padding: var(--sp-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+      background: var(--bg);
+    }
+    .sys-pill {
+      align-self: center;
+      padding: 3px 12px;
+      border-radius: var(--r-pill);
+      background: var(--muted);
+      border: 1px solid var(--border);
+      color: var(--muted-fg);
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .msg-card {
+      max-width: 86%;
+      padding: 12px 14px;
+      border-radius: var(--r-lg);
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .msg-card--self {
+      align-self: flex-end;
+      background: var(--primary);
+      color: var(--primary-fg);
+      border-color: var(--primary);
+    }
+    .msg-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 11.5px;
+    }
+    .msg-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .msg-action-btn {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: var(--r-xs);
+      border: 1px solid var(--border);
+      background: var(--muted);
+      color: var(--fg);
+    }
+    .msg-card--self .msg-action-btn {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* ==========================================================================
+       C10 SHIP-BLOCKER FIX: High-Contrast Inline Message Edit Textarea
+       Explicitly overrides inherited white text inside .msg-card--self!
+       Light mode: #0f172a on #ffffff (15.8:1 AAA)
+       Dark mode:  #f8fafc on #111c33 (14.9:1 AAA)
+       ========================================================================== */
+    .c10-edit-box {
+      background: var(--card);
+      color: var(--fg);
+      border: 2px solid var(--border-strong);
+      border-radius: var(--r-md);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .c10-edit-textarea {
+      width: 100%;
+      min-height: 74px;
+      padding: 8px 10px;
+      border-radius: var(--r-sm);
+      border: 1.5px solid var(--primary);
+      background: var(--card) !important;
+      color: var(--fg) !important;
+      caret-color: var(--primary);
+      font-family: var(--font-sans);
+      font-size: var(--fs-sm);
+      line-height: 1.5;
+    }
+
+    /* A7 Read Receipt Row */
+    .a7-receipt-row {
+      font-size: 11px;
+      font-family: var(--mono);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      opacity: 0.95;
+    }
+
+    /* Composer + State 23 Reply Banner */
+    .composer-wrap {
+      padding: var(--sp-3) var(--sp-4);
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .reply-banner {
+      background: var(--brand-50);
+      color: var(--brand-700);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--r-sm);
+      padding: 8px 12px;
+      font-size: var(--fs-xs);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .dark .reply-banner {
+      background: rgba(91, 123, 255, 0.16);
+      color: var(--brand-200);
+    }
+    .composer-textarea {
+      width: 100%;
+      min-height: 64px;
+      padding: 8px 12px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: var(--fs-sm);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 7px 12px; border-radius: var(--r-md);
+      font-size: var(--fs-xs); font-weight: 600;
+      border: 1px solid var(--border); background: var(--card); color: var(--fg);
+    }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    @media (max-width: 1120px) { .thread-3pane { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .top-header, .lab-bar, .page-container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link"><span class="brand-mark">NL</span><span>Nestlancer</span></a>
+        <span class="portal-pill">Client</span>
+      </div>
+      <a href="../../F06-request-new-form/V1/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V1/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="../../F10-quotes-list/V1/index.html" class="nav-link"><span>Quotes</span><span class="nav-count">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="../../F12-messages-home/V1/index.html" class="nav-link" aria-current="page"><span>Messages</span><span class="nav-count nav-count--brand">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <a href="../../F12-messages-home/V1/index.html">Messages</a><span>›</span>
+            <span class="breadcrumbs-current" id="bc-thread" aria-current="page">Agency partner coordination — festive campaigns</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Switch thread</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">◐</button>
+          <button type="button" class="icon-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <!-- Variant & 5 Captured HTML States Bar -->
+      <div class="lab-bar" role="region" aria-label="Variant and captured state controls">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F13 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill is-active">V1 · 3-Pane Workbench ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Linear Activity Feed</a>
+          <a href="../V3/index.html" class="lab-pill">V3 · Focus Canvas &amp; Cards</a>
+          <a href="../V4/index.html" class="lab-pill">V4 · SLA &amp; Context Thread</a>
+          <a href="../V5/index.html" class="lab-pill">V5 · Docked Split Messenger</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">Captured State:</span>
+          <button type="button" class="lab-pill is-active" data-state-btn="group">21 · Group Default</button>
+          <button type="button" class="lab-pill" data-state-btn="members">22 · Members Drawer</button>
+          <button type="button" class="lab-pill" data-state-btn="reply">23 · Reply Banner</button>
+          <button type="button" class="lab-pill" data-state-btn="edit">24 · Edit Message (C10 Fixed)</button>
+          <button type="button" class="lab-pill" data-state-btn="direct">25 · Direct Thread (Riya)</button>
+          <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
+          <button type="button" class="lab-pill" data-state-btn="error">Send Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="page-container">
+        <section class="top-bar-row">
+          <div>
+            <h1 style="font-size:var(--fs-xl); font-weight:700;">Messages</h1>
+            <p style="font-size:var(--fs-xs); color:var(--muted-fg);" id="top-subtitle">Group · 3 members</p>
+          </div>
+          <a href="../../F12-messages-home/V1/index.html" class="btn">← Panel (/messages/inbox)</a>
+        </section>
+
+        <section class="thread-3pane" aria-label="Active conversation 3-pane workspace">
+          <!-- Left Pane: Conversation Queue -->
+          <div class="pane-card">
+            <div style="padding:12px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:8px;">
+              <div>
+                <h2 style="font-size:var(--fs-sm); font-weight:700;">Conversation queue</h2>
+                <div style="font-size:11px; color:var(--muted-fg);">2 conversations — click to open in the workspace</div>
+              </div>
+              <input type="search" class="search-input" placeholder="Search by name, preview, or ID…" aria-label="Search by name, preview, or ID" />
+              <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                <span class="lab-pill is-active">All</span>
+                <span class="lab-pill">Unread</span>
+                <span class="lab-pill">Direct</span>
+                <span class="lab-pill">Project</span>
+                <span class="lab-pill">Group</span>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                <select class="select-sm" aria-label="Inbox"><option>Inbox</option><option selected>Active</option><option>Archived</option></select>
+                <select class="select-sm" aria-label="Sort"><option>Unread first</option><option>Longest wait</option><option>Latest</option></select>
+              </div>
+            </div>
+            <button type="button" class="queue-row is-active" id="q-group-btn">
+              <div style="display:flex; justify-content:space-between;"><strong style="font-size:var(--fs-xs);">AP · Agency partner coordination — festive campaigns</strong><span style="font-size:10.5px;">Group</span></div>
+              <div style="font-size:11.5px; color:var(--muted-fg);">Great — I'll schedule a joint review of Razorpay UPI checkout patterns that worked across both projects.</div>
+              <div style="font-size:10.5px; color:var(--muted-fg); font-family:var(--mono);">20 days ago</div>
+            </button>
+            <button type="button" class="queue-row" id="q-direct-btn">
+              <div style="display:flex; justify-content:space-between;"><strong style="font-size:var(--fs-xs);">RK · Riya Kapoor</strong><span style="font-size:10.5px;">Direct</span></div>
+              <div style="font-size:11.5px; color:var(--muted-fg);">Noted. Milestone 2 staging link stays live through the weekend for your team to test UPI flows.</div>
+              <div style="font-size:10.5px; color:var(--muted-fg); font-family:var(--mono);">20 days ago</div>
+            </button>
+          </div>
+
+          <!-- Centre Pane: Active Thread Stream + Composer -->
+          <div class="pane-card" id="thread-centre"></div>
+
+          <!-- Right Pane: Group Info / Members Drawer (22) + Search in Conversation -->
+          <aside class="pane-card" id="thread-drawer" style="padding:14px; gap:14px;" aria-label="Conversation info and search"></aside>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      let state = "group";
+      let selfGroupText = "Useful reference. Our D2C spice store is targeting similar numbers for Navratri — checkout UPI flow is priority this week.";
+      let selfDirectText = "Accounts team will release HDFC transfer by Monday. Navratri prep is keeping us busy — thanks for the checkout-first sprint.";
+      let searchMatch = "";
+
+      const centreEl = document.getElementById("thread-centre");
+      const drawerEl = document.getElementById("thread-drawer");
+      const bcEl = document.getElementById("bc-thread");
+      const subEl = document.getElementById("top-subtitle");
+      const qGroupBtn = document.getElementById("q-group-btn");
+      const qDirectBtn = document.getElementById("q-direct-btn");
+
+      function escapeHtml(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      function render() {
+        const isDirect = state === "direct";
+        qGroupBtn.classList.toggle("is-active", !isDirect);
+        qDirectBtn.classList.toggle("is-active", isDirect);
+        bcEl.textContent = isDirect ? "Riya Kapoor" : "Agency partner coordination — festive campaigns";
+        subEl.textContent = isDirect ? "Direct chat with your admin team." : "Group · 3 members";
+
+        if (state === "loading") {
+          centreEl.innerHTML = '<div style="padding:28px;">Loading messages from GET /api/v1/messages/threads/{threadId}/messages…</div>';
+          drawerEl.innerHTML = '<div>Loading info…</div>';
+          return;
+        }
+
+        const headerHtml = isDirect
+          ? '<div class="thread-header">' +
+            '<div style="display:flex; align-items:center; gap:10px;">' +
+            '<span class="avatar-circle">RK</span>' +
+            '<div><h2 style="font-size:var(--fs-md); font-weight:700;">Riya Kapoor</h2><div style="font-size:var(--fs-xs); color:var(--muted-fg);">Direct chat with your admin team.</div></div>' +
+            "</div>" +
+            '<button type="button" class="btn">Mark read</button>' +
+            "</div>"
+          : '<div class="thread-header">' +
+            '<div style="display:flex; align-items:center; gap:10px;">' +
+            '<span class="avatar-circle">AP</span>' +
+            '<div><h2 style="font-size:var(--fs-md); font-weight:700;">Agency partner coordination — festive campaigns</h2><div style="font-size:var(--fs-xs); color:var(--muted-fg);">Group · 3 members</div></div>' +
+            "</div>" +
+            '<div style="display:flex; gap:6px;">' +
+            '<button type="button" class="btn" id="toggle-members-btn">' + (state === "members" ? "Hide members" : "Members") + "</button>" +
+            '<button type="button" class="btn">Mark read</button>' +
+            "</div></div>";
+
+        const a7SlaBanner =
+          '<div class="a7-sla-banner">' +
+          "<span>⏱ A7 Response SLA: Riya Kapoor (Admin) · Usually replies within 2 business hours</span>" +
+          "<span>✓✓ Read receipts active</span>" +
+          "</div>";
+
+        const quickReplies =
+          '<div class="quick-replies-bar">' +
+          '<button type="button" class="qr-pill" data-qr="Thanks, I will review this.">Thanks, I will review this.</button>' +
+          '<button type="button" class="qr-pill" data-qr="Can you clarify the timeline?">Can you clarify the timeline?</button>' +
+          '<button type="button" class="qr-pill" data-qr="Could we schedule a quick call?">Could we schedule a quick call?</button>' +
+          "</div>";
+
+        let messagesHtml = "";
+        if (isDirect) {
+          messagesHtml =
+            '<div class="message-stream">' +
+            '<div class="sys-pill">Monday, Oct 5</div>' +
+            '<article class="msg-card">' +
+            '<div class="msg-meta"><strong>RK · Riya Kapoor</strong><span>Oct 5 3:46 AM</span></div>' +
+            "<p>Arjun ji — quick check on the Spice D2C mid-payment. UTR pending for the 40% milestone installment.</p>" +
+            '<div class="msg-actions"><button type="button" class="msg-action-btn" data-trigger-reply="1">Reply</button><button type="button" class="msg-action-btn">Flag</button></div>' +
+            "</article>" +
+            '<article class="msg-card msg-card--self">' +
+            '<div class="msg-meta"><strong>Y · You (Arjun Mehta)</strong><span>Oct 5 3:46 AM</span></div>' +
+            "<p>" + escapeHtml(selfDirectText) + "</p>" +
+            '<div class="a7-receipt-row"><span>✓</span><span>· ✓✓ Seen by Riya Kapoor · Oct 5, 4:02 AM (A7)</span></div>' +
+            '<div class="msg-actions"><button type="button" class="msg-action-btn" data-trigger-reply="1">Reply</button><button type="button" class="msg-action-btn" data-trigger-edit="1">Edit</button><button type="button" class="msg-action-btn">Delete</button></div>' +
+            "</article>" +
+            '<article class="msg-card">' +
+            '<div class="msg-meta"><strong>RK · Riya Kapoor</strong><span>Oct 5 3:46 AM</span></div>' +
+            "<p>Noted. Milestone 2 staging link stays live through the weekend for your team to test UPI flows.</p>" +
+            '<div class="msg-actions"><button type="button" class="msg-action-btn" data-trigger-reply="1">Reply</button><button type="button" class="msg-action-btn">Flag</button></div>' +
+            "</article>" +
+            "</div>";
+        } else {
+          const selfBody =
+            state === "edit"
+              ? '<div class="c10-edit-box">' +
+                '<div style="display:flex; justify-content:space-between; font-size:11px; font-weight:700; color:var(--primary);">' +
+                "<span>Editing sent message (C10 Fixed · 15.8:1 AAA Contrast)</span><span>PATCH /api/v1/messages/{id}</span>" +
+                "</div>" +
+                '<textarea id="c10-textarea" class="c10-edit-textarea" aria-label="Edit message">' + escapeHtml(selfGroupText) + "</textarea>" +
+                '<div style="display:flex; justify-content:flex-end; gap:8px;">' +
+                '<button type="button" class="btn" id="c10-cancel-btn">Cancel</button>' +
+                '<button type="button" class="btn btn-primary" id="c10-save-btn">Save</button>' +
+                "</div></div>"
+              : "<p>" + escapeHtml(selfGroupText) + "</p>";
+
+          messagesHtml =
+            '<div class="message-stream">' +
+            '<div class="sys-pill">Samira Patel joined the group</div>' +
+            '<div class="sys-pill">Monday, Oct 5</div>' +
+            '<article class="msg-card">' +
+            '<div class="msg-meta"><strong>RK · Riya Kapoor</strong><span>Oct 5 3:46 AM</span></div>' +
+            "<p>Welcome both — this group is for coordinating cross-client festive campaign learnings. <strong>@Samira Patel</strong> <strong>@Arjun Mehta</strong></p>" +
+            '<div class="msg-actions"><button type="button" class="msg-action-btn" data-trigger-reply="1">Reply</button><button type="button" class="msg-action-btn">Flag</button></div>' +
+            "</article>" +
+            '<article class="msg-card">' +
+            '<div class="msg-meta"><strong>SP · Samira Patel</strong><span>Oct 5 3:46 AM</span></div>' +
+            "<p>Sharing our Navratri page conversion stats — 4.8% on Meta traffic with Marathi headline variant.</p>" +
+            '<div class="msg-actions"><button type="button" class="msg-action-btn" data-trigger-reply="1">Reply</button><button type="button" class="msg-action-btn">Flag</button></div>' +
+            "</article>" +
+            '<article class="msg-card msg-card--self">' +
+            '<div class="msg-meta"><strong>Y · You (Arjun Mehta)</strong><span>Oct 5 3:46 AM</span></div>' +
+            selfBody +
+            '<div class="a7-receipt-row"><span>Sent</span><span>· ✓✓ Seen by Riya Kapoor &amp; Samira Patel · Oct 5, 4:02 AM (A7)</span></div>' +
+            '<div class="msg-actions"><button type="button" class="msg-action-btn" data-trigger-reply="1">Reply</button><button type="button" class="msg-action-btn" data-trigger-edit="1">Edit</button><button type="button" class="msg-action-btn">Delete</button></div>' +
+            "</article>" +
+            '<article class="msg-card">' +
+            '<div class="msg-meta"><strong>RK · Riya Kapoor</strong><span>Oct 5 3:46 AM</span></div>' +
+            "<p>Great — I'll schedule a joint review of Razorpay UPI checkout patterns that worked across both projects.</p>" +
+            '<div class="msg-actions"><button type="button" class="msg-action-btn" data-trigger-reply="1">Reply</button><button type="button" class="msg-action-btn">Flag</button></div>' +
+            "</article>" +
+            "</div>";
+        }
+
+        const replyBannerHtml =
+          state === "reply" || state === "edit"
+            ? '<div class="reply-banner">' +
+              "<div><strong>Replying to Riya Kapoor</strong><div>Welcome both — this group is for coordinating cross-client festive campaign learnings. @Samira Patel @Arjun Mehta</div></div>" +
+              '<button type="button" class="btn" id="dismiss-reply-btn" style="padding:2px 7px;">×</button>' +
+              "</div>"
+            : "";
+
+        const errorBannerHtml =
+          state === "error"
+            ? '<div style="padding:8px 12px; border-radius:var(--r-sm); background:var(--status-danger-bg); color:var(--status-danger-text); font-size:var(--fs-xs); font-weight:600;">Failed to send message (POST /api/v1/messages/threads/{threadId}/messages). Click Send to retry.</div>'
+            : "";
+
+        const mentionsRow = !isDirect
+          ? '<div style="display:flex; gap:6px; align-items:center; font-size:var(--fs-xs);">' +
+            '<button type="button" class="qr-pill" data-qr="@Riya Kapoor ">@Riya Kapoor</button>' +
+            '<button type="button" class="qr-pill" data-qr="@Samira Patel ">@Samira Patel</button>' +
+            "</div>"
+          : "";
+
+        const composerPlaceholder = isDirect
+          ? "Message Riya Kapoor… (Enter to send, Shift+Enter for new line)"
+          : "Message Agency partner coordination — festive campaigns… (Enter to send, Shift+Enter for new line)";
+
+        centreEl.innerHTML =
+          headerHtml +
+          a7SlaBanner +
+          quickReplies +
+          messagesHtml +
+          '<div class="composer-wrap">' +
+          errorBannerHtml +
+          replyBannerHtml +
+          mentionsRow +
+          '<div style="display:flex; gap:8px;">' +
+          '<textarea id="composer-input" class="composer-textarea" placeholder="' + composerPlaceholder + '" aria-label="Message composer"></textarea>' +
+          '<button type="button" class="btn btn-primary" id="send-btn">Send</button>' +
+          "</div></div>";
+
+        /* Right Drawer: Group info + Members (22) + Search in conversation */
+        drawerEl.innerHTML =
+          (!isDirect
+            ? "<div>" +
+              '<div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">Group info</div>' +
+              '<div style="font-size:var(--fs-sm); font-weight:700; margin-top:4px;">Agency partner coordination — festive campaigns</div>' +
+              '<div style="font-size:var(--fs-xs); color:var(--muted-fg);">Group · 3 members</div>' +
+              '<div style="display:flex; gap:6px; margin-top:8px;">' +
+              '<span class="avatar-circle">RK</span><span class="avatar-circle">SP</span><span class="avatar-circle">AM</span>' +
+              "</div>" +
+              '<button type="button" class="btn" style="margin-top:10px; width:100%;">Leave group</button>' +
+              "</div>" +
+              '<div style="border-top:1px solid var(--border); padding-top:12px;">' +
+              '<div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg); margin-bottom:8px;">Members</div>' +
+              '<div style="display:flex; flex-direction:column; gap:8px; font-size:var(--fs-xs);">' +
+              "<div><strong>RK · Riya Kapoor</strong><div style=\"color:var(--muted-fg);\">Admin · admin@nestlancer.com</div></div>" +
+              "<div><strong>SP · Samira Patel</strong><div style=\"color:var(--muted-fg);\">Client · samira.patel@nestlancer.com</div></div>" +
+              "<div><strong>AM · Arjun Mehta</strong><div style=\"color:var(--muted-fg);\">Client · arjun.mehta@nestlancer.com</div></div>" +
+              "</div></div>"
+            : "<div>" +
+              '<div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">Direct Support Info</div>' +
+              '<div style="font-size:var(--fs-sm); font-weight:700; margin-top:4px;">RK · Riya Kapoor</div>' +
+              '<div style="font-size:var(--fs-xs); color:var(--muted-fg);">Admin · admin@nestlancer.com</div>' +
+              '<div style="font-size:11.5px; color:var(--status-info-text); margin-top:6px;">⏱ Usually replies within 2 business hours (A7)</div>' +
+              "</div>") +
+          '<div style="border-top:1px solid var(--border); padding-top:12px;">' +
+          '<div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg); margin-bottom:6px;">Search in conversation</div>' +
+          '<div style="display:flex; gap:6px;">' +
+          '<input type="search" id="in-thread-search" class="search-input" placeholder="Search messages…" value="' + escapeHtml(searchMatch) + '" aria-label="Search messages in conversation" />' +
+          '<button type="button" class="btn">Search</button>' +
+          "</div></div>";
+
+        /* Bind Interactive Events */
+        centreEl.querySelectorAll("[data-qr]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const inp = document.getElementById("composer-input");
+            if (inp) {
+              inp.value = (inp.value ? inp.value + " " : "") + btn.getAttribute("data-qr");
+              inp.focus();
+            }
+          });
+        });
+        centreEl.querySelectorAll("[data-trigger-reply]").forEach((btn) => {
+          btn.addEventListener("click", () => setState("reply"));
+        });
+        centreEl.querySelectorAll("[data-trigger-edit]").forEach((btn) => {
+          btn.addEventListener("click", () => setState("edit"));
+        });
+        const dismissReply = document.getElementById("dismiss-reply-btn");
+        if (dismissReply) dismissReply.addEventListener("click", () => setState("group"));
+
+        const saveBtn = document.getElementById("c10-save-btn");
+        if (saveBtn) {
+          saveBtn.addEventListener("click", () => {
+            const ta = document.getElementById("c10-textarea");
+            if (ta && ta.value.trim()) selfGroupText = ta.value.trim();
+            setState("group");
+          });
+        }
+        const cancelBtn = document.getElementById("c10-cancel-btn");
+        if (cancelBtn) cancelBtn.addEventListener("click", () => setState("group"));
+
+        const toggleMembersBtn = document.getElementById("toggle-members-btn");
+        if (toggleMembersBtn) {
+          toggleMembersBtn.addEventListener("click", () => {
+            setState(state === "members" ? "group" : "members");
+          });
+        }
+
+        const sendBtn = document.getElementById("send-btn");
+        if (sendBtn) {
+          sendBtn.addEventListener("click", () => {
+            const inp = document.getElementById("composer-input");
+            if (inp && inp.value.trim()) {
+              if (isDirect) selfDirectText = inp.value.trim();
+              else selfGroupText = inp.value.trim();
+              inp.value = "";
+              setState(isDirect ? "direct" : "group");
+            }
+          });
+        }
+      }
+
+      function setState(st) {
+        state = st;
+        document.querySelectorAll("[data-state-btn]").forEach((b) => {
+          b.classList.toggle("is-active", b.getAttribute("data-state-btn") === st);
+        });
+        render();
+      }
+
+      document.querySelectorAll("[data-state-btn]").forEach((b) => {
+        b.addEventListener("click", () => setState(b.getAttribute("data-state-btn")));
+      });
+      qGroupBtn.addEventListener("click", () => setState("group"));
+      qDirectBtn.addEventListener("click", () => setState("direct"));
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+      document.getElementById("cmdk-btn").addEventListener("click", () => {
+        setState(state === "direct" ? "group" : "direct");
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("thread") === "direct") setState("direct");
+      else if (params.get("state")) setState(params.get("state"));
+      else render();
+    })();
+  </script>
+</body>
+</html>

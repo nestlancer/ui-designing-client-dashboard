@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages · V5 Adaptive Docked Inbox &amp; Modal New-Direct Flow — Nestlancer</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F12 · Messages Home — V5: Adaptive Docked Inbox & Modal/Drawer New-Direct Flow
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; width: var(--sidebar-w);
+      background: var(--card); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: var(--sp-4) var(--sp-3); z-index: 30;
+    }
+    .sidebar-brand { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-1) var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-4); }
+    .brand-link { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; font-size: var(--fs-md); }
+    .brand-mark { width: 28px; height: 28px; border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--fs-sm); }
+    .portal-pill { font-size: var(--fs-xs); font-weight: 600; padding: 2px 8px; border-radius: var(--r-pill); background: var(--brand-50); color: var(--brand-700); }
+    .dark .portal-pill { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .sidebar-cta { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); width: 100%; padding: 10px var(--sp-3); border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); font-weight: 600; font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+    .nav-section-label { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-fg); padding: var(--sp-2) var(--sp-2) var(--sp-1); }
+    .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-3); }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: var(--r-md); font-size: var(--fs-sm); font-weight: 500; color: var(--muted-fg); }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+    .dark .nav-link[aria-current="page"] { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .nav-count { font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; padding: 1px 7px; border-radius: var(--r-pill); background: var(--muted); color: var(--fg); }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); position: relative; }
+    .explore-popover { position: absolute; bottom: calc(100% + 6px); left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow-md); padding: var(--sp-2); display: none; flex-direction: column; gap: 2px; z-index: 40; }
+    .explore-popover.is-open { display: flex; }
+
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky; top: 0; height: var(--header-h);
+      background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--sp-6); z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn { display: none; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); align-items: center; justify-content: center; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--muted-fg); }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 6px 12px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--muted); color: var(--muted-fg); font-size: var(--fs-xs); }
+    .icon-btn { position: relative; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); display: inline-flex; align-items: center; justify-content: center; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--primary); color: var(--primary-fg); font-family: var(--mono); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); font-size: var(--fs-xs); font-weight: 600; }
+    .avatar-circle { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--brand-600); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; }
+
+    .lab-bar {
+      background: var(--muted); border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--sp-3); font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill { padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); color: var(--muted-fg); font-weight: 600; font-size: var(--fs-xs); }
+    .lab-pill.is-active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    /* --- V5 Full-Height Docked 3-Pane Workspace --- */
+    .docked-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .docked-top-bar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: var(--sp-3) var(--sp-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+    }
+    .docked-3pane {
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr) 270px;
+      flex: 1;
+      min-height: 600px;
+    }
+    .docked-col {
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      padding: var(--sp-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .docked-col:last-child { border-right: none; }
+    .search-input, .select-sm {
+      width: 100%; padding: 7px 10px; border-radius: var(--r-md);
+      border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: var(--fs-xs);
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 8px 14px; border-radius: var(--r-md);
+      font-size: var(--fs-xs); font-weight: 600;
+      border: 1px solid var(--border); background: var(--card);
+    }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.55);
+      display: none; align-items: center; justify-content: center;
+      padding: var(--sp-4); z-index: 60;
+    }
+    .modal-backdrop.is-open { display: flex; }
+    .modal-card {
+      width: 100%; max-width: 500px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r-xl); padding: var(--sp-5);
+      box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: var(--sp-3);
+    }
+
+    @media (max-width: 1024px) {
+      .docked-3pane { grid-template-columns: 1fr; }
+      .docked-col { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .top-header, .lab-bar, .docked-top-bar { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link"><span class="brand-mark">NL</span><span>Nestlancer</span></a>
+        <span class="portal-pill">Client</span>
+      </div>
+      <a href="../../F06-request-new-form/V5/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V5/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V5/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="../../F10-quotes-list/V5/index.html" class="nav-link"><span>Quotes</span><span class="nav-count">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="index.html" class="nav-link" aria-current="page"><span>Messages</span><span class="nav-count nav-count--brand">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <span class="breadcrumbs-current" aria-current="page">Messages</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Message support</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">◐</button>
+          <button type="button" class="icon-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <div class="lab-bar" role="region" aria-label="Variant and state controls">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F12 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill">V1 · Enriched 3-Pane ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Linear KPI Ribbon</a>
+          <a href="../V3/index.html" class="lab-pill">V3 · Split Cards &amp; Stage</a>
+          <a href="../V4/index.html" class="lab-pill">V4 · Support Command Hub</a>
+          <a href="../V5/index.html" class="lab-pill is-active">V5 · Adaptive Docked Inbox</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">State:</span>
+          <button type="button" class="lab-pill is-active" data-view-btn="merged">Docked 3-Pane (18+19)</button>
+          <button type="button" class="lab-pill" data-view-btn="new-direct">New message Dialog (20)</button>
+          <button type="button" class="lab-pill" data-view-btn="empty-inbox">Empty</button>
+          <button type="button" class="lab-pill" data-view-btn="loading">Loading</button>
+          <button type="button" class="lab-pill" data-view-btn="error">Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="docked-wrapper">
+        <section class="docked-top-bar">
+          <div>
+            <div style="font-size:var(--fs-xs); font-weight:700; text-transform:uppercase; color:var(--primary);">Support · Messaging panel (C11 Docked)</div>
+            <h1 style="font-size:clamp(1.85rem, 2.6vw, 2.2rem); font-weight:700;">Messages <span style="font-size:var(--fs-xs); padding:2px 8px; border-radius:var(--r-pill); background:var(--status-success-bg); color:var(--status-success-text);">Live</span></h1>
+            <p style="font-size:var(--fs-xs); color:var(--muted-fg);">Your conversations with Nestlancer — pick a thread to continue. Review your inbox at a glance, then open the messaging panel to chat.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-primary" id="open-modal-btn">Message support (/messages/new/direct)</button>
+          </div>
+        </section>
+
+        <section class="docked-3pane" aria-label="Docked 3-pane inbox">
+          <div class="docked-col">
+            <div>
+              <strong style="font-size:var(--fs-md);">Conversation queue</strong>
+              <div style="font-size:11.5px; color:var(--muted-fg);">2 conversations — click to open in the workspace</div>
+            </div>
+            <input type="search" class="search-input" placeholder="Search by name, preview, or ID…" aria-label="Search by name, preview, or ID" />
+            <div style="display:flex; gap:4px; flex-wrap:wrap;">
+              <span class="lab-pill is-active">All</span>
+              <span class="lab-pill">Unread</span>
+              <span class="lab-pill">Direct</span>
+              <span class="lab-pill">Project</span>
+              <span class="lab-pill">Group</span>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+              <select class="select-sm" aria-label="Inbox"><option>Inbox</option><option selected>Active</option><option>Archived</option></select>
+              <select class="select-sm" aria-label="Sort"><option>Unread first</option><option>Longest wait</option><option>Latest</option></select>
+            </div>
+            <a href="../../F13-messages-thread/V5/index.html?thread=group" style="padding:12px; border:1px solid var(--border); border-radius:var(--r-md); background:var(--bg);">
+              <strong style="font-size:var(--fs-xs);">AP · Agency partner coordination — festive campaigns (Group)</strong>
+              <div style="font-size:11.5px; color:var(--muted-fg); margin-top:4px;">Great — I'll schedule a joint review of Razorpay UPI checkout patterns that worked across both projects. · 20 days ago</div>
+            </a>
+            <a href="../../F13-messages-thread/V5/index.html?thread=direct" style="padding:12px; border:1px solid var(--border); border-radius:var(--r-md); background:var(--bg);">
+              <strong style="font-size:var(--fs-xs);">RK · Riya Kapoor (Direct)</strong>
+              <div style="font-size:11.5px; color:var(--muted-fg); margin-top:4px;">Noted. Milestone 2 staging link stays live through the weekend for your team to test UPI flows. · 20 days ago</div>
+            </a>
+          </div>
+
+          <div class="docked-col" id="docked-centre" style="justify-content:center; align-items:center; text-align:center;"></div>
+
+          <aside class="docked-col">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">Inbox snapshot</div>
+            <div style="font-size:var(--fs-xs); display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between;"><span>Open conversations (Active threads)</span><strong style="font-family:var(--mono);">2</strong></div>
+              <div style="display:flex; justify-content:space-between;"><span>Unread messages (All caught up)</span><strong style="font-family:var(--mono);">0</strong></div>
+              <div style="display:flex; justify-content:space-between;"><span>Unread threads (None waiting)</span><strong style="font-family:var(--mono);">0</strong></div>
+            </div>
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg); margin-top:6px;">By type</div>
+            <div style="font-size:var(--fs-xs); display:flex; flex-direction:column; gap:6px;">
+              <div style="display:flex; justify-content:space-between;"><span>Project</span><strong style="font-family:var(--mono);">0</strong></div>
+              <div style="display:flex; justify-content:space-between;"><span>Direct</span><strong style="font-family:var(--mono);">1</strong></div>
+              <div style="display:flex; justify-content:space-between;"><span>Group</span><strong style="font-family:var(--mono);">1</strong></div>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Accessible Modal Dialog for /messages/new/direct (20) -->
+  <div class="modal-backdrop" id="new-direct-modal" role="dialog" aria-modal="true" aria-labelledby="new-direct-title">
+    <div class="modal-card">
+      <h2 id="new-direct-title" style="font-size:var(--fs-xl); font-weight:700;">New message</h2>
+      <p style="font-size:var(--fs-xs); color:var(--muted-fg);">Start a direct conversation with Nestlancer support. Existing support threads reopen automatically.</p>
+      <div style="padding:12px; background:var(--muted); border:1px solid var(--border); border-radius:var(--r-md);">
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">To</div>
+        <div style="font-size:var(--fs-md); font-weight:700;">Nestlancer Support</div>
+        <p style="font-size:var(--fs-xs); color:var(--muted-fg); margin-top:4px;">Platform support admin for your account. Client-to-client messaging is not available.</p>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <a href="../../F13-messages-thread/V5/index.html?thread=direct" class="btn btn-primary">Start conversation →</a>
+        <button type="button" class="btn" id="close-modal-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      let view = "merged";
+      const centreEl = document.getElementById("docked-centre");
+      const modalEl = document.getElementById("new-direct-modal");
+
+      function render() {
+        modalEl.classList.toggle("is-open", view === "new-direct");
+        if (view === "loading") {
+          centreEl.innerHTML = '<div>Loading docked inbox…</div>';
+          return;
+        }
+        if (view === "error") {
+          centreEl.innerHTML = '<div>Unable to load inbox. <button type="button" class="btn btn-primary" id="retry-btn">Retry</button></div>';
+          const r = document.getElementById("retry-btn");
+          if (r) r.addEventListener("click", () => setView("merged"));
+          return;
+        }
+        if (view === "empty-inbox") {
+          centreEl.innerHTML = '<div><strong>Select a conversation</strong><p style="font-size:var(--fs-xs); color:var(--muted-fg);">0 conversations.</p></div>';
+          return;
+        }
+
+        centreEl.innerHTML =
+          '<div style="max-width:460px;">' +
+          '<h2 style="font-size:var(--fs-xl); font-weight:700;">Select a conversation</h2>' +
+          '<p style="font-size:var(--fs-xs); color:var(--muted-fg); margin-top:4px;">Choose a thread from the list to read messages and send a reply.</p>' +
+          '<div style="margin-top:16px; text-align:left; border-top:1px solid var(--border); padding-top:12px;">' +
+          '<div style="font-size:var(--fs-xs); font-weight:700; margin-bottom:8px;">Recent conversations · Latest activity in your inbox</div>' +
+          '<div style="display:flex; gap:8px;">' +
+          '<a href="../../F13-messages-thread/V5/index.html?thread=group" class="btn btn-primary">Open Group Thread (AP) →</a>' +
+          '<a href="../../F13-messages-thread/V5/index.html?thread=direct" class="btn">Open Direct Thread (RK) →</a>' +
+          "</div></div></div>";
+      }
+
+      function setView(v) {
+        view = v;
+        document.querySelectorAll("[data-view-btn]").forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-view-btn") === v));
+        render();
+      }
+
+      document.querySelectorAll("[data-view-btn]").forEach((b) => {
+        b.addEventListener("click", () => setView(b.getAttribute("data-view-btn")));
+      });
+      document.getElementById("open-modal-btn").addEventListener("click", () => setView("new-direct"));
+      document.getElementById("close-modal-btn").addEventListener("click", () => setView("merged"));
+      document.getElementById("cmdk-btn").addEventListener("click", () => setView("new-direct"));
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

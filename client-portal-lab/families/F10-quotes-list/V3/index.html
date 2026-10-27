@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quotes · V3 Agreement Portfolio Grid — Nestlancer Client Portal</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F10 · Quotes List — V3: Agreement Portfolio & Commercial Cards Grid
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    /* --- Sidebar (C17) --- */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: var(--sidebar-w);
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: var(--sp-4) var(--sp-3);
+      z-index: 30;
+      overflow-y: auto;
+    }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-1) var(--sp-2) var(--sp-4);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--sp-4);
+    }
+    .brand-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-weight: 700;
+      font-size: var(--fs-md);
+      letter-spacing: -0.02em;
+    }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-md);
+      background: var(--primary);
+      color: var(--primary-fg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: var(--fs-sm);
+    }
+    .portal-pill {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--r-pill);
+      background: var(--brand-50);
+      color: var(--brand-700);
+    }
+    .dark .portal-pill {
+      background: rgba(91, 123, 255, 0.16);
+      color: var(--brand-200);
+    }
+    .sidebar-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-2);
+      width: 100%;
+      padding: 10px var(--sp-3);
+      border-radius: var(--r-md);
+      background: var(--primary);
+      color: var(--primary-fg);
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      margin-bottom: var(--sp-4);
+    }
+    .sidebar-cta:hover { background: var(--primary-hover); }
+    .nav-section-label {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-fg);
+      padding: var(--sp-2) var(--sp-2) var(--sp-1);
+    }
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: var(--sp-3);
+    }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-2);
+      padding: 8px 10px;
+      border-radius: var(--r-md);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--muted-fg);
+    }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] {
+      background: var(--brand-50);
+      color: var(--brand-700);
+      font-weight: 600;
+    }
+    .dark .nav-link[aria-current="page"] {
+      background: rgba(91, 123, 255, 0.16);
+      color: var(--brand-200);
+    }
+    .nav-count {
+      font-family: var(--mono);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: var(--r-pill);
+      background: var(--muted);
+      color: var(--fg);
+    }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: var(--sp-3);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+      position: relative;
+    }
+    .explore-popover {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-md);
+      padding: var(--sp-2);
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 40;
+    }
+    .explore-popover.is-open { display: flex; }
+
+    /* --- Top Header --- */
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky;
+      top: 0;
+      height: var(--header-h);
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--sp-6);
+      z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn {
+      display: none;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      align-items: center;
+      justify-content: center;
+    }
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-size: var(--fs-sm);
+      color: var(--muted-fg);
+    }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: 6px 12px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--muted);
+      color: var(--muted-fg);
+      font-size: var(--fs-xs);
+    }
+    .cmdk-trigger kbd {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 1px 5px;
+      border-radius: var(--r-xs);
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--fg);
+    }
+    .icon-btn {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .notif-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: var(--r-pill);
+      background: var(--primary);
+      color: var(--primary-fg);
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: 4px 10px 4px 4px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--border);
+      background: var(--card);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+    }
+    .avatar-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-pill);
+      background: var(--brand-600);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--fs-xs);
+      font-weight: 700;
+    }
+
+    /* --- Lab Bar --- */
+    .lab-bar {
+      background: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill {
+      padding: 4px 10px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted-fg);
+      font-weight: 600;
+      font-size: var(--fs-xs);
+    }
+    .lab-pill.is-active {
+      background: var(--primary);
+      color: var(--primary-fg);
+      border-color: var(--primary);
+    }
+
+    /* --- V3 Portfolio Grid Layout --- */
+    .page-container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--sp-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-5);
+    }
+    .hero-bento {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: var(--sp-4);
+    }
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-5);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--sp-4);
+    }
+    .page-eyebrow {
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+    }
+    .page-title {
+      font-size: clamp(2rem, 3vw, 2.375rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .page-lead {
+      font-size: var(--fs-sm);
+      color: var(--muted-fg);
+      margin-top: 4px;
+    }
+
+    .kpi-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-3);
+    }
+    .kpi-bento-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-3) var(--sp-4);
+      box-shadow: var(--shadow-xs);
+      text-align: left;
+    }
+    .kpi-bento-item.is-selected {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--ring);
+    }
+    .kpi-bento-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted-fg);
+    }
+    .kpi-bento-val {
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin: 2px 0;
+    }
+    .kpi-bento-sub { font-size: 11.5px; color: var(--muted-fg); }
+
+    .a5-bento-banner {
+      background: var(--status-warning-bg);
+      border: 1px solid var(--status-warning-border);
+      color: var(--status-warning-text);
+      border-radius: var(--r-md);
+      padding: 10px 14px;
+      font-size: var(--fs-xs);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+
+    /* --- Filter Bar --- */
+    .filter-bar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-3) var(--sp-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      box-shadow: var(--shadow-xs);
+    }
+    .search-input, .status-select {
+      padding: 8px 12px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: var(--fs-sm);
+    }
+    .search-input { min-width: 250px; }
+
+    /* --- 2-Column Portfolio Grid --- */
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--sp-4);
+    }
+    .portfolio-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-5);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--sp-4);
+      transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+    }
+    .portfolio-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    .portfolio-card--urgent {
+      border-top: 3px solid var(--status-warning-text);
+    }
+    .portfolio-card--accepted {
+      border-top: 3px solid var(--status-success-text);
+    }
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--sp-3);
+    }
+    .quote-id {
+      font-family: var(--mono);
+      font-size: var(--fs-md);
+      font-weight: 700;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: var(--r-pill);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .status-badge--accepted {
+      background: var(--status-success-bg);
+      color: var(--status-success-text);
+      border-color: var(--status-success-border);
+    }
+    .status-badge--draft {
+      background: var(--status-neutral-bg);
+      color: var(--status-neutral-text);
+      border-color: var(--status-neutral-border);
+    }
+    .status-badge--sent {
+      background: var(--status-warning-bg);
+      color: var(--status-warning-text);
+      border-color: var(--status-warning-border);
+    }
+
+    .c23-code-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: var(--fs-xs);
+      padding: 4px 9px;
+      border-radius: var(--r-sm);
+      background: var(--muted);
+      border: 1px solid var(--border);
+      color: var(--fg);
+      margin-top: 6px;
+    }
+    .c23-tag {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: var(--r-xs);
+      background: var(--status-info-bg);
+      color: var(--status-info-text);
+    }
+
+    .validity-meter {
+      background: var(--muted);
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: var(--fs-xs);
+    }
+    .a5-chip {
+      font-family: var(--mono);
+      font-weight: 600;
+      color: var(--status-warning-text);
+    }
+    .a5-chip--ok { color: var(--status-success-text); }
+
+    .card-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: var(--sp-3);
+      border-top: 1px solid var(--border);
+    }
+    .card-amount {
+      font-size: var(--fs-xl);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    .btn-sm {
+      padding: 7px 13px;
+      border-radius: var(--r-md);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+    }
+    .btn-sm--primary {
+      background: var(--primary);
+      color: var(--primary-fg);
+      border-color: var(--primary);
+    }
+
+    .toast-region {
+      position: fixed;
+      bottom: var(--sp-5);
+      right: var(--sp-5);
+      z-index: 80;
+    }
+    .toast {
+      background: var(--fg);
+      color: var(--bg);
+      padding: 10px 14px;
+      border-radius: var(--r-md);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-bento, .portfolio-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .top-header, .lab-bar, .page-container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link">
+          <span class="brand-mark">NL</span>
+          <span>Nestlancer</span>
+        </a>
+        <span class="portal-pill">Client</span>
+      </div>
+
+      <a href="../../F06-request-new-form/V3/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V3/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V3/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="index.html" class="nav-link" aria-current="page"><span>Quotes</span><span class="nav-count nav-count--brand">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="../../F12-messages-home/V3/index.html" class="nav-link"><span>Messages</span><span class="nav-count">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <span class="breadcrumbs-current" aria-current="page">Quotes</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Search</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle theme">◐</button>
+          <button type="button" class="icon-btn" id="notif-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <div class="lab-bar" role="region" aria-label="Variant and state bar">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F10 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill">V1 · Commercial Hub ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Financial Ledger</a>
+          <a href="../V3/index.html" class="lab-pill is-active">V3 · Portfolio Grid</a>
+          <a href="../V4/index.html" class="lab-pill">V4 · Lifecycle Lanes</a>
+          <a href="../V5/index.html" class="lab-pill">V5 · Split Workbench</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">State:</span>
+          <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Pending Sim (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
+          <button type="button" class="lab-pill" data-state-btn="empty">Empty</button>
+          <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
+          <button type="button" class="lab-pill" data-state-btn="error">Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="page-container">
+        <!-- Hero Bento: Header + A5 Alert on Left, 4 KPI Grid on Right -->
+        <section class="hero-bento" aria-labelledby="page-h1">
+          <div class="hero-card">
+            <div>
+              <div class="page-eyebrow">Commercial</div>
+              <h1 class="page-title" id="page-h1">Quotes</h1>
+              <p class="page-lead">Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team.</p>
+            </div>
+            <div class="a5-bento-banner">
+              <div>
+                <strong>⏳ A5 Expiry Countdown:</strong> Quote <code>#01a10f80</code> expires within 24 hours (Valid until Oct 20, 2026).
+              </div>
+              <a href="../../F11-quote-details/V3/index.html?quote=01a10f80" class="btn-sm btn-sm--primary">Review #01a10f80 →</a>
+            </div>
+          </div>
+
+          <div class="kpi-bento-grid" aria-label="Quote summary metrics">
+            <button type="button" class="kpi-bento-item is-selected" data-kpi-filter="">
+              <div class="kpi-bento-label">Total</div>
+              <div class="kpi-bento-val">12</div>
+              <div class="kpi-bento-sub">All quotes</div>
+            </button>
+            <button type="button" class="kpi-bento-item" data-kpi-filter="sent">
+              <div class="kpi-bento-label">Pending</div>
+              <div class="kpi-bento-val" id="kpi-pending-val">0</div>
+              <div class="kpi-bento-sub">Awaiting action</div>
+            </button>
+            <button type="button" class="kpi-bento-item" data-kpi-filter="accepted">
+              <div class="kpi-bento-label">Accepted</div>
+              <div class="kpi-bento-val">5</div>
+              <div class="kpi-bento-sub">Approved (₹6,55,000.00)</div>
+            </button>
+            <button type="button" class="kpi-bento-item" data-kpi-filter="declined">
+              <div class="kpi-bento-label">Declined</div>
+              <div class="kpi-bento-val">0</div>
+              <div class="kpi-bento-sub">Rejected</div>
+            </button>
+          </div>
+        </section>
+
+        <!-- Filter Bar -->
+        <section class="filter-bar" aria-label="Filter quotes">
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+            <input
+              type="search"
+              id="quote-search"
+              class="search-input"
+              placeholder="Search by quote ID or project title…"
+              aria-label="Search by quote ID or project title"
+            />
+            <select id="status-select" class="status-select" aria-label="Status">
+              <option value="">All statuses</option>
+              <option value="sent">Sent / pending</option>
+              <option value="viewed">Viewed</option>
+              <option value="accepted">Accepted</option>
+              <option value="declined">Declined</option>
+              <option value="expired">Expired</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+          <div style="font-size:var(--fs-xs); color:var(--muted-fg);" id="grid-count" aria-live="polite">
+            Showing all 12 portfolio cards
+          </div>
+        </section>
+
+        <!-- 2-Column Portfolio Grid -->
+        <section id="portfolio-grid" class="portfolio-grid" aria-label="Quotes portfolio grid"></section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      const QUOTES = [
+        { shortId: "01a10f80", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Expires within 24h", urgent: true, schedule: "50% Deposit (₹885.00) · 18% GST (₹270.00)", amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f7d", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Oct 20 cutoff", urgent: false, schedule: "50% Deposit (₹885.00) · 18% GST (₹270.00)", amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f79", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Oct 20 cutoff", urgent: false, schedule: "50% Deposit (₹885.00) · 18% GST (₹270.00)", amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f76", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Oct 20 cutoff", urgent: false, schedule: "50% Deposit (₹885.00) · 18% GST (₹270.00)", amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f73", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Oct 20 cutoff", urgent: false, schedule: "50% Deposit (₹885.00) · 18% GST (₹270.00)", amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f71", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Oct 20 cutoff", urgent: false, schedule: "50% Deposit (₹885.00) · 18% GST (₹270.00)", amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f6e", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Oct 20 cutoff", urgent: false, schedule: "50% Deposit (₹885.00) · 18% GST (₹270.00)", amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10a2b", status: "accepted", statusLabel: "Accepted", requestTitle: "Khandesh Spice D2C E-Commerce Store", isQa: false, validUntil: "Oct 20, 2026", a5: "✓ Signed Oct 5 · NL-CTR-2026-000001", urgent: false, schedule: "30% Kickoff · 40% Mid · 30% Launch", amount: "₹75,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a29", status: "accepted", statusLabel: "Accepted", requestTitle: "Nashik Wine Club Subscription Portal", isQa: false, validUntil: "Oct 25, 2026", a5: "✓ Signed · Active Agreement", urgent: false, schedule: "Milestone schedule · Approved", amount: "₹1,20,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a26", status: "accepted", statusLabel: "Accepted", requestTitle: "Nagpur Cold-Storage Inventory & Billing Portal", isQa: false, validUntil: "Nov 1, 2026", a5: "✓ Signed · Active Agreement", urgent: false, schedule: "Milestone schedule · Approved", amount: "₹1,80,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a24", status: "accepted", statusLabel: "Accepted", requestTitle: "Kolhapur Leather Footwear Wholesale Catalog", isQa: false, validUntil: "Nov 5, 2026", a5: "✓ Signed · Active Agreement", urgent: false, schedule: "Milestone schedule · Approved", amount: "₹40,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a21", status: "accepted", statusLabel: "Accepted", requestTitle: "Pune B2B SaaS Marketing Site & Docs", isQa: false, validUntil: "Nov 10, 2026", a5: "✓ Signed · Active Agreement", urgent: false, schedule: "Milestone schedule · Approved", amount: "₹2,40,000.00", f11: "01a10a2b" }
+      ];
+
+      let currentState = "populated";
+      let searchQuery = "";
+      let statusFilter = "";
+
+      const grid = document.getElementById("portfolio-grid");
+      const countEl = document.getElementById("grid-count");
+      const searchInput = document.getElementById("quote-search");
+      const statusSelect = document.getElementById("status-select");
+      const toastRegion = document.getElementById("toast-region");
+
+      function showToast(msg) {
+        const d = document.createElement("div");
+        d.className = "toast";
+        d.textContent = msg;
+        toastRegion.appendChild(d);
+        setTimeout(() => d.remove(), 3000);
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      function renderGrid() {
+        if (currentState === "loading") {
+          countEl.textContent = "Loading portfolio…";
+          grid.innerHTML = '<div class="portfolio-card">Loading quotes…</div><div class="portfolio-card">Loading quotes…</div>';
+          return;
+        }
+        if (currentState === "error") {
+          countEl.textContent = "Error";
+          grid.innerHTML = '<div class="portfolio-card" style="grid-column:1/-1;"><strong>Unable to load quote portfolio.</strong> <button type="button" class="btn-sm btn-sm--primary" id="retry-btn">Retry</button></div>';
+          const r = document.getElementById("retry-btn");
+          if (r) r.addEventListener("click", () => setState("populated"));
+          return;
+        }
+        if (currentState === "empty") {
+          countEl.textContent = "0 quotes";
+          grid.innerHTML = '<div class="portfolio-card" style="grid-column:1/-1; text-align:center;"><strong>No quotes in your account yet.</strong></div>';
+          return;
+        }
+
+        const rows = QUOTES.map((q) => {
+          if (currentState === "pending-sim" && q.shortId === "01a10f80") {
+            return Object.assign({}, q, { status: "sent", statusLabel: "Sent / pending" });
+          }
+          return q;
+        }).filter((q) => {
+          if (currentState === "empty-filter") return false;
+          if (statusFilter && q.status !== statusFilter) return false;
+          if (searchQuery) {
+            const h = (q.shortId + " " + q.requestTitle + " " + q.amount).toLowerCase();
+            if (!h.includes(searchQuery.toLowerCase())) return false;
+          }
+          return true;
+        });
+
+        countEl.textContent = "Showing " + rows.length + " of 12 portfolio cards";
+
+        if (rows.length === 0) {
+          grid.innerHTML = '<div class="portfolio-card" style="grid-column:1/-1; text-align:center;">No quotes match filter. <button type="button" class="btn-sm" id="reset-btn">Reset</button></div>';
+          const b = document.getElementById("reset-btn");
+          if (b) b.addEventListener("click", () => {
+            searchQuery = "";
+            statusFilter = "";
+            searchInput.value = "";
+            statusSelect.value = "";
+            if (currentState === "empty-filter") currentState = "populated";
+            renderGrid();
+          });
+          return;
+        }
+
+        grid.innerHTML = rows.map((q) => {
+          const badgeCls = q.status === "accepted" ? "status-badge--accepted" : q.status === "sent" ? "status-badge--sent" : "status-badge--draft";
+          const cardCls = q.urgent ? "portfolio-card--urgent" : q.status === "accepted" ? "portfolio-card--accepted" : "";
+          const reqHtml = q.isQa
+            ? '<div style="font-size:var(--fs-xs); color:var(--muted-fg); margin-top:4px;">Request:</div><div class="c23-code-pill"><code>' + escapeHtml(q.requestTitle) + '</code><span class="c23-tag">C23 Safe</span></div>'
+            : '<div style="font-size:var(--fs-sm); margin-top:4px;">Request: <strong>' + escapeHtml(q.requestTitle) + "</strong></div>";
+
+          return (
+            '<article class="portfolio-card ' + cardCls + '">' +
+            "<div>" +
+            '<div class="card-head">' +
+            '<a href="../../F11-quote-details/V3/index.html?quote=' + q.f11 + '" class="quote-id">Quote #' + q.shortId + "</a>" +
+            '<span class="status-badge ' + badgeCls + '">' + escapeHtml(q.statusLabel) + "</span>" +
+            "</div>" +
+            reqHtml +
+            "</div>" +
+            '<div class="validity-meter">' +
+            "<span>Valid until " + escapeHtml(q.validUntil) + "</span>" +
+            '<span class="' + (q.status === "accepted" ? "a5-chip a5-chip--ok" : "a5-chip") + '">' + escapeHtml(q.a5) + "</span>" +
+            "</div>" +
+            '<div class="card-foot">' +
+            "<div>" +
+            '<div class="card-amount">' + escapeHtml(q.amount) + "</div>" +
+            '<div style="font-size:11px; color:var(--muted-fg);">' + escapeHtml(q.schedule) + "</div>" +
+            "</div>" +
+            '<div style="display:flex; gap:6px;">' +
+            (q.shortId === "01a10a2b" ? '<a href="../../F09-project-details/V3/index.html" class="btn-sm">Project →</a>' : "") +
+            '<a href="../../F11-quote-details/V3/index.html?quote=' + q.f11 + '" class="btn-sm btn-sm--primary">Open Quote →</a>' +
+            "</div>" +
+            "</div>" +
+            "</article>"
+          );
+        }).join("");
+      }
+
+      function setState(st) {
+        currentState = st;
+        document.getElementById("kpi-pending-val").textContent = st === "pending-sim" ? "1" : "0";
+        document.querySelectorAll("[data-state-btn]").forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-state-btn") === st));
+        renderGrid();
+      }
+
+      searchInput.addEventListener("input", (e) => { searchQuery = e.target.value.trim(); renderGrid(); });
+      statusSelect.addEventListener("change", (e) => { statusFilter = e.target.value; renderGrid(); });
+      document.querySelectorAll("[data-kpi-filter]").forEach((el) => {
+        el.addEventListener("click", () => {
+          statusFilter = el.getAttribute("data-kpi-filter");
+          statusSelect.value = statusFilter;
+          document.querySelectorAll("[data-kpi-filter]").forEach((c) => c.classList.toggle("is-selected", c === el));
+          renderGrid();
+        });
+      });
+      document.querySelectorAll("[data-state-btn]").forEach((b) => {
+        b.addEventListener("click", () => setState(b.getAttribute("data-state-btn")));
+      });
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+      document.querySelectorAll("[data-demo-nav]").forEach((a) => {
+        a.addEventListener("click", (e) => { e.preventDefault(); showToast("Sibling route " + a.getAttribute("data-demo-nav") + " is outside F10 scope."); });
+      });
+      document.getElementById("cmdk-btn").addEventListener("click", () => searchInput.focus());
+      renderGrid();
+    })();
+  </script>
+</body>
+</html>

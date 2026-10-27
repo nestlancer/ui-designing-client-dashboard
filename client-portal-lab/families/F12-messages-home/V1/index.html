@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages · V1 Unified 3-Pane Inbox &amp; Enriched Snapshot Rail — Nestlancer</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F12 · Messages Home — V1: Unified 3-Pane Inbox with Enriched Snapshot Rail (C11)
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; width: var(--sidebar-w);
+      background: var(--card); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: var(--sp-4) var(--sp-3); z-index: 30;
+    }
+    .sidebar-brand { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-1) var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-4); }
+    .brand-link { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; font-size: var(--fs-md); }
+    .brand-mark { width: 28px; height: 28px; border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--fs-sm); }
+    .portal-pill { font-size: var(--fs-xs); font-weight: 600; padding: 2px 8px; border-radius: var(--r-pill); background: var(--brand-50); color: var(--brand-700); }
+    .dark .portal-pill { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .sidebar-cta { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); width: 100%; padding: 10px var(--sp-3); border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); font-weight: 600; font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+    .nav-section-label { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-fg); padding: var(--sp-2) var(--sp-2) var(--sp-1); }
+    .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-3); }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: var(--r-md); font-size: var(--fs-sm); font-weight: 500; color: var(--muted-fg); }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+    .dark .nav-link[aria-current="page"] { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .nav-count { font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; padding: 1px 7px; border-radius: var(--r-pill); background: var(--muted); color: var(--fg); }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); position: relative; }
+    .explore-popover { position: absolute; bottom: calc(100% + 6px); left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow-md); padding: var(--sp-2); display: none; flex-direction: column; gap: 2px; z-index: 40; }
+    .explore-popover.is-open { display: flex; }
+
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky; top: 0; height: var(--header-h);
+      background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--sp-6); z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn { display: none; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); align-items: center; justify-content: center; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--muted-fg); }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 6px 12px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--muted); color: var(--muted-fg); font-size: var(--fs-xs); }
+    .cmdk-trigger kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius: var(--r-xs); background: var(--card); border: 1px solid var(--border); color: var(--fg); }
+    .icon-btn { position: relative; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); display: inline-flex; align-items: center; justify-content: center; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--primary); color: var(--primary-fg); font-family: var(--mono); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); font-size: var(--fs-xs); font-weight: 600; }
+    .avatar-circle { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--brand-600); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; }
+
+    .lab-bar {
+      background: var(--muted); border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--sp-3); font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill { padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); color: var(--muted-fg); font-weight: 600; font-size: var(--fs-xs); }
+    .lab-pill.is-active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    /* --- V1 Merged 3-Pane Inbox Layout (C11) --- */
+    .page-container {
+      width: 100%; max-width: var(--container-max);
+      margin: 0 auto; padding: var(--sp-5) var(--sp-6);
+      display: flex; flex-direction: column; gap: var(--sp-4);
+    }
+    .messages-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--sp-4);
+    }
+    .page-eyebrow { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); }
+    .page-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .page-title { font-size: clamp(2rem, 3vw, 2.35rem); font-weight: 700; letter-spacing: -0.025em; }
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 9px; border-radius: var(--r-pill);
+      font-size: var(--fs-xs); font-weight: 600;
+      background: var(--status-success-bg); color: var(--status-success-text); border: 1px solid var(--status-success-border);
+    }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--status-success-text); }
+    .page-lead { font-size: var(--fs-sm); color: var(--muted-fg); margin-top: 4px; }
+
+    /* --- 3-Pane Shell (KEEP + C11 Merged) --- */
+    .three-pane-shell {
+      display: grid;
+      grid-template-columns: 350px minmax(0, 1fr) 280px;
+      gap: var(--sp-4);
+      align-items: stretch;
+      min-height: 620px;
+    }
+    .pane-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Left Pane: Conversation Queue */
+    .queue-head {
+      padding: var(--sp-4);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .queue-title { font-size: var(--fs-md); font-weight: 700; }
+    .queue-sub { font-size: var(--fs-xs); color: var(--muted-fg); }
+    .search-input, .select-sm {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: var(--fs-xs);
+    }
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .type-chip {
+      padding: 4px 9px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted-fg);
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .type-chip.is-active {
+      background: var(--primary);
+      color: var(--primary-fg);
+      border-color: var(--primary);
+    }
+    .queue-controls-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .thread-list {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .thread-row {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+      transition: background var(--dur-fast) var(--ease-out);
+    }
+    .thread-row:hover { background: var(--muted); }
+    .thread-row.is-selected {
+      background: var(--brand-50);
+      border-left: 3px solid var(--primary);
+    }
+    .dark .thread-row.is-selected { background: rgba(91, 123, 255, 0.16); }
+    .thread-avatar {
+      width: 36px; height: 36px; border-radius: var(--r-md);
+      background: var(--brand-50); color: var(--brand-700);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: var(--fs-xs); flex-shrink: 0;
+    }
+    .dark .thread-avatar { background: rgba(91, 123, 255, 0.2); color: var(--brand-200); }
+    .type-badge {
+      display: inline-flex; align-items: center; gap: 3px;
+      padding: 1px 7px; border-radius: var(--r-pill);
+      font-size: 10.5px; font-weight: 600;
+    }
+    .type-badge--group { background: var(--status-warning-bg); color: var(--status-warning-text); border: 1px solid var(--status-warning-border); }
+    .type-badge--direct { background: var(--status-info-bg); color: var(--status-info-text); border: 1px solid var(--status-info-border); }
+
+    /* Centre Reading / Empty Selection / New Message Pane */
+    .centre-pane {
+      padding: var(--sp-6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--sp-5);
+    }
+    .empty-selection-box {
+      text-align: center;
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .recent-box {
+      border-top: 1px solid var(--border);
+      padding-top: var(--sp-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .recent-item {
+      padding: 12px 14px;
+      border-radius: var(--r-lg);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-3);
+    }
+    .recent-item:hover { border-color: var(--primary); }
+
+    /* Right Pane: Enriched Inbox Snapshot Rail (C11) */
+    .snapshot-pane {
+      padding: var(--sp-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .snapshot-title {
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-fg);
+    }
+    .snapshot-kpi-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .snapshot-kpi-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .snapshot-kpi-num {
+      font-family: var(--mono);
+      font-size: var(--fs-lg);
+      font-weight: 700;
+    }
+    .by-type-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: var(--fs-xs);
+    }
+    .by-type-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-radius: var(--r-sm);
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 8px 14px; border-radius: var(--r-md);
+      font-size: var(--fs-xs); font-weight: 600;
+      border: 1px solid var(--border); background: var(--card); color: var(--fg);
+    }
+    .btn:hover { background: var(--muted); }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-hover); }
+
+    .honesty-card {
+      background: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+
+    @media (max-width: 1120px) {
+      .three-pane-shell { grid-template-columns: 320px minmax(0, 1fr); }
+      .snapshot-pane-wrap { grid-column: 1 / -1; }
+    }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .three-pane-shell { grid-template-columns: 1fr; }
+      .top-header, .lab-bar, .page-container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <!-- Sidebar (C17) -->
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link"><span class="brand-mark">NL</span><span>Nestlancer</span></a>
+        <span class="portal-pill">Client</span>
+      </div>
+      <a href="../../F06-request-new-form/V1/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V1/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="../../F10-quotes-list/V1/index.html" class="nav-link"><span>Quotes</span><span class="nav-count">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="index.html" class="nav-link" aria-current="page"><span>Messages</span><span class="nav-count nav-count--brand">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <!-- Main Column -->
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <span class="breadcrumbs-current" aria-current="page">Messages</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Message support…</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">◐</button>
+          <button type="button" class="icon-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <!-- Variant & State Switcher Bar -->
+      <div class="lab-bar" role="region" aria-label="Variant and state controls">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F12 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill is-active">V1 · Enriched 3-Pane ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Linear KPI Ribbon</a>
+          <a href="../V3/index.html" class="lab-pill">V3 · Split Cards &amp; Stage</a>
+          <a href="../V4/index.html" class="lab-pill">V4 · Support Command Hub</a>
+          <a href="../V5/index.html" class="lab-pill">V5 · Adaptive Docked Inbox</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">Captured State:</span>
+          <button type="button" class="lab-pill is-active" data-view-btn="merged">Merged Inbox (18+19 · C11)</button>
+          <button type="button" class="lab-pill" data-view-btn="preview">Thread Preview Selected</button>
+          <button type="button" class="lab-pill" data-view-btn="new-direct">New message (/messages/new/direct · 20)</button>
+          <button type="button" class="lab-pill" data-view-btn="empty-inbox">Empty Inbox</button>
+          <button type="button" class="lab-pill" data-view-btn="loading">Loading</button>
+          <button type="button" class="lab-pill" data-view-btn="error">Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="page-container">
+        <!-- Merged Header (18 + 19 · C11) -->
+        <section class="messages-header" aria-labelledby="msg-h1">
+          <div>
+            <div class="page-eyebrow">Support · Messaging panel</div>
+            <div class="page-title-row">
+              <h1 class="page-title" id="msg-h1">Messages</h1>
+              <span class="live-badge"><span class="live-dot"></span><span>Live</span></span>
+            </div>
+            <p class="page-lead">
+              Your conversations with Nestlancer — pick a thread to continue. Review your inbox at a glance, then open the messaging panel to chat.
+            </p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn" id="open-new-direct-btn">Message support (/messages/new/direct)</button>
+            <a href="../../F13-messages-thread/V1/index.html?thread=group" class="btn btn-primary">Open Active Thread (F13 V1) →</a>
+          </div>
+        </section>
+
+        <!-- 3-Pane Shell (Queue + Centre Reading/New-Message Pane + Enriched Inbox Snapshot Rail) -->
+        <section class="three-pane-shell" aria-label="Unified 3-pane messaging workspace">
+          <!-- Pane 1: Conversation Queue -->
+          <div class="pane-card">
+            <div class="queue-head">
+              <div>
+                <h2 class="queue-title">Conversation queue</h2>
+                <div class="queue-sub">2 conversations — click to open in the workspace</div>
+              </div>
+              <input
+                type="search"
+                id="queue-search"
+                class="search-input"
+                placeholder="Search by name, preview, or ID…"
+                aria-label="Search by name, preview, or ID"
+              />
+              <div class="chip-row" role="group" aria-label="Filter conversations by type">
+                <button type="button" class="type-chip is-active" data-type-chip="all">All</button>
+                <button type="button" class="type-chip" data-type-chip="unread">Unread</button>
+                <button type="button" class="type-chip" data-type-chip="direct">Direct</button>
+                <button type="button" class="type-chip" data-type-chip="project">Project</button>
+                <button type="button" class="type-chip" data-type-chip="group">Group</button>
+              </div>
+              <div class="queue-controls-row">
+                <select id="inbox-select" class="select-sm" aria-label="Inbox">
+                  <option value="inbox">Inbox</option>
+                  <option value="active" selected>Active</option>
+                  <option value="archived">Archived</option>
+                </select>
+                <select id="sort-select" class="select-sm" aria-label="Sort">
+                  <option value="unread">Unread first</option>
+                  <option value="waiting">Longest wait</option>
+                  <option value="recent">Latest</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="queue-list" class="thread-list" role="listbox" aria-label="Conversations"></div>
+          </div>
+
+          <!-- Pane 2: Centre Reading / Empty Selection / New Message Pane -->
+          <div class="pane-card centre-pane" id="centre-pane" aria-live="polite"></div>
+
+          <!-- Pane 3: Enriched Inbox Snapshot Rail (C11: Folds 18's 3 KPIs + 19's By Type + 20's Support Launcher) -->
+          <aside class="pane-card snapshot-pane snapshot-pane-wrap" aria-label="Inbox snapshot and overview metrics">
+            <div>
+              <div class="snapshot-title">Inbox snapshot (C11 Merged KPIs)</div>
+              <div style="font-size:11.5px; color:var(--muted-fg); margin-top:2px;">Overview + panel telemetry</div>
+            </div>
+
+            <div class="snapshot-kpi-stack">
+              <div class="snapshot-kpi-card">
+                <div>
+                  <div style="font-size:var(--fs-xs); font-weight:700;">Open conversations</div>
+                  <div style="font-size:11px; color:var(--muted-fg);">Open · Active threads</div>
+                </div>
+                <span class="snapshot-kpi-num">2</span>
+              </div>
+              <div class="snapshot-kpi-card">
+                <div>
+                  <div style="font-size:var(--fs-xs); font-weight:700;">Unread messages</div>
+                  <div style="font-size:11px; color:var(--status-success-text); font-weight:600;">Unread · All caught up</div>
+                </div>
+                <span class="snapshot-kpi-num">0</span>
+              </div>
+              <div class="snapshot-kpi-card">
+                <div>
+                  <div style="font-size:var(--fs-xs); font-weight:700;">Unread threads</div>
+                  <div style="font-size:11px; color:var(--muted-fg);">Waiting · None waiting</div>
+                </div>
+                <span class="snapshot-kpi-num">0</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="snapshot-title" style="margin-bottom:6px;">By type</div>
+              <div class="by-type-list">
+                <div class="by-type-row"><span>Project</span><strong style="font-family:var(--mono);">0</strong></div>
+                <div class="by-type-row"><span>Direct</span><strong style="font-family:var(--mono);">1</strong></div>
+                <div class="by-type-row"><span>Group</span><strong style="font-family:var(--mono);">1</strong></div>
+              </div>
+            </div>
+
+            <div class="honesty-card">
+              <div style="font-size:var(--fs-xs); font-weight:700;">To: Nestlancer Support</div>
+              <p style="font-size:11.5px; color:var(--muted-fg);">
+                Platform support admin for your account. Client-to-client messaging is not available.
+              </p>
+              <button type="button" class="btn btn-primary" id="rail-start-support-btn">Message support →</button>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const THREADS = [
+        {
+          id: "01a10a2b-f916-701a-9036-030e679c415c",
+          initials: "AP",
+          altInitials: "AG",
+          title: "Agency partner coordination — festive campaigns",
+          type: "group",
+          typeLabel: "Group",
+          ago: "20 days ago",
+          preview: "Great — I'll schedule a joint review of Razorpay UPI checkout patterns that worked across both projects.",
+          f13Param: "group"
+        },
+        {
+          id: "01a10a2b-bc16-7143-86da-6f70b07d91c3",
+          initials: "RK",
+          altInitials: "RI",
+          title: "Riya Kapoor",
+          type: "direct",
+          typeLabel: "Direct",
+          ago: "20 days ago",
+          preview: "Noted. Milestone 2 staging link stays live through the weekend for your team to test UPI flows.",
+          f13Param: "direct"
+        }
+      ];
+
+      let viewState = "merged";
+      let typeFilter = "all";
+      let searchQuery = "";
+      let selectedThreadId = "01a10a2b-f916-701a-9036-030e679c415c";
+
+      const queueEl = document.getElementById("queue-list");
+      const centreEl = document.getElementById("centre-pane");
+      const searchInput = document.getElementById("queue-search");
+
+      function renderAll() {
+        /* Render Left Queue */
+        if (viewState === "loading") {
+          queueEl.innerHTML = '<div style="padding:20px; color:var(--muted-fg); font-size:var(--fs-xs);">Loading conversation queue…</div>';
+          centreEl.innerHTML = '<div class="empty-selection-box"><h2>Loading messaging workspace…</h2></div>';
+          return;
+        }
+        if (viewState === "error") {
+          queueEl.innerHTML = '<div style="padding:20px; color:var(--status-danger-text); font-size:var(--fs-xs);">Unable to load threads.</div>';
+          centreEl.innerHTML =
+            '<div class="empty-selection-box"><h2 style="font-size:var(--fs-lg); font-weight:700;">Could not load conversations (GET /api/v1/messages/threads)</h2><p style="font-size:var(--fs-sm); color:var(--muted-fg);">Please check your connection and try again.</p><button type="button" class="btn btn-primary" id="retry-btn">Try again</button></div>';
+          const r = document.getElementById("retry-btn");
+          if (r) r.addEventListener("click", () => setView("merged"));
+          return;
+        }
+        if (viewState === "empty-inbox") {
+          queueEl.innerHTML = '<div style="padding:20px; color:var(--muted-fg); font-size:var(--fs-xs);">0 conversations</div>';
+          centreEl.innerHTML =
+            '<div class="empty-selection-box"><h2 style="font-size:var(--fs-lg); font-weight:700;">No conversations yet</h2><p style="font-size:var(--fs-sm); color:var(--muted-fg);">Start a direct conversation with Nestlancer support anytime.</p><button type="button" class="btn btn-primary" id="empty-new-btn">Message support</button></div>';
+          const b = document.getElementById("empty-new-btn");
+          if (b) b.addEventListener("click", () => setView("new-direct"));
+          return;
+        }
+
+        const filtered = THREADS.filter((t) => {
+          if (typeFilter === "unread" || typeFilter === "project") return false;
+          if (typeFilter !== "all" && t.type !== typeFilter) return false;
+          if (searchQuery) {
+            const h = (t.title + " " + t.preview + " " + t.id).toLowerCase();
+            if (!h.includes(searchQuery.toLowerCase())) return false;
+          }
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          queueEl.innerHTML =
+            '<div style="padding:20px; font-size:var(--fs-xs); color:var(--muted-fg);">' +
+            (typeFilter === "project"
+              ? '0 project threads in inbox. <a href="../../F09-project-details/V1/index.html" style="color:var(--primary); font-weight:600;">Open F09 Project Messages →</a>'
+              : typeFilter === "unread"
+              ? "All caught up · 0 unread threads."
+              : "No conversations match filter.") +
+            ' <div style="margin-top:8px;"><button type="button" class="btn" id="reset-chip-btn">Reset filter</button></div></div>';
+          const rb = document.getElementById("reset-chip-btn");
+          if (rb) rb.addEventListener("click", () => {
+            typeFilter = "all";
+            searchQuery = "";
+            searchInput.value = "";
+            syncChips();
+            renderAll();
+          });
+        } else {
+          queueEl.innerHTML = filtered.map((t) => {
+            const badgeCls = t.type === "group" ? "type-badge type-badge--group" : "type-badge type-badge--direct";
+            const isSel = viewState === "preview" && t.id === selectedThreadId;
+            return (
+              '<button type="button" class="thread-row ' + (isSel ? "is-selected" : "") + '" data-thread-id="' + t.id + '">' +
+              '<span class="thread-avatar">' + t.initials + "</span>" +
+              '<div style="min-width:0; flex:1;">' +
+              '<div style="display:flex; justify-content:space-between; align-items:center; gap:6px;">' +
+              '<strong style="font-size:var(--fs-xs); color:var(--fg); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + t.title + "</strong>" +
+              '<span class="' + badgeCls + '">' + t.typeLabel + "</span>" +
+              "</div>" +
+              '<div style="font-size:11.5px; color:var(--muted-fg); margin-top:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">' + t.preview + "</div>" +
+              '<div style="font-size:10.5px; color:var(--muted-fg); margin-top:4px; font-family:var(--mono);">' + t.ago + "</div>" +
+              "</div></button>"
+            );
+          }).join("");
+
+          queueEl.querySelectorAll("[data-thread-id]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+              selectedThreadId = btn.getAttribute("data-thread-id");
+              setView("preview");
+            });
+          });
+        }
+
+        /* Render Centre Pane */
+        if (viewState === "new-direct") {
+          centreEl.innerHTML =
+            '<div style="max-width:520px; margin:0 auto; width:100%; display:flex; flex-direction:column; gap:16px;">' +
+            "<div>" +
+            '<div class="page-eyebrow">Direct message (/messages/new/direct)</div>' +
+            '<h2 style="font-size:var(--fs-2xl); font-weight:700; margin-top:4px;">New message</h2>' +
+            '<p style="font-size:var(--fs-sm); color:var(--muted-fg); margin-top:4px;">Start a direct conversation with Nestlancer support. Existing support threads reopen automatically.</p>' +
+            "</div>" +
+            '<div class="honesty-card" style="background:var(--bg);">' +
+            '<div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">To</div>' +
+            '<div style="font-size:var(--fs-md); font-weight:700;">Nestlancer Support</div>' +
+            '<p style="font-size:var(--fs-xs); color:var(--muted-fg);">Platform support admin for your account. Client-to-client messaging is not available.</p>' +
+            "</div>" +
+            '<div style="display:flex; gap:10px;">' +
+            '<a href="../../F13-messages-thread/V1/index.html?thread=direct" class="btn btn-primary">Start conversation →</a>' +
+            '<button type="button" class="btn" id="cancel-new-btn">Cancel</button>' +
+            "</div></div>";
+          const cBtn = document.getElementById("cancel-new-btn");
+          if (cBtn) cBtn.addEventListener("click", () => setView("merged"));
+          return;
+        }
+
+        if (viewState === "preview") {
+          const active = THREADS.find((t) => t.id === selectedThreadId) || THREADS[0];
+          centreEl.innerHTML =
+            '<div style="display:flex; flex-direction:column; gap:16px; height:100%; justify-content:space-between;">' +
+            '<div style="border-bottom:1px solid var(--border); padding-bottom:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">' +
+            '<div style="display:flex; align-items:center; gap:10px;">' +
+            '<span class="thread-avatar">' + active.initials + "</span>" +
+            "<div>" +
+            '<h2 style="font-size:var(--fs-md); font-weight:700;">' + active.title + "</h2>" +
+            '<div style="font-size:var(--fs-xs); color:var(--muted-fg);">' + active.typeLabel + " · Last activity " + active.ago + "</div>" +
+            "</div></div>" +
+            '<a href="../../F13-messages-thread/V1/index.html?thread=' + active.f13Param + '" class="btn btn-primary">Open full thread in F13 V1 →</a>' +
+            "</div>" +
+            '<div style="background:var(--bg); border:1px solid var(--border); border-radius:var(--r-lg); padding:16px; font-size:var(--fs-sm);">' +
+            '<div style="font-size:var(--fs-xs); color:var(--muted-fg); margin-bottom:6px;">Latest message preview:</div>' +
+            "<p>" + active.preview + "</p>" +
+            "</div>" +
+            '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+            '<button type="button" class="btn" id="back-empty-btn">← Clear selection</button>' +
+            '<a href="../../F13-messages-thread/V1/index.html?thread=' + active.f13Param + '" class="btn btn-primary">Reply in Thread Workspace →</a>' +
+            "</div></div>";
+          const bBtn = document.getElementById("back-empty-btn");
+          if (bBtn) bBtn.addEventListener("click", () => setView("merged"));
+          return;
+        }
+
+        /* Default: Captured Empty Selection State (19) + Recent Conversations (18) */
+        centreEl.innerHTML =
+          '<div class="empty-selection-box">' +
+          '<h2 style="font-size:var(--fs-xl); font-weight:700;">Select a conversation</h2>' +
+          '<p style="font-size:var(--fs-sm); color:var(--muted-fg);">Choose a thread from the list to read messages and send a reply.</p>' +
+          "</div>" +
+          '<div class="recent-box">' +
+          '<div style="display:flex; justify-content:space-between; align-items:center;">' +
+          "<div>" +
+          '<h3 style="font-size:var(--fs-sm); font-weight:700;">Recent conversations</h3>' +
+          '<div style="font-size:11.5px; color:var(--muted-fg);">Latest activity in your inbox</div>' +
+          "</div>" +
+          '<span style="font-size:11px; color:var(--muted-fg);">1-click jump to F13</span>' +
+          "</div>" +
+          THREADS.map((t) =>
+            '<div class="recent-item">' +
+            '<div style="min-width:0;">' +
+            '<div style="display:flex; align-items:center; gap:8px;">' +
+            '<span style="font-family:var(--mono); font-weight:700; font-size:var(--fs-xs);">' + t.altInitials + " / " + t.initials + "</span>" +
+            '<strong style="font-size:var(--fs-sm);">' + t.title + "</strong>" +
+            '<span class="' + (t.type === "group" ? "type-badge type-badge--group" : "type-badge type-badge--direct") + '">' + t.typeLabel + "</span>" +
+            "</div>" +
+            '<div style="font-size:var(--fs-xs); color:var(--muted-fg); margin-top:3px;">' + t.preview + " · " + t.ago + "</div>" +
+            "</div>" +
+            '<a href="../../F13-messages-thread/V1/index.html?thread=' + t.f13Param + '" class="btn btn-primary">Open →</a>' +
+            "</div>"
+          ).join("") +
+          "</div>";
+      }
+
+      function setView(v) {
+        viewState = v;
+        document.querySelectorAll("[data-view-btn]").forEach((b) => {
+          b.classList.toggle("is-active", b.getAttribute("data-view-btn") === v);
+        });
+        renderAll();
+      }
+
+      function syncChips() {
+        document.querySelectorAll("[data-type-chip]").forEach((c) => {
+          c.classList.toggle("is-active", c.getAttribute("data-type-chip") === typeFilter);
+        });
+      }
+
+      searchInput.addEventListener("input", (e) => { searchQuery = e.target.value.trim(); renderAll(); });
+      document.querySelectorAll("[data-type-chip]").forEach((c) => {
+        c.addEventListener("click", () => {
+          typeFilter = c.getAttribute("data-type-chip");
+          syncChips();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-view-btn]").forEach((b) => {
+        b.addEventListener("click", () => setView(b.getAttribute("data-view-btn")));
+      });
+      document.getElementById("open-new-direct-btn").addEventListener("click", () => setView("new-direct"));
+      document.getElementById("rail-start-support-btn").addEventListener("click", () => setView("new-direct"));
+      document.getElementById("cmdk-btn").addEventListener("click", () => setView("new-direct"));
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+
+      renderAll();
+    })();
+  </script>
+</body>
+</html>

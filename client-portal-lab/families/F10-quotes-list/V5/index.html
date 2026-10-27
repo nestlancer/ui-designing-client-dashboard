@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quotes · V5 Split Master-Detail Workbench — Nestlancer Client Portal</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F10 · Quotes List — V5: Split Master-Detail Quotes Workbench
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: var(--sidebar-w);
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: var(--sp-4) var(--sp-3);
+      z-index: 30;
+    }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-1) var(--sp-2) var(--sp-4);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--sp-4);
+    }
+    .brand-link { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; font-size: var(--fs-md); }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-md);
+      background: var(--primary);
+      color: var(--primary-fg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: var(--fs-sm);
+    }
+    .portal-pill {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--r-pill);
+      background: var(--brand-50);
+      color: var(--brand-700);
+    }
+    .dark .portal-pill { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .sidebar-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-2);
+      width: 100%;
+      padding: 10px var(--sp-3);
+      border-radius: var(--r-md);
+      background: var(--primary);
+      color: var(--primary-fg);
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      margin-bottom: var(--sp-4);
+    }
+    .nav-section-label {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-fg);
+      padding: var(--sp-2) var(--sp-2) var(--sp-1);
+    }
+    .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-3); }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: var(--r-md);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--muted-fg);
+    }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+    .dark .nav-link[aria-current="page"] { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .nav-count {
+      font-family: var(--mono);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: var(--r-pill);
+      background: var(--muted);
+      color: var(--fg);
+    }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); position: relative; }
+    .explore-popover {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-md);
+      padding: var(--sp-2);
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 40;
+    }
+    .explore-popover.is-open { display: flex; }
+
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky;
+      top: 0;
+      height: var(--header-h);
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--sp-6);
+      z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn { display: none; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); align-items: center; justify-content: center; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--muted-fg); }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 6px 12px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--muted); color: var(--muted-fg); font-size: var(--fs-xs); }
+    .icon-btn { position: relative; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); display: inline-flex; align-items: center; justify-content: center; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--primary); color: var(--primary-fg); font-family: var(--mono); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); font-size: var(--fs-xs); font-weight: 600; }
+    .avatar-circle { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--brand-600); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; }
+
+    .lab-bar {
+      background: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill { padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); color: var(--muted-fg); font-weight: 600; font-size: var(--fs-xs); }
+    .lab-pill.is-active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    /* --- V5 Split Master-Detail Workbench --- */
+    .page-container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--sp-5) var(--sp-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .top-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-4);
+    }
+    .page-eyebrow { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); }
+    .page-title { font-size: clamp(1.9rem, 2.8vw, 2.25rem); font-weight: 700; letter-spacing: -0.025em; }
+    .page-lead { font-size: var(--fs-sm); color: var(--muted-fg); }
+
+    .kpi-inline-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+    }
+    .kpi-mini {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-xs);
+      font-size: var(--fs-xs);
+    }
+    .kpi-mini strong { font-size: var(--fs-md); font-family: var(--mono); }
+
+    .workbench-split {
+      display: grid;
+      grid-template-columns: 440px minmax(0, 1fr);
+      gap: var(--sp-4);
+      align-items: start;
+    }
+    .queue-pane {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .queue-toolbar {
+      padding: var(--sp-3);
+      border-bottom: 1px solid var(--border);
+      background: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .search-input, .status-select {
+      width: 100%;
+      padding: 7px 10px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      font-size: var(--fs-xs);
+    }
+    .queue-list {
+      max-height: 620px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .queue-item {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-2);
+      transition: background var(--dur-fast) var(--ease-out);
+    }
+    .queue-item:hover { background: var(--muted); }
+    .queue-item.is-selected {
+      background: var(--brand-50);
+      border-left: 3px solid var(--primary);
+    }
+    .dark .queue-item.is-selected {
+      background: rgba(91, 123, 255, 0.16);
+    }
+
+    .inspector-pane {
+      position: sticky;
+      top: calc(var(--header-h) + 16px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-5);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--r-pill);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .status-badge--accepted { background: var(--status-success-bg); color: var(--status-success-text); border-color: var(--status-success-border); }
+    .status-badge--draft { background: var(--status-neutral-bg); color: var(--status-neutral-text); border-color: var(--status-neutral-border); }
+    .status-badge--sent { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
+
+    .c23-code-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      padding: 2px 8px;
+      border-radius: var(--r-xs);
+      background: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 14px;
+      border-radius: var(--r-md);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+    .btn--primary {
+      background: var(--primary);
+      color: var(--primary-fg);
+      border-color: var(--primary);
+    }
+
+    @media (max-width: 1024px) {
+      .workbench-split { grid-template-columns: 1fr; }
+      .inspector-pane { position: static; }
+    }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .top-header, .lab-bar, .page-container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link"><span class="brand-mark">NL</span><span>Nestlancer</span></a>
+        <span class="portal-pill">Client</span>
+      </div>
+      <a href="../../F06-request-new-form/V5/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V5/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V5/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="index.html" class="nav-link" aria-current="page"><span>Quotes</span><span class="nav-count nav-count--brand">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="../../F12-messages-home/V5/index.html" class="nav-link"><span>Messages</span><span class="nav-count">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <span class="breadcrumbs-current" aria-current="page">Quotes</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Search</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle theme">◐</button>
+          <button type="button" class="icon-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <div class="lab-bar" role="region" aria-label="Variant and state bar">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F10 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill">V1 · Commercial Hub ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Financial Ledger</a>
+          <a href="../V3/index.html" class="lab-pill">V3 · Portfolio Grid</a>
+          <a href="../V4/index.html" class="lab-pill">V4 · Lifecycle Lanes</a>
+          <a href="../V5/index.html" class="lab-pill is-active">V5 · Split Workbench</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">State:</span>
+          <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Pending Sim (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
+          <button type="button" class="lab-pill" data-state-btn="empty">Empty</button>
+          <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
+          <button type="button" class="lab-pill" data-state-btn="error">Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="page-container">
+        <section class="top-strip">
+          <div>
+            <div class="page-eyebrow">Commercial</div>
+            <h1 class="page-title">Quotes</h1>
+            <p class="page-lead">Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team.</p>
+          </div>
+          <div class="kpi-inline-strip" aria-label="Quote summary metrics">
+            <button type="button" class="kpi-mini" data-kpi-filter=""><span>Total (All quotes)</span><strong>12</strong></button>
+            <button type="button" class="kpi-mini" data-kpi-filter="sent"><span>Pending (Awaiting action)</span><strong id="kpi-pending-val">0</strong></button>
+            <button type="button" class="kpi-mini" data-kpi-filter="accepted"><span>Accepted (Approved)</span><strong>5</strong></button>
+            <button type="button" class="kpi-mini" data-kpi-filter="declined"><span>Declined (Rejected)</span><strong>0</strong></button>
+          </div>
+        </section>
+
+        <!-- 2-Pane Split Workbench -->
+        <section class="workbench-split" aria-label="Quotes master-detail workbench">
+          <div class="queue-pane">
+            <div class="queue-toolbar">
+              <input
+                type="search"
+                id="quote-search"
+                class="search-input"
+                placeholder="Search by quote ID or project title…"
+                aria-label="Search by quote ID or project title"
+              />
+              <select id="status-select" class="status-select" aria-label="Status">
+                <option value="">All statuses</option>
+                <option value="sent">Sent / pending</option>
+                <option value="viewed">Viewed</option>
+                <option value="accepted">Accepted</option>
+                <option value="declined">Declined</option>
+                <option value="expired">Expired</option>
+                <option value="draft">Draft</option>
+              </select>
+            </div>
+            <div id="queue-list" class="queue-list" role="listbox" aria-label="12 captured quotes"></div>
+          </div>
+
+          <aside id="inspector-pane" class="inspector-pane" aria-live="polite" aria-label="Selected quote commercial inspector"></aside>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const QUOTES = [
+        { shortId: "01a10f80", uuid: "01a10f80-ef26-7f95-9331-d6fd3cf283f3", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Expires within 24 hours (Oct 20, 2026)", amount: "₹1,770.00", subtotal: "₹1,500.00", tax: "GST (18%) · ₹270.00", deposit: "Deposit Required: 50% (₹885.00)", notes: "Valid until Oct 20, 2026", f11: "01a10f80" },
+        { shortId: "01a10f7d", uuid: "01a10f7d-633c-72a9-9f73-aa984e6f847c", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026 (<24h window)", amount: "₹1,770.00", subtotal: "₹1,500.00", tax: "GST (18%) · ₹270.00", deposit: "Deposit Required: 50% (₹885.00)", notes: "Valid until Oct 20, 2026", f11: "01a10f80" },
+        { shortId: "01a10f79", uuid: "01a10f79-ee49-7932-bf60-532beaf054be", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026 (<24h window)", amount: "₹1,770.00", subtotal: "₹1,500.00", tax: "GST (18%) · ₹270.00", deposit: "Deposit Required: 50% (₹885.00)", notes: "Valid until Oct 20, 2026", f11: "01a10f80" },
+        { shortId: "01a10f76", uuid: "01a10f76-3e6b-7552-887b-9275be0a4b95", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026 (<24h window)", amount: "₹1,770.00", subtotal: "₹1,500.00", tax: "GST (18%) · ₹270.00", deposit: "Deposit Required: 50% (₹885.00)", notes: "Valid until Oct 20, 2026", f11: "01a10f80" },
+        { shortId: "01a10f73", uuid: "01a10f73-4f16-7f05-9713-65423d5a5f08", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026 (<24h window)", amount: "₹1,770.00", subtotal: "₹1,500.00", tax: "GST (18%) · ₹270.00", deposit: "Deposit Required: 50% (₹885.00)", notes: "Valid until Oct 20, 2026", f11: "01a10f80" },
+        { shortId: "01a10f71", uuid: "01a10f71-85f0-7fa4-a7cc-beccbc1d2ab1", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026 (<24h window)", amount: "₹1,770.00", subtotal: "₹1,500.00", tax: "GST (18%) · ₹270.00", deposit: "Deposit Required: 50% (₹885.00)", notes: "Valid until Oct 20, 2026", f11: "01a10f80" },
+        { shortId: "01a10f6e", uuid: "01a10f6e-9da5-7f09-bb42-ca7be67b08a1", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026 (<24h window)", amount: "₹1,770.00", subtotal: "₹1,500.00", tax: "GST (18%) · ₹270.00", deposit: "Deposit Required: 50% (₹885.00)", notes: "Valid until Oct 20, 2026", f11: "01a10f80" },
+        { shortId: "01a10a2b", uuid: "01a10a2b-58bf-7cf9-8383-0e018ca2c216", status: "accepted", statusLabel: "Accepted", requestTitle: "Khandesh Spice D2C E-Commerce Store", isQa: false, validUntil: "Oct 20, 2026", a5: "✓ Signed on Oct 5, 2026 · NL-CTR-2026-000001", amount: "₹75,000.00", subtotal: "₹75,000.00", tax: "0% (Inclusive / Standard)", deposit: "30% Kickoff (₹22,500) · 40% Mid (₹30,000) · 30% Launch (₹22,500)", notes: "GST extra as applicable. Includes 30 days post-launch warranty.", f11: "01a10a2b" },
+        { shortId: "01a10a29", uuid: "01a10a29-269c-7244-89ef-cd46e4856737", status: "accepted", statusLabel: "Accepted", requestTitle: "Nashik Wine Club Subscription Portal", isQa: false, validUntil: "Oct 25, 2026", a5: "✓ Signed Agreement · Valid until Oct 25, 2026", amount: "₹1,20,000.00", subtotal: "₹1,20,000.00", tax: "Standard commercial agreement", deposit: "30% / 40% / 30% Milestone Schedule", notes: "Recurring member billing & age-verified delivery workflow.", f11: "01a10a2b" },
+        { shortId: "01a10a26", uuid: "01a10a26-a16b-7094-82fc-f757242ab36b", status: "accepted", statusLabel: "Accepted", requestTitle: "Nagpur Cold-Storage Inventory & Billing Portal", isQa: false, validUntil: "Nov 1, 2026", a5: "✓ Signed Agreement · Valid until Nov 1, 2026", amount: "₹1,80,000.00", subtotal: "₹1,80,000.00", tax: "Standard commercial agreement", deposit: "30% / 40% / 30% Milestone Schedule", notes: "Multi-chamber pallet telemetry & automated GST invoicing.", f11: "01a10a2b" },
+        { shortId: "01a10a24", uuid: "01a10a24-7500-7d7c-bf00-35d285619925", status: "accepted", statusLabel: "Accepted", requestTitle: "Kolhapur Leather Footwear Wholesale Catalog", isQa: false, validUntil: "Nov 5, 2026", a5: "✓ Signed Agreement · Valid until Nov 5, 2026", amount: "₹40,000.00", subtotal: "₹40,000.00", tax: "Standard commercial agreement", deposit: "50% Kickoff · 50% Launch", notes: "B2B distributor MOQ tiers and inquiry cart.", f11: "01a10a2b" },
+        { shortId: "01a10a21", uuid: "01a10a21-d559-7d4b-b69b-dc76d7de7b18", status: "accepted", statusLabel: "Accepted", requestTitle: "Pune B2B SaaS Marketing Site & Docs", isQa: false, validUntil: "Nov 10, 2026", a5: "✓ Signed Agreement · Valid until Nov 10, 2026", amount: "₹2,40,000.00", subtotal: "₹2,40,000.00", tax: "Standard commercial agreement", deposit: "30% / 40% / 30% Milestone Schedule", notes: "MDX documentation engine, interactive pricing calculator & benchmarks.", f11: "01a10a2b" }
+      ];
+
+      let currentState = "populated";
+      let searchQuery = "";
+      let statusFilter = "";
+      let selectedId = "01a10f80";
+
+      const queueEl = document.getElementById("queue-list");
+      const inspectorEl = document.getElementById("inspector-pane");
+      const searchInput = document.getElementById("quote-search");
+      const statusSelect = document.getElementById("status-select");
+
+      function escapeHtml(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      function renderWorkbench() {
+        if (currentState === "loading") {
+          queueEl.innerHTML = '<div style="padding:24px; color:var(--muted-fg);">Loading 12 quotes…</div>';
+          inspectorEl.innerHTML = '<div style="color:var(--muted-fg);">Loading quote inspector…</div>';
+          return;
+        }
+        if (currentState === "error") {
+          queueEl.innerHTML = '<div style="padding:24px; color:var(--status-danger-text);">Failed to load quotes.</div>';
+          inspectorEl.innerHTML = '<div><strong>Error loading GET /api/v1/quotes.</strong> <button type="button" class="btn btn--primary" id="retry-btn">Retry</button></div>';
+          const r = document.getElementById("retry-btn");
+          if (r) r.addEventListener("click", () => setState("populated"));
+          return;
+        }
+        if (currentState === "empty") {
+          queueEl.innerHTML = '<div style="padding:24px; color:var(--muted-fg);">0 quotes</div>';
+          inspectorEl.innerHTML = '<div><strong>No quotes yet.</strong> Submit a project request to receive a commercial proposal.</div>';
+          return;
+        }
+
+        const rows = QUOTES.map((q) => {
+          if (currentState === "pending-sim" && q.shortId === "01a10f80") {
+            return Object.assign({}, q, { status: "sent", statusLabel: "Sent / pending" });
+          }
+          return q;
+        }).filter((q) => {
+          if (currentState === "empty-filter") return false;
+          if (statusFilter && q.status !== statusFilter) return false;
+          if (searchQuery) {
+            const h = (q.shortId + " " + q.requestTitle + " " + q.amount).toLowerCase();
+            if (!h.includes(searchQuery.toLowerCase())) return false;
+          }
+          return true;
+        });
+
+        if (rows.length === 0) {
+          queueEl.innerHTML = '<div style="padding:24px; color:var(--muted-fg);">No matching quotes. <button type="button" class="btn" id="reset-btn">Reset</button></div>';
+          inspectorEl.innerHTML = '<div>Select or reset filters to inspect a quote.</div>';
+          const b = document.getElementById("reset-btn");
+          if (b) b.addEventListener("click", () => {
+            searchQuery = "";
+            statusFilter = "";
+            searchInput.value = "";
+            statusSelect.value = "";
+            if (currentState === "empty-filter") currentState = "populated";
+            renderWorkbench();
+          });
+          return;
+        }
+
+        const active = rows.find((r) => r.shortId === selectedId) || rows[0];
+        selectedId = active.shortId;
+
+        queueEl.innerHTML = rows.map((q) => {
+          const badgeCls = q.status === "accepted" ? "status-badge--accepted" : q.status === "sent" ? "status-badge--sent" : "status-badge--draft";
+          return (
+            '<button type="button" class="queue-item ' + (q.shortId === selectedId ? "is-selected" : "") + '" data-select-id="' + q.shortId + '">' +
+            '<div style="min-width:0;">' +
+            '<div style="display:flex; align-items:center; gap:6px;">' +
+            '<span style="font-family:var(--mono); font-weight:700;">Quote #' + q.shortId + "</span>" +
+            '<span class="status-badge ' + badgeCls + '">' + escapeHtml(q.statusLabel) + "</span>" +
+            "</div>" +
+            '<div style="font-size:11.5px; color:var(--muted-fg); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Request: ' + escapeHtml(q.requestTitle) + "</div>" +
+            '<div style="font-size:11px; color:var(--muted-fg);">Valid until ' + escapeHtml(q.validUntil) + "</div>" +
+            "</div>" +
+            '<div style="font-family:var(--mono); font-weight:700; font-size:var(--fs-sm);">' + escapeHtml(q.amount) + "</div>" +
+            "</button>"
+          );
+        }).join("");
+
+        queueEl.querySelectorAll("[data-select-id]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            selectedId = btn.getAttribute("data-select-id");
+            renderWorkbench();
+          });
+        });
+
+        const badgeCls = active.status === "accepted" ? "status-badge--accepted" : active.status === "sent" ? "status-badge--sent" : "status-badge--draft";
+        const reqDisplay = active.isQa
+          ? '<span class="c23-code-pill"><code>' + escapeHtml(active.requestTitle) + "</code> (C23 Escaped Literal)</span>"
+          : "<strong>" + escapeHtml(active.requestTitle) + "</strong>";
+
+        inspectorEl.innerHTML =
+          '<div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; border-bottom:1px solid var(--border); padding-bottom:14px;">' +
+          "<div>" +
+          '<div style="font-size:var(--fs-xs); font-weight:700; text-transform:uppercase; color:var(--primary);">Live Quote Inspector</div>' +
+          '<h2 style="font-size:var(--fs-2xl); font-weight:700; font-family:var(--mono); margin-top:2px;">Quote #' + active.shortId + "</h2>" +
+          '<div style="font-size:var(--fs-xs); color:var(--muted-fg); font-family:var(--mono);">UUID: ' + active.uuid + "</div>" +
+          "</div>" +
+          '<span class="status-badge ' + badgeCls + '">' + escapeHtml(active.statusLabel) + "</span>" +
+          "</div>" +
+          '<div style="background:var(--status-warning-bg); color:var(--status-warning-text); border:1px solid var(--status-warning-border); padding:10px 14px; border-radius:var(--r-md); font-size:var(--fs-xs); font-weight:600;">' +
+          "A5 Validity &amp; Expiry Status: " + escapeHtml(active.a5) + " · Valid until " + escapeHtml(active.validUntil) +
+          "</div>" +
+          '<div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px;">' +
+          '<div style="background:var(--muted); padding:12px; border-radius:var(--r-md);">' +
+          '<div style="font-size:11px; text-transform:uppercase; color:var(--muted-fg); font-weight:700;">Request / Deliverable</div>' +
+          '<div style="margin-top:6px; font-size:var(--fs-sm);">' + reqDisplay + "</div>" +
+          "</div>" +
+          '<div style="background:var(--muted); padding:12px; border-radius:var(--r-md);">' +
+          '<div style="font-size:11px; text-transform:uppercase; color:var(--muted-fg); font-weight:700;">Total Amount</div>' +
+          '<div style="margin-top:4px; font-size:var(--fs-xl); font-weight:700; font-family:var(--mono);">' + escapeHtml(active.amount) + "</div>" +
+          '<div style="font-size:11px; color:var(--muted-fg);">Subtotal ' + escapeHtml(active.subtotal) + " · " + escapeHtml(active.tax) + "</div>" +
+          "</div>" +
+          "</div>" +
+          '<div style="background:var(--bg); border:1px solid var(--border); padding:12px 14px; border-radius:var(--r-md); font-size:var(--fs-xs); display:flex; flex-direction:column; gap:6px;">' +
+          "<div><strong>Deposit &amp; Payment Schedule:</strong> " + escapeHtml(active.deposit) + "</div>" +
+          "<div><strong>Notes:</strong> " + escapeHtml(active.notes) + "</div>" +
+          "</div>" +
+          '<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding-top:8px;">' +
+          '<a href="../../F09-project-details/V5/index.html" class="btn">Open Active Project (F09 V5)</a>' +
+          '<a href="../../F11-quote-details/V5/index.html?quote=' + active.f11 + '" class="btn btn--primary">Open Full Quote Details (F11 V5) →</a>' +
+          "</div>";
+      }
+
+      function setState(st) {
+        currentState = st;
+        document.getElementById("kpi-pending-val").textContent = st === "pending-sim" ? "1" : "0";
+        document.querySelectorAll("[data-state-btn]").forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-state-btn") === st));
+        renderWorkbench();
+      }
+
+      searchInput.addEventListener("input", (e) => { searchQuery = e.target.value.trim(); renderWorkbench(); });
+      statusSelect.addEventListener("change", (e) => { statusFilter = e.target.value; renderWorkbench(); });
+      document.querySelectorAll("[data-kpi-filter]").forEach((el) => {
+        el.addEventListener("click", () => {
+          statusFilter = el.getAttribute("data-kpi-filter");
+          statusSelect.value = statusFilter;
+          renderWorkbench();
+        });
+      });
+      document.querySelectorAll("[data-state-btn]").forEach((b) => {
+        b.addEventListener("click", () => setState(b.getAttribute("data-state-btn")));
+      });
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+      document.getElementById("cmdk-btn").addEventListener("click", () => searchInput.focus());
+      renderWorkbench();
+    })();
+  </script>
+</body>
+</html>

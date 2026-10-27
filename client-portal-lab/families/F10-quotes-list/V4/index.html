@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quotes · V4 Lifecycle Stage Lanes — Nestlancer Client Portal</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F10 · Quotes List — V4: Lifecycle Stage Lanes (Action Watch → Signed → Drafts)
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: var(--sidebar-w);
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: var(--sp-4) var(--sp-3);
+      z-index: 30;
+    }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-1) var(--sp-2) var(--sp-4);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: var(--sp-4);
+    }
+    .brand-link { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; font-size: var(--fs-md); }
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-md);
+      background: var(--primary);
+      color: var(--primary-fg);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: var(--fs-sm);
+    }
+    .portal-pill {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--r-pill);
+      background: var(--brand-50);
+      color: var(--brand-700);
+    }
+    .dark .portal-pill { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .sidebar-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-2);
+      width: 100%;
+      padding: 10px var(--sp-3);
+      border-radius: var(--r-md);
+      background: var(--primary);
+      color: var(--primary-fg);
+      font-weight: 600;
+      font-size: var(--fs-sm);
+      margin-bottom: var(--sp-4);
+    }
+    .nav-section-label {
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-fg);
+      padding: var(--sp-2) var(--sp-2) var(--sp-1);
+    }
+    .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-3); }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: var(--r-md);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--muted-fg);
+    }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+    .dark .nav-link[aria-current="page"] { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .nav-count {
+      font-family: var(--mono);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: var(--r-pill);
+      background: var(--muted);
+      color: var(--fg);
+    }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); position: relative; }
+    .explore-popover {
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      box-shadow: var(--shadow-md);
+      padding: var(--sp-2);
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 40;
+    }
+    .explore-popover.is-open { display: flex; }
+
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky;
+      top: 0;
+      height: var(--header-h);
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--sp-6);
+      z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn { display: none; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); align-items: center; justify-content: center; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--muted-fg); }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 6px 12px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--muted); color: var(--muted-fg); font-size: var(--fs-xs); }
+    .icon-btn { position: relative; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); display: inline-flex; align-items: center; justify-content: center; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--primary); color: var(--primary-fg); font-family: var(--mono); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); font-size: var(--fs-xs); font-weight: 600; }
+    .avatar-circle { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--brand-600); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; }
+
+    .lab-bar {
+      background: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill { padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); color: var(--muted-fg); font-weight: 600; font-size: var(--fs-xs); }
+    .lab-pill.is-active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    /* --- V4 Lifecycle Lanes Layout --- */
+    .page-container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--sp-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .page-eyebrow { font-size: var(--fs-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--primary); }
+    .page-title { font-size: clamp(2rem, 3vw, 2.35rem); font-weight: 700; letter-spacing: -0.025em; }
+    .page-lead { font-size: var(--fs-sm); color: var(--muted-fg); margin-top: 4px; }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--sp-3);
+    }
+    .kpi-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-3) var(--sp-4);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
+    .kpi-box.is-selected { border-color: var(--primary); box-shadow: 0 0 0 2px var(--ring); }
+    .kpi-num { font-size: var(--fs-2xl); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    .toolbar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: var(--sp-3) var(--sp-4);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+    }
+    .search-input, .status-select {
+      padding: 7px 12px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: var(--fs-sm);
+    }
+    .search-input { min-width: 250px; }
+
+    /* --- Stage Lanes --- */
+    .lanes-stack { display: flex; flex-direction: column; gap: var(--sp-4); }
+    .stage-lane {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-xs);
+      overflow: hidden;
+    }
+    .stage-lane--urgent { border-color: var(--status-warning-border); }
+    .stage-lane--accepted { border-color: var(--status-success-border); }
+    .lane-header {
+      width: 100%;
+      padding: var(--sp-3) var(--sp-5);
+      background: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-2);
+      text-align: left;
+    }
+    .stage-lane--urgent .lane-header {
+      background: var(--status-warning-bg);
+      color: var(--status-warning-text);
+    }
+    .lane-title { font-size: var(--fs-sm); font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
+    .lane-meta { font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; }
+    .lane-body { padding: var(--sp-3) var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2); }
+    .lane-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-3);
+      padding: 10px 14px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .lane-row:hover { border-color: var(--primary); }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--r-pill);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .status-badge--accepted { background: var(--status-success-bg); color: var(--status-success-text); border-color: var(--status-success-border); }
+    .status-badge--draft { background: var(--status-neutral-bg); color: var(--status-neutral-text); border-color: var(--status-neutral-border); }
+    .status-badge--sent { background: var(--status-warning-bg); color: var(--status-warning-text); border-color: var(--status-warning-border); }
+
+    .c23-code-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 11.5px;
+      padding: 2px 8px;
+      border-radius: var(--r-xs);
+      background: var(--card);
+      border: 1px solid var(--border);
+    }
+    .btn-xs {
+      padding: 6px 11px;
+      border-radius: var(--r-sm);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--card);
+    }
+    .btn-xs--primary { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    @media (max-width: 1024px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .top-header, .lab-bar, .page-container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link"><span class="brand-mark">NL</span><span>Nestlancer</span></a>
+        <span class="portal-pill">Client</span>
+      </div>
+      <a href="../../F06-request-new-form/V4/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V4/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V4/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="index.html" class="nav-link" aria-current="page"><span>Quotes</span><span class="nav-count nav-count--brand">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="../../F12-messages-home/V4/index.html" class="nav-link"><span>Messages</span><span class="nav-count">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <span class="breadcrumbs-current" aria-current="page">Quotes</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Search</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle theme">◐</button>
+          <button type="button" class="icon-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <div class="lab-bar" role="region" aria-label="Variant and state bar">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F10 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill">V1 · Commercial Hub ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Financial Ledger</a>
+          <a href="../V3/index.html" class="lab-pill">V3 · Portfolio Grid</a>
+          <a href="../V4/index.html" class="lab-pill is-active">V4 · Lifecycle Lanes</a>
+          <a href="../V5/index.html" class="lab-pill">V5 · Split Workbench</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">State:</span>
+          <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Pending Sim (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
+          <button type="button" class="lab-pill" data-state-btn="empty">Empty</button>
+          <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
+          <button type="button" class="lab-pill" data-state-btn="error">Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="page-container">
+        <section style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
+          <div>
+            <div class="page-eyebrow">Commercial</div>
+            <h1 class="page-title">Quotes</h1>
+            <p class="page-lead">Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team.</p>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button type="button" class="lab-pill is-active" id="mode-lanes-btn">View: Lifecycle Stage Lanes</button>
+            <button type="button" class="lab-pill" id="mode-flat-btn">View: All 12 Chronological</button>
+          </div>
+        </section>
+
+        <!-- 4 KPI Row -->
+        <section class="kpi-row" aria-label="Quote summary metrics">
+          <button type="button" class="kpi-box is-selected" data-kpi-filter="">
+            <div>
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">Total</div>
+              <div style="font-size:var(--fs-xs); color:var(--muted-fg);">All quotes</div>
+            </div>
+            <div class="kpi-num">12</div>
+          </button>
+          <button type="button" class="kpi-box" data-kpi-filter="sent">
+            <div>
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">Pending</div>
+              <div style="font-size:var(--fs-xs); color:var(--muted-fg);">Awaiting action</div>
+            </div>
+            <div class="kpi-num" id="kpi-pending-val">0</div>
+          </button>
+          <button type="button" class="kpi-box" data-kpi-filter="accepted">
+            <div>
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">Accepted</div>
+              <div style="font-size:var(--fs-xs); color:var(--muted-fg);">Approved</div>
+            </div>
+            <div class="kpi-num">5</div>
+          </button>
+          <button type="button" class="kpi-box" data-kpi-filter="declined">
+            <div>
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--muted-fg);">Declined</div>
+              <div style="font-size:var(--fs-xs); color:var(--muted-fg);">Rejected</div>
+            </div>
+            <div class="kpi-num">0</div>
+          </button>
+        </section>
+
+        <!-- Search + 7-Status Select -->
+        <section class="toolbar" aria-label="Filter quotes">
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <input
+              type="search"
+              id="quote-search"
+              class="search-input"
+              placeholder="Search by quote ID or project title…"
+              aria-label="Search by quote ID or project title"
+            />
+            <select id="status-select" class="status-select" aria-label="Status">
+              <option value="">All statuses</option>
+              <option value="sent">Sent / pending</option>
+              <option value="viewed">Viewed</option>
+              <option value="accepted">Accepted</option>
+              <option value="declined">Declined</option>
+              <option value="expired">Expired</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+          <div style="font-size:var(--fs-xs); color:var(--muted-fg);" id="lanes-summary" aria-live="polite">
+            3 lifecycle lanes · 12 quotes total
+          </div>
+        </section>
+
+        <!-- Stage Lanes Container -->
+        <section id="lanes-container" class="lanes-stack" aria-label="Quotes by lifecycle stage"></section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const QUOTES = [
+        { shortId: "01a10f80", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "⏳ Expires within 24 hours", urgent: true, amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f7d", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026", urgent: false, amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f79", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026", urgent: false, amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f76", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026", urgent: false, amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f73", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026", urgent: false, amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f71", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026", urgent: false, amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10f6e", status: "draft", statusLabel: "Draft", requestTitle: "<img src=x onerror=alert(1)>", isQa: true, validUntil: "Oct 20, 2026", a5: "Valid until Oct 20, 2026", urgent: false, amount: "₹1,770.00", f11: "01a10f80" },
+        { shortId: "01a10a2b", status: "accepted", statusLabel: "Accepted", requestTitle: "Khandesh Spice D2C E-Commerce Store", isQa: false, validUntil: "Oct 20, 2026", a5: "Signed Oct 5 · Valid until Oct 20, 2026", urgent: false, amount: "₹75,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a29", status: "accepted", statusLabel: "Accepted", requestTitle: "Nashik Wine Club Subscription Portal", isQa: false, validUntil: "Oct 25, 2026", a5: "Valid until Oct 25, 2026", urgent: false, amount: "₹1,20,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a26", status: "accepted", statusLabel: "Accepted", requestTitle: "Nagpur Cold-Storage Inventory & Billing Portal", isQa: false, validUntil: "Nov 1, 2026", a5: "Valid until Nov 1, 2026", urgent: false, amount: "₹1,80,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a24", status: "accepted", statusLabel: "Accepted", requestTitle: "Kolhapur Leather Footwear Wholesale Catalog", isQa: false, validUntil: "Nov 5, 2026", a5: "Valid until Nov 5, 2026", urgent: false, amount: "₹40,000.00", f11: "01a10a2b" },
+        { shortId: "01a10a21", status: "accepted", statusLabel: "Accepted", requestTitle: "Pune B2B SaaS Marketing Site & Docs", isQa: false, validUntil: "Nov 10, 2026", a5: "Valid until Nov 10, 2026", urgent: false, amount: "₹2,40,000.00", f11: "01a10a2b" }
+      ];
+
+      let currentState = "populated";
+      let searchQuery = "";
+      let statusFilter = "";
+      let viewMode = "lanes";
+
+      const container = document.getElementById("lanes-container");
+      const summaryEl = document.getElementById("lanes-summary");
+      const searchInput = document.getElementById("quote-search");
+      const statusSelect = document.getElementById("status-select");
+
+      function escapeHtml(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      function renderRow(q) {
+        const badgeCls = q.status === "accepted" ? "status-badge--accepted" : q.status === "sent" ? "status-badge--sent" : "status-badge--draft";
+        const reqHtml = q.isQa
+          ? '<span>Request: </span><span class="c23-code-pill"><code>' + escapeHtml(q.requestTitle) + "</code> (C23 Escaped)</span>"
+          : "<span>Request: <strong>" + escapeHtml(q.requestTitle) + "</strong></span>";
+
+        return (
+          '<div class="lane-row">' +
+          '<div style="display:flex; flex-direction:column; gap:4px;">' +
+          '<div style="display:flex; align-items:center; gap:8px;">' +
+          '<a href="../../F11-quote-details/V4/index.html?quote=' + q.f11 + '" style="font-family:var(--mono); font-weight:700;">Quote #' + q.shortId + "</a>" +
+          '<span class="status-badge ' + badgeCls + '">' + escapeHtml(q.statusLabel) + "</span>" +
+          '<span style="font-size:var(--fs-xs); color:var(--muted-fg);">' + escapeHtml(q.a5) + "</span>" +
+          "</div>" +
+          '<div style="font-size:var(--fs-xs);">' + reqHtml + "</div>" +
+          "</div>" +
+          '<div style="display:flex; align-items:center; gap:12px;">' +
+          '<span style="font-family:var(--mono); font-weight:700; font-size:var(--fs-md);">' + escapeHtml(q.amount) + "</span>" +
+          '<a href="../../F11-quote-details/V4/index.html?quote=' + q.f11 + '" class="btn-xs btn-xs--primary">Open Quote →</a>' +
+          "</div>" +
+          "</div>"
+        );
+      }
+
+      function renderLanes() {
+        if (currentState === "loading") {
+          container.innerHTML = '<div class="stage-lane"><div class="lane-body">Loading lifecycle lanes…</div></div>';
+          return;
+        }
+        if (currentState === "error") {
+          container.innerHTML = '<div class="stage-lane"><div class="lane-body">Error loading quotes. <button type="button" class="btn-xs" id="retry-btn">Retry</button></div></div>';
+          const r = document.getElementById("retry-btn");
+          if (r) r.addEventListener("click", () => setState("populated"));
+          return;
+        }
+        if (currentState === "empty") {
+          container.innerHTML = '<div class="stage-lane"><div class="lane-body">No quotes in account yet.</div></div>';
+          return;
+        }
+
+        const rows = QUOTES.map((q) => {
+          if (currentState === "pending-sim" && q.shortId === "01a10f80") {
+            return Object.assign({}, q, { status: "sent", statusLabel: "Sent / pending" });
+          }
+          return q;
+        }).filter((q) => {
+          if (currentState === "empty-filter") return false;
+          if (statusFilter && q.status !== statusFilter) return false;
+          if (searchQuery) {
+            const h = (q.shortId + " " + q.requestTitle + " " + q.amount).toLowerCase();
+            if (!h.includes(searchQuery.toLowerCase())) return false;
+          }
+          return true;
+        });
+
+        summaryEl.textContent = "Showing " + rows.length + " of 12 quotes";
+
+        if (rows.length === 0) {
+          container.innerHTML = '<div class="stage-lane"><div class="lane-body">No quotes match current filter. <button type="button" class="btn-xs" id="reset-btn">Reset filters</button></div></div>';
+          const b = document.getElementById("reset-btn");
+          if (b) b.addEventListener("click", () => {
+            searchQuery = "";
+            statusFilter = "";
+            searchInput.value = "";
+            statusSelect.value = "";
+            if (currentState === "empty-filter") currentState = "populated";
+            renderLanes();
+          });
+          return;
+        }
+
+        if (viewMode === "flat") {
+          container.innerHTML =
+            '<div class="stage-lane"><div class="lane-header"><span class="lane-title">All Quotes (Chronological DOM Order)</span><span class="lane-meta">' +
+            rows.length +
+            ' quotes</span></div><div class="lane-body">' +
+            rows.map(renderRow).join("") +
+            "</div></div>";
+          return;
+        }
+
+        const urgentRows = rows.filter((q) => q.urgent);
+        const acceptedRows = rows.filter((q) => q.status === "accepted");
+        const draftRows = rows.filter((q) => q.status !== "accepted" && !q.urgent);
+
+        let html = "";
+        if (urgentRows.length) {
+          html +=
+            '<div class="stage-lane stage-lane--urgent">' +
+            '<div class="lane-header"><span class="lane-title">⏳ Stage 1 · Expiring &amp; Action Watch (A5 — Expires within 24 hours)</span><span class="lane-meta">' +
+            urgentRows.length +
+            " quote · ₹1,770.00</span></div>" +
+            '<div class="lane-body">' +
+            urgentRows.map(renderRow).join("") +
+            "</div></div>";
+        }
+        if (acceptedRows.length) {
+          html +=
+            '<div class="stage-lane stage-lane--accepted">' +
+            '<div class="lane-header"><span class="lane-title">✓ Stage 2 · Accepted &amp; Signed Agreements</span><span class="lane-meta">' +
+            acceptedRows.length +
+            " quotes · Total ₹6,55,000.00</span></div>" +
+            '<div class="lane-body">' +
+            acceptedRows.map(renderRow).join("") +
+            "</div></div>";
+        }
+        if (draftRows.length) {
+          html +=
+            '<div class="stage-lane">' +
+            '<div class="lane-header"><span class="lane-title">• Stage 3 · Draft &amp; QA Escaped Payloads (C23 Contained)</span><span class="lane-meta">' +
+            draftRows.length +
+            " quotes · ₹1,770.00 each</span></div>" +
+            '<div class="lane-body">' +
+            draftRows.map(renderRow).join("") +
+            "</div></div>";
+        }
+        container.innerHTML = html;
+      }
+
+      function setState(st) {
+        currentState = st;
+        document.getElementById("kpi-pending-val").textContent = st === "pending-sim" ? "1" : "0";
+        document.querySelectorAll("[data-state-btn]").forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-state-btn") === st));
+        renderLanes();
+      }
+
+      searchInput.addEventListener("input", (e) => { searchQuery = e.target.value.trim(); renderLanes(); });
+      statusSelect.addEventListener("change", (e) => { statusFilter = e.target.value; renderLanes(); });
+      document.querySelectorAll("[data-kpi-filter]").forEach((el) => {
+        el.addEventListener("click", () => {
+          statusFilter = el.getAttribute("data-kpi-filter");
+          statusSelect.value = statusFilter;
+          document.querySelectorAll("[data-kpi-filter]").forEach((c) => c.classList.toggle("is-selected", c === el));
+          renderLanes();
+        });
+      });
+      document.querySelectorAll("[data-state-btn]").forEach((b) => {
+        b.addEventListener("click", () => setState(b.getAttribute("data-state-btn")));
+      });
+      document.getElementById("mode-lanes-btn").addEventListener("click", () => {
+        viewMode = "lanes";
+        document.getElementById("mode-lanes-btn").classList.add("is-active");
+        document.getElementById("mode-flat-btn").classList.remove("is-active");
+        renderLanes();
+      });
+      document.getElementById("mode-flat-btn").addEventListener("click", () => {
+        viewMode = "flat";
+        document.getElementById("mode-flat-btn").classList.add("is-active");
+        document.getElementById("mode-lanes-btn").classList.remove("is-active");
+        renderLanes();
+      });
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+      document.getElementById("cmdk-btn").addEventListener("click", () => searchInput.focus());
+      renderLanes();
+    })();
+  </script>
+</body>
+</html>

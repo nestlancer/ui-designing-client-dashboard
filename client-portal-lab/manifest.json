@@ -10,10 +10,14 @@
    "F05-requests-work-hub",
    "F06-request-new-form",
    "F08-projects-list",
-   "F09-project-details"
+   "F09-project-details",
+   "F10-quotes-list",
+   "F11-quote-details",
+   "F12-messages-home",
+   "F13-messages-thread"
   ],
-  "families_recorded": 4,
-  "records_count": 20,
+  "families_recorded": 8,
+  "records_count": 40,
   "tokens": "shared/tokens.css (single locked blue scheme) + shared/base.css (reset/primitives only)",
   "authorship": "All 20 variants hand-authored; no design-generation script used. See DECISIONS.md.",
   "verification_method": {
@@ -1499,6 +1503,817 @@
      1440
     ],
     "screenshot_qa": "not run (no browser binary)"
+   }
+  },
+  {
+   "id": "F10-quotes-list/V1",
+   "family": "F10",
+   "family_dir": "F10-quotes-list",
+   "variant": "V1",
+   "name": "Unified Quote Triage & Split Inspector",
+   "path": "families/F10-quotes-list/V1/index.html",
+   "routes": ["/quotes"],
+   "axes": {
+    "A": "2-column asymmetric split",
+    "B": "action-first",
+    "C": "queue-led",
+    "D": "balanced",
+    "E": "live row inspector + inline accept/decline",
+    "A+C": "2-col-split/queue-led"
+   },
+   "C_coverage": ["C14", "C16", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Single unified Search + Status + Sort bar + live right-hand proposal inspector",
+   "api_refs": [
+    "GET /api/v1/quotes",
+    "GET /api/v1/quotes/pending",
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline"
+   ],
+   "states": ["populated", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F10-quotes-list/V2",
+   "family": "F10",
+   "family_dir": "F10-quotes-list",
+   "variant": "V2",
+   "name": "Linear-Grade High-Density Financial Ledger",
+   "path": "families/F10-quotes-list/V2/index.html",
+   "routes": ["/quotes"],
+   "axes": {
+    "A": "1-column full-width ledger",
+    "B": "numbers-first",
+    "C": "tab-led",
+    "D": "dense",
+    "E": "inline expandable accordion rows + bulk PDF export",
+    "A+C": "1-col-ledger/tab-led"
+   },
+   "C_coverage": ["C14", "C16", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Single unified filter strip + inline accordion breakdown rows",
+   "api_refs": [
+    "GET /api/v1/quotes",
+    "GET /api/v1/quotes/pending",
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline"
+   ],
+   "states": ["populated", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F10-quotes-list/V3",
+   "family": "F10",
+   "family_dir": "F10-quotes-list",
+   "variant": "V3",
+   "name": "Pending Decision Hero & Proposal Bento Grid",
+   "path": "families/F10-quotes-list/V3/index.html",
+   "routes": ["/quotes"],
+   "axes": {
+    "A": "hero spotlight + 3-column bento",
+    "B": "verdict-first",
+    "C": "static sections",
+    "D": "bento",
+    "E": "quick-preview modal + side-by-side compare tray",
+    "A+C": "bento/static-sections"
+   },
+   "C_coverage": ["C14", "C16", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Actionable Sent-quote hero + side-by-side quote comparison modal",
+   "api_refs": [
+    "GET /api/v1/quotes",
+    "GET /api/v1/quotes/pending",
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline"
+   ],
+   "states": ["populated", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F10-quotes-list/V4",
+   "family": "F10",
+   "family_dir": "F10-quotes-list",
+   "variant": "V4",
+   "name": "Status Pipeline Lanes",
+   "path": "families/F10-quotes-list/V4/index.html",
+   "routes": ["/quotes"],
+   "axes": {
+    "A": "3-column pipeline board",
+    "B": "timeline-first",
+    "C": "lane-led",
+    "D": "airy minimal",
+    "E": "lane filter focus + slide-over detail sheet",
+    "A+C": "pipeline-board/lane-led"
+   },
+   "C_coverage": ["C14", "C16", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Lifecycle lane board (Sent -> Accepted -> Declined/Expired) + slide-over detail drawer",
+   "api_refs": [
+    "GET /api/v1/quotes",
+    "GET /api/v1/quotes/pending",
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline"
+   ],
+   "states": ["populated", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F10-quotes-list/V5",
+   "family": "F10",
+   "family_dir": "F10-quotes-list",
+   "variant": "V5",
+   "name": "Executive Proposal Dossier & Financial Analytics Rail",
+   "path": "families/F10-quotes-list/V5/index.html",
+   "routes": ["/quotes"],
+   "axes": {
+    "A": "main feed + sticky right financial rail",
+    "B": "narrative-first",
+    "C": "step-led",
+    "D": "editorial",
+    "E": "milestone-schedule previewer + deposit readiness",
+    "A+C": "editorial-feed/step-led"
+   },
+   "C_coverage": ["C14", "C16", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Editorial proposal dossiers + sticky financial commitment rail",
+   "api_refs": [
+    "GET /api/v1/quotes",
+    "GET /api/v1/quotes/pending",
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline"
+   ],
+   "states": ["populated", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F11-quote-details/V1",
+   "family": "F11",
+   "family_dir": "F11-quote-details",
+   "variant": "V1",
+   "name": "Proposal Workbench & Sticky Acceptance Rail",
+   "path": "families/F11-quote-details/V1/index.html",
+   "routes": ["/quotes/{id}"],
+   "axes": {
+    "A": "2-column asymmetric split",
+    "B": "action-first",
+    "C": "static sections",
+    "D": "balanced",
+    "E": "Accept & Pay 50% Deposit (A5) + Request changes (A6)",
+    "A+C": "2-col-split/static-sections"
+   },
+   "C_coverage": ["C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Combined Accept & Pay 50% Deposit (Rs. 20,650.00) flow (A5) + Request changes / counter-propose form (A6)",
+   "api_refs": [
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline",
+    "POST /api/v1/payments/intents",
+    "POST /api/v1/payments/verify",
+    "POST /api/v1/messages/threads"
+   ],
+   "states": ["sent", "accepted", "declined", "expired", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F11-quote-details/V2",
+   "family": "F11",
+   "family_dir": "F11-quote-details",
+   "variant": "V2",
+   "name": "Executive Contract Sheet & Sticky Bottom Decision Bar",
+   "path": "families/F11-quote-details/V2/index.html",
+   "routes": ["/quotes/{id}"],
+   "axes": {
+    "A": "1-column document + sticky bottom bar",
+    "B": "narrative-first",
+    "C": "step-led",
+    "D": "editorial",
+    "E": "sticky bottom decision bar + slide-up checkout drawer (A5)",
+    "A+C": "1-col-document/step-led"
+   },
+   "C_coverage": ["C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Formal contract sheet + sticky bottom decision bar",
+   "api_refs": [
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline",
+    "POST /api/v1/payments/intents"
+   ],
+   "states": ["sent", "accepted", "declined", "expired", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F11-quote-details/V3",
+   "family": "F11",
+   "family_dir": "F11-quote-details",
+   "variant": "V3",
+   "name": "3-Step Guided Acceptance & Deposit Wizard",
+   "path": "families/F11-quote-details/V3/index.html",
+   "routes": ["/quotes/{id}"],
+   "axes": {
+    "A": "stepped workspace + summary card",
+    "B": "timeline-first",
+    "C": "tab-led",
+    "D": "airy minimal",
+    "E": "3-step interactive wizard (Scope -> Terms -> Deposit/Feedback)",
+    "A+C": "stepped-workspace/tab-led"
+   },
+   "C_coverage": ["C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "3-step guided review, negotiation (A6), and deposit checkout (A5) wizard",
+   "api_refs": [
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline",
+    "POST /api/v1/payments/intents"
+   ],
+   "states": ["sent", "accepted", "declined", "expired", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F11-quote-details/V4",
+   "family": "F11",
+   "family_dir": "F11-quote-details",
+   "variant": "V4",
+   "name": "High-Density Financial Audit & Split Negotiation Console",
+   "path": "families/F11-quote-details/V4/index.html",
+   "routes": ["/quotes/{id}"],
+   "axes": {
+    "A": "3-zone financial console",
+    "B": "numbers-first",
+    "C": "queue-led",
+    "D": "dense",
+    "E": "line-item selector for targeted revision requests (A6) + instant UPI/Card deposit",
+    "A+C": "3-zone-console/queue-led"
+   },
+   "C_coverage": ["C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Line-item selector for targeted revision requests (A6) + instant deposit",
+   "api_refs": [
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline",
+    "POST /api/v1/payments/intents"
+   ],
+   "states": ["sent", "accepted", "declined", "expired", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F11-quote-details/V5",
+   "family": "F11",
+   "family_dir": "F11-quote-details",
+   "variant": "V5",
+   "name": "Bento Proposal Canvas & Embedded Smart Checkout",
+   "path": "families/F11-quote-details/V5/index.html",
+   "routes": ["/quotes/{id}"],
+   "axes": {
+    "A": "modular bento grid",
+    "B": "verdict-first",
+    "C": "lane-led",
+    "D": "bento",
+    "E": "embedded Smart Checkout tile (A5) + inline Counter-Proposal tile (A6)",
+    "A+C": "bento-grid/lane-led"
+   },
+   "C_coverage": ["C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A5", "A6"],
+   "A_coverage_optional": ["A5", "A6"],
+   "signature_interaction": "Side-by-side Smart Checkout (A5) and Counter-Propose (A6) bento tiles",
+   "api_refs": [
+    "GET /api/v1/quotes/{id}",
+    "GET /api/v1/quotes/{id}/pdf",
+    "POST /api/v1/quotes/{id}/accept",
+    "POST /api/v1/quotes/{id}/decline",
+    "POST /api/v1/payments/intents"
+   ],
+   "states": ["sent", "accepted", "declined", "expired", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F12-messages-home/V1",
+   "family": "F12",
+   "family_dir": "F12-messages-home",
+   "variant": "V1",
+   "name": "Unified Enriched 3-Pane Messaging Workspace",
+   "path": "families/F12-messages-home/V1/index.html",
+   "routes": ["/messages", "/messages/inbox", "/messages/new/direct"],
+   "axes": {
+    "A": "3-pane split (queue + centre hub + right snapshot)",
+    "B": "queue-first",
+    "C": "queue-led",
+    "D": "balanced",
+    "E": "live queue filter + inline New message composer (C11)",
+    "A+C": "3-pane/queue-led"
+   },
+   "C_coverage": ["C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": [],
+   "A_coverage_optional": [],
+   "signature_interaction": "Merges /messages (18), /messages/inbox (19), and /messages/new/direct (20) into one canonical 3-pane workspace (C11)",
+   "api_refs": [
+    "GET /api/v1/messages/threads",
+    "GET /api/v1/messages/unread-count",
+    "POST /api/v1/messages/threads",
+    "GET /api/v1/messages/search"
+   ],
+   "states": ["merged-3pane", "overview-18", "inbox-19", "new-direct-20", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F12-messages-home/V2",
+   "family": "F12",
+   "family_dir": "F12-messages-home",
+   "variant": "V2",
+   "name": "Linear-Grade High-Density Triage Table & KPI Ribbon",
+   "path": "families/F12-messages-home/V2/index.html",
+   "routes": ["/messages", "/messages/inbox", "/messages/new/direct"],
+   "axes": {
+    "A": "KPI ribbon + 2-column triage",
+    "B": "numbers-first",
+    "C": "tab-led",
+    "D": "dense",
+    "E": "keyboard J/K row navigation + inline support launcher",
+    "A+C": "kpi-ribbon-2col/tab-led"
+   },
+   "C_coverage": ["C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": [],
+   "A_coverage_optional": [],
+   "signature_interaction": "Horizontal KPI ribbon + high-density keyboard triage",
+   "api_refs": [
+    "GET /api/v1/messages/threads",
+    "GET /api/v1/messages/unread-count",
+    "POST /api/v1/messages/threads",
+    "GET /api/v1/messages/search"
+   ],
+   "states": ["merged", "new-direct", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F12-messages-home/V3",
+   "family": "F12",
+   "family_dir": "F12-messages-home",
+   "variant": "V3",
+   "name": "Bento Overview + Split Inbox Stage",
+   "path": "families/F12-messages-home/V3/index.html",
+   "routes": ["/messages", "/messages/inbox", "/messages/new/direct"],
+   "axes": {
+    "A": "top bento strip + 2-column split stage",
+    "B": "verdict-first",
+    "C": "static sections",
+    "D": "bento",
+    "E": "card-to-stage preview + direct support drawer",
+    "A+C": "bento-stage/static-sections"
+   },
+   "C_coverage": ["C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": [],
+   "A_coverage_optional": [],
+   "signature_interaction": "Tokenised card surfaces + interactive preview stage",
+   "api_refs": [
+    "GET /api/v1/messages/threads",
+    "GET /api/v1/messages/unread-count",
+    "POST /api/v1/messages/threads",
+    "GET /api/v1/messages/search"
+   ],
+   "states": ["merged", "new-direct", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F12-messages-home/V4",
+   "family": "F12",
+   "family_dir": "F12-messages-home",
+   "variant": "V4",
+   "name": "Support Command Centre & Channel Hub",
+   "path": "families/F12-messages-home/V4/index.html",
+   "routes": ["/messages", "/messages/inbox", "/messages/new/direct"],
+   "axes": {
+    "A": "channel lanes + persistent support card",
+    "B": "action-first",
+    "C": "lane-led",
+    "D": "airy minimal",
+    "E": "always-visible New message card + channel switcher",
+    "A+C": "channel-lanes/lane-led"
+   },
+   "C_coverage": ["C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": [],
+   "A_coverage_optional": [],
+   "signature_interaction": "Always-visible New message card (20) alongside Conversation queue (19)",
+   "api_refs": [
+    "GET /api/v1/messages/threads",
+    "GET /api/v1/messages/unread-count",
+    "POST /api/v1/messages/threads",
+    "GET /api/v1/messages/search"
+   ],
+   "states": ["merged", "new-direct", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F12-messages-home/V5",
+   "family": "F12",
+   "family_dir": "F12-messages-home",
+   "variant": "V5",
+   "name": "Adaptive Docked Inbox & Modal New-Direct Flow",
+   "path": "families/F12-messages-home/V5/index.html",
+   "routes": ["/messages", "/messages/inbox", "/messages/new/direct"],
+   "axes": {
+    "A": "full-height docked 3-pane",
+    "B": "timeline-first",
+    "C": "step-led",
+    "D": "editorial",
+    "E": "modal/drawer New message dialog + recent digest",
+    "A+C": "docked-3pane/step-led"
+   },
+   "C_coverage": ["C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": [],
+   "A_coverage_optional": [],
+   "signature_interaction": "Full-height docked 3-pane inbox + modal New message dialog",
+   "api_refs": [
+    "GET /api/v1/messages/threads",
+    "GET /api/v1/messages/unread-count",
+    "POST /api/v1/messages/threads",
+    "GET /api/v1/messages/search"
+   ],
+   "states": ["merged", "new-direct", "empty", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F13-messages-thread/V1",
+   "family": "F13",
+   "family_dir": "F13-messages-thread",
+   "variant": "V1",
+   "name": "3-Pane Collaborative Thread Workbench",
+   "path": "families/F13-messages-thread/V1/index.html",
+   "routes": [
+    "/messages/thread/01a10a2b-f916-701a-9036-030e679c415c",
+    "/messages/thread/01a10a2b-bc16-7143-86da-6f70b07d91c3"
+   ],
+   "axes": {
+    "A": "3-pane split (queue + stream + right drawer)",
+    "B": "timeline-first",
+    "C": "queue-led",
+    "D": "balanced",
+    "E": "live Group/Direct switch + Reply banner + high-contrast C10 inline edit + A7 SLA",
+    "A+C": "3-pane/queue-led"
+   },
+   "C_coverage": ["C10", "C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A7"],
+   "A_coverage_optional": ["A7"],
+   "signature_interaction": "C10 high-contrast inline edit fix (15.8:1 AAA) + A7 SLA indicator & read receipts + all 5 captured states (21-25)",
+   "api_refs": [
+    "GET /api/v1/messages/threads",
+    "GET /api/v1/messages/threads/{threadId}",
+    "GET /api/v1/messages/threads/{threadId}/messages",
+    "POST /api/v1/messages/threads/{threadId}/messages",
+    "PATCH /api/v1/messages/{id}",
+    "DELETE /api/v1/messages/{id}",
+    "POST /api/v1/messages/threads/{threadId}/read"
+   ],
+   "states": ["21-group", "22-members", "23-reply", "24-edit-c10-fixed", "25-direct", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F13-messages-thread/V2",
+   "family": "F13",
+   "family_dir": "F13-messages-thread",
+   "variant": "V2",
+   "name": "Linear-Grade High-Density Feed & Split Inspector",
+   "path": "families/F13-messages-thread/V2/index.html",
+   "routes": [
+    "/messages/thread/01a10a2b-f916-701a-9036-030e679c415c",
+    "/messages/thread/01a10a2b-bc16-7143-86da-6f70b07d91c3"
+   ],
+   "axes": {
+    "A": "compact queue + full-width chronological feed + inspector",
+    "B": "numbers-first",
+    "C": "tab-led",
+    "D": "dense",
+    "E": "full-width inline edit row (C10) + A7 SLA",
+    "A+C": "full-width-feed/tab-led"
+   },
+   "C_coverage": ["C10", "C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A7"],
+   "A_coverage_optional": ["A7"],
+   "signature_interaction": "Full-width chronological message feed for wide inline editing (C10)",
+   "api_refs": [
+    "GET /api/v1/messages/threads/{threadId}/messages",
+    "POST /api/v1/messages/threads/{threadId}/messages",
+    "PATCH /api/v1/messages/{id}"
+   ],
+   "states": ["21-group", "22-members", "23-reply", "24-edit-c10-fixed", "25-direct", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F13-messages-thread/V3",
+   "family": "F13",
+   "family_dir": "F13-messages-thread",
+   "variant": "V3",
+   "name": "Focus Canvas & Context Cards",
+   "path": "families/F13-messages-thread/V3/index.html",
+   "routes": [
+    "/messages/thread/01a10a2b-f916-701a-9036-030e679c415c",
+    "/messages/thread/01a10a2b-bc16-7143-86da-6f70b07d91c3"
+   ],
+   "axes": {
+    "A": "focus canvas + 2 tokenised right cards",
+    "B": "narrative-first",
+    "C": "static sections",
+    "D": "editorial",
+    "E": "dedicated edit card sheet (C10) + A7 SLA",
+    "A+C": "focus-canvas/static-sections"
+   },
+   "C_coverage": ["C10", "C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A7"],
+   "A_coverage_optional": ["A7"],
+   "signature_interaction": "Spacious conversation canvas + separate Group info and Search context cards",
+   "api_refs": [
+    "GET /api/v1/messages/threads/{threadId}/messages",
+    "POST /api/v1/messages/threads/{threadId}/messages",
+    "PATCH /api/v1/messages/{id}"
+   ],
+   "states": ["21-group", "22-members", "23-reply", "24-edit-c10-fixed", "25-direct", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F13-messages-thread/V4",
+   "family": "F13",
+   "family_dir": "F13-messages-thread",
+   "variant": "V4",
+   "name": "Support SLA & Milestone Context Thread",
+   "path": "families/F13-messages-thread/V4/index.html",
+   "routes": [
+    "/messages/thread/01a10a2b-f916-701a-9036-030e679c415c",
+    "/messages/thread/01a10a2b-bc16-7143-86da-6f70b07d91c3"
+   ],
+   "axes": {
+    "A": "top SLA status bar + 3-column bento",
+    "B": "verdict-first",
+    "C": "lane-led",
+    "D": "bento",
+    "E": "prominent A7 SLA & read-receipt header + C10 inline edit",
+    "A+C": "sla-bento/lane-led"
+   },
+   "C_coverage": ["C10", "C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A7"],
+   "A_coverage_optional": ["A7"],
+   "signature_interaction": "Prominent A7 Response SLA & Read Receipt Hero Bar",
+   "api_refs": [
+    "GET /api/v1/messages/threads/{threadId}/messages",
+    "POST /api/v1/messages/threads/{threadId}/messages",
+    "PATCH /api/v1/messages/{id}"
+   ],
+   "states": ["21-group", "22-members", "23-reply", "24-edit-c10-fixed", "25-direct", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
+   }
+  },
+  {
+   "id": "F13-messages-thread/V5",
+   "family": "F13",
+   "family_dir": "F13-messages-thread",
+   "variant": "V5",
+   "name": "Docked Split-Screen Messenger",
+   "path": "families/F13-messages-thread/V5/index.html",
+   "routes": [
+    "/messages/thread/01a10a2b-f916-701a-9036-030e679c415c",
+    "/messages/thread/01a10a2b-bc16-7143-86da-6f70b07d91c3"
+   ],
+   "axes": {
+    "A": "full-height docked split + floating composer",
+    "B": "action-first",
+    "C": "step-led",
+    "D": "airy minimal",
+    "E": "floating composer card + C10 inline edit + A7 SLA",
+    "A+C": "docked-split/step-led"
+   },
+   "C_coverage": ["C10", "C11", "C17", "C4", "C5", "C6", "C18"],
+   "A_coverage_P1": ["A7"],
+   "A_coverage_optional": ["A7"],
+   "signature_interaction": "Docked full-height split messenger with floating composer card",
+   "api_refs": [
+    "GET /api/v1/messages/threads/{threadId}/messages",
+    "POST /api/v1/messages/threads/{threadId}/messages",
+    "PATCH /api/v1/messages/{id}"
+   ],
+   "states": ["21-group", "22-members", "23-reply", "24-edit-c10-fixed", "25-direct", "loading", "error"],
+   "verification": {
+    "js_runtime_errors": 0,
+    "js_syntax_check": "PASS (node --check)",
+    "undefined_css_tokens": 0,
+    "remote_urls": 0,
+    "dead_links": 0,
+    "light_dark": true,
+    "reduced_motion": true,
+    "keyboard": true,
+    "widths_css_breakpoints_px": [360, 390, 768, 1024, 1440]
    }
   }
  ]

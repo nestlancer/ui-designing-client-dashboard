@@ -105,7 +105,7 @@ footer a:hover{color:var(--primary)}
 
  <div class="controls">
   <label class="field"><svg><use href="#i-search"/></svg><span class="sr-only">Search variants</span><input id="q" type="search" placeholder="Search name, axis, signature…"></label>
-  <label class="field"><span class="sr-only">Filter by family</span><select id="fam" aria-label="Filter by family"><option value="">All families</option><option value="F05">F05 · Requests work hub</option><option value="F06">F06 · New request form</option><option value="F08">F08 · Projects list</option><option value="F09">F09 · Project details</option></select></label>
+  <label class="field"><span class="sr-only">Filter by family</span><select id="fam" aria-label="Filter by family"><option value="">All families</option><option value="F05">F05 · Requests work hub</option><option value="F06">F06 · New request form</option><option value="F08">F08 · Projects list</option><option value="F09">F09 · Project details</option><option value="F10">F10 · Quotes list</option><option value="F11">F11 · Quote details</option><option value="F12">F12 · Messages home</option><option value="F13">F13 · Messages thread</option></select></label>
   <div class="seg" role="group" aria-label="Filter by design density"><button data-dens="" aria-pressed="true">All</button><button data-dens="airy" aria-pressed="false">Airy</button><button data-dens="dense" aria-pressed="false">Dense</button><button data-dens="narrative" aria-pressed="false">Narrative</button></div>
   <button class="btn" id="compareToggle"><svg><use href="#i-columns"/></svg>Compare mode</button>
   <span class="count" id="count">10 variants</span>
@@ -303,11 +303,183 @@ footer a:hover{color:var(--primary)}
   </div>
  </section>
 
+ <!-- F10 -->
+ <section class="family" id="f10" data-fam="F10">
+  <div class="family-head"><h2>F10 · Quotes list</h2><span class="route">/quotes</span>
+   <p>Review, accept, or decline proposals from the Nestlancer team. Frozen 12-quote fixture (1 Sent, 5 Accepted, 3 Declined, 3 Expired), single unified filter bar (C16), and direct Accept &amp; Pay Deposit / Request Changes triggers (A5/A6).</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F10" data-dens="airy" data-text="V1 Unified Quote Triage Split Inspector 2-column split action-first queue-led C16 A5 A6">
+    <div class="body"><div class="vrow"><span class="vbadge">V1 ★</span><h3>Unified Quote Triage &amp; Split Inspector</h3></div>
+     <p class="sig">Single unified filter bar (C16) + live right-hand proposal inspector with A5/A6 triggers.</p>
+     <div class="axes"><span class="ax"><b>A</b> 2-col split</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> balanced</span><span class="ax"><b>E</b> inspector</span></div>
+     <div class="cov">C14 · C16 · C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F10-quotes-list/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F10-quotes-list/V1/index.html" data-name="F10 V1 Split Inspector"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F10" data-dens="dense" data-text="V2 Linear Financial Ledger 1-col ledger numbers-first tab-led dense C16 A5 A6">
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Linear Financial Ledger</h3></div>
+     <p class="sig">High-density financial table with inline expandable breakdown rows and bulk PDF export.</p>
+     <div class="axes"><span class="ax"><b>A</b> 1-col ledger</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> inline expand</span></div>
+     <div class="cov">C14 · C16 · C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F10-quotes-list/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F10-quotes-list/V2/index.html" data-name="F10 V2 Financial Ledger"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F10" data-dens="airy" data-text="V3 Pending Decision Hero Bento Grid verdict-first static sections bento compare modal">
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Decision Hero &amp; Bento Grid</h3></div>
+     <p class="sig">Actionable Sent-quote hero spotlight + 3-column bento grid + side-by-side compare modal.</p>
+     <div class="axes"><span class="ax"><b>A</b> hero + bento</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> bento</span><span class="ax"><b>E</b> compare modal</span></div>
+     <div class="cov">C14 · C16 · C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F10-quotes-list/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F10-quotes-list/V3/index.html" data-name="F10 V3 Bento Grid"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F10" data-dens="airy" data-text="V4 Status Pipeline Lanes 3-column board timeline-first lane-led slide-over drawer">
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Status Pipeline Lanes</h3></div>
+     <p class="sig">3-column lifecycle board (Sent → Accepted → Declined/Expired) + slide-over detail sheet.</p>
+     <div class="axes"><span class="ax"><b>A</b> 3-col board</span><span class="ax"><b>B</b> timeline</span><span class="ax"><b>C</b> lane-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> slide-over</span></div>
+     <div class="cov">C14 · C16 · C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F10-quotes-list/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F10-quotes-list/V4/index.html" data-name="F10 V4 Pipeline Lanes"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F10" data-dens="narrative" data-text="V5 Executive Proposal Dossier Financial Analytics Rail narrative-first step-led editorial">
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Executive Proposal Dossier</h3></div>
+     <p class="sig">Editorial proposal dossiers paired with a sticky right-hand financial analytics rail.</p>
+     <div class="axes"><span class="ax"><b>A</b> feed + rail</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> step-led</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> schedule preview</span></div>
+     <div class="cov">C14 · C16 · C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F10-quotes-list/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F10-quotes-list/V5/index.html" data-name="F10 V5 Executive Dossier"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F11 -->
+ <section class="family" id="f11" data-fam="F11">
+  <div class="family-head"><h2>F11 · Quote details</h2><span class="route">/quotes/{id}</span>
+   <p>Both captured states (17 Sent ₹41,300.00 + 16 Accepted ₹70,800.00), itemised 18% GST ledger, 2-milestone payment schedule, combined Accept &amp; Pay 50% Deposit (A5), and Request Changes / Counter-Propose (A6).</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F11" data-dens="airy" data-text="V1 Proposal Workbench Sticky Acceptance Rail 2-col split action-first static sections A5 A6">
+    <div class="body"><div class="vrow"><span class="vbadge">V1 ★</span><h3>Proposal Workbench &amp; Sticky Rail</h3></div>
+     <p class="sig">Itemised GST ledger + sticky right decision rail with Accept &amp; Pay 50% Deposit (A5) and Request Changes (A6).</p>
+     <div class="axes"><span class="ax"><b>A</b> 2-col split</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> balanced</span><span class="ax"><b>E</b> A5/A6 rail</span></div>
+     <div class="cov">C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F11-quote-details/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F11-quote-details/V1/index.html" data-name="F11 V1 Proposal Workbench"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F11" data-dens="narrative" data-text="V2 Executive Contract Sheet Sticky Bottom Bar 1-col document narrative-first step-led A5 A6">
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Executive Contract Sheet</h3></div>
+     <p class="sig">Single-column contract sheet with sticky bottom decision bar and slide-up checkout drawer.</p>
+     <div class="axes"><span class="ax"><b>A</b> 1-col doc</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> step-led</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> bottom bar</span></div>
+     <div class="cov">C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F11-quote-details/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F11-quote-details/V2/index.html" data-name="F11 V2 Contract Sheet"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F11" data-dens="airy" data-text="V3 3-Step Guided Acceptance Deposit Wizard stepped workspace timeline-first tab-led A5 A6">
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>3-Step Acceptance Wizard</h3></div>
+     <p class="sig">3-step interactive wizard: 1. Scope &amp; Line Items → 2. Schedule &amp; Terms → 3. Deposit (A5) or Counter-Propose (A6).</p>
+     <div class="axes"><span class="ax"><b>A</b> wizard</span><span class="ax"><b>B</b> timeline</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> 3-step flow</span></div>
+     <div class="cov">C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F11-quote-details/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F11-quote-details/V3/index.html" data-name="F11 V3 Acceptance Wizard"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F11" data-dens="dense" data-text="V4 High-Density Financial Audit Split Negotiation Console numbers-first queue-led dense A5 A6">
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Financial Audit &amp; Negotiation Console</h3></div>
+     <p class="sig">Line-item checkbox selector for targeted revision requests (A6) + instant UPI/Card deposit.</p>
+     <div class="axes"><span class="ax"><b>A</b> 3-zone</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> item selector</span></div>
+     <div class="cov">C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F11-quote-details/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F11-quote-details/V4/index.html" data-name="F11 V4 Negotiation Console"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F11" data-dens="airy" data-text="V5 Bento Proposal Canvas Embedded Smart Checkout verdict-first lane-led bento A5 A6">
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Bento Proposal &amp; Smart Checkout</h3></div>
+     <p class="sig">Modular bento tiles with side-by-side embedded Smart Checkout (A5) and Counter-Propose (A6).</p>
+     <div class="axes"><span class="ax"><b>A</b> bento</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> lane-led</span><span class="ax"><b>D</b> bento</span><span class="ax"><b>E</b> smart tiles</span></div>
+     <div class="cov">C17 · C4–C6 · C18 · A5 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F11-quote-details/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F11-quote-details/V5/index.html" data-name="F11 V5 Bento Proposal"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F12 -->
+ <section class="family" id="f12" data-fam="F12">
+  <div class="family-head"><h2>F12 · Messages home</h2><span class="route">/messages · /messages/inbox · /messages/new/direct</span>
+   <p>Consolidates the 3 redundant messaging entry points (18, 19, 20) into a single canonical workspace (C11) with full light/dark token parity (C4/C5/C6/C17).</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F12" data-dens="airy" data-text="V1 Unified Enriched 3-Pane Messaging Workspace queue-first queue-led C11">
+    <div class="body"><div class="vrow"><span class="vbadge">V1 ★</span><h3>Unified Enriched 3-Pane Workspace</h3></div>
+     <p class="sig">Canonical 3-pane inbox merging /messages (18), /messages/inbox (19), and /messages/new/direct (20).</p>
+     <div class="axes"><span class="ax"><b>A</b> 3-pane</span><span class="ax"><b>B</b> queue</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> balanced</span><span class="ax"><b>E</b> inline composer</span></div>
+     <div class="cov">C11 · C17 · C4–C6 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F12-messages-home/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F12-messages-home/V1/index.html" data-name="F12 V1 Enriched 3-Pane"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F12" data-dens="dense" data-text="V2 Linear KPI Ribbon Triage Table numbers-first tab-led dense C11">
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Linear KPI Ribbon &amp; Triage</h3></div>
+     <p class="sig">Horizontal KPI strip + dense conversation triage with keyboard J/K navigation.</p>
+     <div class="axes"><span class="ax"><b>A</b> KPI + 2-col</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> J/K triage</span></div>
+     <div class="cov">C11 · C17 · C4–C6 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F12-messages-home/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F12-messages-home/V2/index.html" data-name="F12 V2 KPI Ribbon"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F12" data-dens="airy" data-text="V3 Bento Overview Split Inbox Stage verdict-first static sections bento C11">
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Bento Overview &amp; Split Stage</h3></div>
+     <p class="sig">Tokenised card surfaces replacing dark-on-light anti-patterns + split preview stage.</p>
+     <div class="axes"><span class="ax"><b>A</b> bento + stage</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> bento</span><span class="ax"><b>E</b> stage preview</span></div>
+     <div class="cov">C11 · C17 · C4–C6 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F12-messages-home/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F12-messages-home/V3/index.html" data-name="F12 V3 Split Stage"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F12" data-dens="airy" data-text="V4 Support Command Centre Channel Hub action-first lane-led airy C11">
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Support Command Centre</h3></div>
+     <p class="sig">Always-visible New message card (20) alongside Conversation queue (19) and Inbox snapshot.</p>
+     <div class="axes"><span class="ax"><b>A</b> 3-col hub</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> lane-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> persistent card</span></div>
+     <div class="cov">C11 · C17 · C4–C6 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F12-messages-home/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F12-messages-home/V4/index.html" data-name="F12 V4 Support Hub"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F12" data-dens="narrative" data-text="V5 Adaptive Docked Inbox Modal New-Direct Flow timeline-first step-led editorial C11">
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Adaptive Docked Inbox</h3></div>
+     <p class="sig">Full-height docked 3-pane inbox + modal New message dialog.</p>
+     <div class="axes"><span class="ax"><b>A</b> docked 3-pane</span><span class="ax"><b>B</b> timeline</span><span class="ax"><b>C</b> step-led</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> modal dialog</span></div>
+     <div class="cov">C11 · C17 · C4–C6 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F12-messages-home/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F12-messages-home/V5/index.html" data-name="F12 V5 Docked Inbox"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F13 -->
+ <section class="family" id="f13" data-fam="F13">
+  <div class="family-head"><h2>F13 · Messages thread</h2><span class="route">/messages/thread/{id}</span>
+   <p>All 5 captured states (21 Group, 22 Members drawer, 23 Reply banner, 24 Edit message state, 25 Direct thread), C10 high-contrast inline edit fix (15.8:1 AAA), and A7 response-time SLA + read receipts.</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F13" data-dens="airy" data-text="V1 3-Pane Collaborative Thread Workbench timeline-first queue-led C10 C11 A7">
+    <div class="body"><div class="vrow"><span class="vbadge">V1 ★</span><h3>3-Pane Thread Workbench</h3></div>
+     <p class="sig">Full 3-pane workspace with C10 high-contrast inline edit fix (15.8:1 AAA) and A7 SLA + read receipts.</p>
+     <div class="axes"><span class="ax"><b>A</b> 3-pane</span><span class="ax"><b>B</b> timeline</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> balanced</span><span class="ax"><b>E</b> C10 + A7</span></div>
+     <div class="cov">C10 · C11 · C17 · C4–C6 · C18 · A7</div></div>
+    <div class="acts"><a class="open" href="families/F13-messages-thread/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F13-messages-thread/V1/index.html" data-name="F13 V1 Thread Workbench"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F13" data-dens="dense" data-text="V2 Linear Activity Feed Split Inspector numbers-first tab-led dense C10 C11 A7">
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Linear Activity Feed</h3></div>
+     <p class="sig">Full-width chronological feed rows for maximum readability on inline edits (C10) and @mentions.</p>
+     <div class="axes"><span class="ax"><b>A</b> full feed</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> wide edit</span></div>
+     <div class="cov">C10 · C11 · C17 · C4–C6 · C18 · A7</div></div>
+    <div class="acts"><a class="open" href="families/F13-messages-thread/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F13-messages-thread/V2/index.html" data-name="F13 V2 Activity Feed"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F13" data-dens="narrative" data-text="V3 Focus Canvas Context Cards narrative-first static sections editorial C10 C11 A7">
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Focus Canvas &amp; Context Cards</h3></div>
+     <p class="sig">Spacious bubble canvas paired with separate Group info and Search context cards.</p>
+     <div class="axes"><span class="ax"><b>A</b> canvas + cards</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> edit sheet</span></div>
+     <div class="cov">C10 · C11 · C17 · C4–C6 · C18 · A7</div></div>
+    <div class="acts"><a class="open" href="families/F13-messages-thread/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F13-messages-thread/V3/index.html" data-name="F13 V3 Focus Canvas"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F13" data-dens="airy" data-text="V4 Support SLA Milestone Context Thread verdict-first lane-led bento C10 C11 A7">
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>SLA &amp; Context Thread</h3></div>
+     <p class="sig">Prominent A7 Response SLA &amp; Read Receipt hero bar + structured message cards.</p>
+     <div class="axes"><span class="ax"><b>A</b> SLA + bento</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> lane-led</span><span class="ax"><b>D</b> bento</span><span class="ax"><b>E</b> SLA bar</span></div>
+     <div class="cov">C10 · C11 · C17 · C4–C6 · C18 · A7</div></div>
+    <div class="acts"><a class="open" href="families/F13-messages-thread/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F13-messages-thread/V4/index.html" data-name="F13 V4 SLA Thread"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F13" data-dens="airy" data-text="V5 Docked Split Messenger Floating Composer action-first step-led airy C10 C11 A7">
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Docked Split Messenger</h3></div>
+     <p class="sig">Full-height docked messenger co-locating queue + in-thread search on left and floating composer in centre.</p>
+     <div class="axes"><span class="ax"><b>A</b> docked split</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> step-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> floating composer</span></div>
+     <div class="cov">C10 · C11 · C17 · C4–C6 · C18 · A7</div></div>
+    <div class="acts"><a class="open" href="families/F13-messages-thread/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F13-messages-thread/V5/index.html" data-name="F13 V5 Docked Messenger"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
  <div class="noresult" id="noresult" hidden>No variants match these filters. <button class="btn" id="resetFilters" style="margin-left:8px">Reset</button></div>
 
- <div class="notice"><svg><use href="#i-info"/></svg><span><strong>Scope note (merge-only).</strong> This lab targets <b>23 families × 5 = 115 templates</b>. The active set now holds four families — <b>F05 Requests work hub</b>, <b>F06 New request form</b>, <b>F08 Projects list</b> and <b>F09 Project details</b> (20 variants; F08/F09 added 2026-10-27, merge-only). The gallery, <span style="font:600 12px var(--mono)">manifest.json</span>, and <span style="font:600 12px var(--mono)">DECISIONS.md</span> are structured to be extended family by family without touching these records. Shared <span style="font:600 12px var(--mono)">tokens.css</span> / <span style="font:600 12px var(--mono)">base.css</span> are the single source of truth; no other family's files were modified.</span></div>
+ <div class="notice"><svg><use href="#i-info"/></svg><span><strong>Scope note (merge-only).</strong> This lab targets <b>23 families × 5 = 115 templates</b>. The active set now holds eight families — <b>F05 Requests work hub</b>, <b>F06 New request form</b>, <b>F08 Projects list</b>, <b>F09 Project details</b>, <b>F10 Quotes list</b>, <b>F11 Quote details</b>, <b>F12 Messages home</b>, and <b>F13 Messages thread</b> (40 variants; F10–F13 added 2026-10-27, merge-only). The gallery, <span style="font:600 12px var(--mono)">manifest.json</span>, and <span style="font:600 12px var(--mono)">DECISIONS.md</span> are structured to be extended family by family without touching these records. Shared <span style="font:600 12px var(--mono)">tokens.css</span> / <span style="font:600 12px var(--mono)">base.css</span> are the single source of truth; no other family's files were modified.</span></div>
 
- <footer><span>© 2026 Nestlancer · Client Portal Lab · one locked blue scheme</span><a href="DECISIONS.md">DECISIONS.md</a><a href="manifest.json">manifest.json</a><a href="families/F05-requests-work-hub/docs/DELIVERY-REPORT.md">F05 report</a><a href="families/F06-request-new-form/docs/DELIVERY-REPORT.md">F06 report</a><a href="families/F08-projects-list/docs/DELIVERY-REPORT.md">F08 report</a><a href="families/F09-project-details/docs/DELIVERY-REPORT.md">F09 report</a><span style="margin-left:auto">Preview: <span style="font:600 11px var(--mono)">python3 -m http.server 8130</span> → <span style="font:600 11px var(--mono)">/client-portal-lab/</span></span></footer>
+ <footer><span>© 2026 Nestlancer · Client Portal Lab · one locked blue scheme</span><a href="DECISIONS.md">DECISIONS.md</a><a href="manifest.json">manifest.json</a><a href="families/F05-requests-work-hub/docs/DELIVERY-REPORT.md">F05 report</a><a href="families/F06-request-new-form/docs/DELIVERY-REPORT.md">F06 report</a><a href="families/F08-projects-list/docs/DELIVERY-REPORT.md">F08 report</a><a href="families/F09-project-details/docs/DELIVERY-REPORT.md">F09 report</a><a href="families/F10-quotes-list/docs/DELIVERY-REPORT.md">F10 report</a><a href="families/F11-quote-details/docs/DELIVERY-REPORT.md">F11 report</a><a href="families/F12-messages-home/docs/DELIVERY-REPORT.md">F12 report</a><a href="families/F13-messages-thread/docs/DELIVERY-REPORT.md">F13 report</a><span style="margin-left:auto">Preview: <span style="font:600 11px var(--mono)">python3 -m http.server 8130</span> → <span style="font:600 11px var(--mono)">/client-portal-lab/</span></span></footer>
 </div>
 
 <div class="cmpbar" id="cmpbar" role="region" aria-label="Compare tray"><div class="in"><div class="slots" id="slots"><span class="slot empty">Slot A empty</span><span class="slot empty">Slot B empty</span></div><button class="btn btn-p" id="cmpGo" disabled>Compare 2</button><button class="btn" id="cmpClear">Clear</button></div></div>
@@ -331,7 +503,7 @@ q.addEventListener('input',apply);fam.addEventListener('change',apply);
 $$('[data-dens]').forEach(function(b){b.addEventListener('click',function(){dens=b.dataset.dens;$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply()})});
 $('#resetFilters').addEventListener('click',function(){q.value='';fam.value='';dens='';$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.dens===''))});apply()});
 /* deep-link family from hash */
-var hmap={'#f05':'F05','#f06':'F06','#f08':'F08','#f09':'F09'};if(hmap[location.hash]){fam.value=hmap[location.hash];apply()}
+var hmap={'#f05':'F05','#f06':'F06','#f08':'F08','#f09':'F09','#f10':'F10','#f11':'F11','#f12':'F12','#f13':'F13'};if(hmap[location.hash]){fam.value=hmap[location.hash];apply()}
 /* compare mode */
 var compareOn=false,sel=[];
 var bar=$('#cmpbar'),toggle=$('#compareToggle');

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quote Details · V4 Contract-First Legal Inspector — Nestlancer</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F11 · Quote Details — V4: Contract-First Legal & Commercial Inspector
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; width: var(--sidebar-w);
+      background: var(--card); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: var(--sp-4) var(--sp-3); z-index: 30;
+    }
+    .sidebar-brand { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-1) var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-4); }
+    .brand-link { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; font-size: var(--fs-md); }
+    .brand-mark { width: 28px; height: 28px; border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--fs-sm); }
+    .portal-pill { font-size: var(--fs-xs); font-weight: 600; padding: 2px 8px; border-radius: var(--r-pill); background: var(--brand-50); color: var(--brand-700); }
+    .dark .portal-pill { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .sidebar-cta { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); width: 100%; padding: 10px var(--sp-3); border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); font-weight: 600; font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+    .nav-section-label { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-fg); padding: var(--sp-2) var(--sp-2) var(--sp-1); }
+    .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-3); }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: var(--r-md); font-size: var(--fs-sm); font-weight: 500; color: var(--muted-fg); }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+    .dark .nav-link[aria-current="page"] { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .nav-count { font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; padding: 1px 7px; border-radius: var(--r-pill); background: var(--muted); color: var(--fg); }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); position: relative; }
+    .explore-popover { position: absolute; bottom: calc(100% + 6px); left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow-md); padding: var(--sp-2); display: none; flex-direction: column; gap: 2px; z-index: 40; }
+    .explore-popover.is-open { display: flex; }
+
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky; top: 0; height: var(--header-h);
+      background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--sp-6); z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn { display: none; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); align-items: center; justify-content: center; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--muted-fg); }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; font-family: var(--mono); }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 6px 12px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--muted); color: var(--muted-fg); font-size: var(--fs-xs); }
+    .icon-btn { position: relative; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); display: inline-flex; align-items: center; justify-content: center; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--primary); color: var(--primary-fg); font-family: var(--mono); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); font-size: var(--fs-xs); font-weight: 600; }
+    .avatar-circle { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--brand-600); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; }
+
+    .lab-bar {
+      background: var(--muted); border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--sp-3); font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill { padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); color: var(--muted-fg); font-weight: 600; font-size: var(--fs-xs); }
+    .lab-pill.is-active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    /* --- V4 Outline Nav + Legal & Commercial Inspector --- */
+    .page-container {
+      width: 100%; max-width: var(--container-max);
+      margin: 0 auto; padding: var(--sp-5) var(--sp-6);
+      display: flex; flex-direction: column; gap: var(--sp-4);
+    }
+    .decision-bar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-4) var(--sp-5);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--sp-4);
+    }
+    .inspector-layout {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: var(--sp-5);
+      align-items: start;
+    }
+    .outline-rail {
+      position: sticky;
+      top: calc(var(--header-h) + 16px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-4);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: var(--fs-xs);
+    }
+    .outline-link {
+      padding: 6px 10px;
+      border-radius: var(--r-sm);
+      color: var(--muted-fg);
+      font-weight: 500;
+    }
+    .outline-link:hover { background: var(--muted); color: var(--fg); }
+
+    .inspector-body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .panel-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-5);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 9px; border-radius: var(--r-pill);
+      font-size: var(--fs-xs); font-weight: 600; border: 1px solid transparent;
+    }
+    .status-badge--accepted { background: var(--status-success-bg); color: var(--status-success-text); border-color: var(--status-success-border); }
+    .status-badge--draft { background: var(--status-neutral-bg); color: var(--status-neutral-text); border-color: var(--status-neutral-border); }
+
+    .c23-code-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--mono); font-size: 11.5px;
+      padding: 2px 8px; border-radius: var(--r-xs);
+      background: var(--muted); border: 1px solid var(--border);
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 8px 14px; border-radius: var(--r-md);
+      font-size: var(--fs-xs); font-weight: 600;
+      border: 1px solid var(--border); background: var(--card);
+    }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    @media (max-width: 1024px) {
+      .inspector-layout { grid-template-columns: 1fr; }
+      .outline-rail { position: static; }
+    }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .top-header, .lab-bar, .page-container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link"><span class="brand-mark">NL</span><span>Nestlancer</span></a>
+        <span class="portal-pill">Client</span>
+      </div>
+      <a href="../../F06-request-new-form/V4/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V4/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V4/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="../../F10-quotes-list/V4/index.html" class="nav-link" aria-current="page"><span>Quotes</span><span class="nav-count nav-count--brand">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="../../F12-messages-home/V4/index.html" class="nav-link"><span>Messages</span><span class="nav-count">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <a href="../../F10-quotes-list/V4/index.html">Quotes</a><span>›</span>
+            <span class="breadcrumbs-current" id="bc-id" aria-current="page">Quote #01a10a2b</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Switch quote</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">◐</button>
+          <button type="button" class="icon-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <div class="lab-bar" role="region" aria-label="Variant and state controls">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F11 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill">V1 · Sticky Rail ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Financial Audit</a>
+          <a href="../V3/index.html" class="lab-pill">V3 · Smart-File Sheet</a>
+          <a href="../V4/index.html" class="lab-pill is-active">V4 · Legal Inspector</a>
+          <a href="../V5/index.html" class="lab-pill">V5 · Milestone Workbench</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">Captured State:</span>
+          <button type="button" class="lab-pill is-active" data-quote-state="01a10a2b">#01a10a2b Accepted ₹75k (17)</button>
+          <button type="button" class="lab-pill" data-quote-state="01a10f80">#01a10f80 Draft ₹1,770 (16 · C23)</button>
+          <button type="button" class="lab-pill" data-quote-state="pending-c8">Simulate C8 Sign &amp; Pay</button>
+          <button type="button" class="lab-pill" data-quote-state="loading">Loading</button>
+          <button type="button" class="lab-pill" data-quote-state="error">Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="page-container"></main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const CLAUSES = [
+        { num: 1, title: "Parties and Project Scope", body: "This Agreement is between Nestlancer (\"Service Provider\") and the Client accepting the quote. The scope of work is strictly limited to the deliverables itemized in the accepted Quote and associated Project Request." },
+        { num: 2, title: "Payment Terms and Milestones", body: "Payments are due upon completion of the milestones defined in the Quote. An initial deposit may be required before work commences. Late payments may incur a pause in project delivery." },
+        { num: 3, title: "Revisions and Change Requests", body: "The Quote includes up to two (2) rounds of reasonable revisions per milestone. Any work outside the original scope will be estimated separately via a Change Request." },
+        { num: 4, title: "Timeline and Client Responsibilities", body: "Estimated timelines depend on timely feedback and asset provision by the Client. Delays in client responses exceeding 5 business days may adjust the delivery schedule accordingly." },
+        { num: 5, title: "Intellectual Property Rights", body: "Upon receipt of full and final payment, all custom deliverables created specifically for the Project are assigned to the Client. Service Provider retains rights to pre-existing tools, libraries, and generic components." },
+        { num: 6, title: "Confidentiality", body: "Both parties agree to keep all non-public business, technical, and financial information confidential and use it solely for fulfilling this Project." },
+        { num: 7, title: "Warranties and Bug Fixes", body: "Service Provider warrants that deliverables will substantially conform to specifications at handover. A 14-day post-launch support window is included for resolving critical defects." },
+        { num: 8, title: "Limitation of Liability", body: "In no event shall either party's aggregate liability exceed the total fees actually paid by the Client under this Quote." },
+        { num: 9, title: "Termination", body: "Either party may terminate this Agreement for material breach if not cured within 10 business days of written notice. Client shall pay for all completed milestones and work-in-progress up to the termination date." },
+        { num: 10, title: "Governing Law and Dispute Resolution", body: "This Agreement is governed by the laws of India. Any disputes shall first be attempted to be resolved amicably through good-faith negotiation." }
+      ];
+
+      let mode = "01a10a2b";
+      const mainEl = document.getElementById("main-content");
+      const bcId = document.getElementById("bc-id");
+
+      function render() {
+        if (mode === "loading") {
+          mainEl.innerHTML = '<div class="panel-card">Loading contract &amp; commercial inspector…</div>';
+          return;
+        }
+        if (mode === "error") {
+          mainEl.innerHTML = '<div class="panel-card">Unable to load quote. <button type="button" class="btn btn-primary" id="retry-btn">Retry</button></div>';
+          const r = document.getElementById("retry-btn");
+          if (r) r.addEventListener("click", () => setMode("01a10a2b"));
+          return;
+        }
+
+        const isAccepted = mode === "01a10a2b";
+        bcId.textContent = isAccepted ? "Quote #01a10a2b" : "Quote #01a10f80";
+
+        mainEl.innerHTML =
+          '<section class="decision-bar">' +
+          "<div>" +
+          '<div style="font-size:var(--fs-xs); font-weight:700; text-transform:uppercase; color:var(--primary);">Quote details</div>' +
+          '<h1 style="font-size:clamp(1.85rem, 2.8vw, 2.25rem); font-weight:700; font-family:var(--mono); display:flex; align-items:center; gap:10px;">' +
+          (isAccepted ? "Quote #01a10a2b" : "Quote #01a10f80") +
+          '<span class="status-badge ' + (isAccepted ? "status-badge--accepted" : "status-badge--draft") + '">' + (isAccepted ? "Accepted" : "Draft") + "</span>" +
+          "</h1>" +
+          '<div style="font-size:var(--fs-xs); margin-top:4px;">Request: ' +
+          (isAccepted ? "<strong>Khandesh Spice D2C E-Commerce Store</strong>" : '<span class="c23-code-pill"><code>&lt;img src=x onerror=alert(1)&gt;</code> (C23 Escaped)</span>') +
+          " · Valid until: Oct 20, 2026 (A5 Countdown)</div>" +
+          "</div>" +
+          '<div style="display:flex; gap:8px; align-items:center;">' +
+          '<span style="font-family:var(--mono); font-size:var(--fs-xl); font-weight:700;">' + (isAccepted ? "₹75,000.00" : "₹1,770.00") + "</span>" +
+          '<button type="button" class="btn">Download PDF</button>' +
+          (isAccepted ? '<a href="../../F09-project-details/V4/index.html" class="btn btn-primary">View active project →</a>' : '<button type="button" class="btn btn-primary" id="c8-top-btn">Accept &amp; Pay Deposit (C8) →</button>') +
+          "</div></section>" +
+          '<div class="inspector-layout">' +
+          '<nav class="outline-rail" aria-label="Contract and commercial outline">' +
+          '<div style="font-weight:700; text-transform:uppercase; color:var(--muted-fg); padding:4px 10px;">Sections</div>' +
+          '<a href="#v4-items" class="outline-link">Line items &amp; Tax</a>' +
+          '<a href="#v4-sched" class="outline-link">Payment schedule</a>' +
+          '<a href="#v4-c8" class="outline-link">C8 Sign &amp; Deposit</a>' +
+          '<div style="font-weight:700; text-transform:uppercase; color:var(--muted-fg); padding:8px 10px 4px;">10 Clauses</div>' +
+          CLAUSES.map((c) => '<a href="#clause-' + c.num + '" class="outline-link">' + c.num + ". " + c.title + "</a>").join("") +
+          "</nav>" +
+          '<div class="inspector-body">' +
+          '<section id="v4-items" class="panel-card">' +
+          '<h2 style="font-size:var(--fs-md); font-weight:700; margin-bottom:10px;">Line items &amp; Tax breakdown</h2>' +
+          (isAccepted
+            ? "<p style=\"font-size:var(--fs-sm);\">1. <strong>Storefront UX &amp; Catalog</strong> (Bilingual catalog (EN/MR), weight-variant selector, gift-box builder) — Qty 1 · ₹28,000.00</p>" +
+              "<p style=\"font-size:var(--fs-sm); margin-top:6px;\">2. <strong>Razorpay + Shiprocket Integration</strong> (UPI/Cards/NetBanking checkout + automated courier AWB generation) — Qty 1 · ₹32,000.00</p>" +
+              "<p style=\"font-size:var(--fs-sm); margin-top:6px;\">3. <strong>Admin Training &amp; Launch Support</strong> (2 live sessions + 30-day hypercare) — Qty 1 · ₹15,000.00</p>" +
+              "<p style=\"font-family:var(--mono); font-weight:700; margin-top:10px;\">Subtotal: ₹75,000.00 · Total: ₹75,000.00</p>"
+            : '<div>Deliverable: <span class="c23-code-pill"><code>&lt;img src=x onerror=alert(1)&gt;</code> (Initial scope item)</span> · Qty 1 · ₹1,500.00</div>' +
+              '<p style="font-family:var(--mono); margin-top:8px;">Subtotal: ₹1,500.00 · GST (18%): ₹270.00 · Total: ₹1,770.00 · Deposit Required: 50% (₹885.00)</p>') +
+          "</section>" +
+          '<section id="v4-sched" class="panel-card">' +
+          '<h2 style="font-size:var(--fs-md); font-weight:700; margin-bottom:8px;">Payment schedule &amp; Notes</h2>' +
+          (isAccepted
+            ? "<p style=\"font-size:var(--fs-sm);\"><strong>30%</strong> Kickoff &amp; Architecture (₹22,500.00) · <strong>40%</strong> Mid-project Milestone (₹30,000.00) · <strong>30%</strong> Final Delivery &amp; Launch (₹22,500.00)</p>" +
+              "<p style=\"font-size:var(--fs-xs); color:var(--muted-fg); margin-top:6px;\">Notes: GST extra as applicable. Includes 30 days post-launch warranty.</p>"
+            : "<p style=\"font-size:var(--fs-sm);\">Deposit Required: 50% (₹885.00) · Notes: Valid until Oct 20, 2026</p>") +
+          "</section>" +
+          '<section class="panel-card">' +
+          '<h2 style="font-size:var(--fs-md); font-weight:700; margin-bottom:12px;">Contract &amp; terms · Standard Contract Clauses (10 clauses)</h2>' +
+          '<div style="display:flex; flex-direction:column; gap:10px;">' +
+          CLAUSES.map((c) => '<div id="clause-' + c.num + '" style="padding:10px 12px; border:1px solid var(--border); border-radius:var(--r-md); background:var(--bg); font-size:var(--fs-sm);"><strong>' + c.num + ". " + c.title + '</strong><p style="color:var(--muted-fg); margin-top:4px;">' + c.body + "</p></div>").join("") +
+          "</div></section>" +
+          '<section id="v4-c8" class="panel-card" style="border-color:var(--primary);">' +
+          '<h2 style="font-size:var(--fs-md); font-weight:700;">C8 · Unified Contract Signature &amp; Razorpay Deposit</h2>' +
+          '<p style="font-size:var(--fs-sm); color:var(--muted-fg); margin-top:4px;">' +
+          (isAccepted
+            ? "Signed · Standard Service Agreement · Signed on Oct 5, 2026 · Agreement NL-CTR-2026-000001"
+            : "Accept Quote #01a10f80, sign Standard Service Agreement, and pay 50% deposit (₹885.00) in one step.") +
+          "</p>" +
+          '<div style="margin-top:12px; display:flex; gap:8px;">' +
+          (isAccepted
+            ? '<a href="../../F09-project-details/V4/index.html" class="btn btn-primary">View active project →</a>'
+            : '<button type="button" class="btn btn-primary" id="c8-bot-btn">Accept quote &amp; pay ₹885.00 deposit →</button><button type="button" class="btn">Decline quote</button>') +
+          "</div></section></div></div>";
+
+        const topBtn = document.getElementById("c8-top-btn");
+        const botBtn = document.getElementById("c8-bot-btn");
+        if (topBtn) topBtn.addEventListener("click", () => setMode("01a10a2b"));
+        if (botBtn) botBtn.addEventListener("click", () => setMode("01a10a2b"));
+      }
+
+      function setMode(m) {
+        mode = m;
+        document.querySelectorAll("[data-quote-state]").forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-quote-state") === m));
+        render();
+      }
+
+      document.querySelectorAll("[data-quote-state]").forEach((b) => {
+        b.addEventListener("click", () => setMode(b.getAttribute("data-quote-state")));
+      });
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+      document.getElementById("cmdk-btn").addEventListener("click", () => {
+        setMode(mode === "01a10a2b" ? "01a10f80" : "01a10a2b");
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("quote") === "01a10f80") setMode("01a10f80");
+      else render();
+    })();
+  </script>
+</body>
+</html>

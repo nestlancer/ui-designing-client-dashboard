@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages Thread · V4 Support SLA &amp; Milestone Context Thread — Nestlancer</title>
+  <link rel="stylesheet" href="../../../shared/tokens.css" />
+  <link rel="stylesheet" href="../../../shared/base.css" />
+  <style>
+    :root {
+      --bg: var(--background); --fg: var(--foreground); --muted-fg: var(--muted-foreground);
+      --primary-fg: #ffffff; --border-strong: var(--primary);
+      --brand-200: var(--brand-100); --brand-300: var(--brand-500);
+      --status-danger-bg: var(--status-error-bg); --status-danger-text: var(--status-error-text); --status-danger-border: var(--status-error-border);
+      --status-neutral-bg: var(--muted); --status-neutral-text: var(--muted-foreground); --status-neutral-border: var(--border);
+      --sidebar-w: var(--sidebar); --header-h: var(--header); --container-max: var(--content); --font-sans: var(--font);
+      --r-xs: 4px; --r-sm: var(--radius-sm); --r-md: var(--radius-md); --r-lg: var(--radius-lg); --r-xl: var(--radius-xl); --r-pill: 999px;
+      --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+      --fs-xs: 12px; --fs-sm: 13px; --fs-base: 14px; --fs-md: 15px; --fs-lg: 18px; --fs-xl: 22px; --fs-2xl: 28px; --lh-tight: 1.2;
+      --dur-fast: var(--duration-fast); --dur-med: var(--duration-normal); --ease-out: var(--ease-spring);
+      --shadow-md: var(--shadow-sm); --shadow-lg: var(--shadow-sm);
+    }
+    /* ==========================================================================
+       F13 · Messages Thread — V4: Support SLA & Milestone Context Thread
+       Includes C10 High-Contrast Inline Edit Fix & Prominent A7 SLA + Read Receipts
+       Uses ONLY locked tokens from ../../../shared/tokens.css
+       ========================================================================== */
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; width: var(--sidebar-w);
+      background: var(--card); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: var(--sp-4) var(--sp-3); z-index: 30;
+    }
+    .sidebar-brand { display: flex; align-items: center; justify-content: space-between; padding: var(--sp-1) var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-4); }
+    .brand-link { display: inline-flex; align-items: center; gap: var(--sp-2); font-weight: 700; font-size: var(--fs-md); }
+    .brand-mark { width: 28px; height: 28px; border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: var(--fs-sm); }
+    .portal-pill { font-size: var(--fs-xs); font-weight: 600; padding: 2px 8px; border-radius: var(--r-pill); background: var(--brand-50); color: var(--brand-700); }
+    .dark .portal-pill { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .sidebar-cta { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); width: 100%; padding: 10px var(--sp-3); border-radius: var(--r-md); background: var(--primary); color: var(--primary-fg); font-weight: 600; font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+    .nav-section-label { font-size: var(--fs-xs); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-fg); padding: var(--sp-2) var(--sp-2) var(--sp-1); }
+    .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-3); }
+    .nav-link { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: var(--r-md); font-size: var(--fs-sm); font-weight: 500; color: var(--muted-fg); }
+    .nav-link:hover { background: var(--muted); color: var(--fg); }
+    .nav-link[aria-current="page"] { background: var(--brand-50); color: var(--brand-700); font-weight: 600; }
+    .dark .nav-link[aria-current="page"] { background: rgba(91, 123, 255, 0.16); color: var(--brand-200); }
+    .nav-count { font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; padding: 1px 7px; border-radius: var(--r-pill); background: var(--muted); color: var(--fg); }
+    .nav-count--brand { background: var(--primary); color: var(--primary-fg); }
+    .sidebar-footer { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: var(--sp-2); position: relative; }
+    .explore-popover { position: absolute; bottom: calc(100% + 6px); left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-md); box-shadow: var(--shadow-md); padding: var(--sp-2); display: none; flex-direction: column; gap: 2px; z-index: 40; }
+    .explore-popover.is-open { display: flex; }
+
+    .main-area { display: flex; flex-direction: column; min-width: 0; }
+    .top-header {
+      position: sticky; top: 0; height: var(--header-h);
+      background: var(--card); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 var(--sp-6); z-index: 25;
+    }
+    .header-left { display: flex; align-items: center; gap: var(--sp-3); }
+    .mobile-menu-btn { display: none; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); align-items: center; justify-content: center; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--muted-fg); }
+    .breadcrumbs-current { color: var(--fg); font-weight: 600; }
+    .header-actions { display: flex; align-items: center; gap: var(--sp-2); }
+    .cmdk-trigger { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 6px 12px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--muted); color: var(--muted-fg); font-size: var(--fs-xs); }
+    .icon-btn { position: relative; width: 36px; height: 36px; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--card); display: inline-flex; align-items: center; justify-content: center; }
+    .notif-badge { position: absolute; top: -4px; right: -4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--r-pill); background: var(--primary); color: var(--primary-fg); font-family: var(--mono); font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+    .avatar-btn { display: inline-flex; align-items: center; gap: var(--sp-2); padding: 4px 10px 4px 4px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); font-size: var(--fs-xs); font-weight: 600; }
+    .avatar-circle { width: 28px; height: 28px; border-radius: var(--r-pill); background: var(--brand-600); color: #ffffff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--fs-xs); font-weight: 700; }
+
+    .lab-bar {
+      background: var(--muted); border-bottom: 1px solid var(--border);
+      padding: var(--sp-2) var(--sp-6);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--sp-3); font-size: var(--fs-xs);
+    }
+    .lab-bar-group { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .lab-bar-label { font-weight: 600; color: var(--muted-fg); margin-right: 4px; }
+    .lab-pill { padding: 4px 10px; border-radius: var(--r-pill); border: 1px solid var(--border); background: var(--card); color: var(--muted-fg); font-weight: 600; font-size: var(--fs-xs); }
+    .lab-pill.is-active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    /* --- V4 SLA & Milestone Context Thread --- */
+    .page-container {
+      width: 100%; max-width: var(--container-max);
+      margin: 0 auto; padding: var(--sp-4) var(--sp-6);
+      display: flex; flex-direction: column; gap: var(--sp-3);
+    }
+    .sla-hero-bar {
+      background: var(--status-info-bg);
+      color: var(--status-info-text);
+      border: 1px solid var(--status-info-border);
+      border-radius: var(--r-lg);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: var(--fs-xs);
+      font-weight: 600;
+    }
+    .sla-grid {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 290px;
+      gap: var(--sp-4);
+      align-items: start;
+    }
+    .sla-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-4);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .c10-edit-textarea {
+      width: 100%;
+      min-height: 70px;
+      padding: 8px;
+      border-radius: var(--r-sm);
+      border: 1.5px solid var(--primary);
+      background: var(--card) !important;
+      color: var(--fg) !important;
+      font-size: var(--fs-sm);
+    }
+    .search-input, .select-sm {
+      width: 100%; padding: 6px 10px; border-radius: var(--r-md);
+      border: 1px solid var(--border); background: var(--bg); color: var(--fg); font-size: var(--fs-xs);
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 7px 12px; border-radius: var(--r-md);
+      font-size: var(--fs-xs); font-weight: 600;
+      border: 1px solid var(--border); background: var(--card); color: var(--fg);
+    }
+    .btn-primary { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+
+    @media (max-width: 1024px) { .sla-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { position: fixed; left: -260px; transition: left var(--dur-med) var(--ease-out); }
+      .sidebar.is-open { left: 0; }
+      .mobile-menu-btn { display: inline-flex; }
+      .top-header, .lab-bar, .page-container { padding-left: var(--sp-4); padding-right: var(--sp-4); }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="app-sidebar" aria-label="Primary navigation">
+      <div class="sidebar-brand">
+        <a href="../../../index.html" class="brand-link"><span class="brand-mark">NL</span><span>Nestlancer</span></a>
+        <span class="portal-pill">Client</span>
+      </div>
+      <a href="../../F06-request-new-form/V4/index.html" class="sidebar-cta"><span>+ New request</span></a>
+
+      <div class="nav-section-label">Workspace</div>
+      <nav class="nav-list" aria-label="Workspace pages">
+        <a href="#overview" class="nav-link" data-demo-nav="Overview"><span>Overview</span></a>
+        <a href="../../F05-requests-work-hub/V4/index.html" class="nav-link"><span>Requests</span><span class="nav-count">12</span></a>
+        <a href="../../F08-projects-list/V4/index.html" class="nav-link"><span>Projects</span><span class="nav-count">5</span></a>
+        <a href="../../F10-quotes-list/V4/index.html" class="nav-link"><span>Quotes</span><span class="nav-count">12</span></a>
+      </nav>
+
+      <div class="nav-section-label">Finance &amp; Comms</div>
+      <nav class="nav-list" aria-label="Finance and communication">
+        <a href="#payments" class="nav-link" data-demo-nav="Payments"><span>Payments</span></a>
+        <a href="#invoices" class="nav-link" data-demo-nav="Invoices"><span>Invoices</span></a>
+        <a href="../../F12-messages-home/V4/index.html" class="nav-link" aria-current="page"><span>Messages</span><span class="nav-count nav-count--brand">2</span></a>
+        <a href="#notifications" class="nav-link" data-demo-nav="Notifications"><span>Notifications</span><span class="nav-count">6</span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="explore-popover" id="explore-popover">
+          <a href="#blog" class="nav-link" data-demo-nav="Blog"><span>Blog</span></a>
+          <a href="#portfolio" class="nav-link" data-demo-nav="Portfolio"><span>Portfolio</span></a>
+        </div>
+        <button type="button" class="nav-link" id="explore-btn"><span>Explore</span><span>▾</span></button>
+        <a href="../../../index.html" class="nav-link"><span>← Lab Index</span></a>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <header class="top-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">☰</button>
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="../../../index.html">Dashboard</a><span>›</span>
+            <a href="../../F12-messages-home/V4/index.html">Messages</a><span>›</span>
+            <span class="breadcrumbs-current" aria-current="page">SLA &amp; Context Thread</span>
+          </nav>
+        </div>
+        <div class="header-actions">
+          <button type="button" class="cmdk-trigger" id="cmdk-btn"><span>Switch thread</span><kbd>⌘K</kbd></button>
+          <button type="button" class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">◐</button>
+          <button type="button" class="icon-btn" aria-label="6 unread notifications">🔔<span class="notif-badge">6</span></button>
+          <button type="button" class="avatar-btn"><span class="avatar-circle">AM</span><span>Arjun Mehta</span></button>
+        </div>
+      </header>
+
+      <div class="lab-bar" role="region" aria-label="Variant and state controls">
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">F13 Variants:</span>
+          <a href="../V1/index.html" class="lab-pill">V1 · 3-Pane Workbench ★</a>
+          <a href="../V2/index.html" class="lab-pill">V2 · Linear Activity Feed</a>
+          <a href="../V3/index.html" class="lab-pill">V3 · Focus Canvas &amp; Cards</a>
+          <a href="../V4/index.html" class="lab-pill is-active">V4 · SLA &amp; Context Thread</a>
+          <a href="../V5/index.html" class="lab-pill">V5 · Docked Split Messenger</a>
+        </div>
+        <div class="lab-bar-group">
+          <span class="lab-bar-label">Captured State:</span>
+          <button type="button" class="lab-pill is-active" data-state-btn="group">21 · Group Default</button>
+          <button type="button" class="lab-pill" data-state-btn="members">22 · Members Drawer</button>
+          <button type="button" class="lab-pill" data-state-btn="reply">23 · Reply Banner</button>
+          <button type="button" class="lab-pill" data-state-btn="edit">24 · Edit Message (C10 Fixed)</button>
+          <button type="button" class="lab-pill" data-state-btn="direct">25 · Direct Thread</button>
+          <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
+          <button type="button" class="lab-pill" data-state-btn="error">Error</button>
+        </div>
+      </div>
+
+      <main id="main-content" class="page-container">
+        <!-- Prominent A7 Response SLA & Read Receipt Hero Strip -->
+        <section class="sla-hero-bar" aria-label="Support SLA and Read Receipt Status">
+          <div>⏱ <strong>A7 Response SLA:</strong> Riya Kapoor (Admin · admin@nestlancer.com) · Usually replies within 2 business hours</div>
+          <div>✓✓ <strong>Read Receipts Active:</strong> Seen by Riya Kapoor · Oct 5, 4:02 AM</div>
+          <a href="../../F12-messages-home/V4/index.html" class="btn">← Panel</a>
+        </section>
+
+        <section class="sla-grid">
+          <div class="sla-card">
+            <strong style="font-size:var(--fs-sm);">Conversation queue</strong>
+            <div style="font-size:11px; color:var(--muted-fg);">2 conversations — click to open in the workspace</div>
+            <input type="search" class="search-input" placeholder="Search by name, preview, or ID…" aria-label="Search by name, preview, or ID" />
+            <div style="display:flex; gap:4px; flex-wrap:wrap;">
+              <span class="lab-pill is-active">All</span><span class="lab-pill">Unread</span><span class="lab-pill">Direct</span><span class="lab-pill">Project</span><span class="lab-pill">Group</span>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+              <select class="select-sm" aria-label="Inbox"><option>Inbox</option><option selected>Active</option><option>Archived</option></select>
+              <select class="select-sm" aria-label="Sort"><option>Unread first</option><option>Longest wait</option><option>Latest</option></select>
+            </div>
+            <button type="button" class="btn" id="q-group" style="text-align:left; justify-content:flex-start;">AP · Agency partner coordination — festive campaigns (Group · 20 days ago)</button>
+            <button type="button" class="btn" id="q-direct" style="text-align:left; justify-content:flex-start;">RK · Riya Kapoor (Direct · 20 days ago)</button>
+          </div>
+
+          <div class="sla-card" id="sla-centre"></div>
+
+          <aside class="sla-card">
+            <strong style="font-size:var(--fs-xs); text-transform:uppercase; color:var(--muted-fg);">Group info · Members</strong>
+            <div style="font-size:var(--fs-sm); font-weight:700;">Agency partner coordination — festive campaigns</div>
+            <div style="font-size:var(--fs-xs); color:var(--muted-fg);">Group · 3 members (RK, SP, AM)</div>
+            <div style="font-size:var(--fs-xs);">
+              <div><strong>RK · Riya Kapoor</strong> (Admin · admin@nestlancer.com)</div>
+              <div style="margin-top:4px;"><strong>SP · Samira Patel</strong> (Client · samira.patel@nestlancer.com)</div>
+              <div style="margin-top:4px;"><strong>AM · Arjun Mehta</strong> (Client · arjun.mehta@nestlancer.com)</div>
+            </div>
+            <button type="button" class="btn">Leave group</button>
+            <div style="border-top:1px solid var(--border); padding-top:8px;">
+              <strong style="font-size:var(--fs-xs);">Search in conversation</strong>
+              <input type="search" class="search-input" placeholder="Search messages…" style="margin-top:6px;" aria-label="Search messages" />
+              <button type="button" class="btn" style="margin-top:6px; width:100%;">Search</button>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      let state = "group";
+      let selfText = "Useful reference. Our D2C spice store is targeting similar numbers for Navratri — checkout UPI flow is priority this week.";
+      const centreEl = document.getElementById("sla-centre");
+
+      function escapeHtml(s) {
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+
+      function render() {
+        if (state === "loading") {
+          centreEl.innerHTML = '<div>Loading SLA thread…</div>';
+          return;
+        }
+        const isDirect = state === "direct";
+
+        centreEl.innerHTML =
+          '<div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">' +
+          '<h1 style="font-size:var(--fs-md); font-weight:700;">' + (isDirect ? "RK · Riya Kapoor (Direct chat with your admin team.)" : "AP · Agency partner coordination — festive campaigns (Group · 3 members)") + "</h1>" +
+          '<div style="display:flex; gap:6px;"><button type="button" class="btn">' + (state === "members" ? "Hide members" : "Members") + '</button><button type="button" class="btn">Mark read</button></div>' +
+          "</div>" +
+          '<div style="display:flex; gap:6px; flex-wrap:wrap;">' +
+          '<button type="button" class="btn">Thanks, I will review this.</button>' +
+          '<button type="button" class="btn">Can you clarify the timeline?</button>' +
+          '<button type="button" class="btn">Could we schedule a quick call?</button>' +
+          "</div>" +
+          (isDirect
+            ? '<div style="font-size:11px; color:var(--muted-fg);">Monday, Oct 5</div>' +
+              '<div style="padding:10px; border:1px solid var(--border); border-radius:var(--r-md);"><strong>RK · Riya Kapoor · Oct 5 3:46 AM</strong><p style="font-size:var(--fs-xs); margin-top:4px;">Arjun ji — quick check on the Spice D2C mid-payment. UTR pending for the 40% milestone installment.</p></div>' +
+              '<div style="padding:10px; border:1px solid var(--primary); border-radius:var(--r-md); background:var(--brand-50);"><strong>Y · You · Oct 5 3:46 AM (✓ · ✓✓ Seen by Riya Kapoor)</strong><p style="font-size:var(--fs-xs); margin-top:4px;">Accounts team will release HDFC transfer by Monday. Navratri prep is keeping us busy — thanks for the checkout-first sprint.</p></div>' +
+              '<div style="padding:10px; border:1px solid var(--border); border-radius:var(--r-md);"><strong>RK · Riya Kapoor · Oct 5 3:46 AM</strong><p style="font-size:var(--fs-xs); margin-top:4px;">Noted. Milestone 2 staging link stays live through the weekend for your team to test UPI flows.</p></div>'
+            : '<div style="font-size:11px; color:var(--muted-fg);">Samira Patel joined the group · Monday, Oct 5</div>' +
+              '<div style="padding:10px; border:1px solid var(--border); border-radius:var(--r-md);"><strong>RK · Riya Kapoor · Oct 5 3:46 AM</strong><p style="font-size:var(--fs-xs); margin-top:4px;">Welcome both — this group is for coordinating cross-client festive campaign learnings. <strong>@Samira Patel</strong> <strong>@Arjun Mehta</strong></p></div>' +
+              '<div style="padding:10px; border:1px solid var(--border); border-radius:var(--r-md);"><strong>SP · Samira Patel · Oct 5 3:46 AM</strong><p style="font-size:var(--fs-xs); margin-top:4px;">Sharing our Navratri page conversion stats — 4.8% on Meta traffic with Marathi headline variant.</p></div>' +
+              '<div style="padding:10px; border:1px solid var(--primary); border-radius:var(--r-md); background:var(--brand-50);">' +
+              '<strong>Y · You · Oct 5 3:46 AM · Sent · ✓✓ Seen by Riya Kapoor &amp; Samira Patel (A7)</strong>' +
+              (state === "edit"
+                ? '<div style="margin-top:6px;"><textarea id="c10-ta" class="c10-edit-textarea" aria-label="Edit message">' + escapeHtml(selfText) + '</textarea><div style="margin-top:6px; display:flex; gap:6px;"><button type="button" class="btn btn-primary" id="save-btn">Save</button><button type="button" class="btn" id="cancel-btn">Cancel</button></div></div>'
+                : '<p style="font-size:var(--fs-xs); margin-top:4px;">' + escapeHtml(selfText) + "</p>") +
+              '<div style="margin-top:6px;"><button type="button" class="btn" id="edit-btn">Edit</button> <button type="button" class="btn">Reply</button> <button type="button" class="btn">Delete</button></div></div>' +
+              '<div style="padding:10px; border:1px solid var(--border); border-radius:var(--r-md);"><strong>RK · Riya Kapoor · Oct 5 3:46 AM</strong><p style="font-size:var(--fs-xs); margin-top:4px;">Great — I\'ll schedule a joint review of Razorpay UPI checkout patterns that worked across both projects.</p></div>') +
+          (state === "reply" || state === "edit"
+            ? '<div style="padding:8px 10px; background:var(--muted); border-left:3px solid var(--primary); font-size:var(--fs-xs);"><strong>Replying to Riya Kapoor:</strong> Welcome both — this group is for coordinating cross-client festive campaign learnings. @Samira Patel @Arjun Mehta</div>'
+            : "") +
+          '<div style="display:flex; gap:6px; font-size:11px;"><span>Mentions:</span><strong>@Riya Kapoor</strong><strong>@Samira Patel</strong></div>' +
+          '<div style="display:flex; gap:8px;"><input type="text" class="search-input" placeholder="Message… (Enter to send)" aria-label="Message composer" /><button type="button" class="btn btn-primary">Send</button></div>';
+
+        const editBtn = document.getElementById("edit-btn");
+        if (editBtn) editBtn.addEventListener("click", () => setState("edit"));
+        const saveBtn = document.getElementById("save-btn");
+        if (saveBtn) {
+          saveBtn.addEventListener("click", () => {
+            const ta = document.getElementById("c10-ta");
+            if (ta && ta.value.trim()) selfText = ta.value.trim();
+            setState("group");
+          });
+        }
+        const cancelBtn = document.getElementById("cancel-btn");
+        if (cancelBtn) cancelBtn.addEventListener("click", () => setState("group"));
+      }
+
+      function setState(st) {
+        state = st;
+        document.querySelectorAll("[data-state-btn]").forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-state-btn") === st));
+        render();
+      }
+
+      document.querySelectorAll("[data-state-btn]").forEach((b) => {
+        b.addEventListener("click", () => setState(b.getAttribute("data-state-btn")));
+      });
+      document.getElementById("q-group").addEventListener("click", () => setState("group"));
+      document.getElementById("q-direct").addEventListener("click", () => setState("direct"));
+
+      const rootEl = document.documentElement;
+      if (localStorage.getItem("nl-theme") === "dark") rootEl.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        rootEl.classList.toggle("dark");
+        localStorage.setItem("nl-theme", rootEl.classList.contains("dark") ? "dark" : "light");
+      });
+      document.getElementById("mobile-menu-btn").addEventListener("click", () => {
+        document.getElementById("app-sidebar").classList.toggle("is-open");
+      });
+      document.getElementById("explore-btn").addEventListener("click", () => {
+        document.getElementById("explore-popover").classList.toggle("is-open");
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("thread") === "direct") setState("direct");
+      else render();
+    })();
+  </script>
+</body>
+</html>
