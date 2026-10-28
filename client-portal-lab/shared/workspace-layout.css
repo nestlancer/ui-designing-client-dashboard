@@ -1,0 +1,10 @@
+/* The portal shell owns the sidebar and header. Let the page workspace use
+   the remaining width rather than centering a capped container inside it.
+   Inner cards, dialogs and readable text may still have their own widths. */
+main#main,
+main#main-content {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  margin-inline: 0;
+}
