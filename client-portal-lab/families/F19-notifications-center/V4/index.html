@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifications · V4 Priority Action Lanes &amp; Entity Board — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F19 · V4 — Priority Action Lanes & Entity Board (Action-Priority Board archetype)
+   Separates commercial decisions (Expiring Quotes) from informational receipts (Account Exports)
+   in a 2-tier priority deck + 2-column entity/date card grid. */
+.wrap.board{max-width:1180px;padding:24px 22px 92px}
+h1{font-size:clamp(30px,3.1vw,38px);line-height:1.15}
+.tabs.ntabs{padding:0 8px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:18px}
+.tabs.ntabs [role="tab"]{min-height:42px;padding:0 12px;font-size:12.5px;display:inline-flex;align-items:center;gap:6px}
+.bcnt{font:700 11px var(--mono);padding:1px 6px;border-radius:999px;background:var(--muted);border:1px solid var(--border)}
+.lane{margin-bottom:22px}
+.lane-hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.lane-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700}
+.spotlight-card{border:1px solid var(--status-warning-border);background:var(--card);border-radius:var(--radius-xl);padding:20px;box-shadow:var(--shadow-xs);position:relative}
+.spotlight-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:12px}
+.burst-pills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.burst-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--background)}
+.burst-item.unread{border-color:var(--primary);background:var(--brand-50)}
+.dark .burst-item.unread{background:rgba(70,95,255,.14)}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ecard{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-xs)}
+.ecard.unread{border-color:var(--primary)}
+.ecard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ecard-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid var(--border);margin-top:auto}
+.sel-bar{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:55;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--card);border:2px solid var(--primary);box-shadow:var(--shadow-sm)}
+.sel-bar[hidden]{display:none}
+@media(max-width:780px){
+  .burst-pills,.grid-2{grid-template-columns:1fr}
+  .wrap.board{padding:18px 14px 100px}
+  .sel-bar{left:12px;right:12px;transform:none;border-radius:var(--radius-lg);justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n" id="sideUnread">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Notifications Board</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F19 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Inbox</a>
+      <a class="pill" href="../V2/index.html">V2 · Dense Ledger</a>
+      <a class="pill" href="../V3/index.html">V3 · Split Triage</a>
+      <a class="pill on" href="index.html" aria-current="page">V4 · Priority Board</a>
+      <a class="pill" href="../V5/index.html">V5 · Catch-Up Brief</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap board" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Priority Lanes · Decisions Before Receipts</div>
+          <h1>Notifications</h1>
+          <p class="lead">Time-sensitive commercial decisions surface in the top priority deck, while completed GDPR exports and routine receipts stay organized below.</p>
+        </div>
+        <div class="acts">
+          <button class="btn sm" id="selectAllBtn" type="button">Select visible</button>
+          <button class="btn sm" id="markAllBtn" type="button">Mark all read</button>
+          <button class="btn sm" id="clearReadBtn" type="button">Clear read</button>
+          <a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Notification settings</a>
+        </div>
+      </div>
+
+      <div data-panel="data">
+        <div class="tabs ntabs" role="tablist" aria-label="Notification categories" data-local="true" id="catTabs"></div>
+        <div id="boardMount" role="region" aria-live="polite"></div>
+        <noscript><div class="panel pad sub">JavaScript off: 4 urgent quote reminders (NL-QTE-2026-000018) and 4 account export notices.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-spark"/></svg></div>
+          <b>All priority lanes clear</b>
+          <p class="sub">No urgent quote expirations or pending system receipts need your review.</p>
+          <button class="btn sm pri" id="restoreBoardBtn" type="button">Restore captured board</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:30%;height:18px"></div>
+          <div class="skel" style="width:100%;height:140px;border-radius:14px"></div>
+          <div class="skel" style="width:30%;height:18px;margin-top:16px"></div>
+          <div class="skel" style="width:100%;height:120px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading priority board…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Priority board failed to load</b>
+          <p>Unable to reach <span class="mono">GET /api/v1/notifications</span>. Retry to restore your priority lanes.</p>
+          <button class="btn sm" id="retry" type="button">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F19 V4 Priority Action Lanes · Snapshot 33 lock</span>
+        <span><a href="../V3/index.html">← V3 Split Triage</a> · <a href="../V5/index.html">V5 Catch-Up Brief →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="sel-bar" id="selBar" hidden>
+  <b id="selCnt" class="mono">0 selected</b>
+  <button class="btn sm pri" id="selMarkBtn" type="button">Mark read</button>
+  <button class="btn sm" id="selClearBtn" type="button">Deselect</button>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var TABS = [
+    ['all','All'], ['unread','Unread'], ['quotes','Quotes'], ['payments','Payments'],
+    ['messages','Messages'], ['projects','Projects'], ['requests','Requests'], ['account','Account'], ['settings','Settings']
+  ];
+
+  function seed() {
+    return [
+      { id:'b1', cat:'quotes', lane:'urgent', bucket:'This week', when:'Oct 24 · 3d left', ref:'NL-QTE-2026-000018', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id:'b2', cat:'quotes', lane:'urgent', bucket:'This week', when:'Oct 23 · 3d left', ref:'NL-QTE-2026-000018', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id:'b3', cat:'quotes', lane:'urgent', bucket:'This week', when:'Oct 22 · 3d left', ref:'NL-QTE-2026-000018', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id:'b4', cat:'quotes', lane:'urgent', bucket:'This week', when:'Oct 21 · 3d left', ref:'NL-QTE-2026-000018', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id:'b5', cat:'account', lane:'receipt', bucket:'Earlier', when:'10/4/2026', ref:'export_1791375234538_ce4d2b', unread:true, title:'Data export ready', body:'Your requested data export (export_1791375234538_ce4d2b) is ready to download.' },
+      { id:'b6', cat:'account', lane:'receipt', bucket:'Earlier', when:'10/4/2026', ref:'export_1791367237705_7fd43b', unread:true, title:'Data export ready', body:'Your requested data export (export_1791367237705_7fd43b) is ready to download.' },
+      { id:'b7', cat:'account', lane:'receipt', bucket:'Earlier', when:'10/4/2026', ref:'export_1791367229591_57472a', unread:false, title:'Data export ready', body:'Your requested data export (export_1791367229591_57472a) is ready to download.' },
+      { id:'b8', cat:'account', lane:'receipt', bucket:'Earlier', when:'10/4/2026', ref:'export_1791364998486_24f887', unread:false, title:'Data export ready', body:'Your requested data export (export_1791364998486_24f887) is ready to download.' }
+    ];
+  }
+
+  var items = seed(), tab = 'all', sel = {};
+
+  function visible() {
+    return items.filter(function(i){ return tab === 'all' ? true : (tab === 'unread' ? i.unread : i.cat === tab); });
+  }
+
+  function renderTabs() {
+    var u = items.filter(function(i){ return i.unread; }).length;
+    $('#sideUnread').textContent = String(u);
+    $('#catTabs').innerHTML = TABS.map(function(t) {
+      var on = t[0] === tab;
+      var cnt = t[0] === 'unread' ? u : (t[0] === 'all' ? items.length : items.filter(function(i){ return i.cat === t[0]; }).length);
+      return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + on + '" tabindex="' + (on ? 0 : -1) + '">' +
+        t[1] + (t[0] === 'unread' || cnt > 0 ? '<span class="bcnt">' + cnt + '</span>' : '') + '</button>';
+    }).join('');
+    var bs = $$('[role="tab"]', $('#catTabs'));
+    bs.forEach(function(b, idx) {
+      b.onclick = function(){ tab = b.dataset.tab; render(); };
+      b.onkeydown = function(e){
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          var nx = bs[(idx + (e.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length];
+          tab = nx.dataset.tab; render(); $('[data-tab="' + tab + '"]').focus();
+        }
+      };
+    });
+  }
+
+  function render() {
+    renderTabs();
+    var vis = visible();
+    var selKeys = Object.keys(sel).filter(function(k){ return sel[k]; });
+    $('#selBar').hidden = selKeys.length === 0;
+    $('#selCnt').textContent = selKeys.length + ' selected';
+
+    if (!vis.length) {
+      $('#boardMount').innerHTML = '<div class="panel emptybox" style="padding:44px 18px">' +
+        '<div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></div>' +
+        '<b>No ' + tab + ' alerts on the board</b>' +
+        '<p class="sub" style="max-width:44ch">When an event triggers in ' + tab + ', urgent client decisions pin to Lane 1 and background receipts file into Lane 2.</p>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px">' +
+          '<button class="btn sm pri" id="resetTabBtn" type="button">View All lanes</button>' +
+          '<a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Tune category switches</a>' +
+        '</div></div>';
+      var rb = $('#resetTabBtn'); if (rb) rb.onclick = function(){ tab = 'all'; if (!items.length) items = seed(); render(); };
+      return;
+    }
+
+    var urgent = vis.filter(function(i){ return i.lane === 'urgent'; });
+    var receipts = vis.filter(function(i){ return i.lane === 'receipt'; });
+    var html = '';
+
+    if (tab === 'all') {
+      html += '<div class="note" style="margin-bottom:16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">' +
+        '<span><b>Today (Oct 28, 2026):</b> 0 new alerts · <b>This week:</b> ' + urgent.length + ' commercial reminders · <b>Earlier:</b> ' + receipts.length + ' export receipts</span>' +
+        '<span class="mono">' + vis.filter(function(i){ return i.unread; }).length + ' unread total</span></div>';
+    }
+
+    if (urgent.length) {
+      var uCnt = urgent.filter(function(i){ return i.unread; }).length;
+      html += '<section class="lane" aria-label="Needs your decision">' +
+        '<div class="lane-hd">' +
+          '<div class="lane-title"><span class="badge b-warn"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-clock"/></svg>Needs Decision · This week</span><span>Entity Bundle: Quote NL-QTE-2026-000018</span></div>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+            '<a class="btn sm pri" href="../../F11-quote-details/V1/index.html">Review quote NL-QTE-2026-000018 →</a>' +
+            '<button type="button" class="btn sm" id="resolveQuoteBundle" ' + (!uCnt ? 'disabled' : '') + '>Mark all 4 reminders read</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="spotlight-card">' +
+          '<div class="spotlight-top">' +
+            '<div><h2 style="font-size:18px">Quote expiring soon — 4 bundled reminders</h2><p class="sub" style="margin-top:4px">Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.</p></div>' +
+            (uCnt ? '<span class="badge b-info">● ' + uCnt + ' Unread</span>' : '<span class="badge b-ok">✓ Reviewed</span>') +
+          '</div>' +
+          '<div class="burst-pills">' + urgent.map(function(u) {
+            return '<div class="burst-item ' + (u.unread ? 'unread' : '') + '">' +
+              '<input type="checkbox" class="nchk bchk" data-id="' + u.id + '" ' + (sel[u.id] ? 'checked' : '') + ' aria-label="Select reminder ' + u.when + '">' +
+              '<div style="flex:1">' +
+                '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b style="font-size:13px">' + u.title + '</b><span class="mono">' + u.when + '</span></div>' +
+                '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;gap:8px">' +
+                  (u.unread ? '<span class="badge b-info">● Unread</span>' : '<span class="badge b-neutral">✓ Read</span>') +
+                  '<button type="button" class="btn sm btoggle" data-id="' + u.id + '">' + (u.unread ? 'Mark read' : 'Mark unread') + '</button>' +
+                '</div>' +
+              '</div></div>';
+          }).join('') + '</div>' +
+        '</div></section>';
+    }
+
+    if (receipts.length) {
+      var rUnread = receipts.filter(function(i){ return i.unread; }).length;
+      html += '<section class="lane" aria-label="System and account receipts">' +
+        '<div class="lane-hd">' +
+          '<div class="lane-title"><span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-archive"/></svg>Account &amp; System Receipts · Earlier</span><span>Entity Group: GDPR Data Exports (' + receipts.length + ')</span></div>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+            '<a class="btn sm" href="../../F21-settings/V1/index.html">Open Settings ▸ Account →</a>' +
+            '<button type="button" class="btn sm" id="resolveExportBundle" ' + (!rUnread ? 'disabled' : '') + '>Mark exports read</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="grid-2">' + receipts.map(function(r) {
+          return '<article class="ecard ' + (r.unread ? 'unread' : '') + '">' +
+            '<div class="ecard-top">' +
+              '<label style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;cursor:pointer">' +
+                '<input type="checkbox" class="nchk bchk" data-id="' + r.id + '" ' + (sel[r.id] ? 'checked' : '') + '> ' + r.title +
+              '</label>' +
+              (r.unread ? '<span class="badge b-info">● Unread</span>' : '<span class="badge b-neutral">✓ Read</span>') +
+            '</div>' +
+            '<p class="sub" style="line-height:1.5">' + r.body + '</p>' +
+            '<div class="ecard-foot">' +
+              '<span class="mono">' + r.ref + ' · ' + r.when + '</span>' +
+              '<div style="display:flex;gap:6px"><a class="btn sm ghost" href="../../F21-settings/V1/index.html">Account</a><button type="button" class="btn sm btoggle" data-id="' + r.id + '">' + (r.unread ? 'Mark read' : 'Mark unread') + '</button></div>' +
+            '</div></article>';
+        }).join('') + '</div></section>';
+    }
+
+    $('#boardMount').innerHTML = html;
+
+    var rq = $('#resolveQuoteBundle');
+    if (rq) rq.onclick = function(){ items.forEach(function(i){ if (i.lane === 'urgent') i.unread = false; }); Lab.toast('Quote bundle marked read'); render(); };
+    var re = $('#resolveExportBundle');
+    if (re) re.onclick = function(){ items.forEach(function(i){ if (i.lane === 'receipt') i.unread = false; }); Lab.toast('Export receipts marked read'); render(); };
+    $$('.bchk', $('#boardMount')).forEach(function(c){ c.onchange = function(){ if (c.checked) sel[c.dataset.id] = true; else delete sel[c.dataset.id]; render(); }; });
+    $$('.btoggle', $('#boardMount')).forEach(function(b){
+      b.onclick = function(){
+        var it = items.filter(function(x){ return x.id === b.dataset.id; })[0];
+        if (it) { it.unread = !it.unread; render(); }
+      };
+    });
+  }
+
+  $('#selectAllBtn').onclick = function() {
+    var vis = visible();
+    var allOn = vis.length > 0 && vis.every(function(i){ return sel[i.id]; });
+    vis.forEach(function(i){ if (!allOn) sel[i.id] = true; else delete sel[i.id]; });
+    render();
+  };
+  $('#selMarkBtn').onclick = function() {
+    items.forEach(function(i){ if (sel[i.id]) i.unread = false; });
+    sel = {};
+    Lab.toast('Selected cards marked read · POST /api/v1/notifications/read-selected');
+    render();
+  };
+  $('#selClearBtn').onclick = function(){ sel = {}; render(); };
+  $('#markAllBtn').onclick = function(){ items.forEach(function(i){ i.unread = false; }); Lab.toast('All lanes marked read'); render(); };
+  $('#clearReadBtn').onclick = function(){
+    var rem = items.filter(function(i){ return i.unread; });
+    if (rem.length === items.length) { Lab.toast('No read cards to clear'); return; }
+    items = rem; sel = {};
+    if (!items.length) Lab.setState('empty');
+    Lab.toast('Cleared read cards');
+    render();
+  };
+  $('#restoreBoardBtn').onclick = function(){ items = seed(); sel = {}; tab = 'all'; Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.onState = function(s){ if (s === 'data') render(); };
+  Lab.init({
+    actions: [
+      ['F19 V1 · Calm Inbox', '../V1/index.html'],
+      ['F19 V2 · Dense Ledger', '../V2/index.html'],
+      ['F19 V3 · Split Triage Reader', '../V3/index.html'],
+      ['F19 V4 · Priority Board (current)', 'index.html'],
+      ['F19 V5 · Catch-Up Brief Stepper', '../V5/index.html'],
+      ['Quote NL-QTE-2026-000018 (F11)', '../../F11-quote-details/V1/index.html'],
+      ['Notification Settings (F21)', '../../F21-settings/V1/index.html?tab=notifications'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

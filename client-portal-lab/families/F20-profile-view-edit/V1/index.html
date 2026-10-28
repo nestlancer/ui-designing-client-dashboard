@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Profile · V1 Calm Editorial Dossier — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F20 · V1 — Calm Editorial Public Card (Minimal archetype)
+   Centered 780px dossier card, clean View <-> Edit switch, C20 read-only visibility
+   summary linking to F21 Account settings, governed skills combobox, sticky save dock. */
+.wrap.editorial{max-width:800px;padding:28px 24px 104px}
+h1{font-size:clamp(30px,3.2vw,38px);line-height:1.15}
+.vis-banner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:var(--radius-lg);background:var(--card);margin-bottom:18px;box-shadow:var(--shadow-xs)}
+.dossier{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);box-shadow:var(--shadow-xs);overflow:hidden}
+.dos-hero{display:flex;flex-wrap:wrap;align-items:center;gap:20px;padding:26px 26px 22px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--brand-50),var(--card))}
+.dark .dos-hero{background:linear-gradient(180deg,rgba(70,95,255,.14),var(--card))}
+.av-lg{width:84px;height:84px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font:700 28px var(--mono);overflow:hidden;border:3px solid var(--card);box-shadow:var(--shadow-xs);flex:none}
+.av-lg img{width:100%;height:100%;object-fit:cover}
+.dos-sec{padding:22px 26px;border-bottom:1px solid var(--border)}
+.dos-sec:last-child{border-bottom:0}
+.kv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:10px}
+.kv-box{padding:12px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--background)}
+.kv-box small{display:block;font:600 11px var(--mono);text-transform:uppercase;color:var(--muted-foreground)}
+.kv-box b{display:block;font-size:14px;margin-top:3px;word-break:break-word}
+.skill-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.skill-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--brand-50);color:var(--primary-ink);border:1px solid var(--border);font-size:13px;font-weight:600}
+.dark .skill-pill{background:rgba(70,95,255,.18)}
+.skill-pill button{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:12px;color:inherit}
+.skill-pill button:hover{background:rgba(0,0,0,.1)}
+.form-row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.av-drop{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:14px;border:1px dashed var(--border);border-radius:var(--radius-lg);background:var(--background)}
+.combo-wrap{position:relative;margin-top:8px}
+.sug-menu{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:6px;z-index:35;max-height:210px;overflow-y:auto}
+.sug-menu[hidden]{display:none}
+.sug-opt{display:flex;justify-content:space-between;align-items:center;width:100%;padding:8px 10px;border-radius:var(--radius-sm);font-size:13px;text-align:left}
+.sug-opt:hover,.sug-opt.hi{background:var(--brand-50);color:var(--primary-ink)}
+.dark .sug-opt:hover,.dark .sug-opt.hi{background:rgba(70,95,255,.2)}
+.save-dock{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:55;display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:11px 18px;border-radius:999px;background:var(--card);border:2px solid var(--primary);box-shadow:var(--shadow-sm)}
+.save-dock[hidden]{display:none}
+.mode-tabs{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);padding:3px;gap:2px}
+.mode-tabs button{min-height:34px;padding:0 13px;border-radius:calc(var(--radius-md) - 2px);font-size:13px;font-weight:600;color:var(--muted-foreground)}
+.mode-tabs button[aria-pressed="true"]{background:var(--primary);color:#fff}
+@media(max-width:640px){
+  .wrap.editorial{padding:18px 14px 112px}
+  .dos-hero,.dos-sec{padding:18px 16px}
+  .kv-grid,.form-row2{grid-template-columns:1fr}
+  .save-dock{left:12px;right:12px;transform:none;border-radius:var(--radius-lg);justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Public profile</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="index.html"><span>AM</span> <em id="hdrName" style="font-style:normal">Arjun Mehta</em></a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F20 variants</span>
+      <a class="pill on" href="index.html" aria-current="page">V1 · Editorial Card</a>
+      <a class="pill" href="../V2/index.html">V2 · Live Split</a>
+      <a class="pill" href="../V3/index.html">V3 · Schema Ledger</a>
+      <a class="pill" href="../V4/index.html">V4 · Modular Bento</a>
+      <a class="pill" href="../V5/index.html">V5 · Readiness Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap editorial" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Account · Public Identity (C20)</div>
+          <h1>Public profile</h1>
+          <p class="lead">How your business card appears to Nestlancer project leads and delivery teams when scoping requests and milestones.</p>
+        </div>
+        <div class="acts">
+          <div class="mode-tabs" role="group" aria-label="Profile mode">
+            <button type="button" id="btnViewMode" aria-pressed="true">Public view</button>
+            <button type="button" id="btnEditMode" aria-pressed="false">Edit profile</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- C20 Honest Visibility Banner -->
+      <div class="vis-banner" role="region" aria-label="Profile visibility settings summary">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <span class="badge b-ok"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-eye"/></svg>Visibility: Public</span>
+          <span class="sub">Email &amp; phone are <b>hidden</b> on your public profile (`GET /api/v1/users/preferences`).</span>
+        </div>
+        <a class="btn sm" href="../../F21-settings/V1/index.html"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Change in Settings ▸ Account →</a>
+      </div>
+
+      <div id="saveAlert" style="margin-bottom:16px" hidden></div>
+
+      <div data-panel="data">
+        <!-- VIEW MODE -->
+        <article class="dossier" id="viewPanel" aria-label="Public profile card">
+          <div class="dos-hero">
+            <div class="av-lg" id="viewAvatar" aria-label="Avatar for Arjun Mehta">AM</div>
+            <div style="flex:1;min-width:220px">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+                <h2 id="viewFullName" style="font-size:24px">Arjun Mehta</h2>
+                <span class="badge b-info">✓ Verified Client</span>
+              </div>
+              <p id="viewHeadline" style="font-size:15px;color:var(--muted-foreground);margin-top:4px"></p>
+            </div>
+            <button type="button" class="btn pri" id="heroEditBtn">Edit profile</button>
+          </div>
+
+          <div class="dos-sec">
+            <h3>Bio</h3>
+            <p id="viewBio" style="font-size:14.5px;line-height:1.65;color:var(--foreground);margin-top:8px"></p>
+          </div>
+
+          <div class="dos-sec">
+            <h3>Skills &amp; domain tags</h3>
+            <div class="skill-list" id="viewSkills"></div>
+          </div>
+
+          <div class="dos-sec">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+              <h3>Account contact details</h3>
+              <span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-lock"/></svg>Private to your account &amp; Nestlancer ops</span>
+            </div>
+            <div class="kv-grid">
+              <div class="kv-box"><small>Email (Login ID)</small><b class="mono" id="viewEmail">arjun.mehta@nestlancer.com</b></div>
+              <div class="kv-box"><small>Phone (E.164)</small><b class="mono" id="viewPhone">+919825012345</b></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- EDIT MODE -->
+        <form class="dossier" id="editPanel" novalidate hidden aria-label="Edit public profile">
+          <div class="dos-sec">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px">
+              <h2>Profile photo</h2>
+              <label style="font-size:12px;color:var(--muted-foreground);display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+                <input type="checkbox" id="simFailChk"> Simulate save error on submit
+              </label>
+            </div>
+            <div class="av-drop">
+              <div class="av-lg" id="editAvatarPreview">AM</div>
+              <div style="flex:1;min-width:200px">
+                <b style="font-size:13.5px;display:block">Square JPG, PNG, WebP, or SVG · Max 5 MB</b>
+                <p class="sub" style="margin:3px 0 10px">Previewed locally via FileReader; production calls <span class="mono">POST /api/v1/users/avatar</span>.</p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                  <label class="btn sm" for="avatarFileInp" style="cursor:pointer"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-up"/></svg>Upload photo</label>
+                  <input id="avatarFileInp" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" class="sr-only">
+                  <button type="button" class="btn sm ghost" id="removeAvatarBtn" disabled>Remove photo</button>
+                </div>
+                <div class="errmsg" id="errAvatar" hidden></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dos-sec">
+            <h2>Identity &amp; contact</h2>
+            <div class="form-row2">
+              <div>
+                <label class="lbl" for="inpFirst">First name *</label>
+                <input class="inp" id="inpFirst" type="text" maxlength="50" required aria-describedby="hintFirst errFirst">
+                <div class="hint" id="hintFirst">2–50 characters (`UpdateProfileDto.firstName`).</div>
+                <div class="errmsg" id="errFirst" hidden></div>
+              </div>
+              <div>
+                <label class="lbl" for="inpLast">Last name *</label>
+                <input class="inp" id="inpLast" type="text" maxlength="50" required aria-describedby="hintLast errLast">
+                <div class="hint" id="hintLast">2–50 characters (`UpdateProfileDto.lastName`).</div>
+                <div class="errmsg" id="errLast" hidden></div>
+              </div>
+            </div>
+
+            <div class="form-row2" style="margin-top:6px">
+              <div>
+                <label class="lbl" for="inpEmail">Email address <span class="badge b-neutral" style="margin-left:4px">Locked</span></label>
+                <input class="inp mono" id="inpEmail" type="email" value="arjun.mehta@nestlancer.com" disabled aria-describedby="hintEmail">
+                <div class="hint" id="hintEmail">Contact support to change your email address.</div>
+              </div>
+              <div>
+                <label class="lbl" for="inpPhone">Phone (E.164 format)</label>
+                <input class="inp mono" id="inpPhone" type="tel" placeholder="+919825012345" aria-describedby="hintPhone errPhone">
+                <div class="hint" id="hintPhone">Hidden on public card unless enabled in <a href="../../F21-settings/V1/index.html" style="color:var(--primary-ink);font-weight:600">Settings ▸ Account</a>.</div>
+                <div class="errmsg" id="errPhone" hidden></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dos-sec">
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <label class="lbl" for="inpHeadline" style="margin-top:0">Headline</label>
+              <span class="mono" id="cntHeadline">57 / 160</span>
+            </div>
+            <input class="inp" id="inpHeadline" type="text" maxlength="160" aria-describedby="errHeadline">
+            <div class="errmsg" id="errHeadline" hidden></div>
+
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:14px">
+              <label class="lbl" for="inpBio" style="margin-top:0">Bio</label>
+              <span class="mono" id="cntBio">99 / 2000</span>
+            </div>
+            <textarea class="inp" id="inpBio" rows="4" maxlength="2000" aria-describedby="errBio"></textarea>
+            <div class="errmsg" id="errBio" hidden></div>
+          </div>
+
+          <div class="dos-sec">
+            <h2>Skills &amp; domain tags</h2>
+            <p class="sub">Sent as <span class="mono">skills: string[]</span> (`maxLength: 50` per tag) to <span class="mono">PATCH /api/v1/users/profile</span>. Press Enter or pick a suggestion.</p>
+            <div class="skill-list" id="editSkillChips" aria-live="polite"></div>
+
+            <div class="combo-wrap">
+              <label class="lbl" for="skillCombo">Add a skill or domain tag</label>
+              <input class="inp" id="skillCombo" type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="skillSugMenu" placeholder="Type e.g. Wholesale Distribution, ERP Integration, Supply Chain…">
+              <div class="sug-menu" id="skillSugMenu" role="listbox" hidden></div>
+            </div>
+            <div class="errmsg" id="errSkills" hidden></div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+              <button type="button" class="btn" id="cancelEditBtn">Cancel</button>
+              <button type="submit" class="btn pri"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-save"/></svg>Save changes <span class="demo">PATCH</span></button>
+            </div>
+          </div>
+        </form>
+
+        <noscript><div class="panel pad sub" style="margin-top:12px">JavaScript off: Arjun Mehta · Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale).</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-user"/></svg></div>
+          <b>Sparse public profile — bio &amp; skills not yet filled</b>
+          <p class="sub" style="max-width:46ch">Arjun Mehta (`AM`) is verified, but adding a business headline, bio, and domain tags helps Nestlancer scope quotes faster.</p>
+          <button type="button" class="btn sm pri" id="fillFromEmptyBtn">Edit profile &amp; restore frozen details</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div style="display:flex;gap:16px;align-items:center">
+            <div class="skel" style="width:76px;height:76px;border-radius:50%;margin:0"></div>
+            <div style="flex:1"><div class="skel" style="width:42%"></div><div class="skel" style="width:74%"></div></div>
+          </div>
+          <div class="skel" style="width:100%;height:70px;margin-top:18px"></div>
+          <span class="sr-only" role="status">Loading public profile…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Could not load profile</b>
+          <p><span class="mono">GET /api/v1/users/profile</span> failed to respond. Retry to load your frozen profile data.</p>
+          <button type="button" class="btn sm" id="retry">Try again</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F20 V1 Calm Editorial Dossier · Snapshots 34–35 lock</span>
+        <span><a href="../../../index.html">Lab gallery</a> · <a href="../V2/index.html">V2 Live Split →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="save-dock" id="saveDock" role="region" aria-label="Unsaved profile changes" hidden>
+  <span class="badge b-warn" id="dirtyBadge">● Unsaved changes</span>
+  <button type="button" class="btn sm" id="dockDiscardBtn">Discard</button>
+  <button type="button" class="btn sm pri" id="dockSaveBtn">Save changes</button>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var SUGGESTIONS = [
+    'Proprietor', 'B2B Trade', 'Inventory', 'GST Invoicing',
+    'Wholesale Distribution', 'ERP Integration', 'Multi-Tier Pricing',
+    'Supply Chain', 'Dealer Network', 'Procurement', 'Tally Bridge', 'Catalog Ops'
+  ];
+
+  function initialProfile() {
+    return {
+      firstName: 'Arjun',
+      lastName: 'Mehta',
+      email: 'arjun.mehta@nestlancer.com',
+      phone: '+919825012345',
+      headline: 'Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale)',
+      bio: 'Runs a wholesale distribution business in Ahmedabad; commissioning a B2B ordering portal and ERP bridge.',
+      skills: ['Proprietor', 'B2B Trade', 'Inventory', 'GST Invoicing'],
+      avatarUrl: ''
+    };
+  }
+
+  var saved = initialProfile();
+  var draft = JSON.parse(JSON.stringify(saved));
+  var mode = 'view';
+  var sugIdx = -1;
+
+  function initials(f, l) {
+    return ((f || 'A').charAt(0) + (l || 'M').charAt(0)).toUpperCase();
+  }
+
+  function isDirty() {
+    return JSON.stringify(saved) !== JSON.stringify(draft);
+  }
+
+  function renderAvatar(el, p) {
+    if (p.avatarUrl) {
+      el.innerHTML = '<img src="' + p.avatarUrl + '" alt="Profile photo of ' + p.firstName + ' ' + p.lastName + '">';
+    } else {
+      el.textContent = initials(p.firstName, p.lastName);
+    }
+  }
+
+  function syncView() {
+    renderAvatar($('#viewAvatar'), saved);
+    var full = saved.firstName + ' ' + saved.lastName;
+    $('#viewFullName').textContent = full;
+    $('#hdrName').textContent = full;
+    $('#viewHeadline').textContent = saved.headline || 'No headline added yet.';
+    $('#viewBio').textContent = saved.bio || 'No business bio provided yet.';
+    $('#viewPhone').textContent = saved.phone || 'Not provided';
+    $('#viewSkills').innerHTML = saved.skills.length
+      ? saved.skills.map(function(s){ return '<span class="skill-pill">' + s + '</span>'; }).join('')
+      : '<span class="sub">No skills listed yet.</span>';
+  }
+
+  function syncDraftInputs() {
+    $('#inpFirst').value = draft.firstName;
+    $('#inpLast').value = draft.lastName;
+    $('#inpPhone').value = draft.phone;
+    $('#inpHeadline').value = draft.headline;
+    $('#inpBio').value = draft.bio;
+    updateCounters();
+    renderAvatar($('#editAvatarPreview'), draft);
+    $('#removeAvatarBtn').disabled = !draft.avatarUrl;
+    renderEditChips();
+    updateDirtyBar();
+  }
+
+  function updateCounters() {
+    $('#cntHeadline').textContent = ($('#inpHeadline').value.length) + ' / 160';
+    $('#cntBio').textContent = ($('#inpBio').value.length) + ' / 2000';
+  }
+
+  function renderEditChips() {
+    $('#editSkillChips').innerHTML = draft.skills.map(function(s, idx) {
+      return '<span class="skill-pill">' + s +
+        '<button type="button" data-rm="' + idx + '" aria-label="Remove skill ' + s + '">×</button></span>';
+    }).join('');
+    $$('[data-rm]', $('#editSkillChips')).forEach(function(b) {
+      b.onclick = function() {
+        draft.skills.splice(+b.dataset.rm, 1);
+        renderEditChips();
+        updateDirtyBar();
+      };
+    });
+  }
+
+  function updateDirtyBar() {
+    var d = mode === 'edit' && isDirty();
+    $('#saveDock').hidden = !d;
+  }
+
+  function setMode(nextMode, force) {
+    if (mode === 'edit' && nextMode === 'view' && isDirty() && !force) {
+      Lab.openDlg('Discard unsaved profile edits?', 'You have unsaved changes to your public profile.',
+        '<p>Switching back to Public view without saving will discard your draft edits.</p>' +
+        '<div class="row"><button type="button" class="btn danger" id="confirmDiscard">Discard changes</button><button type="button" class="btn" id="keepEditing">Keep editing</button></div>');
+      $('#confirmDiscard').onclick = function() { Lab.closeDlg(); draft = JSON.parse(JSON.stringify(saved)); setMode('view', true); };
+      $('#keepEditing').onclick = Lab.closeDlg;
+      return;
+    }
+    mode = nextMode;
+    $('#btnViewMode').setAttribute('aria-pressed', String(mode === 'view'));
+    $('#btnEditMode').setAttribute('aria-pressed', String(mode === 'edit'));
+    $('#viewPanel').hidden = mode !== 'view';
+    $('#editPanel').hidden = mode !== 'edit';
+    if (mode === 'edit') {
+      draft = JSON.parse(JSON.stringify(saved));
+      clearErrors();
+      syncDraftInputs();
+    } else {
+      syncView();
+      updateDirtyBar();
+    }
+  }
+
+  function setErr(inpId, errId, msg) {
+    var inp = $('#' + inpId), er = $('#' + errId);
+    if (msg) {
+      if (inp) { inp.classList.add('inval'); inp.setAttribute('aria-invalid', 'true'); }
+      if (er) { er.textContent = msg; er.hidden = false; }
+      return false;
+    } else {
+      if (inp) { inp.classList.remove('inval'); inp.removeAttribute('aria-invalid'); }
+      if (er) { er.textContent = ''; er.hidden = true; }
+      return true;
+    }
+  }
+
+  function clearErrors() {
+    [['inpFirst','errFirst'],['inpLast','errLast'],['inpPhone','errPhone'],['inpHeadline','errHeadline'],['inpBio','errBio'],['skillCombo','errSkills']].forEach(function(p){ setErr(p[0], p[1], ''); });
+    $('#errAvatar').hidden = true;
+  }
+
+  function validateAndSave() {
+    var ok = true;
+    var f = $('#inpFirst').value.trim();
+    var l = $('#inpLast').value.trim();
+    var ph = $('#inpPhone').value.trim();
+    var hl = $('#inpHeadline').value.trim();
+    var bio = $('#inpBio').value.trim();
+
+    if (f.length < 2 || f.length > 50) ok = setErr('inpFirst', 'errFirst', 'First name must be between 2 and 50 characters.') && ok;
+    else setErr('inpFirst', 'errFirst', '');
+
+    if (l.length < 2 || l.length > 50) ok = setErr('inpLast', 'errLast', 'Last name must be between 2 and 50 characters.') && ok;
+    else setErr('inpLast', 'errLast', '');
+
+    if (ph && !/^\+[1-9]\d{6,14}$/.test(ph)) ok = setErr('inpPhone', 'errPhone', 'Enter a valid E.164 phone number starting with + (e.g. +919825012345).') && ok;
+    else setErr('inpPhone', 'errPhone', '');
+
+    if (hl.length > 160) ok = setErr('inpHeadline', 'errHeadline', 'Headline cannot exceed 160 characters.') && ok;
+    else setErr('inpHeadline', 'errHeadline', '');
+
+    if (bio.length > 2000) ok = setErr('inpBio', 'errBio', 'Bio cannot exceed 2000 characters.') && ok;
+    else setErr('inpBio', 'errBio', '');
+
+    if (!ok) {
+      Lab.toast('Please fix highlighted validation errors');
+      return;
+    }
+
+    if ($('#simFailChk').checked) {
+      $('#saveAlert').hidden = false;
+      $('#saveAlert').innerHTML = '<div class="errbox" style="margin:0"><b>Save failed (simulated 503)</b><p><span class="mono">PATCH /api/v1/users/profile</span> did not commit. Your draft is intact — uncheck simulation or click Retry save.</p><button type="button" class="btn sm" id="retrySaveNow">Retry save</button></div>';
+      $('#retrySaveNow').onclick = function(){ $('#simFailChk').checked = false; validateAndSave(); };
+      return;
+    }
+
+    draft.firstName = f; draft.lastName = l; draft.phone = ph; draft.headline = hl; draft.bio = bio;
+    saved = JSON.parse(JSON.stringify(draft));
+    $('#saveAlert').hidden = false;
+    $('#saveAlert').innerHTML = '<div class="note ok" role="status"><b>Public profile updated</b> — saved cleanly via <span class="mono">PATCH /api/v1/users/profile</span> (offline lab state).</div>';
+    Lab.toast('Profile saved');
+    setMode('view', true);
+  }
+
+  function addSkill(raw) {
+    var val = (raw || '').trim();
+    if (!val) return;
+    if (val.length > 50) { setErr('skillCombo', 'errSkills', 'Each skill tag must be 50 characters or fewer.'); return; }
+    var dup = draft.skills.some(function(s){ return s.toLowerCase() === val.toLowerCase(); });
+    if (dup) { setErr('skillCombo', 'errSkills', '"' + val + '" is already on your profile.'); return; }
+    setErr('skillCombo', 'errSkills', '');
+    draft.skills.push(val);
+    $('#skillCombo').value = '';
+    renderEditChips();
+    renderSuggestions('');
+    $('#skillSugMenu').hidden = true;
+    $('#skillCombo').setAttribute('aria-expanded', 'false');
+    updateDirtyBar();
+  }
+
+  function renderSuggestions(query) {
+    var q = (query || '').trim().toLowerCase();
+    var matches = SUGGESTIONS.filter(function(s) {
+      var taken = draft.skills.some(function(x){ return x.toLowerCase() === s.toLowerCase(); });
+      return !taken && (!q || s.toLowerCase().indexOf(q) >= 0);
+    });
+    var list = matches.slice(0, 6);
+    var menu = $('#skillSugMenu');
+    var exact = draft.skills.concat(SUGGESTIONS).some(function(x){ return x.toLowerCase() === q; });
+    var html = list.map(function(m, i) {
+      return '<button type="button" role="option" class="sug-opt ' + (i === sugIdx ? 'hi' : '') + '" data-sug="' + m + '"><span>' + m + '</span><span class="mono">Suggested</span></button>';
+    }).join('');
+    if (q && !exact) {
+      html += '<button type="button" role="option" class="sug-opt" data-sug="' + query.trim().replace(/"/g, '') + '"><span>Add "' + query.trim() + '"</span><span class="mono">Custom tag</span></button>';
+    }
+    if (!html) { menu.hidden = true; $('#skillCombo').setAttribute('aria-expanded', 'false'); return; }
+    menu.innerHTML = html;
+    menu.hidden = false;
+    $('#skillCombo').setAttribute('aria-expanded', 'true');
+    $$('[data-sug]', menu).forEach(function(b) {
+      b.onmousedown = function(e){ e.preventDefault(); addSkill(b.dataset.sug); };
+    });
+  }
+
+  ['inpFirst','inpLast','inpPhone','inpHeadline','inpBio'].forEach(function(id) {
+    $('#' + id).addEventListener('input', function() {
+      draft.firstName = $('#inpFirst').value;
+      draft.lastName = $('#inpLast').value;
+      draft.phone = $('#inpPhone').value;
+      draft.headline = $('#inpHeadline').value;
+      draft.bio = $('#inpBio').value;
+      updateCounters();
+      renderAvatar($('#editAvatarPreview'), draft);
+      updateDirtyBar();
+    });
+  });
+
+  $('#skillCombo').addEventListener('focus', function(){ sugIdx = -1; renderSuggestions(this.value); });
+  $('#skillCombo').addEventListener('input', function(){ sugIdx = -1; renderSuggestions(this.value); });
+  $('#skillCombo').addEventListener('blur', function(){ setTimeout(function(){ $('#skillSugMenu').hidden = true; $('#skillCombo').setAttribute('aria-expanded','false'); }, 150); });
+  $('#skillCombo').addEventListener('keydown', function(e) {
+    var opts = $$('[data-sug]', $('#skillSugMenu'));
+    if (e.key === 'ArrowDown' && opts.length) { e.preventDefault(); sugIdx = (sugIdx + 1) % opts.length; renderSuggestions(this.value); }
+    else if (e.key === 'ArrowUp' && opts.length) { e.preventDefault(); sugIdx = (sugIdx - 1 + opts.length) % opts.length; renderSuggestions(this.value); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (sugIdx >= 0 && opts[sugIdx]) addSkill(opts[sugIdx].dataset.sug);
+      else addSkill(this.value);
+    } else if (e.key === 'Escape') {
+      $('#skillSugMenu').hidden = true; this.setAttribute('aria-expanded','false');
+    } else if (e.key === 'Backspace' && !this.value && draft.skills.length) {
+      draft.skills.pop(); renderEditChips(); updateDirtyBar();
+    }
+  });
+
+  $('#avatarFileInp').addEventListener('change', function() {
+    var f = this.files && this.files[0];
+    if (!f) return;
+    if (f.size > 5 * 1024 * 1024) {
+      $('#errAvatar').textContent = 'Photo exceeds 5 MB maximum upload size.';
+      $('#errAvatar').hidden = false;
+      return;
+    }
+    $('#errAvatar').hidden = true;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      draft.avatarUrl = ev.target.result;
+      renderAvatar($('#editAvatarPreview'), draft);
+      $('#removeAvatarBtn').disabled = false;
+      updateDirtyBar();
+    };
+    reader.readAsDataURL(f);
+  });
+
+  $('#removeAvatarBtn').onclick = function() {
+    draft.avatarUrl = '';
+    $('#avatarFileInp').value = '';
+    renderAvatar($('#editAvatarPreview'), draft);
+    this.disabled = true;
+    updateDirtyBar();
+  };
+
+  $('#btnViewMode').onclick = function(){ setMode('view', false); };
+  $('#btnEditMode').onclick = function(){ setMode('edit', false); };
+  $('#heroEditBtn').onclick = function(){ setMode('edit', false); };
+  $('#cancelEditBtn').onclick = function(){ setMode('view', false); };
+  $('#editPanel').onsubmit = function(e){ e.preventDefault(); validateAndSave(); };
+  $('#dockSaveBtn').onclick = validateAndSave;
+  $('#dockDiscardBtn').onclick = function(){ draft = JSON.parse(JSON.stringify(saved)); syncDraftInputs(); Lab.toast('Reverted unsaved changes'); };
+  $('#fillFromEmptyBtn').onclick = function(){ saved = initialProfile(); Lab.setState('data'); setMode('edit', true); };
+
+  window.addEventListener('beforeunload', function(e) {
+    if (mode === 'edit' && isDirty()) { e.preventDefault(); e.returnValue = ''; }
+  });
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.onState = function(s){ if (s === 'data') syncView(); else $('#saveDock').hidden = true; };
+  Lab.init({
+    actions: [
+      ['F20 V1 · Editorial Card (current)', 'index.html'],
+      ['F20 V2 · Live Split Preview', '../V2/index.html'],
+      ['F20 V3 · Dense Schema Ledger', '../V3/index.html'],
+      ['F20 V4 · Modular Bento Edit', '../V4/index.html'],
+      ['F20 V5 · Readiness Stepper', '../V5/index.html'],
+      ['Settings ▸ Account Visibility (F21)', '../../F21-settings/V1/index.html'],
+      ['Notifications Inbox (F19)', '../../F19-notifications-center/V1/index.html'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  syncView();
+})();
+</script>
+</body>
+</html>

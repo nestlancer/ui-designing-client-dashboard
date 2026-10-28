@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files &amp; Storage · V3 Split Drive &amp; Live Preview Workbench — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F22 · V3 — Split Drive Browser & Live Preview Workbench (Split Workspace archetype)
+   3-pane desktop drive: 205px Source/Type Tree + 1fr Grid/List Canvas + 330px live C13 Preview Pane. */
+.wrap.drive{max-width:1260px;padding:20px 20px 76px}
+h1{font-size:clamp(28px,2.9vw,35px);line-height:1.15}
+.drive-3{display:grid;grid-template-columns:205px minmax(0,1fr) 330px;gap:14px;align-items:start}
+.dtree,.dcanvas,.dinsp{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);box-shadow:var(--shadow-xs)}
+.dtree{padding:12px;display:flex;flex-direction:column;gap:4px}
+.tree-btn{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:6px;font-size:12.5px;font-weight:600;color:var(--muted-foreground);text-align:left}
+.tree-btn:hover{background:var(--muted);color:var(--foreground)}
+.tree-btn[aria-pressed="true"]{background:var(--brand-50);color:var(--primary-ink)}
+.dark .tree-btn[aria-pressed="true"]{background:rgba(70,95,255,.18)}
+.dcanvas{padding:16px}
+.dinsp{padding:18px;position:sticky;top:74px;display:flex;flex-direction:column;gap:12px}
+.d-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.d-list{display:flex;flex-direction:column;gap:6px}
+.d-tile{border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px;background:var(--background);cursor:pointer;display:flex;flex-direction:column;gap:6px;text-align:left}
+.d-tile.sel{border-color:var(--primary);background:var(--brand-50)}
+.dark .d-tile.sel{background:rgba(70,95,255,.15)}
+.d-list .d-tile{flex-direction:row;align-items:center;justify-content:space-between}
+@media(max-width:1040px){
+  .drive-3{grid-template-columns:1fr 300px}
+  .dtree{grid-column:1/-1;flex-direction:row;flex-wrap:wrap}
+}
+@media(max-width:760px){
+  .drive-3{grid-template-columns:1fr}
+  .dinsp{position:static}
+  .d-grid{grid-template-columns:1fr}
+  .wrap.drive{padding:14px 12px 64px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../F21-settings/V1/index.html">Settings</a><span>›</span><b>Split drive &amp; preview</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F22 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Library</a>
+      <a class="pill" href="../V2/index.html">V2 · Asset Ledger</a>
+      <a class="pill on" href="index.html" aria-current="page">V3 · Split Drive</a>
+      <a class="pill" href="../V4/index.html">V4 · Dossier Hub</a>
+      <a class="pill" href="../V5/index.html">V5 · Vault Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap drive" id="main">
+      <div class="hrow" style="margin-bottom:14px">
+        <div>
+          <div class="eyebrow">3-Pane Drive Browser · Instant C13 Inspector</div>
+          <h1>Files</h1>
+          <p class="lead">Select any uploaded asset or locked contractual PDF to inspect its sheet preview, metadata, signed link, or fallback state inline.</p>
+        </div>
+        <div class="acts">
+          <span class="badge b-neutral mono" id="dQuotaPill">41.1 KB / 5 GB</span>
+          <label class="btn sm pri" for="dInp" style="cursor:pointer"><input id="dInp" type="file" multiple class="sr-only">+ Upload</label>
+        </div>
+      </div>
+
+      <div data-panel="data">
+        <div class="drive-3">
+          <!-- Left Tree -->
+          <aside class="dtree" aria-label="Drive folders and types">
+            <span class="eyebrow" style="padding:4px 8px">Sources</span>
+            <div id="dSrcTree" style="display:flex;flex-direction:column;gap:2px"></div>
+            <span class="eyebrow" style="padding:8px 8px 4px">File Types</span>
+            <div id="dTypeTree" style="display:flex;flex-direction:column;gap:2px"></div>
+          </aside>
+
+          <!-- Center Canvas -->
+          <section class="dcanvas" aria-label="Drive files">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <input class="inp" id="dSearch" type="search" aria-label="Search drive" placeholder="Search 3 uploaded + 26 vault PDFs…" style="max-width:250px;min-height:34px;padding:4px 10px">
+              <div style="display:flex;gap:6px">
+                <button type="button" class="btn sm" id="dGridBtn" aria-pressed="true">Grid</button>
+                <button type="button" class="btn sm" id="dListBtn" aria-pressed="false">List</button>
+              </div>
+            </div>
+
+            <label for="dInp" style="display:block;padding:10px 12px;border:1px dashed var(--border);border-radius:var(--radius-md);font-size:12px;text-align:center;margin-bottom:14px;cursor:pointer">
+              Drop files anywhere here to upload (`≤500 MB` · `&gt;10 MB` chunked)
+            </label>
+
+            <h2 style="font-size:14px;margin-bottom:8px">Uploaded Library (<span id="dUpCnt">3</span>)</h2>
+            <div id="dUpMount" class="d-grid" style="margin-bottom:18px"></div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <h2 style="font-size:14px">Generated Vault (13 Requests · 26 Locked PDFs)</h2>
+              <button type="button" class="btn sm ghost" id="dAllGenBtn">Show all 26</button>
+            </div>
+            <div id="dGenMount" class="d-list"></div>
+          </section>
+
+          <!-- Right C13 Live Preview Inspector -->
+          <aside class="dinsp" id="dInspector" aria-live="polite"></aside>
+        </div>
+
+        <noscript><div class="panel pad sub">JavaScript off: 41.1 KB / 5 GB · 3 uploaded files + 26 locked contractual PDFs.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-folder"/></svg></div>
+          <b>Drive folder is empty</b>
+          <p class="sub">Upload wholesale specs or switch folders in the left tree.</p>
+          <button type="button" class="btn sm pri" id="dResetBtn">Restore drive</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:220px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading split drive…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Drive preview service unavailable</b>
+          <p><span class="mono">GET /api/v1/media</span> returned an error.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F22 V3 Split Drive Workbench · Snapshots 39–40 &amp; C13 lock</span>
+        <span><a href="../V2/index.html">← V2 Asset Ledger</a> · <a href="../V4/index.html">V4 Dossier Hub →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Preview</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var SRCS = ['All Sources', 'Request Attachments', 'My Uploads', 'Project Deliverables', 'Message Attachments', 'Invoices'];
+  var TPS = ['All', 'Documents', 'Images', 'Videos', 'Archives'];
+
+  var up = [
+    { id:'u1', name:'mehta-catalog-structure.pdf', kb:18.4, mime:'application/pdf', tp:'Documents', src:'Request Attachments', locked:false, vis:'Private' },
+    { id:'u2', name:'gst-invoice-format-sample.pdf', kb:13.2, mime:'application/pdf', tp:'Documents', src:'Request Attachments', locked:false, vis:'Private' },
+    { id:'u3', name:'warehouse-barcode-spec.zip', kb:9.5, mime:'application/zip', tp:'Archives', src:'My Uploads', locked:false, vis:'Private' }
+  ];
+  var gen = [];
+  for (var i = 0; i < 13; i++) {
+    var num = String(18 - i).padStart(6, '0');
+    gen.push({ id:'g' + i + 'a', name:'quote-NL-QTE-2026-' + num + '.pdf', kb:24.8, mime:'application/pdf', tp:'Documents', src:'Invoices', locked:true, grp:'Wholesale Request #' + (13 - i) });
+    gen.push({ id:'g' + i + 'b', name:'scope-engagement-' + (13 - i) + '.pdf', kb:31.2, mime:'application/pdf', tp:'Documents', src:'Project Deliverables', locked:true, grp:'Wholesale Request #' + (13 - i) });
+  }
+
+  var curSrc = 'All Sources', curTp = 'All', view = 'grid', selId = 'u1', all26 = false;
+
+  function findById(id) {
+    return up.find(function(x){ return x.id === id; }) || gen.find(function(x){ return x.id === id; }) || up[0] || gen[0];
+  }
+
+  function renderInspector() {
+    var f = findById(selId);
+    var el = $('#dInspector');
+    if (!f) { el.innerHTML = '<p class="sub">Select a file to preview.</p>'; return; }
+
+    var previewBox = '';
+    if (f.mime === 'application/pdf') {
+      previewBox = '<div style="padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--background);font-size:12px">' +
+        '<div style="display:flex;justify-content:space-between"><b>PDF SHEET PREVIEW</b><span class="mono">p.1/2</span></div>' +
+        '<p class="sub" style="margin-top:6px">Mehta Wholesale Traders · Verified portal document (<span class="mono">' + f.kb.toFixed(1) + ' KB</span>).</p></div>';
+    } else if (f.thumb) {
+      previewBox = '<img src="' + f.thumb + '" alt="' + f.name + '" style="max-height:160px;border-radius:8px;border:1px solid var(--border)">';
+    } else {
+      previewBox = '<div style="padding:14px;border:1px dashed var(--border);border-radius:8px;background:var(--muted);text-align:center;font-size:12.5px">' +
+        '<b>No in-app preview for this file type.</b>' +
+        '<p class="sub" style="margin-top:4px">Use "Open in new tab" or Download below.</p></div>';
+    }
+
+    el.innerHTML =
+      '<div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow">C13 Inspector</span>' +
+        (f.locked ? '<span class="badge b-neutral">locked</span>' : '<span class="badge b-ok">' + f.vis + '</span>') + '</div>' +
+      '<b style="font-size:14.5px;word-break:break-word">' + f.name + '</b>' +
+      previewBox +
+      '<div class="sub mono" style="font-size:11.5px">' + f.mime + ' · ' + f.kb.toFixed(1) + ' KB · ' + f.src + '</div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:6px">' +
+        '<button type="button" class="btn sm pri" id="insNewTab">Open in new tab</button>' +
+        '<button type="button" class="btn sm" id="insDl">Download</button>' +
+        '<button type="button" class="btn sm ghost" id="insCopy">Copy link</button>' +
+        (!f.locked ? '<button type="button" class="btn sm ghost" id="insVis">Toggle ' + (f.vis==='Private'?'Public':'Private') + '</button>' +
+          '<button type="button" class="btn sm danger" id="insDel">Delete</button>' : '') +
+      '</div>';
+
+    $('#insNewTab').onclick = function(){ Lab.toast('Opened signed URL in new tab'); };
+    $('#insDl').onclick = function(){ Lab.toast('Downloading ' + f.name); };
+    $('#insCopy').onclick = function(){ Lab.toast('Copied 15-min signed link'); };
+    if ($('#insVis')) $('#insVis').onclick = function(){ f.vis = f.vis === 'Private' ? 'Public' : 'Private'; render(); };
+    if ($('#insDel')) $('#insDel').onclick = function(){ up = up.filter(function(x){ return x.id !== f.id; }); selId = (up[0] || gen[0]).id; Lab.toast('Deleted ' + f.name); render(); };
+  }
+
+  function render() {
+    $('#dSrcTree').innerHTML = SRCS.map(function(s){
+      return '<button type="button" class="tree-btn" data-s="' + s + '" aria-pressed="' + (curSrc===s?'true':'false') + '"><span>' + s + '</span></button>';
+    }).join('');
+    $$('[data-s]', $('#dSrcTree')).forEach(function(b){ b.onclick = function(){ curSrc = b.dataset.s; render(); }; });
+
+    $('#dTypeTree').innerHTML = TPS.map(function(t){
+      return '<button type="button" class="tree-btn" data-t="' + t + '" aria-pressed="' + (curTp===t?'true':'false') + '"><span>' + t + '</span></button>';
+    }).join('');
+    $$('[data-t]', $('#dTypeTree')).forEach(function(b){ b.onclick = function(){ curTp = b.dataset.t; render(); }; });
+
+    var tot = up.reduce(function(a, x){ return a + x.kb; }, 0);
+    $('#dQuotaPill').textContent = tot.toFixed(1) + ' KB / 5 GB';
+
+    var q = $('#dSearch').value.trim().toLowerCase();
+    var uList = up.filter(function(f) {
+      if (curSrc !== 'All Sources' && f.src !== curSrc) return false;
+      if (curTp !== 'All' && f.tp !== curTp) return false;
+      if (q && f.name.toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+    $('#dUpCnt').textContent = String(uList.length);
+    $('#dUpMount').className = view === 'grid' ? 'd-grid' : 'd-list';
+    $('#dUpMount').innerHTML = uList.map(function(f) {
+      return '<button type="button" class="d-tile ' + (selId===f.id?'sel':'') + '" data-pick="' + f.id + '">' +
+        '<b style="font-size:13px;word-break:break-word">' + f.name + '</b>' +
+        '<span class="sub mono" style="font-size:11.5px">' + f.kb.toFixed(1) + ' KB · ' + f.tp + '</span></button>';
+    }).join('') || '<p class="sub">No matching uploaded files.</p>';
+
+    var gList = gen.filter(function(g) {
+      if (curTp !== 'All' && curTp !== 'Documents') return false;
+      if (q && (g.name + ' ' + g.grp).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+    var gShown = all26 ? gList : gList.slice(0, 6);
+    $('#dAllGenBtn').textContent = all26 ? 'Show 6' : 'Show all ' + gList.length;
+    $('#dGenMount').innerHTML = gShown.map(function(g) {
+      return '<button type="button" class="d-tile ' + (selId===g.id?'sel':'') + '" data-pick="' + g.id + '">' +
+        '<span class="mono" style="font-size:12.5px"><b>' + g.name + '</b> <span class="sub">(' + g.grp + ')</span></span>' +
+        '<span class="badge b-neutral">locked</span></button>';
+    }).join('');
+
+    $$('[data-pick]').forEach(function(b){ b.onclick = function(){ selId = b.dataset.pick; render(); }; });
+    renderInspector();
+  }
+
+  $('#dInp').onchange = function() {
+    Array.prototype.forEach.call(this.files || [], function(f) {
+      var item = { id:'up' + Date.now(), name:f.name, kb:Math.max(1, f.size/1024), mime:f.type||'application/octet-stream', tp:f.type.indexOf('image/')===0?'Images':'Documents', src:'My Uploads', locked:false, vis:'Private' };
+      selId = item.id;
+      if (f.type.indexOf('image/') === 0) { var r = new FileReader(); r.onload = function(ev){ item.thumb = ev.target.result; up.unshift(item); render(); }; r.readAsDataURL(f); }
+      else { up.unshift(item); render(); }
+    });
+    this.value = '';
+  };
+  $('#dSearch').oninput = render;
+  $('#dGridBtn').onclick = function(){ view = 'grid'; this.setAttribute('aria-pressed','true'); $('#dListBtn').setAttribute('aria-pressed','false'); render(); };
+  $('#dListBtn').onclick = function(){ view = 'list'; this.setAttribute('aria-pressed','true'); $('#dGridBtn').setAttribute('aria-pressed','false'); render(); };
+  $('#dAllGenBtn').onclick = function(){ all26 = !all26; render(); };
+  $('#dResetBtn').onclick = function(){ Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F22 V1 · Calm Unified Library', '../V1/index.html'],
+      ['F22 V2 · Asset Ledger', '../V2/index.html'],
+      ['F22 V3 · Split Drive (current)', 'index.html'],
+      ['F22 V4 · Engagement Dossier Hub', '../V4/index.html'],
+      ['F22 V5 · Guided Vault Stepper', '../V5/index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

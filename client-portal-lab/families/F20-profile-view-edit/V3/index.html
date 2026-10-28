@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Profile · V3 Dense Identity &amp; Schema Ledger — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F20 · V3 — Dense Identity & Schema Ledger (Dense archetype)
+   1060px specification ledger mapping every field to UpdateProfileDto & C20 exposure. */
+.wrap.ledger{max-width:1100px;padding:22px 20px 88px}
+h1{font-size:clamp(30px,3vw,36px);line-height:1.15}
+.top-id{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:14px 18px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);margin-bottom:14px;box-shadow:var(--shadow-xs)}
+.av-md{width:52px;height:52px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font:700 18px var(--mono);overflow:hidden;flex:none}
+.av-md img{width:100%;height:100%;object-fit:cover}
+.spec-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.spec-tbl thead th{padding:9px 14px;font-size:11px}
+.spec-tbl tbody td{padding:12px 14px;vertical-align:top;border-bottom:1px solid var(--border)}
+.spec-tbl tbody tr:last-child td{border-bottom:0}
+.f-lbl{font-weight:700;color:var(--foreground);display:block}
+.f-dto{font:500 11px var(--mono);color:var(--muted-foreground)}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px}
+.tpill{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:6px;background:var(--brand-50);color:var(--primary-ink);border:1px solid var(--border);font-size:12px;font-weight:600}
+.dark .tpill{background:rgba(70,95,255,.18)}
+.sticky-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:55;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--card);border:2px solid var(--primary);box-shadow:var(--shadow-sm)}
+.sticky-bar[hidden]{display:none}
+@media(max-width:760px){
+  .wrap.ledger{padding:16px 12px 96px}
+  .spec-tbl tbody td{text-align:left!important;flex-direction:column;align-items:flex-start;gap:4px}
+  .sticky-bar{left:12px;right:12px;transform:none;border-radius:var(--radius-lg);justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Public profile ledger</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F20 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Editorial Card</a>
+      <a class="pill" href="../V2/index.html">V2 · Live Split</a>
+      <a class="pill on" href="index.html" aria-current="page">V3 · Schema Ledger</a>
+      <a class="pill" href="../V4/index.html">V4 · Modular Bento</a>
+      <a class="pill" href="../V5/index.html">V5 · Readiness Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap ledger" id="main">
+      <div class="hrow" style="margin-bottom:14px">
+        <div>
+          <div class="eyebrow">Dense Specification Sheet · Field Exposure &amp; DTO Rules</div>
+          <h1>Public profile</h1>
+          <p class="lead">Inspect and edit every profile attribute in one dense specification table — pairing values, API validation constraints, and public exposure rules.</p>
+        </div>
+        <div class="acts">
+          <button type="button" class="btn sm pri" id="modeSwitchBtn">Edit ledger rows</button>
+          <a class="btn sm" href="../../F21-settings/V1/index.html">Privacy in Settings ▸ Account →</a>
+        </div>
+      </div>
+
+      <div id="msgBox" style="margin-bottom:12px" hidden></div>
+
+      <div data-panel="data">
+        <div class="top-id">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div class="av-md" id="topAv">AM</div>
+            <div>
+              <b id="topTitle" style="font-size:15px;display:block">Arjun Mehta</b>
+              <span class="sub" id="topSub">Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale)</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <span class="badge b-ok"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-eye"/></svg>Public profile</span>
+            <span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-lock"/></svg>Email &amp; phone hidden (`F21`)</span>
+          </div>
+        </div>
+
+        <section class="panel" aria-label="Profile field specification ledger">
+          <div class="tblwrap">
+            <table class="spec-tbl">
+              <caption class="sr-only">Public profile fields, values, and privacy exposure</caption>
+              <thead>
+                <tr>
+                  <th style="width:220px">Field &amp; DTO Schema</th>
+                  <th>Current Value / Edit Control</th>
+                  <th style="width:240px">Public Exposure (C20)</th>
+                </tr>
+              </thead>
+              <tbody id="specBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <noscript><div class="panel pad sub" style="margin-top:12px">JavaScript off: Arjun Mehta · +919825012345 · Skills: Proprietor, B2B Trade, Inventory, GST Invoicing.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-user"/></svg></div>
+          <b>Optional profile rows empty</b>
+          <p class="sub">Headline, bio, and skills array are currently blank.</p>
+          <button type="button" class="btn sm pri" id="restoreLedgerBtn">Restore frozen ledger</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:38px"></div>
+          <div class="skel" style="width:100%;height:38px"></div>
+          <div class="skel" style="width:100%;height:38px"></div>
+          <span class="sr-only" role="status">Loading profile ledger…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Schema fetch failed</b>
+          <p><span class="mono">GET /api/v1/users/profile</span> timed out. Retry to populate the ledger.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F20 V3 Dense Identity Ledger · Snapshots 34–35 lock</span>
+        <span><a href="../V2/index.html">← V2 Live Split</a> · <a href="../V4/index.html">V4 Modular Bento →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="sticky-bar" id="stickyBar" hidden>
+  <span class="mono" id="diffCnt">Editing ledger</span>
+  <label style="font-size:12px;cursor:pointer"><input type="checkbox" id="failToggle"> Simulate 500</label>
+  <button type="button" class="btn sm" id="cancelLedgerBtn">Cancel</button>
+  <button type="button" class="btn sm pri" id="saveLedgerBtn"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-save"/></svg>Save changes</button>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var SUGS = ['Wholesale Distribution', 'ERP Integration', 'Multi-Tier Pricing', 'Supply Chain', 'Procurement'];
+  function seed() {
+    return {
+      firstName:'Arjun', lastName:'Mehta', email:'arjun.mehta@nestlancer.com', phone:'+919825012345',
+      headline:'Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale)',
+      bio:'Runs a wholesale distribution business in Ahmedabad; commissioning a B2B ordering portal and ERP bridge.',
+      skills:['Proprietor', 'B2B Trade', 'Inventory', 'GST Invoicing'],
+      avatar:''
+    };
+  }
+
+  var state = seed(), draft = JSON.parse(JSON.stringify(state)), editing = false, errs = {};
+
+  function diffCount() {
+    var c = 0;
+    ['firstName','lastName','phone','headline','bio','avatar'].forEach(function(k){ if (state[k] !== draft[k]) c++; });
+    if (JSON.stringify(state.skills) !== JSON.stringify(draft.skills)) c++;
+    return c;
+  }
+
+  function renderTop() {
+    var av = $('#topAv');
+    if (state.avatar) av.innerHTML = '<img src="' + state.avatar + '" alt="Avatar of ' + state.firstName + '">';
+    else av.textContent = ((state.firstName||'A')[0] + (state.lastName||'M')[0]).toUpperCase();
+    $('#topTitle').textContent = state.firstName + ' ' + state.lastName;
+    $('#topSub').textContent = state.headline;
+  }
+
+  function render() {
+    renderTop();
+    $('#modeSwitchBtn').textContent = editing ? 'Return to read view' : 'Edit ledger rows';
+    $('#stickyBar').hidden = !editing;
+    var dc = diffCount();
+    $('#diffCnt').textContent = dc ? dc + ' field(s) modified' : '0 fields modified';
+
+    if (!editing) {
+      $('#specBody').innerHTML =
+        '<tr><td data-label="Field"><span class="f-lbl">Avatar</span><span class="f-dto">POST /users/avatar · ≤5 MB</span></td>' +
+          '<td data-label="Value">' + (state.avatar ? 'Custom uploaded photo' : 'Monogram fallback (<span class="mono">AM</span>)') + '</td>' +
+          '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+        '<tr><td data-label="Field"><span class="f-lbl">First &amp; Last Name</span><span class="f-dto">firstName, lastName · 2–50 chars</span></td>' +
+          '<td data-label="Value"><b>' + state.firstName + ' ' + state.lastName + '</b></td>' +
+          '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+        '<tr><td data-label="Field"><span class="f-lbl">Email address</span><span class="f-dto">Immutable login ID</span></td>' +
+          '<td data-label="Value" class="mono">' + state.email + ' <span class="sub">(Contact support to change)</span></td>' +
+          '<td data-label="Exposure"><span class="badge b-neutral">🔒 Hidden (<a href="../../F21-settings/V1/index.html" style="color:var(--primary-ink)">F21</a>)</span></td></tr>' +
+        '<tr><td data-label="Field"><span class="f-lbl">Phone number</span><span class="f-dto">phone · E.164 regex</span></td>' +
+          '<td data-label="Value" class="mono">' + (state.phone || '—') + '</td>' +
+          '<td data-label="Exposure"><span class="badge b-neutral">🔒 Hidden (<a href="../../F21-settings/V1/index.html" style="color:var(--primary-ink)">F21</a>)</span></td></tr>' +
+        '<tr><td data-label="Field"><span class="f-lbl">Headline</span><span class="f-dto">headline · maxLength 160</span></td>' +
+          '<td data-label="Value">' + state.headline + '</td>' +
+          '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+        '<tr><td data-label="Field"><span class="f-lbl">Bio</span><span class="f-dto">bio · maxLength 2000</span></td>' +
+          '<td data-label="Value">' + state.bio + '</td>' +
+          '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+        '<tr><td data-label="Field"><span class="f-lbl">Skills</span><span class="f-dto">skills: string[] · ≤50/tag</span></td>' +
+          '<td data-label="Value"><div class="tag-row">' + state.skills.map(function(s){ return '<span class="tpill">' + s + '</span>'; }).join('') + '</div></td>' +
+          '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>';
+      return;
+    }
+
+    $('#specBody').innerHTML =
+      '<tr><td data-label="Field"><span class="f-lbl">Avatar</span><span class="f-dto">JPG/PNG/WebP/SVG ≤5 MB</span></td>' +
+        '<td data-label="Control"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
+          '<label class="btn sm" for="lAvInp" style="cursor:pointer">Upload photo</label><input id="lAvInp" type="file" accept="image/*" class="sr-only">' +
+          '<button type="button" class="btn sm ghost" id="lAvRm" ' + (!draft.avatar ? 'disabled' : '') + '>Remove</button></div></td>' +
+        '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+      '<tr><td data-label="Field"><label class="f-lbl" for="lFirst">First &amp; Last Name *</label><span class="f-dto">2–50 chars each</span></td>' +
+        '<td data-label="Control"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+          '<input class="inp ' + (errs.first ? 'inval' : '') + '" id="lFirst" value="' + draft.firstName.replace(/"/g,'&quot;') + '" aria-label="First name">' +
+          '<input class="inp ' + (errs.last ? 'inval' : '') + '" id="lLast" value="' + draft.lastName.replace(/"/g,'&quot;') + '" aria-label="Last name"></div>' +
+          (errs.first || errs.last ? '<div class="errmsg">' + (errs.first || errs.last) + '</div>' : '') + '</td>' +
+        '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+      '<tr><td data-label="Field"><label class="f-lbl" for="lEmail">Email (locked)</label><span class="f-dto">Support-managed</span></td>' +
+        '<td data-label="Control"><input class="inp mono" id="lEmail" value="' + draft.email + '" disabled></td>' +
+        '<td data-label="Exposure"><a href="../../F21-settings/V1/index.html" style="color:var(--primary-ink);font-weight:600;font-size:12px">Settings ▸ Account →</a></td></tr>' +
+      '<tr><td data-label="Field"><label class="f-lbl" for="lPhone">Phone</label><span class="f-dto">E.164 (+country...)</span></td>' +
+        '<td data-label="Control"><input class="inp mono ' + (errs.phone ? 'inval' : '') + '" id="lPhone" value="' + draft.phone + '">' +
+          (errs.phone ? '<div class="errmsg">' + errs.phone + '</div>' : '') + '</td>' +
+        '<td data-label="Exposure"><a href="../../F21-settings/V1/index.html" style="color:var(--primary-ink);font-weight:600;font-size:12px">Settings ▸ Account →</a></td></tr>' +
+      '<tr><td data-label="Field"><label class="f-lbl" for="lHead">Headline</label><span class="f-dto" id="lHeadCnt">' + draft.headline.length + '/160</span></td>' +
+        '<td data-label="Control"><input class="inp" id="lHead" maxlength="160" value="' + draft.headline.replace(/"/g,'&quot;') + '"></td>' +
+        '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+      '<tr><td data-label="Field"><label class="f-lbl" for="lBio">Bio</label><span class="f-dto" id="lBioCnt">' + draft.bio.length + '/2000</span></td>' +
+        '<td data-label="Control"><textarea class="inp" id="lBio" rows="3" maxlength="2000">' + draft.bio + '</textarea></td>' +
+        '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>' +
+      '<tr><td data-label="Field"><label class="f-lbl" for="lSkill">Skills</label><span class="f-dto">Autocomplete array</span></td>' +
+        '<td data-label="Control"><div class="tag-row" style="margin-bottom:8px">' + draft.skills.map(function(s, i){
+            return '<span class="tpill">' + s + ' <button type="button" data-srm="' + i + '" aria-label="Remove ' + s + '">×</button></span>';
+          }).join('') + '</div>' +
+          '<div style="display:flex;gap:6px"><input class="inp" id="lSkill" placeholder="Add skill tag…"><button type="button" class="btn sm" id="lSkillAdd">Add</button></div>' +
+          '<div class="tag-row" style="margin-top:6px">' + SUGS.filter(function(x){ return draft.skills.indexOf(x) < 0; }).map(function(x){
+            return '<button type="button" class="btn sm ghost" data-sug="' + x + '" style="min-height:28px;padding:0 8px">+ ' + x + '</button>';
+          }).join('') + '</div></td>' +
+        '<td data-label="Exposure"><span class="badge b-ok">✓ Public card</span></td></tr>';
+
+    ['lFirst','lLast','lPhone','lHead','lBio'].forEach(function(id) {
+      $('#' + id).oninput = function() {
+        draft.firstName = $('#lFirst').value;
+        draft.lastName = $('#lLast').value;
+        draft.phone = $('#lPhone').value;
+        draft.headline = $('#lHead').value;
+        draft.bio = $('#lBio').value;
+        $('#lHeadCnt').textContent = draft.headline.length + '/160';
+        $('#lBioCnt').textContent = draft.bio.length + '/2000';
+        $('#diffCnt').textContent = diffCount() + ' field(s) modified';
+      };
+    });
+    $$('[data-srm]', $('#specBody')).forEach(function(b){ b.onclick = function(){ draft.skills.splice(+b.dataset.srm, 1); render(); }; });
+    $$('[data-sug]', $('#specBody')).forEach(function(b){ b.onclick = function(){ draft.skills.push(b.dataset.sug); render(); }; });
+    function addS() {
+      var v = $('#lSkill').value.trim();
+      if (v && !draft.skills.some(function(x){ return x.toLowerCase() === v.toLowerCase(); })) { draft.skills.push(v); render(); }
+    }
+    $('#lSkillAdd').onclick = addS;
+    $('#lSkill').onkeydown = function(e){ if (e.key === 'Enter'){ e.preventDefault(); addS(); } };
+    $('#lAvInp').onchange = function() {
+      var f = this.files && this.files[0]; if (!f) return;
+      var r = new FileReader(); r.onload = function(ev){ draft.avatar = ev.target.result; render(); }; r.readAsDataURL(f);
+    };
+    $('#lAvRm').onclick = function(){ draft.avatar = ''; render(); };
+  }
+
+  function tryCloseEdit() {
+    if (diffCount() > 0) {
+      Lab.openDlg('Unsaved ledger changes', 'Discard modified profile fields?',
+        '<p>You have ' + diffCount() + ' modified field(s).</p><div class="row"><button class="btn danger" id="cYes">Discard</button><button class="btn" id="cNo">Keep editing</button></div>');
+      $('#cYes').onclick = function(){ Lab.closeDlg(); draft = JSON.parse(JSON.stringify(state)); editing = false; errs = {}; render(); };
+      $('#cNo').onclick = Lab.closeDlg;
+      return;
+    }
+    editing = false; errs = {}; render();
+  }
+
+  $('#modeSwitchBtn').onclick = function() {
+    if (editing) tryCloseEdit();
+    else { draft = JSON.parse(JSON.stringify(state)); errs = {}; editing = true; render(); }
+  };
+  $('#cancelLedgerBtn').onclick = tryCloseEdit;
+
+  $('#saveLedgerBtn').onclick = function() {
+    errs = {};
+    if (draft.firstName.trim().length < 2) errs.first = 'First name must be 2–50 chars.';
+    if (draft.lastName.trim().length < 2) errs.last = 'Last name must be 2–50 chars.';
+    if (draft.phone.trim() && !/^\+[1-9]\d{6,14}$/.test(draft.phone.trim())) errs.phone = 'Invalid E.164 phone.';
+    if (Object.keys(errs).length) { Lab.toast('Validation failed'); render(); return; }
+
+    if ($('#failToggle').checked) {
+      $('#msgBox').hidden = false;
+      $('#msgBox').innerHTML = '<div class="errbox" style="margin:0"><b>PATCH /api/v1/users/profile failed (simulated)</b><p>Uncheck "Simulate 500" and click Save changes again.</p></div>';
+      return;
+    }
+    state = JSON.parse(JSON.stringify(draft));
+    editing = false;
+    $('#msgBox').hidden = false;
+    $('#msgBox').innerHTML = '<div class="note ok" role="status"><b>Ledger saved</b> — all public profile fields updated cleanly.</div>';
+    Lab.toast('Ledger saved');
+    render();
+  };
+
+  $('#restoreLedgerBtn').onclick = function(){ state = seed(); draft = seed(); Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F20 V1 · Editorial Card', '../V1/index.html'],
+      ['F20 V2 · Live Split Preview', '../V2/index.html'],
+      ['F20 V3 · Schema Ledger (current)', 'index.html'],
+      ['F20 V4 · Modular Bento Edit', '../V4/index.html'],
+      ['F20 V5 · Readiness Stepper', '../V5/index.html'],
+      ['Settings ▸ Account Visibility (F21)', '../../F21-settings/V1/index.html'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

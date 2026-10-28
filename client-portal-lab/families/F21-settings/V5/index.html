@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · V5 Guided Account Hardening Walkthrough — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F21 · V5 — Guided Account Hardening Walkthrough (Narrative / Stepper-led archetype)
+   4-pillar guided stepper + live Hardening Score rail (60% -> 100%) covering all 5 Settings domains. */
+.wrap.harden{max-width:1160px;padding:24px 22px 84px}
+h1{font-size:clamp(30px,3vw,36px);line-height:1.15}
+.pillar-bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.pil{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);text-align:left;box-shadow:var(--shadow-xs)}
+.pil[aria-current="step"]{border-color:var(--primary);background:var(--brand-50)}
+.dark .pil[aria-current="step"]{background:rgba(70,95,255,.16)}
+.pil-n{width:26px;height:26px;border-radius:50%;background:var(--muted);border:1px solid var(--border);font:700 12px var(--mono);display:grid;place-items:center;flex:none}
+.pil[aria-current="step"] .pil-n{background:var(--primary);color:#fff;border-color:var(--primary)}
+.h-grid{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(280px,1fr);gap:18px;align-items:start}
+.h-stage,.h-rail{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:22px;box-shadow:var(--shadow-xs)}
+.h-rail{position:sticky;top:74px;display:flex;flex-direction:column;gap:14px}
+.meter{height:10px;border-radius:999px;background:var(--muted);overflow:hidden;border:1px solid var(--border)}
+.meter > i{display:block;height:100%;background:var(--primary);transition:width var(--duration-normal)}
+
+.sw{position:relative;display:inline-flex;align-items:center;width:42px;height:24px;border-radius:999px;background:var(--border);border:1px solid var(--border);padding:2px;flex:none}
+.sw::after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;transition:transform var(--duration-fast)}
+.sw[aria-checked="true"]{background:var(--primary);border-color:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(18px)}
+
+.hmx-hd,.hmx-rw{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,82px);align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--border)}
+.hmx-hd{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted-foreground)}
+.hmx-rw:last-child{border-bottom:0}
+.hmx-c{display:flex;align-items:center;justify-content:center;gap:6px}
+.hmx-l{display:none;font-size:12px;font-weight:600;color:var(--muted-foreground)}
+
+@media(max-width:920px){
+  .pillar-bar{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .h-grid{grid-template-columns:1fr}
+  .h-rail{position:static}
+}
+@media(max-width:600px){
+  .pillar-bar{grid-template-columns:1fr}
+  .wrap.harden{padding:16px 12px 64px}
+  .hmx-hd{display:none}
+  .hmx-rw{grid-template-columns:1fr;gap:6px}
+  .hmx-c{justify-content:space-between;padding:5px 10px;background:var(--muted);border-radius:var(--radius-md)}
+  .hmx-l{display:inline}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Account hardening walkthrough</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F21 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Tabs</a>
+      <a class="pill" href="../V2/index.html">V2 · Left-Rail</a>
+      <a class="pill" href="../V3/index.html">V3 · Audit Console</a>
+      <a class="pill" href="../V4/index.html">V4 · Posture Deck</a>
+      <a class="pill on" href="index.html" aria-current="page">V5 · Hardening Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap harden" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">4-Pillar Account Hardening Walkthrough</div>
+          <h1>Settings</h1>
+          <p class="lead">Step through Regional &amp; Privacy, Two-Factor Security, Device &amp; Audit Hygiene, and Notification Cadence — or jump straight to any pillar.</p>
+        </div>
+        <div class="acts">
+          <a class="btn sm" href="../../F20-profile-view-edit/V1/index.html">Public Profile (`F20`)</a>
+          <a class="btn sm" href="../../F22-settings-files/V1/index.html">Files (`F22`)</a>
+        </div>
+      </div>
+
+      <div id="hBanner" style="margin-bottom:14px" hidden></div>
+
+      <div data-panel="data">
+        <nav class="pillar-bar" id="pillarBar" aria-label="Settings hardening pillars"></nav>
+
+        <div class="h-grid">
+          <section class="h-stage" id="hStageMount" aria-live="polite"></section>
+
+          <aside class="h-rail" aria-label="Hardening score and checklist">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline">
+                <h2 style="font-size:17px">Hardening score</h2>
+                <b class="mono" id="hScoreTxt">60%</b>
+              </div>
+              <p class="sub" style="margin:4px 0 10px" id="hScoreSub">3 of 5 security &amp; privacy signals hardened</p>
+              <div class="meter"><i id="hScoreBar" style="width:60%"></i></div>
+            </div>
+            <ul id="hChecklist" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:13px"></ul>
+          </aside>
+        </div>
+
+        <noscript><div class="panel pad sub">JavaScript off: Guided Settings Hardening for Arjun Mehta.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-check"/></svg></div>
+          <b>Hardening walkthrough at 100%</b>
+          <p class="sub">2FA enabled, secondary devices signed out, and contact visibility protected.</p>
+          <button type="button" class="btn sm pri" id="hResetBtn">Reset walkthrough</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:180px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading hardening walkthrough…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Could not load hardening checklist</b>
+          <p><span class="mono">GET /api/v1/users/preferences</span> failed.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F21 V5 Guided Account Hardening · Snapshots 36–38, 41–42 lock</span>
+        <span><a href="../V4/index.html">← V4 Posture Deck</a> · <a href="../../F22-settings-files/V1/index.html">F22 Files →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var CATS = [
+    { id:'p', label:'Project Updates', email:true, inApp:true, push:true },
+    { id:'m', label:'Milestones', email:true, inApp:true, push:false },
+    { id:'d', label:'Deliverables', email:true, inApp:true, push:true },
+    { id:'q', label:'Quotes & Proposals', email:true, inApp:true, push:true },
+    { id:'b', label:'Payments & Invoices', email:true, inApp:true, push:true },
+    { id:'c', label:'Messages', email:true, inApp:true, push:true }
+  ];
+
+  var st = {
+    pillar:0, vis:'Public', showEmail:false, showPhone:false, qh:false,
+    tfa:false, tfaStep:0, otherSessions:2, delPending:false, burstOpen:false
+  };
+
+  var PILLARS = [
+    ['Regional & Privacy', 'IST, INR & C20 visibility'],
+    ['2FA & Password', '3-step TOTP & rotation'],
+    ['Sessions & Audit', '3-tier revoke + 50 events'],
+    ['Alerts & Data Rights', '19 switches + export/delete']
+  ];
+
+  function render() {
+    var checks = [
+      ['IST & INR regional formatting', true],
+      ['Email & phone hidden publicly (C20)', !st.showEmail && !st.showPhone],
+      ['19 notification switches configured', true],
+      ['Two-factor authentication (TOTP)', st.tfa],
+      ['Secondary sessions signed out', st.otherSessions === 0]
+    ];
+    var okCnt = checks.filter(function(c){ return c[1]; }).length;
+    var pct = okCnt * 20;
+    $('#hScoreTxt').textContent = pct + '%';
+    $('#hScoreSub').textContent = okCnt + ' of 5 security & privacy signals hardened';
+    $('#hScoreBar').style.width = pct + '%';
+    $('#hChecklist').innerHTML = checks.map(function(c) {
+      return '<li style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:var(--radius-md);background:var(--muted)"><span>' + c[0] + '</span>' +
+        (c[1] ? '<span class="badge b-ok">✓ Done</span>' : '<span class="badge b-warn">Pending</span>') + '</li>';
+    }).join('');
+
+    $('#pillarBar').innerHTML = PILLARS.map(function(p, i) {
+      return '<button type="button" class="pil" data-pl="' + i + '" ' + (i === st.pillar ? 'aria-current="step"' : '') + '>' +
+        '<span class="pil-n">' + (i + 1) + '</span><span><b style="display:block;font-size:13px">' + p[0] + '</b><span class="sub" style="font-size:11.5px">' + p[1] + '</span></span></button>';
+    }).join('');
+    $$('[data-pl]', $('#pillarBar')).forEach(function(b){ b.onclick = function(){ st.pillar = +b.dataset.pl; render(); }; });
+
+    var m = $('#hStageMount');
+    if (st.pillar === 0) {
+      m.innerHTML = '<span class="eyebrow">Pillar 1 of 4 · Account &amp; C20 Visibility</span><h2 style="margin:4px 0 12px">Regional defaults &amp; public exposure</h2>' +
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">' +
+          '<div><label class="lbl" for="hLang" style="margin-top:0">Language</label><select class="inp" id="hLang"><option>English</option><option>Hindi</option></select></div>' +
+          '<div><label class="lbl" for="hTz" style="margin-top:0">Timezone</label><select class="inp" id="hTz"><option>Asia/Kolkata (IST)</option><option>UTC</option></select></div>' +
+          '<div><label class="lbl" for="hCur" style="margin-top:0">Currency</label><select class="inp" id="hCur"><option>INR (₹)</option><option>USD ($)</option></select></div>' +
+        '</div>' +
+        '<div style="max-width:300px;margin-bottom:12px"><label class="lbl" for="hVis" style="margin-top:0">Profile visibility</label><select class="inp" id="hVis"><option ' + (st.vis==='Public'?'selected':'') + '>Public</option><option ' + (st.vis==='Collaborators'?'selected':'') + '>Collaborators</option><option ' + (st.vis==='Private'?'selected':'') + '>Private</option></select></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--border)"><span>Show email publicly</span><button type="button" class="sw" role="switch" id="hSwEm" aria-checked="' + st.showEmail + '" aria-label="Show email publicly"></button></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid var(--border)"><span>Show phone publicly</span><button type="button" class="sw" role="switch" id="hSwPh" aria-checked="' + st.showPhone + '" aria-label="Show phone publicly"></button></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px"><a class="btn sm ghost" href="../../F20-profile-view-edit/V1/index.html">Preview F20 card →</a><button type="button" class="btn pri" id="hNext1">Save &amp; continue to 2FA →</button></div>';
+      $('#hVis').onchange = function(){ st.vis = this.value; };
+      $('#hSwEm').onclick = function(){ st.showEmail = !st.showEmail; render(); };
+      $('#hSwPh').onclick = function(){ st.showPhone = !st.showPhone; render(); };
+      $('#hNext1').onclick = function(){ Lab.toast('Saved Pillar 1'); st.pillar = 1; render(); };
+    } else if (st.pillar === 1) {
+      var tfaHtml = '';
+      if (st.tfa) {
+        tfaHtml = '<div class="note ok"><b>2FA active (+20% score)</b> · Backup code <span class="mono">NL-8492-1104</span></div><button type="button" class="btn sm danger" id="h2Off" style="margin-top:10px">Disable 2FA</button>';
+      } else if (st.tfaStep === 0) {
+        tfaHtml = '<button type="button" class="btn pri" id="h2Start">Start 3-step 2FA setup (+20% score)</button>';
+      } else if (st.tfaStep === 1) {
+        tfaHtml = '<label class="lbl" for="h2Pw">Step 1/3 · Verify current password *</label><input class="inp" id="h2Pw" type="password" placeholder="Current password"><div style="margin-top:10px"><button type="button" class="btn pri" id="h2S1">Continue to QR →</button></div>';
+      } else if (st.tfaStep === 2) {
+        tfaHtml = '<p class="sub">Step 2/3 · Scan QR in Authenticator app or copy secret <code class="mono">JBSWY3DPEHPK3PXP</code></p><div style="margin-top:10px"><button type="button" class="btn pri" id="h2S2">Enter 6-digit OTP →</button></div>';
+      } else {
+        tfaHtml = '<label class="lbl" for="h2Code">Step 3/3 · 6-digit verification code *</label><input class="inp mono" id="h2Code" maxlength="6" placeholder="123456" style="max-width:180px"><div style="margin-top:10px"><button type="button" class="btn pri" id="h2S3">Verify &amp; enable 2FA</button></div>';
+      }
+      m.innerHTML = '<span class="eyebrow">Pillar 2 of 4 · Security &amp; 2FA</span><h2 style="margin:4px 0 12px">Two-factor authentication &amp; password</h2>' +
+        '<div style="padding:14px;border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px">' + tfaHtml + '</div>' +
+        '<form id="hPwForm" novalidate><b style="font-size:14px">Change password</b><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><input class="inp" id="hp0" type="password" placeholder="Current password"><input class="inp" id="hp1" type="password" placeholder="New password (≥8 chars)"></div><div style="margin-top:10px"><button type="submit" class="btn sm">Update password</button></div></form>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:18px"><button type="button" class="btn" id="hPrev">← Back</button><button type="button" class="btn pri" id="hNext2">Next: Sessions &amp; Audit →</button></div>';
+      if ($('#h2Start')) $('#h2Start').onclick = function(){ st.tfaStep = 1; render(); };
+      if ($('#h2S1')) $('#h2S1').onclick = function(){ if ($('#h2Pw').value.length >= 3) { st.tfaStep = 2; render(); } };
+      if ($('#h2S2')) $('#h2S2').onclick = function(){ st.tfaStep = 3; render(); };
+      if ($('#h2S3')) $('#h2S3').onclick = function(){ if (/^\d{6}$/.test($('#h2Code').value.trim())) { st.tfa = true; st.tfaStep = 0; Lab.toast('2FA enabled!'); render(); } };
+      if ($('#h2Off')) $('#h2Off').onclick = function(){ st.tfa = false; render(); };
+      $('#hPwForm').onsubmit = function(e){ e.preventDefault(); if ($('#hp1').value.length >= 8) { this.reset(); Lab.toast('Password updated'); } };
+      $('#hPrev').onclick = function(){ st.pillar = 0; render(); };
+      $('#hNext2').onclick = function(){ st.pillar = 2; render(); };
+    } else if (st.pillar === 2) {
+      m.innerHTML = '<span class="eyebrow">Pillar 3 of 4 · Sessions &amp; 50-Event Audit (C10)</span><h2 style="margin:4px 0 12px">Active devices &amp; activity history</h2>' +
+        '<div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:14px">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px"><b>' + (1 + st.otherSessions) + ' active session(s)</b>' +
+          '<div style="display:flex;gap:6px"><button type="button" class="btn sm" id="hRevOth" ' + (st.otherSessions === 0 ? 'disabled' : '') + '>Sign out other devices (+20%)</button><button type="button" class="btn sm danger" id="hRevAll">Sign out all</button></div></div>' +
+          '<div class="sub">1. <b>Chromium 146 · Linux</b> (<span class="mono">172.19.0.1</span>) <span class="badge b-info">This device</span></div>' +
+          (st.otherSessions >= 1 ? '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px" class="sub"><span>2. Safari 18 · iPhone (<span class="mono">49.36.128.44</span>)</span><button type="button" class="btn sm" id="hRevOne">Sign out</button></div>' : '') +
+          (st.otherSessions >= 2 ? '<div class="sub" style="margin-top:6px">3. Chrome 145 · Windows 11 (<span class="mono">103.215.91.12</span>)</div>' : '') +
+        '</div>' +
+        '<div style="padding:12px;border:1px solid var(--border);border-radius:var(--radius-lg)">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center"><b>50 Security Events (49 LOGIN · 1 LOGOUT)</b><button type="button" class="btn sm ghost" id="hBurstBtn">' + (st.burstOpen ? 'Collapse C10 bursts' : 'Expand all 50') + '</button></div>' +
+          (st.burstOpen
+            ? '<div class="mono sub" style="margin-top:8px;max-height:130px;overflow-y:auto">Apr 14 (17 LOGIN + 1 LOGOUT @ 13:42) · Apr 13 (19 LOGIN) · Apr 12 (13 LOGIN) — all verified on 172.19.0.1 (50/50 rows).</div>'
+            : '<div class="sub" style="margin-top:8px">Apr 14: 18 events (16 burst collapsed) · Apr 13: 19 events (18 collapsed) · Apr 12: 13 events (12 collapsed).</div>') +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:18px"><button type="button" class="btn" id="hPrev">← Back</button><button type="button" class="btn pri" id="hNext3">Next: Alerts &amp; Data Rights →</button></div>';
+      if ($('#hRevOne')) $('#hRevOne').onclick = function(){ st.otherSessions = Math.max(0, st.otherSessions - 1); render(); };
+      $('#hRevOth').onclick = function(){ st.otherSessions = 0; Lab.toast('Signed out other devices'); render(); };
+      $('#hRevAll').onclick = function() {
+        Lab.openDlg('Sign out everywhere?', 'Revoke all sessions including this browser.',
+          '<div class="row"><button class="btn danger" id="haGo">Sign out all</button><button class="btn" id="haNo">Cancel</button></div>');
+        $('#haNo').onclick = Lab.closeDlg;
+        $('#haGo').onclick = function(){ Lab.closeDlg(); st.otherSessions = 0; Lab.toast('Revoked all sessions'); render(); };
+      };
+      $('#hBurstBtn').onclick = function(){ st.burstOpen = !st.burstOpen; render(); };
+      $('#hPrev').onclick = function(){ st.pillar = 1; render(); };
+      $('#hNext3').onclick = function(){ st.pillar = 3; render(); };
+    } else {
+      m.innerHTML = '<span class="eyebrow">Pillar 4 of 4 · 19 Switches &amp; Data Portability</span><h2 style="margin:4px 0 12px">Notification channels &amp; danger zone</h2>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--muted);border-radius:var(--radius-md);margin-bottom:10px">' +
+          '<span><b>Quiet hours</b> (`22:00–08:00 Asia/Kolkata`)</span>' +
+          '<button type="button" class="sw" role="switch" id="hSwQh" aria-checked="' + st.qh + '" aria-label="Enable quiet hours"></button>' +
+        '</div>' +
+        '<div class="hmx-hd" aria-hidden="true"><span>Category</span><span style="text-align:center">Email</span><span style="text-align:center">In-App</span><span style="text-align:center">Push</span></div>' +
+        '<div id="hMxMount"></div>' +
+        '<div style="margin-top:16px;padding:14px;border:1px solid var(--status-error-border);border-radius:var(--radius-lg)">' +
+          '<b style="color:var(--status-error-text)">Danger zone</b>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' +
+            '<button type="button" class="btn sm" id="hExpData">Export my data</button>' +
+            '<button type="button" class="btn sm danger" id="hDelAcct" ' + (st.delPending ? 'disabled' : '') + '>Delete account</button>' +
+            (st.delPending ? '<button type="button" class="btn sm" id="hCanDel">Cancel pending deletion</button>' : '') +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:18px"><button type="button" class="btn" id="hPrev">← Back</button><button type="button" class="btn pri" id="hFinish">Save all settings</button></div>';
+      $('#hSwQh').onclick = function(){ st.qh = !st.qh; render(); };
+      $('#hMxMount').innerHTML = CATS.map(function(c) {
+        return '<div class="hmx-rw"><b>' + c.label + '</b>' + ['email','inApp','push'].map(function(ch) {
+          var nm = ch === 'email' ? 'Email' : (ch === 'inApp' ? 'In-App' : 'Push');
+          return '<div class="hmx-c"><span class="hmx-l">' + nm + '</span><button type="button" class="sw" role="switch" data-c="' + c.id + '" data-k="' + ch + '" aria-checked="' + (c[ch]?'true':'false') + '" aria-label="' + c.label + ' ' + nm + '"></button></div>';
+        }).join('') + '</div>';
+      }).join('');
+      $$('.sw', $('#hMxMount')).forEach(function(s) {
+        s.onclick = function() {
+          var c = CATS.find(function(x){ return x.id === s.dataset.c; });
+          c[s.dataset.k] = !c[s.dataset.k];
+          s.setAttribute('aria-checked', c[s.dataset.k] ? 'true' : 'false');
+        };
+      });
+      $('#hExpData').onclick = function(){ Lab.toast('Data export queued — check F19'); };
+      $('#hDelAcct').onclick = function() {
+        Lab.openDlg('Schedule deletion', 'Confirm with password.',
+          '<label class="lbl" for="hdPw" style="margin-top:0">Password *</label><input class="inp" id="hdPw" type="password">' +
+          '<div class="row"><button class="btn danger" id="hdGo">Schedule deletion</button><button class="btn" id="hdNo">Cancel</button></div>');
+        $('#hdNo').onclick = Lab.closeDlg;
+        $('#hdGo').onclick = function(){ if ($('#hdPw').value.length >= 3) { Lab.closeDlg(); st.delPending = true; render(); } };
+      };
+      if ($('#hCanDel')) $('#hCanDel').onclick = function(){ st.delPending = false; Lab.toast('Cancelled pending deletion'); render(); };
+      $('#hPrev').onclick = function(){ st.pillar = 2; render(); };
+      $('#hFinish').onclick = function() {
+        $('#hBanner').hidden = false;
+        $('#hBanner').innerHTML = '<div class="note ok" role="status"><b>Hardening walkthrough saved</b> — all 4 pillars synchronized.</div>';
+        Lab.toast('All settings saved');
+      };
+    }
+  }
+
+  $('#hResetBtn').onclick = function(){ st.pillar = 0; Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F21 V1 · Calm Tabbed Hub', '../V1/index.html'],
+      ['F21 V2 · Sticky Left-Rail', '../V2/index.html'],
+      ['F21 V3 · Audit Console', '../V3/index.html'],
+      ['F21 V4 · Posture Deck', '../V4/index.html'],
+      ['F21 V5 · Hardening Stepper (current)', 'index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

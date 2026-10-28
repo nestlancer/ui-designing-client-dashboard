@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files &amp; Storage · V1 Calm Unified Library &amp; Bundles — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F22 · V1 — Calm Unified Library + Collapsible Bundles (Minimal archetype)
+   1060px calm workspace, accessible <label> dropzone, 41.1 KB / 5 GB quota bar,
+   shared-array Grid/List toggle, 035 ⋯ menu, 13-group/26-PDF collapsible vault, C13 preview modal. */
+.wrap.calm-files{max-width:1080px;padding:26px 24px 80px}
+h1{font-size:clamp(30px,3.2vw,38px);line-height:1.15;letter-spacing:-.025em}
+.top-strip{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:16px;margin-bottom:20px}
+.quota-card{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:18px 20px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+.q-track{height:10px;border-radius:999px;background:var(--muted);border:1px solid var(--border);overflow:hidden}
+.q-fill{display:block;height:100%;min-width:6px;background:var(--primary);border-radius:999px;transition:width var(--duration-normal)}
+.drop-lbl{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:6px;padding:18px;border:2px dashed var(--border);border-radius:var(--radius-xl);background:var(--card);cursor:pointer;transition:border-color var(--duration-fast),background var(--duration-fast)}
+.drop-lbl:hover,.drop-lbl.drag{border-color:var(--primary);background:var(--brand-50)}
+.dark .drop-lbl:hover,.dark .drop-lbl.drag{background:rgba(70,95,255,.14)}
+.drop-lbl:focus-within{outline:2px solid var(--ring);outline-offset:2px}
+
+.flt-box{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:14px 16px;margin-bottom:18px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:10px}
+.chip-bar{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.chip-bar::-webkit-scrollbar{display:none}
+.fchip{min-height:32px;padding:0 11px;border-radius:999px;border:1px solid var(--border);background:var(--background);font-size:12.5px;font-weight:600;color:var(--muted-foreground);white-space:nowrap}
+.fchip[aria-pressed="true"]{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+/* Shared-array Grid / List Library */
+.lib-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.lib-list{display:flex;flex-direction:column;gap:8px}
+.fcard{position:relative;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);padding:16px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:10px}
+.lib-list .fcard{flex-direction:row;align-items:center;justify-content:space-between;padding:12px 16px;flex-wrap:wrap}
+.f-thumb{height:84px;border-radius:var(--radius-md);background:var(--muted);display:grid;place-items:center;overflow:hidden;border:1px solid var(--border)}
+.lib-list .f-thumb{width:42px;height:42px;flex:none}
+.f-thumb img{width:100%;height:100%;object-fit:cover}
+.dots-pop{position:absolute;right:12px;top:46px;z-index:35;min-width:190px;padding:6px;border-radius:var(--radius-md);background:var(--card);border:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:2px}
+.dots-pop button{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:6px;font-size:12.5px;font-weight:500;text-align:left;width:100%}
+.dots-pop button:hover{background:var(--muted)}
+.dots-pop button.del{color:var(--status-error-text)}
+
+/* Generated Vault Bundles (13 groups, 26 locked PDFs) */
+.vault-grp{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);margin-bottom:10px;overflow:hidden}
+.vault-hd{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;text-align:left;font-size:13.5px;font-weight:600;background:var(--card)}
+.vault-hd:hover{background:var(--muted)}
+.vault-doc{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;border-top:1px solid var(--border);background:var(--background);font-size:13px}
+
+/* C13 Preview Sheet inside Dialog */
+.pdf-sheet{border:1px solid var(--border);border-radius:var(--radius-md);background:var(--background);padding:16px;margin:10px 0;font-size:12.5px;line-height:1.55}
+.zip-fallback{border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--muted);padding:20px;text-align:center;margin:10px 0}
+
+@media(max-width:860px){
+  .top-strip{grid-template-columns:1fr}
+  .lib-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:580px){
+  .wrap.calm-files{padding:18px 14px 64px}
+  .lib-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../F21-settings/V1/index.html">Settings</a><span>›</span><b>Files &amp; storage</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F22 variants</span>
+      <a class="pill on" href="index.html" aria-current="page">V1 · Calm Library</a>
+      <a class="pill" href="../V2/index.html">V2 · Asset Ledger</a>
+      <a class="pill" href="../V3/index.html">V3 · Split Drive</a>
+      <a class="pill" href="../V4/index.html">V4 · Dossier Hub</a>
+      <a class="pill" href="../V5/index.html">V5 · Vault Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap calm-files" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Workspace Storage &amp; Contractual Records</div>
+          <h1>Files</h1>
+          <p class="lead">Manage uploaded specs and archives alongside locked Nestlancer proposal &amp; milestone PDFs.</p>
+        </div>
+        <div class="acts">
+          <label class="btn pri" for="fileInp" style="cursor:pointer">+ Upload</label>
+          <a class="btn sm" href="../../F18-invoices-archive/V1/index.html">Invoices (`F18`)</a>
+        </div>
+      </div>
+
+      <div id="f1Banner" style="margin-bottom:14px" hidden></div>
+
+      <div data-panel="data">
+        <div class="top-strip">
+          <div class="quota-card">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px">
+              <span class="eyebrow">Workspace Quota</span>
+              <span class="badge b-ok">Virus scan active</span>
+            </div>
+            <div>
+              <b style="font-size:22px;letter-spacing:-.02em" id="quotaHeadline">41.1 KB <span class="sub" style="font-weight:500">used of 5 GB</span></b>
+              <p class="sub" style="margin-top:3px" id="quotaSub">3 uploaded files · 26 generated PDFs (quota-exempt)</p>
+            </div>
+            <div class="q-track" aria-label="Storage usage"><span class="q-fill" id="quotaBar" style="width:1%"></span></div>
+          </div>
+
+          <label class="drop-lbl" id="dropZone" for="fileInp">
+            <input id="fileInp" type="file" multiple class="sr-only">
+            <svg class="i lg" style="color:var(--primary-ink)"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>
+            <b style="font-size:14px">Drop files here or click to browse</b>
+            <span class="sub" style="font-size:12px">PDF, Images, Archives, Video · Max 500 MB per file (&gt;10 MB uses chunked upload)</span>
+          </label>
+        </div>
+
+        <!-- Dual filter bar + shared-array Grid/List toggle -->
+        <div class="flt-box">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px">
+            <div class="chip-bar" id="typeChips" role="group" aria-label="Filter by file type"></div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <button type="button" class="btn sm" id="viewGridBtn" aria-pressed="true"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Grid</button>
+              <button type="button" class="btn sm" id="viewListBtn" aria-pressed="false"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-list"/></svg>List</button>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+            <div class="chip-bar" id="srcChips" role="group" aria-label="Filter by source"></div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <select class="inp" id="statusSel" aria-label="Filter by scan status" style="width:auto;min-height:34px;padding:4px 10px">
+                <option value="All">All statuses</option>
+                <option value="Ready">Ready</option>
+                <option value="Scanning">Scanning</option>
+              </select>
+              <input class="inp" id="fileSearch" type="search" aria-label="Search files" placeholder="Search filename or engagement…" style="width:220px;min-height:34px;padding:4px 10px">
+            </div>
+          </div>
+        </div>
+
+        <!-- Uploaded Library -->
+        <section aria-labelledby="libHd" style="margin-bottom:28px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+            <h2 id="libHd">Uploaded library</h2>
+            <span class="sub mono" id="libCountTxt">3 files</span>
+          </div>
+          <div id="libMount" class="lib-grid"></div>
+        </section>
+
+        <!-- Generated Documents Vault (13 request groups, 26 locked PDFs) -->
+        <section aria-labelledby="vaultHd">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:12px">
+            <div>
+              <h2 id="vaultHd">Generated documents</h2>
+              <p class="sub">Immutable proposal &amp; scope PDFs across 13 wholesale engagements (<span class="mono">locked</span> contractual records).</p>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="badge b-neutral" id="vaultCountTxt">13 groups · 26 PDFs</span>
+              <button type="button" class="btn sm ghost" id="toggleAllVaultBtn">Expand all 13 groups</button>
+            </div>
+          </div>
+          <div id="vaultMount"></div>
+        </section>
+
+        <noscript><div class="panel pad sub">JavaScript off: 41.1 KB / 5 GB used · 3 uploaded files · 26 generated contractual PDFs across 13 requests.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-folder"/></svg></div>
+          <b>No uploaded files yet</b>
+          <p class="sub">Upload catalog specs, GST invoice samples, or warehouse schemas (`0 B of 5 GB` used).</p>
+          <button type="button" class="btn sm pri" id="restoreFilesBtn">Restore baseline files</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:40%;height:18px"></div>
+          <div class="skel" style="width:100%;height:120px;border-radius:14px"></div>
+          <div class="skel" style="width:100%;height:120px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading files and generated documents…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Media index unavailable</b>
+          <p><span class="mono">GET /api/v1/media</span> returned HTTP 502. Retry to load your files.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F22 V1 Calm Unified Library · Snapshots 39–40 &amp; C13 lock</span>
+        <span><a href="../../F21-settings/V1/index.html">← F21 Settings</a> · <a href="../V2/index.html">V2 Asset Ledger →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Preview</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var TYPES = ['All', 'Documents', 'Images', 'Videos', 'Archives'];
+  var SOURCES = ['All Sources', 'Project Deliverables', 'Request Attachments', 'Message Attachments', 'My Uploads', 'Invoices'];
+
+  function seedUploads() {
+    return [
+      { id:'med-1', name:'mehta-catalog-structure.pdf', kb:18.4, mime:'application/pdf', type:'Documents', src:'Request Attachments', ctx:'B2B Wholesale Ordering Portal', status:'Ready', vis:'Private', date:'Apr 11, 2026', thumb:'' },
+      { id:'med-2', name:'gst-invoice-format-sample.pdf', kb:13.2, mime:'application/pdf', type:'Documents', src:'Request Attachments', ctx:'Tally Prime GST Bridge', status:'Ready', vis:'Private', date:'Apr 10, 2026', thumb:'' },
+      { id:'med-3', name:'warehouse-barcode-spec.zip', kb:9.5, mime:'application/zip', type:'Archives', src:'My Uploads', ctx:'Ahmedabad Godown Scanner Spec', status:'Ready', vis:'Private', date:'Apr 09, 2026', thumb:'' }
+    ];
+  }
+
+  var REQ_TITLES = [
+    'B2B Wholesale Ordering Portal (NL-QTE-2026-000018)',
+    'Tally Prime GST & E-Invoice Bridge',
+    'Ahmedabad Godown Barcode & Batch Sync',
+    'Distributor Credit-Limit & Ledger Portal',
+    'WhatsApp Order Bot for Surat Retailers',
+    'Multi-Tier Dealer Price-List Engine',
+    'HSN Tax Slab & GSTR-1 Reconciliation Tool',
+    'Fleet Dispatch & LR Tracking Dashboard',
+    'Vendor Purchase Order Approval Workflow',
+    'Seasonal Price-Lock & Scheme Calculator',
+    'Salesman Beat-Plan Mobile PWA',
+    'Damaged Goods & Credit-Note Claims Portal',
+    'Annual Wholesale BI & Margin Warehouse'
+  ];
+
+  function buildVault() {
+    return REQ_TITLES.map(function(title, i) {
+      var num = String(18 - i).padStart(6, '0');
+      var slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 28);
+      return {
+        id:'vg-' + i,
+        title:title,
+        open:i < 2,
+        docs:[
+          { id:'gd-' + i + '-a', name:'quote-NL-QTE-2026-' + num + '.pdf', kb:24.8, kind:'Official Quote PDF', href:'../../F11-quote-details/V1/index.html' },
+          { id:'gd-' + i + '-b', name:'scope-' + slug + '.pdf', kb:31.2, kind:'Statement of Work PDF', href:'../../F05-requests-work-hub/V1/index.html' }
+        ]
+      };
+    });
+  }
+
+  var uploads = seedUploads();
+  var vault = buildVault();
+  var curType = 'All', curSrc = 'All Sources', viewMode = 'grid', openMenuId = null, lastRemoved = null;
+
+  function fmtSize(kb) {
+    return kb >= 1024 ? (kb / 1024).toFixed(2) + ' MB' : kb.toFixed(1) + ' KB';
+  }
+
+  // Tri-Mode Preview Modal (C13: PDF sheet, Image preview, .zip fallback card)
+  function openPreview(file) {
+    openMenuId = null;
+    if (file.mime === 'application/pdf') {
+      Lab.openDlg(file.name, file.type + ' · ' + fmtSize(file.kb) + ' · ' + (file.ctx || file.kind || 'Contractual Record'),
+        '<div class="pdf-sheet">' +
+          '<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:10px">' +
+            '<b>NESTLANCER PORTAL DOCUMENT PREVIEW</b><span class="mono">Page 1 of 2</span></div>' +
+          '<p><b>Reference:</b> ' + (file.ctx || file.kind) + '</p>' +
+          '<p style="margin-top:6px">Client: <b>Arjun Mehta</b> — Mehta Wholesale Traders (Ahmedabad, GJ). Verified PDF specification rendered via client-side sheet inspector (sandbox-safe C13 preview).</p>' +
+          '<div style="margin-top:10px;padding:8px 10px;background:var(--muted);border-radius:6px" class="mono">SHA-256: 9f4e...c81a · ' + fmtSize(file.kb) + ' · Virus scan: CLEAN</div>' +
+        '</div>' +
+        '<div class="row"><button type="button" class="btn pri" id="pvDl">Download PDF</button><button type="button" class="btn" id="pvNewTab">Open in new tab</button></div>');
+    } else if (file.mime && file.mime.indexOf('image/') === 0 && file.thumb) {
+      Lab.openDlg(file.name, 'Image · ' + fmtSize(file.kb),
+        '<div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;max-height:280px;display:grid;place-items:center;background:var(--muted);margin:10px 0"><img src="' + file.thumb + '" alt="' + file.name + '" style="max-height:260px;width:auto"></div>' +
+        '<div class="row"><button type="button" class="btn pri" id="pvDl">Download image</button><button type="button" class="btn" id="pvNewTab">Open in new tab</button></div>');
+    } else {
+      Lab.openDlg(file.name, (file.mime || 'Archive') + ' · ' + fmtSize(file.kb),
+        '<div class="zip-fallback">' +
+          '<svg class="i xl" style="color:var(--muted-foreground);margin-bottom:6px"><use href="../../../assets/lab-icons.svg#i-archive"/></svg>' +
+          '<b style="display:block;font-size:14.5px">No in-app preview for this file type.</b>' +
+          '<p class="sub" style="margin-top:4px">Archive &amp; binary packages (<span class="mono">' + file.name + '</span> · ' + fmtSize(file.kb) + ') can be opened in a new tab or downloaded directly.</p>' +
+        '</div>' +
+        '<div class="row"><button type="button" class="btn pri" id="pvNewTab">Open in new tab</button><button type="button" class="btn" id="pvDl">Download file</button></div>');
+    }
+    $('#pvDl').onclick = function(){ Lab.closeDlg(); Lab.toast('Downloading ' + file.name); };
+    $('#pvNewTab').onclick = function(){ Lab.closeDlg(); Lab.toast('Opened signed URL for ' + file.name + ' (15-min TTL)'); };
+  }
+
+  function renderChips() {
+    $('#typeChips').innerHTML = TYPES.map(function(t) {
+      return '<button type="button" class="fchip" data-tp="' + t + '" aria-pressed="' + (curType === t ? 'true' : 'false') + '">' + t + '</button>';
+    }).join('');
+    $$('[data-tp]', $('#typeChips')).forEach(function(b){ b.onclick = function(){ curType = b.dataset.tp; render(); }; });
+
+    $('#srcChips').innerHTML = SOURCES.map(function(s) {
+      return '<button type="button" class="fchip" data-sc="' + s + '" aria-pressed="' + (curSrc === s ? 'true' : 'false') + '">' + s + '</button>';
+    }).join('');
+    $$('[data-sc]', $('#srcChips')).forEach(function(b){ b.onclick = function(){ curSrc = b.dataset.sc; render(); }; });
+  }
+
+  function render() {
+    renderChips();
+    var totalKb = uploads.reduce(function(acc, f){ return acc + f.kb; }, 0);
+    $('#quotaHeadline').innerHTML = fmtSize(totalKb) + ' <span class="sub" style="font-weight:500">used of 5 GB</span>';
+    $('#quotaSub').textContent = uploads.length + ' uploaded file(s) · 26 generated PDFs (quota-exempt)';
+    var pct = Math.max(0.8, Math.min(100, (totalKb / (5 * 1024 * 1024)) * 100));
+    $('#quotaBar').style.width = pct + '%';
+
+    var stFilter = $('#statusSel').value;
+    var q = $('#fileSearch').value.trim().toLowerCase();
+
+    var filtUp = uploads.filter(function(f) {
+      if (curType !== 'All' && f.type !== curType) return false;
+      if (curSrc !== 'All Sources' && f.src !== curSrc) return false;
+      if (stFilter !== 'All' && f.status !== stFilter) return false;
+      if (q && (f.name + ' ' + f.ctx + ' ' + f.src).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+
+    $('#libCountTxt').textContent = 'Showing ' + filtUp.length + ' of ' + uploads.length + ' uploaded';
+    var lib = $('#libMount');
+    lib.className = viewMode === 'grid' ? 'lib-grid' : 'lib-list';
+
+    if (!filtUp.length) {
+      lib.innerHTML = '<div class="panel pad sub" style="grid-column:1/-1;text-align:center">No uploaded files match your active filters.</div>';
+    } else {
+      lib.innerHTML = filtUp.map(function(f) {
+        var iconId = f.type === 'Archives' ? 'i-archive' : 'i-doc';
+        var thumbHtml = f.thumb ? '<img src="' + f.thumb + '" alt="' + f.name + '">' : '<svg class="i lg" style="color:var(--primary-ink)"><use href="../../../assets/lab-icons.svg#' + iconId + '"/></svg>';
+        var menuOpen = openMenuId === f.id;
+        return '<article class="fcard">' +
+          '<div style="display:flex;gap:12px;align-items:center;min-width:0;flex:1">' +
+            '<div class="f-thumb">' + thumbHtml + '</div>' +
+            '<div style="min-width:0;flex:1">' +
+              '<button type="button" data-prev="' + f.id + '" style="font-weight:700;font-size:13.5px;text-align:left;word-break:break-word;color:var(--foreground)">' + f.name + '</button>' +
+              '<div class="sub" style="font-size:12px;margin-top:2px">' + fmtSize(f.kb) + ' · ' + f.src + ' · ' + f.date + '</div>' +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><span class="badge b-ok">' + f.status + '</span><span class="badge b-neutral">' + f.vis + '</span></div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="display:flex;gap:6px;align-items:center">' +
+            '<button type="button" class="btn sm" data-prev="' + f.id + '"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-eye"/></svg>Preview</button>' +
+            '<button type="button" class="btn sm ghost" data-menu="' + f.id + '" aria-label="Actions for ' + f.name + '" aria-expanded="' + (menuOpen?'true':'false') + '"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-dots"/></svg></button>' +
+          '</div>' +
+          (menuOpen ? '<div class="dots-pop" role="menu">' +
+            '<button type="button" role="menuitem" data-prev="' + f.id + '">Preview file</button>' +
+            '<button type="button" role="menuitem" data-dl="' + f.id + '">Download</button>' +
+            '<button type="button" role="menuitem" data-link="' + f.id + '">Copy signed link (15m)</button>' +
+            '<button type="button" role="menuitem" data-vis="' + f.id + '">Toggle visibility (' + (f.vis==='Private'?'Make Public':'Make Private') + ')</button>' +
+            '<button type="button" role="menuitem" class="del" data-del="' + f.id + '">Delete file</button>' +
+          '</div>' : '') +
+        '</article>';
+      }).join('');
+    }
+
+    $$('[data-prev]', lib).forEach(function(b) {
+      b.onclick = function(){ var f = uploads.find(function(x){ return x.id === b.dataset.prev; }); if (f) openPreview(f); render(); };
+    });
+    $$('[data-menu]', lib).forEach(function(b) {
+      b.onclick = function(e){ e.stopPropagation(); openMenuId = openMenuId === b.dataset.menu ? null : b.dataset.menu; render(); };
+    });
+    $$('[data-dl]', lib).forEach(function(b) {
+      b.onclick = function(){ var f = uploads.find(function(x){ return x.id === b.dataset.dl; }); openMenuId = null; Lab.toast('Downloading ' + f.name); render(); };
+    });
+    $$('[data-link]', lib).forEach(function(b) {
+      b.onclick = function(){ var f = uploads.find(function(x){ return x.id === b.dataset.link; }); openMenuId = null; Lab.toast('Copied 15-min signed URL for ' + f.name); render(); };
+    });
+    $$('[data-vis]', lib).forEach(function(b) {
+      b.onclick = function(){ var f = uploads.find(function(x){ return x.id === b.dataset.vis; }); f.vis = f.vis === 'Private' ? 'Public' : 'Private'; openMenuId = null; Lab.toast(f.name + ' is now ' + f.vis); render(); };
+    });
+    $$('[data-del]', lib).forEach(function(b) {
+      b.onclick = function() {
+        var f = uploads.find(function(x){ return x.id === b.dataset.del; });
+        openMenuId = null;
+        Lab.openDlg('Delete ' + f.name + '?', 'Removes ' + fmtSize(f.kb) + ' from your 5 GB quota.',
+          '<div class="row"><button class="btn danger" id="cfDelYes">Delete file</button><button class="btn" id="cfDelNo">Cancel</button></div>');
+        $('#cfDelNo').onclick = Lab.closeDlg;
+        $('#cfDelYes').onclick = function() {
+          Lab.closeDlg();
+          lastRemoved = f;
+          uploads = uploads.filter(function(x){ return x.id !== f.id; });
+          $('#f1Banner').hidden = false;
+          $('#f1Banner').innerHTML = '<div class="note" style="display:flex;justify-content:space-between;align-items:center"><span>Deleted <b>' + f.name + '</b>.</span><button type="button" class="btn sm" id="undoDelBtn">Undo</button></div>';
+          $('#undoDelBtn').onclick = function(){ uploads.unshift(lastRemoved); $('#f1Banner').hidden = true; render(); };
+          render();
+        };
+      };
+    });
+
+    // Vault rendering (13 groups, 26 locked PDFs)
+    var filtVault = vault.filter(function(g) {
+      if (curType !== 'All' && curType !== 'Documents') return false;
+      if (q && g.title.toLowerCase().indexOf(q) < 0 && !g.docs.some(function(d){ return d.name.toLowerCase().indexOf(q) >= 0; })) return false;
+      return true;
+    });
+    var docCnt = filtVault.reduce(function(a, g){ return a + g.docs.length; }, 0);
+    $('#vaultCountTxt').textContent = filtVault.length + ' groups · ' + docCnt + ' locked PDFs';
+    $('#vaultMount').innerHTML = filtVault.map(function(g) {
+      return '<div class="vault-grp">' +
+        '<button type="button" class="vault-hd" data-vg="' + g.id + '" aria-expanded="' + (g.open?'true':'false') + '">' +
+          '<span>' + g.title + '</span><span class="badge b-neutral">' + g.docs.length + ' locked PDFs ' + (g.open ? '▴' : '▾') + '</span></button>' +
+        (g.open ? g.docs.map(function(d) {
+          return '<div class="vault-doc">' +
+            '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><svg class="i sm" style="color:var(--primary-ink)"><use href="../../../assets/lab-icons.svg#i-doc"/></svg><b class="mono" style="font-size:12.5px">' + d.name + '</b><span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-lock"/></svg>locked</span><span class="sub">' + fmtSize(d.kb) + '</span></div>' +
+            '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+              '<button type="button" class="btn sm ghost" data-gprev="' + d.id + '" data-gg="' + g.id + '">Preview</button>' +
+              '<a class="btn sm ghost" href="' + d.href + '">Open engagement →</a>' +
+            '</div></div>';
+        }).join('') : '') +
+      '</div>';
+    }).join('');
+
+    $$('[data-vg]', $('#vaultMount')).forEach(function(b) {
+      b.onclick = function(){ var g = vault.find(function(x){ return x.id === b.dataset.vg; }); g.open = !g.open; render(); };
+    });
+    $$('[data-gprev]', $('#vaultMount')).forEach(function(b) {
+      b.onclick = function() {
+        var g = vault.find(function(x){ return x.id === b.dataset.gg; });
+        var d = g.docs.find(function(x){ return x.id === b.dataset.gprev; });
+        openPreview({ name:d.name, kb:d.kb, mime:'application/pdf', type:'Generated Contractual PDF', kind:g.title });
+      };
+    });
+  }
+
+  // Upload handler (FileReader for images + chunked note for >10MB)
+  function handleFiles(fileList) {
+    if (!fileList || !fileList.length) return;
+    Array.prototype.forEach.call(fileList, function(f) {
+      if (f.size > 500 * 1024 * 1024) { Lab.toast(f.name + ' exceeds 500 MB limit'); return; }
+      var kb = Math.max(0.5, f.size / 1024);
+      var tp = f.type.indexOf('image/') === 0 ? 'Images' : (f.type.indexOf('video/') === 0 ? 'Videos' : (/\.(zip|tar|gz|rar)$/i.test(f.name) ? 'Archives' : 'Documents'));
+      var item = {
+        id:'up-' + Date.now() + Math.random().toString(16).slice(2,6),
+        name:f.name, kb:kb, mime:f.type || (tp === 'Archives' ? 'application/zip' : 'application/pdf'),
+        type:tp, src:'My Uploads', ctx:kb > 10240 ? 'Chunked multipart upload' : 'Direct portal upload',
+        status:'Ready', vis:'Private', date:'Just now', thumb:''
+      };
+      if (tp === 'Images') {
+        var r = new FileReader();
+        r.onload = function(ev){ item.thumb = ev.target.result; uploads.unshift(item); render(); };
+        r.readAsDataURL(f);
+      } else {
+        uploads.unshift(item);
+        render();
+      }
+      Lab.toast('Uploaded ' + f.name + (kb > 10240 ? ' (chunked)' : ''));
+    });
+  }
+
+  $('#fileInp').onchange = function(){ handleFiles(this.files); this.value = ''; };
+  var dz = $('#dropZone');
+  dz.ondragover = function(e){ e.preventDefault(); dz.classList.add('drag'); };
+  dz.ondragleave = function(){ dz.classList.remove('drag'); };
+  dz.ondrop = function(e){ e.preventDefault(); dz.classList.remove('drag'); handleFiles(e.dataTransfer.files); };
+
+  $('#viewGridBtn').onclick = function(){ viewMode = 'grid'; this.setAttribute('aria-pressed','true'); $('#viewListBtn').setAttribute('aria-pressed','false'); render(); };
+  $('#viewListBtn').onclick = function(){ viewMode = 'list'; this.setAttribute('aria-pressed','true'); $('#viewGridBtn').setAttribute('aria-pressed','false'); render(); };
+  $('#statusSel').onchange = render;
+  $('#fileSearch').oninput = render;
+
+  $('#toggleAllVaultBtn').onclick = function() {
+    var anyClosed = vault.some(function(g){ return !g.open; });
+    vault.forEach(function(g){ g.open = anyClosed; });
+    this.textContent = anyClosed ? 'Collapse all 13 groups' : 'Expand all 13 groups';
+    render();
+  };
+  $('#restoreFilesBtn').onclick = function(){ uploads = seedUploads(); Lab.setState('data'); render(); };
+  document.addEventListener('click', function(e) {
+    if (openMenuId && !(e.target.closest && e.target.closest('.dots-pop'))) { openMenuId = null; render(); }
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F22 V1 · Calm Unified Library (current)', 'index.html'],
+      ['F22 V2 · Dense Asset Ledger', '../V2/index.html'],
+      ['F22 V3 · Split Drive & Preview', '../V3/index.html'],
+      ['F22 V4 · Engagement Dossier Hub', '../V4/index.html'],
+      ['F22 V5 · Guided Vault Stepper', '../V5/index.html'],
+      ['Invoices Archive (F18)', '../../F18-invoices-archive/V1/index.html'],
+      ['Settings (F21)', '../../F21-settings/V1/index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

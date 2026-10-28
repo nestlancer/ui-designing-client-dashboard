@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifications · V2 Dense Operations Triage Ledger — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F19 · V2 — Dense Operations Triage Ledger (Dense archetype)
+   Full-width fluid multi-column ledger, search + entity/date pivot, Shift+Click range
+   selection, j/k keyboard row cursor, and responsive card fallback. */
+.wrap.dense{max-width:1360px;padding:20px 20px 64px}
+h1{font-size:clamp(30px,3vw,36px);line-height:1.15}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.kcell{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:11px 14px;display:flex;align-items:baseline;justify-content:space-between;gap:8px;box-shadow:var(--shadow-xs)}
+.kcell span{font-size:12px;color:var(--muted-foreground);font-weight:600}
+.kcell b{font:700 20px var(--mono);color:var(--foreground);font-variant-numeric:tabular-nums}
+.kcell.hi{border-color:var(--primary);background:var(--brand-50)}
+.dark .kcell.hi{background:rgba(70,95,255,.14)}
+.ledger-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 14px;background:var(--muted);border-bottom:1px solid var(--border)}
+.ledger-tools .fld{flex:1 1 220px;min-height:36px;background:var(--card)}
+.tabs.ntabs{padding:0 10px;background:var(--card);gap:0}
+.tabs.ntabs [role="tab"]{min-height:40px;padding:0 11px;font-size:12.5px;display:inline-flex;align-items:center;gap:5px}
+.tcnt{font:700 11px var(--mono);padding:1px 6px;border-radius:999px;background:var(--muted);border:1px solid var(--border)}
+.bulk-strip{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px;background:var(--brand-50);border-bottom:1px solid var(--primary);font-size:12.5px}
+.dark .bulk-strip{background:rgba(70,95,255,.18)}
+.bulk-strip[hidden]{display:none}
+.ntbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ntbl thead th{padding:9px 10px;font-size:11px}
+.ntbl tbody td{padding:9px 10px;vertical-align:middle}
+.ntbl tr.is-unread td{background:rgba(70,95,255,.04)}
+.dark .ntbl tr.is-unread td{background:rgba(70,95,255,.09)}
+.ntbl tr.is-unread .row-ttl{font-weight:700;color:var(--foreground)}
+.ntbl tr.kb-focus{outline:2px solid var(--primary);outline-offset:-2px}
+.grp-tr td{background:var(--muted)!important;padding:7px 10px!important;font:700 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted-foreground)}
+.grp-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.ent-chip{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:6px;border:1px solid var(--border);background:var(--card);font:600 11px var(--mono);color:var(--foreground)}
+.row-sub{font-size:12px;color:var(--muted-foreground);margin-top:2px}
+.kbd-help{font-size:11.5px;color:var(--muted-foreground);display:inline-flex;align-items:center;gap:6px}
+.tblwrap.cards table,.tblwrap.cards thead,.tblwrap.cards tbody,.tblwrap.cards tr,.tblwrap.cards td{display:block;width:100%}
+.tblwrap.cards thead{display:none}
+.tblwrap.cards tbody tr:not(.grp-tr){border:1px solid var(--border);border-radius:var(--radius-md);margin:10px;padding:8px 12px;background:var(--card);width:calc(100% - 20px)}
+.tblwrap.cards tbody tr.grp-tr{border:0;margin:8px 10px 0;width:calc(100% - 20px);border-radius:var(--radius-sm)}
+.tblwrap.cards tbody tr:not(.grp-tr) td{border:0;padding:4px 0;display:flex;justify-content:space-between;gap:10px;text-align:right;background:transparent!important}
+.tblwrap.cards tbody tr:not(.grp-tr) td::before{content:attr(data-label);font:600 11px var(--mono);text-transform:uppercase;color:var(--muted-foreground);text-align:left}
+@media(max-width:960px){.kpi-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.kbd-help{display:none}}
+@media(max-width:760px){
+  .wrap.dense{padding:16px 12px 56px}
+  .ntbl tbody tr.grp-tr td::before{display:none}
+  .ntbl tbody tr.grp-tr td{display:block;text-align:left}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n" id="sideUnread">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Notifications Ledger</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F19 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Inbox</a>
+      <a class="pill on" href="index.html" aria-current="page">V2 · Dense Ledger</a>
+      <a class="pill" href="../V3/index.html">V3 · Split Triage</a>
+      <a class="pill" href="../V4/index.html">V4 · Priority Board</a>
+      <a class="pill" href="../V5/index.html">V5 · Catch-Up Brief</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap dense" id="main">
+      <div class="hrow" style="margin-bottom:14px">
+        <div>
+          <div class="eyebrow">Operations Triage · Full-Width Ledger</div>
+          <h1>Notifications</h1>
+          <p class="lead">High-density audit and triage table across all 9 categories — filter by entity ID, Shift+Click to range-select, or pivot between A7 entity bundles and date windows.</p>
+        </div>
+        <div class="acts">
+          <span class="kbd-help"><kbd>J</kbd><kbd>K</kbd> row · <kbd>X</kbd> select</span>
+          <button class="btn sm" id="markAllBtn" type="button">Mark all read</button>
+          <button class="btn sm" id="clearReadBtn" type="button">Clear read</button>
+          <a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Notification settings</a>
+        </div>
+      </div>
+
+      <section class="kpi-strip" aria-label="Inbox metrics">
+        <div class="kcell hi"><span>Unread queue</span><b id="kUnread">6</b></div>
+        <div class="kcell"><span>Total captured</span><b id="kTotal">8</b></div>
+        <div class="kcell"><span>Entity bundles (A7)</span><b id="kBundles">2</b></div>
+        <div class="kcell"><span>Expiring quotes</span><b id="kQuotes">4</b></div>
+      </section>
+
+      <div data-panel="data">
+        <section class="panel" aria-label="Notifications table ledger">
+          <div class="tabs ntabs" role="tablist" aria-label="Notification category filter" data-local="true" id="catTabs"></div>
+
+          <div class="ledger-tools">
+            <label class="fld">
+              <svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>
+              <span class="sr-only">Search notification text or reference ID</span>
+              <input id="qInput" type="search" placeholder="Search NL-QTE-2026-000018, export_1791375..., expiring…">
+            </label>
+            <select class="fld" id="groupModeSel" aria-label="Group rows by" style="flex:0 0 auto;width:auto;min-width:170px">
+              <option value="entity">Group: Entity bundle (A7)</option>
+              <option value="date">Group: Date window</option>
+              <option value="flat">Group: Flat ledger</option>
+            </select>
+            <button class="btn sm" id="cardToggleBtn" type="button">View as cards</button>
+          </div>
+
+          <div class="bulk-strip" id="bulkStrip" role="region" aria-label="Selected notifications toolbar" hidden>
+            <div><b id="selLabel">0 rows selected</b> <span class="sub">· Shift+Click checkboxes for contiguous range</span></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn sm pri" id="bulkReadBtn" type="button">Mark read</button>
+              <button class="btn sm" id="bulkClearSelBtn" type="button">Deselect</button>
+            </div>
+          </div>
+
+          <div class="tblwrap" id="tblWrap">
+            <table class="ntbl">
+              <caption class="sr-only">Captured client notifications ledger</caption>
+              <thead>
+                <tr>
+                  <th style="width:38px"><input type="checkbox" id="chkAll" class="nchk" aria-label="Select all visible rows"></th>
+                  <th>Status</th>
+                  <th>Entity / Reference (A7)</th>
+                  <th>Notification Summary</th>
+                  <th>Window</th>
+                  <th>Target Surface</th>
+                  <th class="right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerBody"></tbody>
+            </table>
+          </div>
+
+          <div class="pager">
+            <span id="ledgerFoot" role="status" aria-live="polite">Showing 8 of 8 captured rows · Today (0) · This week (4) · Earlier (4)</span>
+            <button class="btn sm ghost" id="undoClearBtn" type="button" hidden>Undo clear read</button>
+          </div>
+
+          <noscript>
+            <div class="pad sub">JavaScript off: 8 captured notifications (4× Quote NL-QTE-2026-000018 expiring soon; 4× Account data export ready).</div>
+          </noscript>
+        </section>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-check"/></svg></div>
+          <b>Ledger clear — 0 matching rows</b>
+          <p class="sub">All matching notifications have been cleared or filtered out.</p>
+          <button class="btn sm pri" id="restoreBtn" type="button">Reset ledger &amp; restore 8 rows</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:34px"></div>
+          <div class="skel" style="width:100%;height:34px"></div>
+          <div class="skel" style="width:100%;height:34px"></div>
+          <div class="skel" style="width:100%;height:34px"></div>
+          <span class="sr-only" role="status">Loading notification ledger…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Ledger sync failed</b>
+          <p><span class="mono">GET /api/v1/notifications</span> timed out before returning rows. Retry to restore the captured ledger.</p>
+          <button class="btn sm" id="retry" type="button">Retry request</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F19 V2 Dense Operations Triage Ledger · Snapshot 33 lock</span>
+        <span><a href="../V1/index.html">← V1 Calm Inbox</a> · <a href="../V3/index.html">V3 Split Triage →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var TABS = [
+    ['all','All'], ['unread','Unread'], ['quotes','Quotes'], ['payments','Payments'],
+    ['messages','Messages'], ['projects','Projects'], ['requests','Requests'], ['account','Account'], ['settings','Settings']
+  ];
+
+  function seed() {
+    return [
+      { id:'r1', cat:'quotes', entity:'NL-QTE-2026-000018', refCode:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 24 · 3d left', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', href:'../../F11-quote-details/V1/index.html', target:'Quote Detail (F11)' },
+      { id:'r2', cat:'quotes', entity:'NL-QTE-2026-000018', refCode:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 23 · 3d left', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', href:'../../F11-quote-details/V1/index.html', target:'Quote Detail (F11)' },
+      { id:'r3', cat:'quotes', entity:'NL-QTE-2026-000018', refCode:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 22 · 3d left', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', href:'../../F11-quote-details/V1/index.html', target:'Quote Detail (F11)' },
+      { id:'r4', cat:'quotes', entity:'NL-QTE-2026-000018', refCode:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 21 · 3d left', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', href:'../../F11-quote-details/V1/index.html', target:'Quote Detail (F11)' },
+      { id:'r5', cat:'account', entity:'Account Data Exports', refCode:'export_1791375234538_ce4d2b', bucket:'Earlier', when:'10/4/2026', unread:true, title:'Data export ready', body:'Your requested data export (export_1791375234538_ce4d2b) is ready to download.', href:'../../F21-settings/V1/index.html', target:'Settings ▸ Account (F21)' },
+      { id:'r6', cat:'account', entity:'Account Data Exports', refCode:'export_1791367237705_7fd43b', bucket:'Earlier', when:'10/4/2026', unread:true, title:'Data export ready', body:'Your requested data export (export_1791367237705_7fd43b) is ready to download.', href:'../../F21-settings/V1/index.html', target:'Settings ▸ Account (F21)' },
+      { id:'r7', cat:'account', entity:'Account Data Exports', refCode:'export_1791367229591_57472a', bucket:'Earlier', when:'10/4/2026', unread:false, title:'Data export ready', body:'Your requested data export (export_1791367229591_57472a) is ready to download.', href:'../../F21-settings/V1/index.html', target:'Settings ▸ Account (F21)' },
+      { id:'r8', cat:'account', entity:'Account Data Exports', refCode:'export_1791364998486_24f887', bucket:'Earlier', when:'10/4/2026', unread:false, title:'Data export ready', body:'Your requested data export (export_1791364998486_24f887) is ready to download.', href:'../../F21-settings/V1/index.html', target:'Settings ▸ Account (F21)' }
+    ];
+  }
+
+  var rows = seed(), backup = null, tab = 'all', q = '', groupMode = 'entity', sel = {}, lastIdx = -1, kbIdx = -1;
+
+  function filtered() {
+    return rows.filter(function(r) {
+      var matchTab = tab === 'all' ? true : (tab === 'unread' ? r.unread : r.cat === tab);
+      var matchQ = !q || (r.title + ' ' + r.body + ' ' + r.refCode + ' ' + r.entity + ' ' + r.bucket).toLowerCase().indexOf(q) >= 0;
+      return matchTab && matchQ;
+    });
+  }
+
+  function renderTabs() {
+    var uTotal = rows.filter(function(r){ return r.unread; }).length;
+    $('#sideUnread').textContent = String(uTotal);
+    $('#kUnread').textContent = String(uTotal);
+    $('#kTotal').textContent = String(rows.length);
+    var ents = {}; rows.forEach(function(r){ ents[r.entity] = 1; });
+    $('#kBundles').textContent = String(Object.keys(ents).length);
+    $('#kQuotes').textContent = String(rows.filter(function(r){ return r.cat === 'quotes' && r.unread; }).length);
+
+    $('#catTabs').innerHTML = TABS.map(function(t) {
+      var on = t[0] === tab;
+      var cnt = t[0] === 'unread' ? uTotal : (t[0] === 'all' ? rows.length : rows.filter(function(r){ return r.cat === t[0]; }).length);
+      return '<button type="button" role="tab" data-t="' + t[0] + '" aria-selected="' + on + '" tabindex="' + (on ? 0 : -1) + '">' +
+        t[1] + (t[0] === 'unread' || cnt > 0 ? '<span class="tcnt">' + cnt + '</span>' : '') + '</button>';
+    }).join('');
+
+    var bs = $$('[role="tab"]', $('#catTabs'));
+    bs.forEach(function(b, i) {
+      b.onclick = function() { tab = b.dataset.t; kbIdx = -1; render(); };
+      b.onkeydown = function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          var nx = bs[(i + (e.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length];
+          tab = nx.dataset.t; render(); $('[data-t="' + tab + '"]').focus();
+        }
+      };
+    });
+  }
+
+  function trHtml(r, idx) {
+    var checked = !!sel[r.id];
+    var stBadge = r.unread
+      ? '<span class="badge b-info">● Unread</span>'
+      : '<span class="badge b-neutral">✓ Read</span>';
+    return '<tr class="' + (r.unread ? 'is-unread' : '') + (idx === kbIdx ? ' kb-focus' : '') + '" data-rid="' + r.id + '" data-idx="' + idx + '">' +
+      '<td data-label="Select"><input type="checkbox" class="nchk rchk" data-id="' + r.id + '" data-idx="' + idx + '" ' + (checked ? 'checked' : '') + ' aria-label="Select ' + r.refCode + '"></td>' +
+      '<td data-label="Status">' + stBadge + '</td>' +
+      '<td data-label="Entity"><span class="ent-chip">' + r.refCode + '</span></td>' +
+      '<td data-label="Summary"><div class="row-ttl">' + r.title + '</div><div class="row-sub">' + r.body + '</div></td>' +
+      '<td data-label="Window" class="mono">' + r.bucket + ' · ' + r.when + '</td>' +
+      '<td data-label="Target"><a href="' + r.href + '" style="color:var(--primary-ink);font-weight:600">' + r.target + ' →</a></td>' +
+      '<td data-label="Action" class="right"><button type="button" class="btn sm rtoggle" data-id="' + r.id + '">' + (r.unread ? 'Mark read' : 'Mark unread') + '</button></td>' +
+    '</tr>';
+  }
+
+  function render() {
+    renderTabs();
+    var vis = filtered();
+    $('#undoClearBtn').hidden = !backup;
+
+    var selList = Object.keys(sel).filter(function(k){ return sel[k]; });
+    $('#bulkStrip').hidden = selList.length === 0;
+    $('#selLabel').textContent = selList.length + (selList.length === 1 ? ' row selected' : ' rows selected');
+    $('#chkAll').checked = vis.length > 0 && vis.every(function(r){ return sel[r.id]; });
+    $('#chkAll').disabled = vis.length === 0;
+
+    if (!vis.length) {
+      $('#ledgerBody').innerHTML = '<tr><td colspan="7" style="padding:32px 16px;text-align:center">' +
+        '<b>No notifications in "' + tab + '"' + (q ? ' matching "' + q + '"' : '') + '</b>' +
+        '<div class="sub" style="margin:6px 0 12px">Category feeds stay quiet until a new event fires, or reset filters to inspect all 8 captured alerts.</div>' +
+        '<button type="button" class="btn sm pri" id="inlineResetBtn">Show All notifications</button> ' +
+        '<a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Configure channels</a></td></tr>';
+      var ir = $('#inlineResetBtn');
+      if (ir) ir.onclick = function() { tab = 'all'; q = ''; $('#qInput').value = ''; render(); };
+      $('#ledgerFoot').textContent = 'Showing 0 matching rows';
+      return;
+    }
+
+    var out = '';
+    if (groupMode === 'entity') {
+      var groups = [];
+      vis.forEach(function(r) {
+        var g = groups.filter(function(x){ return x.key === r.entity; })[0];
+        if (!g) { g = { key: r.entity, href: r.href, target: r.target, items: [] }; groups.push(g); }
+        g.items.push(r);
+      });
+      var running = 0;
+      groups.forEach(function(g) {
+        var u = g.items.filter(function(x){ return x.unread; }).length;
+        out += '<tr class="grp-tr"><td colspan="7"><div class="grp-bar"><span>ENTITY BUNDLE · ' + g.key + ' (' + g.items.length + ' rows · ' + u + ' unread)</span>' +
+          '<span style="display:flex;gap:8px;align-items:center"><a href="' + g.href + '" style="color:var(--primary-ink)">Open ' + g.target + ' →</a>' +
+          '<button type="button" class="btn sm grp-mark" data-ent="' + g.key + '" ' + (!u ? 'disabled' : '') + '>Mark bundle read</button></span></div></td></tr>';
+        g.items.forEach(function(r){ out += trHtml(r, running++); });
+      });
+    } else if (groupMode === 'date') {
+      var runningD = 0;
+      ['Today', 'This week', 'Earlier'].forEach(function(bk) {
+        var sub = vis.filter(function(r){ return r.bucket === bk; });
+        if (bk === 'Today' && tab === 'all' && !q) {
+          out += '<tr class="grp-tr"><td colspan="7">TODAY · 0 new alerts</td></tr>';
+        }
+        if (!sub.length) return;
+        out += '<tr class="grp-tr"><td colspan="7">' + bk.toUpperCase() + ' · ' + sub.length + ' notifications</td></tr>';
+        sub.forEach(function(r){ out += trHtml(r, runningD++); });
+      });
+    } else {
+      vis.forEach(function(r, i){ out += trHtml(r, i); });
+    }
+
+    $('#ledgerBody').innerHTML = out;
+    $('#ledgerFoot').textContent = 'Showing ' + vis.length + ' of ' + rows.length + ' rows · ' + vis.filter(function(x){ return x.unread; }).length + ' unread';
+
+    $$('.rchk', $('#ledgerBody')).forEach(function(c) {
+      c.onclick = function(e) {
+        var idx = +c.dataset.idx;
+        if (e.shiftKey && lastIdx >= 0) {
+          var lo = Math.min(lastIdx, idx), hi = Math.max(lastIdx, idx);
+          vis.slice(lo, hi + 1).forEach(function(r){ sel[r.id] = c.checked; });
+        } else {
+          if (c.checked) sel[c.dataset.id] = true; else delete sel[c.dataset.id];
+        }
+        lastIdx = idx;
+        render();
+      };
+    });
+    $$('.rtoggle', $('#ledgerBody')).forEach(function(b) {
+      b.onclick = function() {
+        var r = rows.filter(function(x){ return x.id === b.dataset.id; })[0];
+        if (!r) return;
+        r.unread = !r.unread;
+        Lab.toast(r.unread ? 'Row marked unread' : 'Row marked read');
+        render();
+      };
+    });
+    $$('.grp-mark', $('#ledgerBody')).forEach(function(b) {
+      b.onclick = function() {
+        var ent = b.dataset.ent, cnt = 0;
+        rows.forEach(function(r){ if (r.entity === ent && r.unread) { r.unread = false; cnt++; } });
+        Lab.toast('Marked ' + cnt + ' alerts read in ' + ent);
+        render();
+      };
+    });
+  }
+
+  $('#qInput').oninput = function() { q = this.value.trim().toLowerCase(); kbIdx = -1; render(); };
+  $('#groupModeSel').onchange = function() { groupMode = this.value; render(); };
+  $('#cardToggleBtn').onclick = function() {
+    var on = $('#tblWrap').classList.toggle('cards');
+    this.textContent = on ? 'View as table' : 'View as cards';
+  };
+  $('#chkAll').onchange = function() {
+    var on = this.checked;
+    filtered().forEach(function(r){ if (on) sel[r.id] = true; else delete sel[r.id]; });
+    render();
+  };
+  $('#bulkReadBtn').onclick = function() {
+    var n = 0;
+    rows.forEach(function(r){ if (sel[r.id] && r.unread) { r.unread = false; n++; } });
+    sel = {};
+    Lab.toast('Bulk marked read (' + n + ' updated) · POST /api/v1/notifications/read-selected');
+    render();
+  };
+  $('#bulkClearSelBtn').onclick = function() { sel = {}; render(); };
+  $('#markAllBtn').onclick = function() {
+    rows.forEach(function(r){ r.unread = false; });
+    Lab.toast('All rows marked read · PATCH /api/v1/notifications/read-all');
+    render();
+  };
+  $('#clearReadBtn').onclick = function() {
+    var rd = rows.filter(function(r){ return !r.unread; });
+    if (!rd.length) { Lab.toast('No read rows to clear'); return; }
+    backup = rows.map(function(x){ return Object.assign({}, x); });
+    rows = rows.filter(function(r){ return r.unread; });
+    sel = {};
+    Lab.toast('Cleared ' + rd.length + ' read rows');
+    if (!rows.length) Lab.setState('empty');
+    render();
+  };
+  $('#undoClearBtn').onclick = function() {
+    if (!backup) return;
+    rows = backup; backup = null; Lab.setState('data'); render();
+  };
+  $('#restoreBtn').onclick = function() {
+    rows = seed(); backup = null; sel = {}; tab = 'all'; q = ''; $('#qInput').value = '';
+    Lab.setState('data'); render();
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (['INPUT','SELECT','TEXTAREA'].indexOf(document.activeElement.tagName) >= 0) return;
+    var vis = filtered();
+    if (!vis.length) return;
+    if (e.key === 'j') { kbIdx = Math.min(vis.length - 1, kbIdx + 1); render(); }
+    else if (e.key === 'k') { kbIdx = Math.max(0, kbIdx - 1); render(); }
+    else if (e.key === 'x' && kbIdx >= 0 && vis[kbIdx]) {
+      var id = vis[kbIdx].id;
+      if (sel[id]) delete sel[id]; else sel[id] = true;
+      render();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var name = u.getAttribute('data-unbuilt');
+    Lab.openDlg(name, 'Standalone route outside this workspace build.',
+      '<p><b>' + name + '</b> is outside this run. Use any built client-portal surface below.</p>' +
+      '<div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a><a class="btn" href="../../F11-quote-details/V1/index.html">Quote Detail</a></div>');
+  });
+
+  Lab.onState = function(s){ if (s === 'data') render(); };
+  Lab.init({
+    actions: [
+      ['F19 V1 · Calm Inbox', '../V1/index.html'],
+      ['F19 V2 · Dense Ledger (current)', 'index.html'],
+      ['F19 V3 · Split Triage Reader', '../V3/index.html'],
+      ['F19 V4 · Priority Action Board', '../V4/index.html'],
+      ['F19 V5 · Catch-Up Brief Stepper', '../V5/index.html'],
+      ['Quote NL-QTE-2026-000018 (F11)', '../../F11-quote-details/V1/index.html'],
+      ['Notification Settings (F21)', '../../F21-settings/V1/index.html?tab=notifications'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

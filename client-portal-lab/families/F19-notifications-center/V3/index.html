@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifications · V3 Split Triage Reader &amp; Queue — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F19 · V3 — Split Triage Reader & Queue (Action / Queue-led archetype)
+   380px queue rail + 1fr sticky Inspector & Deep-Link Action Pane (Linear-inspired). */
+.wrap.triage{max-width:1280px;padding:22px 20px 64px}
+h1{font-size:clamp(30px,3vw,37px);line-height:1.15}
+.tabs.ntabs{padding:0 12px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg) var(--radius-lg) 0 0;border-bottom:0}
+.tabs.ntabs [role="tab"]{min-height:42px;padding:0 11px;font-size:12.5px;display:inline-flex;align-items:center;gap:6px}
+.q-chip{font:700 11px var(--mono);padding:1px 6px;border-radius:999px;background:var(--muted);border:1px solid var(--border)}
+.workbench{display:grid;grid-template-columns:390px minmax(0,1fr);border:1px solid var(--border);border-radius:0 0 var(--radius-lg) var(--radius-lg);background:var(--card);box-shadow:var(--shadow-xs);overflow:hidden;min-height:540px}
+.q-rail{border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--background)}
+.q-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:var(--muted);border-bottom:1px solid var(--border);font-size:12px}
+.q-bulk{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;background:var(--brand-50);border-bottom:1px solid var(--primary);font-size:12px}
+.dark .q-bulk{background:rgba(70,95,255,.18)}
+.q-bulk[hidden]{display:none}
+.q-list{overflow-y:auto;max-height:620px}
+.q-sec-hd{padding:8px 12px;font:700 11px var(--mono);text-transform:uppercase;letter-spacing:.09em;color:var(--muted-foreground);background:var(--muted);border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.q-item{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:12px;border-bottom:1px solid var(--border);background:var(--card);cursor:pointer;text-align:left;width:100%}
+.q-item:hover{background:var(--muted)}
+.q-item.active{background:var(--brand-50);box-shadow:inset 3px 0 0 var(--primary)}
+.dark .q-item.active{background:rgba(70,95,255,.16)}
+.q-item-btn{text-align:left;width:100%}
+.q-ttl{font-size:13.5px;font-weight:600;color:var(--foreground);display:flex;align-items:center;justify-content:space-between;gap:6px}
+.q-item.unread .q-ttl{font-weight:700}
+.q-snip{font-size:12px;color:var(--muted-foreground);margin-top:3px;line-height:1.4}
+.q-foot{display:flex;align-items:center;gap:6px;margin-top:6px;font:600 11px var(--mono);color:var(--muted-foreground)}
+.inspector{padding:24px;display:flex;flex-direction:column;gap:18px;background:var(--card)}
+.ins-hero{padding:18px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--muted)}
+.ins-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ins-kv{padding:12px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--background)}
+.ins-kv span{display:block;font:600 11px var(--mono);text-transform:uppercase;color:var(--muted-foreground)}
+.ins-kv b{display:block;font-size:13.5px;margin-top:3px;word-break:break-word}
+.sib-list{border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+.sib-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-top:1px solid var(--border);font-size:12.5px}
+.sib-row:first-child{border-top:0}
+@media(max-width:920px){
+  .workbench{grid-template-columns:1fr}
+  .q-rail{border-right:0;border-bottom:1px solid var(--border)}
+  .q-list{max-height:360px}
+}
+@media(max-width:600px){
+  .wrap.triage{padding:16px 12px 56px}
+  .inspector{padding:16px}
+  .ins-meta-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n" id="sideUnread">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Notifications Triage</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F19 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Inbox</a>
+      <a class="pill" href="../V2/index.html">V2 · Dense Ledger</a>
+      <a class="pill on" href="index.html" aria-current="page">V3 · Split Triage</a>
+      <a class="pill" href="../V4/index.html">V4 · Priority Board</a>
+      <a class="pill" href="../V5/index.html">V5 · Catch-Up Brief</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap triage" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Zero-Inbox Workbench · Queue + Inspector</div>
+          <h1>Notifications</h1>
+          <p class="lead">Triage alerts one by one or by entity bundle — inspect full quote or export context on the right and jump directly to the destination screen.</p>
+        </div>
+        <div class="acts">
+          <button class="btn sm" id="bundleToggleBtn" type="button" aria-pressed="true">Queue: Entity bundles (A7)</button>
+          <button class="btn sm" id="markAllBtn" type="button">Mark all read</button>
+          <button class="btn sm" id="clearReadBtn" type="button">Clear read</button>
+          <a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Notification settings</a>
+        </div>
+      </div>
+
+      <div data-panel="data">
+        <div class="tabs ntabs" role="tablist" aria-label="Notification categories" data-local="true" id="catTabs"></div>
+        <section class="workbench" aria-label="Split triage reader">
+          <div class="q-rail">
+            <div class="q-head">
+              <label style="display:inline-flex;align-items:center;gap:6px;font-weight:600;cursor:pointer">
+                <input type="checkbox" id="selAllChk" class="nchk">
+                <span id="qCountLbl">Queue (8)</span>
+              </label>
+              <span class="mono" id="unreadSummary" role="status" aria-live="polite">6 unread</span>
+            </div>
+            <div class="q-bulk" id="qBulk" hidden>
+              <b id="qBulkCnt">0 selected</b>
+              <div style="display:flex;gap:6px">
+                <button type="button" class="btn sm pri" id="qBulkRead">Mark read</button>
+                <button type="button" class="btn sm" id="qBulkClear">Clear</button>
+              </div>
+            </div>
+            <div class="q-list" id="qList"></div>
+          </div>
+
+          <div class="inspector" id="inspectorPane" aria-live="polite"></div>
+        </section>
+        <noscript>
+          <div class="panel pad sub" style="margin-top:12px">JavaScript off: 6 unread notifications across Quote NL-QTE-2026-000018 and Account Data Exports.</div>
+        </noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-check"/></svg></div>
+          <b>Inbox zero achieved</b>
+          <p class="sub">No notifications remain in the triage queue.</p>
+          <button class="btn sm pri" id="restoreAllBtn" type="button">Reload 8 captured alerts</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:36%;height:18px"></div>
+          <div class="skel" style="width:100%;height:180px;border-radius:12px"></div>
+          <span class="sr-only" role="status">Loading triage queue…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Queue unavailable</b>
+          <p>Could not fetch <span class="mono">GET /api/v1/notifications</span>. Retry to reconnect the triage reader.</p>
+          <button class="btn sm" id="retry" type="button">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F19 V3 Split Triage Reader · Snapshot 33 lock</span>
+        <span><a href="../V2/index.html">← V2 Dense Ledger</a> · <a href="../V4/index.html">V4 Priority Board →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var TABS = [
+    ['all','All'], ['unread','Unread'], ['quotes','Quotes'], ['payments','Payments'],
+    ['messages','Messages'], ['projects','Projects'], ['requests','Requests'], ['account','Account'], ['settings','Settings']
+  ];
+
+  function seed() {
+    return [
+      { id:'t1', cat:'quotes', entityId:'NL-QTE-2026-000018', entityLabel:'Quote NL-QTE-2026-000018', ref:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 24, 2026', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', cta:'Review quote NL-QTE-2026-000018', href:'../../F11-quote-details/V1/index.html', secHref:'../../F10-quotes-list/V1/index.html', secText:'All Quotes' },
+      { id:'t2', cat:'quotes', entityId:'NL-QTE-2026-000018', entityLabel:'Quote NL-QTE-2026-000018', ref:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 23, 2026', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', cta:'Review quote NL-QTE-2026-000018', href:'../../F11-quote-details/V1/index.html', secHref:'../../F10-quotes-list/V1/index.html', secText:'All Quotes' },
+      { id:'t3', cat:'quotes', entityId:'NL-QTE-2026-000018', entityLabel:'Quote NL-QTE-2026-000018', ref:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 22, 2026', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', cta:'Review quote NL-QTE-2026-000018', href:'../../F11-quote-details/V1/index.html', secHref:'../../F10-quotes-list/V1/index.html', secText:'All Quotes' },
+      { id:'t4', cat:'quotes', entityId:'NL-QTE-2026-000018', entityLabel:'Quote NL-QTE-2026-000018', ref:'NL-QTE-2026-000018', bucket:'This week', when:'Oct 21, 2026', unread:true, title:'Quote expiring soon', body:'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.', cta:'Review quote NL-QTE-2026-000018', href:'../../F11-quote-details/V1/index.html', secHref:'../../F10-quotes-list/V1/index.html', secText:'All Quotes' },
+      { id:'t5', cat:'account', entityId:'acct-exports', entityLabel:'Account Data Exports', ref:'export_1791375234538_ce4d2b', bucket:'Earlier', when:'10/4/2026', unread:true, title:'Data export ready', body:'Your requested data export (export_1791375234538_ce4d2b) is ready to download.', cta:'Open Account data exports', href:'../../F21-settings/V1/index.html', secHref:'../../F22-settings-files/V1/index.html', secText:'Generated files (F22)' },
+      { id:'t6', cat:'account', entityId:'acct-exports', entityLabel:'Account Data Exports', ref:'export_1791367237705_7fd43b', bucket:'Earlier', when:'10/4/2026', unread:true, title:'Data export ready', body:'Your requested data export (export_1791367237705_7fd43b) is ready to download.', cta:'Open Account data exports', href:'../../F21-settings/V1/index.html', secHref:'../../F22-settings-files/V1/index.html', secText:'Generated files (F22)' },
+      { id:'t7', cat:'account', entityId:'acct-exports', entityLabel:'Account Data Exports', ref:'export_1791367229591_57472a', bucket:'Earlier', when:'10/4/2026', unread:false, title:'Data export ready', body:'Your requested data export (export_1791367229591_57472a) is ready to download.', cta:'Open Account data exports', href:'../../F21-settings/V1/index.html', secHref:'../../F22-settings-files/V1/index.html', secText:'Generated files (F22)' },
+      { id:'t8', cat:'account', entityId:'acct-exports', entityLabel:'Account Data Exports', ref:'export_1791364998486_24f887', bucket:'Earlier', when:'10/4/2026', unread:false, title:'Data export ready', body:'Your requested data export (export_1791364998486_24f887) is ready to download.', cta:'Open Account data exports', href:'../../F21-settings/V1/index.html', secHref:'../../F22-settings-files/V1/index.html', secText:'Generated files (F22)' }
+    ];
+  }
+
+  var data = seed(), tab = 'all', bundleQueue = true, activeId = 't1', sel = {};
+
+  function visItems() {
+    return data.filter(function(d){ return tab === 'all' ? true : (tab === 'unread' ? d.unread : d.cat === tab); });
+  }
+
+  function renderTabs() {
+    var u = data.filter(function(d){ return d.unread; }).length;
+    $('#sideUnread').textContent = String(u);
+    $('#unreadSummary').textContent = u + ' unread';
+    $('#catTabs').innerHTML = TABS.map(function(t) {
+      var on = t[0] === tab;
+      var cnt = t[0] === 'unread' ? u : (t[0] === 'all' ? data.length : data.filter(function(d){ return d.cat === t[0]; }).length);
+      return '<button type="button" role="tab" data-tab="' + t[0] + '" aria-selected="' + on + '" tabindex="' + (on ? 0 : -1) + '">' +
+        t[1] + (t[0] === 'unread' || cnt > 0 ? '<span class="q-chip">' + cnt + '</span>' : '') + '</button>';
+    }).join('');
+    var btns = $$('[role="tab"]', $('#catTabs'));
+    btns.forEach(function(b, idx) {
+      b.onclick = function(){ tab = b.dataset.tab; render(); };
+      b.onkeydown = function(e){
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          var nx = btns[(idx + (e.key === 'ArrowRight' ? 1 : -1) + btns.length) % btns.length];
+          tab = nx.dataset.tab; render(); $('[data-tab="' + tab + '"]').focus();
+        }
+      };
+    });
+  }
+
+  function render() {
+    renderTabs();
+    var vis = visItems();
+    var selKeys = Object.keys(sel).filter(function(k){ return sel[k]; });
+    $('#qBulk').hidden = selKeys.length === 0;
+    $('#qBulkCnt').textContent = selKeys.length + ' selected';
+    $('#selAllChk').checked = vis.length > 0 && vis.every(function(d){ return sel[d.id]; });
+    $('#selAllChk').disabled = vis.length === 0;
+    $('#qCountLbl').textContent = 'Queue (' + vis.length + ')';
+
+    if (!vis.length) {
+      $('#qList').innerHTML = '<div class="pad sub" style="text-align:center">0 items in <b>' + tab + '</b>.<br><button type="button" class="btn sm" id="qResetTab" style="margin-top:8px">Back to All</button></div>';
+      var qr = $('#qResetTab'); if (qr) qr.onclick = function(){ tab = 'all'; if (!data.length) data = seed(); render(); };
+      $('#inspectorPane').innerHTML = '<div class="emptybox" style="margin:auto"><div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></div><b>Nothing queued in "' + tab + '"</b><p class="sub" style="max-width:42ch">When new ' + tab + ' updates arrive, select them on the left to inspect related entities and trigger one-click triage.</p><a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Manage category channels</a></div>';
+      return;
+    }
+
+    if (!vis.some(function(d){ return d.id === activeId; })) activeId = vis[0].id;
+    var cur = vis.filter(function(d){ return d.id === activeId; })[0] || vis[0];
+
+    var qHtml = '';
+    if (bundleQueue) {
+      ['Today','This week','Earlier'].forEach(function(bk) {
+        var sub = vis.filter(function(d){ return d.bucket === bk; });
+        if (bk === 'Today' && tab === 'all') qHtml += '<div class="q-sec-hd"><span>Today</span><span>0</span></div>';
+        if (!sub.length) return;
+        qHtml += '<div class="q-sec-hd"><span>' + bk + '</span><span>' + sub.length + ' alerts</span></div>';
+        var ents = [];
+        sub.forEach(function(it){
+          var g = ents.filter(function(x){ return x.id === it.entityId; })[0];
+          if (!g) { g = { id: it.entityId, label: it.entityLabel, list: [] }; ents.push(g); }
+          g.list.push(it);
+        });
+        ents.forEach(function(g) {
+          var first = g.list[0];
+          var u = g.list.filter(function(x){ return x.unread; }).length;
+          var isAct = cur.entityId === g.id;
+          var allChecked = g.list.every(function(x){ return sel[x.id]; });
+          qHtml += '<div class="q-item ' + (u ? 'unread ' : '') + (isAct ? 'active' : '') + '">' +
+            '<input type="checkbox" class="nchk grp-chk" data-ent="' + g.id + '" ' + (allChecked ? 'checked' : '') + ' aria-label="Select bundle ' + g.label + '">' +
+            '<button type="button" class="q-item-btn" data-pick="' + first.id + '">' +
+              '<div class="q-ttl"><span>' + g.label + '</span>' + (u ? '<span class="badge b-info">● ' + u + ' unread</span>' : '<span class="badge b-neutral">✓ Read</span>') + '</div>' +
+              '<div class="q-snip">' + first.body + '</div>' +
+              '<div class="q-foot"><span>' + g.list.length + ' bundled alerts</span><span>·</span><span>' + first.when + '</span></div>' +
+            '</button></div>';
+        });
+      });
+    } else {
+      ['This week','Earlier'].forEach(function(bk) {
+        var sub = vis.filter(function(d){ return d.bucket === bk; });
+        if (!sub.length) return;
+        qHtml += '<div class="q-sec-hd"><span>' + bk + '</span><span>' + sub.length + '</span></div>';
+        sub.forEach(function(it) {
+          var isAct = it.id === cur.id;
+          qHtml += '<div class="q-item ' + (it.unread ? 'unread ' : '') + (isAct ? 'active' : '') + '">' +
+            '<input type="checkbox" class="nchk item-chk" data-id="' + it.id + '" ' + (sel[it.id] ? 'checked' : '') + ' aria-label="Select ' + it.ref + '">' +
+            '<button type="button" class="q-item-btn" data-pick="' + it.id + '">' +
+              '<div class="q-ttl"><span>' + it.title + '</span>' + (it.unread ? '<span class="badge b-info">● Unread</span>' : '<span class="badge b-neutral">✓ Read</span>') + '</div>' +
+              '<div class="q-snip">' + it.body + '</div>' +
+              '<div class="q-foot"><span>' + it.ref + '</span><span>·</span><span>' + it.when + '</span></div>' +
+            '</button></div>';
+        });
+      });
+    }
+    $('#qList').innerHTML = qHtml;
+
+    var siblings = data.filter(function(d){ return d.entityId === cur.entityId; });
+    var sibUnread = siblings.filter(function(d){ return d.unread; }).length;
+    $('#inspectorPane').innerHTML =
+      '<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px">' +
+        '<div><span class="eyebrow">' + cur.bucket + ' · Entity Inspector (A7)</span><h2 style="margin-top:4px">' + cur.entityLabel + '</h2></div>' +
+        (cur.unread ? '<span class="badge b-info"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Unread alert</span>' : '<span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-check"/></svg>Reviewed</span>') +
+      '</div>' +
+      '<div class="ins-hero">' +
+        '<div style="font-size:16px;font-weight:700">' + cur.title + '</div>' +
+        '<p style="font-size:14px;color:var(--muted-foreground);margin:6px 0 14px;line-height:1.55">' + cur.body + '</p>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:8px">' +
+          '<a class="btn pri" href="' + cur.href + '">' + cur.cta + ' →</a>' +
+          '<button type="button" class="btn" id="markAdvanceBtn">' + (cur.unread ? 'Mark read &amp; next unread' : 'Advance to next unread') + '</button>' +
+          '<a class="btn ghost" href="' + cur.secHref + '">' + cur.secText + '</a>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ins-meta-grid">' +
+        '<div class="ins-kv"><span>Reference ID</span><b class="mono">' + cur.ref + '</b></div>' +
+        '<div class="ins-kv"><span>Category &amp; Window</span><b>' + cur.cat.toUpperCase() + ' · ' + cur.when + '</b></div>' +
+      '</div>' +
+      '<div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+          '<h3>Alerts in this entity group (' + siblings.length + ')</h3>' +
+          '<button type="button" class="btn sm" id="markSiblingsBtn" ' + (!sibUnread ? 'disabled' : '') + '>Mark all ' + siblings.length + ' read</button>' +
+        '</div>' +
+        '<div class="sib-list">' + siblings.map(function(s) {
+          return '<div class="sib-row"><div><b class="mono">' + s.ref + '</b> <span class="sub">· ' + s.when + '</span></div>' +
+            '<div style="display:flex;align-items:center;gap:8px">' +
+              (s.unread ? '<span class="badge b-info">● Unread</span>' : '<span class="badge b-neutral">✓ Read</span>') +
+              '<button type="button" class="btn sm sib-toggle" data-sid="' + s.id + '">' + (s.unread ? 'Mark read' : 'Mark unread') + '</button>' +
+            '</div></div>';
+        }).join('') + '</div>' +
+      '</div>';
+
+    $$('[data-pick]', $('#qList')).forEach(function(b){ b.onclick = function(){ activeId = b.dataset.pick; render(); }; });
+    $$('.item-chk', $('#qList')).forEach(function(c){ c.onchange = function(){ if (c.checked) sel[c.dataset.id] = true; else delete sel[c.dataset.id]; render(); }; });
+    $$('.grp-chk', $('#qList')).forEach(function(c){
+      c.onchange = function(){
+        var ent = c.dataset.ent;
+        vis.filter(function(x){ return x.entityId === ent; }).forEach(function(x){ if (c.checked) sel[x.id] = true; else delete sel[x.id]; });
+        render();
+      };
+    });
+    $('#markAdvanceBtn').onclick = function() {
+      cur.unread = false;
+      var nextU = vis.filter(function(d){ return d.unread && d.id !== cur.id; })[0];
+      if (nextU) { activeId = nextU.id; Lab.toast('Marked read — advanced to next unread'); }
+      else { Lab.toast('Marked read — no more unread items in this view'); }
+      render();
+    };
+    $('#markSiblingsBtn').onclick = function() {
+      siblings.forEach(function(s){ s.unread = false; });
+      Lab.toast('Marked entity bundle read');
+      render();
+    };
+    $$('.sib-toggle', $('#inspectorPane')).forEach(function(b) {
+      b.onclick = function() {
+        var t = data.filter(function(x){ return x.id === b.dataset.sid; })[0];
+        if (t) { t.unread = !t.unread; render(); }
+      };
+    });
+  }
+
+  $('#bundleToggleBtn').onclick = function() {
+    bundleQueue = !bundleQueue;
+    this.setAttribute('aria-pressed', String(bundleQueue));
+    this.textContent = bundleQueue ? 'Queue: Entity bundles (A7)' : 'Queue: Individual alerts';
+    render();
+  };
+  $('#selAllChk').onchange = function() {
+    var on = this.checked;
+    visItems().forEach(function(d){ if (on) sel[d.id] = true; else delete sel[d.id]; });
+    render();
+  };
+  $('#qBulkRead').onclick = function() {
+    data.forEach(function(d){ if (sel[d.id]) d.unread = false; });
+    sel = {};
+    Lab.toast('Selected alerts marked read · POST /api/v1/notifications/read-selected');
+    render();
+  };
+  $('#qBulkClear').onclick = function(){ sel = {}; render(); };
+  $('#markAllBtn').onclick = function(){ data.forEach(function(d){ d.unread = false; }); Lab.toast('All alerts marked read'); render(); };
+  $('#clearReadBtn').onclick = function(){
+    var rem = data.filter(function(d){ return d.unread; });
+    if (rem.length === data.length) { Lab.toast('No read items to clear'); return; }
+    data = rem; sel = {};
+    if (!data.length) Lab.setState('empty');
+    Lab.toast('Cleared read items');
+    render();
+  };
+  $('#restoreAllBtn').onclick = function(){ data = seed(); sel = {}; tab = 'all'; Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.onState = function(s){ if (s === 'data') render(); };
+  Lab.init({
+    actions: [
+      ['F19 V1 · Calm Inbox', '../V1/index.html'],
+      ['F19 V2 · Dense Ledger', '../V2/index.html'],
+      ['F19 V3 · Split Triage (current)', 'index.html'],
+      ['F19 V4 · Priority Action Board', '../V4/index.html'],
+      ['F19 V5 · Catch-Up Brief Stepper', '../V5/index.html'],
+      ['Review Quote NL-QTE-2026-000018 (F11)', '../../F11-quote-details/V1/index.html'],
+      ['Notification Settings (F21)', '../../F21-settings/V1/index.html?tab=notifications'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

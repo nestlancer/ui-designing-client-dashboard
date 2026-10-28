@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifications · V1 Calm Entity-Grouped Inbox — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F19 · V1 — Calm Entity-Grouped Inbox (Minimal archetype)
+   Centered 860px single-column stream, multi-open entity bundle accordions (A7),
+   sibling Mark-group-read controls (valid HTML), and floating bulk selection bar. */
+.wrap.calm{max-width:880px;padding:28px 24px 96px}
+h1{font-size:clamp(30px,3.2vw,38px);line-height:1.15}
+.inbox-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;background:var(--muted);border-bottom:1px solid var(--border)}
+.mode-seg{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--card);padding:2px;gap:2px}
+.mode-seg button{min-height:32px;padding:0 11px;border-radius:calc(var(--radius-md) - 2px);font-size:12px;font-weight:600;color:var(--muted-foreground)}
+.mode-seg button[aria-pressed="true"]{background:var(--primary);color:#fff}
+.tabs.ntabs{padding:0 12px;background:var(--card);gap:2px}
+.tabs.ntabs [role="tab"]{padding:0 12px;display:inline-flex;align-items:center;gap:6px;font-size:13px}
+.tab-cnt{font:700 11px var(--mono);padding:1px 7px;border-radius:999px;background:var(--muted);color:var(--muted-foreground);border:1px solid var(--border)}
+.tabs.ntabs [role="tab"][aria-selected="true"] .tab-cnt{background:var(--brand-50);color:var(--primary-ink);border-color:var(--primary)}
+.dark .tabs.ntabs [role="tab"][aria-selected="true"] .tab-cnt{background:rgba(70,95,255,.22)}
+.date-sec{padding:18px 20px 6px}
+.date-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;font:700 11px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted-foreground);margin-bottom:10px}
+.bundle{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow-xs)}
+.bundle.has-unread{border-color:var(--status-info-border)}
+.bundle-hd{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 16px;background:var(--muted)}
+.bundle-trig{flex:1 1 240px;display:flex;align-items:center;gap:12px;text-align:left;min-height:40px}
+.bundle-ic{width:38px;height:38px;border-radius:11px;background:var(--brand-50);color:var(--primary-ink);display:grid;place-items:center;flex:none;border:1px solid var(--border)}
+.dark .bundle-ic{background:rgba(70,95,255,.18)}
+.bundle-title{font-size:14.5px;font-weight:700;color:var(--foreground);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.bundle-sub{font-size:12.5px;color:var(--muted-foreground);margin-top:2px}
+.bundle-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.nrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:flex-start;padding:14px 16px;border-top:1px solid var(--border);background:var(--card);transition:background var(--duration-fast)}
+.nrow:first-child{border-top:0}
+.nrow.unread{background:var(--brand-50)}
+.dark .nrow.unread{background:rgba(70,95,255,.09)}
+.nrow:hover{background:var(--muted)}
+.nchk{width:18px;height:18px;margin-top:3px;accent-color:var(--primary);cursor:pointer}
+.ntitle{font-size:14px;font-weight:600;color:var(--foreground);display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.nrow.unread .ntitle{font-weight:700}
+.nbody{font-size:13.5px;color:var(--muted-foreground);margin-top:4px;line-height:1.5}
+.nmeta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:8px;font-size:12px;color:var(--muted-foreground)}
+.nlink{color:var(--primary-ink);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.nlink:hover{text-decoration:underline}
+.nright{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.bulk-dock{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:55;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--card);border:2px solid var(--primary);box-shadow:var(--shadow-sm)}
+.bulk-dock[hidden]{display:none}
+.bulk-cnt{font:700 12px var(--mono);color:var(--primary-ink);padding:2px 8px;background:var(--brand-50);border-radius:999px}
+.dark .bulk-cnt{background:rgba(70,95,255,.22)}
+.today-quiet{padding:10px 14px;border:1px dashed var(--border);border-radius:var(--radius-md);font-size:12.5px;color:var(--muted-foreground);display:flex;align-items:center;justify-content:space-between;gap:8px}
+@media(max-width:640px){
+  .wrap.calm{padding:18px 14px 104px}
+  .nrow{grid-template-columns:auto 1fr}
+  .nright{grid-column:2;flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+  .bundle-acts{width:100%;justify-content:flex-start}
+  .bulk-dock{left:12px;right:12px;transform:none;border-radius:var(--radius-lg);justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n" id="sideUnread">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Notifications</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F19 variants</span>
+      <a class="pill on" href="index.html" aria-current="page">V1 · Calm Inbox</a>
+      <a class="pill" href="../V2/index.html">V2 · Dense Ledger</a>
+      <a class="pill" href="../V3/index.html">V3 · Split Triage</a>
+      <a class="pill" href="../V4/index.html">V4 · Priority Board</a>
+      <a class="pill" href="../V5/index.html">V5 · Catch-Up Brief</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap calm" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Account · Alerts &amp; Activity</div>
+          <h1>Notifications</h1>
+          <p class="lead">Updates across quotes, payments, projects, messages, and account exports — calmly bundled by subject so bursts never bury urgent decisions.</p>
+        </div>
+        <div class="acts">
+          <button class="btn sm" id="markAllBtn" type="button"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-check"/></svg>Mark all read</button>
+          <button class="btn sm" id="clearReadBtn" type="button">Clear read</button>
+          <a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Notification settings</a>
+        </div>
+      </div>
+
+      <div data-panel="data">
+        <section class="panel reveal" aria-label="Notifications inbox">
+          <div class="tabs ntabs" role="tablist" aria-label="Notification categories" data-local="true" id="catTabs"></div>
+          <div class="inbox-bar">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <label style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;cursor:pointer">
+                <input type="checkbox" class="nchk" id="selectVisibleChk" style="margin:0">
+                <span id="selectVisibleLbl">Select visible</span>
+              </label>
+              <span class="sub" id="liveSummary" role="status" aria-live="polite">8 notifications · 6 unread in 2 entity bundles</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <div class="mode-seg" role="group" aria-label="Grouping mode">
+                <button type="button" id="modeEntity" aria-pressed="true">Grouped by entity</button>
+                <button type="button" id="modeFlat" aria-pressed="false">Chronological rows</button>
+              </div>
+              <button class="btn sm ghost" id="undoBtn" type="button" hidden>Undo last clear</button>
+            </div>
+          </div>
+
+          <div id="feedBody"></div>
+
+          <noscript>
+            <div class="pad sub">JavaScript is off: showing frozen snapshot 33 summary — 6 unread notifications (4× Quote NL-QTE-2026-000018 expiring in 3 days; 2× Data export ready) and 2 read Data export notices.</div>
+          </noscript>
+        </section>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></div>
+          <b>You're all caught up</b>
+          <p class="sub" style="max-width:46ch">No unread or archived alerts remain in your inbox. New quote proposals, milestone deliveries, and account exports will appear here automatically.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px">
+            <button class="btn sm pri" type="button" id="restoreDemoBtn">Restore captured inbox (8)</button>
+            <a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Manage delivery channels</a>
+          </div>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:28%;height:16px"></div>
+          <div class="skel" style="width:100%;height:68px;border-radius:12px"></div>
+          <div class="skel" style="width:100%;height:68px;border-radius:12px"></div>
+          <div class="skel" style="width:24%;height:16px;margin-top:18px"></div>
+          <div class="skel" style="width:100%;height:68px;border-radius:12px"></div>
+          <span class="sr-only" role="status">Loading notifications…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Could not load your notification feed</b>
+          <p>The notifications service did not respond to <span class="mono">GET /api/v1/notifications</span>. Your unread state is preserved safely on the server.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn sm" id="retry" type="button">Try again</button>
+            <a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Check email fallback settings</a>
+          </div>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F19 V1 Calm Entity-Grouped Inbox · Snapshot 33 lock</span>
+        <span><a href="../../../index.html">Lab gallery</a> · <a href="../V2/index.html">V2 Dense Ledger →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="bulk-dock" id="bulkDock" role="region" aria-label="Bulk notification actions" hidden>
+  <span class="bulk-cnt" id="bulkCnt">0 selected</span>
+  <button class="btn sm pri" id="bulkMarkRead" type="button"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-check"/></svg>Mark read <span class="demo">read-selected</span></button>
+  <button class="btn sm" id="bulkDeselect" type="button">Clear selection</button>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var TABS = [
+    { id: 'all', label: 'All' },
+    { id: 'unread', label: 'Unread' },
+    { id: 'quotes', label: 'Quotes' },
+    { id: 'payments', label: 'Payments' },
+    { id: 'messages', label: 'Messages' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'requests', label: 'Requests' },
+    { id: 'account', label: 'Account' },
+    { id: 'settings', label: 'Settings' }
+  ];
+
+  var EMPTY_COPY = {
+    unread: ['Zero unread notifications', 'Every alert in your inbox has been reviewed. Switch to All to revisit earlier quote and export notices.', 'View All notifications', 'all'],
+    quotes: ['No quote alerts right now', 'Expiring proposals and quote revisions appear here. Browse your active quotes to review pricing or contracts.', 'Open Quotes list', '../../F10-quotes-list/V1/index.html'],
+    payments: ['No payment alerts yet', 'Milestone invoice settlements, Razorpay receipts, and overdue reminders will surface here.', 'Open Payments hub', '../../F14-billing-center/V1/index.html'],
+    messages: ['No message mentions in this feed', 'Direct thread replies from your Nestlancer delivery lead arrive here when you are away.', 'Open Messages', '../../F12-messages-home/V1/index.html'],
+    projects: ['No project milestone alerts yet', 'Milestone handoffs, QA sign-off requests, and delivery updates will appear here.', 'Browse Projects', '../../F08-projects-list/V1/index.html'],
+    requests: ['No intake request updates', 'Status changes on submitted project briefs and scoping calls surface in this tab.', 'Open Requests hub', '../../F05-requests-work-hub/V1/index.html'],
+    account: ['No account alerts remaining', 'GDPR data export completions and profile privacy confirmations appear in this category.', 'Open Account settings', '../../F21-settings/V1/index.html'],
+    settings: ['No security or settings notices', 'Password updates, two-factor enrollment, and Quiet Hours changes are logged here.', 'Open Security settings', '../../F21-settings/V1/index.html?tab=security']
+  };
+
+  function seedItems() {
+    return [
+      { id: 'n1', cat: 'quotes', bucket: 'This week', dateLabel: 'Oct 24, 2026 · 3d left', unread: true, entityId: 'NL-QTE-2026-000018', entityTitle: 'Quote NL-QTE-2026-000018 · Expiring in 3 days', entitySub: 'Commercial quote reminder · Review & respond', linkHref: '../../F11-quote-details/V1/index.html', linkText: 'Review quote NL-QTE-2026-000018', title: 'Quote expiring soon', body: 'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id: 'n2', cat: 'quotes', bucket: 'This week', dateLabel: 'Oct 23, 2026 · 3d left', unread: true, entityId: 'NL-QTE-2026-000018', entityTitle: 'Quote NL-QTE-2026-000018 · Expiring in 3 days', entitySub: 'Commercial quote reminder · Review & respond', linkHref: '../../F11-quote-details/V1/index.html', linkText: 'Review quote NL-QTE-2026-000018', title: 'Quote expiring soon', body: 'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id: 'n3', cat: 'quotes', bucket: 'This week', dateLabel: 'Oct 22, 2026 · 3d left', unread: true, entityId: 'NL-QTE-2026-000018', entityTitle: 'Quote NL-QTE-2026-000018 · Expiring in 3 days', entitySub: 'Commercial quote reminder · Review & respond', linkHref: '../../F11-quote-details/V1/index.html', linkText: 'Review quote NL-QTE-2026-000018', title: 'Quote expiring soon', body: 'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id: 'n4', cat: 'quotes', bucket: 'This week', dateLabel: 'Oct 21, 2026 · 3d left', unread: true, entityId: 'NL-QTE-2026-000018', entityTitle: 'Quote NL-QTE-2026-000018 · Expiring in 3 days', entitySub: 'Commercial quote reminder · Review & respond', linkHref: '../../F11-quote-details/V1/index.html', linkText: 'Review quote NL-QTE-2026-000018', title: 'Quote expiring soon', body: 'Quote NL-QTE-2026-000018 expires in 3 days. Please review and respond.' },
+      { id: 'n5', cat: 'account', bucket: 'Earlier', dateLabel: '10/4/2026', unread: true, entityId: 'acct-exports', entityTitle: 'Account Data Exports · GDPR Archives', entitySub: 'Settings ▸ Account · Ready archive downloads', linkHref: '../../F21-settings/V1/index.html', linkText: 'Open Account data exports', title: 'Data export ready', body: 'Your requested data export (export_1791375234538_ce4d2b) is ready to download.' },
+      { id: 'n6', cat: 'account', bucket: 'Earlier', dateLabel: '10/4/2026', unread: true, entityId: 'acct-exports', entityTitle: 'Account Data Exports · GDPR Archives', entitySub: 'Settings ▸ Account · Ready archive downloads', linkHref: '../../F21-settings/V1/index.html', linkText: 'Open Account data exports', title: 'Data export ready', body: 'Your requested data export (export_1791367237705_7fd43b) is ready to download.' },
+      { id: 'n7', cat: 'account', bucket: 'Earlier', dateLabel: '10/4/2026', unread: false, entityId: 'acct-exports', entityTitle: 'Account Data Exports · GDPR Archives', entitySub: 'Settings ▸ Account · Ready archive downloads', linkHref: '../../F21-settings/V1/index.html', linkText: 'Open Account data exports', title: 'Data export ready', body: 'Your requested data export (export_1791367229591_57472a) is ready to download.' },
+      { id: 'n8', cat: 'account', bucket: 'Earlier', dateLabel: '10/4/2026', unread: false, entityId: 'acct-exports', entityTitle: 'Account Data Exports · GDPR Archives', entitySub: 'Settings ▸ Account · Ready archive downloads', linkHref: '../../F21-settings/V1/index.html', linkText: 'Open Account data exports', title: 'Data export ready', body: 'Your requested data export (export_1791364998486_24f887) is ready to download.' }
+    ];
+  }
+
+  var items = seedItems();
+  var clearedBackup = null;
+  var activeTab = 'all';
+  var groupedMode = true;
+  var selected = {};
+  var openBundles = { 'NL-QTE-2026-000018': true, 'acct-exports': true };
+
+  function visibleItems() {
+    return items.filter(function(it) {
+      if (activeTab === 'all') return true;
+      if (activeTab === 'unread') return it.unread;
+      return it.cat === activeTab;
+    });
+  }
+
+  function unreadCountFor(tabId) {
+    if (tabId === 'all' || tabId === 'unread') return items.filter(function(i){ return i.unread; }).length;
+    return items.filter(function(i){ return i.cat === tabId && i.unread; }).length;
+  }
+
+  function renderTabs() {
+    var totalUnread = unreadCountFor('unread');
+    $('#sideUnread').textContent = String(totalUnread);
+    var dotBtn = $('.hdr .dot');
+    if (dotBtn) dotBtn.setAttribute('aria-label', 'Notifications, ' + totalUnread + ' unread');
+
+    $('#catTabs').innerHTML = TABS.map(function(t) {
+      var on = t.id === activeTab;
+      var cnt = t.id === 'unread' ? totalUnread : (t.id === 'all' ? items.length : items.filter(function(i){ return i.cat === t.id; }).length);
+      var pill = (t.id === 'unread' || cnt > 0) ? '<span class="tab-cnt">' + cnt + '</span>' : '';
+      return '<button type="button" role="tab" data-tab-id="' + t.id + '" aria-selected="' + on + '" tabindex="' + (on ? '0' : '-1') + '">' + t.label + pill + '</button>';
+    }).join('');
+
+    var btns = $$('[role="tab"]', $('#catTabs'));
+    btns.forEach(function(b, idx) {
+      b.onclick = function() { activeTab = b.dataset.tabId; render(); };
+      b.onkeydown = function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          var next = btns[(idx + (e.key === 'ArrowRight' ? 1 : -1) + btns.length) % btns.length];
+          activeTab = next.dataset.tabId;
+          render();
+          var target = $('[data-tab-id="' + activeTab + '"]', $('#catTabs'));
+          if (target) target.focus();
+        } else if (e.key === 'Home') {
+          e.preventDefault(); activeTab = btns[0].dataset.tabId; render(); $('[data-tab-id="' + activeTab + '"]').focus();
+        } else if (e.key === 'End') {
+          e.preventDefault(); activeTab = btns[btns.length - 1].dataset.tabId; render(); $('[data-tab-id="' + activeTab + '"]').focus();
+        }
+      };
+    });
+  }
+
+  function rowHtml(it) {
+    var isSel = !!selected[it.id];
+    var badge = it.unread
+      ? '<span class="badge b-info"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Unread</span>'
+      : '<span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-check"/></svg>Read</span>';
+    return '<div class="nrow ' + (it.unread ? 'unread' : '') + '" data-row-id="' + it.id + '">' +
+      '<input type="checkbox" class="nchk row-chk" data-id="' + it.id + '" ' + (isSel ? 'checked' : '') + ' aria-label="Select ' + it.title + ' (' + it.dateLabel + ')">' +
+      '<div>' +
+        '<div class="ntitle">' + badge + '<span>' + it.title + '</span></div>' +
+        '<p class="nbody">' + it.body + '</p>' +
+        '<div class="nmeta"><span class="mono">' + it.dateLabel + '</span><span>·</span><a class="nlink" href="' + it.linkHref + '">' + it.linkText + ' →</a></div>' +
+      '</div>' +
+      '<div class="nright">' +
+        '<button type="button" class="btn sm toggle-read" data-id="' + it.id + '">' + (it.unread ? 'Mark read' : 'Mark unread') + '</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function render() {
+    renderTabs();
+    var vis = visibleItems();
+    var visUnread = vis.filter(function(i){ return i.unread; }).length;
+    $('#undoBtn').hidden = !clearedBackup;
+
+    // Clean stale selections
+    Object.keys(selected).forEach(function(k) {
+      if (!items.some(function(i){ return i.id === k; })) delete selected[k];
+    });
+    var selIds = Object.keys(selected).filter(function(k){ return selected[k]; });
+    $('#bulkDock').hidden = selIds.length === 0;
+    $('#bulkCnt').textContent = selIds.length + ' selected';
+
+    var allVisSelected = vis.length > 0 && vis.every(function(i){ return selected[i.id]; });
+    $('#selectVisibleChk').checked = allVisSelected;
+    $('#selectVisibleChk').disabled = vis.length === 0;
+    $('#selectVisibleLbl').textContent = vis.length ? 'Select visible (' + vis.length + ')' : 'Select visible';
+
+    if (!vis.length) {
+      $('#liveSummary').textContent = '0 notifications in ' + activeTab;
+      var ec = EMPTY_COPY[activeTab] || ['No notifications in this view', 'New updates across your Nestlancer projects and quotes will show here.', 'Reset to All', 'all'];
+      var cta = ec[3] === 'all'
+        ? '<button type="button" class="btn sm pri" id="emptyResetAll">' + ec[2] + '</button>'
+        : '<a class="btn sm pri" href="' + ec[3] + '">' + ec[2] + '</a>';
+      $('#feedBody').innerHTML = '<div class="emptybox" style="padding:42px 20px">' +
+        '<div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></div>' +
+        '<b>' + ec[0] + '</b><p class="sub" style="max-width:46ch">' + ec[1] + '</p>' +
+        '<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px">' + cta +
+        '<a class="btn sm" href="../../F21-settings/V1/index.html?tab=notifications">Notification settings</a></div></div>';
+      var rBtn = $('#emptyResetAll');
+      if (rBtn) rBtn.onclick = function(){ activeTab = 'all'; if (!items.length) items = seedItems(); render(); };
+      return;
+    }
+
+    var buckets = ['Today', 'This week', 'Earlier'];
+    var html = '';
+
+    buckets.forEach(function(bk) {
+      var bkItems = vis.filter(function(i){ return i.bucket === bk; });
+      if (bk === 'Today' && activeTab === 'all' && !bkItems.length) {
+        html += '<div class="date-sec"><div class="date-hd"><span>Today · Oct 28, 2026</span><span>0 new today</span></div>' +
+          '<div class="today-quiet"><span>Quiet today — no new alerts since Oct 24.</span><a class="nlink" href="../../F21-settings/V1/index.html?tab=notifications">Quiet hours &amp; channels →</a></div></div>';
+        return;
+      }
+      if (!bkItems.length) return;
+
+      html += '<div class="date-sec"><div class="date-hd"><span>' + bk + '</span><span>' + bkItems.length + (bkItems.length === 1 ? ' item' : ' items') + '</span></div>';
+
+      if (groupedMode) {
+        var groups = [];
+        bkItems.forEach(function(it) {
+          var g = groups.filter(function(x){ return x.id === it.entityId; })[0];
+          if (!g) { g = { id: it.entityId, title: it.entityTitle, sub: it.entitySub, linkHref: it.linkHref, linkText: it.linkText, cat: it.cat, list: [] }; groups.push(g); }
+          g.list.push(it);
+        });
+        groups.forEach(function(g) {
+          var uCnt = g.list.filter(function(x){ return x.unread; }).length;
+          var isOpen = openBundles[g.id] !== false;
+          var iconId = g.cat === 'quotes' ? 'i-doc' : 'i-shield';
+          html += '<div class="bundle ' + (uCnt ? 'has-unread' : '') + '">' +
+            '<div class="bundle-hd">' +
+              '<button type="button" class="bundle-trig" data-bundle="' + g.id + '" aria-expanded="' + isOpen + '">' +
+                '<span class="bundle-ic"><svg class="i"><use href="../../../assets/lab-icons.svg#' + iconId + '"/></svg></span>' +
+                '<span>' +
+                  '<span class="bundle-title">' + g.title + ' ' +
+                    (uCnt ? '<span class="badge b-info">● ' + uCnt + ' unread</span>' : '<span class="badge b-neutral">✓ All ' + g.list.length + ' read</span>') +
+                  '</span>' +
+                  '<span class="bundle-sub" style="display:block">' + g.sub + ' · ' + g.list.length + ' grouped alerts (' + (isOpen ? 'collapse' : 'expand') + ')</span>' +
+                '</span>' +
+              '</button>' +
+              '<div class="bundle-acts">' +
+                '<a class="btn sm" href="' + g.linkHref + '">' + (g.cat === 'quotes' ? 'Review quote' : 'Account exports') + ' →</a>' +
+                '<button type="button" class="btn sm mark-grp" data-bundle-mark="' + g.id + '" ' + (uCnt === 0 ? 'disabled' : '') + '>Mark group read</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="bundle-body" ' + (isOpen ? '' : 'hidden') + '>' + g.list.map(rowHtml).join('') + '</div>' +
+          '</div>';
+        });
+      } else {
+        html += '<div class="bundle">' + bkItems.map(rowHtml).join('') + '</div>';
+      }
+      html += '</div>';
+    });
+
+    $('#liveSummary').textContent = vis.length + ' notifications · ' + visUnread + ' unread' + (groupedMode ? ' · bundled by entity (A7)' : ' · chronological list');
+    $('#feedBody').innerHTML = html;
+
+    // Bind row & bundle controls
+    $$('[data-bundle]', $('#feedBody')).forEach(function(btn) {
+      btn.onclick = function() {
+        var id = btn.dataset.bundle;
+        openBundles[id] = !(openBundles[id] !== false);
+        render();
+      };
+    });
+    $$('[data-bundle-mark]', $('#feedBody')).forEach(function(btn) {
+      btn.onclick = function() {
+        var id = btn.dataset.bundleMark, n = 0;
+        items.forEach(function(it){ if (it.entityId === id && it.unread) { it.unread = false; n++; } });
+        Lab.toast('Marked ' + n + ' alerts read in bundle (POST /notifications/read-selected)');
+        render();
+      };
+    });
+    $$('.row-chk', $('#feedBody')).forEach(function(chk) {
+      chk.onchange = function() {
+        if (chk.checked) selected[chk.dataset.id] = true; else delete selected[chk.dataset.id];
+        render();
+      };
+    });
+    $$('.toggle-read', $('#feedBody')).forEach(function(btn) {
+      btn.onclick = function() {
+        var it = items.filter(function(x){ return x.id === btn.dataset.id; })[0];
+        if (!it) return;
+        it.unread = !it.unread;
+        Lab.toast(it.unread ? 'Marked unread locally' : 'Marked read (PATCH /notifications/{id}/read)');
+        render();
+      };
+    });
+  }
+
+  $('#modeEntity').onclick = function() { groupedMode = true; this.setAttribute('aria-pressed', 'true'); $('#modeFlat').setAttribute('aria-pressed', 'false'); render(); };
+  $('#modeFlat').onclick = function() { groupedMode = false; this.setAttribute('aria-pressed', 'true'); $('#modeEntity').setAttribute('aria-pressed', 'false'); render(); };
+
+  $('#selectVisibleChk').onchange = function() {
+    var vis = visibleItems(), on = this.checked;
+    vis.forEach(function(it){ if (on) selected[it.id] = true; else delete selected[it.id]; });
+    render();
+  };
+
+  $('#bulkMarkRead').onclick = function() {
+    var ids = Object.keys(selected).filter(function(k){ return selected[k]; }), changed = 0;
+    items.forEach(function(it){ if (selected[it.id] && it.unread) { it.unread = false; changed++; } });
+    selected = {};
+    Lab.toast('Marked ' + ids.length + ' selected (' + changed + ' unread) read · POST /api/v1/notifications/read-selected');
+    render();
+  };
+
+  $('#bulkDeselect').onclick = function() { selected = {}; render(); };
+
+  $('#markAllBtn').onclick = function() {
+    var n = 0;
+    items.forEach(function(it){ if (it.unread) { it.unread = false; n++; } });
+    Lab.toast(n ? 'Marked all ' + n + ' unread notifications read · PATCH /notifications/read-all' : 'All notifications are already read');
+    render();
+  };
+
+  $('#clearReadBtn').onclick = function() {
+    var readItems = items.filter(function(it){ return !it.unread; });
+    if (!readItems.length) { Lab.toast('No read notifications to clear'); return; }
+    clearedBackup = items.map(function(x){ return Object.assign({}, x); });
+    items = items.filter(function(it){ return it.unread; });
+    selected = {};
+    Lab.toast('Cleared ' + readItems.length + ' read notifications · Undo available');
+    if (!items.length) Lab.setState('empty');
+    render();
+  };
+
+  $('#undoBtn').onclick = function() {
+    if (!clearedBackup) return;
+    items = clearedBackup;
+    clearedBackup = null;
+    Lab.setState('data');
+    Lab.toast('Restored cleared notifications');
+    render();
+  };
+
+  $('#restoreDemoBtn').onclick = function() {
+    items = seedItems();
+    clearedBackup = null;
+    selected = {};
+    activeTab = 'all';
+    Lab.setState('data');
+    render();
+    Lab.toast('Restored 8 captured notifications');
+  };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var name = u.getAttribute('data-unbuilt');
+    Lab.openDlg(name, 'Standalone route outside this workspace build.',
+      '<p><b>' + name + '</b> is part of a separate family outside the built client-portal routes. You can jump directly to any built portal section below.</p>' +
+      '<div class="row"><a class="btn pri" href="../../../index.html">Open Lab Gallery</a><a class="btn" href="../../F10-quotes-list/V1/index.html">Quotes</a><a class="btn" href="../../F21-settings/V1/index.html">Settings</a></div>');
+  });
+
+  Lab.onState = function(s) { if (s === 'data') render(); };
+  Lab.init({
+    actions: [
+      ['F19 V1 · Calm Inbox (current)', 'index.html'],
+      ['F19 V2 · Dense Triage Ledger', '../V2/index.html'],
+      ['F19 V3 · Split Triage Reader', '../V3/index.html'],
+      ['F19 V4 · Priority Action Board', '../V4/index.html'],
+      ['F19 V5 · Catch-Up Brief Stepper', '../V5/index.html'],
+      ['Review Quote NL-QTE-2026-000018 (F11)', '../../F11-quote-details/V1/index.html'],
+      ['Notification Settings (F21)', '../../F21-settings/V1/index.html?tab=notifications'],
+      ['Public Profile (F20)', '../../F20-profile-view-edit/V1/index.html'],
+      ['Settings ▸ Files (F22)', '../../F22-settings-files/V1/index.html'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

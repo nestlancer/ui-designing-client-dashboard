@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · V2 Sticky Left-Rail Control Center — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F21 · V2 — Sticky Left-Rail Control Center (Split Workspace archetype)
+   250px sticky vertical Settings sub-navigation with live posture pills + 1fr detail pane. */
+.wrap.rail-ws{max-width:1180px;padding:24px 22px 80px}
+h1{font-size:clamp(30px,3vw,36px);line-height:1.15}
+.set-split{display:grid;grid-template-columns:252px minmax(0,1fr);gap:20px;align-items:start}
+.set-rail{position:sticky;top:74px;border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:10px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:4px}
+.r-tab{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:42px;padding:8px 12px;border-radius:var(--radius-md);font-size:13.5px;font-weight:600;color:var(--muted-foreground);text-align:left}
+.r-tab:hover{background:var(--muted);color:var(--foreground)}
+.r-tab[aria-selected="true"]{background:var(--brand-50);color:var(--primary-ink)}
+.dark .r-tab[aria-selected="true"]{background:rgba(70,95,255,.18)}
+.wcard{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:22px;box-shadow:var(--shadow-xs);margin-bottom:16px}
+.wcard.dz{border-color:var(--status-error-border)}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+
+.sw{position:relative;display:inline-flex;align-items:center;width:42px;height:24px;border-radius:999px;background:var(--border);border:1px solid var(--border);padding:2px;transition:background var(--duration-fast);flex:none}
+.sw::after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;transition:transform var(--duration-fast)}
+.sw[aria-checked="true"]{background:var(--primary);border-color:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(18px)}
+
+.mx-hd,.mx-rw{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,86px);align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border)}
+.mx-hd{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted-foreground)}
+.mx-rw:last-child{border-bottom:0}
+.mx-cell{display:flex;align-items:center;justify-content:center;gap:6px}
+.mx-m-lbl{display:none;font-size:12px;font-weight:600;color:var(--muted-foreground)}
+
+.act-grp{border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:10px;overflow:hidden}
+.act-ghd{padding:9px 14px;background:var(--muted);font-size:12px;font-weight:700;display:flex;justify-content:space-between}
+.act-r{display:grid;grid-template-columns:96px 1fr 120px 110px;gap:8px;padding:9px 14px;border-top:1px solid var(--border);font-size:12.5px;align-items:center}
+
+@media(max-width:880px){
+  .set-split{grid-template-columns:1fr}
+  .set-rail{position:static;flex-direction:row;overflow-x:auto;padding:6px}
+  .r-tab{white-space:nowrap;flex:none}
+}
+@media(max-width:680px){
+  .wrap.rail-ws{padding:16px 12px 64px}
+  .g2,.g3{grid-template-columns:1fr}
+  .mx-hd{display:none}
+  .mx-rw{grid-template-columns:1fr;gap:6px}
+  .mx-cell{justify-content:space-between;padding:5px 10px;background:var(--muted);border-radius:var(--radius-md)}
+  .mx-m-lbl{display:inline}
+  .act-r{grid-template-columns:1fr;gap:4px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Settings control center</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F21 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Tabs</a>
+      <a class="pill on" href="index.html" aria-current="page">V2 · Left-Rail</a>
+      <a class="pill" href="../V3/index.html">V3 · Audit Console</a>
+      <a class="pill" href="../V4/index.html">V4 · Posture Deck</a>
+      <a class="pill" href="../V5/index.html">V5 · Hardening Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap rail-ws" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Persistent Posture Sub-Rail · Split Control Center</div>
+          <h1>Settings</h1>
+          <p class="lead">Keep live visibility, 2FA, session, and audit indicators pinned in the left sub-rail while editing each workspace pane.</p>
+        </div>
+        <div class="acts">
+          <a class="btn sm" href="../../F20-profile-view-edit/V1/index.html">Public profile (`F20`)</a>
+          <a class="btn sm" href="../../F22-settings-files/V1/index.html">Files (`F22`)</a>
+        </div>
+      </div>
+
+      <div id="v2Banner" style="margin-bottom:14px" hidden></div>
+
+      <div data-panel="data">
+        <div class="set-split">
+          <aside class="set-rail" role="tablist" data-local="true" aria-label="Settings sub-navigation" id="railTabs">
+            <button type="button" class="r-tab" role="tab" data-rt="account" aria-selected="true"><span>Account &amp; Privacy</span><span class="badge b-ok" id="rVisPill">Public</span></button>
+            <button type="button" class="r-tab" role="tab" data-rt="notifications" aria-selected="false"><span>Notifications</span><span class="badge b-neutral">19</span></button>
+            <button type="button" class="r-tab" role="tab" data-rt="security" aria-selected="false"><span>Security &amp; 2FA</span><span class="badge b-warn" id="r2faPill">Off</span></button>
+            <button type="button" class="r-tab" role="tab" data-rt="sessions" aria-selected="false"><span>Active Sessions</span><span class="badge b-neutral" id="rSesPill">3</span></button>
+            <button type="button" class="r-tab" role="tab" data-rt="activity" aria-selected="false"><span>Activity Audit</span><span class="badge b-neutral">50</span></button>
+          </aside>
+
+          <div>
+            <!-- Account -->
+            <section id="rp-account" role="tabpanel">
+              <div class="wcard">
+                <h2>Regional &amp; currency defaults</h2>
+                <div class="g3" style="margin-top:10px">
+                  <div><label class="lbl" for="rLang" style="margin-top:0">Language</label><select class="inp" id="rLang"><option selected>English</option><option>Hindi</option><option>Gujarati</option></select></div>
+                  <div><label class="lbl" for="rTz" style="margin-top:0">Timezone</label><select class="inp" id="rTz"><option value="Asia/Kolkata" selected>Asia/Kolkata (IST)</option><option value="UTC">UTC</option><option value="Asia/Dubai">Asia/Dubai</option></select></div>
+                  <div><label class="lbl" for="rCur" style="margin-top:0">Currency</label><select class="inp" id="rCur"><option value="INR" selected>INR (₹)</option><option value="USD">USD ($)</option></select></div>
+                </div>
+              </div>
+
+              <div class="wcard">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+                  <h2>Profile visibility (C20)</h2>
+                  <a class="btn sm ghost" href="../../F20-profile-view-edit/V1/index.html">Inspect F20 card →</a>
+                </div>
+                <div style="max-width:320px;margin:10px 0 14px">
+                  <label class="lbl" for="rVisSel" style="margin-top:0">Visibility tier</label>
+                  <select class="inp" id="rVisSel"><option value="Public" selected>Public</option><option value="Collaborators">Collaborators only</option><option value="Private">Private</option></select>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--border)">
+                  <span>Show email (<span class="mono">arjun.mehta@nestlancer.com</span>) publicly</span>
+                  <button type="button" class="sw" role="switch" id="rSwEmail" aria-checked="false" aria-label="Show email publicly"></button>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--border)">
+                  <span>Show phone (<span class="mono">+919825012345</span>) publicly</span>
+                  <button type="button" class="sw" role="switch" id="rSwPhone" aria-checked="false" aria-label="Show phone publicly"></button>
+                </div>
+                <div style="margin-top:14px;display:flex;justify-content:flex-end"><button type="button" class="btn pri" id="rSaveAcct">Save account settings</button></div>
+              </div>
+
+              <div class="wcard dz">
+                <h2 style="color:var(--status-error-text)">Danger zone &amp; data export</h2>
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)">
+                  <div><b>Export my data</b><div class="sub" id="rExpInfo">Async JSON/CSV package delivered via F19 Notifications.</div></div>
+                  <button type="button" class="btn sm" id="rExpBtn">Export my data</button>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-top:12px">
+                  <div><b id="rDelTitle">Delete account</b><div class="sub">Password-gated soft deletion with 14-day cancellation grace window.</div></div>
+                  <div style="display:flex;gap:8px">
+                    <button type="button" class="btn sm danger" id="rDelBtn">Delete account</button>
+                    <button type="button" class="btn sm" id="rCancelDelBtn" hidden>Cancel pending deletion</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Notifications -->
+            <section id="rp-notifications" role="tabpanel" hidden>
+              <div class="wcard">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+                  <div><h2>Quiet hours</h2><p class="sub">Suppress overnight non-urgent notifications (`Asia/Kolkata`).</p></div>
+                  <button type="button" class="sw" role="switch" id="rSwQh" aria-checked="false" aria-label="Enable quiet hours"></button>
+                </div>
+                <div class="g3" style="margin-top:12px">
+                  <div><label class="lbl" for="rQhFrom" style="margin-top:0">From</label><input class="inp mono" id="rQhFrom" type="time" value="22:00" disabled></div>
+                  <div><label class="lbl" for="rQhTo" style="margin-top:0">Until</label><input class="inp mono" id="rQhTo" type="time" value="08:00" disabled></div>
+                  <div><label class="lbl" for="rQhTz" style="margin-top:0">Timezone</label><input class="inp mono" id="rQhTz" value="Asia/Kolkata" disabled></div>
+                </div>
+              </div>
+
+              <div class="wcard">
+                <h2>Notification matrix (18 channel switches)</h2>
+                <div class="mx-hd" aria-hidden="true"><span>Category</span><span style="text-align:center">Email</span><span style="text-align:center">In-App</span><span style="text-align:center">Push</span></div>
+                <div id="rMatrixMount"></div>
+                <div style="margin-top:16px;display:flex;justify-content:flex-end"><button type="button" class="btn pri" id="rSaveNotif">Save preferences</button></div>
+              </div>
+            </section>
+
+            <!-- Security -->
+            <section id="rp-security" role="tabpanel" hidden>
+              <div class="wcard">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <h2>Two-factor authentication (3-step TOTP)</h2>
+                  <span class="badge b-warn" id="rSecBadge">Disabled</span>
+                </div>
+                <div id="r2faMount" style="margin-top:12px"></div>
+              </div>
+              <div class="wcard">
+                <h2>Change password</h2>
+                <form id="rPwForm" novalidate>
+                  <label class="lbl" for="rPw0">Current password *</label><input class="inp" id="rPw0" type="password">
+                  <div class="g2">
+                    <div><label class="lbl" for="rPw1">New password *</label><input class="inp" id="rPw1" type="password" placeholder="≥8 chars, upper+lower+digit+symbol"></div>
+                    <div><label class="lbl" for="rPw2">Confirm new password *</label><input class="inp" id="rPw2" type="password"></div>
+                  </div>
+                  <div class="errmsg" id="rPwErr" hidden></div>
+                  <div style="margin-top:14px;display:flex;justify-content:flex-end"><button type="submit" class="btn pri">Update password</button></div>
+                </form>
+              </div>
+            </section>
+
+            <!-- Sessions -->
+            <section id="rp-sessions" role="tabpanel" hidden>
+              <div class="wcard">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--border)">
+                  <div><h2>Active sessions</h2><p class="sub">Distinct 3-tier session revocation controls.</p></div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    <button type="button" class="btn sm" id="rRevOthers">Sign out other devices</button>
+                    <button type="button" class="btn sm danger" id="rRevAll">Sign out all (including this device)</button>
+                  </div>
+                </div>
+                <div id="rSesMount"></div>
+              </div>
+            </section>
+
+            <!-- Activity -->
+            <section id="rp-activity" role="tabpanel" hidden>
+              <div class="wcard">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+                  <div><h2>Activity audit (50 events)</h2><p class="sub">Day-grouped (`49 LOGIN · 1 LOGOUT`) with collapsible bursts (C10).</p></div>
+                  <button type="button" class="btn sm" id="rToggleBursts">Expand all bursts</button>
+                </div>
+                <div id="rActMount"></div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <noscript><div class="panel pad sub">JavaScript off: Settings left-rail control center for Arjun Mehta.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-gear"/></svg></div>
+          <b>No secondary device sessions</b>
+          <p class="sub">Only `This device` (`172.19.0.1`) is currently active.</p>
+          <button type="button" class="btn sm pri" id="rRestoreBtn">Restore baseline</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:180px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading settings control center…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Preferences service unreachable</b>
+          <p><span class="mono">GET /api/v1/users/preferences</span> failed. Retry to reload.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F21 V2 Sticky Left-Rail Control Center · Snapshots 36–38, 41–42 lock</span>
+        <span><a href="../V1/index.html">← V1 Calm Tabs</a> · <a href="../V3/index.html">V3 Audit Console →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var CATS = [
+    { id:'p', label:'Project Updates', email:true, inApp:true, push:true },
+    { id:'m', label:'Milestones', email:true, inApp:true, push:false },
+    { id:'d', label:'Deliverables', email:true, inApp:true, push:true },
+    { id:'q', label:'Quotes & Proposals', email:true, inApp:true, push:true },
+    { id:'b', label:'Payments & Invoices', email:true, inApp:true, push:true },
+    { id:'c', label:'Messages', email:true, inApp:true, push:true }
+  ];
+
+  var sessions = [
+    { id:'s1', ua:'Chromium 146 · Linux (X11)', ip:'172.19.0.1', time:'Apr 14, 2026, 20:51 IST', cur:true },
+    { id:'s2', ua:'Safari 18 · iPhone (iOS 18.3)', ip:'49.36.128.44', time:'Apr 14, 2026, 18:14 IST', cur:false },
+    { id:'s3', ua:'Chrome 145 · Windows 11', ip:'103.215.91.12', time:'Apr 13, 2026, 11:02 IST', cur:false }
+  ];
+
+  function mkDay(d, n, addLogout) {
+    var a = [];
+    for (var i = 0; i < n; i++) a.push({ type:'LOGIN', ts:d + ', ' + String(20 - Math.floor(i/4)).padStart(2,'0') + ':' + String((50 - i*3 + 60)%60).padStart(2,'0') + ' IST', ip:'172.19.0.1' });
+    if (addLogout) a.push({ type:'LOGOUT', ts:d + ', 13:42 IST', ip:'172.19.0.1' });
+    return a;
+  }
+  var days = [
+    { k:'d1', t:'Apr 14, 2026', rows:mkDay('Apr 14', 17, true) },
+    { k:'d2', t:'Apr 13, 2026', rows:mkDay('Apr 13', 19, false) },
+    { k:'d3', t:'Apr 12, 2026', rows:mkDay('Apr 12', 13, false) }
+  ];
+  var expAll = false, tfa = { on:false, st:0 }, delPend = false;
+
+  var rTabs = $$('.r-tab', $('#railTabs'));
+  function setPane(k, foc) {
+    rTabs.forEach(function(b) {
+      var on = b.dataset.rt === k;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.tabIndex = on ? 0 : -1;
+      $('#rp-' + b.dataset.rt).hidden = !on;
+      if (on && foc) b.focus();
+    });
+  }
+  rTabs.forEach(function(b, i) {
+    b.onclick = function(){ setPane(b.dataset.rt, false); };
+    b.onkeydown = function(e) {
+      var n = i;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') n = (i + 1) % rTabs.length;
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') n = (i - 1 + rTabs.length) % rTabs.length;
+      else return;
+      e.preventDefault(); setPane(rTabs[n].dataset.rt, true);
+    };
+  });
+
+  function swBind(el, fn) {
+    el.onclick = function() {
+      var nxt = el.getAttribute('aria-checked') !== 'true';
+      el.setAttribute('aria-checked', nxt ? 'true' : 'false');
+      if (fn) fn(nxt);
+    };
+  }
+  swBind($('#rSwEmail')); swBind($('#rSwPhone'));
+  swBind($('#rSwQh'), function(on){ $('#rQhFrom').disabled = !on; $('#rQhTo').disabled = !on; $('#rQhTz').disabled = !on; });
+
+  $('#rVisSel').onchange = function(){ $('#rVisPill').textContent = this.value; };
+  $('#rSaveAcct').onclick = function() {
+    $('#v2Banner').hidden = false;
+    $('#v2Banner').innerHTML = '<div class="note ok" role="status"><b>Account &amp; visibility settings saved</b>.</div>';
+    Lab.toast('Saved account settings');
+  };
+  $('#rExpBtn').onclick = function() {
+    $('#rExpInfo').innerHTML = '<span class="badge b-info">Queued</span> Ready notification will appear in <a href="../../F19-notifications-center/V1/index.html" style="color:var(--primary-ink)">F19</a>.';
+    Lab.toast('Data export requested');
+  };
+  $('#rDelBtn').onclick = function() {
+    Lab.openDlg('Schedule account deletion', 'Enter current password to confirm.',
+      '<label class="lbl" for="v2DelPw" style="margin-top:0">Password *</label><input class="inp" id="v2DelPw" type="password">' +
+      '<div class="row"><button class="btn danger" id="v2DelGo">Confirm deletion</button><button class="btn" id="v2DelNo">Cancel</button></div>');
+    $('#v2DelNo').onclick = Lab.closeDlg;
+    $('#v2DelGo').onclick = function() {
+      if ($('#v2DelPw').value.trim().length < 3) return;
+      delPend = true; Lab.closeDlg();
+      $('#rCancelDelBtn').hidden = false; $('#rDelBtn').disabled = true;
+      $('#rDelTitle').textContent = 'Pending deletion (14-day recovery window)';
+      Lab.toast('Deletion scheduled');
+    };
+  };
+  $('#rCancelDelBtn').onclick = function() {
+    delPend = false; $('#rCancelDelBtn').hidden = true; $('#rDelBtn').disabled = false;
+    $('#rDelTitle').textContent = 'Delete account';
+    Lab.toast('Cancelled pending deletion');
+  };
+
+  function drawMatrix() {
+    $('#rMatrixMount').innerHTML = CATS.map(function(c) {
+      return '<div class="mx-rw"><b>' + c.label + '</b>' + ['email','inApp','push'].map(function(ch) {
+        var nm = ch === 'email' ? 'Email' : (ch === 'inApp' ? 'In-App' : 'Push');
+        return '<div class="mx-cell"><span class="mx-m-lbl">' + nm + '</span><button type="button" class="sw" role="switch" data-c="' + c.id + '" data-k="' + ch + '" aria-checked="' + (c[ch]?'true':'false') + '" aria-label="' + c.label + ' ' + nm + '"></button></div>';
+      }).join('') + '</div>';
+    }).join('');
+    $$('.sw', $('#rMatrixMount')).forEach(function(s) {
+      s.onclick = function() {
+        var c = CATS.find(function(x){ return x.id === s.dataset.c; });
+        c[s.dataset.k] = !c[s.dataset.k];
+        s.setAttribute('aria-checked', c[s.dataset.k] ? 'true' : 'false');
+      };
+    });
+  }
+  $('#rSaveNotif').onclick = function(){ Lab.toast('Saved 19 notification switches'); };
+
+  function draw2fa() {
+    $('#rSecBadge').className = 'badge ' + (tfa.on ? 'b-ok' : 'b-warn');
+    $('#rSecBadge').textContent = tfa.on ? 'Enabled' : 'Disabled';
+    $('#r2faPill').className = 'badge ' + (tfa.on ? 'b-ok' : 'b-warn');
+    $('#r2faPill').textContent = tfa.on ? 'On' : 'Off';
+    var m = $('#r2faMount');
+    if (tfa.on) {
+      m.innerHTML = '<div class="note ok">2FA active · Recovery code <span class="mono">NL-8492-1104</span></div><button type="button" class="btn sm danger" id="r2Off" style="margin-top:10px">Disable 2FA</button>';
+      $('#r2Off').onclick = function(){ tfa = { on:false, st:0 }; draw2fa(); };
+    } else if (tfa.st === 0) {
+      m.innerHTML = '<button type="button" class="btn pri" id="r2Start">Enable 2FA</button>';
+      $('#r2Start').onclick = function(){ tfa.st = 1; draw2fa(); };
+    } else if (tfa.st === 1) {
+      m.innerHTML = '<label class="lbl" for="r2Pw">Step 1/3 · Verify current password</label><input class="inp" id="r2Pw" type="password" placeholder="Current password"><div style="display:flex;gap:8px;margin-top:10px"><button type="button" class="btn pri" id="r2N1">Next: Scan QR →</button><button type="button" class="btn ghost" id="r2C">Cancel</button></div>';
+      $('#r2N1').onclick = function(){ if ($('#r2Pw').value.length >= 3) { tfa.st = 2; draw2fa(); } };
+      $('#r2C').onclick = function(){ tfa.st = 0; draw2fa(); };
+    } else if (tfa.st === 2) {
+      m.innerHTML = '<div class="sub">Step 2/3 · Secret key: <code class="mono">JBSWY3DPEHPK3PXP</code> (scan in Authenticator app)</div><div style="display:flex;gap:8px;margin-top:10px"><button type="button" class="btn pri" id="r2N2">Next: Enter 6-digit OTP →</button><button type="button" class="btn ghost" id="r2C">Cancel</button></div>';
+      $('#r2N2').onclick = function(){ tfa.st = 3; draw2fa(); };
+      $('#r2C').onclick = function(){ tfa.st = 0; draw2fa(); };
+    } else {
+      m.innerHTML = '<label class="lbl" for="r2Code">Step 3/3 · 6-digit OTP code</label><input class="inp mono" id="r2Code" maxlength="6" placeholder="123456" style="max-width:180px"><div style="display:flex;gap:8px;margin-top:10px"><button type="button" class="btn pri" id="r2Done">Verify &amp; enable</button></div>';
+      $('#r2Done').onclick = function(){ if (/^\d{6}$/.test($('#r2Code').value.trim())) { tfa = { on:true, st:0 }; Lab.toast('2FA enabled'); draw2fa(); } };
+    }
+  }
+
+  $('#rPwForm').onsubmit = function(e) {
+    e.preventDefault();
+    var p1 = $('#rPw1').value, p2 = $('#rPw2').value;
+    if (p1.length < 8 || p1 !== p2) { $('#rPwErr').hidden = false; $('#rPwErr').textContent = 'Ensure new password is ≥8 chars and matches confirmation.'; return; }
+    $('#rPwErr').hidden = true; $('#rPwForm').reset(); Lab.toast('Password updated');
+  };
+
+  function drawSessions() {
+    $('#rSesPill').textContent = String(sessions.length);
+    $('#rSesMount').innerHTML = sessions.map(function(s) {
+      return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border);flex-wrap:wrap">' +
+        '<div><b>' + s.ua + '</b> ' + (s.cur ? '<span class="badge b-info">This device</span>' : '') + '<div class="sub mono">' + s.ip + ' · ' + s.time + '</div></div>' +
+        (s.cur ? '<span class="sub">Active</span>' : '<button type="button" class="btn sm" data-rs="' + s.id + '">Sign out</button>') +
+      '</div>';
+    }).join('');
+    $$('[data-rs]', $('#rSesMount')).forEach(function(b){ b.onclick = function(){ sessions = sessions.filter(function(x){ return x.id !== b.dataset.rs; }); drawSessions(); }; });
+  }
+  $('#rRevOthers').onclick = function(){ sessions = sessions.filter(function(s){ return s.cur; }); Lab.toast('Signed out other devices'); drawSessions(); };
+  $('#rRevAll').onclick = function() {
+    Lab.openDlg('Sign out all devices?', 'Confirm global session revocation.',
+      '<div class="row"><button class="btn danger" id="rAllGo">Sign out all</button><button class="btn" id="rAllNo">Cancel</button></div>');
+    $('#rAllNo').onclick = Lab.closeDlg;
+    $('#rAllGo').onclick = function(){ Lab.closeDlg(); sessions = [sessions[0]]; Lab.toast('Revoked all sessions'); drawSessions(); };
+  };
+
+  function drawActivity() {
+    $('#rActMount').innerHTML = days.map(function(d) {
+      var list = expAll ? d.rows : [d.rows[0], d.rows[d.rows.length - 1]];
+      var hid = d.rows.length - list.length;
+      return '<div class="act-grp"><div class="act-ghd"><span>' + d.t + '</span><span class="mono">' + d.rows.length + ' events</span></div>' +
+        list.map(function(r, idx) {
+          var burst = (idx === 0 && hid > 0) ? '<div class="act-r" style="background:var(--brand-50);grid-template-columns:1fr"><span class="sub"><b>' + hid + ' repeated LOGIN events</b> from 172.19.0.1 collapsed</span></div>' : '';
+          return '<div class="act-r"><span class="badge ' + (r.type==='LOGOUT'?'b-warn':'b-ok') + '">' + r.type + '</span><span>Chromium · Linux</span><span class="mono">' + r.ip + '</span><span class="mono">' + r.ts.split(', ')[1] + '</span></div>' + burst;
+        }).join('') + '</div>';
+    }).join('');
+  }
+  $('#rToggleBursts').onclick = function(){ expAll = !expAll; this.textContent = expAll ? 'Collapse bursts' : 'Expand all bursts'; drawActivity(); };
+  $('#rRestoreBtn').onclick = function(){ Lab.setState('data'); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F21 V1 · Calm Tabbed Hub', '../V1/index.html'],
+      ['F21 V2 · Sticky Left-Rail (current)', 'index.html'],
+      ['F21 V3 · Dense Security & Audit Console', '../V3/index.html'],
+      ['F21 V4 · Posture-First Deck', '../V4/index.html'],
+      ['F21 V5 · Hardening Walkthrough', '../V5/index.html'],
+      ['Public Profile (F20)', '../../F20-profile-view-edit/V1/index.html']
+    ]
+  });
+
+  drawMatrix(); draw2fa(); drawSessions(); drawActivity();
+})();
+</script>
+</body>
+</html>

@@ -219,3 +219,33 @@ All 25 variants: one `<h1>`, skip link, ⌘K palette, four switchable states, `n
 
 From the repo root: `python3 -m http.server 8130` → `/client-portal-lab/`. Every variant also renders standalone via its own relative paths.
 
+---
+
+## 10 · F19 Notifications Center + F20 Profile View & Edit + F21 Settings + F22 Settings Files (added 2026-10-28)
+
+**All 20 variants across F19, F20, F21, and F22 were hand-authored individually via `write_file`; zero generator scripts were used.** Each variant imports `shared/tokens.css` + `shared/base.css` directly (both untouched) and uses the single locked blue token scheme, plus additive `#i-eye`, `#i-archive`, `#i-key`, `#i-trash`, `#i-share` symbols appended to `assets/lab-icons.svg`. All 65 earlier sibling records in `manifest.json` and `index.html` remain byte-for-byte unchanged (`13 → 17` families, `65 → 85` variants).
+
+### 10.1 Content locks & domain reconciliations
+
+- **F19 (`/notifications`, Snapshot `33`, Screenshot `025`)**: Locked to the 9 category tabs (`All`, `Unread`, `Projects`, `Milestones`, `Deliverables`, `Quotes`, `Payments`, `Messages`, `System`) and 8 captured items (`4` Quote `NL-QTE-2026-000018` alerts + `4` Account Data Export notifications; `6` unread, `2` read). **A7** entity-grouped burst bundling collapses repeated alerts into multi-open accordions while placing `Mark read` as a sibling button outside the accordion header `<button>` (valid ARIA). Includes contextual bulk selection (`POST /api/v1/notifications/read-selected`), 1-click Undo on Clear (`DELETE /api/v1/notifications`), and live cross-links to `F10`/`F11` and `F21`.
+- **F20 (`/profile`, Snapshots `34`–`35`, Screenshots `012`, `013`, `026`, `036`)**: Locked to Arjun Mehta (`AM`, `arjun.mehta@nestlancer.com` immutable login ID, `+919825012345` E.164 phone, `Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale)`, wholesale bio, and 4 skills: `Proprietor`, `B2B Trade`, `Inventory`, `GST Invoicing`). Enforces **C20** single-home privacy ownership: `F20` shows a read-only visibility summary (`Public · Email hidden · Phone hidden`) linking directly to `F21` (`Settings ▸ Account`) rather than duplicating privacy switches.
+- **F21 (`/settings/*`, Snapshots `36`–`38`, `41`–`42`, Screenshots `027`–`029`, `036`)**: Consolidates all 5 settings sub-pages (`Account`, `Notifications`, `Security`, `Sessions`, `Activity`). Reconciles the **19 single-DOM Notification switches** (`1` Quiet Hours `22:00–08:00 Asia/Kolkata` + `6 categories × 3 channels` with zero duplicate mobile/desktop markup), **KEEP** 3-step TOTP 2FA wizard (`password → inline SVG QR + JBSWY3DPEHPK3PXP → 6-digit OTP`), **KEEP** Danger zone (`Export my data` linking to `F19`, password-gated `Delete account`, and `Cancel pending deletion`), **Inventory #45** 3-tier session revocation (`Sign out`, `Sign out other devices`, confirm-gated `Sign out all`), and **C10** day-grouped burst-collapsible **50-row Activity log** (`49 LOGIN + 1 LOGOUT` from `172.19.0.1`).
+- **F22 (`/settings/files`, Snapshots `39`–`40`, Screenshots `034`–`035`)**: Locked to `41.1 KB used of 5 GB`, accessible `<label>` + `.sr-only <input type="file">` dropzone (`≤500 MB`, `>10 MB` chunked note), 5 type chips + 6 source filters + status + search, **C16** shared-array `aria-pressed` Grid/List toggle, 3 uploaded files (`mehta-catalog-structure.pdf` `18.4 KB`, `gst-invoice-format-sample.pdf` `13.2 KB`, `warehouse-barcode-spec.zip` `9.5 KB`) with `035` `⋯` action menu, 13 engagement groups / 26 `locked` contractual PDFs, and **C13** tri-mode preview (sandbox-safe PDF sheet preview, `FileReader` image preview, and `.zip` fallback card with `"No in-app preview for this file type."` + `"Open in new tab"`).
+
+### 10.2 Coverage (5/5 across all 4 families)
+
+| Family | Required C / A items | Achieved |
+|---|---|---|
+| F19 | **A7** entity burst grouping + deep links, **C4, C5, C6, C16, C17, C18** | **5 / 5** variants |
+| F20 | **C20** single-home visibility summary → `F21`, `UpdateProfileDto` validation, **C4, C5, C6, C17, C18** | **5 / 5** variants |
+| F21 | **19** single-DOM switches, **KEEP** 3-step 2FA, **KEEP** Danger zone, **#45** 3-tier sessions, **C10** 50-row grouped Activity, **C20**, **C4, C5, C6, C16, C17, C18** | **5 / 5** variants |
+| F22 | **C13** tri-mode preview (PDF / Image / `.zip` fallback), **C16** shared-array Grid/List, `41.1 KB / 5 GB`, `035` menu, 26 `locked` PDFs, **C4, C5, C6, C17, C18** | **5 / 5** variants |
+
+### 10.3 Winners (one per family)
+
+- **F19 — V1 Calm Entity-Grouped Inbox.** Collapses noisy quote and data-export bursts into two scannable entity threads with sibling `Mark read` controls, 1-click Undo on Clear, and direct deep links to `F10`/`F11` and `F21`.
+- **F20 — V2 Live Split Editor & Collaborator Preview.** Eliminates guesswork when editing public identity by updating the sticky Collaborator Card keystroke-for-keystroke beside the form while keeping C20 privacy rules cleanly anchored in `F21`.
+- **F21 — V2 Sticky Left-Rail Control Center.** Pins live posture pills (`Public`, `19`, `2FA Off/On`, `3 sessions`, `50 events`) in a persistent vertical sub-rail so the user never loses account context while configuring individual panes.
+- **F22 — V3 Split Drive & Live Preview Workbench.** Turns `/settings/files` into a responsive 3-pane cloud drive where clicking any uploaded asset or locked contractual PDF renders its C13 sheet preview or `.zip` fallback immediately inline.
+
+

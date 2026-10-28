@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Profile · V5 Guided Profile Readiness Stepper — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F20 · V5 — Guided Profile Readiness Stepper (Narrative / Stepper-led archetype)
+   4-step wizard + 2fr/1fr Readiness Checklist sidebar + toggleable Public Card View. */
+.wrap.wizard{max-width:1160px;padding:24px 22px 84px}
+h1{font-size:clamp(30px,3.1vw,38px);line-height:1.15}
+.p-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.ps-btn{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);text-align:left;box-shadow:var(--shadow-xs)}
+.ps-btn[aria-current="step"]{border-color:var(--primary);background:var(--brand-50)}
+.dark .ps-btn[aria-current="step"]{background:rgba(70,95,255,.16)}
+.ps-idx{width:26px;height:26px;border-radius:50%;background:var(--muted);font:700 12px var(--mono);display:grid;place-items:center;flex:none;border:1px solid var(--border)}
+.ps-btn[aria-current="step"] .ps-idx{background:var(--primary);color:#fff;border-color:var(--primary)}
+.wiz-layout{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(280px,1fr);gap:18px;align-items:start}
+.stage-card,.ready-rail{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:22px;box-shadow:var(--shadow-xs)}
+.ready-rail{position:sticky;top:74px;display:flex;flex-direction:column;gap:14px}
+.bar-track{height:10px;border-radius:999px;background:var(--muted);overflow:hidden;border:1px solid var(--border)}
+.bar-fill{display:block;height:100%;background:var(--primary);transition:width var(--duration-normal)}
+.sig-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:13px}
+.sig-list li{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:var(--radius-md);background:var(--muted)}
+.av-big{width:76px;height:76px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font:700 24px var(--mono);overflow:hidden;flex:none}
+.av-big img{width:100%;height:100%;object-fit:cover}
+.tag-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.tag-item{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--brand-50);color:var(--primary-ink);border:1px solid var(--border);font-size:13px;font-weight:600}
+.dark .tag-item{background:rgba(70,95,255,.18)}
+@media(max-width:920px){
+  .p-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wiz-layout{grid-template-columns:1fr}
+  .ready-rail{position:static}
+}
+@media(max-width:560px){
+  .p-steps{grid-template-columns:1fr}
+  .wrap.wizard{padding:16px 12px 64px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Profile readiness</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F20 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Editorial Card</a>
+      <a class="pill" href="../V2/index.html">V2 · Live Split</a>
+      <a class="pill" href="../V3/index.html">V3 · Schema Ledger</a>
+      <a class="pill" href="../V4/index.html">V4 · Modular Bento</a>
+      <a class="pill on" href="index.html" aria-current="page">V5 · Readiness Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap wizard" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Guided Readiness Walkthrough · 4 Signals</div>
+          <h1>Public profile</h1>
+          <p class="lead">Review how your wholesale business identity helps Nestlancer scope proposals — step through Identity, Bio, Skills, and Visibility Review.</p>
+        </div>
+        <div class="acts">
+          <button type="button" class="btn sm" id="jumpViewCardBtn">Preview public card (Step 4)</button>
+          <a class="btn sm" href="../../F21-settings/V1/index.html">Settings ▸ Account</a>
+        </div>
+      </div>
+
+      <div id="wizBanner" style="margin-bottom:14px" hidden></div>
+
+      <div data-panel="data">
+        <nav class="p-steps" id="stepBar" aria-label="Profile readiness steps"></nav>
+
+        <div class="wiz-layout">
+          <section class="stage-card" id="stageMount" aria-live="polite"></section>
+
+          <aside class="ready-rail" aria-label="Profile readiness checklist">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline">
+                <h2 style="font-size:17px">Profile readiness</h2>
+                <b class="mono" id="readyPct">80%</b>
+              </div>
+              <p class="sub" style="margin:4px 0 10px" id="readyNote">4 of 5 collaborator signals ready</p>
+              <div class="bar-track"><span class="bar-fill" id="readyFill" style="width:80%"></span></div>
+            </div>
+
+            <ul class="sig-list" id="sigList"></ul>
+
+            <div style="padding-top:12px;border-top:1px solid var(--border)">
+              <span class="badge b-neutral" id="wizDirtyBadge">✓ Saved state</span>
+              <p class="sub" style="margin:8px 0 10px">Visibility (`Public`, email/phone hidden) is controlled under Account settings.</p>
+              <button type="button" class="btn sm pri" id="railSaveBtn" style="width:100%"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-save"/></svg>Save changes</button>
+            </div>
+          </aside>
+        </div>
+
+        <noscript><div class="panel pad sub" style="margin-top:12px">JavaScript off: Arjun Mehta · 4/5 profile signals complete.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-user"/></svg></div>
+          <b>Readiness walkthrough reset</b>
+          <p class="sub">Start from Step 1 with Arjun Mehta's frozen profile details.</p>
+          <button type="button" class="btn sm pri" id="restoreWizBtn">Restore walkthrough</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:40%;height:18px"></div>
+          <div class="skel" style="width:100%;height:160px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading profile readiness walkthrough…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Could not load readiness state</b>
+          <p><span class="mono">GET /api/v1/users/profile</span> failed. Retry to resume.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F20 V5 Guided Readiness Stepper · Snapshots 34–35 lock</span>
+        <span><a href="../V4/index.html">← V4 Modular Bento</a> · <a href="../../../index.html">Lab Gallery</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var SUG = ['Wholesale Distribution', 'ERP Integration', 'Multi-Tier Pricing', 'Supply Chain', 'Procurement', 'Dealer Network'];
+  function seed() {
+    return {
+      first:'Arjun', last:'Mehta', email:'arjun.mehta@nestlancer.com', phone:'+919825012345',
+      headline:'Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale)',
+      bio:'Runs a wholesale distribution business in Ahmedabad; commissioning a B2B ordering portal and ERP bridge.',
+      skills:['Proprietor', 'B2B Trade', 'Inventory', 'GST Invoicing'],
+      av:''
+    };
+  }
+
+  var saved = seed(), draft = seed(), step = 0, stepErr = '';
+
+  function stepsMeta() {
+    return [
+      ['Identity & Photo', 'Name, E.164 phone & avatar'],
+      ['Business Bio', 'Headline & wholesale brief'],
+      ['Domain Skills', draft.skills.length + ' tags selected'],
+      ['Public Card & Privacy', 'Collaborator view + C20']
+    ];
+  }
+
+  function calcSignals() {
+    var s = [
+      ['Full name & E.164 phone', draft.first.trim().length >= 2 && draft.last.trim().length >= 2],
+      ['Public headline', draft.headline.trim().length > 0],
+      ['Business bio', draft.bio.trim().length > 0],
+      ['Domain skills (≥3)', draft.skills.length >= 3],
+      ['Optional avatar photo', !!draft.av]
+    ];
+    return s;
+  }
+
+  function render() {
+    var sigs = calcSignals();
+    var done = sigs.filter(function(x){ return x[1]; }).length;
+    var pct = Math.round((done / sigs.length) * 100);
+    $('#readyPct').textContent = pct + '%';
+    $('#readyNote').textContent = done + ' of ' + sigs.length + ' collaborator signals complete';
+    $('#readyFill').style.width = pct + '%';
+    $('#sigList').innerHTML = sigs.map(function(s) {
+      return '<li><span>' + s[0] + '</span>' + (s[1] ? '<span class="badge b-ok">✓ Ready</span>' : '<span class="badge b-neutral">Optional</span>') + '</li>';
+    }).join('');
+
+    var dirty = JSON.stringify(saved) !== JSON.stringify(draft);
+    $('#wizDirtyBadge').className = 'badge ' + (dirty ? 'b-warn' : 'b-ok');
+    $('#wizDirtyBadge').textContent = dirty ? '● Unsaved draft edits' : '✓ Synced with server truth';
+
+    var sm = stepsMeta();
+    $('#stepBar').innerHTML = sm.map(function(m, i) {
+      return '<button type="button" class="ps-btn" data-st="' + i + '" ' + (i === step ? 'aria-current="step"' : '') + '>' +
+        '<span class="ps-idx">' + (i + 1) + '</span>' +
+        '<span><b style="display:block;font-size:13px">' + m[0] + '</b><span class="sub" style="font-size:11.5px">' + m[1] + '</span></span></button>';
+    }).join('');
+    $$('[data-st]', $('#stepBar')).forEach(function(b){ b.onclick = function(){ step = +b.dataset.st; stepErr = ''; render(); }; });
+
+    var avHtml = draft.av ? '<img src="' + draft.av + '" alt="Avatar of ' + draft.first + '">' : ((draft.first||'A')[0] + (draft.last||'M')[0]).toUpperCase();
+    var body = stepErr ? '<div class="errmsg" style="margin-bottom:10px;font-size:13px">' + stepErr + '</div>' : '';
+
+    if (step === 0) {
+      body += '<span class="eyebrow">Step 1 of 4 · Identity &amp; Avatar</span><h2 style="margin:4px 0 12px">Who is commissioning the work?</h2>' +
+        '<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:14px;border:1px dashed var(--border);border-radius:var(--radius-lg);margin-bottom:14px">' +
+          '<div class="av-big">' + avHtml + '</div>' +
+          '<div><b style="font-size:13.5px;display:block">Upload optional avatar photo (reach 100% readiness)</b><span class="sub">JPG, PNG, WebP, SVG · max 5 MB</span>' +
+            '<div style="display:flex;gap:8px;margin-top:8px"><label class="btn sm" for="wAv" style="cursor:pointer">Choose photo</label><input id="wAv" type="file" accept="image/*" class="sr-only"><button type="button" class="btn sm ghost" id="wAvRm" ' + (!draft.av ? 'disabled' : '') + '>Remove</button></div></div></div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+          '<div><label class="lbl" for="wFirst">First name *</label><input class="inp" id="wFirst" value="' + draft.first.replace(/"/g,'&quot;') + '"></div>' +
+          '<div><label class="lbl" for="wLast">Last name *</label><input class="inp" id="wLast" value="' + draft.last.replace(/"/g,'&quot;') + '"></div>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">' +
+          '<div><label class="lbl" for="wEmail">Email (locked)</label><input class="inp mono" id="wEmail" value="' + draft.email + '" disabled><div class="hint">Contact support to change email.</div></div>' +
+          '<div><label class="lbl" for="wPhone">Phone (E.164)</label><input class="inp mono" id="wPhone" value="' + draft.phone + '"></div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:flex-end;margin-top:18px"><button type="button" class="btn pri" id="nextStepBtn">Next: Business Bio →</button></div>';
+    } else if (step === 1) {
+      body += '<span class="eyebrow">Step 2 of 4 · Business Context</span><h2 style="margin:4px 0 12px">Headline &amp; wholesale brief</h2>' +
+        '<div style="display:flex;justify-content:space-between"><label class="lbl" for="wHead" style="margin-top:0">Headline (≤160 chars)</label><span class="mono" id="wHeadCnt">' + draft.headline.length + '/160</span></div>' +
+        '<input class="inp" id="wHead" maxlength="160" value="' + draft.headline.replace(/"/g,'&quot;') + '">' +
+        '<div style="display:flex;justify-content:space-between;margin-top:14px"><label class="lbl" for="wBio" style="margin-top:0">Bio (≤2000 chars)</label><span class="mono" id="wBioCnt">' + draft.bio.length + '/2000</span></div>' +
+        '<textarea class="inp" id="wBio" rows="4" maxlength="2000">' + draft.bio + '</textarea>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:18px"><button type="button" class="btn" id="prevStepBtn">← Back</button><button type="button" class="btn pri" id="nextStepBtn">Next: Domain Skills →</button></div>';
+    } else if (step === 2) {
+      body += '<span class="eyebrow">Step 3 of 4 · Domain Skills</span><h2 style="margin:4px 0 8px">Skills &amp; industry tags</h2>' +
+        '<p class="sub">Helps Nestlancer match engineers familiar with B2B trade, GST invoicing, and inventory workflows.</p>' +
+        '<div class="tag-wrap">' + draft.skills.map(function(s, i){
+          return '<span class="tag-item">' + s + '<button type="button" data-wrm="' + i + '" aria-label="Remove ' + s + '">×</button></span>';
+        }).join('') + '</div>' +
+        '<div style="display:flex;gap:8px;margin-top:12px"><input class="inp" id="wSkillInp" placeholder="Type skill and press Enter…"><button type="button" class="btn" id="wSkillAdd">Add tag</button></div>' +
+        '<div class="tag-wrap" style="margin-top:10px">' + SUG.filter(function(x){ return draft.skills.indexOf(x) < 0; }).map(function(x){
+          return '<button type="button" class="btn sm ghost" data-wsug="' + x + '">+ ' + x + '</button>';
+        }).join('') + '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:20px"><button type="button" class="btn" id="prevStepBtn">← Back</button><button type="button" class="btn pri" id="nextStepBtn">Next: Public Card Review →</button></div>';
+    } else {
+      body += '<span class="eyebrow">Step 4 of 4 · Public View &amp; Privacy Check (C20)</span><h2 style="margin:4px 0 12px">Completed Public Profile Card</h2>' +
+        '<div style="padding:18px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--background)">' +
+          '<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">' +
+            '<div class="av-big">' + avHtml + '</div>' +
+            '<div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-size:20px">' + draft.first + ' ' + draft.last + '</b><span class="badge b-ok">Public</span></div>' +
+            '<p class="sub" style="margin-top:3px">' + draft.headline + '</p></div></div>' +
+          '<p style="font-size:14px;line-height:1.6;margin:14px 0">' + draft.bio + '</p>' +
+          '<div class="tag-wrap">' + draft.skills.map(function(s){ return '<span class="tag-item">' + s + '</span>'; }).join('') + '</div>' +
+        '</div>' +
+        '<div class="note" style="margin-top:14px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px">' +
+          '<span><b>Visibility summary:</b> Public profile · Email (<span class="mono">' + draft.email + '</span>) &amp; Phone (<span class="mono">' + draft.phone + '</span>) are hidden.</span>' +
+          '<a class="btn sm" href="../../F21-settings/V1/index.html">Change in Settings ▸ Account →</a>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:18px;flex-wrap:wrap;gap:8px">' +
+          '<button type="button" class="btn" id="prevStepBtn">← Edit skills</button>' +
+          '<button type="button" class="btn pri" id="finalSaveBtn"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-save"/></svg>Save public profile</button>' +
+        '</div>';
+    }
+
+    $('#stageMount').innerHTML = body;
+
+    if ($('#wFirst')) $('#wFirst').oninput = function(){ draft.first = this.value; };
+    if ($('#wLast')) $('#wLast').oninput = function(){ draft.last = this.value; };
+    if ($('#wPhone')) $('#wPhone').oninput = function(){ draft.phone = this.value; };
+    if ($('#wHead')) $('#wHead').oninput = function(){ draft.headline = this.value; $('#wHeadCnt').textContent = this.value.length + '/160'; };
+    if ($('#wBio')) $('#wBio').oninput = function(){ draft.bio = this.value; $('#wBioCnt').textContent = this.value.length + '/2000'; };
+    if ($('#wAv')) $('#wAv').onchange = function(){
+      var f = this.files && this.files[0]; if (!f) return;
+      var r = new FileReader(); r.onload = function(ev){ draft.av = ev.target.result; render(); }; r.readAsDataURL(f);
+    };
+    if ($('#wAvRm')) $('#wAvRm').onclick = function(){ draft.av = ''; render(); };
+    $$('[data-wrm]', $('#stageMount')).forEach(function(b){ b.onclick = function(){ draft.skills.splice(+b.dataset.wrm, 1); render(); }; });
+    $$('[data-wsug]', $('#stageMount')).forEach(function(b){ b.onclick = function(){ draft.skills.push(b.dataset.wsug); render(); }; });
+    if ($('#wSkillAdd')) {
+      var addW = function(){
+        var v = $('#wSkillInp').value.trim();
+        if (v && !draft.skills.some(function(x){ return x.toLowerCase() === v.toLowerCase(); })) { draft.skills.push(v); render(); }
+      };
+      $('#wSkillAdd').onclick = addW;
+      $('#wSkillInp').onkeydown = function(e){ if (e.key === 'Enter'){ e.preventDefault(); addW(); } };
+    }
+    if ($('#prevStepBtn')) $('#prevStepBtn').onclick = function(){ step = Math.max(0, step - 1); stepErr = ''; render(); };
+    if ($('#nextStepBtn')) $('#nextStepBtn').onclick = function(){
+      if (step === 0 && (draft.first.trim().length < 2 || draft.last.trim().length < 2)) { stepErr = 'First and last name must be 2–50 characters.'; render(); return; }
+      if (step === 0 && draft.phone.trim() && !/^\+[1-9]\d{6,14}$/.test(draft.phone.trim())) { stepErr = 'Phone must be valid E.164 (+919825012345).'; render(); return; }
+      stepErr = ''; step = Math.min(3, step + 1); render();
+    };
+    if ($('#finalSaveBtn')) $('#finalSaveBtn').onclick = commitSave;
+  }
+
+  function commitSave() {
+    if (draft.first.trim().length < 2 || draft.last.trim().length < 2) { stepErr = 'First and last name must be 2–50 characters.'; render(); return; }
+    if (draft.phone.trim() && !/^\+[1-9]\d{6,14}$/.test(draft.phone.trim())) { stepErr = 'Enter valid E.164 phone.'; render(); return; }
+    stepErr = '';
+    saved = JSON.parse(JSON.stringify(draft));
+    $('#wizBanner').hidden = false;
+    $('#wizBanner').innerHTML = '<div class="note ok" role="status"><b>Public profile saved</b> — all 4 readiness stages synced with <span class="mono">PATCH /api/v1/users/profile</span>.</div>';
+    Lab.toast('Saved public profile');
+    render();
+  }
+
+  $('#railSaveBtn').onclick = commitSave;
+  $('#jumpViewCardBtn').onclick = function(){ step = 3; render(); };
+  $('#restoreWizBtn').onclick = function(){ saved = seed(); draft = seed(); step = 0; Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F20 V1 · Editorial Card', '../V1/index.html'],
+      ['F20 V2 · Live Split Preview', '../V2/index.html'],
+      ['F20 V3 · Schema Ledger', '../V3/index.html'],
+      ['F20 V4 · Modular Bento Edit', '../V4/index.html'],
+      ['F20 V5 · Readiness Stepper (current)', 'index.html'],
+      ['Settings ▸ Account Visibility (F21)', '../../F21-settings/V1/index.html'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

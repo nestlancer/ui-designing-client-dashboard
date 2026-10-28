@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files &amp; Storage · V2 Dense Asset &amp; Contract Ledger — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F22 · V2 — Dense Asset & Contract Ledger (Dense archetype)
+   List-first dual ledger (3 uploaded + 26 locked PDFs), multi-select bulk actions,
+   shared-array Grid/List switch, and C13 preview modal. */
+.wrap.fledger{max-width:1240px;padding:18px 20px 80px}
+h1{font-size:clamp(28px,2.8vw,34px);line-height:1.15}
+.bar-quota{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:12px 16px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);margin-bottom:12px}
+.q-mini{width:160px;height:8px;border-radius:999px;background:var(--muted);border:1px solid var(--border);overflow:hidden;display:inline-block;vertical-align:middle}
+.q-mini > i{display:block;height:100%;min-width:6px;background:var(--primary)}
+.drop-inline{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px dashed var(--border);border-radius:var(--radius-md);cursor:pointer;font-size:12.5px;font-weight:600}
+.drop-inline:hover{border-color:var(--primary);background:var(--brand-50)}
+.dark .drop-inline:hover{background:rgba(70,95,255,.15)}
+
+.ctrl-ribbon{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);margin-bottom:14px}
+.tchip{min-height:30px;padding:0 10px;border-radius:6px;border:1px solid var(--border);font-size:12px;font-weight:600;color:var(--muted-foreground)}
+.tchip[aria-pressed="true"]{background:var(--primary);color:#fff;border-color:var(--primary)}
+
+.ftbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.ftbl thead th{padding:8px 12px;font-size:11px}
+.ftbl tbody td{padding:9px 12px;border-bottom:1px solid var(--border)}
+.ftbl tbody tr:last-child td{border-bottom:0}
+.grid-alt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:14px}
+.g-item{border:1px solid var(--border);border-radius:var(--radius-md);padding:12px;background:var(--background);display:flex;flex-direction:column;gap:8px}
+
+.bulk-dock{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:10px;align-items:center;padding:9px 16px;border-radius:999px;background:var(--card);border:2px solid var(--primary);box-shadow:var(--shadow-sm)}
+.bulk-dock[hidden]{display:none}
+@media(max-width:760px){
+  .wrap.fledger{padding:14px 12px 84px}
+  .grid-alt{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../F21-settings/V1/index.html">Settings</a><span>›</span><b>Asset &amp; contract ledger</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F22 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Library</a>
+      <a class="pill on" href="index.html" aria-current="page">V2 · Asset Ledger</a>
+      <a class="pill" href="../V3/index.html">V3 · Split Drive</a>
+      <a class="pill" href="../V4/index.html">V4 · Dossier Hub</a>
+      <a class="pill" href="../V5/index.html">V5 · Vault Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap fledger" id="main">
+      <div class="hrow" style="margin-bottom:12px">
+        <div>
+          <div class="eyebrow">High-Density Tabular Asset &amp; Contract Ledger</div>
+          <h1>Files</h1>
+          <p class="lead">Audit uploaded specs and 26 locked contractual PDFs in sortable, multi-select tables.</p>
+        </div>
+        <div class="acts">
+          <label class="btn sm pri" for="v2Inp" style="cursor:pointer">+ Upload</label>
+          <a class="btn sm" href="../../F10-quotes-list/V1/index.html">Quotes (`F10`)</a>
+        </div>
+      </div>
+
+      <div data-panel="data">
+        <div class="bar-quota">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <span>Storage: <b class="mono" id="v2QuotaTxt">41.1 KB / 5 GB</b></span>
+            <span class="q-mini"><i style="width:1%"></i></span>
+            <span class="sub">Max 500 MB/file (&gt;10 MB chunked)</span>
+          </div>
+          <label class="drop-inline" for="v2Inp">
+            <input id="v2Inp" type="file" multiple class="sr-only">
+            <svg class="i sm"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Drop files or browse
+          </label>
+        </div>
+
+        <div class="ctrl-ribbon">
+          <div id="v2TypeBar" style="display:flex;gap:4px;flex-wrap:wrap"></div>
+          <select class="inp" id="v2SrcSel" aria-label="Filter by source" style="width:auto;min-height:32px;padding:3px 8px">
+            <option value="All">All Sources (6)</option>
+            <option value="Project Deliverables">Project Deliverables</option>
+            <option value="Request Attachments">Request Attachments</option>
+            <option value="Message Attachments">Message Attachments</option>
+            <option value="My Uploads">My Uploads</option>
+            <option value="Invoices">Invoices</option>
+          </select>
+          <input class="inp" id="v2Search" type="search" aria-label="Filter ledger" placeholder="Filter filename, MIME, request…" style="width:220px;min-height:32px;padding:3px 8px">
+          <span class="sp"></span>
+          <button type="button" class="btn sm" id="v2ListBtn" aria-pressed="true"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-list"/></svg>List</button>
+          <button type="button" class="btn sm" id="v2GridBtn" aria-pressed="false"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Grid</button>
+        </div>
+
+        <!-- Uploaded Ledger -->
+        <section class="panel" style="margin-bottom:18px" aria-label="Uploaded files ledger">
+          <div class="pad" style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+            <h2 style="font-size:15px">Uploaded Library Ledger</h2>
+            <span class="mono sub" id="v2UpCnt">3 rows</span>
+          </div>
+          <div id="v2UpMount"></div>
+        </section>
+
+        <!-- Generated 26-row Ledger -->
+        <section class="panel" aria-label="Generated contractual documents ledger">
+          <div class="pad" style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <h2 style="font-size:15px">Generated Contractual Documents (13 Requests · 26 Locked PDFs)</h2>
+            <button type="button" class="btn sm ghost" id="v2ShowAll26Btn">Show all 26 rows</button>
+          </div>
+          <div class="tblwrap">
+            <table class="ftbl">
+              <caption class="sr-only">26 locked generated contractual PDFs</caption>
+              <thead><tr><th>Document Filename</th><th>Engagement Group</th><th>Size</th><th>Policy</th><th style="text-align:right">Actions</th></tr></thead>
+              <tbody id="v2GenBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <noscript><div class="panel pad sub">JavaScript off: 3 uploaded files (41.1 KB) + 26 locked contractual PDFs.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-folder"/></svg></div>
+          <b>Uploaded ledger empty</b>
+          <p class="sub">0 B of 5 GB used. Upload files or restore the baseline ledger.</p>
+          <button type="button" class="btn sm pri" id="v2Restore">Restore ledger</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:38px"></div>
+          <div class="skel" style="width:100%;height:140px"></div>
+          <span class="sr-only" role="status">Loading asset ledger…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Ledger query failed</b>
+          <p><span class="mono">GET /api/v1/media</span> returned HTTP 500.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F22 V2 Dense Asset &amp; Contract Ledger · Snapshots 39–40 lock</span>
+        <span><a href="../V1/index.html">← V1 Calm Library</a> · <a href="../V3/index.html">V3 Split Drive →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="bulk-dock" id="v2Bulk" hidden>
+  <span class="mono" id="v2BulkTxt">0 selected</span>
+  <button type="button" class="btn sm" id="v2BulkDl">Download selected</button>
+  <button type="button" class="btn sm danger" id="v2BulkDel">Delete selected</button>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Preview</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var TYPES = ['All', 'Documents', 'Images', 'Videos', 'Archives'];
+  function seed() {
+    return [
+      { id:'m1', name:'mehta-catalog-structure.pdf', kb:18.4, mime:'application/pdf', type:'Documents', src:'Request Attachments', vis:'Private', date:'Apr 11, 2026' },
+      { id:'m2', name:'gst-invoice-format-sample.pdf', kb:13.2, mime:'application/pdf', type:'Documents', src:'Request Attachments', vis:'Private', date:'Apr 10, 2026' },
+      { id:'m3', name:'warehouse-barcode-spec.zip', kb:9.5, mime:'application/zip', type:'Archives', src:'My Uploads', vis:'Private', date:'Apr 09, 2026' }
+    ];
+  }
+
+  var GROUPS = [
+    'B2B Wholesale Ordering Portal', 'Tally Prime GST Bridge', 'Ahmedabad Godown Barcode Sync',
+    'Distributor Credit-Limit Portal', 'WhatsApp Order Bot', 'Multi-Tier Dealer Price Engine',
+    'HSN Tax & GSTR-1 Tool', 'Fleet Dispatch Dashboard', 'Vendor PO Approval Workflow',
+    'Seasonal Scheme Calculator', 'Salesman Beat-Plan PWA', 'Damaged Goods Claims Portal', 'Wholesale Margin BI'
+  ];
+  var genDocs = [];
+  GROUPS.forEach(function(g, i) {
+    var n = String(18 - i).padStart(6, '0');
+    genDocs.push({ id:'g' + i + 'a', name:'quote-NL-QTE-2026-' + n + '.pdf', grp:g, kb:24.8 });
+    genDocs.push({ id:'g' + i + 'b', name:'scope-req-' + (i + 1) + '.pdf', grp:g, kb:31.2 });
+  });
+
+  var files = seed(), sel = {}, tp = 'All', mode = 'list', showAllGen = false;
+
+  function preview(f) {
+    if (f.mime === 'application/pdf') {
+      Lab.openDlg(f.name, 'PDF Document · ' + f.kb.toFixed(1) + ' KB',
+        '<div style="padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--background);margin:10px 0">' +
+          '<b>DOCUMENT SHEET PREVIEW (C13)</b><p class="sub" style="margin-top:6px">Verified wholesale specification / contractual record for Mehta Wholesale Traders.</p></div>' +
+        '<div class="row"><button class="btn pri" id="lDl">Download</button><button class="btn" id="lNt">Open in new tab</button></div>');
+    } else if (f.thumb) {
+      Lab.openDlg(f.name, 'Image · ' + f.kb.toFixed(1) + ' KB',
+        '<img src="' + f.thumb + '" alt="' + f.name + '" style="max-height:240px;margin:10px auto">' +
+        '<div class="row"><button class="btn pri" id="lDl">Download</button><button class="btn" id="lNt">Open in new tab</button></div>');
+    } else {
+      Lab.openDlg(f.name, 'Archive · ' + f.kb.toFixed(1) + ' KB',
+        '<div style="padding:18px;border:1px dashed var(--border);border-radius:8px;text-align:center;margin:10px 0">' +
+          '<b>No in-app preview for this file type.</b><p class="sub" style="margin-top:4px">Binary archive (<span class="mono">' + f.name + '</span>).</p></div>' +
+        '<div class="row"><button class="btn pri" id="lNt">Open in new tab</button><button class="btn" id="lDl">Download</button></div>');
+    }
+    $('#lDl').onclick = function(){ Lab.closeDlg(); Lab.toast('Downloading ' + f.name); };
+    $('#lNt').onclick = function(){ Lab.closeDlg(); Lab.toast('Opened signed link in new tab'); };
+  }
+
+  function render() {
+    $('#v2TypeBar').innerHTML = TYPES.map(function(t) {
+      return '<button type="button" class="tchip" data-t="' + t + '" aria-pressed="' + (tp===t?'true':'false') + '">' + t + '</button>';
+    }).join('');
+    $$('[data-t]', $('#v2TypeBar')).forEach(function(b){ b.onclick = function(){ tp = b.dataset.t; render(); }; });
+
+    var tot = files.reduce(function(a, f){ return a + f.kb; }, 0);
+    $('#v2QuotaTxt').textContent = tot.toFixed(1) + ' KB / 5 GB';
+
+    var srcF = $('#v2SrcSel').value;
+    var q = $('#v2Search').value.trim().toLowerCase();
+    var list = files.filter(function(f) {
+      if (tp !== 'All' && f.type !== tp) return false;
+      if (srcF !== 'All' && f.src !== srcF) return false;
+      if (q && (f.name + ' ' + f.mime + ' ' + f.src).toLowerCase().indexOf(q) < 0) return false;
+      return true;
+    });
+    $('#v2UpCnt').textContent = list.length + ' of ' + files.length + ' uploaded';
+
+    var selIds = Object.keys(sel).filter(function(k){ return sel[k]; });
+    $('#v2Bulk').hidden = selIds.length === 0;
+    $('#v2BulkTxt').textContent = selIds.length + ' selected';
+
+    if (mode === 'list') {
+      $('#v2UpMount').innerHTML = '<div class="tblwrap"><table class="ftbl"><caption class="sr-only">Uploaded files</caption>' +
+        '<thead><tr><th style="width:36px">Sel</th><th>Filename</th><th>Type / MIME</th><th>Source</th><th>Size</th><th>Visibility</th><th style="text-align:right">Actions (035)</th></tr></thead><tbody>' +
+        list.map(function(f) {
+          return '<tr><td data-label="Select"><input type="checkbox" data-ck="' + f.id + '" ' + (sel[f.id]?'checked':'') + ' aria-label="Select ' + f.name + '"></td>' +
+            '<td data-label="Filename"><button type="button" data-pv="' + f.id + '" style="font-weight:700">' + f.name + '</button></td>' +
+            '<td data-label="MIME" class="mono">' + f.mime + '</td>' +
+            '<td data-label="Source">' + f.src + '</td>' +
+            '<td data-label="Size" class="mono">' + f.kb.toFixed(1) + ' KB</td>' +
+            '<td data-label="Visibility"><button type="button" class="badge b-neutral" data-vis="' + f.id + '">' + f.vis + '</button></td>' +
+            '<td data-label="Actions" style="text-align:right"><div style="display:inline-flex;gap:4px;flex-wrap:wrap">' +
+              '<button type="button" class="btn sm ghost" data-pv="' + f.id + '">Preview</button>' +
+              '<button type="button" class="btn sm ghost" data-cp="' + f.id + '">Link</button>' +
+              '<button type="button" class="btn sm ghost" data-rm="' + f.id + '" style="color:var(--status-error-text)">Delete</button>' +
+            '</div></td></tr>';
+        }).join('') + '</tbody></table></div>';
+    } else {
+      $('#v2UpMount').innerHTML = '<div class="grid-alt">' + list.map(function(f) {
+        return '<div class="g-item"><b>' + f.name + '</b><span class="sub mono">' + f.kb.toFixed(1) + ' KB · ' + f.src + '</span>' +
+          '<div style="display:flex;gap:6px;margin-top:auto"><button type="button" class="btn sm" data-pv="' + f.id + '">Preview</button><button type="button" class="btn sm ghost" data-rm="' + f.id + '">Delete</button></div></div>';
+      }).join('') + '</div>';
+    }
+
+    $$('[data-ck]', $('#v2UpMount')).forEach(function(c){ c.onchange = function(){ sel[c.dataset.ck] = c.checked; render(); }; });
+    $$('[data-pv]', $('#v2UpMount')).forEach(function(b){ b.onclick = function(){ preview(files.find(function(x){ return x.id === b.dataset.pv; })); }; });
+    $$('[data-cp]', $('#v2UpMount')).forEach(function(b){ b.onclick = function(){ Lab.toast('Copied signed URL'); }; });
+    $$('[data-vis]', $('#v2UpMount')).forEach(function(b){ b.onclick = function(){ var f = files.find(function(x){ return x.id === b.dataset.vis; }); f.vis = f.vis==='Private'?'Public':'Private'; render(); }; });
+    $$('[data-rm]', $('#v2UpMount')).forEach(function(b){ b.onclick = function(){ files = files.filter(function(x){ return x.id !== b.dataset.rm; }); delete sel[b.dataset.rm]; render(); }; });
+
+    var gFilt = genDocs.filter(function(g){ return !q || (g.name + ' ' + g.grp).toLowerCase().indexOf(q) >= 0; });
+    var gSlice = showAllGen ? gFilt : gFilt.slice(0, 6);
+    $('#v2ShowAll26Btn').textContent = showAllGen ? 'Show top 6 rows' : 'Show all ' + gFilt.length + ' rows';
+    $('#v2GenBody').innerHTML = gSlice.map(function(g) {
+      return '<tr><td data-label="Document" class="mono"><b>' + g.name + '</b></td><td data-label="Group">' + g.grp + '</td><td data-label="Size" class="mono">' + g.kb + ' KB</td>' +
+        '<td data-label="Policy"><span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-lock"/></svg>locked</span></td>' +
+        '<td data-label="Actions" style="text-align:right"><button type="button" class="btn sm ghost" data-gpv="' + g.id + '">Preview PDF</button> <a class="btn sm ghost" href="../../F11-quote-details/V1/index.html">Quote →</a></td></tr>';
+    }).join('');
+    $$('[data-gpv]', $('#v2GenBody')).forEach(function(b){ b.onclick = function(){ var g = genDocs.find(function(x){ return x.id === b.dataset.gpv; }); preview({ name:g.name, kb:g.kb, mime:'application/pdf' }); }; });
+  }
+
+  $('#v2Inp').onchange = function() {
+    Array.prototype.forEach.call(this.files || [], function(f) {
+      var item = { id:'u' + Date.now(), name:f.name, kb:Math.max(1, f.size/1024), mime:f.type||'application/octet-stream', type:f.type.indexOf('image/')===0?'Images':'Documents', src:'My Uploads', vis:'Private', date:'Just now' };
+      if (f.type.indexOf('image/') === 0) { var r = new FileReader(); r.onload = function(ev){ item.thumb = ev.target.result; files.unshift(item); render(); }; r.readAsDataURL(f); }
+      else { files.unshift(item); render(); }
+    });
+    this.value = '';
+  };
+  $('#v2SrcSel').onchange = render;
+  $('#v2Search').oninput = render;
+  $('#v2ListBtn').onclick = function(){ mode = 'list'; this.setAttribute('aria-pressed','true'); $('#v2GridBtn').setAttribute('aria-pressed','false'); render(); };
+  $('#v2GridBtn').onclick = function(){ mode = 'grid'; this.setAttribute('aria-pressed','true'); $('#v2ListBtn').setAttribute('aria-pressed','false'); render(); };
+  $('#v2ShowAll26Btn').onclick = function(){ showAllGen = !showAllGen; render(); };
+  $('#v2BulkDl').onclick = function(){ Lab.toast('Downloading selected files'); sel = {}; render(); };
+  $('#v2BulkDel').onclick = function(){ files = files.filter(function(f){ return !sel[f.id]; }); sel = {}; render(); };
+  $('#v2Restore').onclick = function(){ files = seed(); Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F22 V1 · Calm Unified Library', '../V1/index.html'],
+      ['F22 V2 · Asset Ledger (current)', 'index.html'],
+      ['F22 V3 · Split Drive & Preview', '../V3/index.html'],
+      ['F22 V4 · Engagement Dossier Hub', '../V4/index.html'],
+      ['F22 V5 · Guided Vault Stepper', '../V5/index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

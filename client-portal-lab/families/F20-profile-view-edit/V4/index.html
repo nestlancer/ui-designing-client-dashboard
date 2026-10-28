@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Profile · V4 Modular Bento Inline Workbench — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F20 · V4 — Modular Bento Inline Workbench (Action / Queue-led archetype)
+   2x2 Bento modules where each section flips independently into inline Edit mode,
+   plus unified "Edit all blocks" and sticky save bar. */
+.wrap.bento{max-width:1120px;padding:24px 22px 96px}
+h1{font-size:clamp(30px,3.1vw,38px);line-height:1.15}
+.bento-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.bcard{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:20px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:12px}
+.bcard.editing{border-color:var(--primary);box-shadow:0 0 0 2px var(--brand-50)}
+.bcard-hd{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.av-ring{width:64px;height:64px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font:700 22px var(--mono);overflow:hidden;flex:none}
+.av-ring img{width:100%;height:100%;object-fit:cover}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:7px}
+.tag-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--brand-50);color:var(--primary-ink);border:1px solid var(--border);font-size:12.5px;font-weight:600}
+.dark .tag-chip{background:rgba(70,95,255,.18)}
+.dock-save{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:55;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--card);border:2px solid var(--primary);box-shadow:var(--shadow-sm)}
+.dock-save[hidden]{display:none}
+@media(max-width:820px){
+  .bento-grid{grid-template-columns:1fr}
+  .wrap.bento{padding:18px 14px 104px}
+  .dock-save{left:12px;right:12px;transform:none;border-radius:var(--radius-lg);justify-content:space-between}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Public profile bento</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F20 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Editorial Card</a>
+      <a class="pill" href="../V2/index.html">V2 · Live Split</a>
+      <a class="pill" href="../V3/index.html">V3 · Schema Ledger</a>
+      <a class="pill on" href="index.html" aria-current="page">V4 · Modular Bento</a>
+      <a class="pill" href="../V5/index.html">V5 · Readiness Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap bento" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Surgical Inline Workbench · 4 Modular Cards</div>
+          <h1>Public profile</h1>
+          <p class="lead">Update a single profile block in place — Avatar &amp; Headline, Contact, Bio, or Skills — or switch all four cards into unified edit mode.</p>
+        </div>
+        <div class="acts">
+          <button type="button" class="btn sm pri" id="editAllToggle">Edit all blocks</button>
+          <a class="btn sm" href="../../F21-settings/V1/index.html">Settings ▸ Account</a>
+        </div>
+      </div>
+
+      <div id="bentoNotice" style="margin-bottom:14px" hidden></div>
+
+      <div data-panel="data">
+        <div class="bento-grid" id="bentoMount"></div>
+        <noscript><div class="panel pad sub" style="margin-top:12px">JavaScript off: Arjun Mehta · Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale).</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-user"/></svg></div>
+          <b>Modular profile blocks cleared</b>
+          <p class="sub">Restore Arjun Mehta's frozen profile blocks to continue.</p>
+          <button type="button" class="btn sm pri" id="restoreBentoBtn">Restore all 4 blocks</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:140px;border-radius:14px"></div>
+          <div class="skel" style="width:100%;height:140px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading profile blocks…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Failed to load profile blocks</b>
+          <p><span class="mono">GET /api/v1/users/profile</span> encountered a temporary outage.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F20 V4 Modular Bento Workbench · Snapshots 34–35 lock</span>
+        <span><a href="../V3/index.html">← V3 Schema Ledger</a> · <a href="../V5/index.html">V5 Readiness Stepper →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="dock-save" id="bentoDock" hidden>
+  <span class="badge b-warn" id="bentoDockTxt">Editing blocks</span>
+  <button type="button" class="btn sm" id="bentoCancelAll">Cancel</button>
+  <button type="button" class="btn sm pri" id="bentoSaveAll"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-save"/></svg>Save changes</button>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var QUICK_TAGS = ['Wholesale Distribution', 'ERP Integration', 'Multi-Tier Pricing', 'Supply Chain', 'Dealer Network'];
+  function seed() {
+    return {
+      first:'Arjun', last:'Mehta', email:'arjun.mehta@nestlancer.com', phone:'+919825012345',
+      headline:'Proprietor · Mehta Wholesale Traders (Ahmedabad · Wholesale)',
+      bio:'Runs a wholesale distribution business in Ahmedabad; commissioning a B2B ordering portal and ERP bridge.',
+      skills:['Proprietor', 'B2B Trade', 'Inventory', 'GST Invoicing'],
+      av:''
+    };
+  }
+
+  var saved = seed(), draft = seed();
+  var open = { id:false, contact:false, bio:false, skills:false };
+  var errMsg = '';
+
+  function anyOpen() { return open.id || open.contact || open.bio || open.skills; }
+  function isDirty() { return JSON.stringify(saved) !== JSON.stringify(draft); }
+
+  function avInner(p) {
+    return p.av ? '<img src="' + p.av + '" alt="Avatar of ' + p.first + '">' : ((p.first||'A')[0] + (p.last||'M')[0]).toUpperCase();
+  }
+
+  function render() {
+    $('#bentoDock').hidden = !anyOpen();
+    $('#editAllToggle').textContent = anyOpen() ? 'Done / View all' : 'Edit all blocks';
+    $('#bentoDockTxt').textContent = isDirty() ? '● Unsaved edits' : 'Editing profile blocks';
+
+    // Card 1: Identity & Avatar
+    var c1 = '<article class="bcard ' + (open.id ? 'editing' : '') + '">' +
+      '<div class="bcard-hd"><h2>Identity &amp; headline</h2>' +
+        '<button type="button" class="btn sm" data-flip="id">' + (open.id ? 'Close' : 'Edit block') + '</button></div>';
+    if (!open.id) {
+      c1 += '<div style="display:flex;gap:14px;align-items:center">' +
+        '<div class="av-ring">' + avInner(saved) + '</div>' +
+        '<div><b style="font-size:18px;display:block">' + saved.first + ' ' + saved.last + '</b>' +
+        '<p class="sub" style="margin-top:3px">' + saved.headline + '</p></div></div>';
+    } else {
+      c1 += '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">' +
+          '<div class="av-ring">' + avInner(draft) + '</div>' +
+          '<label class="btn sm" for="bAvInp" style="cursor:pointer">Upload photo</label><input id="bAvInp" type="file" accept="image/*" class="sr-only">' +
+          '<button type="button" class="btn sm ghost" id="bAvRm" ' + (!draft.av ? 'disabled' : '') + '>Remove</button>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">' +
+          '<div><label class="lbl" for="bFirst">First name *</label><input class="inp" id="bFirst" value="' + draft.first.replace(/"/g,'&quot;') + '"></div>' +
+          '<div><label class="lbl" for="bLast">Last name *</label><input class="inp" id="bLast" value="' + draft.last.replace(/"/g,'&quot;') + '"></div>' +
+        '</div>' +
+        '<div><label class="lbl" for="bHead">Headline (≤160)</label><input class="inp" id="bHead" maxlength="160" value="' + draft.headline.replace(/"/g,'&quot;') + '"></div>';
+    }
+    c1 += '</article>';
+
+    // Card 2: Visibility & Contact (C20)
+    var c2 = '<article class="bcard ' + (open.contact ? 'editing' : '') + '">' +
+      '<div class="bcard-hd"><h2>Visibility &amp; contact (C20)</h2>' +
+        '<button type="button" class="btn sm" data-flip="contact">' + (open.contact ? 'Close' : 'Edit phone') + '</button></div>' +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
+        '<span class="badge b-ok"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-eye"/></svg>Profile: Public</span>' +
+        '<span class="badge b-neutral"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-lock"/></svg>Email &amp; phone hidden</span>' +
+      '</div>';
+    if (!open.contact) {
+      c2 += '<div class="sub">Email: <b class="mono" style="color:var(--foreground)">' + saved.email + '</b> (locked)<br>' +
+        'Phone: <b class="mono" style="color:var(--foreground)">' + saved.phone + '</b></div>' +
+        '<div style="margin-top:auto"><a class="btn sm" href="../../F21-settings/V1/index.html">Manage visibility in Settings ▸ Account →</a></div>';
+    } else {
+      c2 += '<div><label class="lbl" for="bEmail">Email (locked)</label><input class="inp mono" id="bEmail" value="' + draft.email + '" disabled><div class="hint">Contact support to change email.</div></div>' +
+        '<div><label class="lbl" for="bPhone">Phone (E.164)</label><input class="inp mono" id="bPhone" value="' + draft.phone + '"></div>' +
+        '<a class="btn sm ghost" href="../../F21-settings/V1/index.html">Open Settings ▸ Account privacy toggles →</a>';
+    }
+    c2 += '</article>';
+
+    // Card 3: Bio
+    var c3 = '<article class="bcard ' + (open.bio ? 'editing' : '') + '">' +
+      '<div class="bcard-hd"><h2>Business bio</h2>' +
+        '<button type="button" class="btn sm" data-flip="bio">' + (open.bio ? 'Close' : 'Edit bio') + '</button></div>';
+    if (!open.bio) {
+      c3 += '<p style="font-size:14px;line-height:1.65">' + saved.bio + '</p>';
+    } else {
+      c3 += '<label class="lbl" for="bBio" style="margin-top:0">About your business (≤2000 chars)</label>' +
+        '<textarea class="inp" id="bBio" rows="4" maxlength="2000">' + draft.bio + '</textarea>';
+    }
+    c3 += '</article>';
+
+    // Card 4: Skills & Domain Tags
+    var c4 = '<article class="bcard ' + (open.skills ? 'editing' : '') + '">' +
+      '<div class="bcard-hd"><h2>Skills &amp; domain tags</h2>' +
+        '<button type="button" class="btn sm" data-flip="skills">' + (open.skills ? 'Close' : 'Edit tags') + '</button></div>';
+    if (!open.skills) {
+      c4 += '<div class="tag-cloud">' + saved.skills.map(function(s){ return '<span class="tag-chip">' + s + '</span>'; }).join('') + '</div>';
+    } else {
+      c4 += '<div class="tag-cloud">' + draft.skills.map(function(s, i){
+          return '<span class="tag-chip">' + s + '<button type="button" data-rmtag="' + i + '" aria-label="Remove ' + s + '">×</button></span>';
+        }).join('') + '</div>' +
+        '<div style="display:flex;gap:8px"><input class="inp" id="bTagInp" placeholder="Type skill and press Enter…"><button type="button" class="btn sm" id="bTagAdd">Add</button></div>' +
+        '<div class="tag-cloud">' + QUICK_TAGS.filter(function(q){ return draft.skills.indexOf(q) < 0; }).map(function(q){
+          return '<button type="button" class="btn sm ghost" data-qtag="' + q + '" style="min-height:28px;padding:0 8px">+ ' + q + '</button>';
+        }).join('') + '</div>';
+    }
+    c4 += '</article>';
+
+    $('#bentoMount').innerHTML = (errMsg ? '<div class="errmsg" style="grid-column:1/-1;font-size:13px">' + errMsg + '</div>' : '') + c1 + c2 + c3 + c4;
+
+    $$('[data-flip]', $('#bentoMount')).forEach(function(b) {
+      b.onclick = function() {
+        var k = b.dataset.flip;
+        open[k] = !open[k];
+        render();
+      };
+    });
+
+    if ($('#bFirst')) $('#bFirst').oninput = function(){ draft.first = this.value; $('#bentoDockTxt').textContent = '● Unsaved edits'; };
+    if ($('#bLast')) $('#bLast').oninput = function(){ draft.last = this.value; $('#bentoDockTxt').textContent = '● Unsaved edits'; };
+    if ($('#bHead')) $('#bHead').oninput = function(){ draft.headline = this.value; $('#bentoDockTxt').textContent = '● Unsaved edits'; };
+    if ($('#bPhone')) $('#bPhone').oninput = function(){ draft.phone = this.value; $('#bentoDockTxt').textContent = '● Unsaved edits'; };
+    if ($('#bBio')) $('#bBio').oninput = function(){ draft.bio = this.value; $('#bentoDockTxt').textContent = '● Unsaved edits'; };
+    if ($('#bAvInp')) $('#bAvInp').onchange = function(){
+      var f = this.files && this.files[0]; if (!f) return;
+      var r = new FileReader(); r.onload = function(ev){ draft.av = ev.target.result; render(); }; r.readAsDataURL(f);
+    };
+    if ($('#bAvRm')) $('#bAvRm').onclick = function(){ draft.av = ''; render(); };
+    $$('[data-rmtag]', $('#bentoMount')).forEach(function(b){ b.onclick = function(){ draft.skills.splice(+b.dataset.rmtag, 1); render(); }; });
+    $$('[data-qtag]', $('#bentoMount')).forEach(function(b){ b.onclick = function(){ draft.skills.push(b.dataset.qtag); render(); }; });
+    if ($('#bTagAdd')) {
+      var addT = function() {
+        var v = $('#bTagInp').value.trim();
+        if (v && !draft.skills.some(function(x){ return x.toLowerCase() === v.toLowerCase(); })) { draft.skills.push(v); render(); }
+      };
+      $('#bTagAdd').onclick = addT;
+      $('#bTagInp').onkeydown = function(e){ if (e.key === 'Enter'){ e.preventDefault(); addT(); } };
+    }
+  }
+
+  function saveAll() {
+    errMsg = '';
+    if (draft.first.trim().length < 2 || draft.last.trim().length < 2) { errMsg = 'First and last name must each be 2–50 characters.'; render(); return; }
+    if (draft.phone.trim() && !/^\+[1-9]\d{6,14}$/.test(draft.phone.trim())) { errMsg = 'Phone must match E.164 format (e.g. +919825012345).'; render(); return; }
+    saved = JSON.parse(JSON.stringify(draft));
+    open = { id:false, contact:false, bio:false, skills:false };
+    $('#bentoNotice').hidden = false;
+    $('#bentoNotice').innerHTML = '<div class="note ok" role="status"><b>Profile blocks saved</b> — synced via <span class="mono">PATCH /api/v1/users/profile</span>.</div>';
+    Lab.toast('Saved profile blocks');
+    render();
+  }
+
+  $('#editAllToggle').onclick = function() {
+    if (anyOpen()) {
+      if (isDirty()) {
+        Lab.openDlg('Unsaved block edits', 'Save or discard your modified blocks?',
+          '<div class="row"><button class="btn pri" id="mSave">Save changes</button><button class="btn danger" id="mDisc">Discard</button></div>');
+        $('#mSave').onclick = function(){ Lab.closeDlg(); saveAll(); };
+        $('#mDisc').onclick = function(){ Lab.closeDlg(); draft = JSON.parse(JSON.stringify(saved)); open = { id:false, contact:false, bio:false, skills:false }; errMsg = ''; render(); };
+        return;
+      }
+      open = { id:false, contact:false, bio:false, skills:false };
+    } else {
+      draft = JSON.parse(JSON.stringify(saved));
+      open = { id:true, contact:true, bio:true, skills:true };
+    }
+    render();
+  };
+  $('#bentoSaveAll').onclick = saveAll;
+  $('#bentoCancelAll').onclick = function(){ draft = JSON.parse(JSON.stringify(saved)); open = { id:false, contact:false, bio:false, skills:false }; errMsg = ''; render(); };
+  $('#restoreBentoBtn').onclick = function(){ saved = seed(); draft = seed(); Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F20 V1 · Editorial Card', '../V1/index.html'],
+      ['F20 V2 · Live Split Preview', '../V2/index.html'],
+      ['F20 V3 · Schema Ledger', '../V3/index.html'],
+      ['F20 V4 · Modular Bento (current)', 'index.html'],
+      ['F20 V5 · Readiness Stepper', '../V5/index.html'],
+      ['Settings ▸ Account Visibility (F21)', '../../F21-settings/V1/index.html'],
+      ['Lab Gallery', '../../../index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>

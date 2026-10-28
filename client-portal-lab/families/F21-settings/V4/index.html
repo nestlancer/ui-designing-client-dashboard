@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · V4 Posture-First Security &amp; Preferences Deck — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F21 · V4 — Posture-First Security & Preferences Deck (Action / Queue-led archetype)
+   4-KPI Security & Privacy Posture hero strip + 2-column Bento layout + 1-click Remediation actions. */
+.wrap.posture{max-width:1180px;padding:24px 22px 84px}
+h1{font-size:clamp(30px,3vw,36px);line-height:1.15}
+.kpi-deck{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kcard{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);padding:14px 16px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:8px}
+.kcard.warn{border-color:var(--status-warning-border)}
+.bento2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.pcard{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:20px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:12px}
+.pcard.wide{grid-column:1/-1}
+.pcard.dz{border-color:var(--status-error-border)}
+
+.sw{position:relative;display:inline-flex;align-items:center;width:42px;height:24px;border-radius:999px;background:var(--border);border:1px solid var(--border);padding:2px;flex:none}
+.sw::after{content:"";width:18px;height:18px;border-radius:50%;background:#fff;transition:transform var(--duration-fast)}
+.sw[aria-checked="true"]{background:var(--primary);border-color:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(18px)}
+
+.pmx-hd,.pmx-rw{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,90px);align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--border)}
+.pmx-hd{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted-foreground)}
+.pmx-rw:last-child{border-bottom:0}
+.pmx-c{display:flex;align-items:center;justify-content:center;gap:6px}
+.pmx-lbl{display:none;font-size:12px;font-weight:600;color:var(--muted-foreground)}
+
+@media(max-width:960px){
+  .kpi-deck{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bento2{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .kpi-deck{grid-template-columns:1fr}
+  .wrap.posture{padding:16px 12px 64px}
+  .pmx-hd{display:none}
+  .pmx-rw{grid-template-columns:1fr;gap:6px}
+  .pmx-c{justify-content:space-between;padding:5px 10px;background:var(--muted);border-radius:var(--radius-md)}
+  .pmx-lbl{display:inline}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Settings posture deck</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F21 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Tabs</a>
+      <a class="pill" href="../V2/index.html">V2 · Left-Rail</a>
+      <a class="pill" href="../V3/index.html">V3 · Audit Console</a>
+      <a class="pill on" href="index.html" aria-current="page">V4 · Posture Deck</a>
+      <a class="pill" href="../V5/index.html">V5 · Hardening Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap posture" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Action-First Security &amp; Privacy Posture</div>
+          <h1>Settings</h1>
+          <p class="lead">Surface what requires attention first — enable TOTP 2FA, review active sessions, inspect public visibility, and tune 19 alert switches.</p>
+        </div>
+        <div class="acts">
+          <a class="btn sm" href="../../F20-profile-view-edit/V1/index.html">Public Profile (`F20`)</a>
+          <a class="btn sm" href="../../F19-notifications-center/V1/index.html">Notifications (`F19`)</a>
+        </div>
+      </div>
+
+      <div id="pBanner" style="margin-bottom:14px" hidden></div>
+
+      <div data-panel="data">
+        <!-- 4 Posture KPIs -->
+        <section class="kpi-deck" aria-label="Security and privacy posture">
+          <article class="kcard warn" id="kpi2faCard">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow">2FA Protection</span><span class="badge b-warn" id="k2faBadge">Action needed</span></div>
+            <b style="font-size:18px" id="k2faTitle">Disabled</b>
+            <button type="button" class="btn sm pri" id="kLaunch2fa" style="margin-top:auto">Enable 2FA wizard</button>
+          </article>
+
+          <article class="kcard">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow">Active Devices</span><span class="badge b-info" id="kSesBadge">3 active</span></div>
+            <b style="font-size:18px" id="kSesTitle">Linux + 2 others</b>
+            <button type="button" class="btn sm" id="kSignOutOthers" style="margin-top:auto">Sign out other devices</button>
+          </article>
+
+          <article class="kcard">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow">C20 Exposure</span><span class="badge b-ok">Protected</span></div>
+            <b style="font-size:18px">Public · Contact hidden</b>
+            <a class="btn sm ghost" href="../../F20-profile-view-edit/V1/index.html" style="margin-top:auto">Preview F20 card →</a>
+          </article>
+
+          <article class="kcard">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow">Alert Cadence</span><span class="badge b-neutral">IST</span></div>
+            <b style="font-size:18px" id="kNotifTitle">17 / 18 channels on</b>
+            <a class="btn sm ghost" href="#notifCardAnchor" style="margin-top:auto">Jump to 19 switches ↓</a>
+          </article>
+        </section>
+
+        <div class="bento2">
+          <!-- Card 1: Security & 2FA -->
+          <section class="pcard" id="secCardAnchor">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h2>Two-factor &amp; password</h2>
+              <span class="badge b-warn" id="p2faPill">2FA Off</span>
+            </div>
+            <div id="p2faMount"></div>
+            <form id="pPwForm" style="padding-top:12px;border-top:1px solid var(--border)" novalidate>
+              <b style="font-size:13.5px;display:block;margin-bottom:8px">Rotate account password</b>
+              <input class="inp" id="pp0" type="password" placeholder="Current password *" style="margin-bottom:8px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <input class="inp" id="pp1" type="password" placeholder="New password (≥8) *">
+                <input class="inp" id="pp2" type="password" placeholder="Confirm new password *">
+              </div>
+              <div style="margin-top:10px;display:flex;justify-content:flex-end"><button type="submit" class="btn sm pri">Update password</button></div>
+            </form>
+          </section>
+
+          <!-- Card 2: Regional & Visibility -->
+          <section class="pcard">
+            <h2>Account, Regional &amp; Visibility (C20)</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div><label class="lbl" for="pTz" style="margin-top:0">Timezone</label><select class="inp" id="pTz"><option>Asia/Kolkata (IST)</option><option>UTC</option></select></div>
+              <div><label class="lbl" for="pCur" style="margin-top:0">Currency</label><select class="inp" id="pCur"><option>INR (₹)</option><option>USD ($)</option></select></div>
+            </div>
+            <div>
+              <label class="lbl" for="pVis">Profile visibility</label>
+              <select class="inp" id="pVis"><option>Public</option><option>Collaborators only</option><option>Private</option></select>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--border)">
+              <span>Show email publicly</span>
+              <button type="button" class="sw" role="switch" id="pSwEm" aria-checked="false" aria-label="Show email publicly"></button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span>Show phone publicly</span>
+              <button type="button" class="sw" role="switch" id="pSwPh" aria-checked="false" aria-label="Show phone publicly"></button>
+            </div>
+            <div style="margin-top:auto;display:flex;justify-content:flex-end"><button type="button" class="btn sm pri" id="pSaveAcct">Save account</button></div>
+          </section>
+
+          <!-- Card 3: 19 Single-DOM Notification Switches -->
+          <section class="pcard wide" id="notifCardAnchor">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px">
+              <div>
+                <h2>Notification Preferences (19 switches)</h2>
+                <p class="sub">1 Quiet Hours toggle (`22:00–08:00 Asia/Kolkata`) + 6×3 delivery matrix.</p>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:13px;font-weight:600">Quiet hours (`22:00–08:00`)</span>
+                <button type="button" class="sw" role="switch" id="pSwQh" aria-checked="false" aria-label="Enable quiet hours"></button>
+                <button type="button" class="btn sm pri" id="pSaveNotif">Save preferences</button>
+              </div>
+            </div>
+            <div class="pmx-hd" aria-hidden="true"><span>Category</span><span style="text-align:center">Email</span><span style="text-align:center">In-App</span><span style="text-align:center">Push</span></div>
+            <div id="pMatrixMount"></div>
+          </section>
+
+          <!-- Card 4: Active Sessions (3-tier) -->
+          <section class="pcard">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <h2>Active Sessions</h2>
+              <button type="button" class="btn sm danger" id="pRevAll">Sign out all (including this device)</button>
+            </div>
+            <div id="pSesMount"></div>
+          </section>
+
+          <!-- Card 5: C10 Activity + Danger Zone -->
+          <section class="pcard">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <h2>Activity Audit (50 events · C10)</h2>
+              <button type="button" class="btn sm ghost" id="pExpAudit">Expand bursts</button>
+            </div>
+            <div id="pActMount"></div>
+
+            <div class="pcard dz" style="padding:14px;margin-top:8px">
+              <b style="color:var(--status-error-text)">Danger zone &amp; portability</b>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button type="button" class="btn sm" id="pExportData">Export my data</button>
+                <button type="button" class="btn sm danger" id="pDelAcct">Delete account</button>
+                <button type="button" class="btn sm" id="pCancelDel" hidden>Cancel pending deletion</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <noscript><div class="panel pad sub">JavaScript off: Settings Posture Deck for Arjun Mehta.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-shield"/></svg></div>
+          <b>All posture warnings resolved</b>
+          <p class="sub">2FA is active and only your current device session remains signed in.</p>
+          <button type="button" class="btn sm pri" id="pResetState">Reset baseline</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:96px;border-radius:12px"></div>
+          <div class="skel" style="width:100%;height:180px;border-radius:12px"></div>
+          <span class="sr-only" role="status">Loading security posture deck…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Posture telemetry unavailable</b>
+          <p><span class="mono">GET /api/v1/users/sessions</span> timed out.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F21 V4 Posture-First Deck · Snapshots 36–38, 41–42 lock</span>
+        <span><a href="../V3/index.html">← V3 Audit Console</a> · <a href="../V5/index.html">V5 Hardening Stepper →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var CATS = [
+    { id:'p', label:'Project Updates', email:true, inApp:true, push:true },
+    { id:'m', label:'Milestones', email:true, inApp:true, push:false },
+    { id:'d', label:'Deliverables', email:true, inApp:true, push:true },
+    { id:'q', label:'Quotes & Proposals', email:true, inApp:true, push:true },
+    { id:'b', label:'Payments & Invoices', email:true, inApp:true, push:true },
+    { id:'c', label:'Messages', email:true, inApp:true, push:true }
+  ];
+
+  var sess = [
+    { id:'s1', ua:'Chromium 146 · Linux (X11)', ip:'172.19.0.1', cur:true },
+    { id:'s2', ua:'Safari 18 · iPhone (iOS 18.3)', ip:'49.36.128.44', cur:false },
+    { id:'s3', ua:'Chrome 145 · Windows 11', ip:'103.215.91.12', cur:false }
+  ];
+  var tfa = { on:false, st:0 }, auditExpanded = false;
+
+  function sw(el, cb) {
+    el.onclick = function() {
+      var n = el.getAttribute('aria-checked') !== 'true';
+      el.setAttribute('aria-checked', n ? 'true' : 'false');
+      if (cb) cb(n);
+    };
+  }
+  sw($('#pSwEm')); sw($('#pSwPh')); sw($('#pSwQh'));
+
+  function syncKpis() {
+    $('#kpi2faCard').className = 'kcard ' + (tfa.on ? '' : 'warn');
+    $('#k2faBadge').className = 'badge ' + (tfa.on ? 'b-ok' : 'b-warn');
+    $('#k2faBadge').textContent = tfa.on ? 'Protected' : 'Action needed';
+    $('#k2faTitle').textContent = tfa.on ? 'Enabled (TOTP)' : 'Disabled';
+    $('#kLaunch2fa').textContent = tfa.on ? 'Manage 2FA' : 'Enable 2FA wizard';
+
+    $('#kSesBadge').textContent = sess.length + ' active';
+    $('#kSesTitle').textContent = sess.length === 1 ? 'This device only' : 'Linux + ' + (sess.length - 1) + ' other(s)';
+    $('#kSignOutOthers').disabled = sess.length <= 1;
+
+    var cnt = 0; CATS.forEach(function(c){ ['email','inApp','push'].forEach(function(k){ if (c[k]) cnt++; }); });
+    $('#kNotifTitle').textContent = cnt + ' / 18 channels on';
+  }
+
+  function render2fa() {
+    $('#p2faPill').className = 'badge ' + (tfa.on ? 'b-ok' : 'b-warn');
+    $('#p2faPill').textContent = tfa.on ? '2FA On' : '2FA Off';
+    var m = $('#p2faMount');
+    if (tfa.on) {
+      m.innerHTML = '<div class="note ok">Authenticator app verified · Recovery key <span class="mono">NL-8492-1104</span></div><button type="button" class="btn sm danger" id="p2Off" style="margin-top:8px">Disable 2FA</button>';
+      $('#p2Off').onclick = function(){ tfa = { on:false, st:0 }; render2fa(); syncKpis(); };
+    } else if (tfa.st === 0) {
+      m.innerHTML = '<p class="sub">3-step TOTP setup: verify password → scan SVG QR → enter 6-digit OTP.</p><button type="button" class="btn sm pri" id="p2Go" style="margin-top:8px">Enable 2FA</button>';
+      $('#p2Go').onclick = function(){ tfa.st = 1; render2fa(); };
+    } else if (tfa.st === 1) {
+      m.innerHTML = '<label class="lbl" for="p2Pw" style="margin-top:0">Step 1/3 · Current password</label><input class="inp" id="p2Pw" type="password"><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="btn sm pri" id="p2N1">Next: QR →</button><button type="button" class="btn sm ghost" id="p2C">Cancel</button></div>';
+      $('#p2N1').onclick = function(){ if ($('#p2Pw').value.length >= 3) { tfa.st = 2; render2fa(); } };
+      $('#p2C').onclick = function(){ tfa.st = 0; render2fa(); };
+    } else if (tfa.st === 2) {
+      m.innerHTML = '<div class="sub">Step 2/3 · Scan QR or enter <code class="mono">JBSWY3DPEHPK3PXP</code></div><div style="display:flex;gap:8px;margin-top:8px"><button type="button" class="btn sm pri" id="p2N2">Next: 6-digit OTP →</button></div>';
+      $('#p2N2').onclick = function(){ tfa.st = 3; render2fa(); };
+    } else {
+      m.innerHTML = '<label class="lbl" for="p2Otp" style="margin-top:0">Step 3/3 · 6-digit code</label><input class="inp mono" id="p2Otp" maxlength="6" placeholder="123456" style="max-width:160px"><div style="margin-top:8px"><button type="button" class="btn sm pri" id="p2Fin">Verify &amp; enable</button></div>';
+      $('#p2Fin').onclick = function(){ if (/^\d{6}$/.test($('#p2Otp').value.trim())) { tfa = { on:true, st:0 }; Lab.toast('2FA enabled'); render2fa(); syncKpis(); } };
+    }
+  }
+  $('#kLaunch2fa').onclick = function(){ if (!tfa.on) tfa.st = 1; render2fa(); $('#secCardAnchor').scrollIntoView({ behavior:'smooth' }); };
+
+  $('#pPwForm').onsubmit = function(e){ e.preventDefault(); if ($('#pp1').value.length >= 8 && $('#pp1').value === $('#pp2').value) { this.reset(); Lab.toast('Password updated'); } else Lab.toast('Check password ≥8 chars and match'); };
+  $('#pSaveAcct').onclick = function(){ Lab.toast('Saved account & visibility'); };
+
+  function renderMatrix() {
+    $('#pMatrixMount').innerHTML = CATS.map(function(c) {
+      return '<div class="pmx-rw"><b>' + c.label + '</b>' + ['email','inApp','push'].map(function(ch) {
+        var nm = ch === 'email' ? 'Email' : (ch === 'inApp' ? 'In-App' : 'Push');
+        return '<div class="pmx-c"><span class="pmx-lbl">' + nm + '</span><button type="button" class="sw" role="switch" data-c="' + c.id + '" data-k="' + ch + '" aria-checked="' + (c[ch]?'true':'false') + '" aria-label="' + c.label + ' ' + nm + '"></button></div>';
+      }).join('') + '</div>';
+    }).join('');
+    $$('.sw', $('#pMatrixMount')).forEach(function(s) {
+      s.onclick = function() {
+        var c = CATS.find(function(x){ return x.id === s.dataset.c; });
+        c[s.dataset.k] = !c[s.dataset.k];
+        s.setAttribute('aria-checked', c[s.dataset.k] ? 'true' : 'false');
+        syncKpis();
+      };
+    });
+  }
+  $('#pSaveNotif').onclick = function(){ Lab.toast('Saved 19 notification switches'); };
+
+  function renderSess() {
+    $('#pSesMount').innerHTML = sess.map(function(s) {
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap">' +
+        '<div><b style="font-size:13.5px">' + s.ua + '</b> ' + (s.cur ? '<span class="badge b-info">This device</span>' : '') + '<div class="sub mono">' + s.ip + '</div></div>' +
+        (s.cur ? '<span class="sub">Current</span>' : '<button type="button" class="btn sm" data-ps="' + s.id + '">Sign out</button>') +
+      '</div>';
+    }).join('') + '<div style="margin-top:10px"><button type="button" class="btn sm" id="pRevOthBtn" ' + (sess.length <= 1 ? 'disabled' : '') + '>Sign out other devices</button></div>';
+    $$('[data-ps]', $('#pSesMount')).forEach(function(b){ b.onclick = function(){ sess = sess.filter(function(x){ return x.id !== b.dataset.ps; }); renderSess(); syncKpis(); }; });
+    $('#pRevOthBtn').onclick = function(){ sess = sess.filter(function(x){ return x.cur; }); Lab.toast('Signed out other devices'); renderSess(); syncKpis(); };
+  }
+  $('#kSignOutOthers').onclick = function(){ sess = sess.filter(function(x){ return x.cur; }); Lab.toast('Signed out other devices'); renderSess(); syncKpis(); };
+  $('#pRevAll').onclick = function() {
+    Lab.openDlg('Sign out all devices?', 'Confirm revoking every active session.',
+      '<div class="row"><button class="btn danger" id="paGo">Sign out all</button><button class="btn" id="paNo">Cancel</button></div>');
+    $('#paNo').onclick = Lab.closeDlg;
+    $('#paGo').onclick = function(){ Lab.closeDlg(); sess = [sess[0]]; renderSess(); syncKpis(); Lab.toast('Revoked all sessions'); };
+  };
+
+  function renderAct() {
+    if (!auditExpanded) {
+      $('#pActMount').innerHTML = '<div class="sub" style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><b>Apr 14, 2026:</b> 17 LOGIN + 1 LOGOUT (<span class="mono">172.19.0.1</span> · 16 burst collapsed)</div>' +
+        '<div><b>Apr 13, 2026:</b> 19 LOGIN (<span class="mono">172.19.0.1</span> · 18 burst collapsed)</div>' +
+        '<div><b>Apr 12, 2026:</b> 13 LOGIN (<span class="mono">172.19.0.1</span> · 12 burst collapsed)</div></div>';
+    } else {
+      var list = [];
+      for (var i = 1; i <= 50; i++) list.push('<div class="mono" style="font-size:12px;padding:3px 0;border-bottom:1px solid var(--border)">#' + i + ' · ' + (i === 18 ? 'LOGOUT' : 'LOGIN') + ' · Chromium · Linux · 172.19.0.1</div>');
+      $('#pActMount').innerHTML = '<div style="max-height:180px;overflow-y:auto">' + list.join('') + '</div>';
+    }
+  }
+  $('#pExpAudit').onclick = function(){ auditExpanded = !auditExpanded; this.textContent = auditExpanded ? 'Collapse C10 bursts' : 'Expand bursts'; renderAct(); };
+
+  $('#pExportData').onclick = function() {
+    $('#pBanner').hidden = false;
+    $('#pBanner').innerHTML = '<div class="note ok" role="status"><b>Data export queued</b> — check <a href="../../F19-notifications-center/V1/index.html" style="color:var(--primary-ink)">Notifications (F19)</a> when ready.</div>';
+  };
+  $('#pDelAcct').onclick = function() {
+    Lab.openDlg('Schedule account deletion', 'Enter current password to confirm.',
+      '<label class="lbl" for="pdPw" style="margin-top:0">Password *</label><input class="inp" id="pdPw" type="password">' +
+      '<div class="row"><button class="btn danger" id="pdGo">Confirm</button><button class="btn" id="pdNo">Cancel</button></div>');
+    $('#pdNo').onclick = Lab.closeDlg;
+    $('#pdGo').onclick = function(){ if ($('#pdPw').value.length >= 3) { Lab.closeDlg(); $('#pCancelDel').hidden = false; $('#pDelAcct').disabled = true; Lab.toast('Scheduled deletion'); } };
+  };
+  $('#pCancelDel').onclick = function(){ this.hidden = true; $('#pDelAcct').disabled = false; Lab.toast('Cancelled deletion'); };
+  $('#pResetState').onclick = function(){ Lab.setState('data'); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F21 V1 · Calm Tabbed Hub', '../V1/index.html'],
+      ['F21 V2 · Sticky Left-Rail', '../V2/index.html'],
+      ['F21 V3 · Audit Console', '../V3/index.html'],
+      ['F21 V4 · Posture Deck (current)', 'index.html'],
+      ['F21 V5 · Hardening Walkthrough', '../V5/index.html']
+    ]
+  });
+  render2fa(); renderMatrix(); renderSess(); renderAct(); syncKpis();
+})();
+</script>
+</body>
+</html>

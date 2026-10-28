@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · V3 Dense Security &amp; Audit Console — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F21 · V3 — Dense Security & Audit Console (Dense archetype)
+   Full-width 1220px power-admin console with live Settings Search filter, compact tables,
+   19 single-DOM notification switches with column bulk toggles, and 50-row C10 audit ledger. */
+.wrap.console{max-width:1240px;padding:18px 20px 76px}
+h1{font-size:clamp(28px,2.8vw,34px);line-height:1.15}
+.top-search{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);margin-bottom:14px}
+.ctabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.ctabs::-webkit-scrollbar{display:none}
+.ctab{min-height:34px;padding:0 11px;border-radius:6px;border:1px solid var(--border);background:var(--background);font-size:12.5px;font-weight:600;color:var(--muted-foreground);white-space:nowrap}
+.ctab[aria-selected="true"]{background:var(--primary);color:#fff;border-color:var(--primary)}
+.c-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.cbox{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);padding:16px;box-shadow:var(--shadow-xs)}
+.cbox.dz{border-color:var(--status-error-border)}
+.sw{position:relative;display:inline-flex;align-items:center;width:40px;height:22px;border-radius:999px;background:var(--border);border:1px solid var(--border);padding:2px;flex:none}
+.sw::after{content:"";width:16px;height:16px;border-radius:50%;background:#fff;transition:transform var(--duration-fast)}
+.sw[aria-checked="true"]{background:var(--primary);border-color:var(--primary)}
+.sw[aria-checked="true"]::after{transform:translateX(18px)}
+.dense-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.dense-tbl thead th{padding:8px 12px;font-size:11px}
+.dense-tbl tbody td{padding:9px 12px;border-bottom:1px solid var(--border)}
+.dense-tbl tbody tr:last-child td{border-bottom:0}
+@media(max-width:860px){
+  .c-grid{grid-template-columns:1fr}
+  .wrap.console{padding:14px 12px 64px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="../../F22-settings-files/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../../index.html">Portal</a><span>›</span><b>Settings audit console</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F21 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Tabs</a>
+      <a class="pill" href="../V2/index.html">V2 · Left-Rail</a>
+      <a class="pill on" href="index.html" aria-current="page">V3 · Audit Console</a>
+      <a class="pill" href="../V4/index.html">V4 · Posture Deck</a>
+      <a class="pill" href="../V5/index.html">V5 · Hardening Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap console" id="main">
+      <div class="hrow" style="margin-bottom:12px">
+        <div>
+          <div class="eyebrow">High-Density Security, Preference &amp; Audit Console</div>
+          <h1>Settings</h1>
+          <p class="lead">Search across all 5 settings domains at once or filter to inspect 2FA, active sessions, 19 notification switches, and 50 security events.</p>
+        </div>
+        <div class="acts">
+          <button type="button" class="btn sm" id="csvExportBtn"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-save"/></svg>Export audit CSV</button>
+          <a class="btn sm" href="../../F20-profile-view-edit/V1/index.html">Public Profile (`F20`)</a>
+        </div>
+      </div>
+
+      <div id="cBanner" style="margin-bottom:12px" hidden></div>
+
+      <div data-panel="data">
+        <div class="top-search">
+          <div class="ctabs" role="tablist" data-local="true" aria-label="Console view filter" id="cTabBar">
+            <button type="button" class="ctab" role="tab" data-ct="all" aria-selected="true">All Domains</button>
+            <button type="button" class="ctab" role="tab" data-ct="account" aria-selected="false">Account</button>
+            <button type="button" class="ctab" role="tab" data-ct="notifications" aria-selected="false">Notifications (19)</button>
+            <button type="button" class="ctab" role="tab" data-ct="security" aria-selected="false">Security</button>
+            <button type="button" class="ctab" role="tab" data-ct="sessions" aria-selected="false">Sessions</button>
+            <button type="button" class="ctab" role="tab" data-ct="activity" aria-selected="false">Activity (50)</button>
+          </div>
+          <span class="sp"></span>
+          <input class="inp" id="setSearchInp" type="search" aria-label="Filter settings by keyword" placeholder="Filter settings (e.g. 2FA, timezone, Milestones, 172.19)…" style="max-width:310px;min-height:34px;padding:4px 10px">
+        </div>
+
+        <div class="c-grid">
+          <!-- Account + Danger -->
+          <section class="cbox" data-sec="account" data-kw="account language timezone currency asia kolkata inr visibility public email phone danger export delete">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+              <h2>Account &amp; C20 Visibility</h2>
+              <a class="btn sm ghost" href="../../F20-profile-view-edit/V1/index.html">F20 Card →</a>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
+              <div><label class="lbl" for="cLang" style="margin-top:0">Language</label><select class="inp" id="cLang" style="min-height:34px;padding:4px 8px"><option>English</option><option>Hindi</option></select></div>
+              <div><label class="lbl" for="cTz" style="margin-top:0">Timezone</label><select class="inp" id="cTz" style="min-height:34px;padding:4px 8px"><option>Asia/Kolkata</option><option>UTC</option></select></div>
+              <div><label class="lbl" for="cCur" style="margin-top:0">Currency</label><select class="inp" id="cCur" style="min-height:34px;padding:4px 8px"><option>INR (₹)</option><option>USD ($)</option></select></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-top:1px solid var(--border);font-size:12.5px">
+              <span>Visibility: <b>Public</b> · Show email publicly</span>
+              <button type="button" class="sw" role="switch" id="cSwEm" aria-checked="false" aria-label="Show email publicly"></button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-top:1px solid var(--border);font-size:12.5px">
+              <span>Show phone (<span class="mono">+919825012345</span>) publicly</span>
+              <button type="button" class="sw" role="switch" id="cSwPh" aria-checked="false" aria-label="Show phone publicly"></button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;padding-top:10px;margin-top:6px;border-top:1px dashed var(--border)">
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button type="button" class="btn sm" id="cExpBtn">Export my data</button>
+                <button type="button" class="btn sm danger" id="cDelBtn">Delete account</button>
+                <button type="button" class="btn sm" id="cCancelDel" hidden>Cancel pending deletion</button>
+              </div>
+              <button type="button" class="btn sm pri" id="cSaveAcct">Save account</button>
+            </div>
+          </section>
+
+          <!-- Security -->
+          <section class="cbox" data-sec="security" data-kw="security password 2fa totp qr otp authenticator">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <h2>Security &amp; 3-Step 2FA</h2>
+              <span class="badge b-warn" id="c2faBadge">2FA Disabled</span>
+            </div>
+            <div id="c2faBox" style="margin-bottom:12px"></div>
+            <form id="cPwForm" style="padding-top:10px;border-top:1px solid var(--border)" novalidate>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+                <div><label class="lbl" for="cp0" style="margin-top:0">Current PW</label><input class="inp" id="cp0" type="password" style="min-height:34px"></div>
+                <div><label class="lbl" for="cp1" style="margin-top:0">New PW</label><input class="inp" id="cp1" type="password" style="min-height:34px"></div>
+                <div><label class="lbl" for="cp2" style="margin-top:0">Confirm PW</label><input class="inp" id="cp2" type="password" style="min-height:34px"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+                <span class="sub" id="cPwMsg">8+ chars, mixed case + symbol</span>
+                <button type="submit" class="btn sm pri">Update password</button>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <!-- Notifications 19 single-DOM switches -->
+        <section class="cbox" style="margin-bottom:14px" data-sec="notifications" data-kw="notifications quiet hours email in-app push projects milestones deliverables quotes payments messages">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <h2>Notification Matrix (19 switches)</h2>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px">Quiet hours (`22:00–08:00 IST`) <button type="button" class="sw" role="switch" id="cSwQh" aria-checked="false" aria-label="Enable quiet hours"></button></span>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <button type="button" class="btn sm ghost" id="cAllPushOn">Enable all Push</button>
+              <button type="button" class="btn sm pri" id="cSaveNotif">Save matrix</button>
+            </div>
+          </div>
+          <div class="tblwrap">
+            <table class="dense-tbl">
+              <caption class="sr-only">Notification channels matrix</caption>
+              <thead><tr><th>Category</th><th>Email</th><th>In-App</th><th>Push</th></tr></thead>
+              <tbody id="cMatrixBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Sessions -->
+        <section class="cbox" style="margin-bottom:14px" data-sec="sessions" data-kw="sessions devices chromium safari chrome sign out revoke 172.19.0.1">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px">
+            <h2>Active Device Sessions (3-Tier Controls)</h2>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="btn sm" id="cRevOthers">Sign out other devices</button>
+              <button type="button" class="btn sm danger" id="cRevAll">Sign out all (including this device)</button>
+            </div>
+          </div>
+          <div class="tblwrap">
+            <table class="dense-tbl">
+              <caption class="sr-only">Active portal sessions</caption>
+              <thead><tr><th>Device &amp; Browser</th><th>IP Address</th><th>Last Active</th><th style="text-align:right">Action</th></tr></thead>
+              <tbody id="cSessBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Activity 50 rows C10 -->
+        <section class="cbox" data-sec="activity" data-kw="activity audit login logout 172.19.0.1 chromium linux">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px">
+            <h2>Security Audit Ledger (50 Events · 49 LOGIN / 1 LOGOUT · C10 Grouped)</h2>
+            <button type="button" class="btn sm" id="cExpandAudit">Expand all 50 rows</button>
+          </div>
+          <div class="tblwrap">
+            <table class="dense-tbl">
+              <caption class="sr-only">50 security sign-in and sign-out events</caption>
+              <thead><tr><th>Date Group</th><th>Event</th><th>Client / OS</th><th>IP</th><th>Timestamp</th></tr></thead>
+              <tbody id="cAuditBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <noscript><div class="panel pad sub">JavaScript off: Settings Audit Console for Arjun Mehta.</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-search"/></svg></div>
+          <b>No matching audit or session rows</b>
+          <p class="sub">Reset filters to view all 50 audit entries and 3 device sessions.</p>
+          <button type="button" class="btn sm pri" id="cResetBtn">Reset console</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:42px"></div>
+          <div class="skel" style="width:100%;height:140px"></div>
+          <span class="sr-only" role="status">Loading security audit console…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Audit ledger fetch failed</b>
+          <p><span class="mono">GET /api/v1/users/activity</span> returned HTTP 500.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F21 V3 Dense Security &amp; Audit Console · Snapshots 36–38, 41–42 lock</span>
+        <span><a href="../V2/index.html">← V2 Left-Rail</a> · <a href="../V4/index.html">V4 Posture Deck →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Dialog</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var CATS = [
+    { id:'p', label:'Project Updates', email:true, inApp:true, push:true },
+    { id:'m', label:'Milestones', email:true, inApp:true, push:false },
+    { id:'d', label:'Deliverables', email:true, inApp:true, push:true },
+    { id:'q', label:'Quotes & Proposals', email:true, inApp:true, push:true },
+    { id:'b', label:'Payments & Invoices', email:true, inApp:true, push:true },
+    { id:'c', label:'Messages', email:true, inApp:true, push:true }
+  ];
+
+  var sess = [
+    { id:'s1', ua:'Chromium 146 · Linux (X11)', ip:'172.19.0.1', ts:'Apr 14, 2026, 20:51 IST', cur:true },
+    { id:'s2', ua:'Safari 18 · iPhone (iOS 18.3)', ip:'49.36.128.44', ts:'Apr 14, 2026, 18:14 IST', cur:false },
+    { id:'s3', ua:'Chrome 145 · Windows 11', ip:'103.215.91.12', ts:'Apr 13, 2026, 11:02 IST', cur:false }
+  ];
+
+  var auditRows = [];
+  (function(){
+    for (var i = 0; i < 17; i++) auditRows.push({ day:'Apr 14, 2026', ev:'LOGIN', ua:'Chromium · Linux', ip:'172.19.0.1', ts:'20:' + String(51 - i).padStart(2,'0') + ':10 IST' });
+    auditRows.push({ day:'Apr 14, 2026', ev:'LOGOUT', ua:'Chromium · Linux', ip:'172.19.0.1', ts:'13:42:09 IST' });
+    for (var j = 0; j < 19; j++) auditRows.push({ day:'Apr 13, 2026', ev:'LOGIN', ua:'Chromium · Linux', ip:'172.19.0.1', ts:'19:' + String(50 - j).padStart(2,'0') + ':04 IST' });
+    for (var k = 0; k < 13; k++) auditRows.push({ day:'Apr 12, 2026', ev:'LOGIN', ua:'Chromium · Linux', ip:'172.19.0.1', ts:'17:' + String(45 - k).padStart(2,'0') + ':22 IST' });
+  })();
+
+  var showAllAudit = false, tfa = { on:false, step:0 }, curTab = 'all';
+
+  function bindSw(el) {
+    el.onclick = function(){ el.setAttribute('aria-checked', el.getAttribute('aria-checked') === 'true' ? 'false' : 'true'); };
+  }
+  bindSw($('#cSwEm')); bindSw($('#cSwPh')); bindSw($('#cSwQh'));
+
+  // Console tabs & live keyword filter
+  var cTabs = $$('.ctab', $('#cTabBar'));
+  function applySecFilter() {
+    var q = $('#setSearchInp').value.trim().toLowerCase();
+    $$('[data-sec]').forEach(function(sec) {
+      var tabOk = curTab === 'all' || sec.dataset.sec === curTab;
+      var kwOk = !q || sec.dataset.kw.indexOf(q) >= 0 || sec.textContent.toLowerCase().indexOf(q) >= 0;
+      sec.hidden = !(tabOk && kwOk);
+    });
+  }
+  cTabs.forEach(function(b) {
+    b.onclick = function() {
+      curTab = b.dataset.ct;
+      cTabs.forEach(function(x){ x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+      applySecFilter();
+    };
+  });
+  $('#setSearchInp').oninput = applySecFilter;
+
+  $('#cSaveAcct').onclick = function(){ Lab.toast('Saved account settings'); };
+  $('#cExpBtn').onclick = function() {
+    $('#cBanner').hidden = false;
+    $('#cBanner').innerHTML = '<div class="note ok" role="status"><b>Export queued</b> — check <a href="../../F19-notifications-center/V1/index.html" style="color:var(--primary-ink)">Notifications (F19)</a> for your download link.</div>';
+  };
+  $('#cDelBtn').onclick = function() {
+    Lab.openDlg('Delete account', 'Enter password to schedule soft-deletion.',
+      '<label class="lbl" for="cdPw" style="margin-top:0">Password *</label><input class="inp" id="cdPw" type="password">' +
+      '<div class="row"><button class="btn danger" id="cdGo">Schedule deletion</button><button class="btn" id="cdNo">Cancel</button></div>');
+    $('#cdNo').onclick = Lab.closeDlg;
+    $('#cdGo').onclick = function(){ if ($('#cdPw').value.length >= 3) { Lab.closeDlg(); $('#cCancelDel').hidden = false; $('#cDelBtn').disabled = true; Lab.toast('Deletion scheduled'); } };
+  };
+  $('#cCancelDel').onclick = function(){ this.hidden = true; $('#cDelBtn').disabled = false; Lab.toast('Cancelled pending deletion'); };
+
+  function render2fa() {
+    $('#c2faBadge').className = 'badge ' + (tfa.on ? 'b-ok' : 'b-warn');
+    $('#c2faBadge').textContent = tfa.on ? '2FA Enabled' : '2FA Disabled';
+    var box = $('#c2faBox');
+    if (tfa.on) {
+      box.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center"><span class="sub">Recovery key <code class="mono">NL-8492-1104</code></span><button type="button" class="btn sm danger" id="c2Off">Disable 2FA</button></div>';
+      $('#c2Off').onclick = function(){ tfa = { on:false, step:0 }; render2fa(); };
+    } else if (tfa.step === 0) {
+      box.innerHTML = '<button type="button" class="btn sm pri" id="c2Start">Enable 2FA (3-step TOTP)</button>';
+      $('#c2Start').onclick = function(){ tfa.step = 1; render2fa(); };
+    } else if (tfa.step === 1) {
+      box.innerHTML = '<div style="display:flex;gap:8px;align-items:center"><input class="inp" id="c2Pw" type="password" placeholder="Step 1/3: Current password" style="min-height:34px"><button type="button" class="btn sm pri" id="c2N1">Next</button></div>';
+      $('#c2N1').onclick = function(){ if ($('#c2Pw').value.length >= 3) { tfa.step = 2; render2fa(); } };
+    } else if (tfa.step === 2) {
+      box.innerHTML = '<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap"><span class="sub">Step 2/3 Secret: <code class="mono">JBSWY3DPEHPK3PXP</code></span><button type="button" class="btn sm pri" id="c2N2">Enter 6-digit code →</button></div>';
+      $('#c2N2').onclick = function(){ tfa.step = 3; render2fa(); };
+    } else {
+      box.innerHTML = '<div style="display:flex;gap:8px;align-items:center"><input class="inp mono" id="c2Otp" maxlength="6" placeholder="123456" style="max-width:120px;min-height:34px"><button type="button" class="btn sm pri" id="c2Ok">Verify</button></div>';
+      $('#c2Ok').onclick = function(){ if (/^\d{6}$/.test($('#c2Otp').value.trim())) { tfa = { on:true, step:0 }; Lab.toast('2FA enabled'); render2fa(); } };
+    }
+  }
+
+  $('#cPwForm').onsubmit = function(e) {
+    e.preventDefault();
+    if ($('#cp1').value.length < 8 || $('#cp1').value !== $('#cp2').value) { $('#cPwMsg').textContent = 'Check length ≥8 and match.'; return; }
+    $('#cPwForm').reset(); Lab.toast('Password updated');
+  };
+
+  function renderMatrix() {
+    $('#cMatrixBody').innerHTML = CATS.map(function(c) {
+      return '<tr><td data-label="Category"><b>' + c.label + '</b></td>' +
+        ['email','inApp','push'].map(function(ch) {
+          var lbl = ch === 'email' ? 'Email' : (ch === 'inApp' ? 'In-App' : 'Push');
+          return '<td data-label="' + lbl + '"><button type="button" class="sw" role="switch" data-cat="' + c.id + '" data-ch="' + ch + '" aria-checked="' + (c[ch]?'true':'false') + '" aria-label="' + c.label + ' ' + lbl + '"></button></td>';
+        }).join('') + '</tr>';
+    }).join('');
+    $$('.sw', $('#cMatrixBody')).forEach(function(s) {
+      s.onclick = function() {
+        var c = CATS.find(function(x){ return x.id === s.dataset.cat; });
+        c[s.dataset.ch] = !c[s.dataset.ch];
+        s.setAttribute('aria-checked', c[s.dataset.ch] ? 'true' : 'false');
+      };
+    });
+  }
+  $('#cAllPushOn').onclick = function(){ CATS.forEach(function(c){ c.push = true; }); renderMatrix(); Lab.toast('All Push switches enabled'); };
+  $('#cSaveNotif').onclick = function(){ Lab.toast('Saved 19 notification switches'); };
+
+  function renderSessions() {
+    $('#cSessBody').innerHTML = sess.map(function(s) {
+      return '<tr><td data-label="Device"><b>' + s.ua + '</b> ' + (s.cur ? '<span class="badge b-info">This device</span>' : '') + '</td>' +
+        '<td data-label="IP" class="mono">' + s.ip + '</td><td data-label="Active">' + s.ts + '</td>' +
+        '<td data-label="Action" style="text-align:right">' + (s.cur ? '<span class="sub">Current</span>' : '<button type="button" class="btn sm" data-cs="' + s.id + '">Sign out</button>') + '</td></tr>';
+    }).join('');
+    $$('[data-cs]', $('#cSessBody')).forEach(function(b){ b.onclick = function(){ sess = sess.filter(function(x){ return x.id !== b.dataset.cs; }); renderSessions(); }; });
+  }
+  $('#cRevOthers').onclick = function(){ sess = sess.filter(function(s){ return s.cur; }); Lab.toast('Signed out other devices'); renderSessions(); };
+  $('#cRevAll').onclick = function() {
+    Lab.openDlg('Sign out everywhere?', 'Revokes all sessions including this browser.',
+      '<div class="row"><button class="btn danger" id="caGo">Sign out all</button><button class="btn" id="caNo">Cancel</button></div>');
+    $('#caNo').onclick = Lab.closeDlg;
+    $('#caGo').onclick = function(){ Lab.closeDlg(); sess = [sess[0]]; Lab.toast('Global sign-out executed'); renderSessions(); };
+  };
+
+  function renderAudit() {
+    if (showAllAudit) {
+      $('#cAuditBody').innerHTML = auditRows.map(function(r) {
+        return '<tr><td data-label="Date">' + r.day + '</td><td data-label="Event"><span class="badge ' + (r.ev==='LOGOUT'?'b-warn':'b-ok') + '">' + r.ev + '</span></td><td data-label="Client">' + r.ua + '</td><td data-label="IP" class="mono">' + r.ip + '</td><td data-label="Time" class="mono">' + r.ts + '</td></tr>';
+      }).join('');
+    } else {
+      // C10 collapsed summary rows per day
+      $('#cAuditBody').innerHTML =
+        '<tr><td data-label="Date"><b>Apr 14, 2026</b></td><td data-label="Event"><span class="badge b-ok">LOGIN</span></td><td data-label="Client">Chromium · Linux <span class="sub">(+16 LOGIN burst collapsed)</span></td><td data-label="IP" class="mono">172.19.0.1</td><td data-label="Time" class="mono">20:51:10 IST</td></tr>' +
+        '<tr><td data-label="Date">Apr 14, 2026</td><td data-label="Event"><span class="badge b-warn">LOGOUT</span></td><td data-label="Client">Chromium · Linux</td><td data-label="IP" class="mono">172.19.0.1</td><td data-label="Time" class="mono">13:42:09 IST</td></tr>' +
+        '<tr><td data-label="Date"><b>Apr 13, 2026</b></td><td data-label="Event"><span class="badge b-ok">LOGIN</span></td><td data-label="Client">Chromium · Linux <span class="sub">(+18 LOGIN burst collapsed)</span></td><td data-label="IP" class="mono">172.19.0.1</td><td data-label="Time" class="mono">19:50:04 IST</td></tr>' +
+        '<tr><td data-label="Date"><b>Apr 12, 2026</b></td><td data-label="Event"><span class="badge b-ok">LOGIN</span></td><td data-label="Client">Chromium · Linux <span class="sub">(+12 LOGIN burst collapsed)</span></td><td data-label="IP" class="mono">172.19.0.1</td><td data-label="Time" class="mono">17:45:22 IST</td></tr>';
+    }
+  }
+  $('#cExpandAudit').onclick = function(){ showAllAudit = !showAllAudit; this.textContent = showAllAudit ? 'Collapse bursts (C10)' : 'Expand all 50 rows'; renderAudit(); };
+  $('#csvExportBtn').onclick = function(){ Lab.toast('Downloaded nestlancer-audit-50-events.csv'); };
+  $('#cResetBtn').onclick = function(){ Lab.setState('data'); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F21 V1 · Calm Tabbed Hub', '../V1/index.html'],
+      ['F21 V2 · Sticky Left-Rail', '../V2/index.html'],
+      ['F21 V3 · Audit Console (current)', 'index.html'],
+      ['F21 V4 · Posture-First Deck', '../V4/index.html'],
+      ['F21 V5 · Hardening Walkthrough', '../V5/index.html']
+    ]
+  });
+  render2fa(); renderMatrix(); renderSessions(); renderAudit();
+})();
+</script>
+</body>
+</html>

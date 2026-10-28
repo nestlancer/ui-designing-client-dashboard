@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files &amp; Storage · V4 Engagement Dossier &amp; Deliverables Hub — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F22 · V4 — Engagement Dossier & Deliverables Hub (Action / Queue-led archetype)
+   Split Upload + Quota Hero Deck, shared-array Grid/List library, and 2-column Bento Engagement Dossier cards. */
+.wrap.dossier{max-width:1180px;padding:24px 22px 80px}
+h1{font-size:clamp(30px,3vw,36px);line-height:1.15}
+.hero-split{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;margin-bottom:18px}
+.drop-hero{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;padding:24px;border:2px dashed var(--primary);border-radius:var(--radius-xl);background:var(--brand-50);cursor:pointer}
+.dark .drop-hero{background:rgba(70,95,255,.14)}
+.stat-hero{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:20px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;justify-content:space-between;gap:10px}
+.up-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:24px}
+.up-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.ucard{border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--card);padding:15px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:8px}
+.up-list .ucard{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.dossier-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.dcard{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);padding:18px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:10px}
+@media(max-width:860px){
+  .hero-split,.dossier-grid{grid-template-columns:1fr}
+  .up-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:580px){
+  .up-grid{grid-template-columns:1fr}
+  .wrap.dossier{padding:16px 12px 64px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Primary navigation">
+    <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+    <nav>
+      <div class="navgrp">Main</div>
+      <div class="nav">
+        <a href="../../../index.html" data-unbuilt="Dashboard Overview (F03)"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Overview</a>
+        <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+        <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+        <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+        <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+        <a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payments</a>
+        <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a>
+      </div>
+      <div class="navgrp">Account</div>
+      <div class="nav">
+        <a href="../../F19-notifications-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg>Notifications<span class="n">6</span></a>
+        <a href="../../F20-profile-view-edit/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a>
+        <a href="../../F21-settings/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a>
+        <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Files</a>
+      </div>
+    </nav>
+    <div class="side-foot">
+      <button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button>
+      <div class="pop" id="pop">
+        <a href="../../../index.html" data-unbuilt="Portfolio (Public Site)">Portfolio</a>
+        <a href="../../../index.html" data-unbuilt="Services (Public Site)">Services</a>
+        <a href="../../../index.html" data-unbuilt="Support &amp; Help (F23)">Help &amp; support</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="hdr">
+      <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button>
+      <div class="crumb"><a href="../../F21-settings/V1/index.html">Settings</a><span>›</span><b>Engagement dossier hub</b></div>
+      <div class="right">
+        <button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+        <button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button>
+        <a class="icb" href="../../F12-messages-home/V1/index.html" aria-label="Messages, 2 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></a>
+        <a class="icb dot" href="../../F19-notifications-center/V1/index.html" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></a>
+        <a class="av" href="../../F20-profile-view-edit/V1/index.html"><span>AM</span> Arjun Mehta</a>
+      </div>
+    </header>
+
+    <div class="bar" role="group" aria-label="Variant and state navigation">
+      <span class="lbl">F22 variants</span>
+      <a class="pill" href="../V1/index.html">V1 · Calm Library</a>
+      <a class="pill" href="../V2/index.html">V2 · Asset Ledger</a>
+      <a class="pill" href="../V3/index.html">V3 · Split Drive</a>
+      <a class="pill on" href="index.html" aria-current="page">V4 · Dossier Hub</a>
+      <a class="pill" href="../V5/index.html">V5 · Vault Stepper</a>
+      <span class="sp"></span>
+      <span class="lbl">State</span>
+      <button class="pill on" data-state="data">Data</button>
+      <button class="pill" data-state="empty">Empty</button>
+      <button class="pill" data-state="loading">Loading</button>
+      <button class="pill" data-state="error">Error</button>
+    </div>
+
+    <main class="wrap dossier" id="main">
+      <div class="hrow">
+        <div>
+          <div class="eyebrow">Engagement Dossier &amp; Upload Action Deck</div>
+          <h1>Files</h1>
+          <p class="lead">Group contractual quotes and scope PDFs into engagement dossiers while keeping uploaded specs ready for instant C13 preview.</p>
+        </div>
+        <div class="acts">
+          <label class="btn pri" for="v4Inp" style="cursor:pointer">+ Upload</label>
+          <a class="btn sm" href="../../F05-requests-work-hub/V1/index.html">Requests (`F05`)</a>
+        </div>
+      </div>
+
+      <div data-panel="data">
+        <div class="hero-split">
+          <label class="drop-hero" for="v4Inp">
+            <input id="v4Inp" type="file" multiple class="sr-only">
+            <svg class="i xl" style="color:var(--primary-ink)"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>
+            <b style="font-size:15px">Drag &amp; drop wholesale specs, GST samples, or ZIP packages</b>
+            <span class="sub">Max 500 MB per file · Automatic chunked upload above 10 MB · Virus scan included</span>
+          </label>
+
+          <div class="stat-hero">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="eyebrow">Quota &amp; Vault Summary</span><span class="badge b-ok">All Clean</span></div>
+            <b style="font-size:22px" id="v4Quota">41.1 KB / 5 GB</b>
+            <div style="height:8px;border-radius:999px;background:var(--muted);border:1px solid var(--border);overflow:hidden"><i style="display:block;height:100%;width:1%;min-width:6px;background:var(--primary)"></i></div>
+            <span class="sub" id="v4Sub">3 uploaded files · 13 engagement dossiers (26 locked PDFs)</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div style="display:flex;gap:6px;flex-wrap:wrap" id="v4FilterBar"></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="inp" id="v4Search" type="search" aria-label="Search dossiers and files" placeholder="Search dossiers…" style="width:200px;min-height:34px;padding:4px 10px">
+            <button type="button" class="btn sm" id="v4Grid" aria-pressed="true">Grid</button>
+            <button type="button" class="btn sm" id="v4List" aria-pressed="false">List</button>
+          </div>
+        </div>
+
+        <h2 style="font-size:16px;margin-bottom:10px">Uploaded Assets</h2>
+        <div id="v4UpMount" class="up-grid"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h2 style="font-size:16px">Engagement Dossiers (13 Requests · 26 Locked Contractual PDFs)</h2>
+          <button type="button" class="btn sm ghost" id="v4ShowAllDossiers">Show all 13 dossiers</button>
+        </div>
+        <div class="dossier-grid" id="v4DossierMount"></div>
+
+        <noscript><div class="panel pad sub">JavaScript off: 3 uploaded files (41.1 KB / 5 GB) + 13 engagement dossiers (26 locked PDFs).</div></noscript>
+      </div>
+
+      <div data-panel="empty" class="states panel" hidden>
+        <div class="emptybox">
+          <div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-folder"/></svg></div>
+          <b>No uploaded assets</b>
+          <p class="sub">Drop files into the hero zone above to attach them to your requests.</p>
+          <button type="button" class="btn sm pri" id="v4Restore">Restore baseline</button>
+        </div>
+      </div>
+
+      <div data-panel="loading" class="states panel" hidden>
+        <div class="pad" aria-busy="true">
+          <div class="skel" style="width:100%;height:140px;border-radius:14px"></div>
+          <div class="skel" style="width:100%;height:160px;border-radius:14px"></div>
+          <span class="sr-only" role="status">Loading engagement dossiers…</span>
+        </div>
+      </div>
+
+      <div data-panel="error" class="states panel" hidden>
+        <div class="errbox" style="margin:16px">
+          <b>Dossier sync failed</b>
+          <p><span class="mono">GET /api/v1/media</span> failed.</p>
+          <button type="button" class="btn sm" id="retry">Retry</button>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <span>© 2026 Nestlancer · F22 V4 Engagement Dossier Hub · Snapshots 39–40 lock</span>
+        <span><a href="../V3/index.html">← V3 Split Drive</a> · <a href="../V5/index.html">V5 Vault Stepper →</a></span>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<div class="scrim" id="scrim">
+  <div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt">
+    <button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button>
+    <h2 id="dlgt">Preview</h2>
+    <p class="sub" id="dlgdesc"></p>
+    <div class="dlgbody" id="dlgbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){
+  'use strict';
+  var $ = Lab.$, $$ = Lab.$$;
+
+  var TYPES = ['All', 'Documents', 'Images', 'Videos', 'Archives'];
+  function seed() {
+    return [
+      { id:'f1', name:'mehta-catalog-structure.pdf', kb:18.4, mime:'application/pdf', tp:'Documents', src:'Request Attachments', vis:'Private' },
+      { id:'f2', name:'gst-invoice-format-sample.pdf', kb:13.2, mime:'application/pdf', tp:'Documents', src:'Request Attachments', vis:'Private' },
+      { id:'f3', name:'warehouse-barcode-spec.zip', kb:9.5, mime:'application/zip', tp:'Archives', src:'My Uploads', vis:'Private' }
+    ];
+  }
+  var DOSSIERS = [
+    ['B2B Wholesale Ordering Portal', 'NL-QTE-2026-000018', '../../F11-quote-details/V1/index.html'],
+    ['Tally Prime GST & E-Invoice Bridge', 'NL-QTE-2026-000017', '../../F09-project-details/V1/index.html'],
+    ['Ahmedabad Godown Barcode Sync', 'NL-QTE-2026-000016', '../../F05-requests-work-hub/V1/index.html'],
+    ['Distributor Credit-Limit Portal', 'NL-QTE-2026-000015', '../../F10-quotes-list/V1/index.html'],
+    ['WhatsApp Order Bot (Surat)', 'NL-QTE-2026-000014', '../../F05-requests-work-hub/V1/index.html'],
+    ['Multi-Tier Dealer Price Engine', 'NL-QTE-2026-000013', '../../F18-invoices-archive/V1/index.html'],
+    ['HSN Tax & GSTR-1 Reconciliation', 'NL-QTE-2026-000012', '../../F05-requests-work-hub/V1/index.html'],
+    ['Fleet Dispatch & LR Dashboard', 'NL-QTE-2026-000011', '../../F05-requests-work-hub/V1/index.html'],
+    ['Vendor PO Approval Workflow', 'NL-QTE-2026-000010', '../../F05-requests-work-hub/V1/index.html'],
+    ['Seasonal Price-Lock Calculator', 'NL-QTE-2026-000009', '../../F05-requests-work-hub/V1/index.html'],
+    ['Salesman Beat-Plan Mobile PWA', 'NL-QTE-2026-000008', '../../F05-requests-work-hub/V1/index.html'],
+    ['Damaged Goods Credit-Note Portal', 'NL-QTE-2026-000007', '../../F05-requests-work-hub/V1/index.html'],
+    ['Annual Wholesale Margin BI', 'NL-QTE-2026-000006', '../../F05-requests-work-hub/V1/index.html']
+  ];
+
+  var files = seed(), tp = 'All', mode = 'grid', allDossiers = false;
+
+  function openC13(f) {
+    if (f.mime === 'application/pdf') {
+      Lab.openDlg(f.name, 'PDF Document · ' + f.kb.toFixed(1) + ' KB',
+        '<div style="padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--background);margin:10px 0">' +
+          '<b>C13 DOCUMENT SHEET PREVIEW</b><p class="sub" style="margin-top:6px">Contractual/specification PDF verified for Mehta Wholesale Traders.</p></div>' +
+        '<div class="row"><button class="btn pri" id="mDl">Download PDF</button><button class="btn" id="mNt">Open in new tab</button></div>');
+    } else if (f.thumb) {
+      Lab.openDlg(f.name, 'Image · ' + f.kb.toFixed(1) + ' KB',
+        '<img src="' + f.thumb + '" alt="' + f.name + '" style="max-height:240px;margin:10px auto">' +
+        '<div class="row"><button class="btn pri" id="mDl">Download</button><button class="btn" id="mNt">Open in new tab</button></div>');
+    } else {
+      Lab.openDlg(f.name, 'Archive · ' + f.kb.toFixed(1) + ' KB',
+        '<div style="padding:18px;border:1px dashed var(--border);border-radius:8px;text-align:center;margin:10px 0">' +
+          '<b>No in-app preview for this file type.</b><p class="sub" style="margin-top:4px">Open in a new tab or download directly.</p></div>' +
+        '<div class="row"><button class="btn pri" id="mNt">Open in new tab</button><button class="btn" id="mDl">Download</button></div>');
+    }
+    $('#mDl').onclick = function(){ Lab.closeDlg(); Lab.toast('Downloading ' + f.name); };
+    $('#mNt').onclick = function(){ Lab.closeDlg(); Lab.toast('Opened signed link in new tab'); };
+  }
+
+  function render() {
+    $('#v4FilterBar').innerHTML = TYPES.map(function(t) {
+      return '<button type="button" class="btn sm ' + (tp===t?'pri':'') + '" data-t="' + t + '" aria-pressed="' + (tp===t?'true':'false') + '">' + t + '</button>';
+    }).join('');
+    $$('[data-t]', $('#v4FilterBar')).forEach(function(b){ b.onclick = function(){ tp = b.dataset.t; render(); }; });
+
+    var tot = files.reduce(function(a, x){ return a + x.kb; }, 0);
+    $('#v4Quota').textContent = tot.toFixed(1) + ' KB / 5 GB';
+    $('#v4Sub').textContent = files.length + ' uploaded file(s) · 13 engagement dossiers (26 locked PDFs)';
+
+    var q = $('#v4Search').value.trim().toLowerCase();
+    var uList = files.filter(function(f){ return (tp==='All' || f.tp===tp) && (!q || f.name.toLowerCase().indexOf(q) >= 0); });
+    $('#v4UpMount').className = mode === 'grid' ? 'up-grid' : 'up-list';
+    $('#v4UpMount').innerHTML = uList.map(function(f) {
+      return '<article class="ucard"><div><b style="font-size:13.5px;display:block">' + f.name + '</b><span class="sub mono" style="font-size:12px">' + f.kb.toFixed(1) + ' KB · ' + f.src + ' · ' + f.vis + '</span></div>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap"><button type="button" class="btn sm" data-pv="' + f.id + '">Preview</button><button type="button" class="btn sm ghost" data-cp="' + f.id + '">Link</button><button type="button" class="btn sm ghost" data-rm="' + f.id + '" style="color:var(--status-error-text)">Delete</button></div></article>';
+    }).join('') || '<p class="sub">No matching uploaded files.</p>';
+
+    $$('[data-pv]', $('#v4UpMount')).forEach(function(b){ b.onclick = function(){ openC13(files.find(function(x){ return x.id===b.dataset.pv; })); }; });
+    $$('[data-cp]', $('#v4UpMount')).forEach(function(b){ b.onclick = function(){ Lab.toast('Copied 15-min signed link'); }; });
+    $$('[data-rm]', $('#v4UpMount')).forEach(function(b){ b.onclick = function(){ files = files.filter(function(x){ return x.id!==b.dataset.rm; }); render(); }; });
+
+    var dFilt = DOSSIERS.filter(function(d){ return !q || (d[0] + ' ' + d[1]).toLowerCase().indexOf(q) >= 0; });
+    var dShown = allDossiers ? dFilt : dFilt.slice(0, 4);
+    $('#v4ShowAllDossiers').textContent = allDossiers ? 'Show top 4 dossiers' : 'Show all ' + dFilt.length + ' dossiers (26 PDFs)';
+    $('#v4DossierMount').innerHTML = dShown.map(function(d, idx) {
+      var qName = 'quote-' + d[1] + '.pdf';
+      var sName = 'scope-' + d[1].toLowerCase() + '.pdf';
+      return '<article class="dcard">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div><span class="eyebrow mono">' + d[1] + '</span><h3 style="margin-top:2px">' + d[0] + '</h3></div><a class="btn sm ghost" href="' + d[2] + '">Open →</a></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--muted);border-radius:8px;font-size:12.5px"><span class="mono">' + qName + '</span><div style="display:flex;gap:6px;align-items:center"><span class="badge b-neutral">locked</span><button type="button" class="btn sm ghost" data-dpv="' + qName + '">Preview</button></div></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--muted);border-radius:8px;font-size:12.5px"><span class="mono">' + sName + '</span><div style="display:flex;gap:6px;align-items:center"><span class="badge b-neutral">locked</span><button type="button" class="btn sm ghost" data-dpv="' + sName + '">Preview</button></div></div>' +
+      '</article>';
+    }).join('');
+
+    $$('[data-dpv]', $('#v4DossierMount')).forEach(function(b){ b.onclick = function(){ openC13({ name:b.dataset.dpv, kb:26.4, mime:'application/pdf' }); }; });
+  }
+
+  $('#v4Inp').onchange = function() {
+    Array.prototype.forEach.call(this.files || [], function(f) {
+      var item = { id:'u' + Date.now(), name:f.name, kb:Math.max(1, f.size/1024), mime:f.type||'application/octet-stream', tp:f.type.indexOf('image/')===0?'Images':'Documents', src:'My Uploads', vis:'Private' };
+      if (f.type.indexOf('image/') === 0) { var r = new FileReader(); r.onload = function(ev){ item.thumb = ev.target.result; files.unshift(item); render(); }; r.readAsDataURL(f); }
+      else { files.unshift(item); render(); }
+    });
+    this.value = '';
+  };
+  $('#v4Search').oninput = render;
+  $('#v4Grid').onclick = function(){ mode = 'grid'; this.setAttribute('aria-pressed','true'); $('#v4List').setAttribute('aria-pressed','false'); render(); };
+  $('#v4List').onclick = function(){ mode = 'list'; this.setAttribute('aria-pressed','true'); $('#v4Grid').setAttribute('aria-pressed','false'); render(); };
+  $('#v4ShowAllDossiers').onclick = function(){ allDossiers = !allDossiers; render(); };
+  $('#v4Restore').onclick = function(){ files = seed(); Lab.setState('data'); render(); };
+
+  document.addEventListener('click', function(e) {
+    var u = e.target.closest && e.target.closest('[data-unbuilt]');
+    if (!u) return;
+    e.preventDefault();
+    var n = u.getAttribute('data-unbuilt');
+    Lab.openDlg(n, 'Outside current lab scope.', '<p><b>' + n + '</b> is outside the built client-portal routes.</p><div class="row"><a class="btn pri" href="../../../index.html">Lab Gallery</a></div>');
+  });
+
+  Lab.init({
+    actions: [
+      ['F22 V1 · Calm Unified Library', '../V1/index.html'],
+      ['F22 V2 · Asset Ledger', '../V2/index.html'],
+      ['F22 V3 · Split Drive & Preview', '../V3/index.html'],
+      ['F22 V4 · Dossier Hub (current)', 'index.html'],
+      ['F22 V5 · Guided Vault Stepper', '../V5/index.html']
+    ]
+  });
+  render();
+})();
+</script>
+</body>
+</html>
