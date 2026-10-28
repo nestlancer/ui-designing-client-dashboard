@@ -734,14 +734,14 @@ var th=$('#themeBtn');function syncTh(){var d=document.documentElement.classList
 th.addEventListener('click',function(){var d=document.documentElement.classList.toggle('dark');try{localStorage.setItem('lab-theme',d?'dark':'light')}catch(e){}syncTh()});
 /* filters */
 var q=$('#q'),fam=$('#fam'),dens='';
-var cards=$$('.card'),families=$$('.family');
+var cards=$$('.card'),families=$$('.family'),densBtns=$$('.seg [data-dens]');
 function apply(){var s=q.value.trim().toLowerCase(),f=fam.value,n=0;
  cards.forEach(function(c){var t=(c.dataset.text||'')+' '+c.textContent.toLowerCase();var ok=(!s||t.toLowerCase().indexOf(s)>-1)&&(!f||c.dataset.fam===f)&&(!dens||c.dataset.dens===dens);c.hidden=!ok;if(ok)n++});
  families.forEach(function(sec){var vis=$$('.card',sec).filter(function(c){return !c.hidden}).length;sec.hidden=(!!f&&sec.dataset.fam!==f)||vis===0});
  $('#count').textContent=n+' variant'+(n===1?'':'s');$('#noresult').hidden=n>0}
 q.addEventListener('input',apply);fam.addEventListener('change',apply);
-$$('[data-dens]').forEach(function(b){b.addEventListener('click',function(){dens=b.dataset.dens;$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply()})});
-$('#resetFilters').addEventListener('click',function(){q.value='';fam.value='';dens='';$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.dens===''))});apply()});
+densBtns.forEach(function(b){b.addEventListener('click',function(){dens=b.dataset.dens;densBtns.forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply()})});
+$('#resetFilters').addEventListener('click',function(){q.value='';fam.value='';dens='';densBtns.forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.dens===''))});apply()});
 /* deep-link family from hash */
 var hmap={'#f05':'F05','#f06':'F06','#f08':'F08','#f09':'F09','#f10':'F10','#f11':'F11','#f12':'F12','#f13':'F13','#f14':'F14','#f15':'F15','#f16':'F16','#f17':'F17','#f18':'F18'};if(hmap[location.hash]){fam.value=hmap[location.hash];apply()}
 /* compare mode */
