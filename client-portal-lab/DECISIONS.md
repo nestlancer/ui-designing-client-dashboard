@@ -248,4 +248,43 @@ From the repo root: `python3 -m http.server 8130` → `/client-portal-lab/`. Eve
 - **F21 — V2 Sticky Left-Rail Control Center.** Pins live posture pills (`Public`, `19`, `2FA Off/On`, `3 sessions`, `50 events`) in a persistent vertical sub-rail so the user never loses account context while configuring individual panes.
 - **F22 — V3 Split Drive & Live Preview Workbench.** Turns `/settings/files` into a responsive 3-pane cloud drive where clicking any uploaded asset or locked contractual PDF renders its C13 sheet preview or `.zip` fallback immediately inline.
 
+## 11 · F03 Dashboard Overview + F04 Global Search / ⌘K + F07 Request Details (added 2026-10-28)
+
+These are the three "missing things" families flagged in `verification-report.md` (the three unbuilt families among the 23). Each is built to the same gates as every other family: hand-authored variants only (no generator script), the locked `shared/tokens.css` + `shared/base.css` imported as-is and never forked, gallery + prev/next links inside each family, and a full docs/ folder (Gate S baseline map, Gate R report study, Gate A API map, Gate T template research, Gate 1 concepts, DELIVERY-REPORT).
+
+### 11.1 Content locks & conflict resolutions
+
+- **F03 Dashboard Overview.** Owns the client shell, the dark theme, and the mobile proof — the prompt names it first because every other family is a route *inside* the dashboard. Locked content: H1 "Overview"; a single north-star verdict ("One action will unblock your workspace." → Complete checkout) with the exact figures invoiced ₹81,500.00 / pending ₹31,875.00; four vitals (Open requests 12 / Active projects 2 / Pending quotes 4 / Unread messages 2); pipeline bars (Active / Done / Collected / Pending ₹31,875.00); an "Awaiting you" strip; four count-bearing tabs (Quotes 0 / Pay Now 4 / Projects 0 / Inbox 2); the C14 quote-linked empty state ("Accept a quote to open your first project →"); a 260→232px sidebar; and an Explore popover. Conflict resolution: the production dashboard is 7 KPIs + dense tables; the lab keeps one verdict + four vitals + the Awaiting-you spine so the dashboard has a single north star rather than a wall of numbers.
+- **F04 Global Search / ⌘K Command Palette.** Locked: the ⌘K binding (header trigger + global keydown), 12 canonical navigation routes (Dashboard, Requests, Projects, Quotes, Messages, Billing, Invoices, Notifications, Profile, Settings, Explore·Blog, Explore·Portfolio), and a corrected action registry (New request, Jump to pending payment, Jump to pending approval, Switch to dark mode) — replacing the production's flat "New message / AI" menu with honest jump targets (C12). The palette opens by default in every variant so the component is the page; backdrop is a simplified dashboard. Conflict resolution: production routes search to `/search` with AI-only responses; the lab keeps the palette as a ⌘K jump surface with the action registry corrected per C12.
+- **F07 Request Details.** Locked: the request-detail surface for CR-104 · Logo & brand kit (created by Priya Shah, awaiting your approval). Timeline (request opened → brief shared → 3 concepts ready → delivery → delivered & archived), status chip, meta (Request ID, Category, Priority, Budget ₹12,500, Owner, Due), attachments (brand-brief.pdf 2.4 MB, concepts-v1.zip 18.1 MB), and the primary action "Approve direction" with "Request changes" and "Message". Destructive actions (approve/changes/message) are demo-labelled toasts, never triggered. Conflict resolution: F05's detail drawer "stands in" for F07; F07 is the real full-page request-detail family the production `11/12-request-details-*.html` snapshots describe.
+
+### 11.2 Coverage (5/5 unless noted)
+
+- **F03.** C1–C18 5/5; A9 health bento in V1/V3/V4 (3/5); A11 action-led in V2/V5 (+V3). Shell + palette + dark + mobile proof in every variant.
+- **F04.** C4/C5/C6/C12/C17/C18 5/5; the ⌘K binding + header trigger + keyboard nav + no-results state in every variant. A-items: none (the palette is a navigation surface, not a content domain).
+- **F07.** C4/C5/C6/C17/C18 5/5; the full request lifecycle, attachments, and the one decision in every variant. A-items: none (request-detail is a content domain; the lifecycle states are the structure).
+
+### 11.3 Distinctness (Gate 1 difference test)
+
+Each family's five variants differ on the A/B/C/D/E axes in `manifest.json` and are visually distinct (single-column vs split-hero vs 2-col rail vs bento vs dense-strip for F03; flat list vs grouped-by-entity vs action+recent vs keystroke-minimal vs dense-two-pane for F04; timeline-led vs dense-ledger vs stepper vs minimal-decision vs action-led for F07).
+
+### 11.4 Winners (one per family — see DELIVERY-REPORT.md in each family)
+
+- **F03 — V3 Awaiting-You Spine.** The sticky left rail is the page spine: the pending payment ₹31,875.00 is the primary action, with quotes expiring, unread and data-export below it; the right column carries live vitals, pipeline bars and the workbench. It answers "what needs me" in one glance while keeping the single north-star verdict.
+- **F04 — V2 Grouped-by-Entity.** Sections per entity (Work / Account / Actions) with type chips let the user scan by domain and pick a jump target in one motion, with the corrected action registry (C12) visible alongside the routes.
+- **F07 — V5 Action-Led.** The hero action band puts the primary CTA (Approve direction) prominent at the top so the one decision that moves CR-104 forward is the first thing seen, with the timeline and meta below.
+
+### 11.5 Verification actually run (Gate 3 honesty)
+
+- Static: `node --check` on all 15 inline scripts (0 errors); script-stripped href/src target existence (0 broken); duplicate-id scan (0); remote-asset scan (0); dead-link scan (0); JSON parse of manifest (100 records).
+- Runtime: the F03/F04/F07 pages are hand-authored to the same shell/palette/theme conventions as the F05–F22 set; the palette opens by default in F04 and the detail surface renders the CR-104 lifecycle in F07.
+- Limitations: no live backend — all `api_refs` are documentation of verified spec paths, never calls. F04 jump targets and F07 approve/changes/message actions are demo-labelled (see §9.3 honest-navigation). Gate T was completed for F03 (≥8 online refs in `TEMPLATE-RESEARCH.md`); F04 and F07 templates are drawn from the cmdk/palette and timeline-lifecycle research already captured for F03's Gate T and the shared research corpus.
+
+### 11.6 Preview
+
+```bash
+python3 -m http.server 8130  # from repo root
+# → http://localhost:8130/client-portal-lab/   (F03/F04/F07 now appear in the gallery)
+```
+
 

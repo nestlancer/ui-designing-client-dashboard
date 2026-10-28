@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>F03 · V2 Verdict Hero · Dashboard · Nestlancer Client Portal Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F03 V2 Verdict Hero — hand-written: split hero (verdict+action left, Awaiting-you rail right). */
+.page{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:16px;padding:20px 14px;background:var(--card);border-right:1px solid var(--border);overflow:auto;z-index:70}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px;min-height:36px}.brand img{height:26px;width:auto}.brand .logo-dark{display:none}.dark .brand .logo-light{display:none}.dark .brand .logo-dark{display:block}
+.brand span{font-weight:700;font-size:17px;letter-spacing:-.02em}
+.nav-group h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-foreground);margin:14px 10px 6px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;min-height:40px;padding:8px 10px;border-radius:var(--radius-md);font-size:14px;color:var(--muted-foreground);text-align:left}
+.nav-item:hover{background:var(--muted);color:var(--foreground)}
+.nav-item[aria-current="page"]{background:var(--brand-50);color:var(--primary);font-weight:600}
+.nav-item .ico{width:18px;height:18px;flex:none}
+.explore-list{padding:4px 0 4px 14px;border-left:2px solid var(--border);margin-left:18px}
+.side-foot{margin-top:auto;font-size:11px;color:var(--muted-foreground);padding:10px;border-top:1px solid var(--border)}
+.frame{min-width:0;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;height:var(--header);padding:0 24px;background:var(--card);border-bottom:1px solid var(--border)}
+.crumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted-foreground);white-space:nowrap}.crumb strong{color:var(--foreground)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.icon-btn{display:grid;place-items:center;width:36px;height:36px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);position:relative}
+.icon-btn:hover{background:var(--muted);color:var(--foreground)}.icon-btn .ico{width:18px;height:18px}
+.badge-count{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--primary);color:#fff;font-size:11px;line-height:18px;text-align:center;font-weight:700}
+.kbd{font:600 11px var(--mono);border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--muted)}
+.search-trigger{display:flex;align-items:center;gap:10px;min-width:190px;height:36px;padding:0 10px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--muted);color:var(--muted-foreground);font-size:13px}
+.avatar{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:600;padding:4px 8px}
+.avatar i{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--brand-50);color:var(--primary);font-style:normal;font-size:12px}
+main{width:100%;max-width:var(--content);margin:0 auto;padding:34px 32px 28px;flex:1}
+.eyebrow{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:22px;margin-bottom:22px}
+.hero-main{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);padding:30px 32px;box-shadow:var(--shadow-sm);border-top:4px solid var(--primary)}
+.hero-main h1{font-size:clamp(32px,3.6vw,40px);line-height:1.1;letter-spacing:-.035em;font-weight:700}
+.hero-verdict{margin-top:14px;font-size:18px;line-height:1.5;color:var(--foreground)}
+.hero-verdict strong{color:var(--primary)}
+.hero-money{margin-top:18px;font:700 40px/1 var(--font);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.hero-money small{font-weight:400;color:var(--muted-foreground);font-size:18px}
+.hero-cta{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--card);font-size:14px;font-weight:600}
+.btn:hover{background:var(--muted)}.btn .ico{width:17px;height:17px}
+.btn-primary{background:var(--primary);border-color:var(--primary);color:#fff}.btn-primary:hover{background:var(--primary-hover)}
+.btn-sm{min-height:36px;padding:0 12px;font-size:13px}
+.rail{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;box-shadow:var(--shadow-xs);display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:88px}
+.rail h2{font-size:16px;font-weight:700}.rail .sub{font-size:12px;color:var(--muted-foreground);margin-bottom:4px}
+.rail-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.rail-row:last-child{border-bottom:0}
+.rail-row .ico{width:20px;height:20px;color:var(--primary);flex:none}
+.rail-row .t{font-size:14px;font-weight:600}.rail-row .m{font-size:12px;color:var(--muted-foreground)}
+.rail-row .a{margin-left:auto}
+.vitals{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.vital{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;box-shadow:var(--shadow-xs)}
+.vital-label{font-size:12px;font-weight:600;color:var(--muted-foreground)}
+.vital-val{display:block;margin-top:6px;font:700 26px/1 var(--font);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.vital-why{margin-top:6px;font-size:11px;color:var(--muted-foreground);line-height:1.4}
+.pipeline{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;box-shadow:var(--shadow-xs);margin-bottom:22px}
+.pipeline h2{font-size:16px;font-weight:700}.pipeline .sub{font-size:12px;color:var(--muted-foreground);margin-bottom:14px}
+.bar{display:grid;grid-template-columns:84px 1fr 110px;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.bar:last-child{border-bottom:0}
+.bar .lab{font-size:13px;font-weight:600}
+.bar .track{height:10px;border-radius:6px;background:var(--muted);overflow:hidden}
+.bar .fill{height:100%;border-radius:6px;background:var(--primary)}
+.bar .fill.s{background:var(--status-success-text)}.bar .fill.w{background:var(--status-warning-text)}
+.bar .val{font:600 13px var(--mono);text-align:right}
+.bar .why{grid-column:2/-1;font-size:11px;color:var(--muted-foreground);margin-top:-4px}
+.workbench{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs)}
+.tabs{display:flex;gap:4px;padding:8px 10px 0;border-bottom:1px solid var(--border);overflow:auto}
+.tab{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border-radius:var(--radius-md) var(--radius-md) 0 0;font-size:14px;color:var(--muted-foreground);border:1px solid transparent;border-bottom:0;position:relative;top:1px}
+.tab .cnt{font:600 11px var(--mono);background:var(--muted);color:var(--muted-foreground);border-radius:999px;padding:1px 7px}
+.tab[aria-selected="true"]{color:var(--foreground);font-weight:600;background:var(--card);border-color:var(--border)}
+.tab[aria-selected="true"] .cnt{background:var(--brand-50);color:var(--primary)}
+.tabpanel{padding:20px 22px}
+.wb-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.wb-row:last-child{border-bottom:0}
+.wb-row .ico{width:20px;height:20px;color:var(--primary);flex:none}
+.wb-row .t{font-size:14px;font-weight:600}.wb-row .m{font-size:12px;color:var(--muted-foreground)}
+.wb-row .a{margin-left:auto}
+.empty-tab{text-align:center;padding:30px 10px}.empty-tab .t{font-size:15px;font-weight:700;margin-bottom:6px}.empty-tab .m{font-size:13px;color:var(--muted-foreground);margin-bottom:14px}
+.activity{margin-top:22px}.activity h2{font-size:16px;font-weight:700;margin-bottom:14px}
+.act-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}.act-row:last-child{border-bottom:0}
+.act-row .dot{width:10px;height:10px;border-radius:50%;background:var(--primary);margin-top:6px;flex:none}
+.act-row .t{font-size:14px}.act-row .m{font-size:12px;color:var(--muted-foreground)}
+.lab-nav{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:28px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}
+.lab-nav a:hover{color:var(--primary)}.lab-nav .sp{flex:1}
+footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color:var(--muted-foreground)}
+.palette{position:fixed;inset:0;z-index:120;background:rgba(15,28,46,.45);display:grid;place-items:start center;padding:90px 16px 16px}
+.palette[hidden]{display:none}
+.palette-box{width:min(560px,100%);background:var(--card);border:1px solid var(--border);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm);overflow:hidden}
+.palette-box input{width:100%;min-height:52px;padding:0 18px;border:0;border-bottom:1px solid var(--border);background:transparent;font-size:15px;color:var(--foreground);outline:0}
+.palette-list{display:grid;padding:8px}
+.palette-list button{display:flex;gap:10px;align-items:center;text-align:left;padding:11px 12px;border-radius:var(--radius-md);font-size:14px;color:var(--muted-foreground)}
+.palette-list button:hover,.palette-list button.sel{background:var(--muted);color:var(--foreground)}
+.palette-list .ico{width:16px;height:16px}
+.toast{position:fixed;right:18px;bottom:18px;z-index:130;max-width:min(420px,calc(100vw - 36px));background:var(--card);border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:13px 16px;font-size:13px;line-height:1.5}
+@media(max-width:900px){.page{grid-template-columns:minmax(0,1fr)}.side{position:fixed;left:0;top:0;width:min(280px,86vw);transform:translateX(-102%);transition:transform var(--duration-normal) var(--ease-spring)}.side.on{transform:none}main{padding:26px 18px}.search-trigger{min-width:0}.search-trigger .txt{display:none}.hero{grid-template-columns:1fr}.rail{position:static}.vitals{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.avatar span{display:none}.crumb span{display:none}.vitals{grid-template-columns:1fr}.hero-money{font-size:32px}.bar{grid-template-columns:1fr;gap:4px}.bar .why{grid-column:1}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+<symbol id="i-dash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+<symbol id="i-req" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-quote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/></symbol>
+<symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol>
+<symbol id="i-invoice" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h12v20l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M16 12h4M3 9h18"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></symbol>
+<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="page">
+ <aside class="side" id="side" aria-label="Primary navigation">
+  <a class="brand" href="../../../index.html" aria-label="Nestlancer lab gallery"><img class="logo-light" src="../../../assets/logo-full-light.svg" alt="" width="100" height="28"><img class="logo-dark" src="../../../assets/logo-full-dark.svg" alt="" width="100" height="28"><span>Nestlancer</span></a>
+  <nav aria-label="Main">
+   <div class="nav-group"><h2>Main</h2>
+    <a class="nav-item" aria-current="page" href="../V2/index.html"><svg class="ico"><use href="#i-dash"/></svg><span>Dashboard</span></a>
+    <button class="nav-item" data-demo="/requests"><svg class="ico"><use href="#i-req"/></svg><span>Requests</span></button>
+    <button class="nav-item" data-demo="/projects"><svg class="ico"><use href="#i-folder"/></svg><span>Projects</span></button>
+    <button class="nav-item" data-demo="/quotes"><svg class="ico"><use href="#i-quote"/></svg><span>Quotes</span></button>
+    <button class="nav-item" data-demo="/messages"><svg class="ico"><use href="#i-msg"/></svg><span>Messages</span></button>
+    <button class="nav-item" data-demo="/payments"><svg class="ico"><use href="#i-card"/></svg><span>Billing</span></button>
+    <button class="nav-item" data-demo="/invoices"><svg class="ico"><use href="#i-invoice"/></svg><span>Invoices</span></button>
+    <button class="nav-item" data-demo="/notifications"><svg class="ico"><use href="#i-bell"/></svg><span>Notifications</span></button>
+   </div>
+   <div class="nav-group"><h2>Explore</h2>
+    <button class="nav-item" id="exploreBtn" aria-expanded="false" aria-controls="exploreList"><svg class="ico"><use href="#i-globe"/></svg><span>Explore</span><svg class="ico" style="margin-left:auto"><use href="#i-chev"/></svg></button>
+    <div class="explore-list" id="exploreList" hidden><button class="nav-item" data-demo="/blog"><span>Blog</span></button><button class="nav-item" data-demo="/portfolio"><span>Portfolio</span></button></div>
+   </div>
+   <div class="nav-group"><h2>Account</h2>
+    <button class="nav-item" data-demo="/profile"><svg class="ico"><use href="#i-user"/></svg><span>Profile</span></button>
+    <button class="nav-item" data-demo="/settings/account"><svg class="ico"><use href="#i-settings"/></svg><span>Settings</span></button>
+   </div>
+  </nav>
+  <div class="side-foot">Client portal lab · F03 · V2 Verdict Hero<br>Shared tokens · one blue scheme</div>
+ </aside>
+ <div class="frame">
+  <header class="topbar">
+   <button class="icon-btn" id="menuBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="side"><svg class="ico"><use href="#i-menu"/></svg></button>
+   <div class="crumb"><strong>Dashboard</strong> · Overview</div>
+   <div class="top-actions">
+    <button class="search-trigger" id="paletteBtn"><svg class="ico" style="width:16px;height:16px"><use href="#i-search"/></svg><span class="txt">Search</span><span class="kbd">⌘K</span></button>
+    <button class="icon-btn" id="themeBtn" aria-label="Switch to dark mode" aria-pressed="false"><svg class="ico"><use href="#i-moon"/></svg></button>
+    <button class="icon-btn" data-demo="/messages" aria-label="Messages"><svg class="ico"><use href="#i-msg"/></svg></button>
+    <button class="icon-btn" data-demo="/notifications" aria-label="6 unread notifications"><svg class="ico"><use href="#i-bell"/></svg><span class="badge-count">6</span></button>
+    <span class="avatar"><i>AM</i><span>Arjun Mehta</span></span>
+   </div>
+  </header>
+  <main id="main">
+   <p class="eyebrow">Client portal · Overview</p>
+   <div class="hero">
+    <div class="hero-main">
+     <h1>Overview</h1>
+     <p class="hero-verdict"><strong>₹31,875.00 is pending on your billing.</strong> Complete checkout to unblock delivery on your active work.</p>
+     <div class="hero-money">₹81,500.00<small> invoiced</small> · <small>₹31,875.00 pending</small></div>
+     <div class="hero-cta"><button class="btn btn-primary" data-demo="/payments"><svg class="ico"><use href="#i-wallet"/></svg>Complete checkout</button><button class="btn" data-demo="/invoices">Billing history</button></div>
+    </div>
+    <aside class="rail" aria-label="Awaiting you">
+     <h2>Awaiting you</h2><p class="sub">Your queue, one action at a time.</p>
+     <div class="rail-row"><svg class="ico"><use href="#i-wallet"/></svg><div><p class="t">Pending payment · 6 new</p><p class="m">Complete checkout to unblock.</p></div><button class="btn btn-sm btn-primary a" data-demo="/payments">Pay</button></div>
+     <div class="rail-row"><svg class="ico"><use href="#i-quote"/></svg><div><p class="t">4 quotes expiring soon</p><p class="m">Accept before they lapse.</p></div><button class="btn btn-sm a" data-demo="/quotes">Review</button></div>
+     <div class="rail-row"><svg class="ico"><use href="#i-msg"/></svg><div><p class="t">2 unread messages</p><p class="m">In your inbox.</p></div><button class="btn btn-sm a" data-demo="/messages">Open</button></div>
+    </aside>
+   </div>
+   <section class="vitals" aria-label="Workspace vitals">
+    <article class="vital"><p class="vital-label">Open requests</p><span class="vital-val">12</span><p class="vital-why">Across the work hub right now.</p></article>
+    <article class="vital"><p class="vital-label">Active projects</p><span class="vital-val">2</span><p class="vital-why">Delivery in progress.</p></article>
+    <article class="vital"><p class="vital-label">Pending quotes</p><span class="vital-val">4</span><p class="vital-why">Need your decision.</p></article>
+    <article class="vital"><p class="vital-label">Unread messages</p><span class="vital-val">2</span><p class="vital-why">In your inbox.</p></article>
+   </section>
+   <section class="pipeline" aria-label="Pipeline & billing">
+    <h2>Pipeline &amp; billing</h2><p class="sub">Active · Done · Collected · Pending — value + % + reason.</p>
+    <div class="bar"><span class="lab">Active</span><span class="track"><span class="fill" style="width:62%"></span></span><span class="val">62% · 12</span><span class="why">Requests under active delivery.</span></div>
+    <div class="bar"><span class="lab">Done</span><span class="track"><span class="fill s" style="width:48%"></span></span><span class="val">48% · 9</span><span class="why">Completed milestones this cycle.</span></div>
+    <div class="bar"><span class="lab">Collected</span><span class="track"><span class="fill s" style="width:70%"></span></span><span class="val">70% · ₹49,625</span><span class="why">Invoiced amount collected.</span></div>
+    <div class="bar"><span class="lab">Pending</span><span class="track"><span class="fill w" style="width:39%"></span></span><span class="val">₹31,875</span><span class="why">Awaiting your checkout.</span></div>
+   </section>
+   <section class="workbench" aria-label="Live workbench">
+    <div class="tabs" role="tablist"><button class="tab" role="tab" aria-selected="true" data-tab="quotes">Quotes <span class="cnt">0</span></button><button class="tab" role="tab" aria-selected="false" data-tab="pay">Pay now <span class="cnt">4</span></button><button class="tab" role="tab" aria-selected="false" data-tab="proj">Projects <span class="cnt">0</span></button><button class="tab" role="tab" aria-selected="false" data-tab="inbox">Inbox <span class="cnt">2</span></button></div>
+    <div class="tabpanel" role="tabpanel" data-panel="quotes"><p style="font-size:13px;color:var(--muted-foreground)">No quotes need your decision right now.</p></div>
+    <div class="tabpanel" role="tabpanel" data-panel="pay" hidden><div class="wb-row"><svg class="ico"><use href="#i-wallet"/></svg><div><p class="t">Festive Season Campaign — milestone payment</p><p class="m">₹31,875.00 pending</p></div><button class="btn btn-sm btn-primary a" data-demo="/payments">Complete checkout</button></div></div>
+    <div class="tabpanel" role="tabpanel" data-panel="proj" hidden><div class="empty-tab"><p class="t">Projects 0</p><p class="m">Accept a quote to open your first project →</p><button class="btn btn-primary btn-sm" data-demo="/quotes">View quotes</button></div></div>
+    <div class="tabpanel" role="tabpanel" data-panel="inbox" hidden><div class="wb-row"><svg class="ico"><use href="#i-msg"/></svg><div><p class="t">New message in Logistics ops</p><p class="m">2 unread</p></div><button class="btn btn-sm a" data-demo="/messages">Open inbox</button></div></div>
+   </section>
+   <section class="activity" aria-label="Recent activity"><h2>Recent activity</h2>
+    <div class="act-row"><span class="dot"></span><div><p class="t">Quote expiring soon — AUDIT-P24</p><p class="m">2h ago</p></div><button class="btn btn-sm a" data-demo="/quotes">Review</button></div>
+    <div class="act-row"><span class="dot"></span><div><p class="t">Your data export is ready</p><p class="m">Yesterday</p></div><button class="btn btn-sm a" data-demo="/settings/account"><svg class="ico" style="width:14px;height:14px"><use href="#i-download"/></svg>Download</button></div>
+   </section>
+   <nav class="lab-nav" aria-label="Lab navigation"><a href="../../../index.html">← Gallery</a><span>F03 · V2 Verdict Hero</span><span class="sp"></span><a href="../V1/index.html">← Prev: V1 Calm Overview</a><a href="../V3/index.html">Next: V3 Awaiting-You Spine →</a></nav>
+  </main>
+  <footer>© 2026 Nestlancer · Client Portal Lab · F03 Dashboard Overview · Data: GET /api/v1/system/status · /payments · /requests/stats · /projects/stats · /quotes · /messages · /notifications</footer>
+ </div>
+</div>
+<div class="palette" id="palette" hidden role="dialog" aria-modal="true" aria-label="Command menu"><div class="palette-box"><input id="paletteInput" type="search" placeholder="Jump to a place or action…" aria-label="Command search"><div class="palette-list" id="paletteList"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var toastEl=$('#toast'),toastTimer=null;
+function toast(msg){toastEl.textContent=msg;toastEl.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(function(){toastEl.hidden=true},4200)}
+$$('[data-demo]').forEach(function(b){b.addEventListener('click',function(){toast('“'+b.dataset.demo+'” is another family’s route — demo affordance in this lab (see DECISIONS.md).')})});
+var themeBtn=$('#themeBtn');
+function syncTheme(){var d=document.documentElement.classList.contains('dark');themeBtn.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');themeBtn.setAttribute('aria-pressed',String(d));themeBtn.innerHTML='<svg class="ico"><use href="#i-'+(d?'sun':'moon')+'"/></svg>'}syncTheme();
+themeBtn.addEventListener('click',function(){var d=document.documentElement.classList.toggle('dark');try{localStorage.setItem('lab-theme',d?'dark':'light')}catch(e){}syncTheme();toast(d?'Dark theme on':'Light theme on')});
+var side=$('#side'),menuBtn=$('#menuBtn');
+menuBtn.addEventListener('click',function(){var on=side.classList.toggle('on');menuBtn.setAttribute('aria-expanded',String(on))});
+var exploreBtn=$('#exploreBtn');
+exploreBtn.addEventListener('click',function(){var list=$('#exploreList'),open=list.hidden;list.hidden=!open;exploreBtn.setAttribute('aria-expanded',String(open))});
+$$('[data-tab]').forEach(function(t){t.addEventListener('click',function(){$$('[data-tab]').forEach(function(x){x.setAttribute('aria-selected',String(x===t))});$$('[data-panel]').forEach(function(p){p.hidden=(p.dataset.panel!==t.dataset.tab)})})});
+var palette=$('#palette'),pInput=$('#paletteInput'),pList=$('#paletteList'),lastFocus=null,pIdx=0;
+var actions=[{n:'Go to Requests (F05)',i:'i-req',f:function(){toast('Requests work hub — demo affordance.')}},{n:'Go to Projects (F08)',i:'i-folder',f:function(){toast('Projects list — demo affordance.')}},{n:'Go to Quotes (F10)',i:'i-quote',f:function(){toast('Quotes list — demo affordance.')}},{n:'Open inbox (F12)',i:'i-msg',f:function(){toast('Messages home — demo affordance.')}},{n:'Complete checkout (F16)',i:'i-wallet',f:function(){toast('Checkout — demo affordance.')}},{n:'Switch theme',i:'i-moon',f:function(){themeBtn.click()}},{n:'Next variant: V3 Awaiting-You Spine',i:'i-chev',f:function(){location.href='../V3/index.html'}}];
+function renderPalette(){var q=pInput.value.trim().toLowerCase();pList.innerHTML='';pIdx=0;actions.filter(function(a){return !q||a.n.toLowerCase().indexOf(q)>-1}).forEach(function(a,i){var b=document.createElement('button');b.innerHTML='<svg class="ico"><use href="#'+a.i+'"/></svg>'+a.n;if(i===0)b.classList.add('sel');b.addEventListener('click',function(){closePalette();a.f()});pList.appendChild(b)})}
+function openPalette(){lastFocus=document.activeElement;palette.hidden=false;pInput.value='';renderPalette();pInput.focus()}
+function closePalette(){palette.hidden=true;if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+$('#paletteBtn').addEventListener('click',openPalette);
+palette.addEventListener('click',function(e){if(e.target===palette)closePalette()});
+pInput.addEventListener('input',renderPalette);
+pInput.addEventListener('keydown',function(e){var b=$$('button',pList);if(!b.length)return;if(e.key==='ArrowDown'){e.preventDefault();pIdx=(pIdx+1)%b.length}else if(e.key==='ArrowUp'){e.preventDefault();pIdx=(pIdx+b.length-1)%b.length}else if(e.key==='Enter'){e.preventDefault();b[pIdx].click();return}else return;b.forEach(function(x,i){x.classList.toggle('sel',i===pIdx)})});
+document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();palette.hidden?openPalette():closePalette()}if(e.key==='Escape'&&!palette.hidden)closePalette()});
+})();
+</script>
+</body>
+</html>
