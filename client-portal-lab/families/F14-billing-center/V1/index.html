@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing Center · V1 Settled &amp; Outstanding Ledger — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css">
+<link rel="stylesheet" href="../../../shared/base.css">
+<link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F14 · V1 — Settled & Outstanding Ledger. Hand-authored. Locked tokens only. */
+:root{--ink:var(--foreground);--sub:var(--muted-foreground);--line:var(--border);--surf:var(--card);--wash:var(--muted);--p:var(--primary);--pf:#fff;--mono2:var(--mono)}
+/* craft: no visible text below 11px */
+.demo,.mchips span,small,[style*="font-size:10.5px"]{font-size:11px!important}
+.dot::after{font-size:11px}
+/* AA: white on the dark ramp's bright blue measured 3.67:1; one step darker passes 4.84:1. */
+.dark{--p:#465fff}
+.dark .eyebrow,.dark [style*="color:var(--p)"],.dark .chip[aria-pressed=true],.dark .nav a[aria-current=page],.dark .pill:hover,.dark .qrow .ic{color:#a9bcff!important}
+body{font-size:14px;line-height:1.55}
+.i{width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.i.sm{width:14px;height:14px}.i.lg{width:20px;height:20px}
+.shell{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;background:var(--surf);border-right:1px solid var(--line);padding:16px 12px;display:flex;flex-direction:column;gap:14px;z-index:30}
+.brand{display:flex;align-items:center;gap:9px;padding:2px 8px 14px;border-bottom:1px solid var(--line);font-weight:700;font-size:15px}
+.mark{width:28px;height:28px;border-radius:9px;background:var(--p);color:var(--pf);display:grid;place-items:center;font:700 12px var(--mono2)}
+.navgrp{font:600 11px var(--mono2);letter-spacing:.1em;text-transform:uppercase;color:var(--sub);padding:8px 10px 2px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a,.nav button{display:flex;align-items:center;gap:10px;min-height:36px;padding:7px 10px;border-radius:var(--radius-md);color:var(--sub);font-size:13px;font-weight:500;text-align:left;width:100%}
+.nav a:hover,.nav button:hover{background:var(--wash);color:var(--ink)}
+.navlink{display:flex;align-items:center;gap:10px;min-height:36px;padding:7px 10px;border-radius:var(--radius-md);color:var(--sub);font-size:13px;font-weight:500;width:100%;text-align:left}
+.navlink:hover{background:var(--wash);color:var(--ink)}
+.nav a[aria-current=page]{background:var(--brand-50);color:var(--brand-700);font-weight:700}
+.dark .nav a[aria-current=page]{color:var(--brand-100)}
+.nav .n{margin-left:auto;font:600 11px var(--mono2);background:var(--wash);border-radius:999px;padding:1px 7px}
+.side-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:10px;position:relative}
+.pop{position:absolute;bottom:calc(100% + 6px);left:0;right:0;background:var(--surf);border:1px solid var(--line);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:6px;display:none;flex-direction:column;gap:2px;z-index:40}
+.pop.on{display:flex}.pop a{padding:8px 10px;border-radius:var(--radius-sm);font-size:13px}.pop a:hover{background:var(--wash)}
+.main{min-width:0;display:flex;flex-direction:column}
+.hdr{position:sticky;top:0;height:var(--header);background:var(--surf);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 20px;z-index:25}
+.burger{display:none;width:36px;height:36px;border:1px solid var(--line);border-radius:var(--radius-md);align-items:center;justify-content:center}
+.crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--sub)}.crumb b{color:var(--ink);font-weight:600}
+.hdr .right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.kbtn,.icb{border:1px solid var(--line);background:var(--surf);border-radius:var(--radius-md);min-height:36px;display:inline-flex;align-items:center;gap:8px;padding:0 10px;font-size:12px;color:var(--sub)}
+.kbtn:hover,.icb:hover{background:var(--wash);color:var(--ink)}
+kbd{font:600 11px var(--mono2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;background:var(--wash)}
+.av{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:3px 10px 3px 3px;font-size:12px;font-weight:600}
+.av span{width:28px;height:28px;border-radius:50%;background:var(--brand-600);color:#fff;display:grid;place-items:center;font:700 11px var(--mono2)}
+.dot{position:relative}.dot::after{content:"6";position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;border-radius:99px;background:var(--p);color:#fff;font:700 10px var(--mono2);display:grid;place-items:center}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:9px 20px;background:var(--wash);border-bottom:1px solid var(--line);font-size:12px}
+.bar .lbl{font-weight:700;color:var(--sub);margin-right:2px}
+.pill{border:1px solid var(--line);background:var(--surf);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:var(--sub);min-height:32px;display:inline-flex;align-items:center}
+.pill[aria-pressed=true],.pill.on{background:var(--p);border-color:var(--p);color:var(--pf)}
+.pill:hover{background:var(--brand-50);color:var(--brand-700)}
+.dark .pill:hover{color:var(--brand-100)}
+.bar .sp{flex:1}.statebar{display:flex;gap:6px;align-items:center}
+.wrap{width:100%;max-width:var(--content);margin:0 auto;padding:26px 24px 64px}
+.eyebrow{font:700 11px var(--mono2);letter-spacing:.14em;text-transform:uppercase;color:var(--p)}
+h1{font-size:clamp(30px,3.2vw,38px);line-height:1.1;letter-spacing:-.035em;font-weight:700;margin:6px 0 6px}
+.lead{color:var(--sub);font-size:15px;max-width:70ch}
+.hrow{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:20px}
+.hrow .acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 14px;border-radius:var(--radius-md);border:1px solid var(--line);background:var(--surf);font-size:13px;font-weight:600;color:var(--ink)}
+.btn:hover{background:var(--wash)}.btn.pri{background:var(--p);border-color:var(--p);color:var(--pf)}.btn.pri:hover{background:var(--primary-hover)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--sub)}.btn.ghost:hover{background:var(--wash);color:var(--ink)}
+.btn.sm{min-height:32px;padding:0 10px;font-size:12px}
+.verdict{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--p);border-radius:var(--radius-md);background:var(--surf);box-shadow:var(--shadow-xs);margin-bottom:16px;font-size:13.5px}
+.verdict b{color:var(--ink)}
+.kpis{display:grid;grid-template-columns:1.45fr 1fr 1fr;gap:12px;margin-bottom:20px}
+.kpi{background:var(--surf);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs);padding:16px 18px;min-width:0}
+.kpi .lab{font-size:12px;color:var(--sub);font-weight:600}
+.kpi .val{font-size:clamp(26px,3vw,38px);font-weight:700;letter-spacing:-.035em;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:4px}
+.kpi .why{font-size:12px;color:var(--sub);margin-top:4px}
+.kpi.sec .val{font-size:clamp(22px,2.4vw,30px)}
+.kpi .cents{font-weight:400;color:var(--sub)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 312px;gap:16px;align-items:start}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs);overflow:hidden}
+.ph{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.ph h2{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.ph .meta{font-size:12px;color:var(--sub)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.chip{border:1px solid var(--line);background:var(--surf);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--sub);min-height:34px}
+.chip[aria-pressed=true]{background:var(--brand-50);border-color:var(--p);color:var(--brand-700)}
+.dark .chip[aria-pressed=true]{color:var(--brand-100)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.fld{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:var(--radius-md);padding:0 10px;background:var(--background);min-height:38px;flex:1;min-width:180px}
+.fld:focus-within{outline:2px solid var(--ring);outline-offset:1px}
+.fld input,.fld select{border:0;outline:0;background:transparent;min-height:36px;font-size:13px;width:100%;color:var(--ink)}
+.fld select{flex:0 0 auto;width:auto;min-width:130px}
+.tblwrap{overflow-x:auto}
+table{font-size:13px}
+thead th{position:sticky;top:0;background:var(--wash);color:var(--sub);font:600 11px var(--mono2);letter-spacing:.07em;text-transform:uppercase;text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+thead th button{font:inherit;letter-spacing:inherit;text-transform:inherit;color:inherit;display:inline-flex;gap:5px;align-items:center}
+thead th.right,td.right{text-align:right}
+tbody td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr:hover{background:var(--wash)}
+tbody tr:last-child td{border-bottom:0}
+.desc{font-weight:600}.proj{color:var(--sub);font-size:12px;display:block;max-width:24ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.money{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.ref{font:500 11px var(--mono2);color:var(--sub);white-space:nowrap}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;border:1px solid;white-space:nowrap}
+.b-ok{background:var(--status-success-bg);color:var(--status-success-text);border-color:var(--status-success-border)}
+.b-warn{background:var(--status-warning-bg);color:var(--status-warning-text);border-color:var(--status-warning-border)}
+.b-info{background:var(--status-info-bg);color:var(--status-info-text);border-color:var(--status-info-border)}
+.b-err{background:var(--status-error-bg);color:var(--status-error-text);border-color:var(--status-error-border)}
+.b-neutral{background:var(--wash);color:var(--sub);border-color:var(--line)}
+tfoot td{padding:12px;border-top:2px solid var(--line);font-weight:700;background:var(--wash)}
+.pager{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--sub)}
+.pager .pgs{display:flex;gap:5px}
+.pg{min-width:32px;height:32px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surf);font-size:12px;font-weight:600}
+.pg[aria-current=page]{background:var(--p);color:var(--pf);border-color:var(--p)}
+.rail{position:sticky;top:calc(var(--header) + 12px);display:flex;flex-direction:column;gap:12px}
+.card{padding:16px}
+.card h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.card p{font-size:12.5px;color:var(--sub)}
+.qrow{display:flex;gap:9px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+.qrow:first-of-type{border-top:0}
+.qrow .ic{width:28px;height:28px;border-radius:8px;background:var(--brand-50);color:var(--brand-700);display:grid;place-items:center;flex:none}
+.dark .qrow .ic{color:var(--brand-100)}
+.qrow b{display:block;font-size:12.5px}.qrow small{color:var(--sub);font-size:11.5px}
+.stack{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.demo{font:600 10px var(--mono2);text-transform:uppercase;letter-spacing:.08em;color:var(--sub);border:1px dashed var(--line);border-radius:5px;padding:2px 6px}
+.trust{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:20px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surf);box-shadow:var(--shadow-xs)}
+.trust b{font-size:13px}.trust .t2{font-size:12px;color:var(--sub)}
+.mchips{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.mchips span{font:600 10.5px var(--mono2);border:1px solid var(--line);border-radius:999px;padding:4px 9px;color:var(--sub)}
+.states{padding:18px 16px;text-align:center}
+.skel{height:14px;border-radius:6px;background:linear-gradient(90deg,var(--wash),var(--brand-50),var(--wash));background-size:200% 100%;animation:sh 1.3s infinite linear;margin:10px 0}
+@keyframes sh{to{background-position:-200% 0}}
+.emptybox{display:flex;flex-direction:column;align-items:center;gap:8px;padding:34px 16px;text-align:center}
+.emptybox .ic{width:44px;height:44px;border-radius:14px;background:var(--brand-50);color:var(--p);display:grid;place-items:center}
+.errbox{text-align:left;border:1px solid var(--status-error-border);background:var(--status-error-bg);color:var(--status-error-text);border-radius:var(--radius-md);padding:14px;margin:16px}
+.errbox b{display:block}.errbox p{font-size:12.5px;margin:4px 0 10px;color:inherit}
+.foot{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--sub)}
+.scrim{position:fixed;inset:0;background:rgba(6,12,25,.6);z-index:90;display:none;align-items:center;justify-content:center;padding:16px}
+.scrim.on{display:flex}
+.dlg{width:min(520px,100%);max-height:88vh;overflow:auto;background:var(--surf);border:1px solid var(--line);border-radius:var(--radius-xl);box-shadow:var(--shadow-sm);padding:20px}
+.dlg h2{font-size:19px;font-weight:700;margin-bottom:6px}.dlg .x{float:right}
+.dlg .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.dlg textarea,.dlg input{width:100%;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--background);padding:10px;font-size:13px;color:var(--ink);min-height:42px}
+.ans{margin-top:12px;border:1px solid var(--line);border-radius:var(--radius-md);padding:12px;font-size:13px;background:var(--wash)}
+.ans ul{margin:8px 0 0 0;padding-left:18px;list-style:disc}.ans li{margin:3px 0}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:var(--foreground);color:var(--background);padding:10px 16px;border-radius:999px;font-size:12.5px;font-weight:600;z-index:120;transition:opacity var(--duration-fast),transform var(--duration-fast)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.reveal{opacity:0;transform:translateY(8px);transition:opacity var(--duration-normal) var(--ease-spring),transform var(--duration-normal) var(--ease-spring)}
+.reveal.in{opacity:1;transform:none}
+/* "View as cards" toggle — same geometry as the 375px fallback, at any width */
+#tbl.cards,#tbl.cards thead,#tbl.cards tbody,#tbl.cards tfoot,#tbl.cards tr,#tbl.cards td{display:block;width:100%}
+#tbl.cards thead{display:none}
+#tbl.cards tbody tr{border:1px solid var(--line);border-radius:var(--radius-md);margin:10px;padding:6px 10px}
+#tbl.cards tbody td{border:0;padding:5px 0;display:flex;justify-content:space-between;gap:12px;text-align:right}
+#tbl.cards tbody td::before{content:attr(data-label);font:600 10.5px var(--mono2);text-transform:uppercase;letter-spacing:.06em;color:var(--sub);text-align:left;flex:none}
+#tbl.cards tfoot td{display:flex;justify-content:space-between;border:0}
+#tbl.cards tfoot td::before{content:"Total"}
+@media(max-width:1100px){.cols{grid-template-columns:1fr}.rail{position:static;flex-direction:row;flex-wrap:wrap}.rail .panel{flex:1;min-width:250px}}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{position:fixed;left:-260px;top:0;bottom:0;width:var(--sidebar);transition:left var(--duration-normal) var(--ease-spring)}.side.on{left:0;box-shadow:var(--shadow-sm)}.burger{display:inline-flex}.kpis{grid-template-columns:1fr 1fr}.kpi:first-child{grid-column:span 2}}
+@media(max-width:760px){.wrap{padding:18px 16px 52px}.hdr{padding:0 14px}.bar{padding:8px 14px}.kpis{grid-template-columns:1fr}.kpi:first-child{grid-column:auto}.hrow .acts{width:100%}.mchips{margin-left:0;width:100%}
+ table,thead,tbody,tr,td{display:block;width:100%}thead{display:none}tbody tr{border:1px solid var(--line);border-radius:var(--radius-md);margin:10px;padding:6px 10px;background:var(--surf)}tbody td{border:0;padding:5px 0;display:flex;justify-content:space-between;gap:12px;text-align:right}tbody td::before{content:attr(data-label);font:600 10.5px var(--mono2);text-transform:uppercase;letter-spacing:.06em;color:var(--sub);text-align:left;flex:none}tbody td .proj{max-width:60%}tfoot{display:block}tfoot td{display:flex;justify-content:space-between}tfoot td::before{content:"Total"}}
+@media(max-width:640px){.hdr{gap:8px;padding:0 10px}.hdr .crumb{flex:1 1 0;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.hdr .crumb a,.hdr .crumb span{display:none}.hdr .right{flex:0 0 auto;gap:6px}.kbtn,.icb,.burger{min-height:44px}.kbtn{gap:6px;padding:0 8px}.kbtn kbd{display:none}.icb{padding:0 8px;gap:0}.av{font-size:0;gap:0;padding:3px;border:0}.av span{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.skel{animation:none}}
+</style>
+</head>
+<body>
+<svg class="sr-only" aria-hidden="true"><defs>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+<symbol id="i-req" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h13"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v5h4"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></symbol>
+<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 9-2 4-4 2 2-4z"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 9v5M12 17h.01"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v13m0 0 5-5m-5 5-5-5M4 21h16"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2v6M12 16v6M2 12h6M16 12h6M5 5l4 4M15 15l4 4M19 5l-4 4M9 15l-4 4"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M4 4h13l3 3v13H4z"/><path d="M8 4v6h8V4M8 20v-6h8v6"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+ <aside class="side" id="side" aria-label="Primary navigation">
+  <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+  <nav>
+   <div class="navgrp">Main</div><div class="nav">
+    <a href="../../../index.html"><svg class="i"><use href="#i-grid"/></svg>Dashboard</a>
+    <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="#i-req"/></svg>Requests<span class="n">12</span></a>
+    <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="#i-folder"/></svg>Projects</a>
+    <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="#i-doc"/></svg>Quotes</a>
+    <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="#i-chat"/></svg>Messages<span class="n">2</span></a>
+    <a href="index.html" aria-current="page"><svg class="i"><use href="#i-req"/></svg>Billing</a>
+    <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="#i-doc"/></svg>Invoices</a>
+   </div>
+   <div class="navgrp">Account</div><div class="nav"><a href="../../../index.html" data-demo-nav="Profile" title="F20 Profile is not built in this lab — opens the gallery"><svg class="i"><use href="#i-user"/></svg>Profile</a><a href="../../../index.html" data-demo-nav="Settings" title="F21 Settings is not built in this lab — opens the gallery"><svg class="i"><use href="#i-gear"/></svg>Settings</a></div></nav><div class="side-foot"><button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="#i-down"/></svg></button><div class="pop" id="pop"><a href="../../../index.html" data-demo-nav="Blog" title="F23 Blog is not built in this lab — opens the gallery">Blog</a><a href="../../../index.html" data-demo-nav="Portfolio" title="F23 Portfolio is not built in this lab — opens the gallery">Portfolio</a></div>
+   <a class="navlink" href="../../../index.html"><svg class="i"><use href="#i-x"/></svg>← Lab index</a></div>
+ </aside>
+ <div class="main">
+  <header class="hdr">
+   <button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+   <div class="crumb"><a href="../../../index.html">Dashboard</a><span>›</span><b>Billing</b></div>
+   <div class="right">
+    <button class="kbtn" id="cmdk" aria-label="Open command palette"><svg class="i sm"><use href="#i-search"/></svg>Search <kbd>⌘K</kbd></button>
+    <button class="icb" id="theme" aria-label="Toggle dark mode" aria-pressed="false"><svg class="i"><use href="#i-moon"/></svg></button>
+    <button class="icb dot" aria-label="Messages, 6 unread"><svg class="i"><use href="#i-chat"/></svg></button>
+    <button class="icb dot" aria-label="Notifications, 6 unread"><svg class="i"><use href="#i-bell"/></svg></button>
+    <span class="av"><span>AM</span> Arjun Mehta</span>
+   </div>
+  </header>
+  <div class="bar" role="group" aria-label="Variant navigation">
+   <span class="lbl">F14 variants</span>
+   <a class="pill on" href="index.html" aria-current="page">V1 · Ledger</a><a class="pill" href="../V2/index.html">V2 · Ops table</a><a class="pill" href="../V3/index.html">V3 · Work centre</a><a class="pill" href="../V4/index.html">V4 · Money wall</a><a class="pill" href="../V5/index.html">V5 · Bento</a>
+   <span class="sp"></span>
+   <span class="statebar" role="group" aria-label="Preview states"><span class="lbl">State</span>
+    <button class="pill on" data-state="data" aria-pressed="true">Data</button><button class="pill" data-state="empty" aria-pressed="false">Empty</button><button class="pill" data-state="loading" aria-pressed="false">Loading</button><button class="pill" data-state="error" aria-pressed="false">Error</button></span>
+  </div>
+  <main class="wrap" id="main">
+  <noscript><div style="display:block;margin:0 0 14px;padding:12px 14px;border:1px solid var(--border,var(--line,#d8dee9));border-radius:10px;background:var(--muted,var(--wash,#f4f6fa));font-size:13px;line-height:1.55;color:var(--muted-foreground,var(--sub,#475569))">JavaScript is off. The 11 captured payments are rendered statically below — ₹1,37,750.00 gross. Search, sorting, saved views, Ask AI and the state previews need JavaScript; no data is fetched either way.</div></noscript>
+   <div class="hrow">
+    <div><div class="eyebrow">Billing</div><h1>Billing Center</h1><p class="lead">Payment history, invoices, and milestone payment tracking.</p></div>
+    <div class="acts"><a class="btn" href="../../F18-invoices-archive/V1/index.html"><svg class="i sm"><use href="#i-doc"/></svg>Invoices</a><a class="btn" href="../../F15-payment-methods/V1/index.html"><svg class="i sm"><use href="#i-lock"/></svg>Payment methods</a></div>
+   </div>
+   <div class="verdict reveal"><svg class="i lg" style="color:var(--p)"><use href="#i-spark"/></svg><div><b>₹31,875.00 is still outstanding across 4 payments.</b> Everything else — ₹81,500.00 — is settled, and nothing is in dispute. Two bank transfers are waiting for the studio to verify.</div></div>
+   <section class="kpis" aria-label="Billing totals">
+    <div class="kpi"><div class="lab">Total paid</div><div class="val" data-count="81500">₹81,500<span class="cents">.00</span></div><div class="why">Settled across 4 completed payments · all-time</div></div>
+    <div class="kpi sec"><div class="lab">Pending</div><div class="val">₹31,875<span class="cents">.00</span></div><div class="why">5 pending / not-due rows · milestones 2–3</div></div>
+    <div class="kpi sec"><div class="lab">In dispute</div><div class="val">₹0<span class="cents">.00</span></div><div class="why">No open disputes — <a href="../../F17-payment-status/V1/index.html" style="color:var(--p);font-weight:600">file a dispute</a> if something looks wrong</div></div>
+   </section>
+   <div class="cols">
+    <section class="panel" id="ledger" aria-label="Transaction history">
+     <div class="ph"><h2>Transaction history</h2><span class="meta" id="livecount" role="status" aria-live="polite">11 payments · Oct 2026</span></div>
+     <div class="chips" role="group" aria-label="Saved views and ledger split">
+      <button class="chip" data-split="all" aria-pressed="true">All statuses</button><button class="chip" data-split="settled" aria-pressed="false">Settled</button><button class="chip" data-split="outstanding" aria-pressed="false">Outstanding</button>
+      <span style="flex:1"></span><button class="chip" data-view="pending" aria-pressed="false">My pending</button><button class="chip" data-view="month" aria-pressed="false">This month</button>
+      <button class="chip" id="saveview" aria-label="Save current view on this device"><svg class="i sm"><use href="#i-save"/></svg></button>
+     </div>
+     <div class="tools"><label class="fld"><svg class="i sm"><use href="#i-search"/></svg><span class="sr-only">Search transactions</span><input id="q" type="search" placeholder="Search project, description or amount"></label>
+      <label class="fld" style="flex:0 0 auto"><span class="sr-only">Filter by status</span><select id="status"><option>All statuses</option><option>Pending</option><option>Not due yet</option><option>Processing</option><option>Completed</option><option>Failed</option><option>Refunded</option></select></label>
+      <button class="btn sm" id="cardview" aria-pressed="false">View as cards</button></div>
+     <div class="tblwrap"><table id="tbl"><caption class="sr-only">Billing transaction history — 11 captured payments</caption>
+      <thead><tr><th><button data-sort="date">Date ↕</button></th><th><button data-sort="desc">Description ↕</button></th><th>Project</th><th>Status</th><th class="right"><button data-sort="amount">Amount ↕</button></th><th>Actions</th></tr></thead>
+      <tbody id="rows">
+       <tr data-date="2026-10-06" data-split="outstanding" data-status="Not due yet" data-amount="625"><td data-label="Date"><span class="ref">Oct 6, 2026</span></td><td data-label="Description"><span class="desc">Final payment</span></td><td data-label="Project"><span class="proj">AUDIT-P25-20261005-73dhk Project Fixture</span></td><td data-label="Status"><span class="badge b-info"><svg class="i sm"><use href="#i-clock"/></svg>Not due yet</span></td><td data-label="Amount" class="right"><span class="money">₹625.00</span></td><td data-label="Actions"><button class="btn sm openrow">View</button></td></tr>
+       <tr data-date="2026-10-06" data-split="outstanding" data-status="Pending" data-amount="625"><td data-label="Date"><span class="ref">Oct 6, 2026</span></td><td data-label="Description"><span class="desc">Deposit</span></td><td data-label="Project"><span class="proj">AUDIT-P25-20261005-73dhk Project Fixture</span></td><td data-label="Status"><span class="badge b-warn"><svg class="i sm"><use href="#i-clock"/></svg>Pending</span></td><td data-label="Amount" class="right"><span class="money">₹625.00</span></td><td data-label="Actions"><a class="btn sm" href="../../F16-checkout/V1/index.html">Checkout</a></td></tr>
+       <tr data-date="2026-10-05" data-split="outstanding" data-status="Not due yet" data-amount="625"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Final payment</span></td><td data-label="Project"><span class="proj">AUDIT-P25-20261005-f611o Project Fixture</span></td><td data-label="Status"><span class="badge b-info"><svg class="i sm"><use href="#i-clock"/></svg>Not due yet</span></td><td data-label="Amount" class="right"><span class="money">₹625.00</span></td><td data-label="Actions"><button class="btn sm openrow">View</button></td></tr>
+       <tr data-date="2026-10-05" data-split="outstanding" data-status="Pending" data-amount="625"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Deposit</span></td><td data-label="Project"><span class="proj">AUDIT-P25-20261005-f611o Project Fixture</span></td><td data-label="Status"><span class="badge b-warn"><svg class="i sm"><use href="#i-clock"/></svg>Pending</span></td><td data-label="Amount" class="right"><span class="money">₹625.00</span></td><td data-label="Actions"><a class="btn sm" href="../../F16-checkout/V1/index.html">Checkout</a></td></tr>
+       <tr data-date="2026-10-05" data-split="outstanding" data-status="Pending" data-amount="625"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Deposit</span></td><td data-label="Project"><span class="proj">AUDIT-P25-20261005-uk6ic Project Fixture</span></td><td data-label="Status"><span class="badge b-warn"><svg class="i sm"><use href="#i-clock"/></svg>Pending</span></td><td data-label="Amount" class="right"><span class="money">₹625.00</span></td><td data-label="Actions"><a class="btn sm" href="../../F16-checkout/V1/index.html">Checkout</a></td></tr>
+       <tr data-date="2026-10-05" data-split="outstanding" data-status="Not due yet" data-amount="625"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Final payment</span></td><td data-label="Project"><span class="proj">AUDIT-P25-20261005-uk6ic Project Fixture</span></td><td data-label="Status"><span class="badge b-info"><svg class="i sm"><use href="#i-clock"/></svg>Not due yet</span></td><td data-label="Amount" class="right"><span class="money">₹625.00</span></td><td data-label="Actions"><button class="btn sm openrow">View</button></td></tr>
+       <tr data-date="2026-10-05" data-split="settled" data-status="Completed" data-amount="29500"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Deposit</span></td><td data-label="Project"><span class="proj">B2B Wholesale Ordering Portal</span></td><td data-label="Status"><span class="badge b-ok"><svg class="i sm"><use href="#i-check"/></svg>Completed</span></td><td data-label="Amount" class="right"><span class="money">₹29,500.00</span></td><td data-label="Actions"><button class="btn sm openrow">View</button></td></tr>
+       <tr data-date="2026-10-05" data-split="settled" data-status="Completed" data-amount="29500"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Final payment</span></td><td data-label="Project"><span class="proj">B2B Wholesale Ordering Portal</span></td><td data-label="Status"><span class="badge b-ok"><svg class="i sm"><use href="#i-check"/></svg>Completed</span></td><td data-label="Amount" class="right"><span class="money">₹29,500.00</span></td><td data-label="Actions"><button class="btn sm openrow">View</button></td></tr>
+       <tr data-date="2026-10-05" data-split="outstanding" data-status="Not due yet" data-amount="22500"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Final payment</span></td><td data-label="Project"><span class="proj">Khandesh Spice D2C E-Commerce Store</span></td><td data-label="Status"><span class="badge b-info"><svg class="i sm"><use href="#i-clock"/></svg>Not due yet</span></td><td data-label="Amount" class="right"><span class="money">₹22,500.00</span></td><td data-label="Actions"><button class="btn sm openrow">View</button></td></tr>
+       <tr data-date="2026-10-05" data-split="settled" data-status="Completed" data-amount="22500"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Deposit</span></td><td data-label="Project"><span class="proj">Khandesh Spice D2C E-Commerce Store</span></td><td data-label="Status"><span class="badge b-ok"><svg class="i sm"><use href="#i-check"/></svg>Completed</span></td><td data-label="Amount" class="right"><span class="money">₹22,500.00</span></td><td data-label="Actions"><button class="btn sm openrow">View</button></td></tr>
+       <tr data-date="2026-10-05" data-split="outstanding" data-status="Pending" data-amount="30000"><td data-label="Date"><span class="ref">Oct 5, 2026</span></td><td data-label="Description"><span class="desc">Mid-project payment</span></td><td data-label="Project"><span class="proj">Khandesh Spice D2C E-Commerce Store</span></td><td data-label="Status"><span class="badge b-warn"><svg class="i sm"><use href="#i-clock"/></svg>Pending</span></td><td data-label="Amount" class="right"><span class="money">₹30,000.00</span></td><td data-label="Actions"><a class="btn sm" href="../../F16-checkout/V1/index.html">Checkout</a></td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="4" id="totallabel">Ledger gross · 11 captured rows</td><td class="right"><span class="money" id="totalval">₹1,37,750.00</span></td><td></td></tr></tfoot>
+     </table></div>
+     <p style="margin:8px 0 0;font-size:11.5px;color:var(--sub);line-height:1.55">Captured-data note: ₹1,37,750.00 is the gross of the 11 ledger rows, not the sum of the KPI cards. “Total paid ₹81,500.00 · Pending ₹31,875.00 · In dispute ₹0.00” are separate account totals from the same capture. They do not reconcile to the row gross, and no figure was changed to force a match.</p>
+     <div class="pager"><span id="range">Showing 1–8 of 11</span><div class="pgs"><button class="pg" id="prev" aria-label="Previous page">←</button><span id="pages"></span><button class="pg" id="next" aria-label="Next page">→</button></div></div>
+     <div id="empty" class="states" hidden><div class="emptybox"><div class="ic"><svg class="i lg"><use href="#i-search"/></svg></div><b>No payments match this view</b><p>Try “All statuses”, clear the search, or <a href="../../F16-checkout/V1/index.html" style="color:var(--p);font-weight:600">open a checkout</a> to create your first payment.</p><button class="btn sm" id="reset">Reset filters</button></div></div>
+     <div id="loading" class="states" hidden aria-label="Loading transactions"><div class="skel" style="width:38%"></div><div class="skel" style="width:92%"></div><div class="skel" style="width:78%"></div><div class="skel" style="width:86%"></div><div class="skel" style="width:64%"></div><span class="sr-only" role="status">Loading your payments…</span></div>
+     <div id="error" class="states" hidden><div class="errbox"><b>Could not load payments</b><p>The billing service did not answer. Your money is safe — this is a display problem. Retry, or contact support with reference <span class="ref">GET /api/v1/payments</span>.</p><button class="btn sm" id="retry">Try again</button> <a class="btn sm" href="../../F12-messages-home/V1/index.html">Contact support</a></div></div>
+    </section>
+    <aside class="rail" aria-label="Billing work queue and helpers">
+     <section class="panel card reveal"><h3>Awaiting you</h3><p>Billing work queue · grounded by Razorpay webhook verification events.</p>
+      <div class="qrow"><span class="ic"><svg class="i sm"><use href="#i-clock"/></svg></span><div><b>2 payments awaiting verification</b><small>Bank/UPI transfers · studio action, not yours</small><span class="badge b-neutral" style="margin-top:5px"><svg class="i sm"><use href="#i-clock"/></svg>Processing</span></div></div>
+      <div class="qrow"><span class="ic"><svg class="i sm"><use href="#i-alert"/></svg></span><div><b>1 invoice 12 days overdue</b><small>NL-INV-2026-000001 · ₹30,000.00</small><a href="../../F18-invoices-archive/V1/index.html" style="color:var(--p);font-weight:600;font-size:12px">Open invoice →</a></div></div>
+      <div class="qrow"><span class="ic"><svg class="i sm"><use href="#i-lock"/></svg></span><div><b>1 payment ready to pay</b><small>Mid-project · ₹30,000.00</small><a href="../../F16-checkout/V1/index.html" style="color:var(--p);font-weight:600;font-size:12px">Checkout →</a></div></div>
+     </section>
+     <section class="panel card reveal"><h3>Ask AI about your billing <span class="demo">demo</span></h3><p>Answers are composed only from the payments shown on this page. No live AI endpoint exists.</p>
+      <div class="stack"><button class="btn sm askai" data-q="Why is ₹31,875 pending?">Why is ₹31,875 pending?</button><button class="btn sm askai" data-q="What did I pay in October?">What did I pay in October?</button><button class="btn sm askai" data-q="Which invoice is overdue?">Which invoice is overdue?</button><button class="btn sm" id="openai">Ask a question…</button></div></section>
+     <section class="panel card reveal"><h3>Statement of account <span class="demo">demo</span></h3><p>No statement endpoint exists yet. Download the individual GST invoices instead — that is the honest alternative.</p><div class="stack"><button class="btn sm" id="statement" disabled>Download statement (not available)</button><a class="btn sm" href="../../F18-invoices-archive/V1/index.html">Download invoices →</a></div></section>
+    </aside>
+   </div>
+   <div class="trust"><svg class="i lg" style="color:var(--p)"><use href="#i-lock"/></svg><div><b>Secured by Razorpay</b><div class="t2">256-bit encryption · PCI-DSS compliant checkout</div></div><div class="mchips"><span>UPI</span><span>Cards</span><span>Netbanking</span><span>Wallets</span></div></div>
+   <footer class="foot"><span>© 2026 Nestlancer · F14 V1 · locked §5 tokens · all figures from capture 26</span><span><a href="../../../index.html">Gallery</a> · <a href="../V2/index.html">Next V2 →</a></span></footer>
+  </main>
+ </div>
+ <div class="scrim" id="scrim" role="presentation"><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt" id="dlg"><button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="#i-x"/></svg></button><h2 id="dlgt">Ask AI about your billing</h2><p style="font-size:12.5px;color:var(--sub)">Demo only — answers come from the frozen ledger on this page, not a live model.</p><input id="aiq" placeholder="e.g. How much is still pending?" aria-label="Your question"><div class="row"><button class="btn pri" id="airun">Ask</button><button class="btn" id="aiclose">Close</button></div><div class="ans" id="aians" hidden></div></div></div>
+ <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+ var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+ var root=document.documentElement;
+ function setTheme(d){root.classList.toggle('dark',d);$('#theme').setAttribute('aria-pressed',String(d));try{localStorage.setItem('lab-theme',d?'dark':'light')}catch(e){}}
+ $('#theme').addEventListener('click',function(){setTheme(!root.classList.contains('dark'))});
+ $('#burger').addEventListener('click',function(){var o=$('#side').classList.toggle('on');this.setAttribute('aria-expanded',String(o))});
+ $('#explore').addEventListener('click',function(){var o=$('#pop').classList.toggle('on');this.setAttribute('aria-expanded',String(o))});
+ document.addEventListener('click',function(e){if(!e.target.closest('#pop')&&!e.target.closest('#explore'))$('#pop').classList.remove('on')});
+ function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on')},2600)}
+ /* ---- dialog: focus trap + esc + restore (also used by ⌘K) ---- */
+ var lastFocus=null;
+ function openDlg(title,body,input){lastFocus=document.activeElement;$('#dlgt').textContent=title;$('#dlg').querySelector('p').textContent=body;$('#aiq').hidden=!input;$('#airun').hidden=!input;$('#aians').hidden=true;$('#aians').onkeydown=null;$('#scrim').classList.add('on');document.body.style.overflow='hidden';setTimeout(function(){(input?$('#aiq'):$('#dlgx')).focus()},20)}
+ function closeDlg(){var o=$('#scrim').classList.contains('on');$('#scrim').classList.remove('on');document.body.style.overflow='';if(o&&lastFocus)lastFocus.focus()}
+ $('#dlgx').addEventListener('click',closeDlg);$('#aiclose').addEventListener('click',closeDlg);
+ $('#scrim').addEventListener('click',function(e){if(e.target===this)closeDlg()});
+ $('#scrim').addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();closeDlg()}if(e.key==='Tab'){var f=$$('button,input,a,textarea',this).filter(function(x){return !x.hidden&&!x.disabled});if(!f.length)return;var a=f[0],b=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();b.focus()}else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus()}}});
+ function answer(q){q=q.toLowerCase();if(q.indexOf('pending')>=0||q.indexOf('31,875')>=0)return '₹31,875.00 is outstanding: 5 pending / not-due rows — one ₹30,000.00 mid-project payment, one ₹22,500.00 final payment, and three ₹625.00 project-fixture installments.';if(q.indexOf('oct')>=0||q.indexOf('paid')>=0)return '₹81,500.00 is settled across 4 completed payments: 2 × ₹29,500.00 (B2B Wholesale) and 2 × ₹22,500.00 (Khandesh Spice deposit + final). All captured in October 2026.';if(q.indexOf('overdue')>=0||q.indexOf('invoice')>=0)return 'NL-INV-2026-000001 (Khandesh Spice, ₹30,000.00) is shown as 12 days overdue in the work queue. Statements are not available; download that invoice from the Invoices archive.';if(q.indexOf('dispute')>=0)return 'In dispute is ₹0.00 — no open disputes. The “File a payment dispute” route is on completed payment details (POST /api/v1/payments/{id}/dispute).';return 'I can only answer from the 11 captured payments on this page. Try: “Why is ₹31,875 pending?”, “What did I pay in October?”, or “Which invoice is overdue?”';}
+ $('#airun').addEventListener('click',function(){var q=$('#aiq').value.trim();var a=$('#aians');a.hidden=false;a.innerHTML='<b>'+(q||'Question')+'</b><div style="margin-top:6px">'+answer(q)+'</div>'});
+ $('#aiq').addEventListener('keydown',function(e){if(e.key==='Enter')$('#airun').click()});
+ $('#openai').addEventListener('click',function(){openDlg('Ask AI about your billing','Demo only — answers come from the frozen ledger on this page, not a live model.',true)});
+ $$('.askai').forEach(function(b){b.addEventListener('click',function(){openDlg('Ask AI about your billing','Demo only — answers come from the frozen ledger on this page, not a live model.',false);var a=$('#aians');a.hidden=false;a.innerHTML='<b>'+b.dataset.q+'</b><div style="margin-top:6px">'+answer(b.dataset.q)+'</div>'})});
+ $('#statement').addEventListener('click',function(){toast('Statement endpoint does not exist — use individual invoice downloads.')});
+ /* ---- palette (real lab actions only) ---- */
+ var actions=[['Open Billing V2','../V2/index.html'],['Open Work centre V3','../V3/index.html'],['Open Money wall V4','../V4/index.html'],['Open Bento V5','../V5/index.html'],['Go to Checkout (F16)','../../F16-checkout/V1/index.html'],['Go to Payment methods (F15)','../../F15-payment-methods/V1/index.html'],['Go to Invoices (F18)','../../F18-invoices-archive/V1/index.html'],['Go to Payment status (F17)','../../F17-payment-status/V1/index.html'],['Open lab gallery','../../../index.html']];
+ function palette(){openDlg('Command palette','Real lab routes only — ↑↓ navigate, ↵ open, esc close. No invented actions.',false);var a=$('#aians');a.hidden=false;a.innerHTML='<ul style="list-style:none;margin:0;padding:0">'+actions.map(function(x,i){return '<li><a data-i="'+i+'" href="'+x[1]+'" style="display:block;padding:7px 9px;border-radius:6px;font-size:13px">'+(i===0?'→ ':'&nbsp;&nbsp;')+x[0]+'</a></li>'}).join('')+'</ul>';var idx=0,links=$$('a[data-i]',a);function hi(){links.forEach(function(l,i){l.style.background=i===idx?'var(--brand-50)':'';l.textContent=(i===idx?'→ ':'   ')+actions[i][0]})}hi();a.onkeydown=function(e){if(e.key==='ArrowDown'){e.preventDefault();idx=(idx+1)%links.length;hi()}if(e.key==='ArrowUp'){e.preventDefault();idx=(idx-1+links.length)%links.length;hi()}if(e.key==='Enter'){e.preventDefault();location.href=actions[idx][1]}};a.tabIndex=0;a.focus()}
+ $('#cmdk').addEventListener('click',palette);
+ document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();palette()}});
+ /* ---- ledger: split, search, status, sort, pagination, states ---- */
+ var all=$$('#rows tr'), split='all', status='All statuses', query='', sortKey='date', sortDir=-1, page=0, PS=8;
+ function money(n){return '₹'+n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+ function visible(){return all.filter(function(r){var s=status==='All statuses'||r.dataset.status===status;var sp=split==='all'||r.dataset.split===split;var q=(r.textContent+' '+r.dataset.amount).toLowerCase().indexOf(query)>=0;if($('#viewmode')&&$('#viewmode').dataset.view==='pending'&&r.dataset.split!=='outstanding')return false;if($('#viewmode')&&$('#viewmode').dataset.view==='month'&&r.dataset.date.indexOf('2026-10')<0)return false;return s&&sp&&q})}
+ function render(){var v=visible();v.sort(function(a,b){var x=sortKey==='amount'?+a.dataset.amount:(sortKey==='desc'?a.querySelector('.desc').textContent:a.dataset.date);var y=sortKey==='amount'?+b.dataset.amount:(sortKey==='desc'?b.querySelector('.desc').textContent:b.dataset.date);return (x<y?-1:x>y?1:0)*sortDir});$('#rows').innerHTML='';var pages=Math.max(1,Math.ceil(v.length/PS));page=Math.min(page,pages-1);v.slice(page*PS,page*PS+PS).forEach(function(r){$('#rows').appendChild(r)});var tot=v.reduce(function(s,r){return s+ +r.dataset.amount},0);$('#totalval').textContent=money(tot);$('#totallabel').textContent='Ledger gross · '+v.length+' shown';$('#range').textContent=v.length?'Showing '+(page*PS+1)+'–'+Math.min((page+1)*PS,v.length)+' of '+v.length:'No payments in this view';$('#livecount').textContent=v.length+' shown of 11 payments · Oct 2026';$('#pages').innerHTML=Array.from({length:pages},function(_,i){return '<button class="pg" data-p="'+i+'" '+(i===page?'aria-current="page"':'')+'>'+(i+1)+'</button>'}).join('');$('#prev').disabled=page===0;$('#next').disabled=page>=pages-1;$('#empty').hidden=v.length>0||currentState!=='data';$$('.pg[data-p]').forEach(function(b){b.addEventListener('click',function(){page=+b.dataset.p;render()})});if(currentState==='data'){var tw=$('#tbl').parentElement;tw.hidden=v.length===0}}
+ $$('.chip[data-split]').forEach(function(b){b.addEventListener('click',function(){split=b.dataset.split;$$('.chip[data-split]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});page=0;render()})});
+ var viewmode=document.createElement('span');viewmode.id='viewmode';viewmode.hidden=true;document.body.appendChild(viewmode);
+ $$('.chip[data-view]').forEach(function(b){b.addEventListener('click',function(){var on=viewmode.dataset.view===b.dataset.view;viewmode.dataset.view=on?'':b.dataset.view;$$('.chip[data-view]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b&&!on))});page=0;render();toast(on?'Saved view cleared':'Saved view applied on this device')})});
+ $('#saveview').addEventListener('click',function(){try{localStorage.setItem('f14-view',JSON.stringify({split:split,status:status,view:viewmode.dataset.view||''}));toast('View saved on this device (demo — no backend)')}catch(e){toast('Local storage unavailable')}});
+ $('#q').addEventListener('input',function(){query=this.value.trim().toLowerCase();page=0;render()});
+ $('#status').addEventListener('change',function(){status=this.value;page=0;render()});
+ $$('[data-sort]').forEach(function(b){b.addEventListener('click',function(){var k=b.dataset.sort;sortDir=sortKey===k?-sortDir:-1;sortKey=k;render();toast('Sorted by '+k)})});
+ $('#prev').addEventListener('click',function(){page--;render()});$('#next').addEventListener('click',function(){page++;render()});
+ $('#reset').addEventListener('click',function(){split='all';status='All statuses';query='';viewmode.dataset.view='';$('#q').value='';$('#status').value='All statuses';$$('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.split==='all'))});page=0;setState('data');render()});
+ $('#cardview').addEventListener('click',function(){var on=this.getAttribute('aria-pressed')==='true';this.setAttribute('aria-pressed',String(!on));$('#tbl').classList.toggle('cards',!on);toast(!on?'Card view on':'Table view on')});
+ var currentState='data';
+ function setState(s){currentState=s;$$('[data-state]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.state===s));b.classList.toggle('on',b.dataset.state===s)});$('#empty').hidden=true;$('#loading').hidden=true;$('#error').hidden=true;var table=$('#tbl').parentElement;var pager=$('.pager');table.hidden=s!=='data';pager.hidden=s!=='data';if(s==='empty')$('#empty').hidden=false;if(s==='loading')$('#loading').hidden=false;if(s==='error')$('#error').hidden=false;render()}
+ $$('[data-state]').forEach(function(b){b.addEventListener('click',function(){setState(b.dataset.state)})});
+ $('#retry').addEventListener('click',function(){setState('loading');setTimeout(function(){setState('data');toast('Payments reloaded')},700)});
+ /* delegated so re-appended rows keep working (single handler, no duplicates) */
+ $('#rows').addEventListener('click',function(e){var b=e.target.closest('.openrow');if(!b)return;var r=b.closest('tr');openDlg('Payment details','Read-only detail from GET /api/v1/payments/{id}.',false);var a=$('#aians');a.hidden=false;a.innerHTML='<b>'+r.querySelector('.desc').textContent+' · '+r.querySelector('.money').textContent+'</b><ul><li>Project: '+r.querySelector('.proj').textContent+'</li><li>Status: '+r.dataset.status+'</li><li>Date: '+r.querySelector('.ref').textContent+'</li><li>Documents: receipt + invoice PDFs (GET /payments/{id}/receipt, /invoice)</li></ul><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn sm" href="../../F17-payment-status/V1/index.html">Open status view</a><a class="btn sm" href="../../F12-messages-home/V1/index.html">File a dispute</a></div>'});
+ /* count-up + reveal (IO + rAF, reduced-motion aware) */
+ var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}})},{threshold:.08});
+  $$('.reveal').forEach(function(el){io.observe(el)});
+  var io2=new IntersectionObserver(function(es){
+   es.forEach(function(en){
+    if(!en.isIntersecting)return;
+    var el=en.target,end=+el.dataset.count,t0=null;
+    if(reduce){io2.unobserve(el);return}
+    function step(t){
+     if(!t0)t0=t;
+     var k=Math.min(1,(t-t0)/700);
+     el.innerHTML='₹'+Math.round(end*(1-Math.pow(1-k,3))).toLocaleString('en-IN')+'<span class="cents">.00</span>';
+     if(k<1)requestAnimationFrame(step)
+    }
+    requestAnimationFrame(step);io2.unobserve(el)
+   });
+  });
+  $$('[data-count]').forEach(function(el){io2.observe(el)})
+ }
+ /* Captured-shell links outside this lab build: honest demo navigation (local handler — V1 has no lab-core.js). */
+ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-demo-nav]');if(!a)return;e.preventDefault();var n=a.getAttribute('data-demo-nav');
+  openDlg(n+' — outside this lab build','Honest demo navigation from the captured sidebar.',false);
+  var x=$('#aians');x.hidden=false;x.onkeydown=null;
+  x.innerHTML='<p>The captured shell links to <b>'+n+'</b>, but this lab delivers only the five money-screen families F14–F18. The link is not dead: it explains the boundary and offers the gallery.</p><div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn pri" href="../../../index.html">Open lab gallery</a><button class="btn" id="stayhere">Stay here</button></div>';
+  var d=$('#stayhere');if(d)d.onclick=closeDlg});
+ render();
+})();
+</script>
+</body>
+</html>

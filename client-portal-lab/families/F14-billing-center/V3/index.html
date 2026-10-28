@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing Center · V3 Needs-You Work Centre — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css"><link rel="stylesheet" href="../../../shared/base.css">
+<link rel="stylesheet" href="../../../assets/lab-core.css"><link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F14 · V3 — Needs-You Work Centre. Queue-led top + dated timeline beneath.
+   Signature interaction: right-hand detail drawer with focus trap + Esc. */
+.hero{border:1px solid var(--border);border-radius:var(--radius-xl);background:var(--card);box-shadow:var(--shadow-xs);padding:22px;margin-bottom:16px}
+.hero .big{font-size:clamp(28px,3.6vw,40px);font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1.1}
+.hero .vline{font-size:15px;color:var(--muted-foreground);margin-top:6px}
+.ksmall{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.ksmall div{font-size:12.5px;color:var(--muted-foreground)}.ksmall b{display:block;font-size:18px;color:var(--foreground);font-variant-numeric:tabular-nums}
+.queue{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.qcard{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--primary);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs);padding:16px;display:flex;flex-direction:column;gap:8px;min-height:150px}
+.qcard .top{display:flex;gap:9px;align-items:center;font-size:11.5px;font-weight:700;color:var(--muted-foreground);text-transform:uppercase;letter-spacing:.07em}
+.qcard .top .ic{width:28px;height:28px;border-radius:9px;background:var(--brand-50);color:var(--primary);display:grid;place-items:center}
+.qcard b{font-size:16px;line-height:1.35}.qcard p{font-size:12.5px;color:var(--muted-foreground);flex:1}
+.qcard .go{align-self:flex-start;margin-top:auto}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:start}
+.daygroup{padding:10px 14px 4px;font:700 11px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted-foreground);background:var(--muted)}
+#tbl tbody td{padding:9px 12px}.side-tiles{display:flex;flex-direction:column;gap:12px}
+.tile{padding:15px}.tile h3{font-size:14px;margin-bottom:6px}.tile p{font-size:12.5px;color:var(--muted-foreground)}
+.tile .lnk{display:block;margin-top:9px;font-size:12.5px;font-weight:700;color:var(--primary)}
+/* drawer — overlay, distinct from centred dialog */
+.drawer{position:fixed;inset:0;z-index:95;display:none;background:rgba(6,12,25,.55)}
+.drawer.on{display:block}
+.drawer .sheet{position:absolute;right:0;top:0;bottom:0;width:min(420px,100%);background:var(--card);border-left:1px solid var(--border);box-shadow:var(--shadow-sm);padding:22px;overflow:auto;transform:translateX(24px);opacity:0;transition:transform var(--duration-normal) var(--ease-spring),opacity var(--duration-normal)}
+.drawer.on .sheet{transform:none;opacity:1}
+.drawer h2{font-size:20px}.drawer .kv{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.drawer .kv span:first-child{color:var(--muted-foreground)}.drawer .amt{font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin:12px 0}
+@media(max-width:1024px){.grid2{grid-template-columns:1fr}.side-tiles{flex-direction:row;flex-wrap:wrap}.side-tiles .panel{flex:1;min-width:240px}}
+@media(max-width:760px){.queue{grid-template-columns:1fr}.hero{padding:16px}.side-tiles{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){.drawer .sheet{transform:none;opacity:1;transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+ <aside class="side" id="side" aria-label="Primary navigation">
+  <a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+  <nav><div class="navgrp">Main</div><div class="nav">
+   <a href="../../../index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Dashboard</a>
+   <a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a>
+   <a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a>
+   <a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a>
+   <a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a>
+   <a href="index.html" aria-current="page"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Billing</a>
+   <a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a></div>
+   <div class="navgrp">Account</div><div class="nav"><a href="../../../index.html" data-demo-nav="Profile" title="F20 Profile is not built in this lab — opens the gallery"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a><a href="../../../index.html" data-demo-nav="Settings" title="F21 Settings is not built in this lab — opens the gallery"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a></div></nav><div class="side-foot"><button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button><div class="pop" id="pop"><a href="../../../index.html" data-demo-nav="Blog" title="F23 Blog is not built in this lab — opens the gallery">Blog</a><a href="../../../index.html" data-demo-nav="Portfolio" title="F23 Portfolio is not built in this lab — opens the gallery">Portfolio</a></div><a class="navlink" href="../../../index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-x"/></svg>← Lab index</a></div>
+ </aside>
+ <div class="main">
+  <header class="hdr"><button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button><div class="crumb"><a href="../../../index.html">Dashboard</a><span>›</span><b>Billing</b></div>
+   <div class="right"><button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button><button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button><button class="icb dot" aria-label="Messages, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></button><button class="icb dot" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></button><span class="av"><span>AM</span> Arjun Mehta</span></div></header>
+  <div class="bar" role="group" aria-label="Variant navigation"><span class="lbl">F14 variants</span><a class="pill" href="../V1/index.html">V1</a><a class="pill" href="../V2/index.html">V2</a><a class="pill on" href="index.html" aria-current="page">V3 · Work centre</a><a class="pill" href="../V4/index.html">V4</a><a class="pill" href="../V5/index.html">V5</a><span class="sp"></span><span class="lbl">State</span><button class="pill on" data-state="data">Data</button><button class="pill" data-state="empty">Empty</button><button class="pill" data-state="loading">Loading</button><button class="pill" data-state="error">Error</button></div>
+  <main class="wrap" id="main">
+   <div class="hrow"><div><div class="eyebrow">Billing</div><h1>Billing Center</h1><p class="lead">Payment history, invoices, and milestone payment tracking.</p></div><div class="acts"><a class="btn" href="../../F18-invoices-archive/V1/index.html"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a><a class="btn" href="../../F15-payment-methods/V1/index.html"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Payment methods</a></div></div>
+   <section class="hero reveal"><div class="big">3 things need you today</div><div class="vline">₹31,875.00 is still outstanding. ₹81,500.00 is settled and nothing is in dispute — the rest is the studio's move.</div>
+    <div class="ksmall"><div>Total paid<b>₹81,500.00</b></div><div>Pending<b>₹31,875.00</b></div><div>In dispute<b>₹0.00</b></div><div>Open items<b>11 payments</b></div></div></section>
+   <section class="queue" aria-label="Billing work queue — awaiting you">
+    <article class="qcard reveal"><div class="top"><span class="ic"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-clock"/></svg></span>Awaiting verification</div><b>2 payments awaiting verification</b><p>Bank/UPI transfers submitted with a receipt. Razorpay webhook events are in; the studio must verify. This is not your action.</p><button class="btn sm go qopen" data-k="verify">Open queue →</button></article>
+    <article class="qcard reveal"><div class="top"><span class="ic"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-alert"/></svg></span>Overdue · 12 days</div><b>1 invoice 12 days overdue</b><p><span class="mono">NL-INV-2026-000001</span> · ₹30,000.00 · Khandesh Spice. Download the GST copy or open the payment.</p><button class="btn sm go qopen" data-k="overdue">Open invoice →</button></article>
+    <article class="qcard reveal"><div class="top"><span class="ic"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-card"/></svg></span>Ready to pay</div><b>1 payment ready to pay</b><p>Mid-project payment · ₹30,000.00. Checkout unlocks the next milestone.</p><a class="btn pri sm go" href="../../F16-checkout/V1/index.html">Checkout →</a></article>
+   </section>
+   <div class="grid2">
+    <section class="panel" aria-label="Transaction history"><div class="ph"><h2>Transaction history</h2><span class="meta" id="count" role="status" aria-live="polite">11 payments · Oct 2026</span></div>
+     <div style="display:flex;flex-wrap:wrap;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border);background:var(--muted)">
+      <label class="fld" style="flex:1;min-width:160px;background:var(--card)"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg><span class="sr-only">Search transactions</span><input id="q" type="search" placeholder="Search 11 payments"></label>
+      <select class="fld" id="status" aria-label="Filter by status" style="background:var(--card);flex:0 0 auto"><option>All statuses</option><option>Pending</option><option>Not due yet</option><option>Processing</option><option>Completed</option><option>Failed</option><option>Refunded</option></select>
+      <button class="btn sm" id="sort">Sort: newest ↓</button></div>
+     <div data-panel="data"><div class="tblwrap"><table id="tbl"><caption class="sr-only">11 captured payments grouped by date</caption><thead><tr><th>Date</th><th>Description</th><th>Project</th><th>Status</th><th class="right">Amount</th><th>Actions</th></tr></thead><tbody id="rows"></tbody><tfoot><tr><td colspan="4" id="tlabel">Ledger gross · 11 captured rows</td><td class="right money" id="total">₹1,37,750.00</td><td></td></tr></tfoot></table></div>
+     <p style="margin:8px 0 0;font-size:11.5px;color:var(--muted-foreground);line-height:1.55">Captured-data note: ₹1,37,750.00 is the gross of the 11 ledger rows, not the sum of the KPI cards. “Total paid ₹81,500.00 · Pending ₹31,875.00 · In dispute ₹0.00” are separate account totals from the same capture. They do not reconcile to the row gross, and no figure was changed to force a match.</p>
+      <div class="pager"><span id="range">Showing 1–8 of 11</span><div class="pgs"><button class="pg" id="prev" aria-label="Previous page">←</button><span id="pages"></span><button class="pg" id="next" aria-label="Next page">→</button></div></div>
+      <noscript><div class="pad sub">JavaScript off — the captured ledger has 11 rows (Oct 5–6, 2026): 6 project-fixture ₹625.00 items, B2B Wholesale ₹29,500.00 ×2, Khandesh Spice ₹22,500.00 ×2 + ₹30,000.00 mid-project. <a href="../V1/index.html" style="color:var(--primary)">Open V1 for static rows</a>.</div></noscript></div>
+     <div data-panel="empty" class="states" hidden><div class="emptybox"><div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-search"/></svg></div><b>Nothing needs you here</b><p>Clear the filter, or <a href="../../F16-checkout/V1/index.html" style="color:var(--primary);font-weight:700">start a checkout</a>. Empty means no matching rows — not a broken page.</p><button class="btn sm" id="reset">Reset filters</button></div></div>
+     <div data-panel="loading" class="states" hidden><div class="skel" style="width:35%"></div><div class="skel" style="width:90%"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:84%"></div><span class="sr-only" role="status">Loading…</span></div>
+     <div data-panel="error" class="states" hidden><div class="errbox"><b>Could not load payments</b><p>The service did not respond. Nothing was charged; this is a display failure. Retry or contact support with <span class="ref">GET /api/v1/payments</span>.</p><button class="btn sm" id="retry">Try again</button> <a class="btn sm" href="../../F12-messages-home/V1/index.html">Contact support</a></div></div>
+    </section>
+    <aside class="side-tiles" aria-label="Billing helpers">
+     <section class="panel tile reveal"><h3>Ask AI about your billing <span class="demo">demo</span></h3><p>Deterministic answers from the 11 captured rows. No AI endpoint exists.</p><button class="btn sm" id="ask" style="margin-top:10px">Ask a question…</button></section>
+     <section class="panel tile reveal"><h3>Statement of account <span class="demo">demo</span></h3><p>No statement endpoint. The honest alternative is the individual GST invoice PDFs.</p><a class="lnk" href="../../F18-invoices-archive/V1/index.html">Download invoices →</a><button class="btn sm" id="statement" style="margin-top:8px" disabled>Download statement (not available)</button></section>
+     <section class="panel tile reveal"><h3>Legal &amp; support</h3><p>Disputes and cancellations are real routes on a payment.</p><a class="lnk" href="../../F17-payment-status/V1/index.html">File a payment dispute →</a><a class="lnk" href="../../F12-messages-home/V1/index.html">Message support →</a></section>
+    </aside></div>
+   <div class="trust"><svg class="i lg" style="color:var(--primary)"><use href="../../../assets/lab-icons.svg#i-shield"/></svg><div><b>Secured by Razorpay</b><div class="t2">256-bit encryption · PCI-DSS compliant checkout</div></div><div class="mchips"><span>UPI</span><span>Cards</span><span>Netbanking</span><span>Wallets</span></div></div>
+   <footer class="foot"><span>© 2026 Nestlancer · F14 V3 · content frozen from capture 26</span><span><a href="../V2/index.html">← V2</a> · <a href="../../../index.html">Gallery</a> · <a href="../V4/index.html">V4 →</a></span></footer>
+  </main></div></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dtitle"><div class="sheet"><div style="display:flex;justify-content:space-between;align-items:center"><div class="eyebrow">Queue detail</div><button class="btn sm" id="drawerx" aria-label="Close drawer"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button></div><h2 id="dtitle" style="margin-top:8px">Detail</h2><div id="dbody" style="margin-top:10px"></div></div></div>
+<div class="scrim" id="scrim"><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt"><button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button><h2 id="dlgt">Dialog</h2><p class="sub" id="dlgdesc"></p><div class="dlgbody" id="dlgbody"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){var $=Lab.$,$$=Lab.$$;
+ /* Frozen rows from 26-billing-payments-center.html */
+ var R=[['Oct 6, 2026','2026-10-06','Final payment','AUDIT-P25-20261005-73dhk Project Fixture','Not due yet',625,'View'],['Oct 6, 2026','2026-10-06','Deposit','AUDIT-P25-20261005-73dhk Project Fixture','Pending',625,'Checkout'],['Oct 5, 2026','2026-10-05','Final payment','AUDIT-P25-20261005-f611o Project Fixture','Not due yet',625,'View'],['Oct 5, 2026','2026-10-05','Deposit','AUDIT-P25-20261005-f611o Project Fixture','Pending',625,'Checkout'],['Oct 5, 2026','2026-10-05','Deposit','AUDIT-P25-20261005-uk6ic Project Fixture','Pending',625,'Checkout'],['Oct 5, 2026','2026-10-05','Final payment','AUDIT-P25-20261005-uk6ic Project Fixture','Not due yet',625,'View'],['Oct 5, 2026','2026-10-05','Deposit','B2B Wholesale Ordering Portal','Completed',29500,'View'],['Oct 5, 2026','2026-10-05','Final payment','B2B Wholesale Ordering Portal','Completed',29500,'View'],['Oct 5, 2026','2026-10-05','Final payment','Khandesh Spice D2C E-Commerce Store','Not due yet',22500,'View'],['Oct 5, 2026','2026-10-05','Deposit','Khandesh Spice D2C E-Commerce Store','Completed',22500,'View'],['Oct 5, 2026','2026-10-05','Mid-project payment','Khandesh Spice D2C E-Commerce Store','Pending',30000,'Checkout']];
+ var status='All statuses',q='',desc=true,page=0,PS=8,lastFocus=null;
+ function money(n){return '₹'+n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+ function cls(s){return s==='Completed'?'b-ok':s==='Pending'?'b-warn':s==='Not due yet'?'b-info':s==='Failed'?'b-err':'b-neutral'}
+ function list(){return R.filter(function(r){return (status==='All statuses'||r[4]===status)&&(r.join(' ').toLowerCase().indexOf(q)>=0)})}
+ function render(){var v=list();v.sort(function(a,b){if(desc)return a[1]<b[1]?1:a[1]>b[1]?-1:0;return a[5]-b[5]});
+  var pages=Math.max(1,Math.ceil(v.length/PS));page=Math.min(page,pages-1);var last='';
+  $('#rows').innerHTML=v.slice(page*PS,page*PS+PS).map(function(r){var head='';if(r[0]!==last){head='<tr><td colspan="6" class="daygroup" style="padding:8px 12px">'+r[0]+'</td></tr>';last=r[0]}
+   return head+'<tr><td data-label="Date" class="ref">'+r[0]+'</td><td data-label="Description"><b>'+r[2]+'</b></td><td data-label="Project" class="sub">'+r[3]+'</td><td data-label="Status"><span class="badge '+cls(r[4])+'">'+(r[4]==='Completed'?'✓':'◷')+' '+r[4]+'</span></td><td data-label="Amount" class="right money">'+money(r[5])+'</td><td data-label="Actions">'+(r[6]==='Checkout'?'<a class="btn sm" href="../../F16-checkout/V1/index.html">Checkout</a>':'<button class="btn sm vw" data-i="'+R.indexOf(r)+'">View</button>')+'</td></tr>'}).join('');
+  $('#total').textContent=money(v.reduce(function(s,r){return s+r[5]},0));$('#tlabel').textContent='Ledger gross · '+v.length+' shown';$('#count').textContent=v.length+' shown of 11 payments · Oct 2026';
+  $('#range').textContent=v.length?'Showing '+(page*PS+1)+'–'+Math.min((page+1)*PS,v.length)+' of '+v.length:'No payments in this view';
+  $('#pages').innerHTML=Array.from({length:pages},function(_,i){return '<button class="pg" data-p="'+i+'" '+(i===page?'aria-current="page"':'')+'>'+(i+1)+'</button>'}).join('');$('#prev').disabled=page===0;$('#next').disabled=page>=pages-1;
+  $$('.pg[data-p]').forEach(function(b){b.addEventListener('click',function(){page=+b.dataset.p;render()})});if(Lab.state==='data'&&!v.length)Lab.setState('empty')}
+ $('#q').addEventListener('input',function(){q=this.value.trim().toLowerCase();page=0;render()});
+ $('#status').addEventListener('change',function(){status=this.value;page=0;render()});
+ $('#sort').addEventListener('click',function(){desc=!desc;this.textContent=desc?'Sort: newest ↓':'Sort: amount ↑';render()});
+ $('#prev').addEventListener('click',function(){page--;render()});$('#next').addEventListener('click',function(){page++;render()});
+ $('#reset').addEventListener('click',function(){q='';status='All statuses';$('#q').value='';$('#status').value='All statuses';page=0;Lab.setState('data');render()});
+ /* drawer: focus trap + Esc + focus restore, distinct from centred dialog */
+ function drawer(title,html){lastFocus=document.activeElement;$('#dtitle').textContent=title;$('#dbody').innerHTML=html;$('#drawer').classList.add('on');document.body.style.overflow='hidden';setTimeout(function(){$('#drawerx').focus()},30)}
+ function closeDrawer(){if(!$('#drawer').classList.contains('on'))return;$('#drawer').classList.remove('on');document.body.style.overflow='';if(lastFocus)lastFocus.focus()}
+ $('#drawerx').addEventListener('click',closeDrawer);
+ $('#dbody').addEventListener('click',function(e){if(e.target.id==='dclose')closeDrawer()});
+ $('#drawer').addEventListener('click',function(e){if(e.target===this)closeDrawer()});
+ $('#drawer').addEventListener('keydown',function(e){if(e.key==='Escape'){e.preventDefault();closeDrawer()}if(e.key==='Tab'){var f=$$('button,a,input',this).filter(function(x){return x.offsetParent!==null});if(e.shiftKey&&document.activeElement===f[0]){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&document.activeElement===f[f.length-1]){e.preventDefault();f[0].focus()}}});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeDrawer()});
+ $$('.qopen').forEach(function(b){b.addEventListener('click',function(){if(b.dataset.k==='verify')drawer('2 payments awaiting verification','<p class="sub">Bank / UPI transfers submitted with a receipt and UTR. Razorpay webhook events (<code>POST /api/v1/webhooks/razorpay</code>) are received; verification is an <b>admin</b> action (<code>/admin/payments/{id}/verify</code>, <code>/approve-transfer</code>).</p><div class="amt">₹31,875.00</div><div class="kv"><span>Your move</span><b>None — studio verifying</b></div><div class="kv"><span>If it takes &gt; 2 days</span><a href="../../F12-messages-home/V1/index.html" style="color:var(--primary);font-weight:700">Message support</a></div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn sm" href="../../F17-payment-status/V1/index.html">Open payment status</a><button class="btn sm" id="dclose">Close</button></div>');
+  else drawer('1 invoice 12 days overdue','<p class="sub">Overdue invoice in the archive. Download the GST PDF or open the payment it belongs to.</p><div class="amt">₹30,000.00</div><div class="kv"><span>Invoice</span><b class="mono">NL-INV-2026-000001</b></div><div class="kv"><span>Project</span><b>Khandesh Spice</b></div><div class="kv"><span>Status</span><span class="badge b-err">◷ 12 days overdue</span></div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn sm" href="../../F18-invoices-archive/V1/index.html">Download invoice</a><a class="btn sm" href="../../F16-checkout/V1/index.html">Go to checkout</a></div>')})});
+ $('#rows').addEventListener('click',function(e){var b=e.target.closest('.vw');if(!b)return;var r=R[+b.dataset.i];drawer(r[2],'<p class="sub">Payment detail — <code>GET /api/v1/payments/{id}</code>.</p><div class="amt">'+money(r[5])+'</div><div class="kv"><span>Project</span><b>'+r[3]+'</b></div><div class="kv"><span>Status</span><span class="badge '+cls(r[4])+'">'+r[4]+'</span></div><div class="kv"><span>Date</span><b>'+r[0]+'</b></div><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><a class="btn sm" href="../../F17-payment-status/V1/index.html">Status view</a><a class="btn sm" href="../../F12-messages-home/V1/index.html">File a dispute</a></div>')});
+ function ai(q){q=(q||'').toLowerCase();if(q.indexOf('pending')>=0)return '₹31,875.00 outstanding over 5 pending / not-due rows.';if(q.indexOf('paid')>=0||q.indexOf('oct')>=0)return '₹81,500.00 is settled across 4 completed payments in October 2026.';if(q.indexOf('invoice')>=0)return 'One invoice (NL-INV-2026-000001, ₹30,000.00) is 12 days overdue.';return 'I only answer from the 11 captured rows — try “pending”, “paid” or “invoice”.'}
+ $('#ask').addEventListener('click',function(){Lab.openDlg('Ask AI about your billing','Demo — no inference endpoint; answers come from the frozen ledger.','<input class="inp" id="aiq" placeholder="e.g. What is still pending?"><div class="row"><button class="btn pri" id="airun">Ask</button></div><div id="aians" style="margin-top:12px"></div>','#aiq');$('#airun').addEventListener('click',function(){$('#aians').innerHTML='<div class="note">'+ai($('#aiq').value)+'</div>'});$('#aiq').addEventListener('keydown',function(e){if(e.key==='Enter')$('#airun').click()})});
+ $('#statement').addEventListener('click',function(){Lab.toast('No statement endpoint — download individual invoices instead')});
+ Lab.onState=function(s){if(s==='data'&&!$('#rows').children.length)render()};
+ Lab.init({actions:[['F14 V1 · Ledger','../V1/index.html'],['F14 V2 · Ops table','../V2/index.html'],['F14 V4 · Money wall','../V4/index.html'],['F14 V5 · Bento','../V5/index.html'],['Checkout (F16)','../../F16-checkout/V1/index.html'],['Payment methods (F15)','../../F15-payment-methods/V1/index.html'],['Invoices (F18)','../../F18-invoices-archive/V1/index.html'],['Payment status (F17)','../../F17-payment-status/V1/index.html'],['Lab gallery','../../../index.html']]});
+ render();})();
+</script>
+</body></html>

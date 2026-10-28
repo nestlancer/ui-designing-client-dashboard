@@ -1,6 +1,6 @@
 # Client Portal Lab — DECISIONS
 
-> Merge-only shared file. This run added sections for **F05 · Requests work hub** and **F06 · New request form** only. No other family's section or record was edited or deleted. Structured so later runs can append `### F## …` sections and manifest records without touching these.
+> Merge-only shared file. The original run added **F05 · Requests work hub** and **F06 · New request form**; later merges appended F08–F13. The 2026-10-28 merge appended **§9 for F14–F18** and extended the gallery / manifest by 25 records. No earlier family's section or record was edited or deleted. Structured so later runs can append `### F## …` sections and manifest records without touching these.
 
 ---
 
@@ -141,4 +141,81 @@ Then open `/client-portal-lab/` (gallery). Every variant renders standalone over
 - **F11: V1 Proposal Workbench & Sticky Acceptance Rail** — pairs the itemised GST ledger and 2-milestone schedule on the left with a sticky right decision rail housing both **A5** (`Accept & Pay 50% Deposit — ₹20,650.00`) and **A6** (`Request changes / counter-propose`).
 - **F12: V1 Unified Enriched 3-Pane Messaging Workspace** — merges `/messages`, `/messages/inbox`, and `/messages/new/direct` into a single 3-pane workspace (**C11**).
 - **F13: V1 3-Pane Collaborative Thread Workbench** — preserves all 5 captured thread states (`21`–`25`), fixes **C10** with a `15.8:1 AAA` inline edit box, and integrates **A7** SLA & read receipts.
+
+---
+
+## 9 · F14 Billing Center + F15 Payment Methods + F16 Checkout + F17 Payment Status + F18 Invoices Archive (added 2026-10-28)
+
+**All 25 variants were hand-authored, one `index.html` at a time, via `write_file` / `edit_file`. No script generated or overwrote any variant HTML/CSS.** The QA harness used to measure them lives outside the repo (`/tmp/qa`) and only reads pages; it never emits design files. `manifest.json` records were appended as a literal text insertion — the first 40 records are byte-for-byte unchanged. `shared/tokens.css` and `shared/base.css` remain locked and were **not** modified.
+
+### 9.1 Shared behaviour primitives (not a design system)
+
+`assets/lab-core.css`, `assets/lab-core.js` and `assets/lab-icons.svg` were added as **one optional utility layer**, not a page template: theme toggle, Explore popover, ⌘K palette, focus-trapped dialog, toasts, honest state switcher, ARIA tabs, reveals, count-up, and a local SVG sprite (28 symbols) replacing remote icon requests. Every variant still writes its own layout CSS in its own `<style>` block and its own interaction JS. **F14 V1 deliberately does not load `lab-core.*`** — it is a fully standalone page with an inline sprite and its own dialog/state code, to prove the standalone contract. F14 V1 therefore carries its own small `[data-demo-nav]` handler.
+
+Two AA corrections were applied **in `lab-core.css` only**, never in the locked tokens: `--primary-ink` gives small brand-coloured text a darker light-theme ink and a lighter dark-theme ink (the original `--primary` on `--brand-50` measured 4.34:1); and dark mode uses one step darker `--brand-500` so white text on filled primary controls measures 4.84:1 instead of 3.67:1. Micro-labels were raised to ≥11px. A `max-width:640px` header rule keeps the captured top bar on one row with 44px touch targets at 360/390px.
+
+### 9.2 Content locks & honesty decisions
+
+- **Captured HTML is truth; screenshots are alternate sessions.** Screenshot-only amounts (`₹36,000`, `₹48,000`) were rejected. The F14 ledger is the 11 captured rows summing to **₹1,37,750.00** (6 × ₹625.00 fixtures, 2 × ₹29,500.00 B2B, 2 × ₹22,500.00 Khandesh, 1 × ₹30,000.00 mid-project).
+- **F14 KPI reconciliation.** The captured KPI cards (`Total paid ₹81,500.00 · Pending ₹31,875.00 · In dispute ₹0.00`) do **not** sum to the 11-row gross. Rather than silently changing a captured figure, all five variants label the table footer **“Ledger gross · 11 captured rows”** and carry a visible note explaining that the KPIs are separate account totals from the same capture and that no number was forced to match. The Ask AI answers are deterministic and explicitly not a live model.
+- **F15** keeps the captured empty state “No saved methods yet”, the trust strip and processor chips, and “Go to payments”. Add / rename / remove / make-primary are demo-labelled. **UPI AutoPay mandates are explained, never silently enabled** — no UPI-mandate endpoint exists in any spec, and the API only supports method CRUD. Raw card numbers are never accepted by the lab.
+- **F16** keeps “Pay online”, exactly **one** primary “Proceed to secure checkout”, the helper “Card, netbanking, wallets, or UPI (QR) in Razorpay's secure window”, the full **UPI-on-desktop** honesty note (QR / phone hand-off is expected Razorpay behaviour, not a Nestlancer bug), “Bank / UPI transfer” with the captured `Nestlancer Pvt Ltd · HDFC Bank · A/C 50200012345678 · IFSC HDFC0001234 · UPI nestlancer@hdfcbank`, UTR / Notes / Receipt + “Submit for verification”, the ₹30,000.00 order summary with reference `01a10a2b-5ed2-73bc-8aee-d1c6262906e9`, and the Created→Pending→Processing→Completed/Refunded stepper. Card/Netbanking/Wallet/UPI are represented as **processor chips**, never as fake form fields.
+- **F17** keeps the exact completed text “This payment has been recorded. Download your receipt or invoice below.” and the not-due text “This installment is not due yet. Checkout unlocks after you approve delivery or when the studio requests payment.” plus “Checkout not available yet”, the ₹22,500.00 hero, Khandesh Spice Final payment, mono reference, Billing documents, Download invoice/receipt, File a payment dispute and Cancel payment. The A3 unlock explainer deep-links to F08 and labels `POST /api/v1/milestones/{id}/approve` as a **demo** (no live backend here).
+- **F18** keeps H1 “Invoices”, the subtitle “Your issued invoices with downloadable PDF copies for accounting and tax records.”, “View payments”, the five captured rows (gross **₹1,12,125.00**), and the Download invoice / View actions. **There is no statement or GST endpoint**: A10 is a demo-labelled composition of five real `GET /api/v1/invoices/{id}/download` calls, present in V1/V2/V4/V5 (4/5). Dates are derived from snapshot 26 (no captured date column); “12 days overdue” is derived, and derived values are labelled as such.
+- **`audit-metadata.json` failures are mostly aborted Next RSC navigations plus CORS/XHR to `/projects`.** They were not inflated into fictional billing outages. Designed empty / skeleton / error states are lab QA states, clearly switchable, not claims about production availability.
+
+### 9.3 Honest navigation (the captured shell links outside this build)
+
+The captured sidebar links to F20 Profile, F21 Settings and F23 Blog/Portfolio, which are **not** part of this lab build. All 25 variants previously had 4 dead hrefs each (100 total). Every one now points at the real gallery (`../../../index.html`, valid with JS off) and carries `data-demo-nav` plus an explanatory `title`. Clicking opens an honest boundary dialog — “this lab delivers only F14–F18” — with an **Open lab gallery** action and **Stay here**. Result: **0 broken local links, 0 remote assets, 0 `href="#"`, 0 duplicate IDs**. The same pattern applies to F16 V2's earlier nav fix.
+
+### 9.4 Coverage
+
+| Family | Required A-items | Achieved | Key C-items |
+|---|---|---|---|
+| F14 | A1 Ask AI (5/5), A5 work queue (≥3/5), A10 statement/GST (≥3/5), A12 saved views (≥3/5) | A1 5/5 · A5 5/5 · A10 5/5 (demo-labelled) · A12 4/5 | C4, C5, C6, C8, C16, C17, C18 |
+| F15 | A6 methods management (≥3/5) | 5/5 | C4, C5, C6, C8, C17 |
+| F16 | one primary CTA (C8), full honesty note, order summary, stepper | 5/5 | C4, C5, C6, C8, C15, C17, C18 |
+| F17 | A3 unlock explainer (5/5) | 5/5 | C4, C5, C6, C9, C17 |
+| F18 | A10 statement/GST (≥3/5) | 4/5 (V3 intentionally static, no statement) · A12 5/5 | C4, C5, C6, C16, C17 |
+
+All 25 variants: one `<h1>`, skip link, ⌘K palette, four switchable states, `noscript` fallback, mono IDs/money, icon+text status badges (never colour alone), light/dark parity, reduced motion, keyboard ARIA tabs, and a mobile table/card fallback.
+
+### 9.5 Verification actually run (Gate 3 honesty)
+
+- **Static:** `node --check` on all **50 inline scripts → 0 errors** (two syntax defects found and repaired: F14 V1 `IntersectionObserver` bracket, F16 V5 extra `)`). Script-stripped href/src target check → **0 broken**; remote assets 0; `href="#"` 0; duplicate IDs 0; `manifest.json` parses with 65 records and 0 missing paths.
+- **Browser:** Playwright **Chromium 156** headless, **25 variants × 2 themes × 5 widths (360/390/768/1024/1440) = 250 page loads** → **0 console errors, 0 page errors, 0 failed requests, 0 page-level horizontal overflow**. Interaction suite (⌘K palette + Arrow keys + Esc, theme toggle + `aria-pressed`, four state pills and return to Data, `data-demo-nav` boundary dialog + 8× Tab focus-trap containment + Esc + focus restore, ARIA tab keys) → **25/25 PASS**. No-JS context → all 25 render substantive content with no horizontal scroll. `reducedMotion: 'reduce'` → all `.reveal` elements visible.
+- **Computed-style sweep:** light and dark AA text contrast sweeps → **0 failures** after the `--primary-ink` / dark `--brand-500` fixes; computed font-size sweep → **0 visible text below 11px**; 44px preferred / 24px minimum touch targets verified on the mobile header.
+- **Exhaustive button smoke test (final pass, 2026-10-28):** every non-state `<button>` in all 25 pages clicked with native `prompt`/`confirm` stubbed → **418 clicks, 0 JS errors, 0 leaked body-scroll locks**. This test found and fixed two real defects: F14 V1's standalone dialog did not lock background scroll, and F16 V1's `navigator.clipboard.writeText()` produced three unhandled promise rejections when clipboard permission was denied.
+- **Gallery QA (final pass):** `index.html` loaded in Chromium at 360/768/1440 in light + dark → **65 cards, 13 family sections, 14 select options, 0 errors, 0 horizontal overflow**; the F18 filter correctly narrows to `5 variants` / only the F18 section. All five footer `docs/DELIVERY-REPORT.md` links resolve.
+- **Post-merge re-verification:** after the F14 ledger-note, gallery, manifest, shared-decisions and Gate T honesty edits, the full static suite was rerun → **25 variants, 0 broken links, 0 remote assets, 0 duplicate IDs, 0 JS syntax errors, `manifest.json` parses**.
+- **Not done:** pixel-perfect screenshot diffs were **not** archived (computed colours/geometry were asserted instead); no real backend calls were made (all API references are read-only documentation of verified spec paths); no branch, commit or push was performed. “Hierarchy understood in <2s” was **not** human-timed — only its structural preconditions (one `<h1>`, one hero, KPI value+label+why) were verified. See each family's `docs/DELIVERY-REPORT.md` for its own limitations.
+
+### 9.6 Limitations & known issues (honest hand-off)
+
+| Area | Limitation | Classification / disposition |
+|---|---|---|
+| Data | **No live backend.** Every API path in `docs/API-MAP.md` is documentation of a verified spec path, not a call. Rows, amounts, references, account details and status labels are frozen capture data. | By design (lab). All network-facing CTAs are demo-labelled. |
+| Data | **F14 KPI totals do not reconcile to the 11-row ledger gross** (`₹81,500 / ₹31,875 / ₹0` vs `₹1,37,750.00`). | **Not a bug to hide.** All five variants label the gross and carry a visible captured-data note. Forcing a match would falsify the capture. |
+| Data | `/invoices` has **no captured date column**; F18 dates (Oct 5–6, 2026), “12 days overdue”, V2's Overdue heuristic and V4's queue text are **derived** from snapshot 26 / amount thresholds. | Derived values are labelled where shown. They are not presented as backend fields. |
+| Features | **No statement-of-account, GST-summary, AI, UPI-mandate, card-verification, raw-card-token, promo-code, guest-checkout or currency-converter endpoint exists.** A1 Ask AI, A10 statement/GST and F15 mandates are demo-labelled. | A10 is honestly composed from five `GET /api/v1/invoices/{id}/download` calls. F15 explains mandates but never enables them. |
+| Features | F16 “Proceed to secure checkout” never opens Razorpay; F16/F17 receipt uploads are `FileReader`-only; F17 document downloads, dispute, cancellation and milestone approve are demos; F18 “Download invoice” shows a demo dialog. | Labelled in-page. No real PDF, payment or mutation is produced. |
+| Research | Gate T R1–R12 were **fetched in full**; four later supplementary searches produced **search snippets only** and are **not counted as opened refs**. One Stripe customer-sheet fetch returned an hCaptcha challenge; only its documentation text was extracted. | Recorded in all five `docs/TEMPLATE-RESEARCH.md` Gate T honesty notes. No Gate-A-less template feature was adopted. |
+| Research | `payments.openapi.json` has **no top-level enum schemas and no named Payment / Invoice DTO**. `audit-metadata.json` failures are mostly aborted Next RSC navigations + CORS/XHR to `/projects`. | Captured UI labels are used instead of invented enums; audit failures were not inflated into fictional billing outages. |
+| Interaction | F15 V2–V5 use native `window.prompt()` for rename (functional, keyboard-reachable, **not** a styled focus-trapped dialog). F14 V3 uses both the shared centred dialog and a custom queue drawer. F18 V3 chapter chips are not sticky. | Minor, known. Esc/focus/overflow were measured with no leak. Recorded in the family `DELIVERY-REPORT.md` files. |
+| Interpretation | C8 “exactly one primary” is read as **one primary per visible decision context**; F16's manual “Submit for verification” is a secondary button. F18 V3's card deck is JS-rendered; its no-JS fallback is a **text list** (gallery card, `data-text`, `manifest.json` axis E and F18 V1's noscript link were all corrected from “static cards”). | Interpretations are recorded in each family's `docs/DECISIONS.md` and `docs/DELIVERY-REPORT.md`. |
+| Styling | F14 V1 is intentionally standalone (own CSS/JS/inline sprite). `assets/lab-core.css` sets an 11px `!important` floor for micro-labels; visually check larger mono display text if the type scale is revised. Dark AA depends on `--primary-ink` and dark `--brand-500:#465fff`. | Both contracts were QA'd. Changing the dark brand step risks a contrast regression. |
+| QA | Pixel screenshots were not archived; light/dark parity is asserted from **computed colours and contrast ratios**, not saved images. Some 36px topbar/nav controls fall below the 44px *preferred* target size. | The mobile header's primary controls meet 44px; smaller secondary controls were judged acceptable for a desktop-captured shell, but this is a judgement call, not a WCAG 2.5.5 AAA pass. |
+| Process | No branch, commit or push was performed. `shared/tokens.css` and `shared/base.css` were imported as-is, never edited. `assets/` additions are additive to the one shared icon/utility set. | Scope respected. |
+
+### 9.7 Winners (one per family)
+
+- **F14 — V2 Dense Ops Table.** The billing centre is fundamentally a reconciliation job; V2's sortable, filterable, keyboard-complete table with a live filtered gross answers “where is my money?” fastest, while the honest KPI note keeps the captured data intact.
+- **F15 — V3 Card Deck.** Payment methods are objects you recognise, not rows; V3's selectable cards put default / rename / remove exactly where the eye expects them, and its empty state stays honest.
+- **F16 — V1 Split Summary Classic.** One primary CTA, an always-visible order summary, a quiet bank-transfer alternative and the full UPI-on-desktop note — the least ambiguous path to pay ₹30,000.00.
+- **F17 — V4 Unlock Workbench.** The client's first question on a not-due payment is “why can't I pay?”; V4 answers with an explicit blocker checklist, the “what unlocks this” explainer and an F08 deep link.
+- **F18 — V5 Narrative Archive.** Three KPIs, three accordions, full table powers and a sticky Download-all CTA make a five-row archive feel like an accounting tool rather than an afterthought.
+
+### 9.8 Preview
+
+From the repo root: `python3 -m http.server 8130` → `/client-portal-lab/`. Every variant also renders standalone via its own relative paths.
 

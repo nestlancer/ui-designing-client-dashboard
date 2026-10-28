@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout · V1 Split Summary Classic — Nestlancer Lab</title>
+<meta name="color-scheme" content="light dark">
+<script>try{var p=new URLSearchParams(location.search),t=p.get('theme')||localStorage.getItem('lab-theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link rel="stylesheet" href="../../../shared/tokens.css"><link rel="stylesheet" href="../../../shared/base.css"><link rel="stylesheet" href="../../../assets/lab-core.css"><link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml">
+<style>
+/* F16 · V1 — Split Summary Classic: 2-col, ONE primary, inline validation. */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:14px;align-items:start}
+.amt{font-size:clamp(32px,4.6vw,44px);font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums;line-height:1.1}
+.krow{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.krow:last-child{border-bottom:0}.krow>span:first-child{color:var(--muted-foreground)}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;font-size:11.5px}
+.steps span{display:flex;align-items:center;gap:5px;color:var(--muted-foreground)}
+.steps span.on{color:var(--brand-700);font-weight:700}.dark .steps span.on{color:var(--brand-100)}
+.steps .d{width:20px;height:20px;border-radius:50%;border:1px solid var(--border);display:grid;place-items:center;font:700 10px var(--mono)}
+.steps span.on .d{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tabs{margin-bottom:0}
+.bankline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.bankline:last-child{border-bottom:0}.bankline span:first-child{color:var(--muted-foreground)}
+.drop{border:2px dashed var(--border);border-radius:var(--radius-lg);padding:18px;text-align:center;background:var(--muted);cursor:pointer;display:block}
+.drop:hover,.drop:focus-within{border-color:var(--primary);background:var(--brand-50)}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.chosen{margin-top:8px;font-size:12px;font-weight:600;color:var(--status-success-text)}
+.primary{width:100%;min-height:48px;font-size:14px}
+.honest{font-size:12px;color:var(--muted-foreground);line-height:1.65}
+.outcome{margin-top:12px;padding:12px;border-radius:var(--radius-md);font-size:12.5px;font-weight:600}
+.outcome.ok{background:var(--status-success-bg);color:var(--status-success-text);border:1px solid var(--status-success-border)}
+.outcome.warn{background:var(--status-warning-bg);color:var(--status-warning-text);border:1px solid var(--status-warning-border)}
+.outcome.no{background:var(--status-error-bg);color:var(--status-error-text);border:1px solid var(--status-error-border)}
+.footlink{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;font-size:12.5px;margin-top:14px}
+@media(max-width:960px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="shell">
+ <aside class="side" id="side" aria-label="Primary navigation"><a class="brand" href="../../../index.html"><span class="mark">NL</span> Nestlancer <span class="demo" style="margin-left:auto">lab</span></a>
+  <nav><div class="navgrp">Main</div><div class="nav"><a href="../../../index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-grid"/></svg>Dashboard</a><a href="../../F05-requests-work-hub/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-list"/></svg>Requests<span class="n">12</span></a><a href="../../F08-projects-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-folder"/></svg>Projects</a><a href="../../F10-quotes-list/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Quotes</a><a href="../../F12-messages-home/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg>Messages<span class="n">2</span></a><a href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-card"/></svg>Billing</a><a href="../../F18-invoices-archive/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoices</a></div><div class="navgrp">Account</div><div class="nav"><a href="../../../index.html" data-demo-nav="Profile" title="F20 Profile is not built in this lab — opens the gallery"><svg class="i"><use href="../../../assets/lab-icons.svg#i-user"/></svg>Profile</a><a href="../../../index.html" data-demo-nav="Settings" title="F21 Settings is not built in this lab — opens the gallery"><svg class="i"><use href="../../../assets/lab-icons.svg#i-gear"/></svg>Settings</a></div></nav><div class="side-foot"><button class="navlink" id="explore" aria-expanded="false" aria-controls="pop"><svg class="i"><use href="../../../assets/lab-icons.svg#i-compass"/></svg>Explore<svg class="i sm" style="margin-left:auto"><use href="../../../assets/lab-icons.svg#i-down"/></svg></button><div class="pop" id="pop"><a href="../../../index.html" data-demo-nav="Blog" title="F23 Blog is not built in this lab — opens the gallery">Blog</a><a href="../../../index.html" data-demo-nav="Portfolio" title="F23 Portfolio is not built in this lab — opens the gallery">Portfolio</a></div><a class="navlink" href="../../F14-billing-center/V1/index.html"><svg class="i"><use href="../../../assets/lab-icons.svg#i-x"/></svg>← Back to payments</a></div></aside>
+ <div class="main"><header class="hdr"><button class="burger" id="burger" aria-label="Open navigation" aria-expanded="false"><svg class="i"><use href="../../../assets/lab-icons.svg#i-menu"/></svg></button><div class="crumb"><a href="../../../index.html">Dashboard</a><span>›</span><a href="../../F14-billing-center/V1/index.html">Billing</a><span>›</span><b>Checkout</b></div><div class="right"><button class="kbtn" id="cmdk"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-search"/></svg>Search <kbd>⌘K</kbd></button><button class="icb" id="theme" aria-label="Toggle dark mode"><svg class="i"><use href="../../../assets/lab-icons.svg#i-moon"/></svg></button><button class="icb dot" aria-label="Messages, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-chat"/></svg></button><button class="icb dot" aria-label="Notifications, 6 unread"><svg class="i"><use href="../../../assets/lab-icons.svg#i-bell"/></svg></button><span class="av"><span>AM</span> Arjun Mehta</span></div></header>
+  <div class="bar" role="group" aria-label="Variant navigation"><span class="lbl">F16 variants</span><a class="pill on" href="index.html" aria-current="page">V1 · Split</a><a class="pill" href="../V2/index.html">V2 · Stepper</a><a class="pill" href="../V3/index.html">V3 · Bento</a><a class="pill" href="../V4/index.html">V4 · Decision</a><a class="pill" href="../V5/index.html">V5 · Narrative</a><span class="sp"></span><span class="lbl">Outcome</span><button class="pill on" data-outcome="idle">Idle</button><button class="pill" data-outcome="success">Success</button><button class="pill" data-outcome="pending">Verifying</button><button class="pill" data-outcome="failure">Failure</button><span class="lbl">State</span><button class="pill on" data-state="data">Data</button><button class="pill" data-state="empty">Empty</button><button class="pill" data-state="loading">Loading</button><button class="pill" data-state="error">Error</button></div>
+  <main class="wrap" id="main">
+  <noscript><div style="display:block;margin:0 0 14px;padding:12px 14px;border:1px solid var(--border,#d8dee9);border-radius:10px;background:var(--muted,#f4f6fa);font-size:13px;line-height:1.55;color:var(--muted-foreground,#475569)">JavaScript is off. The captured ₹30,000.00 order summary, bank / UPI details and trust copy remain readable. “Proceed to secure checkout” and the bank-transfer form are demo-only previews and need JavaScript; no payment is taken on this static lab page.</div></noscript>
+   <a class="back" href="../../F14-billing-center/V1/index.html" style="display:inline-flex;gap:7px;font-size:13px;font-weight:600;color:var(--muted-foreground);margin-bottom:12px">← Back to Billing Center</a>
+   <div class="hrow"><div><div class="eyebrow">Payment · <span class="badge b-warn">◷ Pending</span></div><h1>Checkout</h1><p class="lead">Khandesh Spice D2C E-Commerce Store · final payment milestone.</p></div><div class="acts"><a class="btn" href="../../F18-invoices-archive/V1/index.html"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-doc"/></svg>Invoice</a></div></div>
+   <div class="two">
+    <section class="panel pad reveal" aria-label="Order summary"><div class="eyebrow">Amount due</div><div class="amt">₹30,000.00</div><p class="sub">One-time milestone payment · no hidden fees.</p>
+     <div style="margin-top:14px"><div class="krow"><span>Amount due</span><b class="money">₹30,000.00</b></div><div class="krow"><span>Currency</span><b>INR</b></div><div class="krow"><span>Reference</span><b class="mono" style="font-size:11px">01a10a2b-5ed2-73bc-8aee-d1c6262906e9</b></div><div class="krow"><span>Created</span><b>Oct 5, 2026</b></div><div class="krow"><span>Project</span><b>Khandesh Spice D2C E-Commerce Store</b></div></div>
+     <div class="steps" aria-label="Payment status stepper"><span class="on"><span class="d">1</span>Created</span>→<span class="on"><span class="d">2</span>Pending</span>→<span><span class="d">3</span>Processing</span>→<span><span class="d">4</span>Completed</span>→<span><span class="d">5</span>Refunded</span></div>
+     <p class="sub" style="margin-top:9px;font-size:11.5px">Refunded is an alternative terminal state, not a step you must pass.</p></section>
+    <div>
+     <div data-panel="data">
+      <section class="panel reveal" aria-label="Payment method"><div class="tabs" role="tablist" data-local aria-label="Payment methods"><button role="tab" id="t1" data-tab="online" aria-controls="p-online" aria-selected="true">Pay online</button><button role="tab" id="t2" data-tab="bank" aria-controls="p-bank" aria-selected="false" tabindex="-1">Bank / UPI transfer</button></div>
+       <div class="pad" id="p-online" role="tabpanel" aria-labelledby="t1"><p class="sub">Card, netbanking, wallets, or UPI (QR) in Razorpay's secure window.</p>
+        <div class="note" style="margin:12px 0"><b>ONE primary action.</b> Bank / UPI transfer is a secondary tab; Cancel payment lives once in the footer.</div>
+        <button class="btn pri primary" id="proceed">Proceed to secure checkout <span class="demo">demo</span></button>
+        <details style="margin-top:14px"><summary style="cursor:pointer;font-size:12.5px;font-weight:700">UPI on desktop — please read</summary><p class="honest" style="margin-top:8px">UPI ID entry is not available on desktop browsers. Razorpay shows a QR code or asks you to continue on a phone with a UPI app — that is expected, not a bug in Nestlancer. Use the QR with your UPI app, or choose Card / Netbanking / Wallet instead.</p></details>
+        <div class="row" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:14px"><span class="badge b-neutral">UPI</span><span class="badge b-neutral">Cards</span><span class="badge b-neutral">Netbanking</span><span class="badge b-neutral">Wallets</span></div>
+        <div id="onlineout"></div></div>
+       <div class="pad" id="p-bank" role="tabpanel" aria-labelledby="t2" hidden><p class="sub">Pay ₹30,000.00 via bank / UPI. Transfer to the settlement account below, then submit your proof.</p>
+        <div style="margin:12px 0"><div class="bankline"><span>Account holder</span><b>Nestlancer Pvt Ltd</b></div><div class="bankline"><span>Bank</span><b>HDFC Bank</b></div><div class="bankline"><span>A/C number</span><b class="mono">50200012345678 <button class="btn sm cp" data-copy="50200012345678">Copy</button></b></div><div class="bankline"><span>IFSC</span><b class="mono">HDFC0001234 <button class="btn sm cp" data-copy="HDFC0001234">Copy</button></b></div><div class="bankline"><span>UPI</span><b class="mono">nestlancer@hdfcbank <button class="btn sm cp" data-copy="nestlancer@hdfcbank">Copy</button></b></div></div>
+        <div class="note warn" style="font-size:11.5px">Tips: transfer from an account in your own name; include the reference in the note. Verification is a studio-side step after the Razorpay/bank event — it is not instant.</div>
+        <div style="margin-top:14px"><label class="lbl" for="utr">UTR / UPI reference</label><input class="inp" id="utr" placeholder="e.g. 226123456789"><div class="errmsg" id="utre" hidden>Enter the 12–22 character reference from your bank.</div>
+         <label class="lbl" for="notes" style="display:block;margin-top:10px">Notes (optional)</label><input class="inp" id="notes" placeholder="Anything the studio should know">
+         <label class="lbl" style="display:block;margin-top:10px">Receipt / screenshot (image or PDF)</label><label class="drop" tabindex="0" for="file"><svg class="i xl" style="color:var(--primary)"><use href="../../../assets/lab-icons.svg#i-doc"/></svg><b>Drop a file or choose one</b><small style="display:block;color:var(--muted-foreground)">PNG, JPG or PDF · local demo only</small><input id="file" type="file" accept="image/*,.pdf"></label><div class="chosen" id="chosen" hidden></div><div class="errmsg" id="filee" hidden>Attach a receipt before submitting.</div>
+         <button class="btn primary" id="submit" style="margin-top:12px">Submit for verification <span class="demo">demo</span></button><div id="bankout"></div></div></div>
+      </section></div>
+     <div data-panel="empty" class="states panel" hidden><div class="emptybox"><div class="ic"><svg class="i xl"><use href="../../../assets/lab-icons.svg#i-doc"/></svg></div><b>Nothing to pay on this payment</b><p>Zero-amount payments have no checkout. Return to Billing Center or <a href="../../F17-payment-status/V1/index.html" style="color:var(--primary);font-weight:700">read the not-due explainer</a>.</p></div></div>
+     <div data-panel="loading" class="states panel" hidden><div class="pad"><div class="skel" style="width:32%"></div><div class="skel" style="width:88%"></div><div class="skel" style="width:64%"></div><span class="sr-only" role="status">Loading payment…</span></div></div>
+     <div data-panel="error" class="states panel" hidden><div class="errbox"><b>Could not load this payment</b><p>The payment service did not answer; nothing was charged. Retry or contact support quoting <span class="ref">GET /api/v1/payments/{id}</span>.</p><button class="btn sm" id="retry">Try again</button> <a class="btn sm" href="../../F12-messages-home/V1/index.html">Contact support</a></div></div>
+    </div></div>
+   <div class="trust"><svg class="i lg" style="color:var(--primary)"><use href="../../../assets/lab-icons.svg#i-shield"/></svg><div><b>Secured by Razorpay</b><div class="t2">256-bit encryption · PCI-DSS compliant checkout</div></div><div class="mchips"><span>UPI</span><span>Cards</span><span>Netbanking</span><span>Wallets</span></div></div>
+   <div class="footlink"><a href="../../F17-payment-status/V1/index.html">File a payment dispute</a><a href="../../F18-invoices-archive/V1/index.html">Invoice archive</a><button class="btn sm ghost" id="cancel">Cancel payment</button></div>
+   <footer class="foot"><span>© 2026 Nestlancer · F16 V1 · snapshots 28 + 29</span><span><a href="../../../index.html">Gallery</a> · <a href="../V2/index.html">V2 →</a></span></footer>
+  </main></div></div>
+<div class="scrim" id="scrim"><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgt"><button class="btn sm x" id="dlgx" aria-label="Close dialog"><svg class="i sm"><use href="../../../assets/lab-icons.svg#i-x"/></svg></button><h2 id="dlgt">Dialog</h2><p class="sub" id="dlgdesc"></p><div class="dlgbody" id="dlgbody"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="../../../assets/lab-core.js"></script>
+<script>
+(function(){var $=Lab.$,$$=Lab.$$,outcome='idle',file=null;
+ /* outcome is driven by the lab bar (success / verifying / failure) — no fake charges */
+ function draw(){var box={ok:'<div class="outcome ok">✓ Payment confirmed. Receipt and invoice are available from Payment status.</div>',warn:'<div class="outcome warn">◷ Verification pending — the Razorpay webhook / bank review has not settled yet. We will email you; do not pay twice.</div>',no:'<div class="outcome no">✕ The processor rejected the payment. Nothing was charged. Retry or use the other tab.</div>'};
+  $$('[data-outcome]').forEach(function(b){b.classList.toggle('on',b.dataset.outcome===(outcome==='idle'?'idle':outcome))});
+  $('#onlineout').innerHTML=outcome==='idle'?'':box[{success:'ok',pending:'warn',failure:'no'}[outcome]];
+  $('#bankout').innerHTML=outcome==='idle'?'':box[{success:'ok',pending:'warn',failure:'no'}[outcome]]}
+ $$('[data-outcome]').forEach(function(b){b.addEventListener('click',function(){outcome=b.dataset.outcome;draw()})});
+ /* local tabs */
+ var ts=$$('.tabs [role=tab]');function sel(t,f){ts.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',String(on));x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on});if(f)t.focus();if(history.replaceState)history.replaceState(null,'','?tab='+t.dataset.tab)}
+ ts.forEach(function(t,i){t.addEventListener('click',function(){sel(t,false)});t.addEventListener('keydown',function(e){var n=null;if(e.key==='ArrowRight'||e.key==='ArrowDown')n=ts[(i+1)%ts.length];if(e.key==='ArrowLeft'||e.key==='ArrowUp')n=ts[(i-1+ts.length)%ts.length];if(e.key==='Home')n=ts[0];if(e.key==='End')n=ts[ts.length-1];if(n){e.preventDefault();sel(n,true)}})});
+ sel(ts.filter(function(t){return t.dataset.tab===new URLSearchParams(location.search).get('tab')})[0]||ts[0],false);
+ /* ONE primary per tab; demo-labelled actions */
+ $('#proceed').addEventListener('click',function(){outcome='success';draw();Lab.toast('Demo: create-intent → initiate → confirm')});
+ $$('.cp').forEach(function(b){b.addEventListener('click',function(){var v=b.dataset.copy;
+  if(!navigator.clipboard){Lab.toast('Clipboard unavailable — select and copy '+v);return}
+  try{Promise.resolve(navigator.clipboard.writeText(v)).then(function(){Lab.toast('Copied '+v)}).catch(function(){Lab.toast('Copy blocked by the browser — select and copy '+v)})}catch(e){Lab.toast('Copy blocked by the browser — select and copy '+v)}})});
+ var fi=$('#file'),dr=$('.drop');function picked(){if(fi.files&&fi.files[0]){file=fi.files[0];$('#chosen').textContent='✓ '+file.name+' · '+Math.max(1,Math.round(file.size/1024))+' KB';$('#chosen').hidden=false;$('#filee').hidden=true}else $('#chosen').hidden=true}
+ fi.addEventListener('change',picked);dr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();fi.click()}});
+ ['dragenter','dragover'].forEach(function(ev){dr.addEventListener(ev,function(e){e.preventDefault();dr.style.borderColor='var(--primary)'})});['dragleave','drop'].forEach(function(ev){dr.addEventListener(ev,function(e){e.preventDefault();dr.style.borderColor=''})});dr.addEventListener('drop',function(e){if(e.dataTransfer.files[0]){file=e.dataTransfer.files[0];$('#chosen').textContent='✓ '+file.name;$('#chosen').hidden=false;$('#filee').hidden=true}});
+ $('#submit').addEventListener('click',function(){var v=$('#utr').value.trim(),bad=false;if(v.length<12||v.length>22){$('#utre').hidden=false;$('#utr').classList.add('inval');bad=true}else{$('#utre').hidden=true;$('#utr').classList.remove('inval')}if(!file){$('#filee').hidden=false;bad=true}if(bad)return;outcome='pending';draw();Lab.toast('Demo: POST /payments/bank-transfer/submit')});
+ $('#cancel').addEventListener('click',function(){Lab.openDlg('Cancel this payment?','POST /api/v1/payments/{id}/cancel — captured quiet link, demoted to one footer action.','<p>Cancelling stops this checkout. No money moves. You can start a new payment from Billing Center.</p><div class="row"><button class="btn danger" id="yes">Yes, cancel payment</button><button class="btn" id="no">Keep payment</button></div>');$('#yes').onclick=function(){Lab.closeDlg();Lab.toast('Payment cancelled (demo)')};$('#no').onclick=Lab.closeDlg});
+ Lab.init({actions:[['F14 Billing Center','../../F14-billing-center/V1/index.html'],['F15 Payment methods','../../F15-payment-methods/V1/index.html'],['F16 V2 · Stepper','../V2/index.html'],['F16 V3 · Bento','../V3/index.html'],['F16 V4 · Decision','../V4/index.html'],['F16 V5 · Narrative','../V5/index.html'],['Payment status (F17)','../../F17-payment-status/V1/index.html'],['Invoices (F18)','../../F18-invoices-archive/V1/index.html'],['Lab gallery','../../../index.html']]});
+ draw();})();
+</script>
+</body></html>

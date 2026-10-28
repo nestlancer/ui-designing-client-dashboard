@@ -99,16 +99,16 @@ footer a:hover{color:var(--primary)}
  <div class="top">
   <div class="brand"><img class="l" src="assets/logo-full-light.svg" alt="Nestlancer" width="110" height="30"><img class="d" src="assets/logo-full-dark.svg" alt="Nestlancer" width="110" height="30"><span class="tag">Client Portal Lab</span></div>
   <div><p class="eyebrow">Design lab · one token scheme</p><h1>Client Portal Variants</h1>
-   <p class="intro">Ten hand-authored variants across two families. Every page shares the locked blue <span style="font:600 12px var(--mono)">shared/tokens.css</span>, renders fully offline, supports light + dark, and is keyboard accessible. Use filters or compare any two side by side.</p></div>
+   <p class="intro">Sixty-five hand-authored variants across thirteen families. Every page shares the locked blue <span style="font:600 12px var(--mono)">shared/tokens.css</span>, renders fully offline, supports light + dark, and is keyboard accessible. Use filters or compare any two side by side.</p></div>
   <div class="r"><button class="btn" id="themeBtn" aria-label="Switch to dark mode" aria-pressed="false"><svg><use href="#i-moon"/></svg><span>Theme</span></button></div>
  </div>
 
  <div class="controls">
   <label class="field"><svg><use href="#i-search"/></svg><span class="sr-only">Search variants</span><input id="q" type="search" placeholder="Search name, axis, signature…"></label>
-  <label class="field"><span class="sr-only">Filter by family</span><select id="fam" aria-label="Filter by family"><option value="">All families</option><option value="F05">F05 · Requests work hub</option><option value="F06">F06 · New request form</option><option value="F08">F08 · Projects list</option><option value="F09">F09 · Project details</option><option value="F10">F10 · Quotes list</option><option value="F11">F11 · Quote details</option><option value="F12">F12 · Messages home</option><option value="F13">F13 · Messages thread</option></select></label>
+  <label class="field"><span class="sr-only">Filter by family</span><select id="fam" aria-label="Filter by family"><option value="">All families</option><option value="F05">F05 · Requests work hub</option><option value="F06">F06 · New request form</option><option value="F08">F08 · Projects list</option><option value="F09">F09 · Project details</option><option value="F10">F10 · Quotes list</option><option value="F11">F11 · Quote details</option><option value="F12">F12 · Messages home</option><option value="F13">F13 · Messages thread</option><option value="F14">F14 · Billing center</option><option value="F15">F15 · Payment methods</option><option value="F16">F16 · Checkout</option><option value="F17">F17 · Payment status</option><option value="F18">F18 · Invoices archive</option></select></label>
   <div class="seg" role="group" aria-label="Filter by design density"><button data-dens="" aria-pressed="true">All</button><button data-dens="airy" aria-pressed="false">Airy</button><button data-dens="dense" aria-pressed="false">Dense</button><button data-dens="narrative" aria-pressed="false">Narrative</button></div>
   <button class="btn" id="compareToggle"><svg><use href="#i-columns"/></svg>Compare mode</button>
-  <span class="count" id="count">10 variants</span>
+  <span class="count" id="count">65 variants</span>
  </div>
 
  <!-- F05 -->
@@ -475,11 +475,251 @@ footer a:hover{color:var(--primary)}
   </div>
  </section>
 
+ <!-- F14 · Billing center (added 2026-10-28, merge-only) -->
+ <section class="family" id="f14" data-fam="F14">
+  <div class="family-head"><h2>F14 · Billing center</h2><span class="route">/payments</span>
+   <p>Payment history, invoices and milestone tracking from the captured Billing Center. Eleven frozen rows, ₹1,37,750.00 ledger gross, and the captured KPI cards kept as-is with an explicit reconciliation note. Search, sort, status filter, pagination, mobile cards, Ask AI, work queue and saved views.</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F14" data-dens="dense" data-text="V1 Settled Outstanding Ledger table verdict numbers static rows ask ai saved views ledger gross">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="30" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="84" y="52" width="222" height="114" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M84 76h222M84 98h222M84 120h222M84 142h222M180 52v114" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V1</span><h3>Settled &amp; Outstanding Ledger</h3></div>
+     <p class="sig">The captured ledger as a static 11-row table: verdict strip, three KPI cards, filter chips, pager and a deterministic Ask AI panel.</p>
+     <div class="axes"><span class="ax"><b>A</b> ledger table</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> static rows</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> Ask AI + saved views</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C16 · C17 · C18 · A1 · A5 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F14-billing-center/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F14-billing-center/V1/index.html" data-name="F14 V1 Settled & Outstanding Ledger"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F14" data-dens="dense" data-text="V2 Dense Ops Table sticky table tabs sort filter keyboard aria-sort command palette">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="24" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="44" width="292" height="122" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M14 64h292M14 84h292M14 104h292M14 124h292M14 144h292M110 44v122M210 44v122" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Dense Ops Table</h3></div>
+     <p class="sig">An operations-grade table with local tabs, Home/End tab keys, sortable headers, saved views and a live filtered ledger gross.</p>
+     <div class="axes"><span class="ax"><b>A</b> ops table</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> sort + saved views</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C16 · C17 · C18 · A1 · A5 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F14-billing-center/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F14-billing-center/V2/index.html" data-name="F14 V2 Dense Ops Table"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F14" data-dens="airy" data-text="V3 Needs-You Work Centre queue drawer awaiting you statements demo labelled">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="92" height="152" rx="8" style="fill:var(--muted);stroke:var(--border)"/><rect x="114" y="14" width="192" height="70" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="114" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="214" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Needs-You Work Centre</h3></div>
+     <p class="sig">A left-hand work queue leads; the ledger becomes supporting evidence. Explicit “what unlocks this” copy and demo-labelled statement previews.</p>
+     <div class="axes"><span class="ax"><b>A</b> split queue</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> detail drawer</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C9 · C16 · C17 · A1 · A5 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F14-billing-center/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F14-billing-center/V3/index.html" data-name="F14 V3 Needs-You Work Centre"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F14" data-dens="dense" data-text="V4 Numbers-First Money Wall bento kpi sticky chapters scroll spy count up">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="140" height="72" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="162" y="14" width="70" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="240" y="14" width="66" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="94" width="292" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Numbers-First Money Wall</h3></div>
+     <p class="sig">Bento KPI wall above sticky chapter navigation; scroll-spy links Overview, Outstanding, Settled and Documents to the rows that explain them.</p>
+     <div class="axes"><span class="ax"><b>A</b> bento wall</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> chapters</span><span class="ax"><b>D</b> dense tiles</span><span class="ax"><b>E</b> scroll-spy + count-up</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C16 · C17 · C18 · A1 · A5 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F14-billing-center/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F14-billing-center/V4/index.html" data-name="F14 V4 Numbers-First Money Wall"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F14" data-dens="narrative" data-text="V5 Bento Billing Desk tiles statement gst demo work queue trust razorpay">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="40" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="62" width="140" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="162" y="62" width="144" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="118" width="292" height="48" rx="8" style="fill:var(--muted);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Bento Billing Desk</h3></div>
+     <p class="sig">A desk of unequal tiles: hero total atop work-queue, Ask AI, statement and trust cards, with the ledger as the closing layer.</p>
+     <div class="axes"><span class="ax"><b>A</b> bento desk</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> tile-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> demo statement dialog</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C16 · C17 · C18 · A1 · A5 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F14-billing-center/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F14-billing-center/V5/index.html" data-name="F14 V5 Bento Billing Desk"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F15 · Payment methods (added 2026-10-28, merge-only) -->
+ <section class="family" id="f15" data-fam="F15">
+  <div class="family-head"><h2>F15 · Payment methods</h2><span class="route">/payments/methods</span>
+   <p>The captured empty state — “No saved methods yet” — plus trust strip and processor chips. Every variant keeps “Go to payments” and offers add / rename / remove / make-primary as clearly demo-labelled interactions; UPI AutoPay mandates are explained, never silently enabled.</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F15" data-dens="dense" data-text="V1 Token Wallet Ledger empty state token wallet add method trust chips">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="30" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="84" y="52" width="222" height="114" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M84 76h222M84 98h222M84 120h222M84 142h222M180 52v114" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V1</span><h3>Token Wallet Ledger</h3></div>
+     <p class="sig">A wallet-style ledger of tokenised methods with an honest first-use empty state and a compact trust strip.</p>
+     <div class="axes"><span class="ax"><b>A</b> wallet ledger</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> list-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> demo add dialog</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C17 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F15-payment-methods/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F15-payment-methods/V1/index.html" data-name="F15 V1 Token Wallet Ledger"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F15" data-dens="dense" data-text="V2 Method Rail Settings tabs rail primary rename remove upi mandates">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="24" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="44" width="292" height="122" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M14 64h292M14 84h292M14 104h292M14 124h292M14 144h292M110 44v122M210 44v122" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Method Rail &amp; Settings</h3></div>
+     <p class="sig">A settings rail with Cards / Mandates tabs; default method first, nicknames, and explicit consent copy for UPI AutoPay.</p>
+     <div class="axes"><span class="ax"><b>A</b> settings rail</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> tab-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> tab keys + mandates</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C17 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F15-payment-methods/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F15-payment-methods/V2/index.html" data-name="F15 V2 Method Rail & Settings"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F15" data-dens="airy" data-text="V3 Card Deck pressed card primary rename remove keyboard arrow">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="92" height="152" rx="8" style="fill:var(--muted);stroke:var(--border)"/><rect x="114" y="14" width="192" height="70" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="114" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="214" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Card Deck</h3></div>
+     <p class="sig">Selectable payment cards with make-primary, rename and remove actions surfaced directly on each card.</p>
+     <div class="axes"><span class="ax"><b>A</b> card deck</span><span class="ax"><b>B</b> object</span><span class="ax"><b>C</b> card-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> pressed-state actions</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C17 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F15-payment-methods/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F15-payment-methods/V3/index.html" data-name="F15 V3 Card Deck"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F15" data-dens="narrative" data-text="V4 Security-First Split explainer trust no raw card numbers mandate consent">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="140" height="72" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="162" y="14" width="70" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="240" y="14" width="66" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="94" width="292" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Security-First Split</h3></div>
+     <p class="sig">A two-column security explainer beside the method list: tokens, never raw card numbers, and no silent recurring debits.</p>
+     <div class="axes"><span class="ax"><b>A</b> split explainer</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> trust-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> mandate note</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C17 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F15-payment-methods/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F15-payment-methods/V4/index.html" data-name="F15 V4 Security-First Split"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F15" data-dens="narrative" data-text="V5 Empty-State Onboarding first use no saved methods three steps trust chips">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="40" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="62" width="140" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="162" y="62" width="144" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="118" width="292" height="48" rx="8" style="fill:var(--muted);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Empty-State Onboarding</h3></div>
+     <p class="sig">First-use onboarding: what a saved method is, what Razorpay stores, and the three steps to add one — plus the captured empty state.</p>
+     <div class="axes"><span class="ax"><b>A</b> narrative column</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> accordion</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> three-step guide</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C17 · A6</div></div>
+    <div class="acts"><a class="open" href="families/F15-payment-methods/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F15-payment-methods/V5/index.html" data-name="F15 V5 Empty-State Onboarding"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F16 · Checkout (added 2026-10-28, merge-only) -->
+ <section class="family" id="f16" data-fam="F16">
+  <div class="family-head"><h2>F16 · Checkout</h2><span class="route">/payments/{id}</span>
+   <p>“Pay online” with one primary “Proceed to secure checkout” action, and “Bank / UPI transfer” with the captured ₹30,000.00, HDFC account, UTR / notes / receipt form. Includes the full UPI-on-desktop honesty note, order summary, Created→Refunded stepper and Razorpay trust copy.</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F16" data-dens="dense" data-text="V1 Split Summary Classic two column order summary one primary cta bank transfer">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="30" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="84" y="52" width="222" height="114" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M84 76h222M84 98h222M84 120h222M84 142h222M180 52v114" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V1</span><h3>Split Summary Classic</h3></div>
+     <p class="sig">Two-column checkout with a persistent order summary, one filled CTA, and a quiet bank-transfer alternative below.</p>
+     <div class="axes"><span class="ax"><b>A</b> split summary</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> one-primary CTA</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C15 · C17 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F16-checkout/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F16-checkout/V1/index.html" data-name="F16 V1 Split Summary Classic"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F16" data-dens="dense" data-text="V2 Stepper Rail stepper wizard progress three step outcome states">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="24" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="44" width="292" height="122" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M14 64h292M14 84h292M14 104h292M14 124h292M14 144h292M110 44v122M210 44v122" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Stepper Rail</h3></div>
+     <p class="sig">A sticky progress rail plus three-step modal wizard; Idle / Success / Verifying / Failure outcome pills exercise every terminal state.</p>
+     <div class="axes"><span class="ax"><b>A</b> stepper rail</span><span class="ax"><b>B</b> step</span><span class="ax"><b>C</b> progress</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> outcome switcher</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C15 · C17 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F16-checkout/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F16-checkout/V2/index.html" data-name="F16 V2 Stepper Rail"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F16" data-dens="airy" data-text="V3 Bento Cash Desk bento amount hero trust persistent summary mobile sticky cta">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="92" height="152" rx="8" style="fill:var(--muted);stroke:var(--border)"/><rect x="114" y="14" width="192" height="70" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="114" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="214" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Bento Cash Desk</h3></div>
+     <p class="sig">Amount-first bento with an always-visible ₹30,000.00 total, restrained trust cues and a sticky mobile final CTA.</p>
+     <div class="axes"><span class="ax"><b>A</b> bento</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tile-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> sticky mobile CTA</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C15 · C17 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F16-checkout/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F16-checkout/V3/index.html" data-name="F16 V3 Bento Cash Desk"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F16" data-dens="airy" data-text="V4 Decision-First Dual Path two large cards pay online bank transfer accessible choice">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="140" height="72" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="162" y="14" width="70" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="240" y="14" width="66" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="94" width="292" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Decision-First Dual Path</h3></div>
+     <p class="sig">Two equal decision cards — pay online or transfer — with the chosen path expanding into its form; never two competing primary buttons.</p>
+     <div class="axes"><span class="ax"><b>A</b> dual path</span><span class="ax"><b>B</b> decision</span><span class="ax"><b>C</b> choice-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> pressed-state path</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C15 · C17 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F16-checkout/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F16-checkout/V4/index.html" data-name="F16 V4 Decision-First Dual Path"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F16" data-dens="narrative" data-text="V5 Narrative Receipt one column story order summary reference created trust accordion">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="40" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="62" width="140" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="162" y="62" width="144" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="118" width="292" height="48" rx="8" style="fill:var(--muted);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Narrative Receipt</h3></div>
+     <p class="sig">A 920px reading column that tells the payment story: who, how much, what happens next, then the two ways to pay.</p>
+     <div class="axes"><span class="ax"><b>A</b> narrative column</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> accordion</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> sticky final CTA</span></div>
+     <div class="cov">C4 · C5 · C6 · C8 · C15 · C17 · C18</div></div>
+    <div class="acts"><a class="open" href="families/F16-checkout/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F16-checkout/V5/index.html" data-name="F16 V5 Narrative Receipt"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F17 · Payment status (added 2026-10-28, merge-only) -->
+ <section class="family" id="f17" data-fam="F17">
+  <div class="family-head"><h2>F17 · Payment status</h2><span class="route">/payments/{id}</span>
+   <p>Completed and not-due-yet payment detail. Exact captured copy, ₹22,500.00 Khandesh Spice Final payment hero, mono reference, Created→Completed / Refunded stepper, billing documents, dispute and cancellation routes, and an honest “what unlocks this” explainer.</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F17" data-dens="dense" data-text="V1 Status Ledger exact status documents stepper dispute cancel receipt">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="30" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="84" y="52" width="222" height="114" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M84 76h222M84 98h222M84 120h222M84 142h222M180 52v114" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V1</span><h3>Status Ledger</h3></div>
+     <p class="sig">A status-first ledger: exact completed / not-due copy, stepper, document rows and every legal route in one view.</p>
+     <div class="axes"><span class="ax"><b>A</b> status ledger</span><span class="ax"><b>B</b> verdict</span><span class="ax"><b>C</b> static</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> document dialogs</span></div>
+     <div class="cov">C4 · C5 · C6 · C9 · C17 · A3</div></div>
+    <div class="acts"><a class="open" href="families/F17-payment-status/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F17-payment-status/V1/index.html" data-name="F17 V1 Status Ledger"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F17" data-dens="narrative" data-text="V2 Milestone Timeline vertical timeline delivered accepted invoiced paid unlock explainer">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="24" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="44" width="292" height="122" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M14 64h292M14 84h292M14 104h292M14 124h292M14 144h292M110 44v122M210 44v122" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Milestone Timeline</h3></div>
+     <p class="sig">A vertical milestone timeline from Delivered to Paid, showing exactly where checkout unlocks and why it is currently blocked.</p>
+     <div class="axes"><span class="ax"><b>A</b> timeline</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> step-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> two-step approve demo</span></div>
+     <div class="cov">C4 · C5 · C6 · C9 · C17 · A3</div></div>
+    <div class="acts"><a class="open" href="families/F17-payment-status/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F17-payment-status/V2/index.html" data-name="F17 V2 Milestone Timeline"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F17" data-dens="airy" data-text="V3 Bento Status Wall bento hero amount status documents trust">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="92" height="152" rx="8" style="fill:var(--muted);stroke:var(--border)"/><rect x="114" y="14" width="192" height="70" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="114" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="214" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Bento Status Wall</h3></div>
+     <p class="sig">Unequal bento tiles put the ₹22,500.00 amount and terminal status above documents, trust and dispute routes.</p>
+     <div class="axes"><span class="ax"><b>A</b> bento wall</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> tile-led</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> status switcher</span></div>
+     <div class="cov">C4 · C5 · C6 · C9 · C17 · A3</div></div>
+    <div class="acts"><a class="open" href="families/F17-payment-status/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F17-payment-status/V3/index.html" data-name="F17 V3 Bento Status Wall"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F17" data-dens="dense" data-text="V4 Unlock Workbench blocker checklist approve delivery project hub demo endpoint">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="140" height="72" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="162" y="14" width="70" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="240" y="14" width="66" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="94" width="292" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Unlock Workbench</h3></div>
+     <p class="sig">A blocker checklist with explicit “what unlocks this”, an F08 deep link and a demo-labelled milestone approval endpoint.</p>
+     <div class="axes"><span class="ax"><b>A</b> workbench</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> checklist</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> unlock explainer</span></div>
+     <div class="cov">C4 · C5 · C6 · C9 · C17 · A3</div></div>
+    <div class="acts"><a class="open" href="families/F17-payment-status/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F17-payment-status/V4/index.html" data-name="F17 V4 Unlock Workbench"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F17" data-dens="narrative" data-text="V5 Narrative Receipt receipt story sticky download cta documents dispute cancel">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="40" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="62" width="140" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="162" y="62" width="144" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="118" width="292" height="48" rx="8" style="fill:var(--muted);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Narrative Receipt</h3></div>
+     <p class="sig">A receipt-style narrative with a sticky Download receipt CTA, document accordion, and plain-language completed vs not-due copy.</p>
+     <div class="axes"><span class="ax"><b>A</b> narrative column</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> accordion</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> sticky receipt CTA</span></div>
+     <div class="cov">C4 · C5 · C6 · C9 · C17 · A3</div></div>
+    <div class="acts"><a class="open" href="families/F17-payment-status/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F17-payment-status/V5/index.html" data-name="F17 V5 Narrative Receipt"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
+ <!-- F18 · Invoices archive (added 2026-10-28, merge-only) -->
+ <section class="family" id="f18" data-fam="F18">
+  <div class="family-head"><h2>F18 · Invoices archive</h2><span class="route">/invoices</span>
+   <p>“Your issued invoices with downloadable PDF copies for accounting and tax records.” Five captured rows, ₹1,12,125.00 gross, Invoice / Project / Amount / Status / Actions, “View payments”, and per-row Download invoice / View. GST statement is demo-labelled and composed from five real download calls.</p></div>
+  <div class="grid">
+   <article class="card" data-fam="F18" data-dens="dense" data-text="V1 Dense Invoice Ledger table search filter sort pager mobile cards download">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="60" height="152" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="84" y="14" width="222" height="30" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="84" y="52" width="222" height="114" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M84 76h222M84 98h222M84 120h222M84 142h222M180 52v114" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V1</span><h3>Dense Invoice Ledger</h3></div>
+     <p class="sig">The captured table done rigorously: search, status filter, sortable columns, three-row pager, live filtered total and mobile cards.</p>
+     <div class="axes"><span class="ax"><b>A</b> dense table</span><span class="ax"><b>B</b> numbers</span><span class="ax"><b>C</b> table-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> filter + pager</span></div>
+     <div class="cov">C4 · C5 · C6 · C16 · C17 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F18-invoices-archive/V1/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F18-invoices-archive/V1/index.html" data-name="F18 V1 Dense Invoice Ledger"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F18" data-dens="dense" data-text="V2 Saved-View Rail saved views filter chips statement demo gross">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="24" rx="6" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="44" width="292" height="122" rx="6" style="fill:var(--card);stroke:var(--border)"/><path d="M14 64h292M14 84h292M14 104h292M14 124h292M14 144h292M110 44v122M210 44v122" style="stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V2</span><h3>Saved-View Rail</h3></div>
+     <p class="sig">A left rail of saved views — All, Issued, Pending, Overdue — with URL state and a demo-labelled GST statement action.</p>
+     <div class="axes"><span class="ax"><b>A</b> saved-view rail</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> rail-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> URL-state views</span></div>
+     <div class="cov">C4 · C5 · C6 · C16 · C17 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F18-invoices-archive/V2/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F18-invoices-archive/V2/index.html" data-name="F18 V2 Saved-View Rail"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F18" data-dens="airy" data-text="V3 Bento Archive chapter cards text no-javascript fallback chapter chips gross kpi">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="92" height="152" rx="8" style="fill:var(--muted);stroke:var(--border)"/><rect x="114" y="14" width="192" height="70" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="114" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="214" y="92" width="92" height="74" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V3</span><h3>Bento Archive</h3></div>
+     <p class="sig">Chapter chips and unequal bento cards group the five invoices by status; a text no-JS fallback still lists all five rows.</p>
+     <div class="axes"><span class="ax"><b>A</b> bento</span><span class="ax"><b>B</b> object</span><span class="ax"><b>C</b> chapter chips</span><span class="ax"><b>D</b> airy</span><span class="ax"><b>E</b> chapter cards + text no-JS fallback</span></div>
+     <div class="cov">C4 · C5 · C6 · C16 · C17 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F18-invoices-archive/V3/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F18-invoices-archive/V3/index.html" data-name="F18 V3 Bento Archive"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F18" data-dens="dense" data-text="V4 Awaiting-You Workbench queue overdue pending work list statements demo">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="140" height="72" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="162" y="14" width="70" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="240" y="14" width="66" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="94" width="292" height="72" rx="8" style="fill:var(--card);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V4</span><h3>Awaiting-You Workbench</h3></div>
+     <p class="sig">A work queue that separates what the studio must verify from what you must pay, with overdue and pending rows up front.</p>
+     <div class="axes"><span class="ax"><b>A</b> workbench</span><span class="ax"><b>B</b> action</span><span class="ax"><b>C</b> queue-led</span><span class="ax"><b>D</b> dense</span><span class="ax"><b>E</b> overdue pager</span></div>
+     <div class="cov">C4 · C5 · C6 · C9 · C16 · C17 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F18-invoices-archive/V4/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F18-invoices-archive/V4/index.html" data-name="F18 V4 Awaiting-You Workbench"> Compare</label></div>
+   </article>
+   <article class="card" data-fam="F18" data-dens="narrative" data-text="V5 Narrative Archive accordions kpi gross issued pending download all demo sticky cta">
+    <div class="thumb" aria-hidden="true"><svg viewBox="0 0 320 180" fill="none" stroke="currentColor" stroke-width="2"><rect x="14" y="14" width="292" height="40" rx="8" style="fill:var(--brand-50);stroke:var(--primary)"/><rect x="14" y="62" width="140" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="162" y="62" width="144" height="48" rx="8" style="fill:var(--card);stroke:var(--border)"/><rect x="14" y="118" width="292" height="48" rx="8" style="fill:var(--muted);stroke:var(--border)"/></svg></div>
+    <div class="body"><div class="vrow"><span class="vbadge">V5</span><h3>Narrative Archive</h3></div>
+     <p class="sig">Three KPIs and three accordions tell the archive story; table powers, View / Download dialogs and a sticky demo Download-all CTA.</p>
+     <div class="axes"><span class="ax"><b>A</b> narrative column</span><span class="ax"><b>B</b> narrative</span><span class="ax"><b>C</b> accordion</span><span class="ax"><b>D</b> editorial</span><span class="ax"><b>E</b> sticky Download-all</span></div>
+     <div class="cov">C4 · C5 · C6 · C16 · C17 · A10 · A12</div></div>
+    <div class="acts"><a class="open" href="families/F18-invoices-archive/V5/index.html">Open variant <svg style="width:13px;height:13px"><use href="#i-ext"/></svg></a><label class="cmp"><input type="checkbox" data-cmp="families/F18-invoices-archive/V5/index.html" data-name="F18 V5 Narrative Archive"> Compare</label></div>
+   </article>
+  </div>
+ </section>
+
  <div class="noresult" id="noresult" hidden>No variants match these filters. <button class="btn" id="resetFilters" style="margin-left:8px">Reset</button></div>
 
- <div class="notice"><svg><use href="#i-info"/></svg><span><strong>Scope note (merge-only).</strong> This lab targets <b>23 families × 5 = 115 templates</b>. The active set now holds eight families — <b>F05 Requests work hub</b>, <b>F06 New request form</b>, <b>F08 Projects list</b>, <b>F09 Project details</b>, <b>F10 Quotes list</b>, <b>F11 Quote details</b>, <b>F12 Messages home</b>, and <b>F13 Messages thread</b> (40 variants; F10–F13 added 2026-10-27, merge-only). The gallery, <span style="font:600 12px var(--mono)">manifest.json</span>, and <span style="font:600 12px var(--mono)">DECISIONS.md</span> are structured to be extended family by family without touching these records. Shared <span style="font:600 12px var(--mono)">tokens.css</span> / <span style="font:600 12px var(--mono)">base.css</span> are the single source of truth; no other family's files were modified.</span></div>
+ <div class="notice"><svg><use href="#i-info"/></svg><span><strong>Scope note (merge-only).</strong> This lab targets <b>23 families × 5 = 115 templates</b>. The active set now holds thirteen families — <b>F05 Requests work hub</b>, <b>F06 New request form</b>, <b>F08 Projects list</b>, <b>F09 Project details</b>, <b>F10 Quotes list</b>, <b>F11 Quote details</b>, <b>F12 Messages home</b>, <b>F13 Messages thread</b>, and the five money screens <b>F14 Billing center</b>, <b>F15 Payment methods</b>, <b>F16 Checkout</b>, <b>F17 Payment status</b>, <b>F18 Invoices archive</b> (65 variants; F14–F18 added 2026-10-28, merge-only). The gallery, <span style="font:600 12px var(--mono)">manifest.json</span>, and <span style="font:600 12px var(--mono)">DECISIONS.md</span> are structured to be extended family by family without touching these records. Shared <span style="font:600 12px var(--mono)">tokens.css</span> / <span style="font:600 12px var(--mono)">base.css</span> are the single source of truth; no other family's files were modified.</span></div>
 
- <footer><span>© 2026 Nestlancer · Client Portal Lab · one locked blue scheme</span><a href="DECISIONS.md">DECISIONS.md</a><a href="manifest.json">manifest.json</a><a href="families/F05-requests-work-hub/docs/DELIVERY-REPORT.md">F05 report</a><a href="families/F06-request-new-form/docs/DELIVERY-REPORT.md">F06 report</a><a href="families/F08-projects-list/docs/DELIVERY-REPORT.md">F08 report</a><a href="families/F09-project-details/docs/DELIVERY-REPORT.md">F09 report</a><a href="families/F10-quotes-list/docs/DELIVERY-REPORT.md">F10 report</a><a href="families/F11-quote-details/docs/DELIVERY-REPORT.md">F11 report</a><a href="families/F12-messages-home/docs/DELIVERY-REPORT.md">F12 report</a><a href="families/F13-messages-thread/docs/DELIVERY-REPORT.md">F13 report</a><span style="margin-left:auto">Preview: <span style="font:600 11px var(--mono)">python3 -m http.server 8130</span> → <span style="font:600 11px var(--mono)">/client-portal-lab/</span></span></footer>
+ <footer><span>© 2026 Nestlancer · Client Portal Lab · one locked blue scheme</span><a href="DECISIONS.md">DECISIONS.md</a><a href="manifest.json">manifest.json</a><a href="families/F05-requests-work-hub/docs/DELIVERY-REPORT.md">F05 report</a><a href="families/F06-request-new-form/docs/DELIVERY-REPORT.md">F06 report</a><a href="families/F08-projects-list/docs/DELIVERY-REPORT.md">F08 report</a><a href="families/F09-project-details/docs/DELIVERY-REPORT.md">F09 report</a><a href="families/F10-quotes-list/docs/DELIVERY-REPORT.md">F10 report</a><a href="families/F11-quote-details/docs/DELIVERY-REPORT.md">F11 report</a><a href="families/F12-messages-home/docs/DELIVERY-REPORT.md">F12 report</a><a href="families/F13-messages-thread/docs/DELIVERY-REPORT.md">F13 report</a><a href="families/F14-billing-center/docs/DELIVERY-REPORT.md">F14 report</a><a href="families/F15-payment-methods/docs/DELIVERY-REPORT.md">F15 report</a><a href="families/F16-checkout/docs/DELIVERY-REPORT.md">F16 report</a><a href="families/F17-payment-status/docs/DELIVERY-REPORT.md">F17 report</a><a href="families/F18-invoices-archive/docs/DELIVERY-REPORT.md">F18 report</a><span style="margin-left:auto">Preview: <span style="font:600 11px var(--mono)">python3 -m http.server 8130</span> → <span style="font:600 11px var(--mono)">/client-portal-lab/</span></span></footer>
 </div>
 
 <div class="cmpbar" id="cmpbar" role="region" aria-label="Compare tray"><div class="in"><div class="slots" id="slots"><span class="slot empty">Slot A empty</span><span class="slot empty">Slot B empty</span></div><button class="btn btn-p" id="cmpGo" disabled>Compare 2</button><button class="btn" id="cmpClear">Clear</button></div></div>
@@ -503,7 +743,7 @@ q.addEventListener('input',apply);fam.addEventListener('change',apply);
 $$('[data-dens]').forEach(function(b){b.addEventListener('click',function(){dens=b.dataset.dens;$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply()})});
 $('#resetFilters').addEventListener('click',function(){q.value='';fam.value='';dens='';$$('[data-dens]').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.dens===''))});apply()});
 /* deep-link family from hash */
-var hmap={'#f05':'F05','#f06':'F06','#f08':'F08','#f09':'F09','#f10':'F10','#f11':'F11','#f12':'F12','#f13':'F13'};if(hmap[location.hash]){fam.value=hmap[location.hash];apply()}
+var hmap={'#f05':'F05','#f06':'F06','#f08':'F08','#f09':'F09','#f10':'F10','#f11':'F11','#f12':'F12','#f13':'F13','#f14':'F14','#f15':'F15','#f16':'F16','#f17':'F17','#f18':'F18'};if(hmap[location.hash]){fam.value=hmap[location.hash];apply()}
 /* compare mode */
 var compareOn=false,sel=[];
 var bar=$('#cmpbar'),toggle=$('#compareToggle');
