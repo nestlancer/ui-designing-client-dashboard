@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F10">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -375,6 +375,7 @@
         </div>
       </header>
 
+      <details class="lab-tools"><summary>Prototype variants &amp; states</summary>
       <div class="lab-bar" role="region" aria-label="Variant and state bar">
         <div class="lab-bar-group">
           <span class="lab-bar-label">F10 Variants:</span>
@@ -387,13 +388,14 @@
         <div class="lab-bar-group">
           <span class="lab-bar-label">State:</span>
           <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
-          <button type="button" class="lab-pill" data-state-btn="pending-sim">Pending Sim (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Preview awaiting response</button>
           <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
           <button type="button" class="lab-pill" data-state-btn="empty">Empty</button>
           <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
           <button type="button" class="lab-pill" data-state-btn="error">Error</button>
         </div>
       </div>
+      </details>
 
       <main id="main-content" class="page-container">
         <section style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px;">
@@ -505,7 +507,7 @@
       function renderRow(q) {
         const badgeCls = q.status === "accepted" ? "status-badge--accepted" : q.status === "sent" ? "status-badge--sent" : "status-badge--draft";
         const reqHtml = q.isQa
-          ? '<span>Request: </span><span class="c23-code-pill"><code>' + escapeHtml(q.requestTitle) + "</code> (C23 Escaped)</span>"
+          ? '<details class="request-title-note"><summary>Imported request title</summary><code>' + escapeHtml(q.requestTitle) + '</code></details>'
           : "<span>Request: <strong>" + escapeHtml(q.requestTitle) + "</strong></span>";
 
         return (
@@ -591,7 +593,7 @@
         if (urgentRows.length) {
           html +=
             '<div class="stage-lane stage-lane--urgent">' +
-            '<div class="lane-header"><span class="lane-title">⏳ Stage 1 · Expiring &amp; Action Watch (A5 — Expires within 24 hours)</span><span class="lane-meta">' +
+            '<div class="lane-header"><span class="lane-title">⏳ Stage 1 · Expiring &amp; awaiting response</span><span class="lane-meta">' +
             urgentRows.length +
             " quote · ₹1,770.00</span></div>" +
             '<div class="lane-body">' +
@@ -611,7 +613,7 @@
         if (draftRows.length) {
           html +=
             '<div class="stage-lane">' +
-            '<div class="lane-header"><span class="lane-title">• Stage 3 · Draft &amp; QA Escaped Payloads (C23 Contained)</span><span class="lane-meta">' +
+            '<div class="lane-header"><span class="lane-title">• Stage 3 · Draft quotes</span><span class="lane-meta">' +
             draftRows.length +
             " quotes · ₹1,770.00 each</span></div>" +
             '<div class="lane-body">' +

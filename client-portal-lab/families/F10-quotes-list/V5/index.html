@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F10">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -398,6 +398,7 @@
         </div>
       </header>
 
+      <details class="lab-tools"><summary>Prototype variants &amp; states</summary>
       <div class="lab-bar" role="region" aria-label="Variant and state bar">
         <div class="lab-bar-group">
           <span class="lab-bar-label">F10 Variants:</span>
@@ -410,13 +411,14 @@
         <div class="lab-bar-group">
           <span class="lab-bar-label">State:</span>
           <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
-          <button type="button" class="lab-pill" data-state-btn="pending-sim">Pending Sim (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Preview awaiting response</button>
           <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
           <button type="button" class="lab-pill" data-state-btn="empty">Empty</button>
           <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
           <button type="button" class="lab-pill" data-state-btn="error">Error</button>
         </div>
       </div>
+      </details>
 
       <main id="main-content" class="page-container">
         <section class="top-strip">
@@ -454,7 +456,7 @@
                 <option value="draft">Draft</option>
               </select>
             </div>
-            <div id="queue-list" class="queue-list" role="listbox" aria-label="12 captured quotes"></div>
+            <div id="queue-list" class="queue-list" role="group" aria-label="Quote selection"></div>
           </div>
 
           <aside id="inspector-pane" class="inspector-pane" aria-live="polite" aria-label="Selected quote commercial inspector"></aside>
@@ -555,7 +557,7 @@
             '<span style="font-family:var(--mono); font-weight:700;">Quote #' + q.shortId + "</span>" +
             '<span class="status-badge ' + badgeCls + '">' + escapeHtml(q.statusLabel) + "</span>" +
             "</div>" +
-            '<div style="font-size:11.5px; color:var(--muted-fg); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Request: ' + escapeHtml(q.requestTitle) + "</div>" +
+            '<div style="font-size:11.5px; color:var(--muted-fg); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Request: ' + escapeHtml(q.isQa ? 'Imported request title — open to review' : q.requestTitle) + "</div>" +
             '<div style="font-size:11px; color:var(--muted-fg);">Valid until ' + escapeHtml(q.validUntil) + "</div>" +
             "</div>" +
             '<div style="font-family:var(--mono); font-weight:700; font-size:var(--fs-sm);">' + escapeHtml(q.amount) + "</div>" +
@@ -572,7 +574,7 @@
 
         const badgeCls = active.status === "accepted" ? "status-badge--accepted" : active.status === "sent" ? "status-badge--sent" : "status-badge--draft";
         const reqDisplay = active.isQa
-          ? '<span class="c23-code-pill"><code>' + escapeHtml(active.requestTitle) + "</code> (C23 Escaped Literal)</span>"
+          ? '<details class="request-title-note"><summary>Imported request title</summary><code>' + escapeHtml(active.requestTitle) + '</code></details>'
           : "<strong>" + escapeHtml(active.requestTitle) + "</strong>";
 
         inspectorEl.innerHTML =
@@ -585,7 +587,7 @@
           '<span class="status-badge ' + badgeCls + '">' + escapeHtml(active.statusLabel) + "</span>" +
           "</div>" +
           '<div style="background:var(--status-warning-bg); color:var(--status-warning-text); border:1px solid var(--status-warning-border); padding:10px 14px; border-radius:var(--r-md); font-size:var(--fs-xs); font-weight:600;">' +
-          "A5 Validity &amp; Expiry Status: " + escapeHtml(active.a5) + " · Valid until " + escapeHtml(active.validUntil) +
+          "Sample validity &amp; expiry status: " + escapeHtml(active.a5) + " · Valid until " + escapeHtml(active.validUntil) +
           "</div>" +
           '<div style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px;">' +
           '<div style="background:var(--muted); padding:12px; border-radius:var(--r-md);">' +

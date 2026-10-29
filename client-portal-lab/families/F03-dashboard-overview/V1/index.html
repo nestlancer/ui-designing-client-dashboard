@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F03">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -207,8 +207,8 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
     <div class="bar"><span class="lab">Pending</span><span class="track"><span class="fill w" style="width:39%"></span></span><span class="val">₹31,875</span><span class="why">Awaiting your checkout to release.</span></div>
    </section>
    <section class="awaiting" aria-label="Awaiting you">
-    <h2>Awaiting you</h2><p class="sub">The strongest idea in the product — promoted to a first-class action centre.</p>
-    <div class="await-row"><svg class="ico"><use href="#i-wallet"/></svg><div><p class="t">Pending payment · 6 new</p><p class="m">Complete checkout to unblock delivery.</p></div><button class="btn btn-sm btn-primary a" data-demo="/payments">Complete checkout</button></div>
+    <h2>Awaiting you</h2><p class="sub">Payments and quotes that need your attention.</p>
+    <div class="await-row"><svg class="ico"><use href="#i-wallet"/></svg><div><p class="t">Pending payment · 6 new</p><p class="m">Complete checkout to unblock delivery.</p></div><button class="btn btn-sm a" data-demo="/payments">View payment</button></div>
     <div class="await-row"><svg class="ico"><use href="#i-quote"/></svg><div><p class="t">4 quotes expiring soon</p><p class="m">Accept before they lapse.</p></div><button class="btn btn-sm a" data-demo="/quotes">Review quotes</button></div>
    </section>
    <section class="workbench" aria-label="Live workbench">
@@ -236,7 +236,7 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
    </section>
    <nav class="lab-nav" aria-label="Lab navigation"><a href="../../../index.html">← Gallery</a><span>F03 · V1 Calm Overview</span><span class="sp"></span><span>Prev —</span><a href="../V2/index.html">Next: V2 Verdict Hero →</a></nav>
   </main>
-  <footer>© 2026 Nestlancer · Client Portal Lab · F03 Dashboard Overview · Data: GET /api/v1/system/status · /payments · /requests/stats · /projects/stats · /quotes · /messages · /notifications</footer>
+  <footer>© 2026 Nestlancer · Client Portal Lab · Dashboard Overview · Sample workspace data</footer>
  </div>
 </div>
 <div class="palette" id="palette" hidden role="dialog" aria-modal="true" aria-label="Command menu"><div class="palette-box"><input id="paletteInput" type="search" placeholder="Jump to a place or action…" aria-label="Command search"><div class="palette-list" id="paletteList"></div></div></div>
@@ -280,7 +280,7 @@ document.addEventListener('keydown',function(e){if((e.metaKey||e.ctrlKey)&&e.key
 /* reveals + count-up */
 var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 if('IntersectionObserver' in window&&!reduced){var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('seen');io.unobserve(en.target)}})},{threshold:.12});$$('.reveal').forEach(function(el){io.observe(el)})}else{$$('.reveal').forEach(function(el){el.classList.add('seen')})}
-$$('.kpi-val[data-count]').forEach(function(el){var n=+el.dataset.count;if(reduced){el.textContent=n;return}var c=0,step=Math.max(1,Math.ceil(n/24)),t=setInterval(function(){c+=step;if(c>=n){c=n;clearInterval(t)}el.textContent=c},24)}});
+$$('.kpi-val[data-count]').forEach(function(el){var n=+el.dataset.count;if(reduced){el.textContent=n;return}var c=0,step=Math.max(1,Math.ceil(n/24)),t=setInterval(function(){c+=step;if(c>=n){c=n;clearInterval(t)}el.textContent=c},24)});
 })();
 </script>
 </body>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual remediation — Client Portal Lab</title>
+<style>
+:root { color-scheme: light; --ink:#142137; --muted:#4b5c73; --brand:#3641f5; --line:#dce3ed; --bg:#f5f7fb; --card:#fff; --ok:#166534; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; overflow-wrap:anywhere; }
+a { color:var(--brand); text-underline-offset:3px; }
+a:focus-visible, summary:focus-visible { outline:3px solid var(--brand); outline-offset:4px; border-radius:3px; }
+main { max-width:1180px; margin:auto; padding:32px 24px 72px; }
+nav { display:flex; flex-wrap:wrap; gap:12px 24px; margin-bottom:38px; }
+nav a { display:inline-flex; align-items:center; min-height:32px; }
+.eyebrow { margin:0 0 12px; color:var(--muted); text-transform:uppercase; letter-spacing:.12em; font-size:12px; font-weight:750; }
+h1 { max-width:850px; margin:0 0 20px; font-size:clamp(32px,5.5vw,60px); line-height:1.1; letter-spacing:-.04em; }
+h2 { font-size:25px; line-height:1.25; margin:38px 0 16px; letter-spacing:-.02em; }
+h3 { font-size:18px; line-height:1.4; margin:0 0 14px; }
+p { margin:0 0 14px; }
+.lead { color:var(--muted); max-width:850px; font-size:18px; }
+.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin:30px 0; }
+.stats > div, .card { padding:22px; border:1px solid var(--line); border-radius:14px; background:var(--card); }
+.stats dt { color:var(--muted); font-size:13px; }
+.stats dd { margin:0 0 6px; font-size:30px; font-weight:750; letter-spacing:-.03em; color:var(--ok); }
+.note { padding:18px 22px; border-left:4px solid var(--brand); border-radius:0 10px 10px 0; background:#ecf0ff; margin:20px 0; }
+.note p:last-child, .card p:last-child { margin-bottom:0; }
+.family-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.family-grid article { scroll-margin-top:20px; }
+.family-grid h3 a { display:inline-block; min-height:28px; }
+.family-grid ul { margin:0; padding-left:20px; }
+li + li { margin-top:6px; }
+.small { color:var(--muted); font-size:13px; }
+.badge { display:inline-block; padding:2px 8px; margin-bottom:12px; font-size:12px; font-weight:700; color:var(--ok); background:#edf8ef; border:1px solid #a9d4b4; border-radius:999px; }
+code { font: .9em/1.6 ui-monospace,SFMono-Regular,Consolas,monospace; }
+pre { overflow:auto; white-space:pre-wrap; padding:18px; background:#f1f4f9; border-radius:10px; font-size:13px; }
+details { border:1px solid var(--line); background:var(--card); border-radius:12px; padding:12px 20px; margin:20px 0; }
+summary { min-height:32px; cursor:pointer; font-weight:650; }
+footer { margin-top:38px; padding-top:20px; border-top:1px solid var(--line); color:var(--muted); font-size:13px; }
+@media(max-width:760px) { .stats { grid-template-columns:repeat(2,minmax(0,1fr)); } .family-grid { grid-template-columns:minmax(0,1fr); } main { padding:24px 16px 48px; } .card { padding:18px; } }
+@media print { body { background:#fff; } nav, details { display:none; } .family-grid { display:block; } .card { break-inside:avoid; margin-bottom:12px; } }
+</style>
+</head>
+<body>
+<main>
+<nav aria-label="Lab reports"><a href="index.html">Lab gallery</a><a href="rank.html">Original ranking</a><a href="review-evidence/remediation-layout.json">Layout &amp; accessibility results (JSON)</a><a href="review-evidence/remediation-interactions.json">Interaction results (JSON)</a></nav>
+<header>
+<p class="eyebrow">Client Portal Lab · Manual remediation · 29 October 2026</p>
+<h1>100 versions.<br>Repaired by hand.</h1>
+<p class="lead">The recorded lab-page defects were addressed across F03–F22, V1–V5. Each version was edited individually, with hand-authored shared CSS for recurring shell defects and direct HTML/JavaScript edits for version-specific problems.</p>
+</header>
+<dl class="stats" aria-label="Final verification summary">
+<div><dt>Pages pass layout &amp; load checks</dt><dd>100 / 100</dd></div>
+<div><dt>axe scans with no violations</dt><dd>400 / 400</dd></div>
+<div><dt>Pages pass interaction smoke checks</dt><dd>100 / 100</dd></div>
+<div><dt>Parse, runtime or resource errors</dt><dd>0</dd></div>
+</dl>
+<div class="note" role="note"><p><strong>Repairs, not a reranking.</strong> The original scores, issue records, raw review evidence and screenshots are preserved. Notices on the overall ranking and all 20 family rankings distinguish that historical review from the current repaired pages.</p><p>No source auto-fix, bulk rewrite, or ranking-generation script was used. The two new verification scripts only read the pages and write JSON test results.</p></div>
+
+<section aria-labelledby="verification">
+<h2 id="verification">What was verified</h2>
+<div class="card">
+<ul>
+<li><strong>All 100 pages:</strong> inline JavaScript parses; no browser page errors or HTTP resource errors; exactly one H1 per page.</li>
+<li><strong>400 viewport checks:</strong> no horizontal document scrolling at 1440, 768, 390 or 360 pixels. Intentionally wide matrices use local scroll regions rather than widening the document.</li>
+<li><strong>400 accessibility scans:</strong> axe-core 4.10.2 with WCAG 2 A/AA, 2.1 A/AA and 2.2 AA tags, at 1440 and 390 pixels in both light and dark themes.</li>
+<li><strong>All 100 mobile shells:</strong> the actual theme button changes and restores the theme; the actual menu button opens navigation inside the viewport and has a non-compressed target.</li>
+<li><strong>333 interaction check groups:</strong> local links and literal SVG references resolve; targeted checks cover repaired palettes, request filtering and details, form help/error recovery, the sticky project CTA, imported-title escaping, keyboard-scrollable quote tables, payment blockers, the inline 2FA demo and the storage meter.</li>
+<li><strong>Local previews only:</strong> the interaction runner rejects non-GET or external requests. None were attempted. No real payment, upload, message, account update or security enrollment was made.</li>
+</ul>
+<p class="small">Final layout run: 2026-10-29 12:41:47 UTC. Final interaction run: 2026-10-29 12:40:52 UTC. Chromium 131.0.6778.0, Playwright 1.49.1, reduced-motion preference. The linked JSON files contain all 100 per-page records, not a partial family run. The final overflow check permits no horizontal document scroll, including one-pixel grid edges.</p>
+</div>
+</section>
+
+<section aria-labelledby="families">
+<h2 id="families">Family-by-family fix log</h2>
+<p class="small">Every entry covers V1–V5. Links open the original family ranking, which retains its issue IDs and links to all five updated versions.</p>
+<div class="family-grid">
+<article class="card" id="f03"><span class="badge">V1–V5 · verified</span><h3><a href="families/F03-dashboard-overview/rank.html">F03 · Dashboard overview</a></h3><ul>
+<li>Fixed the compressed mobile header, brand contrast and zero-size pipeline fills (COM-01/02/03).</li>
+<li>V1: repaired the script parse error; removed the duplicated primary checkout emphasis and implementation-heavy copy.</li>
+<li>V2: restored missing profile/settings icons and replaced the broken separator glyph. V3: restored the Overview H1, demoted duplicate checkout emphasis, added the Quotes empty state and missing download symbol.</li>
+<li>V4: restored the H1 and live workbench, replaced health jargon, kept currency precision consistent and made the secondary payment action secondary.</li>
+<li>V5: restored Pipeline, Awaiting you and Recent activity; added labelled mobile table cards and an explicit two-of-four payment preview note.</li>
+</ul></article>
+<article class="card" id="f04"><span class="badge">V1–V5 · verified</span><h3><a href="families/F04-global-search-command-palette/rank.html">F04 · Command palette</a></h3><ul>
+<li>Repaired V2’s broken callback syntax so the palette renders and responds again.</li>
+<li>Named the V1/V2/V4 result groups and corrected V2’s generated option semantics.</li>
+<li>Fixed the backdrop header overflow and both-theme contrast; removed endpoint-heavy footer copy and corrected all five dashboard links.</li>
+<li>V1/V2 no-results queries now use text nodes rather than inserting user input as HTML. All five pass search, safe no-results, Escape and focus-restoration checks.</li>
+</ul></article>
+<article class="card" id="f05"><span class="badge">V1–V5 · verified</span><h3><a href="families/F05-requests-work-hub/rank.html">F05 · Work hub</a></h3><ul>
+<li>Expanded row-title and toolbar targets and corrected brand/selected-state contrast.</li>
+<li>V2: prevented compact header controls from shrinking. V3: restricted priority-button ARIA/handlers to actual buttons and replaced the exposed DTO name.</li>
+<li>V5: wrapped the keyboard-help row that was widening the document on small phones.</li>
+<li>Prototype state controls are explicitly labelled and collapsed by default. Search/filtering and opening item details were checked in all five versions.</li>
+</ul></article>
+<article class="card" id="f06"><span class="badge">V1–V5 · verified</span><h3><a href="families/F06-request-new-form/rank.html">F06 · New request</a></h3><ul>
+<li>Replaced raw endpoint/error jargon with recovery copy that accurately explains local text autosave and demo submission.</li>
+<li>Kept all form fields and constraints; made help controls and native summaries easier to target, and removed contrast-destroying dimming of editable chapters.</li>
+<li>Moved state-preview chips into closed prototype disclosures. V5 now makes the in-memory attachment lifetime explicit.</li>
+<li>Help, error state and retry were exercised in all five layouts, including V3’s native details-based help.</li>
+</ul></article>
+<article class="card" id="f07"><span class="badge">V1–V5 · verified</span><h3><a href="families/F07-request-details/rank.html">F07 · Request details</a></h3><ul>
+<li>Fixed mobile header overflow, including V4’s wider exception, and corrected secondary-text contrast.</li>
+<li>V5: demoted the duplicated hero approval action while retaining the request-card decision action.</li>
+<li>Corrected dashboard and request-list sidebar destinations in each version. Approval remains an honestly labelled local demo.</li>
+</ul></article>
+<article class="card" id="f08"><span class="badge">V1–V5 · verified</span><h3><a href="families/F08-projects-list/rank.html">F08 · Projects</a></h3><ul>
+<li>Removed prominent Gate A, endpoint, audit and captured-record language from the affected client summaries and labels.</li>
+<li>V3: placed the mobile sticky CTA fully inside the viewport, allowed its label to wrap and reserved content space below it.</li>
+<li>V5: aligned initial and interactive preview copy; selecting B2B clearly labels the Khandesh link as an example, not its own missing detail page.</li>
+<li>Preserved both project records, original start dates and the distinction between available summaries and unavailable detail pages.</li>
+</ul></article>
+<article class="card" id="f09"><span class="badge">V1–V5 · verified</span><h3><a href="families/F09-project-details/rank.html">F09 · Project details</a></h3><ul>
+<li>V3: removed the rail’s min-content width constraint and wrapped long content rather than widening the page.</li>
+<li>Expanded small overview links and FAQ summaries; corrected dark ink while retaining white text on filled V2/V5 tabs.</li>
+<li>Removed the flagged visible UUID (V1), A3 reference (V3) and A15 client-copy reference (V4). V3’s project-answer panel now plainly describes its local demo behaviour.</li>
+<li>Preserved the actual project figures, empty progress states and payment gate; no new milestones or due payments were invented.</li>
+</ul></article>
+<article class="card" id="f10"><span class="badge">V1–V5 · verified</span><h3><a href="families/F10-quotes-list/rank.html">F10 · Quotes</a></h3><ul>
+<li>Fixed mobile chrome and systemic dark contrast. The skip link now appears on focus rather than occupying the first screen.</li>
+<li>Collapsed variant/state controls without hiding the client content. V2 KPI labels and annotations now have a real visual gap; V5’s queue is a named group, not an invalid listbox.</li>
+<li>Original imported request titles remain escaped and inspectable behind a disclosure; raw test strings and C23/A5 labels no longer dominate the default quote list.</li>
+<li>Sample expiry reminders are identified as fixed-date previews, not a claim that an October 20 sample expires within 24 hours today.</li>
+</ul></article>
+<article class="card" id="f11"><span class="badge">V1–V5 · verified</span><h3><a href="families/F11-quote-details/rank.html">F11 · Quote details</a></h3><ul>
+<li>Fixed the mobile header, dark contrast and min-content constraints in quote grids.</li>
+<li>Wide line-item matrices scroll locally. The V1/V2/V3 scroll regions are named and keyboard-focusable; ArrowRight was checked to actually move them.</li>
+<li>Kept accepted/draft fixtures and decision semantics. The old inability to test an accepted-state decision is not presented as evidence of a production action.</li>
+</ul></article>
+<article class="card" id="f12"><span class="badge">V1–V5 · verified</span><h3><a href="families/F12-messages-home/rank.html">F12 · Inbox</a></h3><ul>
+<li>Fixed the mobile shell’s document overflow and systemic dark-theme contrast.</li>
+<li>V1: replaced invalid listbox/child semantics with a named thread group.</li>
+<li>Checked the real mobile menu and theme controls rather than treating the historical probe’s unmatched selector as a navigation failure.</li>
+</ul></article>
+<article class="card" id="f13"><span class="badge">V1–V5 · verified</span><h3><a href="families/F13-messages-thread/rank.html">F13 · Conversation</a></h3><ul>
+<li>Fixed mobile header width and dark-theme ink across all five thread layouts.</li>
+<li>Own-message action buttons now use an opaque contrasting fill rather than washed-out white-on-white tints.</li>
+<li>Kept the captured messages and queue structure. No message send, delivery or edit persistence is claimed by the smoke checks.</li>
+</ul></article>
+<article class="card" id="f14"><span class="badge">V1–V5 · verified</span><h3><a href="families/F14-billing-center/rank.html">F14 · Billing center</a></h3><ul>
+<li>V2: underlined the in-text chip link so it is distinguishable independently of colour.</li>
+<li>Corrected active-navigation dark ink and enlarged small client links and footer navigation targets.</li>
+<li>Retained the distinction between pending-filter rows and broader outstanding/not-due KPI counts.</li>
+</ul></article>
+<article class="card" id="f15"><span class="badge">V1–V5 · verified</span><h3><a href="families/F15-payment-methods/rank.html">F15 · Payment methods</a></h3><ul>
+<li>The original per-version issue lists recorded no defects; no functional rewrite or invented issue closure was needed.</li>
+<li>All five still opt in to the hand-authored shared target/shell fixes and pass the full regression and mobile navigation/theme checks.</li>
+<li>The captured empty state and labelled demo token examples remain separate from real saved methods.</li>
+</ul></article>
+<article class="card" id="f16"><span class="badge">V1–V5 · verified</span><h3><a href="families/F16-checkout/rank.html">F16 · Checkout</a></h3><ul>
+<li>Corrected dark current-step labels in the affected stepper layouts.</li>
+<li>V2: made the narrow grid track shrink below its min-content width, eliminating a one-pixel document-scroll edge at 360 pixels.</li>
+<li>Enlarged back, dispute and footer links that had undersized mobile targets.</li>
+<li>Kept the bank-path demos and payment gate intact; no completed checkout or money movement is asserted.</li>
+</ul></article>
+<article class="card" id="f17"><span class="badge">V1–V5 · verified</span><h3><a href="families/F17-payment-status/rank.html">F17 · Payment status</a></h3><ul>
+<li>V4: synchronized blocker title, explanatory text and action enabled/disabled state when switching between completed and blocked payments.</li>
+<li>Checked both directions of the state switch and opening/dismissing the blocker drawer.</li>
+<li>V1: corrected the narrow grid track’s min-content sizing, eliminating its one-pixel scroll edge at 360 pixels.</li>
+<li>Corrected step-label contrast and small links. Receipt/invoice downloads remain demo-labelled.</li>
+</ul></article>
+<article class="card" id="f18"><span class="badge">V1–V5 · verified</span><h3><a href="families/F18-invoices-archive/rank.html">F18 · Invoices</a></h3><ul>
+<li>Corrected active-navigation dark contrast in all five versions.</li>
+<li>Applied shared link/target and shell safeguards, then retested every width/theme.</li>
+<li>Kept the five-invoice fixture and gross total of ₹1,12,125; no real PDF/GST document generation is claimed.</li>
+</ul></article>
+<article class="card" id="f19"><span class="badge">V1–V5 · verified</span><h3><a href="families/F19-notifications-center/rank.html">F19 · Notifications</a></h3><ul>
+<li>Corrected active-navigation dark contrast and enlarged selection checkboxes and client links.</li>
+<li>Retained eight alerts, six initially unread and the original grouped/individual presentation choices.</li>
+<li>All five pass layout, axe and mobile-shell checks without changing an account.</li>
+</ul></article>
+<article class="card" id="f20"><span class="badge">V1–V5 · verified</span><h3><a href="families/F20-profile-view-edit/rank.html">F20 · Profile</a></h3><ul>
+<li>Corrected active-navigation dark contrast; skill-removal buttons receive a usable minimum target rather than a tiny × glyph hit area.</li>
+<li>Preserved Arjun’s identity and privacy fixtures. Hidden programmatic file inputs are not treated as visible standalone upload buttons.</li>
+<li>No new persistence claim is inferred from the historical edit-probe timeouts or counters.</li>
+</ul></article>
+<article class="card" id="f21"><span class="badge">V1–V5 · verified</span><h3><a href="families/F21-settings/rank.html">F21 · Settings</a></h3><ul>
+<li>Corrected active-navigation dark contrast and expanded switch targets to at least 44 × 28 pixels.</li>
+<li>V3’s locally scrolling security ledger is now a named, keyboard-focusable region.</li>
+<li>V4’s actual inline 2FA wizard was launched and completed locally with demo values; it is not incorrectly expected to open as a dialog.</li>
+<li>Preserved the 19 notification switches and 50-event fixture; no real security settings changed.</li>
+</ul></article>
+<article class="card" id="f22"><span class="badge">V1–V5 · verified</span><h3><a href="families/F22-settings-files/rank.html">F22 · Files</a></h3><ul>
+<li>V1: changed the untyped quota element into a bounded meter with accurate min/max/current/text values, updated on render without floating-point noise.</li>
+<li>V3/V4: removed grid/inspector min-content overflow, used one-column narrow layouts and wrapped long tile content and references.</li>
+<li>Enlarged selection controls and file links; corrected active-navigation dark contrast.</li>
+<li>Kept three uploads totalling 41.1 KB of 5 GB, plus 26 quota-exempt generated PDFs. No files were actually uploaded or deleted.</li>
+</ul></article>
+</div>
+</section>
+
+<section aria-labelledby="implementation">
+<h2 id="implementation">Implementation and evidence boundaries</h2>
+<div class="card"><p>The recurring repairs live in <a href="shared/workspace-layout.css"><code>shared/workspace-layout.css</code></a>, loaded after each page’s variant styles. All 100 pages have a matching <code>data-family</code> opt-in; only the few version-specific exceptions use <code>data-version</code>. The original shared tokens and base stylesheet were not rewritten.</p><p>Foreground ink is separated from filled-control colour, mobile breadcrumbs shrink before controls do, local scrolling stays keyboard-accessible, and compact visual labels retain accessible names. Version layouts, escaped fixtures, locked counts and explicit demo boundaries are preserved.</p><p><strong>Limits:</strong> this is Chromium regression evidence, not a new heuristic score, user study, screen-reader audit, cross-browser certification or proof of production backend behaviour. Default states and selected repaired interactions were checked, not every possible modal/state combination. Unconfirmed fixture spelling and inconclusive historical probes were not silently converted into invented product facts.</p><p class="small">No new screenshots were generated and none of the existing historical screenshots were deleted. The two new JSON evidence files total approximately 123 KB; browser dependencies and scratch output are ignored rather than added to the repository.</p></div>
+</section>
+
+<details>
+<summary>Reproduce the read-only checks</summary>
+<p>Serve the repository root on port 8130. In a separate terminal, install the pinned test dependencies and a Playwright-compatible Chromium browser:</p>
+<pre><code># Repository root, separate terminal:
+python3 -m http.server 8130 --bind 0.0.0.0
+
+# Test terminal:
+cd client-portal-lab/review-evidence/tooling
+npm ci
+npx playwright install chromium
+QA_OUTPUT=../remediation-layout.json node verify-remediation.mjs
+QA_OUTPUT=../remediation-interactions.json node verify-interactions.mjs</code></pre>
+<p>Use <code>QA_BASE_URL</code> for another static server address. Both runners accept optional family IDs, such as <code>F03 F04</code>; omit them for the final 100-page run. Keep partial-run output separate from the full evidence above.</p>
+<p class="small">The Arena run used <code>CHROMIUM_PATH=/tmp/chromium</code> and <code>LD_LIBRARY_PATH=/tmp/al2023/lib</code> for its packaged Chromium. These runtime files are temporary, not repository dependencies. The test scripts never edit HTML, CSS, application JavaScript or ranking scores.</p>
+</details>
+<footer>Manual remediation completed on branch <code>arena/83037759-ui-designing-client-dashboard</code>. Original ranking records are historical evidence; current repaired-page verification is linked above.</footer>
+</main>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F03" data-version="V5">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -152,19 +152,38 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
    </section>
    <section class="panel" aria-label="Live workbench">
     <div class="tabs" role="tablist"><button class="tab" role="tab" aria-selected="true" data-tab="pay">Pay now <span class="cnt">4</span></button><button class="tab" role="tab" aria-selected="false" data-tab="quotes">Quotes <span class="cnt">0</span></button><button class="tab" role="tab" aria-selected="false" data-tab="proj">Projects <span class="cnt">0</span></button><button class="tab" role="tab" aria-selected="false" data-tab="inbox">Inbox <span class="cnt">2</span></button></div>
-    <div class="tabpanel" role="tabpanel" data-panel="pay"><div class="table-wrap"><table><thead><tr><th>Item</th><th>Amount</th><th>Status</th><th></th></tr></thead><tbody>
-      <tr><td>Festive Season Campaign — milestone</td><td class="num">₹31,875.00</td><td><span class="badge w">Pending</span></td><td><button class="btn btn-primary btn-sm" data-demo="/payments">Complete checkout</button></td></tr>
-      <tr><td>AUDIT-P25 project fix — deposit</td><td class="num">₹49,625.00</td><td><span class="badge ok">Not due yet</span></td><td><button class="btn btn-sm" data-demo="/payments">View</button></td></tr>
+    <div class="tabpanel" role="tabpanel" data-panel="pay"><p class="sub" style="padding:10px 12px">Showing 2 of 4 payments in this dashboard preview. Open Billing Center for the full list.</p><div class="table-wrap"><table><thead><tr><th scope="col">Item</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col">Action</th></tr></thead><tbody>
+      <tr><td data-label="Item">Festive Season Campaign — milestone</td><td class="num" data-label="Amount">₹31,875.00</td><td data-label="Status"><span class="badge w">Pending</span></td><td data-label="Action"><button class="btn btn-primary btn-sm" data-demo="/payments">Complete checkout</button></td></tr>
+      <tr><td data-label="Item">AUDIT-P25 project fix — deposit</td><td class="num" data-label="Amount">₹49,625.00</td><td data-label="Status"><span class="badge ok">Not due yet</span></td><td data-label="Action"><button class="btn btn-sm" data-demo="/payments">View</button></td></tr>
     </tbody></table></div></div>
     <div class="tabpanel" role="tabpanel" data-panel="quotes" hidden><p style="font-size:13px;color:var(--muted-foreground);padding:14px 12px">No quotes need your decision right now.</p></div>
     <div class="tabpanel" role="tabpanel" data-panel="proj" hidden><div class="empty-tab"><p class="t">Projects 0</p><p class="m">Accept a quote to open your first project →</p><button class="btn btn-primary btn-sm" data-demo="/quotes">View quotes</button></div></div>
     <div class="tabpanel" role="tabpanel" data-panel="inbox" hidden><div class="table-wrap"><table><thead><tr><th>Thread</th><th>Unread</th><th></th></tr></thead><tbody>
-      <tr><td>Logistics ops — tracking update</td><td><span class="badge w">2</span></td><td><button class="btn btn-sm" data-demo="/messages">Open inbox</button></td></tr>
+      <tr><td data-label="Thread">Logistics ops — tracking update</td><td data-label="Unread"><span class="badge w">2</span></td><td data-label="Action"><button class="btn btn-sm" data-demo="/messages">Open inbox</button></td></tr>
     </tbody></table></div></div>
+   </section>
+   <section class="restored-section" aria-label="Pipeline &amp; billing">
+    <h2>Pipeline &amp; billing</h2>
+    <div class="bar"><span class="lab">Active</span><span class="track"><span class="fill" style="width:62%"></span></span><span class="val">62% · 12</span><span class="why">Requests under active delivery across the workspace.</span></div>
+    <div class="bar"><span class="lab">Done</span><span class="track"><span class="fill" style="width:48%"></span></span><span class="val">48% · 9</span><span class="why">Completed milestones this cycle.</span></div>
+    <div class="bar"><span class="lab">Collected</span><span class="track"><span class="fill" style="width:70%"></span></span><span class="val">₹49,625.00</span><span class="why">Invoiced amount already collected.</span></div>
+    <div class="bar"><span class="lab">Pending</span><span class="track"><span class="fill" style="width:39%"></span></span><span class="val">₹31,875.00</span><span class="why">Awaiting checkout.</span></div>
+   </section>
+   <section class="restored-section" aria-label="Awaiting you">
+    <h2>Awaiting you</h2><div class="queue-grid">
+     <article><h3>Pending payment · 6 new</h3><p>Complete checkout to unblock delivery. The payment action is in the workbench above.</p><button class="btn btn-sm" data-demo="/payments">View payment</button></article>
+     <article><h3>4 quotes expiring soon</h3><p>Review before they lapse.</p><button class="btn btn-sm" data-demo="/quotes">Review quotes</button></article>
+    </div>
+   </section>
+   <section class="restored-section" aria-label="Recent activity">
+    <h2>Recent activity</h2><div class="queue-grid">
+     <article><h3>Quote expiring soon — AUDIT-P24</h3><p>2h ago · review before it lapses.</p><button class="btn btn-sm" data-demo="/quotes">Review</button></article>
+     <article><h3>Your data export is ready</h3><p>Yesterday · download from Settings.</p><button class="btn btn-sm" data-demo="/settings/account">Download</button></article>
+    </div>
    </section>
    <nav class="lab-nav" aria-label="Lab navigation"><a href="../../../index.html">← Gallery</a><span>F03 · V5 Dense Ops</span><span class="sp"></span><a href="../V4/index.html">← Prev: V4 Health Bento</a><span>Next —</span></nav>
   </main>
-  <footer>© 2026 Nestlancer · Client Portal Lab · F03 Dashboard Overview · Data: GET /api/v1/system/status · /payments · /requests/stats · /projects/stats · /quotes · /messages · /notifications</footer>
+  <footer>© 2026 Nestlancer · Client Portal Lab · Dashboard Overview · Sample workspace data</footer>
  </div>
 </div>
 <div class="palette" id="palette" hidden role="dialog" aria-modal="true" aria-label="Command menu"><div class="palette-box"><input id="paletteInput" type="search" placeholder="Jump to a place or action…" aria-label="Command search"><div class="palette-list" id="paletteList"></div></div></div>

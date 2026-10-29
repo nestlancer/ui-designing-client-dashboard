@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F16">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Checkout · V2 Stepper Rail — Nestlancer Lab</title>
@@ -23,7 +23,7 @@
 .outcome.ok{background:var(--status-success-bg);color:var(--status-success-text);border:1px solid var(--status-success-border)}
 .outcome.warn{background:var(--status-warning-bg);color:var(--status-warning-text);border:1px solid var(--status-warning-border)}
 .outcome.no{background:var(--status-error-bg);color:var(--status-error-text);border:1px solid var(--status-error-border)}
-@media(max-width:920px){.cols{grid-template-columns:1fr}.rail{position:static}}
+@media(max-width:920px){.cols{grid-template-columns:minmax(0,1fr)}.rail{position:static}}
 </style>
 <link rel="stylesheet" href="../../../shared/workspace-layout.css">
 </head>

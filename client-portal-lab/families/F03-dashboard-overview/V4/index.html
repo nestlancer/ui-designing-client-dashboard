@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F03">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -139,27 +139,28 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
    </div>
   </header>
   <main id="main">
-   <p class="eyebrow">Client portal · Overview · fleet health</p>
+   <p class="eyebrow">Client portal · Workspace health</p>
+   <h1>Overview</h1>
    <div class="bento">
-    <article class="tile hero"><h2>One action will unblock your workspace</h2><div class="big">₹81,500<small> invoiced</small> · <small>₹31,875 pending</small></div><div><button class="btn btn-primary btn-sm" data-demo="/payments"><svg class="ico"><use href="#i-wallet"/></svg>Complete checkout</button></div></article>
+    <article class="tile hero"><h2>One action will unblock your workspace</h2><div class="big">₹81,500.00<small> invoiced</small> — <small>₹31,875.00 pending</small></div><div><button class="btn btn-primary btn-sm" data-demo="/payments"><svg class="ico"><use href="#i-wallet"/></svg>Complete checkout</button></div></article>
     <article class="tile"><p class="vital-label">Open requests</p><span class="vital-val">12</span><p class="vital-why">Work hub.</p></article>
     <article class="tile"><p class="vital-label">Active projects</p><span class="vital-val">2</span><p class="vital-why">In progress.</p></article>
     <article class="tile"><p class="vital-label">Pending quotes</p><span class="vital-val">4</span><p class="vital-why">Need decision.</p></article>
     <article class="tile"><p class="vital-label">Unread</p><span class="vital-val">2</span><p class="vital-why">Inbox.</p></article>
-    <article class="tile health"><h2>Workspace health</h2><p class="sub">Fleet status at a glance (A9).</p><div class="health-grid">
+    <article class="tile health"><h2>Workspace health</h2><p class="sub">Delivery, payments, quotes and messages at a glance.</p><div class="health-grid">
       <div class="hcell ok"><p class="lab">Delivery</p><p class="v">On track</p></div>
-      <div class="hcell ok"><p class="lab">Payments</p><p class="v">₹49,625</p></div>
+      <div class="hcell ok"><p class="lab">Payments</p><p class="v">₹49,625.00</p></div>
       <div class="hcell warn"><p class="lab">Quotes</p><p class="v">4 expiring</p></div>
       <div class="hcell ok"><p class="lab">Inbox</p><p class="v">2 unread</p></div>
     </div></article>
     <article class="tile"><h2>Pipeline &amp; billing</h2>
       <div class="bar"><span class="lab">Active</span><span class="track"><span class="fill" style="width:62%"></span></span><span class="val">62%</span><span class="why">12 requests.</span></div>
       <div class="bar"><span class="lab">Done</span><span class="track"><span class="fill s" style="width:48%"></span></span><span class="val">48%</span><span class="why">9 milestones.</span></div>
-      <div class="bar"><span class="lab">Collected</span><span class="track"><span class="fill s" style="width:70%"></span></span><span class="val">₹49,625</span><span class="why">Collected.</span></div>
-      <div class="bar"><span class="lab">Pending</span><span class="track"><span class="fill w" style="width:39%"></span></span><span class="val">₹31,875</span><span class="why">Awaiting checkout.</span></div>
+      <div class="bar"><span class="lab">Collected</span><span class="track"><span class="fill s" style="width:70%"></span></span><span class="val">₹49,625.00</span><span class="why">Collected.</span></div>
+      <div class="bar"><span class="lab">Pending</span><span class="track"><span class="fill w" style="width:39%"></span></span><span class="val">₹31,875.00</span><span class="why">Awaiting checkout.</span></div>
     </article>
     <article class="tile"><h2>Awaiting you</h2>
-      <div class="await-row"><svg class="ico"><use href="#i-wallet"/></svg><div><p class="t">Pending payment · 6 new</p></div><button class="btn btn-sm btn-primary a" data-demo="/payments">Pay</button></div>
+      <div class="await-row"><svg class="ico"><use href="#i-wallet"/></svg><div><p class="t">Pending payment · 6 new</p></div><button class="btn btn-sm a" data-demo="/payments">View payment</button></div>
       <div class="await-row"><svg class="ico"><use href="#i-quote"/></svg><div><p class="t">4 quotes expiring soon</p></div><button class="btn btn-sm a" data-demo="/quotes">Review</button></div>
     </article>
     <article class="tile"><h2>Recent activity</h2>
@@ -167,9 +168,18 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
       <div class="act-row"><span class="dot"></span><div><p class="t">Data export is ready</p></div><button class="btn btn-sm a" data-demo="/settings/account">Download</button></div>
     </article>
    </div>
+   <section class="restored-section" aria-label="Live workbench">
+    <h2>Live workbench</h2>
+    <div class="queue-grid">
+     <article><h3>Quotes · 0</h3><p>No quotes need your decision right now.</p></article>
+     <article><h3>Pay now · 4</h3><p>Previewing 2 of 4 payments. Festive Season Campaign — ₹31,875.00 pending. AUDIT-P25 project fix — ₹49,625.00 not due yet.</p><button class="btn btn-sm" data-demo="/payments">View all payments</button></article>
+     <article><h3>Projects · 0</h3><p>Accept a quote to open your first project.</p><button class="btn btn-sm" data-demo="/quotes">View quotes</button></article>
+     <article><h3>Inbox · 2</h3><p>New message in Logistics ops · 2 unread. Reply from your delivery lead · 1 unread.</p><button class="btn btn-sm" data-demo="/messages">Open inbox</button></article>
+    </div>
+   </section>
    <nav class="lab-nav" aria-label="Lab navigation"><a href="../../../index.html">← Gallery</a><span>F03 · V4 Health Bento</span><span class="sp"></span><a href="../V3/index.html">← Prev: V3 Awaiting-You Spine</a><a href="../V5/index.html">Next: V5 Dense Ops →</a></nav>
   </main>
-  <footer>© 2026 Nestlancer · Client Portal Lab · F03 Dashboard Overview · Data: GET /api/v1/system/status · /payments · /requests/stats · /projects/stats · /quotes · /messages · /notifications</footer>
+  <footer>© 2026 Nestlancer · Client Portal Lab · Dashboard Overview · Sample workspace data</footer>
  </div>
 </div>
 <div class="palette" id="palette" hidden role="dialog" aria-modal="true" aria-label="Command menu"><div class="palette-box"><input id="paletteInput" type="search" placeholder="Jump to a place or action…" aria-label="Command search"><div class="palette-list" id="paletteList"></div></div></div>

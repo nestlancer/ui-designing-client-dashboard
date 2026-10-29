@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F08">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -135,13 +135,13 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
       <span class="badge"><svg class="ico"><use href="#i-dot"/></svg>In progress</span>
       <h3>B2B Wholesale Ordering Portal</h3>
       <p class="mono">Started 10/5/2026</p>
-      <p>Second captured project. Detail chapter not in the audit capture.</p>
+      <p>Project summary available. A dedicated detail page is not included in this demo.</p>
      </button>
      <div class="preview" aria-live="polite"><div class="preview-inner" id="previewInner">
-      <p class="eyebrow">Preview · frozen fields only</p>
+      <p class="eyebrow">Project preview</p>
       <h2 id="pvTitle">Khandesh Spice D2C E-Commerce Store</h2>
-      <p id="pvText">In progress · Started 10/5/2026. This is the project whose full delivery cockpit was captured — milestones, daily progress, deliverables, messages and files are on its detail page.</p>
-      <div class="row"><a class="btn btn-primary" id="pvLink" href="../../F09-project-details/V5/index.html">Open project detail</a><span class="mono" id="pvMeta">GET /api/v1/projects/{id}</span></div>
+      <p id="pvText">In progress · Started 10/5/2026. Open the project to review milestones, daily progress, deliverables, messages and files.</p>
+      <div class="row"><a class="btn btn-primary" id="pvLink" href="../../F09-project-details/V5/index.html">Open project detail</a><span class="mono" id="pvMeta">Project overview available</span></div>
      </div><p class="hint">← → move between tiles · Enter opens detail · preview never invents fields</p></div>
     </div>
     <div class="toolbar"><label class="field"><svg class="ico"><use href="#i-search"/></svg><span class="sr-only">Search projects</span><input id="q" type="search" placeholder="Search projects…" autocomplete="off"></label><span class="mono" id="resultCount" aria-live="polite">2 tiles</span>
@@ -173,12 +173,12 @@ $$('.lab-states [data-state]').forEach(function(b){b.addEventListener('click',fu
 function retry(){setState('loading');setTimeout(function(){setState('populated');toast('Projects loaded.')},650)}
 $('#retryBtn').addEventListener('click',retry);$('#bannerRetry').addEventListener('click',retry);
 var PREVIEWS={
- khandesh:{title:'Khandesh Spice D2C E-Commerce Store',text:'In progress \u00B7 Started 10/5/2026. This is the project whose full delivery cockpit was captured \u2014 milestones, daily progress, deliverables, messages and files are on its detail page.',meta:'GET /api/v1/projects/{id}'},
- b2b:{title:'B2B Wholesale Ordering Portal',text:'In progress \u00B7 Started 10/5/2026. Captured in the projects grid only \u2014 no detail page exists in the audit, so this preview shows exactly the frozen list fields and links to the captured Khandesh detail as the lab\u2019s detail example.',meta:'List record only \u00B7 GET /api/v1/projects'}
+ khandesh:{title:'Khandesh Spice D2C E-Commerce Store',text:'In progress. Started 10/5/2026. Open the project to review milestones, daily progress, deliverables, messages and files.',meta:'Project overview available'},
+ b2b:{title:'B2B Wholesale Ordering Portal',text:'In progress. Started 10/5/2026. Details for this project are not available in this preview. The link opens the Khandesh example instead.',meta:'Summary only'}
 };
 var tiles=$$('[data-project]'),inner=$('#previewInner'),reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function select(tile,focus){tiles.forEach(function(t){t.setAttribute('aria-pressed',String(t===tile))});var d=PREVIEWS[tile.dataset.project];
- function swap(){$('#pvTitle').textContent=d.title;$('#pvText').textContent=d.text;$('#pvMeta').textContent=d.meta;inner.classList.remove('fading')}
+ function swap(){$('#pvTitle').textContent=d.title;$('#pvText').textContent=d.text;$('#pvMeta').textContent=d.meta;$('#pvLink').textContent=tile.dataset.project==='b2b'?'View Khandesh example':'Open project detail';inner.classList.remove('fading')}
  if(reduced){swap()}else{inner.classList.add('fading');setTimeout(swap,140)}
  if(focus)tile.focus()}
 tiles.forEach(function(t,i){t.addEventListener('click',function(){select(t,false)});t.addEventListener('keydown',function(e){

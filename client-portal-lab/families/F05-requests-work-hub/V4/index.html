@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F05">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -148,7 +148,7 @@ footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;padding-top:18px;bor
     <label class="f"><span class="sr-only">Filter by status</span><select id="status" aria-label="Filter by status"><option value="">All statuses</option><option>Draft</option><option>Submitted</option><option>Under review</option><option>Quoted</option><option>Changes requested</option><option>Converted to project</option><option>Rejected</option><option>Cancelled</option></select></label>
     <div class="chips" role="group" aria-label="Saved views (A12)"><button class="chip" data-saved="approvals" aria-pressed="false">My pending approvals</button><button class="chip" data-saved="month" aria-pressed="false">This month</button><button class="chip" data-saved="awaiting" aria-pressed="false">Awaiting me</button></div>
     <button class="btn btn-g" id="clearBtn">Clear</button>
-    <div class="chips" role="group" aria-label="Preview designed states" style="margin-left:auto"><button class="chip" data-state="populated" aria-pressed="true">Loaded</button><button class="chip" data-state="empty" aria-pressed="false">Empty</button><button class="chip" data-state="loading" aria-pressed="false">Skeleton</button><button class="chip" data-state="error" aria-pressed="false">502</button></div>
+    <details class="lab-tools"><summary>Prototype state previews</summary><div class="chips" role="group" aria-label="Preview designed states"><button class="chip" data-state="populated" aria-pressed="true">Loaded</button><button class="chip" data-state="empty" aria-pressed="false">Empty</button><button class="chip" data-state="loading" aria-pressed="false">Skeleton</button><button class="chip" data-state="error" aria-pressed="false">Error</button></div></details>
    </div>
 
    <div class="book" id="book">

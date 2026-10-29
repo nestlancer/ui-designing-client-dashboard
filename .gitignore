@@ -1,0 +1,3 @@
+# Local browser dependencies and temporary QA output (never source changes).
+node_modules/
+.arena/

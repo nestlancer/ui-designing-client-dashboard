@@ -1,10 +1,236 @@
-/* The portal shell owns the sidebar and header. Let the page workspace use
-   the remaining width rather than centering a capped container inside it.
-   Inner cards, dialogs and readable text may still have their own widths. */
+/* The shell owns the sidebar/header; the workspace fills the remaining width. */
 main#main,
 main#main-content {
   width: 100%;
   min-width: 0;
   max-width: none;
   margin-inline: 0;
+}
+
+/* Hand-authored remediation of the rank.html findings, 2026-10-29.
+   Each reviewed HTML version opts in with data-family. Layouts and the locked
+   token ramp stay distinct; text ink is not a translucent background colour. */
+:root[data-family] {
+  --primary: var(--brand-600);
+  --primary-ink: var(--brand-700);
+  --primary-foreground: #fff;
+}
+:root.dark[data-family] {
+  --primary: #465fff;
+  --primary-hover: #3641f5;
+  --primary-ink: #c7d2ff;
+  /* F10–F13 use these aliases for text, not translucent surface tints. */
+  --brand-200: #c7d2ff;
+  --brand-300: #a9bcff;
+}
+
+/* Small interactive labels need a real hit area, not just a line of text. */
+:where(html[data-family]) button { min-width: 24px; min-height: 24px; }
+:where(html[data-family]) main :where(a[href]) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+}
+:where(html[data-family]) :where(footer, .foot, .lab-nav, .page-footer) a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+}
+:where(html[data-family]) input:is([type="checkbox"], [type="radio"]) {
+  min-width: 24px;
+  min-height: 24px;
+  flex-shrink: 0;
+}
+:where(html[data-family]) :where(.row-title, .item .title, .text-link, .faq summary) {
+  min-height: 32px;
+}
+:where(html[data-family]) :where(.help, .hint-btn) { min-width: 28px; min-height: 28px; }
+
+/* Brand ink on tinted surfaces: keep the filled-control colour separate. */
+html.dark[data-family] :is(.nav-item, .n, .nav-link)[aria-current="page"],
+html.dark[data-family] .nav a[aria-current="page"],
+html.dark[data-family] :is(.eyebrow, .page-eyebrow, .kicker, .portal-pill),
+html.dark[data-family] .avatar i,
+html.dark[data-family] :is(.verdict, .hero-verdict) strong,
+html.dark[data-family] .tab[aria-selected="true"],
+html.dark[data-family] .tab .cnt,
+html.dark[data-family] :is(.chip, .seg button)[aria-pressed="true"],
+html.dark[data-family] .toc a[aria-current="true"],
+html.dark[data-family] .guide .scale .on,
+html.dark[data-family] .help[aria-expanded="true"],
+html.dark[data-family] .steps :is(.on, .now) b,
+html.dark[data-family] .steps > .on,
+html.dark[data-family] .steps > span > b {
+  color: var(--primary-ink);
+}
+/* These are text labels, not filled buttons (the latter keep white ink). */
+html.dark[data-family] :is(.open-link, .row-action, .back, .text-link),
+html.dark[data-family="F05"] :is(.tag, .chapter .no, .chapnav a[aria-current="true"], th[aria-sort] button),
+html.dark[data-family="F05"] .rail a[aria-current="page"],
+html.dark[data-family="F06"] :is(.num, .bandhead .tag, .idx, .steps [aria-current="step"]),
+html.dark[data-family="F07"] .chip.on,
+html.dark[data-family="F08"] .chapter .no,
+html.dark[data-family="F09"] :is(.chapter-no, .tab .n) { color: var(--primary-ink); }
+/* Some F09 tabs are filled pills rather than underlined text. */
+html.dark[data-family="F09"]:is([data-version="V2"], [data-version="V5"]) .tab[aria-selected="true"] { color: #fff; }
+html[data-family="F04"] :is(.cmd .meta, .recent-item .when),
+html[data-family="F05"] :is(.tab i, .chapnav a small),
+html[data-family="F06"] .steps small { opacity: 1; }
+html[data-family="F05"] .chapter.dim { opacity: 1; }
+/* Inline accent labels in later families also need the opaque text token. */
+html.dark[data-family] [style*="color:var(--primary)"] { color: var(--primary-ink) !important; }
+
+/* The common header must shrink its breadcrumb, never its controls. */
+:where(html[data-family]) :is(.topbar, .hdr, .top-header) { min-width: 0; }
+:where(html[data-family]) :is(.top-actions, .header-actions) { flex-shrink: 0; }
+:where(html[data-family]) :is(.icon-btn, .ib, .burger, .mobile-menu-btn) { flex-shrink: 0; }
+:where(html[data-family]) .brand img { flex-shrink: 1; min-width: 0; max-width: 100%; }
+:where(html[data-family]) .brand { min-width: 0; }
+:where(html[data-family]) .brand span { flex-shrink: 0; }
+
+/* F10–F13 used skip-link, whereas base.css only styles skip. */
+:where(html[data-family]) .skip-link {
+  position: fixed;
+  left: 12px;
+  top: -100px;
+  z-index: 200;
+  padding: 10px 16px;
+  background: var(--card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+:where(html[data-family]) .skip-link:focus { top: 12px; }
+
+/* F03 COM-02: an inline span ignores width and height. */
+html[data-family="F03"] .bar .fill { display: block; }
+html[data-family="F03"] .restored-section {
+  margin-block: 20px;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+html[data-family="F03"] .restored-section h2 { font-size: 18px; margin-bottom: 10px; }
+html[data-family="F03"] .queue-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+html[data-family="F03"] .queue-grid article { padding: 14px; border: 1px solid var(--border); border-radius: var(--radius-md); }
+html[data-family="F03"] .queue-grid h3 { font-size: 15px; }
+html[data-family="F03"] .queue-grid p { margin-block: 8px; font-size: 13px; color: var(--muted-foreground); }
+html[data-family="F03"] .restored-section .bar { display: grid; grid-template-columns: 78px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding-block: 12px; font-size: 13px; }
+html[data-family="F03"] .restored-section .track { display: block; height: 10px; border-radius: 6px; overflow: hidden; background: var(--muted); }
+html[data-family="F03"] .restored-section .fill { height: 100%; background: var(--primary); }
+html[data-family="F03"] .restored-section .why { grid-column: 2 / -1; color: var(--muted-foreground); font-size: 12px; }
+
+/* F06 V4: dimming whole, still-editable chapters destroys text contrast. */
+html[data-family="F06"] .chapter.dim { opacity: 1; }
+html[data-family="F06"] .toc a small { opacity: 1; }
+
+/* F09 V3: min-content in the rail must not widen the entire grid. */
+html[data-family="F09"] :is(.layout > *, .rail, .rail-card, .move) { min-width: 0; }
+html[data-family="F09"] .rail-card { overflow-wrap: anywhere; }
+html[data-family="F09"] .rail-card .btn { white-space: normal; }
+
+/* Native help summaries and breadcrumb links are interactive targets too. */
+:where(html[data-family]) main summary { min-width: 24px; min-height: 24px; }
+:where(html[data-family]) :is(.crumb, .breadcrumbs) a { display: inline-flex; align-items: center; min-height: 24px; }
+
+/* Lab controls remain available without displacing the client's first task. */
+html:is([data-family="F05"], [data-family="F06"]) .lab-tools { border: 1px dashed var(--border); border-radius: var(--radius-md); margin-block: 8px; max-width: 100%; }
+html:is([data-family="F05"], [data-family="F06"]) .lab-tools > summary { min-height: 40px; padding: 10px 12px; cursor: pointer; font-size: 12px; color: var(--muted-foreground); }
+html:is([data-family="F05"], [data-family="F06"]) .lab-tools > div { padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+html[data-family="F10"] .lab-tools { border-bottom: 1px solid var(--border); background: var(--card); }
+html[data-family="F10"] .lab-tools > summary { min-height: 40px; padding: 8px 24px; font-size: 12px; color: var(--muted-foreground); cursor: pointer; }
+html[data-family="F10"] .request-title-note { font-size: 12px; overflow-wrap: anywhere; min-width: 0; }
+html[data-family="F10"] .request-title-note summary { min-height: 28px; cursor: pointer; color: var(--muted-foreground); }
+html[data-family="F10"] .request-title-note code { white-space: normal; overflow-wrap: anywhere; }
+
+/* F10 V2: distinguish the metric's label from its annotation at all widths. */
+html[data-family="F10"] .kpi-cell-top { display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: space-between; }
+/* Self-message action buttons must not wash white text out with a white tint. */
+html[data-family="F13"] .msg-card--self .msg-action-btn {
+  background: var(--brand-700);
+  color: #fff;
+  border-color: rgba(255,255,255,.6);
+}
+
+/* F19/F22 selection controls, F20 skill removal, F21 switches. */
+html[data-family="F20"] :is(.skill button, .skill-chip button, .skills button) { min-width: 28px; min-height: 28px; }
+html[data-family="F21"] [role="switch"] { min-height: 28px; min-width: 44px; }
+html[data-family="F22"] :is(.drive-3 > *, .dcanvas, .dinsp, .dtree, .d-tile, .dcard, .ucard) { min-width: 0; }
+html[data-family="F22"] :is(.d-tile, .dinsp, .dcard, .ucard) { overflow-wrap: anywhere; }
+html[data-family="F22"] :is(.dcard, .dinsp) :is(.btn, .ref, .mono) { white-space: normal; overflow-wrap: anywhere; }
+
+/* Keep wide quote matrices locally scrollable, not page-width constraints. */
+html[data-family="F11"] :is(.workspace-grid > *, .matrix-split > *, .main-stack, .section-card, .audit-panel, .doc-section) { min-width: 0; }
+html[data-family="F11"] :is(.audit-panel, .doc-section) { overflow-x: auto; }
+html[data-family="F11"] .panel-title { flex-wrap: wrap; gap: 8px; }
+html[data-family="F14"] .chip a { text-decoration: underline; text-underline-offset: 3px; }
+html[data-family="F22"] .d-tile > * { min-width: 0; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+html[data-family="F22"] .d-list .d-tile { flex-wrap: wrap; }
+
+@media (max-width: 1040px) {
+  html[data-family="F22"] .drive-3 { grid-template-columns: minmax(0, 1fr) minmax(240px, 300px); }
+}
+@media (max-width: 800px) {
+  html[data-family="F22"] .drive-3 { grid-template-columns: minmax(0, 1fr); }
+  html[data-family="F22"] .dinsp { position: static; }
+}
+@media (max-width: 640px) {
+  html[data-family] :is(.topbar, .hdr, .top-header) { gap: 6px; padding-inline: 10px; }
+  html[data-family] :is(.topbar, .hdr) > .crumb,
+  html[data-family] .top-header .header-left {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+  html[data-family] :is(.crumb, .breadcrumbs) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  html[data-family] .top-header .breadcrumbs { display: none; }
+  html[data-family] :is(.top-actions, .header-actions, .hdr .right) { gap: 6px; margin-left: auto; }
+  html[data-family] :is(.icon-btn, .ib, .burger, .mobile-menu-btn) { width: 44px; min-width: 44px; height: 44px; min-height: 44px; padding: 0; }
+  html[data-family] :is(.search-trigger, .trig, .cmdk-trigger) { min-width: 44px; min-height: 44px; height: 44px; justify-content: center; padding-inline: 8px; gap: 0; }
+  html[data-family] :is(.search-trigger, .trig) :is(.txt, .t, .kbd),
+  html[data-family] .cmdk-trigger kbd { display: none; }
+  html[data-family] .cmdk-trigger { font-size: 0; }
+  html[data-family] .cmdk-trigger::before { content: "⌕"; font: 24px/1 var(--font); }
+  /* Visually compact labels still provide accessible button names. */
+  html[data-family] :is(.search-trigger .txt, .trig .t, .cmdk-trigger span, .avatar-btn > span:not(.avatar-circle)) {
+    display: block; position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0);
+    white-space: nowrap; font-size: 12px;
+  }
+  html[data-family="F05"] .top { min-width: 0; gap: 6px; padding-inline: 10px; }
+  html[data-family="F05"] .top .crumb { flex: 1 1 0; min-width: 0; overflow: hidden; white-space: nowrap; }
+  html[data-family="F05"] .ibtn { flex: none; min-width: 44px; min-height: 44px; }
+  html[data-family="F05"] .pal-trigger { flex: none; width: 44px; min-width: 44px; min-height: 44px; font-size: 0; gap: 0; justify-content: center; padding: 0; }
+  html[data-family="F05"] .pal-trigger .kbd { display: none; }
+  html[data-family] .avatar { padding: 0; gap: 0; }
+  html[data-family] .avatar > span { display: none; }
+  html[data-family] .avatar-btn { padding: 3px; gap: 0; min-width: 38px; }
+  html[data-family] .avatar-btn > span:not(.avatar-circle) {
+    display: block; position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
+  }
+  html[data-family="F03"] .queue-grid { grid-template-columns: minmax(0, 1fr); }
+  html[data-family="F03"][data-version="V5"] :is(table, tbody, tr, td) { display: block; width: 100%; min-width: 0; }
+  html[data-family="F03"][data-version="V5"] thead { display: none; }
+  html[data-family="F03"][data-version="V5"] tbody tr { padding: 12px; border-bottom: 1px solid var(--border); }
+  html[data-family="F03"][data-version="V5"] td { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 6px 0; border: 0; text-align: left; white-space: normal; }
+  html[data-family="F03"][data-version="V5"] td::before { content: attr(data-label); font-size: 11px; font-weight: 700; color: var(--muted-foreground); }
+  html[data-family="F08"] main { padding-bottom: 104px; }
+  html[data-family="F08"] .sticky-cta {
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100vw - 24px);
+    width: max-content;
+    min-height: 48px;
+    white-space: normal;
+    text-align: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* base.css's non-zero universal duration inadvertently animates all inherited
+     colours at every DOM level. Reduced motion must actually stop transitions. */
+  :where(html[data-family]) *,
+  :where(html[data-family]) *::before,
+  :where(html[data-family]) *::after { transition: none !important; animation-duration: .01ms !important; }
+  :where(html[data-family]) .reveal { opacity: 1; transform: none; }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F06">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -166,7 +166,7 @@ footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;padding-top:18px;bor
    <div class="topline"><div><p class="eyebrow">New service request · a guided brief</p><h1>New request</h1><p class="intro">Describe your project and save a draft. You can edit attachments and submit for quotes from the request page when you’re ready.</p></div>
     <a class="btn" style="margin-left:auto" href="../../F05-requests-work-hub/V1/index.html"><svg><use href="#i-back"/></svg>Back to requests</a></div>
    <div class="resume" id="resumeBar" hidden><svg><use href="#i-info"/></svg><span id="resumeText">A local draft is waiting — pick up where you left off. Nothing is sent to a server.</span><div class="acts"><button id="resumeBtn">Resume draft</button><button id="discardLocal">Discard</button></div></div>
-   <div class="previews" role="group" aria-label="Preview designed states"><span>States:</span><button class="chip" data-state="populated" aria-pressed="true">Guided form</button><button class="chip" data-state="loading" aria-pressed="false">Skeleton</button><button class="chip" data-state="error" aria-pressed="false">Submit error</button><button class="chip" data-state="success" aria-pressed="false">Success</button><button class="chip" data-state="empty" aria-pressed="false">Empty</button></div>
+   <details class="lab-tools"><summary>Prototype state previews</summary><div class="previews" role="group" aria-label="Preview designed states"><button class="chip" data-state="populated" aria-pressed="true">Guided form</button><button class="chip" data-state="loading" aria-pressed="false">Skeleton</button><button class="chip" data-state="error" aria-pressed="false">Submit error</button><button class="chip" data-state="success" aria-pressed="false">Success</button><button class="chip" data-state="empty" aria-pressed="false">Empty</button></div></details>
 
    <div id="formWrap"><div class="book">
     <nav class="toc" id="toc" aria-label="Chapters"><p>In this brief</p>
@@ -232,7 +232,7 @@ footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;padding-top:18px;bor
 
    <div id="states">
     <div class="sk" id="stateLoading" hidden><div class="skl" style="width:40%;height:26px"></div><div class="skl"></div><div class="skl" style="height:90px"></div><div class="skl"></div><div class="skl" style="width:65%"></div><p class="sr-only" role="status">Saving your draft…</p></div>
-    <div class="box err" id="stateError" role="alert" hidden><div class="art"><svg><use href="#i-alert"/></svg></div><h2>Could not save your draft</h2><p>POST /api/v1/requests failed (designed 502 degraded state). Your narrative is intact and autosaved locally, so retrying loses nothing.</p><div class="acts"><button class="btn btn-p" id="retry"><svg><use href="#i-refresh"/></svg>Try again</button><button class="btn" id="support">Contact support (demo)</button></div></div>
+    <div class="box err" id="stateError" role="alert" hidden><div class="art"><svg><use href="#i-alert"/></svg></div><h2>Could not save your draft</h2><p>We could not save your request. Your answers are intact and text fields are autosaved in this browser. Try again; nothing was submitted in this demo.</p><div class="acts"><button class="btn btn-p" id="retry"><svg><use href="#i-refresh"/></svg>Try again</button><button class="btn" id="support">Contact support (demo)</button></div></div>
     <div class="box" id="stateSuccess" hidden><div class="art"><svg><use href="#i-check"/></svg></div><h2>Draft saved</h2><p>All three chapters validated. In the live product this is where POST /api/v1/requests returns your request; this offline lab sends nothing.</p><pre id="payload"></pre><div class="acts"><a class="btn btn-p" href="../../F05-requests-work-hub/V1/index.html">Back to requests</a><button class="btn" id="another">Create another draft</button></div></div>
     <div class="box" id="stateEmpty" hidden><div class="art" style="background:var(--brand-50);color:var(--primary)"><svg><use href="#i-inbox"/></svg></div><h2>A blank brief</h2><p>Every answer is cleared to the locked defaults. Your work is held aside and restored when you resume — nothing is lost.</p><div class="acts"><button class="btn btn-p" id="resumeDraft">Resume my draft</button></div></div>
    </div>

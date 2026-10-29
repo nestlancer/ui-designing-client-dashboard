@@ -1,0 +1,1044 @@
+{
+  "checkedUtc": "2026-10-29T12:40:52.766Z",
+  "cases": 100,
+  "browser": "Chromium",
+  "mobileViewport": [
+    390,
+    844
+  ],
+  "results": [
+    {
+      "path": "families/F03-dashboard-overview/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Overview sections, real pipeline bars, and working palette"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F03-dashboard-overview/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Overview sections, real pipeline bars, and working palette"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F03-dashboard-overview/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Overview sections, real pipeline bars, and working palette"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F03-dashboard-overview/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Overview sections, real pipeline bars, and working palette"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F03-dashboard-overview/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Overview sections, real pipeline bars, and working palette"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search renders, literal no-results query is safe, Escape restores focus"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search renders, literal no-results query is safe, Escape restores focus"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search renders, literal no-results query is safe, Escape restores focus"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search renders, literal no-results query is safe, Escape restores focus"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search renders, literal no-results query is safe, Escape restores focus"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search filters and restores rows; detail opens; priority ARIA is button-only"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search filters and restores rows; detail opens; priority ARIA is button-only"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search filters and restores rows; detail opens; priority ARIA is button-only"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search filters and restores rows; detail opens; priority ARIA is button-only"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Search filters and restores rows; detail opens; priority ARIA is button-only"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F06-request-new-form/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Form help, human-readable error state, and retry"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F06-request-new-form/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Form help, human-readable error state, and retry"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F06-request-new-form/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Form help, human-readable error state, and retry"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F06-request-new-form/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Form help, human-readable error state, and retry"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F06-request-new-form/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Form help, human-readable error state, and retry"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F07-request-details/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F07-request-details/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F07-request-details/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F07-request-details/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F07-request-details/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F08-projects-list/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F08-projects-list/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F08-projects-list/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Sticky CTA is fully inside mobile viewport with reserved content space"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F08-projects-list/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F08-projects-list/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "B2B selection honestly labels the different project example"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F09-project-details/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F09-project-details/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F09-project-details/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F09-project-details/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F09-project-details/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F10-quotes-list/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Client content is outside collapsed prototype tools; imported titles remain literal"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F10-quotes-list/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Client content is outside collapsed prototype tools; imported titles remain literal"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F10-quotes-list/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Client content is outside collapsed prototype tools; imported titles remain literal"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F10-quotes-list/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Client content is outside collapsed prototype tools; imported titles remain literal"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F10-quotes-list/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Client content is outside collapsed prototype tools; imported titles remain literal"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F11-quote-details/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Quote matrix can be horizontally scrolled by keyboard without page overflow"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F11-quote-details/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Quote matrix can be horizontally scrolled by keyboard without page overflow"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F11-quote-details/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Quote matrix can be horizontally scrolled by keyboard without page overflow"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F11-quote-details/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F11-quote-details/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F12-messages-home/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F12-messages-home/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F12-messages-home/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F12-messages-home/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F12-messages-home/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F13-messages-thread/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F13-messages-thread/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F13-messages-thread/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F13-messages-thread/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F13-messages-thread/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F14-billing-center/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F14-billing-center/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F14-billing-center/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F14-billing-center/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F14-billing-center/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F15-payment-methods/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F15-payment-methods/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F15-payment-methods/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F15-payment-methods/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F15-payment-methods/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F16-checkout/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F16-checkout/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F16-checkout/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F16-checkout/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F16-checkout/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F17-payment-status/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F17-payment-status/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F17-payment-status/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F17-payment-status/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Completed and blocked payment states keep title, message, and action consistent"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F17-payment-status/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F19-notifications-center/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F19-notifications-center/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F19-notifications-center/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F19-notifications-center/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F19-notifications-center/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F21-settings/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F21-settings/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F21-settings/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F21-settings/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Inline demo 2FA wizard launches and completes locally"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F21-settings/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F22-settings-files/V1/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed",
+        "Storage meter exposes accurate, bounded usage"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F22-settings-files/V2/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F22-settings-files/V3/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F22-settings-files/V4/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    },
+    {
+      "path": "families/F22-settings-files/V5/index.html",
+      "passed": [
+        "Literal local links and SVG symbols resolve",
+        "Mobile theme toggle changes and restores theme",
+        "Mobile navigation opens; menu target is not compressed"
+      ],
+      "pageErrors": [],
+      "blockedRequests": []
+    }
+  ]
+}

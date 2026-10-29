@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F04">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,7 +98,7 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
   <a class="brand" href="../../../index.html" aria-label="Nestlancer lab gallery"><img class="logo-light" src="../../../assets/logo-full-light.svg" alt="" width="100" height="28"><img class="logo-dark" src="../../../assets/logo-full-dark.svg" alt="" width="100" height="28"><span>Nestlancer</span></a>
   <nav aria-label="Main">
    <div class="nav-group"><h2>Main</h2>
-    <a class="nav-item" aria-current="page" href="../../../F03-dashboard-overview/V1/index.html"><svg class="ico"><use href="#i-dash"/></svg><span>Dashboard</span></a>
+    <a class="nav-item" aria-current="page" href="../../F03-dashboard-overview/V1/index.html"><svg class="ico"><use href="#i-dash"/></svg><span>Dashboard</span></a>
     <button class="nav-item" data-demo="/requests"><svg class="ico"><use href="#i-req"/></svg><span>Requests</span></button>
     <button class="nav-item" data-demo="/projects"><svg class="ico"><use href="#i-folder"/></svg><span>Projects</span></button>
     <button class="nav-item" data-demo="/quotes"><svg class="ico"><use href="#i-quote"/></svg><span>Quotes</span></button>
@@ -140,12 +140,12 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
    </div>
    <nav class="lab-nav" aria-label="Lab navigation"><a href="../../../index.html">← Gallery</a><span>F04 · V1 Classic List</span><span class="sp"></span><span>Prev —</span><a href="../V2/index.html">Next: V2 Grouped-by-Entity →</a></nav>
   </main>
-  <footer>© 2026 Nestlancer · Client Portal Lab · F04 Global Search / ⌘K · Data: requests/messaging/payments/quotes/users endpoints (jump targets)</footer>
+  <footer>© 2026 Nestlancer · Client Portal Lab · Command menu · Navigation actions are demonstrations</footer>
  </div>
 </div>
 <div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Command menu"><div class="palette-box">
   <div class="palette-input"><svg class="ico"><use href="#i-search"/></svg><input id="paletteInput" type="search" placeholder="Jump to a place or action…" aria-label="Command search" autocomplete="off"><span class="hint">esc</span></div>
-  <div class="palette-list" id="paletteList" role="listbox"></div>
+  <div class="palette-list" id="paletteList" role="listbox" aria-label="Search results"></div>
   <div class="palette-foot"><span><span class="kbd">↑</span><span class="kbd">↓</span> navigate</span><span><span class="kbd">↵</span> select</span><span><span class="kbd">esc</span> close</span></div>
 </div></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -187,7 +187,7 @@ var nav=[{g:'Navigation',items:[
 function flat(){var out=[];nav.forEach(function(g){g.items.forEach(function(it){out.push(Object.assign({g:g.g},it))})});return out}
 function render(){var q=pInput.value.trim().toLowerCase();pList.innerHTML='';pIdx=0;
  var items=flat().filter(function(it){return !q||(it.n+' '+it.g).toLowerCase().indexOf(q)>-1});
- if(!items.length){pList.innerHTML='<div class="empty">No results for “'+pInput.value.trim()+'”</div>';return}
+ if(!items.length){var empty=document.createElement('div');empty.className='empty';empty.textContent='No results for “'+pInput.value.trim()+'”';pList.appendChild(empty);return}
  var lastG=null;
  items.forEach(function(it,i){if(it.g!==lastG){var gl=document.createElement('div');gl.className='group-label';gl.textContent=it.g;pList.appendChild(gl);lastG=it.g}
  var b=document.createElement('button');b.className='cmd'+(i===0?' sel':'');b.setAttribute('role','option');b.innerHTML='<svg class="ico"><use href="#'+it.i+'"/></svg><span>'+it.n+'</span>'+(it.r?'<span class="meta">'+it.r+'</span>':'');
