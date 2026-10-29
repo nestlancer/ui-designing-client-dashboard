@@ -1,0 +1,291 @@
+{
+  "family": "F04",
+  "familyDir": "F04-global-search-command-palette",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F04-global-search-command-palette/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F04-global-search-command-palette/V3/index.html",
+  "capturedUtc": "2026-10-28T15:57:07.179Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F04/F04-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F04/F04-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F04/F04-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F04/F04-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F04/F04-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F04/F04-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F04/F04-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "F04 · V3 Action + Recent · ⌘K Command Palette · Nestlancer Client Portal Lab",
+      "h1": "Command menu",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Command menu",
+        "H2:ACTIONS",
+        "H2:RECENT"
+      ],
+      "buttons": [
+        "← Gallery",
+        "← Prev: V2 Grouped-by-Entity",
+        "Next: V4 Keystroke-Minimal →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": "Command menu"
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 7,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 26
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "BUTTON",
+        "text": "New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jump to pending payment",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Jump to pending approval",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Switch to dark mode",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Go to Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Open Messages",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Open Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Open Notifications",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Payment · Festive Season Campaign 2m",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quote · Logo & brand kit 1h",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Message · Neha Krishnan 3h",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Invoice · Sept 2026 Yesterday",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Type \"pay\" in the palette field; ArrowDown; record filtered results",
+      "via": "typed \"pay\"",
+      "toast": {
+        "visible": false,
+        "text": ""
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F04-global-search-command-palette/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": true,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "CLIENT PORTAL · GLOBAL SEARCH Command menu Actions on the left, your most-recent destinations on the right. ↑↓ navigate · ↵ select · esc close. ← Gallery F04 · V3 Action + Recent ← Prev: V2 Grouped-by-Entity Next: V4 Key",
+      "urlChanged": false,
+      "resultCount": 2,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "partial",
+      "detail": "dark false->false"
+    },
+    "demoToast": {
+      "visible": false,
+      "text": ""
+    },
+    "fullPageHeight": 1000,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 457,
+      "actualHScrollPx": 67,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "top-actions",
+        "right": 457
+      }
+    },
+    "factsMobile": {
+      "title": "F04 · V3 Action + Recent · ⌘K Command Palette · Nestlancer Client Portal Lab",
+      "h1": "Command menu",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Command menu",
+        "H2:ACTIONS",
+        "H2:RECENT"
+      ],
+      "buttons": [
+        "← Gallery",
+        "← Prev: V2 Grouped-by-Entity",
+        "Next: V4 Keystroke-Minimal →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": "Command menu"
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 34,
+      "under24px": 4,
+      "examples": [
+        {
+          "text": "Open navigation menu",
+          "w": 2,
+          "h": 36
+        },
+        {
+          "text": "← Gallery",
+          "w": 57,
+          "h": 19
+        },
+        {
+          "text": "← Prev: V2 Grouped-by-Entity",
+          "w": 177,
+          "h": 19
+        },
+        {
+          "text": "Next: V4 Keystroke-Minimal →",
+          "w": 179,
+          "h": 19
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Type \"pay\" in the palette field; ArrowDown; record filtered results",
+      "via": "typed \"pay\"",
+      "toast": {
+        "visible": false,
+        "text": ""
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F04-global-search-command-palette/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": true,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "CLIENT PORTAL · GLOBAL SEARCH Command menu Actions on the left, your most-recent destinations on the right. ↑↓ navigate · ↵ select · esc close. ← Gallery F04 · V3 Action + Recent ← Prev: V2 Grouped-by-Entity Next: V4 Key",
+      "urlChanged": false,
+      "resultCount": 2,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.click: Timeout 2500ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigation "
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 7,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.94 (foreground color: #5b7bff, background color: #1b284b, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 26
+    }
+  }
+}

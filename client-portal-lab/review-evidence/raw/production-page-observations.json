@@ -1,0 +1,748 @@
+{
+  "account": "A",
+  "pages": {
+    "/dashboard": {
+      "path": "/dashboard",
+      "title": "Dashboard · Nestlancer",
+      "h1": [
+        "Overview"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Workspace vitals",
+        "Awaiting you",
+        "Live workbench",
+        "Quotes to review",
+        "Recent activity"
+      ],
+      "tabs": [
+        "Quotes0",
+        "Pay now0",
+        "Projects0",
+        "Inbox0"
+      ],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "Quotes0",
+        "Pay now0",
+        "Projects0",
+        "Inbox0"
+      ],
+      "labels": [],
+      "fields": [],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/requests": {
+      "path": "/requests",
+      "title": "Requests · Nestlancer",
+      "h1": [
+        "Work Hub"
+      ],
+      "h1Present": true,
+      "h2": [],
+      "tabs": [
+        "All",
+        "Requests (12)",
+        "Projects"
+      ],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "All",
+        "Requests (12)",
+        "Projects",
+        "Previous page",
+        "Next page"
+      ],
+      "labels": [],
+      "fields": [
+        "select",
+        "input"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [
+        "/requests/:id"
+      ],
+      "http": 200,
+      "denied": false
+    },
+    "/requests/new": {
+      "path": "/requests/new",
+      "title": "New request · Nestlancer",
+      "h1": [
+        "New request"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Brief",
+        "Budget",
+        "Timeline & requirements"
+      ],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "Help for Title",
+        "Help for Description",
+        "Help for Category",
+        "Help for Budget min",
+        "Help for Budget max",
+        "Help for Currency",
+        "Help for Budget is flexible",
+        "Help for Preferred start"
+      ],
+      "labels": [
+        "Title *",
+        "Description *",
+        "Category",
+        "Budget min",
+        "Budget max",
+        "Currency",
+        "Budget is flexible",
+        "Preferred start",
+        "Deadline",
+        "Requirements (one per line)"
+      ],
+      "fields": [
+        "input",
+        "textarea",
+        "select",
+        "number",
+        "number",
+        "input",
+        "checkbox",
+        "date",
+        "date",
+        "textarea"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": true,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/projects": {
+      "path": "/projects",
+      "title": "Projects · Nestlancer",
+      "h1": [
+        "Projects"
+      ],
+      "h1Present": true,
+      "h2": [],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications"
+      ],
+      "labels": [],
+      "fields": [],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/quotes": {
+      "path": "/quotes",
+      "title": "Quotes · Nestlancer",
+      "h1": [
+        "Quotes"
+      ],
+      "h1Present": true,
+      "h2": [],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications"
+      ],
+      "labels": [],
+      "fields": [
+        "select"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/messages": {
+      "path": "/messages",
+      "title": "Messages · Nestlancer",
+      "h1": [
+        "Messages"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Recent conversations"
+      ],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications"
+      ],
+      "labels": [],
+      "fields": [],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/payments": {
+      "path": "/payments",
+      "title": "Payments · Nestlancer",
+      "h1": [
+        "Billing Center"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Transaction history"
+      ],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications"
+      ],
+      "labels": [],
+      "fields": [
+        "select"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 1,
+      "rows": 11,
+      "detailPatterns": [
+        "/payments/:id"
+      ],
+      "http": 200,
+      "denied": false
+    },
+    "/payments/methods": {
+      "path": "/payments/methods",
+      "title": "Payment methods · Nestlancer",
+      "h1": [
+        "Payment methods"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Add a payment method"
+      ],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications"
+      ],
+      "labels": [],
+      "fields": [],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/invoices": {
+      "path": "/invoices",
+      "title": "Invoices · Nestlancer",
+      "h1": [
+        "Invoices"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Invoice archive"
+      ],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "Download invoice [invoice]",
+        "Download invoice [invoice]",
+        "Download invoice [invoice]",
+        "Download invoice [invoice]",
+        "Download invoice [invoice]"
+      ],
+      "labels": [],
+      "fields": [],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 1,
+      "rows": 5,
+      "detailPatterns": [
+        "/payments/:id"
+      ],
+      "http": 200,
+      "denied": false
+    },
+    "/profile": {
+      "path": "/profile",
+      "title": "Profile · Nestlancer",
+      "h1": [
+        "Profile"
+      ],
+      "h1Present": true,
+      "h2": [],
+      "tabs": [],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications"
+      ],
+      "labels": [],
+      "fields": [],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/settings/account": {
+      "path": "/settings/account",
+      "title": "Account settings · Nestlancer",
+      "h1": [
+        "Settings"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Privacy",
+        "Danger zone"
+      ],
+      "tabs": [
+        "Account",
+        "Security",
+        "Notifications",
+        "Files",
+        "Activity"
+      ],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "Help for Privacy settings",
+        "Show email on profile",
+        "Show phone on profile",
+        "Save changes",
+        "Request data export",
+        "Help for Deletion password",
+        "Delete account",
+        "Cancel pending deletion"
+      ],
+      "labels": [
+        "Profile visibility Public Private Connections only",
+        "Show email on profile",
+        "Show phone on profile",
+        "Password to confirm deletion"
+      ],
+      "fields": [
+        "select",
+        "password"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/settings/security": {
+      "path": "/settings/security",
+      "title": "Security · Nestlancer",
+      "h1": [
+        "Settings"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Change password",
+        "Two-factor authentication",
+        "Active sessions"
+      ],
+      "tabs": [
+        "Account",
+        "Security",
+        "Notifications",
+        "Files",
+        "Activity"
+      ],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "Help for Current password",
+        "Help for New password",
+        "Help for Confirm new password",
+        "Update password",
+        "Start 2FA setup",
+        "Sign out other devices",
+        "Sign out all"
+      ],
+      "labels": [
+        "Current password",
+        "New password",
+        "Confirm new password",
+        "Confirm with password"
+      ],
+      "fields": [
+        "password",
+        "password",
+        "password",
+        "password"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/settings/notifications": {
+      "path": "/settings/notifications",
+      "title": "Notification preferences · Nestlancer",
+      "h1": [
+        "Settings"
+      ],
+      "h1Present": true,
+      "h2": [
+        "Available channels",
+        "Quiet hours",
+        "Category preferences"
+      ],
+      "tabs": [
+        "Account",
+        "Security",
+        "Notifications",
+        "Files",
+        "Activity"
+      ],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "Help for Quiet hours",
+        "Enable quiet hours",
+        "Help for From",
+        "Help for To",
+        "Help for Timezone",
+        "Quotes email",
+        "Quotes push",
+        "Quotes in-app"
+      ],
+      "labels": [
+        "Enable quiet hours",
+        "From",
+        "To",
+        "Timezone"
+      ],
+      "fields": [
+        "time",
+        "time",
+        "input"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 1,
+      "rows": 6,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/settings/files": {
+      "path": "/settings/files",
+      "title": "Files · Nestlancer",
+      "h1": [
+        "Settings"
+      ],
+      "h1Present": true,
+      "h2": [],
+      "tabs": [
+        "Account",
+        "Security",
+        "Notifications",
+        "Files",
+        "Activity",
+        "All",
+        "Images",
+        "Documents",
+        "Video",
+        "Archives",
+        "All sources",
+        "My uploads"
+      ],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications",
+        "All",
+        "Images",
+        "Documents",
+        "Video",
+        "Archives",
+        "All sources",
+        "My uploads",
+        "Message attachments"
+      ],
+      "labels": [],
+      "fields": [
+        "file",
+        "search",
+        "select"
+      ],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    },
+    "/settings/activity": {
+      "path": "/settings/activity",
+      "title": "Activity · Nestlancer",
+      "h1": [
+        "Settings"
+      ],
+      "h1Present": true,
+      "h2": [],
+      "tabs": [
+        "Account",
+        "Security",
+        "Notifications",
+        "Files",
+        "Activity"
+      ],
+      "buttons": [
+        "MAIN",
+        "EXPLORE",
+        "ACCOUNT",
+        "Collapse sidebar",
+        "Open command menu",
+        "Switch to dark mode",
+        "Messages",
+        "Notifications"
+      ],
+      "labels": [],
+      "fields": [],
+      "hScroll": 0,
+      "h1InView": true,
+      "hasMain": true,
+      "dialog": false,
+      "composer": false,
+      "tables": 0,
+      "rows": 0,
+      "detailPatterns": [],
+      "http": 200,
+      "denied": false
+    }
+  },
+  "checks": {
+    "search": {
+      "dialog": false,
+      "input": false,
+      "list": false
+    },
+    "theme": true,
+    "payNowTab": {
+      "present": false
+    },
+    "thread": {
+      "opened": false,
+      "reason": "no thread link in the messages list"
+    }
+  },
+  "mobile": {
+    "/dashboard": {
+      "hScroll": 0,
+      "h1": false,
+      "menu": false
+    },
+    "/requests": {
+      "hScroll": 0,
+      "h1": false,
+      "menu": false
+    },
+    "/projects": {
+      "hScroll": 0,
+      "h1": false,
+      "menu": false
+    },
+    "/messages": {
+      "hScroll": 0,
+      "h1": false,
+      "menu": false
+    },
+    "/payments": {
+      "hScroll": 0,
+      "h1": false,
+      "menu": false
+    },
+    "/settings/account": {
+      "hScroll": 0,
+      "h1": false,
+      "menu": false
+    },
+    "/profile": {
+      "hScroll": 0,
+      "h1": false,
+      "menu": false
+    }
+  },
+  "writes": [
+    "POST /api/auth/refresh 204",
+    "POST /api/auth/login 200",
+    "POST /api/auth/refresh 200",
+    "POST /api/auth/logout 200"
+  ],
+  "login": {
+    "ok": true,
+    "http": 200,
+    "detail": "shell opened"
+  },
+  "details": [],
+  "logout": {
+    "http": 200,
+    "ok": true,
+    "detail": "app logout endpoint used if visible control was not required for this probe"
+  }
+}

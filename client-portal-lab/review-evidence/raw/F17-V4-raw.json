@@ -1,0 +1,307 @@
+{
+  "family": "F17",
+  "familyDir": "F17-payment-status",
+  "version": "V4",
+  "sourcePath": "client-portal-lab/families/F17-payment-status/V4/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F17-payment-status/V4/index.html",
+  "capturedUtc": "2026-10-28T16:50:06.879Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F17/F17-V4-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F17/F17-V4-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F17/F17-V4-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F17/F17-V4-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F17/F17-V4-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F17/F17-V4-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F17/F17-V4-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Payment details · V4 Unlock Workbench — Nestlancer Lab",
+      "h1": "Payment details",
+      "headings": [
+        "H1:Payment details",
+        "H2:Awaiting you",
+        "H2:Payment completed",
+        "H2:Billing documents",
+        "H2:Not due yet",
+        "H2:What unlocks this",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "← Back to Billing Center",
+        "Billing Center",
+        "Completed",
+        "Not due yet",
+        "What unlocks this →",
+        "Open invoice archive →",
+        "Download receipt",
+        "Download invoice",
+        "View all",
+        "File a payment dispute",
+        "Cancel payment",
+        "← V3",
+        "Gallery",
+        "V5 →"
+      ],
+      "tabs": [
+        "Completed",
+        "Not due yet"
+      ],
+      "inputs": [],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        },
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 24
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Open/download document or expand document row (demo)",
+      "via": "button \"Download receipt\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading payment details…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F17-payment-status/V4/index.html",
+      "selectedTab": "Completed",
+      "visibleDialog": true,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": "Billing documents Receipt RCPT-2026-000231 Download receipt Invoice NL-INV-2026-000002 Download invoice Document versions 2 on file View all Downloads are demo-labelled — real routes GET /payments/{id",
+      "mainStart": "← Back to Billing Center PAYMENT Payment details Khandesh Spice D2C E-Commerce Store · Final payment. Billing Center Completed Not due yet Awaiting you Exceptions, not metrics. 1 blocker on this payment No blocker — paym",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1114,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "Payment details · V4 Unlock Workbench — Nestlancer Lab",
+      "h1": "Payment details",
+      "headings": [
+        "H1:Payment details",
+        "H2:Awaiting you",
+        "H2:Payment completed",
+        "H2:Billing documents",
+        "H2:Not due yet",
+        "H2:What unlocks this",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "← Back to Billing Center",
+        "Billing Center",
+        "Completed",
+        "Not due yet",
+        "What unlocks this →",
+        "Open invoice archive →",
+        "Download receipt",
+        "Download invoice",
+        "View all",
+        "File a payment dispute",
+        "Cancel payment",
+        "← V3",
+        "Gallery",
+        "V5 →"
+      ],
+      "tabs": [
+        "Completed",
+        "Not due yet"
+      ],
+      "inputs": [],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        },
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 41,
+      "under24px": 5,
+      "examples": [
+        {
+          "text": "← Back to Billing Center",
+          "w": 175,
+          "h": 21
+        },
+        {
+          "text": "Open invoice archive →",
+          "w": 156,
+          "h": 19
+        },
+        {
+          "text": "← V3",
+          "w": 30,
+          "h": 14
+        },
+        {
+          "text": "Gallery",
+          "w": 43,
+          "h": 14
+        },
+        {
+          "text": "V5 →",
+          "w": 30,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Open/download document or expand document row (demo)",
+      "via": "button \"Download receipt\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading payment details…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F17-payment-status/V4/index.html",
+      "selectedTab": "Completed",
+      "visibleDialog": true,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": "Billing documents Receipt RCPT-2026-000231 Download receipt Invoice NL-INV-2026-000002 Download invoice Document versions 2 on file View all Downloads are demo-labelled — real routes GET /payments/{id",
+      "mainStart": "← Back to Billing Center PAYMENT Payment details Khandesh Spice D2C E-Commerce Store · Final payment. Billing Center Completed Not due yet Awaiting you Exceptions, not metrics. 1 blocker on this payment No blocker — paym",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 24
+    }
+  }
+}

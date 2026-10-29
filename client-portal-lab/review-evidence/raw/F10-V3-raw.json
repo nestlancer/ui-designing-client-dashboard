@@ -1,0 +1,297 @@
+{
+  "family": "F10",
+  "familyDir": "F10-quotes-list",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F10-quotes-list/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V3/index.html",
+  "capturedUtc": "2026-10-28T16:07:08.770Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F10/F10-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F10/F10-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F10/F10-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F10/F10-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F10/F10-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F10/F10-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F10/F10-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Quotes · V3 Agreement Portfolio Grid — Nestlancer Client Portal",
+      "h1": "Quotes",
+      "headings": [
+        "H1:Quotes"
+      ],
+      "buttons": [
+        "Review #01a10f80 →",
+        "TOTAL 12 All quotes",
+        "PENDING 0 Awaiting action",
+        "ACCEPTED 5 Approved (₹6,55,000.00)",
+        "DECLINED 0 Rejected",
+        "Quote #01a10f80",
+        "Open Quote →",
+        "Quote #01a10f7d",
+        "Open Quote →",
+        "Quote #01a10f79",
+        "Open Quote →",
+        "Quote #01a10f76",
+        "Open Quote →",
+        "Quote #01a10f73",
+        "Open Quote →",
+        "Quote #01a10f71",
+        "Open Quote →",
+        "Quote #01a10f6e",
+        "Open Quote →",
+        "Quote #01a10a2b"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by quote ID or project title"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Status"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 24
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Filter/search the quotes list",
+      "via": "select \"Sent / pending\"",
+      "toast": {
+        "visible": true,
+        "text": "Showing 0 of 12 portfolio cards"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "COMMERCIAL Quotes Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team. ⏳ A5 Expiry Countdown: Quote #01a10f80 expires within 24 hours (Valid until Oct 20, 2026). Review #01a10f80 →",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 2202,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 499,
+      "actualHScrollPx": 109,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "header-actions",
+        "right": 499
+      }
+    },
+    "factsMobile": {
+      "title": "Quotes · V3 Agreement Portfolio Grid — Nestlancer Client Portal",
+      "h1": "Quotes",
+      "headings": [
+        "H1:Quotes"
+      ],
+      "buttons": [
+        "Review #01a10f80 →",
+        "TOTAL 12 All quotes",
+        "PENDING 0 Awaiting action",
+        "ACCEPTED 5 Approved (₹6,55,000.00)",
+        "DECLINED 0 Rejected",
+        "Quote #01a10f80",
+        "Open Quote →",
+        "Quote #01a10f7d",
+        "Open Quote →",
+        "Quote #01a10f79",
+        "Open Quote →",
+        "Quote #01a10f76",
+        "Open Quote →",
+        "Quote #01a10f73",
+        "Open Quote →",
+        "Quote #01a10f71",
+        "Open Quote →",
+        "Quote #01a10f6e",
+        "Open Quote →",
+        "Quote #01a10a2b"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by quote ID or project title"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Status"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 62,
+      "under24px": 2,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Filter/search the quotes list",
+      "via": "select \"Sent / pending\"",
+      "toast": {
+        "visible": true,
+        "text": "Showing 0 of 12 portfolio cards"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "COMMERCIAL Quotes Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team. ⏳ A5 Expiry Countdown: Quote #01a10f80 expires within 24 hours (Valid until Oct 20, 2026). Review #01a10f80 →",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 51,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 24
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F10; first dark capture was light and has been replaced)"
+  }
+}

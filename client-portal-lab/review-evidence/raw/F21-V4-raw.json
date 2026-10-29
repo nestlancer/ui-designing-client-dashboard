@@ -1,0 +1,336 @@
+{
+  "family": "F21",
+  "familyDir": "F21-settings",
+  "version": "V4",
+  "sourcePath": "client-portal-lab/families/F21-settings/V4/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F21-settings/V4/index.html",
+  "capturedUtc": "2026-10-28T17:00:59.210Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F21/F21-V4-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F21/F21-V4-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F21/F21-V4-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F21/F21-V4-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F21/F21-V4-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F21/F21-V4-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F21/F21-V4-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Settings · V4 Posture-First Security & Preferences Deck — Nestlancer Lab",
+      "h1": "Settings",
+      "headings": [
+        "H1:Settings",
+        "H2:Two-factor & password",
+        "H2:Account, Regional & Visibility (C20)",
+        "H2:Notification Preferences (19 switches)",
+        "H2:Active Sessions",
+        "H2:Activity Audit (50 events · C10)",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "Public Profile (`F20`)",
+        "Notifications (`F19`)",
+        "Enable 2FA wizard",
+        "Sign out other devices",
+        "Preview F20 card →",
+        "Jump to 19 switches ↓",
+        "Enable 2FA",
+        "Update password",
+        "Show email publicly",
+        "Show phone publicly",
+        "Save account",
+        "Enable quiet hours",
+        "Save preferences",
+        "Project Updates Email",
+        "Project Updates In-App",
+        "Project Updates Push",
+        "Milestones Email",
+        "Milestones In-App",
+        "Milestones Push",
+        "Deliverables Email"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:password",
+          "lab": "Current password *"
+        },
+        {
+          "t": "INPUT:password",
+          "lab": "New password (≥8) *"
+        },
+        {
+          "t": "INPUT:password",
+          "lab": "Confirm new password *"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Timezone"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Currency"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Profile visibility"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 25
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Switch Settings section to Security",
+      "result": "not testable",
+      "detail": "role=tab count=0"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1750,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "Settings · V4 Posture-First Security & Preferences Deck — Nestlancer Lab",
+      "h1": "Settings",
+      "headings": [
+        "H1:Settings",
+        "H2:Two-factor & password",
+        "H2:Account, Regional & Visibility (C20)",
+        "H2:Notification Preferences (19 switches)",
+        "H2:Active Sessions",
+        "H2:Activity Audit (50 events · C10)",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "Public Profile (`F20`)",
+        "Notifications (`F19`)",
+        "Enable 2FA wizard",
+        "Sign out other devices",
+        "Preview F20 card →",
+        "Jump to 19 switches ↓",
+        "Enable 2FA",
+        "Update password",
+        "Show email publicly",
+        "Show phone publicly",
+        "Save account",
+        "Enable quiet hours",
+        "Save preferences",
+        "Project Updates Email",
+        "Project Updates In-App",
+        "Project Updates Push",
+        "Milestones Email",
+        "Milestones In-App",
+        "Milestones Push",
+        "Deliverables Email"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:password",
+          "lab": "Current password *"
+        },
+        {
+          "t": "INPUT:password",
+          "lab": "New password (≥8) *"
+        },
+        {
+          "t": "INPUT:password",
+          "lab": "Confirm new password *"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Timezone"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Currency"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Profile visibility"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 75,
+      "under24px": 2,
+      "examples": [
+        {
+          "text": "← V3 Audit Console",
+          "w": 116,
+          "h": 14
+        },
+        {
+          "text": "V5 Hardening Stepper →",
+          "w": 147,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Switch Settings section to Security",
+      "result": "not testable",
+      "detail": "role=tab count=0"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            ".nav:nth-child(4) > a[href=\"index.html\"][aria-current=\"page\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 1.34 (foreground color: #293a73, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 25
+    },
+    "supplementaryTasks": [
+      {
+        "viewport": "desktop",
+        "probe": "probe3",
+        "task": "Security section/jump (design has no role=tab settings nav)",
+        "label": "Enable 2FA wizard",
+        "dialogOpened": false,
+        "result": "pass"
+      }
+    ]
+  }
+}

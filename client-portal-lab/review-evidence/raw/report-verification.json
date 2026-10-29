@@ -1,0 +1,552 @@
+{
+  "tool": "Playwright 1.49.1, Chromium 131.0.6778.33",
+  "scope": "21 generated reports at desktop/mobile; load, first keyboard Tab, console/page errors, loaded image failures and document overflow. Not an exhaustive keyboard, accessibility, or visual audit.",
+  "records": [
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "Production summary",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F03-dashboard-overview/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F04-global-search-command-palette/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F05-requests-work-hub/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F06-request-new-form/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F07-request-details/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F08-projects-list/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F09-project-details/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F10-quotes-list/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F11-quote-details/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F12-messages-home/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F13-messages-thread/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F14-billing-center/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F15-payment-methods/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F16-checkout/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F17-payment-status/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F18-invoices-archive/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F19-notifications-center/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F20-profile-view-edit/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F21-settings/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "desktop",
+      "url": "/client-portal-lab/families/F22-settings-files/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "Production summary",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F03-dashboard-overview/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F04-global-search-command-palette/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F05-requests-work-hub/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F06-request-new-form/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F07-request-details/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F08-projects-list/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F09-project-details/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F10-quotes-list/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F11-quote-details/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F12-messages-home/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F13-messages-thread/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F14-billing-center/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F15-payment-methods/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F16-checkout/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F17-payment-status/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F18-invoices-archive/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F19-notifications-center/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F20-profile-view-edit/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F21-settings/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    },
+    {
+      "viewport": "mobile",
+      "url": "/client-portal-lab/families/F22-settings-files/rank.html",
+      "http": 200,
+      "hscroll": 0,
+      "failedLoadedImages": [],
+      "firstFocus": {
+        "tag": "A",
+        "text": "← Overall ranking",
+        "visible": true
+      },
+      "errors": []
+    }
+  ]
+}

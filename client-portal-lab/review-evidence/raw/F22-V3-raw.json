@@ -1,0 +1,317 @@
+{
+  "family": "F22",
+  "familyDir": "F22-settings-files",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F22-settings-files/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F22-settings-files/V3/index.html",
+  "capturedUtc": "2026-10-28T17:04:59.862Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F22/F22-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F22/F22-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F22/F22-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F22/F22-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F22/F22-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F22/F22-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F22/F22-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Files & Storage · V3 Split Drive & Live Preview Workbench — Nestlancer Lab",
+      "h1": "Files",
+      "headings": [
+        "H1:Files",
+        "H2:Uploaded Library (3)",
+        "H2:Generated Vault (13 Requests · 26 Locked PDFs",
+        "H2:Preview"
+      ],
+      "buttons": [
+        "All Sources",
+        "Request Attachments",
+        "My Uploads",
+        "Project Deliverables",
+        "Message Attachments",
+        "Invoices",
+        "All",
+        "Documents",
+        "Images",
+        "Videos",
+        "Archives",
+        "Grid",
+        "List",
+        "mehta-catalog-structure.pdf 18.4 KB · Documen",
+        "gst-invoice-format-sample.pdf 13.2 KB · Docum",
+        "warehouse-barcode-spec.zip 9.5 KB · Archives",
+        "Show all 26",
+        "quote-NL-QTE-2026-000018.pdf (Wholesale Reque",
+        "scope-engagement-13.pdf (Wholesale Request #1",
+        "quote-NL-QTE-2026-000017.pdf (Wholesale Reque"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:file",
+          "lab": "+ Upload"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search drive"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 23
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Toggle Grid/List view in the files library",
+      "via": "button \"Grid\"",
+      "toast": {
+        "visible": true,
+        "text": "C13 INSPECTOR Private mehta-catalog-structure.pdf PDF SHEET PREVIEW p.1/2 Mehta Wholesale Traders · Verified portal document (18.4 KB). application/pdf · 18.4 KB · Request Attachme"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F22-settings-files/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "3-PANE DRIVE BROWSER · INSTANT C13 INSPECTOR Files Select any uploaded asset or locked contractual PDF to inspect its sheet preview, metadata, signed link, or fallback state inline. 41.1 KB / 5 GB + Upload SOURCES All So",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1112,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 505,
+      "actualHScrollPx": 115,
+      "maxRight": {
+        "tag": "ASIDE",
+        "cls": "dinsp",
+        "right": 505
+      }
+    },
+    "factsMobile": {
+      "title": "Files & Storage · V3 Split Drive & Live Preview Workbench — Nestlancer Lab",
+      "h1": "Files",
+      "headings": [
+        "H1:Files",
+        "H2:Uploaded Library (3)",
+        "H2:Generated Vault (13 Requests · 26 Locked PDFs",
+        "H2:Preview"
+      ],
+      "buttons": [
+        "All Sources",
+        "Request Attachments",
+        "My Uploads",
+        "Project Deliverables",
+        "Message Attachments",
+        "Invoices",
+        "All",
+        "Documents",
+        "Images",
+        "Videos",
+        "Archives",
+        "Grid",
+        "List",
+        "mehta-catalog-structure.pdf 18.4 KB · Documen",
+        "gst-invoice-format-sample.pdf 13.2 KB · Docum",
+        "warehouse-barcode-spec.zip 9.5 KB · Archives",
+        "Show all 26",
+        "quote-NL-QTE-2026-000018.pdf (Wholesale Reque",
+        "scope-engagement-13.pdf (Wholesale Request #1",
+        "quote-NL-QTE-2026-000017.pdf (Wholesale Reque"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:file",
+          "lab": "+ Upload"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search drive"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 61,
+      "under24px": 3,
+      "examples": [
+        {
+          "text": "",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "← V2 Asset Ledger",
+          "w": 112,
+          "h": 14
+        },
+        {
+          "text": "V4 Dossier Hub →",
+          "w": 106,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Toggle Grid/List view in the files library",
+      "via": "button \"Grid\"",
+      "toast": {
+        "visible": true,
+        "text": "C13 INSPECTOR Private mehta-catalog-structure.pdf PDF SHEET PREVIEW p.1/2 Mehta Wholesale Traders · Verified portal document (18.4 KB). application/pdf · 18.4 KB · Request Attachme"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F22-settings-files/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "3-PANE DRIVE BROWSER · INSTANT C13 INSPECTOR Files Select any uploaded asset or locked contractual PDF to inspect its sheet preview, metadata, signed link, or fallback state inline. 41.1 KB / 5 GB + Upload SOURCES All So",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 857,
+      "actualHScrollPx": 89,
+      "maxRight": {
+        "tag": "ASIDE",
+        "cls": "dinsp",
+        "right": 827
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            ".nav:nth-child(4) > a[href=\"index.html\"][aria-current=\"page\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 1.34 (foreground color: #293a73, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 23
+    }
+  }
+}

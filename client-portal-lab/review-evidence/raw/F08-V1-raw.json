@@ -1,0 +1,323 @@
+{
+  "family": "F08",
+  "familyDir": "F08-projects-list",
+  "version": "V1",
+  "sourcePath": "client-portal-lab/families/F08-projects-list/V1/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F08-projects-list/V1/index.html",
+  "capturedUtc": "2026-10-28T16:03:29.711Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F08/F08-V1-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F08/F08-V1-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F08/F08-V1-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F08/F08-V1-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F08/F08-V1-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F08/F08-V1-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F08/F08-V1-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "F08 · V1 Calm Grid · Projects · Nestlancer Client Portal Lab",
+      "h1": "Projects",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Projects",
+        "H2:Khandesh Spice D2C E-Commerce Store",
+        "H2:B2B Wholesale Ordering Portal",
+        "H2:No projects match",
+        "H2:No projects yet",
+        "H2:Could not load projects"
+      ],
+      "buttons": [
+        "Work Hub",
+        "View quotes",
+        "All projects",
+        "In progress",
+        "Clear",
+        "Khandesh Spice D2C E-Commerce Store",
+        "Open project",
+        "See captured project detail",
+        "← Gallery",
+        "Next: V2 Ops Ledger →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search projects"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort projects\nCaptured order\nTitle A–Z\nT"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": true,
+          "label": "Command menu"
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 4,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 28
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Messages",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Notifications",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Search/filter/sort the projects list",
+      "via": "select \"Captured order\"",
+      "toast": {
+        "visible": false,
+        "text": "Project data is temporarily unavailable — retrying. The projects service returned an error (502 in production). Your projects are safe; this page could not load them just now.Retry"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F08-projects-list/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "DELIVERY · PROJECTS Projects Follow active work, milestones, and delivery from kickoff through completion. 2 projects are in progress. Both started 10/5/2026 — open a project to follow its milestones, daily progress and ",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": {
+      "visible": false,
+      "text": "Project data is temporarily unavailable — retrying. The projects service returned an error (502 in production). Your projects are safe; this page could not load them just now.Retry"
+    },
+    "fullPageHeight": 1000,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "F08 · V1 Calm Grid · Projects · Nestlancer Client Portal Lab",
+      "h1": "Projects",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Projects",
+        "H2:Khandesh Spice D2C E-Commerce Store",
+        "H2:B2B Wholesale Ordering Portal",
+        "H2:No projects match",
+        "H2:No projects yet",
+        "H2:Could not load projects"
+      ],
+      "buttons": [
+        "Work Hub",
+        "View quotes",
+        "All projects",
+        "In progress",
+        "Clear",
+        "Khandesh Spice D2C E-Commerce Store",
+        "Open project",
+        "See captured project detail",
+        "← Gallery",
+        "Next: V2 Ops Ledger →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search projects"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort projects\nCaptured order\nTitle A–Z\nT"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": true,
+          "label": "Command menu"
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 34,
+      "under24px": 3,
+      "examples": [
+        {
+          "text": "Open navigation menu",
+          "w": 3,
+          "h": 36
+        },
+        {
+          "text": "← Gallery",
+          "w": 57,
+          "h": 19
+        },
+        {
+          "text": "Next: V2 Ops Ledger →",
+          "w": 138,
+          "h": 19
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Search/filter/sort the projects list",
+      "via": "select \"Captured order\"",
+      "toast": {
+        "visible": false,
+        "text": "Project data is temporarily unavailable — retrying. The projects service returned an error (502 in production). Your projects are safe; this page could not load them just now.Retry"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F08-projects-list/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "DELIVERY · PROJECTS Projects Follow active work, milestones, and delivery from kickoff through completion. 2 projects are in progress. Both started 10/5/2026 — open a project to follow its milestones, daily progress and ",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "btnWidth": 3,
+      "sideLeftAfter": 0,
+      "opened": true
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 4,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.94 (foreground color: #5b7bff, background color: #1b284b, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 28
+    }
+  }
+}

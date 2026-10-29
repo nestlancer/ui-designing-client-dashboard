@@ -1,0 +1,272 @@
+{
+  "family": "F20",
+  "familyDir": "F20-profile-view-edit",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F20-profile-view-edit/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F20-profile-view-edit/V3/index.html",
+  "capturedUtc": "2026-10-28T17:00:11.226Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F20/F20-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F20/F20-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F20/F20-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F20/F20-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F20/F20-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F20/F20-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F20/F20-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Public Profile · V3 Dense Identity & Schema Ledger — Nestlancer Lab",
+      "h1": "Public profile",
+      "headings": [
+        "H1:Public profile",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "Edit ledger rows",
+        "Privacy in Settings ▸ Account →",
+        "F21",
+        "F21",
+        "← V2 Live Split",
+        "V4 Modular Bento →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 23
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Enter Edit mode; record editable fields (no save)",
+      "via": "button \"Edit ledger rows\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading profile ledger…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F20-profile-view-edit/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "DENSE SPECIFICATION SHEET · FIELD EXPOSURE & DTO RULES Public profile Inspect and edit every profile attribute in one dense specification table — pairing values, API validation constraints, and public exposure rules. Ret",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1072,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "Public Profile · V3 Dense Identity & Schema Ledger — Nestlancer Lab",
+      "h1": "Public profile",
+      "headings": [
+        "H1:Public profile",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "Edit ledger rows",
+        "Privacy in Settings ▸ Account →",
+        "F21",
+        "F21",
+        "← V2 Live Split",
+        "V4 Modular Bento →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 35,
+      "under24px": 4,
+      "examples": [
+        {
+          "text": "F21",
+          "w": 24,
+          "h": 18
+        },
+        {
+          "text": "F21",
+          "w": 24,
+          "h": 18
+        },
+        {
+          "text": "← V2 Live Split",
+          "w": 88,
+          "h": 14
+        },
+        {
+          "text": "V4 Modular Bento →",
+          "w": 121,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Enter Edit mode; record editable fields (no save)",
+      "via": "button \"Edit ledger rows\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading profile ledger…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F20-profile-view-edit/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "DENSE SPECIFICATION SHEET · FIELD EXPOSURE & DTO RULES Public profile Inspect and edit every profile attribute in one dense specification table — pairing values, API validation constraints, and public exposure rules. Ret",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "TD",
+        "cls": "",
+        "right": 775
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            ".nav:nth-child(4) > a[aria-current=\"page\"][href=\"index.html\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 1.34 (foreground color: #293a73, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 23
+    }
+  }
+}

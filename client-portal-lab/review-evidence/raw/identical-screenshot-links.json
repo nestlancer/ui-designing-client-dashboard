@@ -1,0 +1,323 @@
+{
+  "method": "Byte-identical screenshot deduplication; relative symlinks retain original paths and pixels.",
+  "links": [
+    {
+      "path": "screenshots/F14/F14-V5-mobile-light-task.png",
+      "target": "screenshots/F14/F14-V5-mobile-light-top.png",
+      "sha256": "911b80b5f2c01d4013fc4f612116ab94bde52bfb4c8e4ea58a1b4ea21e9c1d75",
+      "bytes_saved": 58520
+    },
+    {
+      "path": "screenshots/F14/F14-V3-mobile-light-task.png",
+      "target": "screenshots/F14/F14-V3-mobile-light-top.png",
+      "sha256": "c35fd006be3a1214fc2e732c52d98d9e096d55452c4d9733cd67a2a5b66a856f",
+      "bytes_saved": 73832
+    },
+    {
+      "path": "screenshots/F14/F14-V1-mobile-light-task.png",
+      "target": "screenshots/F14/F14-V1-mobile-light-top.png",
+      "sha256": "2bc246a73058b0a07f6cbb645b98fbb60f99af785b86a502de8567ed020a9a28",
+      "bytes_saved": 71249
+    },
+    {
+      "path": "screenshots/F14/F14-V2-mobile-light-task.png",
+      "target": "screenshots/F14/F14-V2-mobile-light-top.png",
+      "sha256": "93e567e642e6b5d22ec11a390a6770eb47bed1789c6cd2a58ad4d48f08cd5971",
+      "bytes_saved": 64731
+    },
+    {
+      "path": "screenshots/F21/F21-V5-mobile-light-task.png",
+      "target": "screenshots/F21/F21-V5-mobile-light-top.png",
+      "sha256": "36ac9770aaf11d042d3b16edd5dd5b304fafbe904b09bd181916b6228d6c0988",
+      "bytes_saved": 73286
+    },
+    {
+      "path": "screenshots/F21/F21-V4-mobile-light-task.png",
+      "target": "screenshots/F21/F21-V4-mobile-light-top.png",
+      "sha256": "a42daefcbd097f46866a39ec101f9502ce84c7d78432f4e523d3b6591930c440",
+      "bytes_saved": 73587
+    },
+    {
+      "path": "screenshots/F21/F21-V5-desktop-light-task.png",
+      "target": "screenshots/F21/F21-V5-desktop-light-top.png",
+      "sha256": "a5d8f09be3e14020740b2f8ead1167e71440124530708efeea8a26cd6000cd1e",
+      "bytes_saved": 172121
+    },
+    {
+      "path": "screenshots/F20/F20-V5-mobile-light-task.png",
+      "target": "screenshots/F20/F20-V5-mobile-light-top.png",
+      "sha256": "005449fe354c3509942ccba76b4320c9bc437cfc13a4977e85703e68df911018",
+      "bytes_saved": 71304
+    },
+    {
+      "path": "screenshots/F20/F20-V2-mobile-light-task.png",
+      "target": "screenshots/F20/F20-V2-mobile-light-top.png",
+      "sha256": "9b164ba6e0168d5d12e9868daef91c19f112bbf3f18d4df4a19fb46d881da42d",
+      "bytes_saved": 69910
+    },
+    {
+      "path": "screenshots/F03/F03-V4-mobile-light-task.png",
+      "target": "screenshots/F03/F03-V4-mobile-light-top.png",
+      "sha256": "0e5f6bd7dddac33711430954bb285c332f1595699b92ee89b6f9744c23610f53",
+      "bytes_saved": 41313
+    },
+    {
+      "path": "screenshots/F03/F03-V3-mobile-light-task.png",
+      "target": "screenshots/F03/F03-V3-mobile-light-top.png",
+      "sha256": "6b08878344bebc235e6830b5c8da6e8833edb984214d5e808a9dbaff871b4ac3",
+      "bytes_saved": 51315
+    },
+    {
+      "path": "screenshots/F03/F03-V1-mobile-light-task.png",
+      "target": "screenshots/F03/F03-V1-mobile-light-top.png",
+      "sha256": "3076475aa8b6c7dbb890c9cf5349fe87e01d8d34919d39f8162c66d19d4a0a21",
+      "bytes_saved": 61706
+    },
+    {
+      "path": "screenshots/F18/F18-V4-mobile-light-task.png",
+      "target": "screenshots/F18/F18-V4-mobile-light-top.png",
+      "sha256": "23adfcbbef4c974119c98f7cd414080e49589032f05ed9cfd72151269a321f35",
+      "bytes_saved": 63072
+    },
+    {
+      "path": "screenshots/F18/F18-V1-mobile-light-task.png",
+      "target": "screenshots/F18/F18-V1-mobile-light-top.png",
+      "sha256": "bf267481c01d87d41ffd83ba0fe0e4b7a9ff2ad695fb2778ffe4a54be634e720",
+      "bytes_saved": 61221
+    },
+    {
+      "path": "screenshots/F18/F18-V2-mobile-light-task.png",
+      "target": "screenshots/F18/F18-V2-mobile-light-top.png",
+      "sha256": "2baa5fb967f3c70df904083b13ffec6f16bfb9d095773b2be8de7498b3597353",
+      "bytes_saved": 59653
+    },
+    {
+      "path": "screenshots/F07/F07-V2-mobile-light-task.png",
+      "target": "screenshots/F07/F07-V2-mobile-light-top.png",
+      "sha256": "4b5f6efb547d8fb4333b3715113a521dedb7ef1010cbad2d3052cd870b985113",
+      "bytes_saved": 50043
+    },
+    {
+      "path": "screenshots/F07/F07-V1-mobile-light-task.png",
+      "target": "screenshots/F07/F07-V1-mobile-light-top.png",
+      "sha256": "f5b38a0c2b6c3d26b9875e626586c8cb9fe8e778da44baf7f8059b570781cf29",
+      "bytes_saved": 57868
+    },
+    {
+      "path": "screenshots/F07/F07-V3-mobile-light-task.png",
+      "target": "screenshots/F07/F07-V3-mobile-light-top.png",
+      "sha256": "f2761ead70960bb7e86c59ea33ef76ccb89804efe13cc79c3788ee8eda2ef638",
+      "bytes_saved": 47611
+    },
+    {
+      "path": "screenshots/F05/F05-V1-mobile-light-task.png",
+      "target": "screenshots/F05/F05-V1-mobile-light-top.png",
+      "sha256": "fbddb1be118060160f708e80772f7514223d66330dcc848e745cf9aacee140a2",
+      "bytes_saved": 51383
+    },
+    {
+      "path": "screenshots/F05/F05-V3-mobile-light-task.png",
+      "target": "screenshots/F05/F05-V3-mobile-light-top.png",
+      "sha256": "ffc3f4881972da47ad918d0dabedbea697227398784c19c287f2514197de5da6",
+      "bytes_saved": 63921
+    },
+    {
+      "path": "screenshots/F13/F13-V2-mobile-light-task.png",
+      "target": "screenshots/F13/F13-V2-mobile-light-top.png",
+      "sha256": "faa8d16580d648fc37f12c0254d1638dd6690e40b55d70d4975553664510cf3f",
+      "bytes_saved": 85150
+    },
+    {
+      "path": "screenshots/F13/F13-V2-desktop-light-task.png",
+      "target": "screenshots/F13/F13-V2-desktop-light-top.png",
+      "sha256": "2af0aa0d0f6937c6ef618631c4ab435fd23c97ac558ffbeffddd29e8ff6e3c8b",
+      "bytes_saved": 232876
+    },
+    {
+      "path": "screenshots/F13/F13-V4-mobile-light-task.png",
+      "target": "screenshots/F13/F13-V4-mobile-light-top.png",
+      "sha256": "0cc5e427651cb6dcc683b1719439d1a47185bbdf26d2c60e971f90f8a0995868",
+      "bytes_saved": 77409
+    },
+    {
+      "path": "screenshots/F13/F13-V3-mobile-light-task.png",
+      "target": "screenshots/F13/F13-V3-mobile-light-top.png",
+      "sha256": "223652a146383d16abed648c2b61de7f20fa1f7e9c0d711e7acf980793c33cb5",
+      "bytes_saved": 78490
+    },
+    {
+      "path": "screenshots/F13/F13-V5-mobile-light-task.png",
+      "target": "screenshots/F13/F13-V5-mobile-light-top.png",
+      "sha256": "234d989ab4639c091333066c9bec55feaa4f2e507122e950e9bd7a718a8a415e",
+      "bytes_saved": 78747
+    },
+    {
+      "path": "screenshots/F09/F09-V3-mobile-light-task.png",
+      "target": "screenshots/F09/F09-V3-mobile-light-top.png",
+      "sha256": "350f0c3cdfd8b19e89b576d94e273b5107b25ea873814382e121eb6d62c0a42d",
+      "bytes_saved": 79941
+    },
+    {
+      "path": "screenshots/F09/F09-V1-mobile-light-task.png",
+      "target": "screenshots/F09/F09-V1-mobile-light-top.png",
+      "sha256": "cf6189da1cf9d1b5a5236ae6a58caf23247a972be3f374feba995abd6fed7fed",
+      "bytes_saved": 84384
+    },
+    {
+      "path": "screenshots/F12/F12-V4-desktop-light-task.png",
+      "target": "screenshots/F12/F12-V4-desktop-light-top.png",
+      "sha256": "67b006ba06e6e85a027ea4541791dfc18f21d1a641bef2572d78914fbf41fc2a",
+      "bytes_saved": 211069
+    },
+    {
+      "path": "screenshots/F12/F12-V4-mobile-light-task.png",
+      "target": "screenshots/F12/F12-V4-mobile-light-top.png",
+      "sha256": "9e31cbbb8ced015599abb356904bb5d5809bd29078fa7f5f1a67c45060601d93",
+      "bytes_saved": 77756
+    },
+    {
+      "path": "screenshots/F12/F12-V3-mobile-light-task.png",
+      "target": "screenshots/F12/F12-V3-mobile-light-top.png",
+      "sha256": "b72e3dc63d4f69dfe945a5ea253ea3452d0ec70e5016249eb11caf055c7f7735",
+      "bytes_saved": 69859
+    },
+    {
+      "path": "screenshots/F12/F12-V5-mobile-light-task.png",
+      "target": "screenshots/F12/F12-V5-mobile-light-top.png",
+      "sha256": "10d7c7263cbae2076d205cefe7f227fbcd97fccd8d76cba36749f54fde155187",
+      "bytes_saved": 78709
+    },
+    {
+      "path": "screenshots/F12/F12-V2-mobile-light-task.png",
+      "target": "screenshots/F12/F12-V2-mobile-light-top.png",
+      "sha256": "4044d488486e65da87d00ff5909ba8e5d4ce6e2ee5bcdeabb77aba0d7ee7d52c",
+      "bytes_saved": 77251
+    },
+    {
+      "path": "screenshots/F22/F22-V5-mobile-light-task.png",
+      "target": "screenshots/F22/F22-V5-mobile-light-top.png",
+      "sha256": "d51f74dd2b6436b0f6841ee44b46c19da2e572c354ea31acabab31aa6ce44861",
+      "bytes_saved": 75044
+    },
+    {
+      "path": "screenshots/F16/F16-V2-mobile-light-task.png",
+      "target": "screenshots/F16/F16-V2-mobile-light-top.png",
+      "sha256": "3d1857c7071d830eef437a7452d89f3e8b3f1952bee2b35a7f3e308f64feec9a",
+      "bytes_saved": 62332
+    },
+    {
+      "path": "screenshots/F16/F16-V4-desktop-light-task.png",
+      "target": "screenshots/F16/F16-V4-desktop-light-top.png",
+      "sha256": "c1106524ee5240a746c6a9697723d9213ce75bc4fe85f55ebf8d787c0f630beb",
+      "bytes_saved": 150633
+    },
+    {
+      "path": "screenshots/F16/F16-V4-mobile-light-task.png",
+      "target": "screenshots/F16/F16-V4-mobile-light-top.png",
+      "sha256": "565a35166bc40894e626ca1b70f17b31e4a340740bf861b36f51b25d1f262b55",
+      "bytes_saved": 71410
+    },
+    {
+      "path": "screenshots/F16/F16-V1-mobile-light-task.png",
+      "target": "screenshots/F16/F16-V1-mobile-light-top.png",
+      "sha256": "39455353cb0df9cfbe6b7cad514af130b3b6438456ab2eb0d97d85e3a8936f40",
+      "bytes_saved": 67578
+    },
+    {
+      "path": "screenshots/F10/F10-V2-mobile-light-task.png",
+      "target": "screenshots/F10/F10-V2-mobile-light-top.png",
+      "sha256": "f0dd17f5e5523a0cc22f3642f66e400f43547b499f224f3aa1c6583a4b137dee",
+      "bytes_saved": 78420
+    },
+    {
+      "path": "screenshots/F10/F10-V1-mobile-light-task.png",
+      "target": "screenshots/F10/F10-V1-mobile-light-top.png",
+      "sha256": "f38fac6dd07e94e16b532f165a4fcaca2264911771d69b412628822f935e23a2",
+      "bytes_saved": 85805
+    },
+    {
+      "path": "screenshots/F10/F10-V3-mobile-light-task.png",
+      "target": "screenshots/F10/F10-V3-mobile-light-top.png",
+      "sha256": "7fdd4e70bc9a5fd34ff219666e722aa9b068190e560496ba6c2035b7a70c85dc",
+      "bytes_saved": 68950
+    },
+    {
+      "path": "screenshots/F08/F08-V3-mobile-light-task.png",
+      "target": "screenshots/F08/F08-V3-mobile-light-top.png",
+      "sha256": "94f600a622693a011445543e2e7b2d6db20a7de482fcf595c8fca0a07f618e24",
+      "bytes_saved": 64441
+    },
+    {
+      "path": "screenshots/F08/F08-V1-mobile-light-task.png",
+      "target": "screenshots/F08/F08-V1-mobile-light-top.png",
+      "sha256": "7c0b50a548d7c48256b8860c4a295eb088262a4091f8ede1e33f72cec9667f72",
+      "bytes_saved": 61833
+    },
+    {
+      "path": "screenshots/F08/F08-V5-mobile-light-task.png",
+      "target": "screenshots/F08/F08-V5-mobile-light-top.png",
+      "sha256": "c1514b09d4df1c8fb4e3c83f0f6056316c613b067e3924697984210350023d82",
+      "bytes_saved": 66453
+    },
+    {
+      "path": "screenshots/F11/F11-V3-mobile-light-task.png",
+      "target": "screenshots/F11/F11-V3-mobile-light-top.png",
+      "sha256": "e53843a6f97ff18956d3ce1eb2c92b87656a6f4daf7fcdada1955fff2f97f86e",
+      "bytes_saved": 74018
+    },
+    {
+      "path": "screenshots/F11/F11-V1-mobile-light-task.png",
+      "target": "screenshots/F11/F11-V1-mobile-light-top.png",
+      "sha256": "ca2f18f3f3011f03f19b7d81439db921a9e5616c6a8b94f9155d6f64210e8fa3",
+      "bytes_saved": 71498
+    },
+    {
+      "path": "screenshots/F11/F11-V5-mobile-light-task.png",
+      "target": "screenshots/F11/F11-V5-mobile-light-top.png",
+      "sha256": "efb5637992df3dd7d44d6a6292b3a2ff51e718c48cb1fe6000cbbe7200b7bc71",
+      "bytes_saved": 80902
+    },
+    {
+      "path": "screenshots/F11/F11-V5-desktop-light-task.png",
+      "target": "screenshots/F11/F11-V5-desktop-light-top.png",
+      "sha256": "cbe0f1bf36a95589c14f2f3b38d88aaa2febbb159e6be1a61f5d5da67f9bea53",
+      "bytes_saved": 228112
+    },
+    {
+      "path": "screenshots/F11/F11-V2-mobile-light-task.png",
+      "target": "screenshots/F11/F11-V2-mobile-light-top.png",
+      "sha256": "c6dd1e783f673764eaa8ba9e760daefc908e8d8bb8e58726e0cec7057471c44c",
+      "bytes_saved": 72962
+    },
+    {
+      "path": "screenshots/F11/F11-V1-desktop-light-task.png",
+      "target": "screenshots/F11/F11-V1-desktop-light-top.png",
+      "sha256": "8c00a4bd54398b7a57287c7fa0f5d92ce0be45d5ecccc413d5340acfa0abaf11",
+      "bytes_saved": 201212
+    },
+    {
+      "path": "screenshots/F11/F11-V4-desktop-light-task.png",
+      "target": "screenshots/F11/F11-V4-desktop-light-top.png",
+      "sha256": "9dd927f022fd90b67543a96fa2c96f31caf6d87d8ab98bcadac8916ba0af94aa",
+      "bytes_saved": 232269
+    },
+    {
+      "path": "screenshots/F11/F11-V3-desktop-light-task.png",
+      "target": "screenshots/F11/F11-V3-desktop-light-top.png",
+      "sha256": "a2aa56f85858c2ec96ef3038acc5cd5cac960fd786534ed2c17ba3c8d999fb3d",
+      "bytes_saved": 172473
+    },
+    {
+      "path": "screenshots/F11/F11-V2-desktop-light-task.png",
+      "target": "screenshots/F11/F11-V2-desktop-light-top.png",
+      "sha256": "bbd11f18332168f36ea3fa081343abca3fcd0041a2e9f39d1f5c4e42cc729529",
+      "bytes_saved": 201883
+    },
+    {
+      "path": "screenshots/F11/F11-V4-mobile-light-task.png",
+      "target": "screenshots/F11/F11-V4-mobile-light-top.png",
+      "sha256": "e57b6e466c29004a7efbaddc3a2d9dc578f83ec4db96e18bbe37b61c0690996a",
+      "bytes_saved": 71389
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "family": "F11",
+  "familyDir": "F11-quote-details",
+  "version": "V1",
+  "sourcePath": "client-portal-lab/families/F11-quote-details/V1/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F11-quote-details/V1/index.html",
+  "capturedUtc": "2026-10-28T16:07:56.884Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F11/F11-V1-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F11/F11-V1-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F11/F11-V1-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F11/F11-V1-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F11/F11-V1-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F11/F11-V1-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F11/F11-V1-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Quote Details · V1 Sticky Commercial Rail & One-Step Sign-and-Pay Hub — Nestlancer",
+      "h1": "Quote #01a10a2b ✓ Accepted",
+      "headings": [
+        "H1:Quote #01a10a2b\n✓ Accepted",
+        "H2:Line items",
+        "H2:Payment schedule",
+        "H2:Notes",
+        "H2:Contract & terms · Standard Contract Clauses"
+      ],
+      "buttons": [
+        "← Back to Quotes",
+        "Download PDF",
+        "Expand all 10 clauses",
+        "1. Parties and Project Scope ▾",
+        "2. Payment Terms and Milestones ▾",
+        "3. Revisions and Change Requests ▾",
+        "4. Timeline and Client Responsibilities ▾",
+        "5. Intellectual Property Rights ▾",
+        "6. Confidentiality ▾",
+        "7. Warranties and Bug Fixes ▾",
+        "8. Limitation of Liability ▾",
+        "9. Termination ▾",
+        "10. Governing Law and Dispute Resolution ▾",
+        "View active project →",
+        "Download PDF (/api/v1/quotes/01a10a2b/pdf)"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 1,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 23
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Open Request-changes/counter-propose path (not Accept & Pay)",
+      "result": "not testable",
+      "detail": "no button matching /request changes|counter|revise/i"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 2054,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 590,
+      "actualHScrollPx": 200,
+      "maxRight": {
+        "tag": "BUTTON",
+        "cls": "avatar-btn",
+        "right": 590
+      }
+    },
+    "factsMobile": {
+      "title": "Quote Details · V1 Sticky Commercial Rail & One-Step Sign-and-Pay Hub — Nestlancer",
+      "h1": "Quote #01a10a2b ✓ Accepted",
+      "headings": [
+        "H1:Quote #01a10a2b\n✓ Accepted",
+        "H2:Line items",
+        "H2:Payment schedule",
+        "H2:Notes",
+        "H2:Contract & terms · Standard Contract Clauses"
+      ],
+      "buttons": [
+        "← Back to Quotes",
+        "Download PDF",
+        "Expand all 10 clauses",
+        "1. Parties and Project Scope ▾",
+        "2. Payment Terms and Milestones ▾",
+        "3. Revisions and Change Requests ▾",
+        "4. Timeline and Client Responsibilities ▾",
+        "5. Intellectual Property Rights ▾",
+        "6. Confidentiality ▾",
+        "7. Warranties and Bug Fixes ▾",
+        "8. Limitation of Liability ▾",
+        "9. Termination ▾",
+        "10. Governing Law and Dispute Resolution ▾",
+        "View active project →",
+        "Download PDF (/api/v1/quotes/01a10a2b/pdf)"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 1,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 45,
+      "under24px": 3,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        },
+        {
+          "text": "Quotes",
+          "w": 46,
+          "h": 21
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Open Request-changes/counter-propose path (not Accept & Pay)",
+      "result": "not testable",
+      "detail": "no button matching /request changes|counter|revise/i"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 30,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 23
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F11; first dark capture was light and has been replaced)",
+    "supplementaryTasks": [
+      {
+        "viewport": "desktop",
+        "probe": "probe3",
+        "task": "Expand contract clause/disclosure (Accepted-state quote; no counter-propose offered)",
+        "pendingCheck": true,
+        "label": "Expand all 10 clauses",
+        "expandedBefore": null,
+        "anyExpanded": false,
+        "result": "partial"
+      }
+    ]
+  }
+}

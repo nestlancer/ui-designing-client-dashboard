@@ -1,0 +1,310 @@
+{
+  "family": "F14",
+  "familyDir": "F14-billing-center",
+  "version": "V1",
+  "sourcePath": "client-portal-lab/families/F14-billing-center/V1/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F14-billing-center/V1/index.html",
+  "capturedUtc": "2026-10-28T16:16:39.035Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F14/F14-V1-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F14/F14-V1-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F14/F14-V1-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F14/F14-V1-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F14/F14-V1-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F14/F14-V1-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F14/F14-V1-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Billing Center · V1 Settled & Outstanding Ledger — Nestlancer Lab",
+      "h1": "Billing Center",
+      "headings": [
+        "H1:Billing Center",
+        "H2:Transaction history",
+        "H2:Ask AI about your billing"
+      ],
+      "buttons": [
+        "Invoices",
+        "Payment methods",
+        "file a dispute",
+        "All statuses",
+        "Settled",
+        "Outstanding",
+        "My pending",
+        "This month",
+        "Save current view on this device",
+        "View as cards",
+        "DATE ↕",
+        "DESCRIPTION ↕",
+        "AMOUNT ↕",
+        "View",
+        "Checkout",
+        "View",
+        "Checkout",
+        "Checkout",
+        "View",
+        "View"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search transactions"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status\nAll statuses\nPending\nNo"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 28
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Set Status filter to Pending; record ledger result",
+      "via": "select \"Pending\"",
+      "toast": {
+        "visible": true,
+        "text": "4 shown of 11 payments · Oct 2026"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F14-billing-center/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "BILLING Billing Center Payment history, invoices, and milestone payment tracking. Invoices Payment methods ₹31,875.00 is still outstanding across 4 payments. Everything else — ₹81,500.00 — is settled, and nothing is in d",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1545,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "Billing Center · V1 Settled & Outstanding Ledger — Nestlancer Lab",
+      "h1": "Billing Center",
+      "headings": [
+        "H1:Billing Center",
+        "H2:Transaction history",
+        "H2:Ask AI about your billing"
+      ],
+      "buttons": [
+        "Invoices",
+        "Payment methods",
+        "file a dispute",
+        "All statuses",
+        "Settled",
+        "Outstanding",
+        "My pending",
+        "This month",
+        "Save current view on this device",
+        "View as cards",
+        "View",
+        "Checkout",
+        "View",
+        "Checkout",
+        "Checkout",
+        "View",
+        "View",
+        "View",
+        "←",
+        "1"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search transactions"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status\nAll statuses\nPending\nNo"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 61,
+      "under24px": 4,
+      "examples": [
+        {
+          "text": "file a dispute",
+          "w": 88,
+          "h": 14
+        },
+        {
+          "text": "Checkout →",
+          "w": 77,
+          "h": 14
+        },
+        {
+          "text": "Gallery",
+          "w": 43,
+          "h": 14
+        },
+        {
+          "text": "Next V2 →",
+          "w": 61,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Set Status filter to Pending; record ledger result",
+      "via": "select \"Pending\"",
+      "toast": {
+        "visible": true,
+        "text": "4 shown of 11 payments · Oct 2026"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F14-billing-center/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "BILLING Billing Center Payment history, invoices, and milestone payment tracking. Invoices Payment methods ₹31,875.00 is still outstanding across 4 payments. Everything else — ₹81,500.00 — is settled, and nothing is in d",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "TD",
+        "cls": "",
+        "right": 803
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 28
+    }
+  }
+}

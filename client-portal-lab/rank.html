@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Client Portal Lab — UI ranking (in progress)</title><style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#0f1c2e;--muted:#45556b;--brand:#3641f5;--brand50:#ecf3ff;
+--line:#dbe3ec;--ok:#166534;--warn:#8a5a00;--bad:#b42318;--radius:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);overflow-wrap:anywhere;
+font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+a{color:var(--brand)}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{
+outline:3px solid var(--brand);outline-offset:2px;border-radius:4px}
+.banner{background:#fdf3e0;border:1px solid #e8c477;color:#5f3d00;border-radius:var(--radius);
+padding:14px 18px;margin:0 0 20px}.banner strong{display:block;font-size:17px}
+.pilot{background:#e6f4fd;border:1px solid #8fcbe8;color:#073d5c}
+h1{font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;margin:.2em 0 .3em}
+h2{font-size:23px;margin:34px 0 10px;letter-spacing:-.01em}h3{font-size:18px;margin:20px 0 8px}
+.sub{color:var(--muted);max-width:75ch}.card{background:var(--card);border:1px solid var(--line);
+border-radius:var(--radius);padding:20px;margin:14px 0;box-shadow:0 1px 2px rgba(15,28,46,.06)}
+.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:720px;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--brand50)}tr.winner td{background:#e5f6ec}
+.bar{height:10px;background:#e7edf5;border-radius:5px;min-width:90px}.bar i{display:block;height:100%;
+background:var(--brand);border-radius:5px}.total{font-weight:800;font-size:19px;white-space:nowrap}
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:700;border:1px solid}
+.critical{color:var(--bad);border-color:#f0a8a0;background:#fdecec}.major{color:var(--warn);
+border-color:#e8c477;background:#fdf3e0}.minor{color:var(--muted);border-color:var(--line);background:#f1f5f9}
+.pass{color:var(--ok);font-weight:700}.prod{background:#eef3ff;border-color:#b7c6ea}.partial{color:var(--warn);font-weight:700}.fail{color:var(--bad);font-weight:700}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.shots figure{margin:0}.shots img{width:100%;height:auto;border:1px solid var(--line);border-radius:10px}
+figcaption{font-size:13px;color:var(--muted);margin-top:5px}
+details{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:10px 0;background:#fbfcfe}
+summary{cursor:pointer;font-weight:700}code{background:#f1f5f9;padding:1px 6px;border-radius:5px;font-size:.92em}
+.searchrow{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin:14px 0}
+.searchrow label{font-weight:700}.searchrow input{padding:9px 12px;border:1px solid var(--muted);
+border-radius:9px;font-size:16px;min-width:260px;background:#fff}
+.small{font-size:13.5px;color:var(--muted)}ul{padding-left:20px}footer{color:var(--muted);font-size:13.5px;margin-top:40px}
+@media(max-width:640px){main{padding:18px 12px 44px}table{min-width:640px}}
+</style></head><body><main>
+<div class="banner" role="note"><strong>AI heuristic review — not user research</strong>
+One AI evaluator, fixed rubric, rendered evidence. Totals are not user-preference percentages; the 100
+synthetic personas are a coverage matrix and cast no votes.</div>
+<div class="banner pilot" role="note"><strong>20 of 20 families scored; production comparison complete</strong>
+Lab-only winners are unchanged. Every family page has a production report and comparison place.</div>
+<h1>Client Portal Lab — UI ranking</h1>
+<p class="sub">Question answered per family: for this family's intended client task, which version is clearest,
+most usable, visually coherent, accessible and robust across the tested viewports — and what observed evidence
+supports that order? <strong>Family winners are not comparable across families</strong> (different tasks).</p>
+
+<h2>Coverage</h2>
+<div class="card"><ul>
+<li>Inventory (from disk): <strong>20 families · 100 pages</strong>, missing: none.</li>
+<li>Scored so far: <strong>20 families / 100 pages</strong>. All 100 pages captured; task evidence is incomplete in some cases as documented.</li>
+<li>Production (app.nestlancer.com): <strong>read-only reference reviewed</strong> for three authorized accounts. No production screenshots stored. <a href="review-evidence/production-summary.json">Production summary</a>.</li>
+<li>Environment: Chromium 131.0.6778.33 (HeadlessChrome, Playwright bundled build chromium-1148) · Playwright 1.49.1 (pinned in review-evidence/tooling/package.json) ·
+axe-core 4.10.2 (pinned) · Debian GNU/Linux 13 (trixie), Linux 6.1 x86_64, container sandbox (NOT canonical Docker).
+Marked <strong>not cross-machine pixel-reproducible</strong> (no Docker; pinned browser used consistently).</li>
+</ul></div>
+
+<h2>Families</h2>
+<div class="searchrow"><label for="q">Filter families</label>
+<input id="q" type="search" placeholder="e.g. billing, F14, scored" aria-describedby="qh">
+<span id="qh" class="small">Filters the table below as you type.</span></div>
+<div class="tablewrap"><table id="fam">
+<thead><tr><th scope="col">Family</th><th scope="col">Status</th><th scope="col">Lab-only winner</th>
+<th scope="col">Production comparison</th><th scope="col">Confidence</th></tr></thead><tbody><tr><td><a href="families/F03-dashboard-overview/rank.html">F03 · F03-dashboard-overview</a></td><td class="pass">Scored</td><td><strong>V2 · Verdict Hero — 73.8</strong></td><td><a href="families/F03-dashboard-overview/rank.html#production">#1 · 77.5</a></td><td>medium</td></tr><tr><td><a href="families/F04-global-search-command-palette/rank.html">F04 · F04-global-search-command-palette</a></td><td class="pass">Scored</td><td><strong>V3 · Action + Recent — 81.2</strong></td><td><a href="families/F04-global-search-command-palette/rank.html#production">#3 · 66.2</a></td><td>medium</td></tr><tr><td><a href="families/F05-requests-work-hub/rank.html">F05 · F05-requests-work-hub</a></td><td class="pass">Scored</td><td><strong>V3 · Attention Queue — 75.0</strong></td><td><a href="families/F05-requests-work-hub/rank.html#production">#3 · 71.2</a></td><td>medium</td></tr><tr><td><a href="families/F06-request-new-form/rank.html">F06 · F06-request-new-form</a></td><td class="pass">Scored</td><td><strong>V2 · Three Steps — 77.5</strong></td><td><a href="families/F06-request-new-form/rank.html#production">#2 · 77.5</a></td><td>medium</td></tr><tr><td><a href="families/F07-request-details/rank.html">F07 · F07-request-details</a></td><td class="pass">Scored</td><td><strong>V4 · Minimal Decision — 77.5</strong></td><td><a href="families/F07-request-details/rank.html#production">#3 · 66.2</a></td><td>medium</td></tr><tr><td><a href="families/F08-projects-list/rank.html">F08 · F08-projects-list</a></td><td class="pass">Scored</td><td><strong>V3 · Next-Step Hero — 73.8</strong></td><td><a href="families/F08-projects-list/rank.html#production">#6 · 53.8</a></td><td>medium</td></tr><tr><td><a href="families/F09-project-details/rank.html">F09 · F09-project-details</a></td><td class="pass">Scored</td><td><strong>V2 · Delivery Journey — 77.5</strong></td><td><a href="families/F09-project-details/rank.html#production">#6 · 42.5</a></td><td>medium</td></tr><tr><td><a href="families/F10-quotes-list/rank.html">F10 · F10-quotes-list</a></td><td class="pass">Scored</td><td><strong>V1 · Action-First Commercial Hub — 68.8</strong></td><td><a href="families/F10-quotes-list/rank.html#production">#5 · 53.8</a></td><td>medium</td></tr><tr><td><a href="families/F11-quote-details/rank.html">F11 · F11-quote-details</a></td><td class="pass">Scored</td><td><strong>V2 · Financial Audit Sheet — 65.0</strong></td><td><a href="families/F11-quote-details/rank.html#production">#1 · 71.2</a></td><td>low</td></tr><tr><td><a href="families/F12-messages-home/rank.html">F12 · F12-messages-home</a></td><td class="pass">Scored</td><td><strong>V2 · Linear KPI Ribbon — 61.2</strong></td><td><a href="families/F12-messages-home/rank.html#production">#1 · 66.2</a></td><td>low</td></tr><tr><td><a href="families/F13-messages-thread/rank.html">F13 · F13-messages-thread</a></td><td class="pass">Scored</td><td><strong>V1 · 3-Pane Workbench — 56.2</strong></td><td><a href="families/F13-messages-thread/rank.html#production">#6 · 51.2</a></td><td>low</td></tr><tr><td><a href="families/F14-billing-center/rank.html">F14 · F14-billing-center</a></td><td class="pass">Scored</td><td><strong>V1 · Settled &amp; Outstanding Ledger — 81.2</strong></td><td><a href="families/F14-billing-center/rank.html#production">#6 · 71.2</a></td><td>medium</td></tr><tr><td><a href="families/F15-payment-methods/rank.html">F15 · F15-payment-methods</a></td><td class="pass">Scored</td><td><strong>V5 · Empty-State Onboarding — 81.2</strong></td><td><a href="families/F15-payment-methods/rank.html#production">#6 · 66.2</a></td><td>medium</td></tr><tr><td><a href="families/F16-checkout/rank.html">F16 · F16-checkout</a></td><td class="pass">Scored</td><td><strong>V3 · Bento Cash Desk — 81.2</strong></td><td><a href="families/F16-checkout/rank.html#production">#6 · 60.0</a></td><td>low</td></tr><tr><td><a href="families/F17-payment-status/rank.html">F17 · F17-payment-status</a></td><td class="pass">Scored</td><td><strong>V1 · Status Ledger — 81.2</strong></td><td><a href="families/F17-payment-status/rank.html#production">#5 · 60.0</a></td><td>medium</td></tr><tr><td><a href="families/F18-invoices-archive/rank.html">F18 · F18-invoices-archive</a></td><td class="pass">Scored</td><td><strong>V4 · Awaiting-You Workbench — 81.2</strong></td><td><a href="families/F18-invoices-archive/rank.html#production">#4 · 71.2</a></td><td>medium</td></tr><tr><td><a href="families/F19-notifications-center/rank.html">F19 · F19-notifications-center</a></td><td class="pass">Scored</td><td><strong>V3 · Split Triage Reader &amp; Queue — 78.8</strong></td><td><a href="families/F19-notifications-center/rank.html#production">#5 · 63.8</a></td><td>medium</td></tr><tr><td><a href="families/F20-profile-view-edit/rank.html">F20 · F20-profile-view-edit</a></td><td class="pass">Scored</td><td><strong>V1 · Calm Editorial Public Card — 78.8</strong></td><td><a href="families/F20-profile-view-edit/rank.html#production">#6 · 53.8</a></td><td>medium</td></tr><tr><td><a href="families/F21-settings/rank.html">F21 · F21-settings</a></td><td class="pass">Scored</td><td><strong>V4 · Posture-First Security Deck — 73.8</strong></td><td><a href="families/F21-settings/rank.html#production">#1 · 77.5</a></td><td>low</td></tr><tr><td><a href="families/F22-settings-files/rank.html">F22 · F22-settings-files</a></td><td class="pass">Scored</td><td><strong>V3 · Split Drive &amp; Live Preview — 71.2</strong></td><td><a href="families/F22-settings-files/rank.html#production">#3 · 66.2</a></td><td>low</td></tr></tbody></table></div>
+
+<h2 id="production">Production comparison</h2>
+<div class="card prod">
+<p>Each family page now has a <strong>Production page report and comparison rank</strong>. The score uses the same rubric but is stored separately from the lab versions. It does not replace the lab-only winner. No production screenshots are stored.</p>
+<p><strong>Side effect:</strong> Opening /notifications for accounts A and B was followed by POST /api/v1/notifications/read-all, which returned HTTP 201. That was not an intentional mark-read click, and it was not repeated. Account C&#x27;s notifications page was not opened; that session&#x27;s recorded writes were only sign-in, refresh, and logout.</p>
+<p class="small">Request and quote details were opened. Project detail, a readable message thread, and a payment receipt page were not reached; those scores reflect that limit. Pay now was opened only as a due-items tab. No payment, message, or form was submitted.</p>
+</div>
+
+<h2>Method in brief</h2>
+<div class="card">
+<p>Fixed rubric (weights 25/20/15/15/15/10, integer anchors 0–4, total = Σ weight×score÷4; critical-blocker
+cap at 49; ≤2.0 = practical tie). Every version is rendered in Chromium at 1440×1000, 768×1024, 390×844,
+dark, plus family task states; run through the same task script (first-screen, keyboard, core interaction,
+theme, demo honesty, mobile nav, axe-core); compared on seeded boards (which leak version IDs inside screenshots); then scored against the rubric
+before any prior winner claims are read. Full protocol record:
+<code>review-evidence/review-manifest.json</code> · data: <code>review-evidence/scores.json</code> ·
+personas: <code>review-evidence/personas.json</code> · <a href="review-evidence/persona-coverage.json">persona coverage matrix</a> · method sources: <code>review-evidence/RESEARCH.md</code>.</p>
+<p><strong>Evidence limitations:</strong> Screenshots expose variant labels, so blinding was incomplete. Some pairwise entries are rubric-derived summaries, not independent judgments. Keyboard evidence samples the first 12 Tab stops; Shift+Tab, Enter, Space, Escape and all open/validation states were not exhaustively verified. Mobile-navigation selectors failed on some shells. No assistive-technology or WCAG conformance audit was performed.</p>
+<p><strong>Limitations:</strong> No Docker available -&gt; not a canonical pixel-reproducible run (see environment). No screen-reader test claimed; axe + manual keyboard checks only. 100 personas are a coverage matrix, not votes/users (S5). Scores are one AI evaluator&#x27;s rubric judgments, not measured user preference.
+Fonts: Outfit NOT installed and no remote font is loaded (0 remote assets by lab design); CSS falls back to system-ui stack in this container (DejaVu Sans / Noto Sans present). Recorded as an environment difference vs a machine with Outfit installed.</p></div>
+<footer>Generated from scores.json by review-evidence/tooling/render_reports.py. No lab source template was modified. Production was not intentionally edited; see the notifications side effect above.</footer>
+<script>
+document.getElementById('q').addEventListener('input',function(e){
+ var q=e.target.value.trim().toLowerCase();
+ document.querySelectorAll('#fam tbody tr').forEach(function(tr){
+  tr.style.display=(!q||tr.textContent.toLowerCase().indexOf(q)>-1)?'':'none';});});
+</script></main></body></html>

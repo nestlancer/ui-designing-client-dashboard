@@ -1,0 +1,4496 @@
+{
+  "schema": "nestlancer-production-readonly-inventory",
+  "url": "https://app.nestlancer.com/",
+  "started_at": "2026-10-28T18:00:11.113Z",
+  "mode": "read-only; no screenshots; no stored sessions; no mutating controls activated",
+  "prior_pass": "A corrected navigation bug left the first authenticated pass with only /dashboard actually reviewed. This file replaces that incomplete crawl. The earlier local session was closed without a visible logout control.",
+  "accounts": [
+    {
+      "id": "A",
+      "login": {
+        "ok": true,
+        "http": 200,
+        "landing": "/dashboard"
+      },
+      "pages": [
+        {
+          "path": "/dashboard",
+          "outcome": "reviewed",
+          "http": null,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Overview",
+            "H2 Workspace vitals",
+            "H2 Awaiting you",
+            "H2 Live workbench",
+            "H2 Quotes to review",
+            "H2 Recent activity"
+          ],
+          "tabs": [
+            "Quotes",
+            "Pay now",
+            "Projects",
+            "Inbox"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "Quotes",
+            "Pay now",
+            "Projects",
+            "Inbox"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [
+            "Signed in ×"
+          ],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/requests",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Work Hub"
+          ],
+          "tabs": [
+            "All",
+            "Requests",
+            "Projects"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "All",
+            "Requests",
+            "Projects"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "New request",
+              "href": "/requests/new"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "select",
+              "name": "status"
+            },
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/projects",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Projects"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Work Hub",
+              "href": "/requests"
+            },
+            {
+              "label": "View quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/quotes",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Quotes"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "select",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/messages",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Messages",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Message support",
+              "href": "/messages/new/direct"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/messages/inbox"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/payments",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Payment methods",
+              "href": "/payments/methods"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "select",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/invoices",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Invoices",
+            "H2 Invoice archive"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "View payments",
+              "href": "/payments"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/notifications",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Notifications"
+          ],
+          "tabs": [
+            "All",
+            "Unread",
+            "Quotes",
+            "Payments",
+            "Messages",
+            "Projects",
+            "Requests",
+            "Account",
+            "Settings"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "All",
+            "Unread",
+            "Quotes",
+            "Payments",
+            "Projects",
+            "Requests",
+            "Settings"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [
+            "[content omitted]"
+          ],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/blog",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/about"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/pricing"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/services"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/login"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/feed/rss"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/bookmarks"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "1",
+              "href": "/blog"
+            },
+            {
+              "label": "2",
+              "href": "/blog"
+            },
+            {
+              "label": "3",
+              "href": "/blog"
+            },
+            {
+              "label": "4",
+              "href": "/blog"
+            },
+            {
+              "label": "5",
+              "href": "/blog"
+            },
+            {
+              "label": "6",
+              "href": "/blog"
+            },
+            {
+              "label": "7",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/feed/rss"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/portfolio",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/about"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/pricing"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/services"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/login"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/profile",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/settings/account",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Settings"
+          ],
+          "tabs": [
+            "Account",
+            "Security",
+            "Notifications",
+            "Files",
+            "Activity"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "[count] unread notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/requests/new",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 New request",
+            "H2 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "Save draft"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Back to requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "textarea",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "select",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "number",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "number",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "checkbox",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "date",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "date",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "textarea",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/messages/new/direct",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 New message"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "[count] unread notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/messages/inbox",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Overview",
+              "href": "/messages"
+            },
+            {
+              "label": "Message support",
+              "href": "/messages/new/direct"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/payments/methods",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Payment methods",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/contact",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/about"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/pricing"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/services"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/login"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "email",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "select",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "textarea",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/login",
+          "outcome": "denied",
+          "http": 200
+        },
+        {
+          "path": "/register",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "email",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "password",
+              "name": "password"
+            },
+            {
+              "type": "password",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "checkbox",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "checkbox",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": false,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/api/v1/blog/feed/rss",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[title omitted]",
+          "headings": [],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": false,
+          "skip": false,
+          "sidebar": false,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/blog/bookmarks",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/about"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/pricing"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/services"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/login"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/blog/:id",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/about"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/pricing"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/services"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/login"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/sharing/share-offsite/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/intent/tweet"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/:id"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/feed/rss"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "textarea",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        }
+      ],
+      "mobile": [
+        {
+          "path": "/dashboard",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/requests",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/projects",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/quotes",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/messages",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/payments",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/invoices",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/notifications",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        }
+      ],
+      "checks": {
+        "search": {
+          "opened": false,
+          "input": false
+        },
+        "themeControl": true,
+        "focus": [
+          {
+            "tag": "A",
+            "role": null,
+            "type": null,
+            "outline": "auto",
+            "inChrome": false
+          },
+          {
+            "tag": "BODY"
+          },
+          {
+            "tag": "A",
+            "role": null,
+            "type": null,
+            "outline": "auto",
+            "inChrome": false
+          },
+          {
+            "tag": "BODY"
+          },
+          {
+            "tag": "A",
+            "role": null,
+            "type": null,
+            "outline": "auto",
+            "inChrome": false
+          },
+          {
+            "tag": "BODY"
+          },
+          {
+            "tag": "A",
+            "role": null,
+            "type": null,
+            "outline": "auto",
+            "inChrome": false
+          },
+          {
+            "tag": "BODY"
+          }
+        ]
+      },
+      "logout": {
+        "ok": true,
+        "detail": "visible logout control not found; app logout endpoint used",
+        "http": 200
+      },
+      "api": [
+        {
+          "key": "GET /api/auth/impersonate",
+          "status": 204
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/blog/feed/rss",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/invoices",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/messages/conversations",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/messages/conversations/unread-count",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/notifications",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/notifications/unread-count",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/payments",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/payments/methods",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/payments/stats",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/quotes",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/quotes/stats",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/requests",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/requests/stats",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/system/status",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/users/preferences",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/users/profile",
+          "status": 200
+        },
+        {
+          "key": "POST /api/auth/login",
+          "status": 200
+        },
+        {
+          "key": "POST /api/auth/logout",
+          "status": 200
+        },
+        {
+          "key": "POST /api/auth/refresh",
+          "status": 204
+        },
+        {
+          "key": "POST api.nestlancer.com/api/v1/notifications/read-all",
+          "status": 201
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "login": {
+        "ok": true,
+        "http": 200,
+        "landing": "/dashboard"
+      },
+      "pages": [
+        {
+          "path": "/dashboard",
+          "outcome": "reviewed",
+          "http": null,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Overview",
+            "H2 Workspace vitals",
+            "H2 Awaiting you",
+            "H2 Live workbench",
+            "H2 Quotes to review",
+            "H2 Recent activity"
+          ],
+          "tabs": [
+            "Quotes",
+            "Pay now",
+            "Projects",
+            "Inbox"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "Quotes",
+            "Pay now",
+            "Projects",
+            "Inbox"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [
+            "Signed in ×"
+          ],
+          "axe": null
+        },
+        {
+          "path": "/requests",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Work Hub"
+          ],
+          "tabs": [
+            "All",
+            "Requests",
+            "Projects"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "All",
+            "Requests",
+            "Projects"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "New request",
+              "href": "/requests/new"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "select",
+              "name": "status"
+            },
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/projects",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Projects"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Work Hub",
+              "href": "/requests"
+            },
+            {
+              "label": "View quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/quotes",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Quotes"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "select",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/messages",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Messages",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Message support",
+              "href": "/messages/new/direct"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/messages/inbox"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/payments",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Payment methods",
+              "href": "/payments/methods"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "select",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/invoices",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Invoices",
+            "H2 Invoice archive"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "View payments",
+              "href": "/payments"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/notifications",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Notifications"
+          ],
+          "tabs": [
+            "All",
+            "Unread",
+            "Quotes",
+            "Payments",
+            "Messages",
+            "Projects",
+            "Requests",
+            "Account",
+            "Settings"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "All",
+            "Unread",
+            "Quotes",
+            "Payments",
+            "Projects",
+            "Requests",
+            "Settings"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [
+            "[content omitted]"
+          ],
+          "axe": null
+        },
+        {
+          "path": "/blog",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/about"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/pricing"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/services"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/login"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/feed/rss"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/bookmarks"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "1",
+              "href": "/blog"
+            },
+            {
+              "label": "2",
+              "href": "/blog"
+            },
+            {
+              "label": "3",
+              "href": "/blog"
+            },
+            {
+              "label": "4",
+              "href": "/blog"
+            },
+            {
+              "label": "5",
+              "href": "/blog"
+            },
+            {
+              "label": "6",
+              "href": "/blog"
+            },
+            {
+              "label": "7",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/blog/feed/rss"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/portfolio",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/about"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/pricing"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/services"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/contact"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/login"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/register"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/profile",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/settings/account",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 Settings"
+          ],
+          "tabs": [
+            "Account",
+            "Security",
+            "Notifications",
+            "Files",
+            "Activity"
+          ],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "[count] unread notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/requests/new",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 New request",
+            "H2 [content omitted]",
+            "H2 [content omitted]",
+            "H2 [content omitted]"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications",
+            "Save draft"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Back to requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "textarea",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "select",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "number",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "number",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "input",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "checkbox",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "date",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "date",
+              "name": "[content omitted]"
+            },
+            {
+              "type": "textarea",
+              "name": "[content omitted]"
+            }
+          ],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        },
+        {
+          "path": "/messages/new/direct",
+          "outcome": "reviewed",
+          "http": 200,
+          "title": "[content omitted]",
+          "headings": [
+            "H1 New message"
+          ],
+          "tabs": [],
+          "headers": [],
+          "buttons": [
+            "Main",
+            "Explore",
+            "Account",
+            "Collapse sidebar",
+            "Messages",
+            "Notifications"
+          ],
+          "nav": [
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "[content omitted]",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "skip": true,
+          "sidebar": true,
+          "alerts": [],
+          "axe": null
+        }
+      ],
+      "mobile": [
+        {
+          "path": "/dashboard",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/requests",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/projects",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/quotes",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/messages",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/payments",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/invoices",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        },
+        {
+          "path": "/notifications",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": true,
+          "h1": true
+        }
+      ],
+      "checks": {},
+      "logout": {
+        "ok": true,
+        "detail": "visible logout control not found; app logout endpoint used",
+        "http": 200
+      },
+      "api": [
+        {
+          "key": "GET /api/auth/impersonate",
+          "status": 204
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/invoices",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/messages/conversations",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/messages/conversations/unread-count",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/notifications",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/notifications/unread-count",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/payments",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/payments/stats",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/quotes",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/quotes/stats",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/requests/stats",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/system/status",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/users/dashboard-summary",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/users/preferences",
+          "status": 200
+        },
+        {
+          "key": "GET api.nestlancer.com/api/v1/users/profile",
+          "status": 200
+        },
+        {
+          "key": "POST /api/auth/login",
+          "status": 200
+        },
+        {
+          "key": "POST /api/auth/logout",
+          "status": 200
+        },
+        {
+          "key": "POST /api/auth/refresh",
+          "status": 204
+        },
+        {
+          "key": "POST api.nestlancer.com/api/v1/notifications/read-all",
+          "status": 201
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "login": {
+        "ok": true,
+        "http": 200,
+        "landing": "/dashboard"
+      },
+      "pages": [
+        {
+          "path": "/dashboard",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            "",
+            "H",
+            "H2",
+            "H2:",
+            "H2:Q",
+            "H2:Re"
+          ],
+          "tabs": [
+            "",
+            "P",
+            "Pr",
+            "Inb"
+          ],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/requests",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [
+            "",
+            "R",
+            "Pr"
+          ],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/projects",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/quotes",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/messages",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            "",
+            "H"
+          ],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/invoices",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            "",
+            "H"
+          ],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/profile",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": false
+        },
+        {
+          "path": "/settings/account",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [
+            "",
+            "S",
+            "No",
+            "Fil",
+            "Acti"
+          ],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/requests/new",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            "",
+            "H",
+            "H2",
+            "H2:"
+          ],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/messages/new/direct",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/messages/inbox",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/settings/security",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            "",
+            "H",
+            "H2",
+            "H2:"
+          ],
+          "tabs": [
+            "",
+            "S",
+            "No",
+            "Fil",
+            "Acti"
+          ],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/settings/files",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [
+            "",
+            "S",
+            "No",
+            "Fil",
+            "Acti",
+            "All",
+            "Images",
+            "Documen",
+            "Video",
+            "Archives"
+          ],
+          "hScroll": 0,
+          "h1": true
+        },
+        {
+          "path": "/settings/activity",
+          "outcome": "reviewed",
+          "http": 200,
+          "headings": [
+            ""
+          ],
+          "tabs": [
+            "",
+            "S",
+            "No",
+            "Fil",
+            "Acti"
+          ],
+          "hScroll": 0,
+          "h1": true
+        }
+      ],
+      "mobile": [
+        {
+          "path": "/dashboard",
+          "hScroll": 0,
+          "h1": false,
+          "menu": false
+        },
+        {
+          "path": "/requests",
+          "hScroll": 0,
+          "h1": false,
+          "menu": false
+        },
+        {
+          "path": "/projects",
+          "hScroll": 0,
+          "h1": false,
+          "menu": false
+        },
+        {
+          "path": "/settings/account",
+          "hScroll": 0,
+          "h1": false,
+          "menu": false
+        }
+      ],
+      "checks": {
+        "settingsTabs": [
+          {
+            "tab": "Security",
+            "path": "/settings/account",
+            "headings": [
+              "",
+              "H",
+              "H2"
+            ],
+            "hScroll": 0
+          },
+          {
+            "tab": "Notifications",
+            "path": "/settings/account",
+            "headings": [
+              "",
+              "H",
+              "H2"
+            ],
+            "hScroll": 0
+          },
+          {
+            "tab": "Files",
+            "path": "/settings/account",
+            "headings": [
+              "",
+              "H",
+              "H2"
+            ],
+            "hScroll": 0
+          },
+          {
+            "tab": "Activity",
+            "path": "/settings/account",
+            "headings": [
+              "",
+              "H",
+              "H2"
+            ],
+            "hScroll": 0
+          }
+        ]
+      },
+      "logout": {
+        "ok": true,
+        "detail": "visible logout control not confirmed; app logout endpoint used",
+        "http": 200
+      },
+      "posts": [
+        "POST /api/auth/refresh 204",
+        "POST /api/auth/login 200",
+        "POST /api/auth/refresh 200",
+        "POST /api/auth/logout 200"
+      ]
+    }
+  ],
+  "stopped_reason": null,
+  "finished_at": "2026-10-28T18:03:06.174Z",
+  "account_c_pass": "single corrected attempt; notifications route not opened"
+}

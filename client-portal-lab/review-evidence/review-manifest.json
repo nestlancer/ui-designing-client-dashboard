@@ -1,0 +1,1135 @@
+{
+  "schema": "client-portal-lab-review-manifest",
+  "schema_version": 1,
+  "protocol": "rank-ai-prompt.md (reproducible UI review and ranking), operator-supplied 2026-10-28",
+  "run_status": "LAB_SCORED_PRODUCTION_REFERENCE_REVIEWED",
+  "repo": {
+    "root": "ui-designing-client-dashboard",
+    "revision": "a61c188d2953557393ef9bb738c9aa4637f546bd",
+    "working_tree_at_preflight": "clean except review-evidence/ additions by this run"
+  },
+  "date": {
+    "utc": "2026-10-28T14:42:26.216394+00:00",
+    "operator_timezone": "Asia/Kolkata"
+  },
+  "evaluator": "AI heuristic reviewer (browser QA operator) - one evaluator; NOT user research",
+  "server": {
+    "command": "python3 -m http.server 8130 --bind 0.0.0.0  (from repo root)",
+    "base_url_internal": "http://127.0.0.1:8130/client-portal-lab/",
+    "file_protocol_used": false
+  },
+  "environment": {
+    "os": "Debian GNU/Linux 13 (trixie), Linux 6.1 x86_64, container sandbox (NOT canonical Docker)",
+    "browser": "Chromium 131.0.6778.33 (HeadlessChrome, Playwright bundled build chromium-1148)",
+    "playwright_version": "1.49.1 (pinned in review-evidence/tooling/package.json)",
+    "axe_core_version": "4.10.2 (pinned)",
+    "node": "v20.20.2",
+    "python": "3.13.16",
+    "device_scale_factor": 1,
+    "color_scheme_default": "light",
+    "reduced_motion": "emulated 'reduce' for screenshots",
+    "fonts": "Outfit NOT installed and no remote font is loaded (0 remote assets by lab design); CSS falls back to system-ui stack in this container (DejaVu Sans / Noto Sans present). Recorded as an environment difference vs a machine with Outfit installed.",
+    "pixel_reproducibility": "NOT cross-machine pixel-reproducible: no Docker in sandbox; pinned Playwright/Chromium used consistently for every page in this run.",
+    "image_diff_tool": "None used to judge quality. Direct screenshot inspection only (per S1)."
+  },
+  "captures_per_version": [
+    {
+      "id": "desktop",
+      "viewport": "1440x1000",
+      "scheme": "light",
+      "state": "initial, page top"
+    },
+    {
+      "id": "mobile",
+      "viewport": "390x844",
+      "scheme": "light",
+      "state": "initial, page top"
+    },
+    {
+      "id": "tablet",
+      "viewport": "768x1024",
+      "scheme": "light",
+      "state": "initial, page top"
+    },
+    {
+      "id": "dark",
+      "viewport": "1440x1000",
+      "scheme": "dark via ?theme=dark for supported families; F10–F13 captured after real theme toggle",
+      "state": "initial"
+    },
+    {
+      "id": "task-desktop/task-mobile",
+      "viewport": "1440x1000 and 390x844",
+      "scheme": "light",
+      "state": "one safe family-relevant interaction outcome (same script per family)"
+    },
+    {
+      "id": "fullpage-desktop",
+      "viewport": "1440 width, full height",
+      "scheme": "light",
+      "state": "supplemental only"
+    }
+  ],
+  "blind_boards": {
+    "method": "5 equal-size desktop screenshots/family, neutral labels A-E, seeded shuffle; mapping stored in scores.json",
+    "seed": 20261028
+  },
+  "rubric": {
+    "version": "rank-prompt S3 v1 - fixed before scoring; weights/anchors will not change mid-run",
+    "dimensions": [
+      {
+        "id": "task_clarity",
+        "label": "Task clarity and visual hierarchy",
+        "weight": 25
+      },
+      {
+        "id": "usability",
+        "label": "Usability and interaction",
+        "weight": 20
+      },
+      {
+        "id": "visual_craft",
+        "label": "Visual craft and legibility",
+        "weight": 15
+      },
+      {
+        "id": "responsive",
+        "label": "Responsive layout",
+        "weight": 15
+      },
+      {
+        "id": "accessibility",
+        "label": "Accessibility evidence",
+        "weight": 15
+      },
+      {
+        "id": "integrity",
+        "label": "Content/spec/trust integrity",
+        "weight": 10
+      }
+    ],
+    "scale": "Integer 0-4 per dimension against S3 anchors; evidence note required per score",
+    "formula": "total = sum(weight * dimension_score / 4); range 0-100, stored/displayed to 1 decimal",
+    "critical_cap": "Total capped at 49 only for reproducible blocker (fails to load / primary content or action hidden/blocked at a required viewport / core task impossible)",
+    "tie_rule": "Totals within 2.0 = practical tie group; tie-break: task-clarity, then fewer major/critical issues, then responsive; else joint rank"
+  },
+  "task_script_generic": [
+    {
+      "id": "T1",
+      "task": "First screen: identify page purpose, current status, next useful action (desktop + mobile)"
+    },
+    {
+      "id": "T2",
+      "task": "Keyboard: Tab/Shift+Tab through first 15 focusables; focus visible? logical order? Enter/Space/Escape where apt"
+    },
+    {
+      "id": "T3",
+      "task": "Family core interaction (same per family: tab switch / primary CTA / drawer / filter / palette as documented)"
+    },
+    {
+      "id": "T4",
+      "task": "Theme switch to dark and back; state persists; no unreadable surface"
+    },
+    {
+      "id": "T5",
+      "task": "Demo-affordance honesty: documented demo control gives honest feedback, no fake success/navigation"
+    },
+    {
+      "id": "T6",
+      "task": "Mobile (390px): navigation reachable, no horizontal scroll, tap targets usable, sticky UI does not block core action"
+    },
+    {
+      "id": "T7",
+      "task": "Automated: axe-core on default state (+ open/validation state where meaningful); console/network errors recorded"
+    }
+  ],
+  "anti_anchoring": "Prior winner claims (DECISIONS.md 'Winners' sections, DELIVERY-REPORT.md verdicts) were NOT read before first-pass scoring: docs were machine-redacted for winner/rank/verdict sections at preflight (note: F03 V2's concept NAME 'Verdict Hero' was over-redacted by that filter; its neutral axes were taken from manifest.json, which contains no winner field). Prior winners may be compared only after first-pass scores are saved.",
+  "context_read_at_preflight": [
+    "client-portal-lab/manifest.json (meta + all 100 records; no winner/rank fields exist)",
+    "client-portal-lab/DECISIONS.md SS0-6 + later content-lock/coverage sections (winner sections redacted)",
+    "client-portal-lab/shared/tokens.css, base.css (locked single blue scheme; .dark overrides)",
+    "client-portal-lab/index.html gallery (exists, 168K; served 200)",
+    "families/F03-*/docs/CONCEPTS.md + BASELINE-MAP.md (pilot family, redacted)"
+  ],
+  "inventory": {
+    "families_discovered": 20,
+    "pages_existing": 100,
+    "missing_versions": [],
+    "families": [
+      {
+        "family_id": "F03",
+        "family_dir": "F03-dashboard-overview",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F03-dashboard-overview/V1/index.html",
+            "exists": true,
+            "bytes": 32106
+          },
+          {
+            "version": "V2",
+            "path": "families/F03-dashboard-overview/V2/index.html",
+            "exists": true,
+            "bytes": 28207
+          },
+          {
+            "version": "V3",
+            "path": "families/F03-dashboard-overview/V3/index.html",
+            "exists": true,
+            "bytes": 25628
+          },
+          {
+            "version": "V4",
+            "path": "families/F03-dashboard-overview/V4/index.html",
+            "exists": true,
+            "bytes": 24263
+          },
+          {
+            "version": "V5",
+            "path": "families/F03-dashboard-overview/V5/index.html",
+            "exists": true,
+            "bytes": 24231
+          }
+        ],
+        "docs": [
+          "families/F03-dashboard-overview/docs/API-MAP.md",
+          "families/F03-dashboard-overview/docs/BASELINE-MAP.md",
+          "families/F03-dashboard-overview/docs/CONCEPTS.md",
+          "families/F03-dashboard-overview/docs/DELIVERY-REPORT.md",
+          "families/F03-dashboard-overview/docs/REPORT-STUDY.md",
+          "families/F03-dashboard-overview/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F04",
+        "family_dir": "F04-global-search-command-palette",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F04-global-search-command-palette/V1/index.html",
+            "exists": true,
+            "bytes": 21243
+          },
+          {
+            "version": "V2",
+            "path": "families/F04-global-search-command-palette/V2/index.html",
+            "exists": true,
+            "bytes": 21102
+          },
+          {
+            "version": "V3",
+            "path": "families/F04-global-search-command-palette/V3/index.html",
+            "exists": true,
+            "bytes": 21402
+          },
+          {
+            "version": "V4",
+            "path": "families/F04-global-search-command-palette/V4/index.html",
+            "exists": true,
+            "bytes": 19727
+          },
+          {
+            "version": "V5",
+            "path": "families/F04-global-search-command-palette/V5/index.html",
+            "exists": true,
+            "bytes": 21880
+          }
+        ],
+        "docs": [
+          "families/F04-global-search-command-palette/docs/API-MAP.md",
+          "families/F04-global-search-command-palette/docs/BASELINE-MAP.md",
+          "families/F04-global-search-command-palette/docs/CONCEPTS.md",
+          "families/F04-global-search-command-palette/docs/DELIVERY-REPORT.md",
+          "families/F04-global-search-command-palette/docs/REPORT-STUDY.md",
+          "families/F04-global-search-command-palette/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F05",
+        "family_dir": "F05-requests-work-hub",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F05-requests-work-hub/V1/index.html",
+            "exists": true,
+            "bytes": 58650
+          },
+          {
+            "version": "V2",
+            "path": "families/F05-requests-work-hub/V2/index.html",
+            "exists": true,
+            "bytes": 48050
+          },
+          {
+            "version": "V3",
+            "path": "families/F05-requests-work-hub/V3/index.html",
+            "exists": true,
+            "bytes": 44410
+          },
+          {
+            "version": "V4",
+            "path": "families/F05-requests-work-hub/V4/index.html",
+            "exists": true,
+            "bytes": 44649
+          },
+          {
+            "version": "V5",
+            "path": "families/F05-requests-work-hub/V5/index.html",
+            "exists": true,
+            "bytes": 43506
+          }
+        ],
+        "docs": [
+          "families/F05-requests-work-hub/docs/API-MAP.md",
+          "families/F05-requests-work-hub/docs/BASELINE-MAP.md",
+          "families/F05-requests-work-hub/docs/CONCEPTS.md",
+          "families/F05-requests-work-hub/docs/DELIVERY-REPORT.md",
+          "families/F05-requests-work-hub/docs/REPORT-STUDY.md",
+          "families/F05-requests-work-hub/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F06",
+        "family_dir": "F06-request-new-form",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F06-request-new-form/V1/index.html",
+            "exists": true,
+            "bytes": 53748
+          },
+          {
+            "version": "V2",
+            "path": "families/F06-request-new-form/V2/index.html",
+            "exists": true,
+            "bytes": 52432
+          },
+          {
+            "version": "V3",
+            "path": "families/F06-request-new-form/V3/index.html",
+            "exists": true,
+            "bytes": 49174
+          },
+          {
+            "version": "V4",
+            "path": "families/F06-request-new-form/V4/index.html",
+            "exists": true,
+            "bytes": 53661
+          },
+          {
+            "version": "V5",
+            "path": "families/F06-request-new-form/V5/index.html",
+            "exists": true,
+            "bytes": 54588
+          }
+        ],
+        "docs": [
+          "families/F06-request-new-form/docs/API-MAP.md",
+          "families/F06-request-new-form/docs/BASELINE-MAP.md",
+          "families/F06-request-new-form/docs/CONCEPTS.md",
+          "families/F06-request-new-form/docs/DELIVERY-REPORT.md",
+          "families/F06-request-new-form/docs/REPORT-STUDY.md",
+          "families/F06-request-new-form/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F07",
+        "family_dir": "F07-request-details",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F07-request-details/V1/index.html",
+            "exists": true,
+            "bytes": 20545
+          },
+          {
+            "version": "V2",
+            "path": "families/F07-request-details/V2/index.html",
+            "exists": true,
+            "bytes": 19065
+          },
+          {
+            "version": "V3",
+            "path": "families/F07-request-details/V3/index.html",
+            "exists": true,
+            "bytes": 17940
+          },
+          {
+            "version": "V4",
+            "path": "families/F07-request-details/V4/index.html",
+            "exists": true,
+            "bytes": 17075
+          },
+          {
+            "version": "V5",
+            "path": "families/F07-request-details/V5/index.html",
+            "exists": true,
+            "bytes": 18416
+          }
+        ],
+        "docs": [
+          "families/F07-request-details/docs/API-MAP.md",
+          "families/F07-request-details/docs/BASELINE-MAP.md",
+          "families/F07-request-details/docs/CONCEPTS.md",
+          "families/F07-request-details/docs/DELIVERY-REPORT.md",
+          "families/F07-request-details/docs/REPORT-STUDY.md",
+          "families/F07-request-details/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F08",
+        "family_dir": "F08-projects-list",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F08-projects-list/V1/index.html",
+            "exists": true,
+            "bytes": 35162
+          },
+          {
+            "version": "V2",
+            "path": "families/F08-projects-list/V2/index.html",
+            "exists": true,
+            "bytes": 30106
+          },
+          {
+            "version": "V3",
+            "path": "families/F08-projects-list/V3/index.html",
+            "exists": true,
+            "bytes": 25723
+          },
+          {
+            "version": "V4",
+            "path": "families/F08-projects-list/V4/index.html",
+            "exists": true,
+            "bytes": 24354
+          },
+          {
+            "version": "V5",
+            "path": "families/F08-projects-list/V5/index.html",
+            "exists": true,
+            "bytes": 25156
+          }
+        ],
+        "docs": [
+          "families/F08-projects-list/docs/API-MAP.md",
+          "families/F08-projects-list/docs/BASELINE-MAP.md",
+          "families/F08-projects-list/docs/CONCEPTS.md",
+          "families/F08-projects-list/docs/DELIVERY-REPORT.md",
+          "families/F08-projects-list/docs/REPORT-STUDY.md",
+          "families/F08-projects-list/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F09",
+        "family_dir": "F09-project-details",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F09-project-details/V1/index.html",
+            "exists": true,
+            "bytes": 58789
+          },
+          {
+            "version": "V2",
+            "path": "families/F09-project-details/V2/index.html",
+            "exists": true,
+            "bytes": 49089
+          },
+          {
+            "version": "V3",
+            "path": "families/F09-project-details/V3/index.html",
+            "exists": true,
+            "bytes": 42699
+          },
+          {
+            "version": "V4",
+            "path": "families/F09-project-details/V4/index.html",
+            "exists": true,
+            "bytes": 43611
+          },
+          {
+            "version": "V5",
+            "path": "families/F09-project-details/V5/index.html",
+            "exists": true,
+            "bytes": 42843
+          }
+        ],
+        "docs": [
+          "families/F09-project-details/docs/API-MAP.md",
+          "families/F09-project-details/docs/BASELINE-MAP.md",
+          "families/F09-project-details/docs/CONCEPTS.md",
+          "families/F09-project-details/docs/DELIVERY-REPORT.md",
+          "families/F09-project-details/docs/REPORT-STUDY.md",
+          "families/F09-project-details/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F10",
+        "family_dir": "F10-quotes-list",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F10-quotes-list/V1/index.html",
+            "exists": true,
+            "bytes": 62664
+          },
+          {
+            "version": "V2",
+            "path": "families/F10-quotes-list/V2/index.html",
+            "exists": true,
+            "bytes": 41701
+          },
+          {
+            "version": "V3",
+            "path": "families/F10-quotes-list/V3/index.html",
+            "exists": true,
+            "bytes": 36220
+          },
+          {
+            "version": "V4",
+            "path": "families/F10-quotes-list/V4/index.html",
+            "exists": true,
+            "bytes": 33878
+          },
+          {
+            "version": "V5",
+            "path": "families/F10-quotes-list/V5/index.html",
+            "exists": true,
+            "bytes": 35837
+          }
+        ],
+        "docs": [
+          "families/F10-quotes-list/docs/API-MAP.md",
+          "families/F10-quotes-list/docs/BASELINE-MAP.md",
+          "families/F10-quotes-list/docs/CONCEPTS.md",
+          "families/F10-quotes-list/docs/DELIVERY-REPORT.md",
+          "families/F10-quotes-list/docs/REPORT-STUDY.md",
+          "families/F10-quotes-list/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F11",
+        "family_dir": "F11-quote-details",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F11-quote-details/V1/index.html",
+            "exists": true,
+            "bytes": 44354
+          },
+          {
+            "version": "V2",
+            "path": "families/F11-quote-details/V2/index.html",
+            "exists": true,
+            "bytes": 29968
+          },
+          {
+            "version": "V3",
+            "path": "families/F11-quote-details/V3/index.html",
+            "exists": true,
+            "bytes": 27369
+          },
+          {
+            "version": "V4",
+            "path": "families/F11-quote-details/V4/index.html",
+            "exists": true,
+            "bytes": 27148
+          },
+          {
+            "version": "V5",
+            "path": "families/F11-quote-details/V5/index.html",
+            "exists": true,
+            "bytes": 26134
+          }
+        ],
+        "docs": [
+          "families/F11-quote-details/docs/API-MAP.md",
+          "families/F11-quote-details/docs/BASELINE-MAP.md",
+          "families/F11-quote-details/docs/CONCEPTS.md",
+          "families/F11-quote-details/docs/DELIVERY-REPORT.md",
+          "families/F11-quote-details/docs/REPORT-STUDY.md",
+          "families/F11-quote-details/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F12",
+        "family_dir": "F12-messages-home",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F12-messages-home/V1/index.html",
+            "exists": true,
+            "bytes": 40205
+          },
+          {
+            "version": "V2",
+            "path": "families/F12-messages-home/V2/index.html",
+            "exists": true,
+            "bytes": 28507
+          },
+          {
+            "version": "V3",
+            "path": "families/F12-messages-home/V3/index.html",
+            "exists": true,
+            "bytes": 26748
+          },
+          {
+            "version": "V4",
+            "path": "families/F12-messages-home/V4/index.html",
+            "exists": true,
+            "bytes": 24754
+          },
+          {
+            "version": "V5",
+            "path": "families/F12-messages-home/V5/index.html",
+            "exists": true,
+            "bytes": 24540
+          }
+        ],
+        "docs": [
+          "families/F12-messages-home/docs/API-MAP.md",
+          "families/F12-messages-home/docs/BASELINE-MAP.md",
+          "families/F12-messages-home/docs/CONCEPTS.md",
+          "families/F12-messages-home/docs/DELIVERY-REPORT.md",
+          "families/F12-messages-home/docs/REPORT-STUDY.md",
+          "families/F12-messages-home/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F13",
+        "family_dir": "F13-messages-thread",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F13-messages-thread/V1/index.html",
+            "exists": true,
+            "bytes": 41129
+          },
+          {
+            "version": "V2",
+            "path": "families/F13-messages-thread/V2/index.html",
+            "exists": true,
+            "bytes": 27433
+          },
+          {
+            "version": "V3",
+            "path": "families/F13-messages-thread/V3/index.html",
+            "exists": true,
+            "bytes": 26333
+          },
+          {
+            "version": "V4",
+            "path": "families/F13-messages-thread/V4/index.html",
+            "exists": true,
+            "bytes": 26466
+          },
+          {
+            "version": "V5",
+            "path": "families/F13-messages-thread/V5/index.html",
+            "exists": true,
+            "bytes": 26618
+          }
+        ],
+        "docs": [
+          "families/F13-messages-thread/docs/API-MAP.md",
+          "families/F13-messages-thread/docs/BASELINE-MAP.md",
+          "families/F13-messages-thread/docs/CONCEPTS.md",
+          "families/F13-messages-thread/docs/DELIVERY-REPORT.md",
+          "families/F13-messages-thread/docs/REPORT-STUDY.md",
+          "families/F13-messages-thread/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F14",
+        "family_dir": "F14-billing-center",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F14-billing-center/V1/index.html",
+            "exists": true,
+            "bytes": 53957
+          },
+          {
+            "version": "V2",
+            "path": "families/F14-billing-center/V2/index.html",
+            "exists": true,
+            "bytes": 23896
+          },
+          {
+            "version": "V3",
+            "path": "families/F14-billing-center/V3/index.html",
+            "exists": true,
+            "bytes": 26119
+          },
+          {
+            "version": "V4",
+            "path": "families/F14-billing-center/V4/index.html",
+            "exists": true,
+            "bytes": 24439
+          },
+          {
+            "version": "V5",
+            "path": "families/F14-billing-center/V5/index.html",
+            "exists": true,
+            "bytes": 22969
+          }
+        ],
+        "docs": [
+          "families/F14-billing-center/docs/API-MAP.md",
+          "families/F14-billing-center/docs/BASELINE-MAP.md",
+          "families/F14-billing-center/docs/CONCEPTS.md",
+          "families/F14-billing-center/docs/DECISIONS.md",
+          "families/F14-billing-center/docs/DELIVERY-REPORT.md",
+          "families/F14-billing-center/docs/REPORT-STUDY.md",
+          "families/F14-billing-center/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F15",
+        "family_dir": "F15-payment-methods",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F15-payment-methods/V1/index.html",
+            "exists": true,
+            "bytes": 19486
+          },
+          {
+            "version": "V2",
+            "path": "families/F15-payment-methods/V2/index.html",
+            "exists": true,
+            "bytes": 20684
+          },
+          {
+            "version": "V3",
+            "path": "families/F15-payment-methods/V3/index.html",
+            "exists": true,
+            "bytes": 18284
+          },
+          {
+            "version": "V4",
+            "path": "families/F15-payment-methods/V4/index.html",
+            "exists": true,
+            "bytes": 18970
+          },
+          {
+            "version": "V5",
+            "path": "families/F15-payment-methods/V5/index.html",
+            "exists": true,
+            "bytes": 19201
+          }
+        ],
+        "docs": [
+          "families/F15-payment-methods/docs/API-MAP.md",
+          "families/F15-payment-methods/docs/BASELINE-MAP.md",
+          "families/F15-payment-methods/docs/CONCEPTS.md",
+          "families/F15-payment-methods/docs/DECISIONS.md",
+          "families/F15-payment-methods/docs/DELIVERY-REPORT.md",
+          "families/F15-payment-methods/docs/REPORT-STUDY.md",
+          "families/F15-payment-methods/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F16",
+        "family_dir": "F16-checkout",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F16-checkout/V1/index.html",
+            "exists": true,
+            "bytes": 21151
+          },
+          {
+            "version": "V2",
+            "path": "families/F16-checkout/V2/index.html",
+            "exists": true,
+            "bytes": 20077
+          },
+          {
+            "version": "V3",
+            "path": "families/F16-checkout/V3/index.html",
+            "exists": true,
+            "bytes": 19061
+          },
+          {
+            "version": "V4",
+            "path": "families/F16-checkout/V4/index.html",
+            "exists": true,
+            "bytes": 20465
+          },
+          {
+            "version": "V5",
+            "path": "families/F16-checkout/V5/index.html",
+            "exists": true,
+            "bytes": 19526
+          }
+        ],
+        "docs": [
+          "families/F16-checkout/docs/API-MAP.md",
+          "families/F16-checkout/docs/BASELINE-MAP.md",
+          "families/F16-checkout/docs/CONCEPTS.md",
+          "families/F16-checkout/docs/DECISIONS.md",
+          "families/F16-checkout/docs/DELIVERY-REPORT.md",
+          "families/F16-checkout/docs/REPORT-STUDY.md",
+          "families/F16-checkout/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F17",
+        "family_dir": "F17-payment-status",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F17-payment-status/V1/index.html",
+            "exists": true,
+            "bytes": 19924
+          },
+          {
+            "version": "V2",
+            "path": "families/F17-payment-status/V2/index.html",
+            "exists": true,
+            "bytes": 19977
+          },
+          {
+            "version": "V3",
+            "path": "families/F17-payment-status/V3/index.html",
+            "exists": true,
+            "bytes": 17984
+          },
+          {
+            "version": "V4",
+            "path": "families/F17-payment-status/V4/index.html",
+            "exists": true,
+            "bytes": 20221
+          },
+          {
+            "version": "V5",
+            "path": "families/F17-payment-status/V5/index.html",
+            "exists": true,
+            "bytes": 20120
+          }
+        ],
+        "docs": [
+          "families/F17-payment-status/docs/API-MAP.md",
+          "families/F17-payment-status/docs/BASELINE-MAP.md",
+          "families/F17-payment-status/docs/CONCEPTS.md",
+          "families/F17-payment-status/docs/DECISIONS.md",
+          "families/F17-payment-status/docs/DELIVERY-REPORT.md",
+          "families/F17-payment-status/docs/REPORT-STUDY.md",
+          "families/F17-payment-status/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F18",
+        "family_dir": "F18-invoices-archive",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F18-invoices-archive/V1/index.html",
+            "exists": true,
+            "bytes": 16588
+          },
+          {
+            "version": "V2",
+            "path": "families/F18-invoices-archive/V2/index.html",
+            "exists": true,
+            "bytes": 19867
+          },
+          {
+            "version": "V3",
+            "path": "families/F18-invoices-archive/V3/index.html",
+            "exists": true,
+            "bytes": 18477
+          },
+          {
+            "version": "V4",
+            "path": "families/F18-invoices-archive/V4/index.html",
+            "exists": true,
+            "bytes": 17629
+          },
+          {
+            "version": "V5",
+            "path": "families/F18-invoices-archive/V5/index.html",
+            "exists": true,
+            "bytes": 18314
+          }
+        ],
+        "docs": [
+          "families/F18-invoices-archive/docs/API-MAP.md",
+          "families/F18-invoices-archive/docs/BASELINE-MAP.md",
+          "families/F18-invoices-archive/docs/CONCEPTS.md",
+          "families/F18-invoices-archive/docs/DECISIONS.md",
+          "families/F18-invoices-archive/docs/DELIVERY-REPORT.md",
+          "families/F18-invoices-archive/docs/REPORT-STUDY.md",
+          "families/F18-invoices-archive/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F19",
+        "family_dir": "F19-notifications-center",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F19-notifications-center/V1/index.html",
+            "exists": true,
+            "bytes": 35586
+          },
+          {
+            "version": "V2",
+            "path": "families/F19-notifications-center/V2/index.html",
+            "exists": true,
+            "bytes": 29802
+          },
+          {
+            "version": "V3",
+            "path": "families/F19-notifications-center/V3/index.html",
+            "exists": true,
+            "bytes": 29594
+          },
+          {
+            "version": "V4",
+            "path": "families/F19-notifications-center/V4/index.html",
+            "exists": true,
+            "bytes": 24708
+          },
+          {
+            "version": "V5",
+            "path": "families/F19-notifications-center/V5/index.html",
+            "exists": true,
+            "bytes": 26762
+          }
+        ],
+        "docs": [
+          "families/F19-notifications-center/docs/API-MAP.md",
+          "families/F19-notifications-center/docs/BASELINE-MAP.md",
+          "families/F19-notifications-center/docs/CONCEPTS.md",
+          "families/F19-notifications-center/docs/DELIVERY-REPORT.md",
+          "families/F19-notifications-center/docs/REPORT-STUDY.md",
+          "families/F19-notifications-center/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F20",
+        "family_dir": "F20-profile-view-edit",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F20-profile-view-edit/V1/index.html",
+            "exists": true,
+            "bytes": 35606
+          },
+          {
+            "version": "V2",
+            "path": "families/F20-profile-view-edit/V2/index.html",
+            "exists": true,
+            "bytes": 25904
+          },
+          {
+            "version": "V3",
+            "path": "families/F20-profile-view-edit/V3/index.html",
+            "exists": true,
+            "bytes": 25264
+          },
+          {
+            "version": "V4",
+            "path": "families/F20-profile-view-edit/V4/index.html",
+            "exists": true,
+            "bytes": 22074
+          },
+          {
+            "version": "V5",
+            "path": "families/F20-profile-view-edit/V5/index.html",
+            "exists": true,
+            "bytes": 25710
+          }
+        ],
+        "docs": [
+          "families/F20-profile-view-edit/docs/API-MAP.md",
+          "families/F20-profile-view-edit/docs/BASELINE-MAP.md",
+          "families/F20-profile-view-edit/docs/CONCEPTS.md",
+          "families/F20-profile-view-edit/docs/DELIVERY-REPORT.md",
+          "families/F20-profile-view-edit/docs/REPORT-STUDY.md",
+          "families/F20-profile-view-edit/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F21",
+        "family_dir": "F21-settings",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F21-settings/V1/index.html",
+            "exists": true,
+            "bytes": 47329
+          },
+          {
+            "version": "V2",
+            "path": "families/F21-settings/V2/index.html",
+            "exists": true,
+            "bytes": 32850
+          },
+          {
+            "version": "V3",
+            "path": "families/F21-settings/V3/index.html",
+            "exists": true,
+            "bytes": 30846
+          },
+          {
+            "version": "V4",
+            "path": "families/F21-settings/V4/index.html",
+            "exists": true,
+            "bytes": 28539
+          },
+          {
+            "version": "V5",
+            "path": "families/F21-settings/V5/index.html",
+            "exists": true,
+            "bytes": 28635
+          }
+        ],
+        "docs": [
+          "families/F21-settings/docs/API-MAP.md",
+          "families/F21-settings/docs/BASELINE-MAP.md",
+          "families/F21-settings/docs/CONCEPTS.md",
+          "families/F21-settings/docs/DELIVERY-REPORT.md",
+          "families/F21-settings/docs/REPORT-STUDY.md",
+          "families/F21-settings/docs/TEMPLATE-RESEARCH.md"
+        ]
+      },
+      {
+        "family_id": "F22",
+        "family_dir": "F22-settings-files",
+        "versions": [
+          {
+            "version": "V1",
+            "path": "families/F22-settings-files/V1/index.html",
+            "exists": true,
+            "bytes": 35275
+          },
+          {
+            "version": "V2",
+            "path": "families/F22-settings-files/V2/index.html",
+            "exists": true,
+            "bytes": 24754
+          },
+          {
+            "version": "V3",
+            "path": "families/F22-settings-files/V3/index.html",
+            "exists": true,
+            "bytes": 21330
+          },
+          {
+            "version": "V4",
+            "path": "families/F22-settings-files/V4/index.html",
+            "exists": true,
+            "bytes": 21960
+          },
+          {
+            "version": "V5",
+            "path": "families/F22-settings-files/V5/index.html",
+            "exists": true,
+            "bytes": 22526
+          }
+        ],
+        "docs": [
+          "families/F22-settings-files/docs/API-MAP.md",
+          "families/F22-settings-files/docs/BASELINE-MAP.md",
+          "families/F22-settings-files/docs/CONCEPTS.md",
+          "families/F22-settings-files/docs/DELIVERY-REPORT.md",
+          "families/F22-settings-files/docs/REPORT-STUDY.md",
+          "families/F22-settings-files/docs/TEMPLATE-RESEARCH.md"
+        ]
+      }
+    ]
+  },
+  "production_review": {
+    "url": "https://app.nestlancer.com/",
+    "status": "READ_ONLY_REFERENCE_REVIEWED",
+    "accounts_authorized": [
+      "Account A - Arjun Mehta (arjun.mehta@nestlancer.com)",
+      "Account B - Samira Patel (samira.patel@nestlancer.com)",
+      "Account C - Rahul Desai (rahul.desai@nestlancer.com)"
+    ],
+    "credential_handling": "Credentials must be entered only in the normal production login form through approved secure input; no passwords, cookies, tokens, session material or sensitive screenshots in artifacts. Log out before changing accounts.",
+    "rules": "Read-only. No create/edit/send/approve/delete/upload/pay/submit. No production screenshots with personal data stored. Equivalence judged per route/task only.",
+    "public_reference": "Sign-in page at /login. Authenticated review used only the normal form.",
+    "blocking_reason": null,
+    "summary": "review-evidence/production-summary.json",
+    "inventory": "review-evidence/raw/production-inventory.json",
+    "accounts_reviewed": [
+      "A",
+      "B",
+      "C"
+    ],
+    "screenshots_stored": false,
+    "lab_scores_changed": false,
+    "side_effect": "Opening /notifications for accounts A and B was followed by POST /api/v1/notifications/read-all, which returned HTTP 201. That was not an intentional mark-read click, and it was not repeated. Account C's notifications page was not opened; that session's recorded writes were only sign-in, refresh, and logout.",
+    "logout": "Visible logout control not confirmed. App logout endpoint returned HTTP 200 for A, B, and C."
+  },
+  "run_plan": {
+    "approved_default": "Pilot F03 (5 versions) end-to-end for operator approval, then remaining 19 families unchanged rubric, then production S6",
+    "source_templates_edited": false
+  },
+  "exclusions_and_limits": [
+    "No Docker available -> not a canonical pixel-reproducible run (see environment).",
+    "No screen-reader test claimed; axe + manual keyboard checks only.",
+    "100 personas are a coverage matrix, not votes/users (S5).",
+    "Scores are one AI evaluator's rubric judgments, not measured user preference."
+  ],
+  "pilot": {
+    "family": "F03-dashboard-overview",
+    "versions_captured": 5,
+    "screenshots": 45,
+    "boards": [
+      "review-evidence/boards/F03-blind-board-desktop-light-top.png",
+      "review-evidence/boards/F03-blind-board-mobile-light-top.png",
+      "review-evidence/boards/F03-blind-board-desktop-dark-top.png"
+    ],
+    "extra_diagnostics": [
+      "raw/js-syntax-scan.json (100 pages; failures: F03/V1, F04/V2)",
+      "raw/F03-probe.json",
+      "raw/F03-probe2.json"
+    ],
+    "completed_utc": "2026-10-28T14:58:05.042760+00:00",
+    "next_gate": "Operator approves pilot method/scores, then F04-F22 (95 pages) with unchanged rubric, then production S6 read-only"
+  },
+  "progress": {
+    "families_scored": [
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11",
+      "F12",
+      "F13",
+      "F14",
+      "F15",
+      "F16",
+      "F17",
+      "F18",
+      "F19",
+      "F20",
+      "F21",
+      "F22"
+    ],
+    "families_pending": [],
+    "captured_pages": 100,
+    "production_review": "Visible logout control not confirmed. App logout endpoint returned HTTP 200 for A, B, and C. Opening /notifications for accounts A and B was followed by POST /api/v1/notifications/read-all, which returned HTTP 201. That was not an intentional mark-read click, and it was not repeated. Account C's notifications page was not opened; that session's recorded writes were only sign-in, refresh, and logout.",
+    "blind_board_conversion": "Board PNGs converted to 2200px-wide JPEG at quality 82 for storage. Originals removed.",
+    "blindness_limitation": "Some screenshots contain page-embedded version identifiers. Shuffling was recorded, but true blinding was incomplete.",
+    "dark_correction": "F10–F13 dark states captured with real toggle; URL query is unsupported.",
+    "screenshot_deduplication": "53 byte-identical screenshot files represented by relative symlinks to identical PNGs in the same folder; SHA-256 and original paths recorded in raw/identical-screenshot-links.json. Image pixels unchanged.",
+    "limitations": [
+      "Blind boards contain embedded version identifiers; blinding incomplete.",
+      "Keyboard evidence samples the first 12 Tab stops and is not comprehensive for every interactive state.",
+      "Several interaction results are partial or inconclusive, particularly F11–F13, F20–F22; no assistive-technology test.",
+      "Some pairwise entries were derived from rubric order rather than independently elicited; this does not meet the full protocol pairwise requirement.",
+      "Report verification covers 21 pages at two viewport sizes and sampled first Tab; see raw/report-verification.json."
+    ]
+  }
+}

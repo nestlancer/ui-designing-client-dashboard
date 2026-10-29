@@ -1,0 +1,28 @@
+{
+  "project": {
+    "opened": true,
+    "path": "/requests",
+    "h1": 0,
+    "composer": false,
+    "hScroll": 0,
+    "len": 0,
+    "words": []
+  },
+  "payment": {
+    "opened": false
+  },
+  "message": {
+    "opened": true,
+    "path": "/messages/new/direct",
+    "h1": 1,
+    "composer": false,
+    "hScroll": 0,
+    "len": 245,
+    "words": [
+      "Thread",
+      "Conversation"
+    ]
+  },
+  "logout": 200,
+  "writes": []
+}

@@ -1,0 +1,313 @@
+{
+  "family": "F10",
+  "familyDir": "F10-quotes-list",
+  "version": "V5",
+  "sourcePath": "client-portal-lab/families/F10-quotes-list/V5/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V5/index.html",
+  "capturedUtc": "2026-10-28T16:06:20.330Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F10/F10-V5-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F10/F10-V5-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F10/F10-V5-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F10/F10-V5-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F10/F10-V5-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F10/F10-V5-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F10/F10-V5-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Quotes · V5 Split Master-Detail Workbench — Nestlancer Client Portal",
+      "h1": "Quotes",
+      "headings": [
+        "H1:Quotes",
+        "H2:Quote #01a10f80"
+      ],
+      "buttons": [
+        "Total (All quotes) 12",
+        "Pending (Awaiting action) 0",
+        "Accepted (Approved) 5",
+        "Declined (Rejected) 0",
+        "Quote #01a10f80 Draft Request: <img src=x one",
+        "Quote #01a10f7d Draft Request: <img src=x one",
+        "Quote #01a10f79 Draft Request: <img src=x one",
+        "Quote #01a10f76 Draft Request: <img src=x one",
+        "Quote #01a10f73 Draft Request: <img src=x one",
+        "Quote #01a10f71 Draft Request: <img src=x one",
+        "Quote #01a10f6e Draft Request: <img src=x one",
+        "Quote #01a10a2b Accepted Request: Khandesh Sp",
+        "Quote #01a10a29 Accepted Request: Nashik Wine",
+        "Quote #01a10a26 Accepted Request: Nagpur Cold",
+        "Quote #01a10a24 Accepted Request: Kolhapur Le",
+        "Quote #01a10a21 Accepted Request: Pune B2B Sa",
+        "Open Active Project (F09 V5)",
+        "Open Full Quote Details (F11 V5) →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by quote ID or project title"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Status"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "nodes": 1,
+          "targets": [
+            "#queue-list"
+          ],
+          "summary": "Fix any of the following: Element has children which are not allowed: button[tabindex]"
+        }
+      ],
+      "passes": 25
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Filter/search the quotes list",
+      "via": "select \"Sent / pending\"",
+      "toast": {
+        "visible": true,
+        "text": "Select or reset filters to inspect a quote."
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V5/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "COMMERCIAL Quotes Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team. Total (All quotes) 12 Pending (Awaiting action) 0 Accepted (Approved) 5 Declined (Rejected) 0 All statuses Se",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1109,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 488,
+      "actualHScrollPx": 98,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "header-actions",
+        "right": 488
+      }
+    },
+    "factsMobile": {
+      "title": "Quotes · V5 Split Master-Detail Workbench — Nestlancer Client Portal",
+      "h1": "Quotes",
+      "headings": [
+        "H1:Quotes",
+        "H2:Quote #01a10f80"
+      ],
+      "buttons": [
+        "Total (All quotes) 12",
+        "Pending (Awaiting action) 0",
+        "Accepted (Approved) 5",
+        "Declined (Rejected) 0",
+        "Quote #01a10f80 Draft Request: <img src=x one",
+        "Quote #01a10f7d Draft Request: <img src=x one",
+        "Quote #01a10f79 Draft Request: <img src=x one",
+        "Quote #01a10f76 Draft Request: <img src=x one",
+        "Quote #01a10f73 Draft Request: <img src=x one",
+        "Quote #01a10f71 Draft Request: <img src=x one",
+        "Quote #01a10f6e Draft Request: <img src=x one",
+        "Quote #01a10a2b Accepted Request: Khandesh Sp",
+        "Quote #01a10a29 Accepted Request: Nashik Wine",
+        "Quote #01a10a26 Accepted Request: Nagpur Cold",
+        "Quote #01a10a24 Accepted Request: Kolhapur Le",
+        "Quote #01a10a21 Accepted Request: Pune B2B Sa",
+        "Open Active Project (F09 V5)",
+        "Open Full Quote Details (F11 V5) →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by quote ID or project title"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Status"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 50,
+      "under24px": 2,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Filter/search the quotes list",
+      "via": "select \"Sent / pending\"",
+      "toast": {
+        "visible": true,
+        "text": "Select or reset filters to inspect a quote."
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V5/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "COMMERCIAL Quotes Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team. Total (All quotes) 12 Pending (Awaiting action) 0 Accepted (Approved) 5 Declined (Rejected) 0 All statuses Se",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "nodes": 1,
+          "targets": [
+            "#queue-list"
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 35,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 25
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F10; first dark capture was light and has been replaced)"
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "family": "F07",
+  "familyDir": "F07-request-details",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F07-request-details/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F07-request-details/V3/index.html",
+  "capturedUtc": "2026-10-28T16:03:04.845Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F07/F07-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F07/F07-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F07/F07-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F07/F07-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F07/F07-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F07/F07-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F07/F07-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "F07 · V3 Stepper Process · Request Details · Nestlancer Client Portal Lab",
+      "h1": "Logo & brand kit",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Logo & brand kit",
+        "H2:PROCESS",
+        "H2:ATTACHMENTS",
+        "H2:REQUEST"
+      ],
+      "buttons": [
+        "Approve",
+        "Changes",
+        "Message",
+        "← Gallery",
+        "← Prev: V2 Dense Ledger",
+        "Next: V4 Minimal Decision →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 0,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 4,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 20
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Messages",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Open navigation menu",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Invoke the primary decision affordance; record feedback",
+      "via": "button \"Approve\"",
+      "toast": {
+        "visible": true,
+        "text": "“Approve direction” is a real-state action in production — not triggered in this lab (see DECISIONS.md)."
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F07-request-details/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "CLIENT PORTAL · REQUEST DETAILS Logo & brand kit CR-104 · where this request sits in its lifecycle PROCESS New Request opened 2d ago by Priya Shah In review Brief shared; 3 directions in Waiting on you Approve a directio",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": {
+      "visible": true,
+      "text": "“/projects” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+    },
+    "fullPageHeight": 1000,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 439,
+      "actualHScrollPx": 49,
+      "maxRight": {
+        "tag": "SPAN",
+        "cls": "avatar",
+        "right": 439
+      }
+    },
+    "factsMobile": {
+      "title": "F07 · V3 Stepper Process · Request Details · Nestlancer Client Portal Lab",
+      "h1": "Logo & brand kit",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Logo & brand kit",
+        "H2:PROCESS",
+        "H2:ATTACHMENTS",
+        "H2:REQUEST"
+      ],
+      "buttons": [
+        "Approve",
+        "Changes",
+        "Message",
+        "← Gallery",
+        "← Prev: V2 Dense Ledger",
+        "Next: V4 Minimal Decision →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 0,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 20,
+      "under24px": 4,
+      "examples": [
+        {
+          "text": "Open navigation menu",
+          "w": 2,
+          "h": 36
+        },
+        {
+          "text": "← Gallery",
+          "w": 57,
+          "h": 19
+        },
+        {
+          "text": "← Prev: V2 Dense Ledger",
+          "w": 150,
+          "h": 19
+        },
+        {
+          "text": "Next: V4 Minimal Decision →",
+          "w": 171,
+          "h": 19
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Invoke the primary decision affordance; record feedback",
+      "via": "button \"Approve\"",
+      "toast": {
+        "visible": true,
+        "text": "“Approve direction” is a real-state action in production — not triggered in this lab (see DECISIONS.md)."
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F07-request-details/V3/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "CLIENT PORTAL · REQUEST DETAILS Logo & brand kit CR-104 · where this request sits in its lifecycle PROCESS New Request opened 2d ago by Priya Shah In review Brief shared; 3 directions in Waiting on you Approve a directio",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "btnWidth": 2,
+      "sideLeftAfter": 0,
+      "opened": true
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 4,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.94 (foreground color: #5b7bff, background color: #1b284b, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 20
+    }
+  }
+}

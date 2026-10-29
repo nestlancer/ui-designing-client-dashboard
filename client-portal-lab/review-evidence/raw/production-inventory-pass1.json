@@ -1,0 +1,239 @@
+{
+  "schema": "nestlancer-production-readonly-inventory",
+  "url": "https://app.nestlancer.com/",
+  "started_at": "2026-10-28T17:56:49.311Z",
+  "mode": "read-only DOM inventory; no screenshots, no stored sessions, no mutating controls activated",
+  "rules": [
+    "Login only through the visible sign-in form",
+    "No create, edit, send, approve, delete, upload, pay, or submit",
+    "Personal content redacted before write",
+    "One login attempt per authorized account; no bypass or repeated retries"
+  ],
+  "accounts": [
+    {
+      "id": "A",
+      "login": {
+        "ok": true,
+        "http": 200,
+        "landing": "/dashboard"
+      },
+      "pages": [
+        {
+          "path": "/dashboard",
+          "outcome": "reviewed",
+          "http": null,
+          "title": "Dashboard · Nestlancer",
+          "headings": [
+            "H1 Overview",
+            "H2 Workspace vitals",
+            "H2 Awaiting you",
+            "H2 Live workbench",
+            "H2 Quotes to review",
+            "H2 Recent activity"
+          ],
+          "tabs": [
+            "Quotes0",
+            "Pay now0",
+            "Projects0",
+            "Inbox0"
+          ],
+          "headers": [],
+          "buttons": [
+            "MAIN",
+            "EXPLORE",
+            "ACCOUNT",
+            "Collapse sidebar",
+            "Open navigation menu",
+            "Search ⌘K",
+            "Switch to dark mode",
+            "Messages",
+            "6",
+            "AM [account] [account]",
+            "Quotes0",
+            "Pay now0",
+            "Projects0",
+            "Inbox0",
+            "Menu",
+            "×"
+          ],
+          "nav": [
+            {
+              "label": "Nestlancer dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Requests",
+              "href": "/requests"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Quotes",
+              "href": "/quotes"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            },
+            {
+              "label": "Invoices",
+              "href": "/invoices"
+            },
+            {
+              "label": "Notifications",
+              "href": "/notifications"
+            },
+            {
+              "label": "Blog",
+              "href": "/blog"
+            },
+            {
+              "label": "Portfolio",
+              "href": "/portfolio"
+            },
+            {
+              "label": "Profile",
+              "href": "/profile"
+            },
+            {
+              "label": "Settings",
+              "href": "/settings/account"
+            },
+            {
+              "label": "Nestlancer dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Dashboard",
+              "href": "/dashboard"
+            },
+            {
+              "label": "Projects",
+              "href": "/projects"
+            },
+            {
+              "label": "Messages",
+              "href": "/messages"
+            },
+            {
+              "label": "Billing",
+              "href": "/payments"
+            }
+          ],
+          "inputs": [],
+          "hScroll": 0,
+          "hasMain": true,
+          "alerts": [
+            "Signed in ×"
+          ],
+          "axe": [
+            {
+              "id": "color-contrast",
+              "impact": "serious",
+              "nodes": 4
+            }
+          ]
+        },
+        {
+          "path": "/requests",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/projects",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/quotes",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/messages",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/invoices",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/notifications",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/blog",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/portfolio",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/profile",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/settings/account",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        },
+        {
+          "path": "/requests/new",
+          "outcome": "unavailable",
+          "detail": "page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL Call log: - navigating to "
+        }
+      ],
+      "mobile": [
+        {
+          "path": "/dashboard",
+          "outcome": "reviewed",
+          "hScroll": 0,
+          "menu": false,
+          "navVisible": false
+        }
+      ],
+      "logout": {
+        "ok": false,
+        "detail": "no visible logout control; browser context closed without a logout request"
+      },
+      "api": [
+        "GET /api/auth/impersonate",
+        "POST /api/auth/login",
+        "POST /api/auth/refresh"
+      ],
+      "discovered_not_visited": [
+        "/dashboard",
+        "/requests",
+        "/projects",
+        "/quotes",
+        "/messages",
+        "/invoices",
+        "/notifications",
+        "/blog",
+        "/portfolio",
+        "/profile",
+        "/settings/account",
+        "/requests/new"
+      ]
+    }
+  ],
+  "stopped_reason": null,
+  "finished_at": "2026-10-28T17:56:58.212Z"
+}

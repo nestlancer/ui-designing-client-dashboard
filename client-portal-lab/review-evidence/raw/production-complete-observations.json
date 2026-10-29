@@ -1,0 +1,92 @@
+{
+  "pages": {
+    "requests": {
+      "opened": false,
+      "list": {
+        "h1Count": 0,
+        "h2Count": 0,
+        "tabCount": 0,
+        "buttonCount": 0,
+        "fieldCount": 0,
+        "composer": false,
+        "hScroll": 0,
+        "textLength": 44,
+        "words": [],
+        "tryAgain": false
+      }
+    },
+    "projects": {
+      "opened": false,
+      "list": {
+        "h1Count": 0,
+        "h2Count": 0,
+        "tabCount": 0,
+        "buttonCount": 0,
+        "fieldCount": 0,
+        "composer": false,
+        "hScroll": 0,
+        "textLength": 44,
+        "words": [],
+        "tryAgain": false
+      }
+    },
+    "quotes": {
+      "opened": false,
+      "list": {
+        "h1Count": 0,
+        "h2Count": 0,
+        "tabCount": 0,
+        "buttonCount": 0,
+        "fieldCount": 0,
+        "composer": false,
+        "hScroll": 0,
+        "textLength": 44,
+        "words": [],
+        "tryAgain": false
+      }
+    },
+    "payments": {
+      "opened": false,
+      "list": {
+        "h1Count": 0,
+        "h2Count": 0,
+        "tabCount": 0,
+        "buttonCount": 0,
+        "fieldCount": 0,
+        "composer": false,
+        "hScroll": 0,
+        "textLength": 44,
+        "words": [],
+        "tryAgain": false
+      }
+    },
+    "thread": {
+      "opened": false,
+      "h1Count": 0,
+      "h2Count": 0,
+      "tabCount": 0,
+      "buttonCount": 0,
+      "fieldCount": 0,
+      "composer": false,
+      "hScroll": 0,
+      "textLength": 44,
+      "words": [],
+      "tryAgain": false
+    },
+    "payNow": {
+      "opened": false,
+      "h1Count": 0,
+      "h2Count": 0,
+      "tabCount": 0,
+      "buttonCount": 0,
+      "fieldCount": 0,
+      "composer": false,
+      "hScroll": 0,
+      "textLength": 44,
+      "words": [],
+      "tryAgain": false
+    }
+  },
+  "logout": 200,
+  "writes": []
+}

@@ -1,0 +1,283 @@
+{
+  "family": "F12",
+  "familyDir": "F12-messages-home",
+  "version": "V2",
+  "sourcePath": "client-portal-lab/families/F12-messages-home/V2/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F12-messages-home/V2/index.html",
+  "capturedUtc": "2026-10-28T16:11:14.295Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F12/F12-V2-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F12/F12-V2-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F12/F12-V2-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F12/F12-V2-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F12/F12-V2-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F12/F12-V2-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F12/F12-V2-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Messages · V2 Linear KPI Ribbon & Split Triage — Nestlancer",
+      "h1": "Messages Live",
+      "headings": [
+        "H1:Messages Live",
+        "H2:Select a conversation"
+      ],
+      "buttons": [
+        "Message support",
+        "Open Thread (F13 V2) →",
+        "All",
+        "Unread",
+        "Direct",
+        "Project",
+        "Group",
+        "AP · Agency partner coordination — festive ca",
+        "RK · Riya Kapoor Direct Noted. Milestone 2 st",
+        "Open",
+        "Open"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by name, preview, or ID"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Inbox"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 23
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Select a conversation from the list; record preview/thread update",
+      "via": "first conversation-like item",
+      "toast": null,
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F12-messages-home/V2/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "SUPPORT · MESSAGING PANEL (C11 MERGED) Messages Live Your conversations with Nestlancer — pick a thread to continue. Review your inbox at a glance, then open the messaging panel to chat. Message support Open Thread (F13 ",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1024,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 519,
+      "actualHScrollPx": 129,
+      "maxRight": {
+        "tag": "BUTTON",
+        "cls": "avatar-btn",
+        "right": 519
+      }
+    },
+    "factsMobile": {
+      "title": "Messages · V2 Linear KPI Ribbon & Split Triage — Nestlancer",
+      "h1": "Messages Live",
+      "headings": [
+        "H1:Messages Live",
+        "H2:Select a conversation"
+      ],
+      "buttons": [
+        "Message support",
+        "Open Thread (F13 V2) →",
+        "All",
+        "Unread",
+        "Direct",
+        "Project",
+        "Group",
+        "AP · Agency partner coordination — festive ca",
+        "RK · Riya Kapoor Direct Noted. Milestone 2 st",
+        "Open",
+        "Open"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by name, preview, or ID"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Inbox"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 43,
+      "under24px": 2,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Select a conversation from the list; record preview/thread update",
+      "via": "first conversation-like item",
+      "toast": null,
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F12-messages-home/V2/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "SUPPORT · MESSAGING PANEL (C11 MERGED) Messages Live Your conversations with Nestlancer — pick a thread to continue. Review your inbox at a glance, then open the messaging panel to chat. Message support Open Thread (F13 ",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 25,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 23
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F12; first dark capture was light and has been replaced)"
+  }
+}

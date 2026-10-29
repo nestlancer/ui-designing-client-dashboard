@@ -1,0 +1,312 @@
+{
+  "family": "F08",
+  "familyDir": "F08-projects-list",
+  "version": "V2",
+  "sourcePath": "client-portal-lab/families/F08-projects-list/V2/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F08-projects-list/V2/index.html",
+  "capturedUtc": "2026-10-28T16:03:49.112Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F08/F08-V2-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F08/F08-V2-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F08/F08-V2-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F08/F08-V2-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F08/F08-V2-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F08/F08-V2-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F08/F08-V2-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "F08 · V2 Ops Ledger · Projects · Nestlancer Client Portal Lab",
+      "h1": "Projects",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Projects",
+        "H2:No projects yet",
+        "H2:Could not load projects"
+      ],
+      "buttons": [
+        "Work Hub",
+        "View quotes",
+        "PROJECT",
+        "Khandesh Spice D2C E-Commerce Store",
+        "Open →",
+        "Captured detail →",
+        "← Gallery",
+        "← Prev: V1",
+        "Next: V3 Next-Step Hero →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search projects"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status\nAll statuses\nIn progres"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": true,
+          "label": "Command menu"
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 28
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Messages",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Notifications",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Search/filter/sort the projects list",
+      "via": "select \"In progress\"",
+      "toast": {
+        "visible": false,
+        "text": "Project data is temporarily unavailable — retrying. System status: projects service error (502 in production). Retry, or contact support.Retry now"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F08-projects-list/V2/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "DELIVERY · PROJECTS · LEDGER VIEW Projects Follow active work, milestones, and delivery from kickoff through completion. 2 PROJECTS 2 IN PROGRESS 10/5/2026 STARTED Work Hub View quotes Search projects Filter by status Al",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": {
+      "visible": false,
+      "text": "Project data is temporarily unavailable — retrying. System status: projects service error (502 in production). Retry, or contact support.Retry now"
+    },
+    "fullPageHeight": 1000,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "F08 · V2 Ops Ledger · Projects · Nestlancer Client Portal Lab",
+      "h1": "Projects",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Projects",
+        "H2:No projects yet",
+        "H2:Could not load projects"
+      ],
+      "buttons": [
+        "Work Hub",
+        "View quotes",
+        "Khandesh Spice D2C E-Commerce Store",
+        "← Gallery",
+        "← Prev: V1",
+        "Next: V3 Next-Step Hero →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search projects"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status\nAll statuses\nIn progres"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": true,
+          "label": "Command menu"
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 29,
+      "under24px": 3,
+      "examples": [
+        {
+          "text": "← Gallery",
+          "w": 57,
+          "h": 19
+        },
+        {
+          "text": "← Prev: V1",
+          "w": 63,
+          "h": 19
+        },
+        {
+          "text": "Next: V3 Next-Step Hero →",
+          "w": 161,
+          "h": 19
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Search/filter/sort the projects list",
+      "via": "select \"In progress\"",
+      "toast": {
+        "visible": false,
+        "text": "Project data is temporarily unavailable — retrying. System status: projects service error (502 in production). Retry, or contact support.Retry now"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F08-projects-list/V2/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "DELIVERY · PROJECTS · LEDGER VIEW Projects Follow active work, milestones, and delivery from kickoff through completion. 2 PROJECTS 2 IN PROGRESS 10/5/2026 STARTED Work Hub View quotes Search projects Filter by status Al",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "btnWidth": 34,
+      "sideLeftAfter": 0,
+      "opened": true
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.94 (foreground color: #5b7bff, background color: #1b284b, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 28
+    }
+  }
+}

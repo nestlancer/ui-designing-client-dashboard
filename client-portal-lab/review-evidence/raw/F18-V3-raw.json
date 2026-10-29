@@ -1,0 +1,325 @@
+{
+  "family": "F18",
+  "familyDir": "F18-invoices-archive",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F18-invoices-archive/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F18-invoices-archive/V3/index.html",
+  "capturedUtc": "2026-10-28T16:54:13.777Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F18/F18-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F18/F18-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F18/F18-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F18/F18-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F18/F18-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F18/F18-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F18/F18-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Invoices · V3 Bento Archive — Nestlancer Lab",
+      "h1": "Invoices",
+      "headings": [
+        "H1:Invoices",
+        "H2:Table view",
+        "H2:Awaiting you",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "View payments",
+        "All",
+        "Issued",
+        "Pending",
+        "NL-INV-2026-000045 ₹625.00 ◷ Pending AUDIT-P2",
+        "NL-INV-2026-000005 ₹29,500.00 ✓ Issued B2B Wh",
+        "NL-INV-2026-000004 ₹29,500.00 ✓ Issued B2B Wh",
+        "NL-INV-2026-000002 ₹22,500.00 ✓ Issued Khande",
+        "NL-INV-2026-000001 ₹30,000.00 ◷ Pending Khand",
+        "Download invoice (demo)",
+        "Sort: date ↓",
+        "Download invoice",
+        "View",
+        "Download invoice",
+        "View",
+        "Download invoice",
+        "View",
+        "←",
+        "1",
+        "2"
+      ],
+      "tabs": [
+        "All",
+        "Issued",
+        "Pending"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search invoices"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 29
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Search/filter the invoices archive",
+      "via": "select \"Issued\"",
+      "toast": {
+        "visible": true,
+        "text": "Showing 1–3 of 3"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F18-invoices-archive/V3/index.html",
+      "selectedTab": "All",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "BILLING Invoices Your issued invoices with downloadable PDF copies for accounting and tax records. View payments GROSS · 5 INVOICES ₹1,12,125.00 Computed from the captured rows; dates derived from snapshot 26. ISSUED ₹81",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1528,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "Invoices · V3 Bento Archive — Nestlancer Lab",
+      "h1": "Invoices",
+      "headings": [
+        "H1:Invoices",
+        "H2:Table view",
+        "H2:Awaiting you",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "View payments",
+        "All",
+        "Issued",
+        "Pending",
+        "NL-INV-2026-000045 ₹625.00 ◷ Pending AUDIT-P2",
+        "NL-INV-2026-000005 ₹29,500.00 ✓ Issued B2B Wh",
+        "NL-INV-2026-000004 ₹29,500.00 ✓ Issued B2B Wh",
+        "NL-INV-2026-000002 ₹22,500.00 ✓ Issued Khande",
+        "NL-INV-2026-000001 ₹30,000.00 ◷ Pending Khand",
+        "Download invoice (demo)",
+        "Sort: date ↓",
+        "Download invoice",
+        "View",
+        "Download invoice",
+        "View",
+        "Download invoice",
+        "View",
+        "←",
+        "1",
+        "2"
+      ],
+      "tabs": [
+        "All",
+        "Issued",
+        "Pending"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search invoices"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 54,
+      "under24px": 3,
+      "examples": [
+        {
+          "text": "← V2",
+          "w": 30,
+          "h": 14
+        },
+        {
+          "text": "Gallery",
+          "w": 43,
+          "h": 14
+        },
+        {
+          "text": "V4 →",
+          "w": 30,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Search/filter the invoices archive",
+      "via": "select \"Issued\"",
+      "toast": {
+        "visible": true,
+        "text": "Showing 1–3 of 3"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F18-invoices-archive/V3/index.html",
+      "selectedTab": "All",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "BILLING Invoices Your issued invoices with downloadable PDF copies for accounting and tax records. View payments GROSS · 5 INVOICES ₹1,12,125.00 Computed from the captured rows; dates derived from snapshot 26. ISSUED ₹81",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            "a[href=\"../V1/index.html\"][aria-current=\"page\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 1.34 (foreground color: #293a73, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 29
+    }
+  }
+}

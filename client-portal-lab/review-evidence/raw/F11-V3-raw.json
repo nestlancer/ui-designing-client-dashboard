@@ -1,0 +1,265 @@
+{
+  "family": "F11",
+  "familyDir": "F11-quote-details",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F11-quote-details/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F11-quote-details/V3/index.html",
+  "capturedUtc": "2026-10-28T16:09:29.548Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F11/F11-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F11/F11-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F11/F11-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F11/F11-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F11/F11-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F11/F11-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F11/F11-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Quote Details · V3 Smart-File Stepper & Contract Sheet — Nestlancer",
+      "h1": "Quote #01a10a2b",
+      "headings": [
+        "H1:Quote #01a10a2b",
+        "H2:§1 · Line items",
+        "H2:§2 · Payment schedule & Notes",
+        "H2:§3 · Contract & terms — Standard Contract Cla"
+      ],
+      "buttons": [
+        "1 Line items",
+        "2 Schedule & Tax",
+        "3 10 Clauses",
+        "4 C8 Sign & Pay",
+        "Download PDF",
+        "View active project →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 1,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 22
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Open Request-changes/counter-propose path (not Accept & Pay)",
+      "result": "not testable",
+      "detail": "no button matching /request changes|counter|revise/i"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1729,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 572,
+      "actualHScrollPx": 182,
+      "maxRight": {
+        "tag": "BUTTON",
+        "cls": "avatar-btn",
+        "right": 572
+      }
+    },
+    "factsMobile": {
+      "title": "Quote Details · V3 Smart-File Stepper & Contract Sheet — Nestlancer",
+      "h1": "Quote #01a10a2b",
+      "headings": [
+        "H1:Quote #01a10a2b",
+        "H2:§1 · Line items",
+        "H2:§2 · Payment schedule & Notes",
+        "H2:§3 · Contract & terms — Standard Contract Cla"
+      ],
+      "buttons": [
+        "1 Line items",
+        "2 Schedule & Tax",
+        "3 10 Clauses",
+        "4 C8 Sign & Pay",
+        "Download PDF",
+        "View active project →"
+      ],
+      "tabs": [],
+      "inputs": [],
+      "tables": 1,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 36,
+      "under24px": 7,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        },
+        {
+          "text": "Quotes",
+          "w": 46,
+          "h": 21
+        },
+        {
+          "text": "1\nLine items",
+          "w": 154,
+          "h": 22
+        },
+        {
+          "text": "2\nSchedule & Tax",
+          "w": 154,
+          "h": 22
+        },
+        {
+          "text": "3\n10 Clauses",
+          "w": 154,
+          "h": 22
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Open Request-changes/counter-propose path (not Accept & Pay)",
+      "result": "not testable",
+      "detail": "no button matching /request changes|counter|revise/i"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 56,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 22
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F11; first dark capture was light and has been replaced)",
+    "supplementaryTasks": [
+      {
+        "viewport": "desktop",
+        "probe": "probe3",
+        "task": "Expand contract clause/disclosure (Accepted-state quote; no counter-propose offered)",
+        "pendingCheck": true,
+        "label": "Download PDF",
+        "expandedBefore": null,
+        "anyExpanded": false,
+        "result": "partial"
+      }
+    ]
+  }
+}

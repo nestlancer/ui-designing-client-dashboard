@@ -1,0 +1,429 @@
+{
+  "family": "F03",
+  "familyDir": "F03-dashboard-overview",
+  "version": "V4",
+  "sourcePath": "client-portal-lab/families/F03-dashboard-overview/V4/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F03-dashboard-overview/V4/index.html",
+  "capturedUtc": "2026-10-28T14:47:07.980Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F03/F03-V4-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F03/F03-V4-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F03/F03-V4-desktop-light-fullpage.png",
+    "mobile": "review-evidence/screenshots/F03/F03-V4-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F03/F03-V4-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F03/F03-V4-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F03/F03-V4-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "horizontalOverflow": false,
+      "offenders": []
+    },
+    "firstScreenDesktop": {
+      "h1": null,
+      "h1VisibleFirstScreen": false,
+      "title": "F03 · V4 Health Bento · Dashboard · Nestlancer Client Portal Lab",
+      "firstScreenControls": [
+        {
+          "tag": "A",
+          "text": "Nestlancer"
+        },
+        {
+          "tag": "A",
+          "text": "Dashboard"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Requests"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Projects"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Quotes"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Messages"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Billing"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Invoices"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Notifications"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Explore"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Profile"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings"
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 2,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i"
+          ]
+        }
+      ],
+      "passes": 20,
+      "incomplete": []
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Nestlancer",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Requests",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Projects",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quotes",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Messages",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Billing",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Invoices",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Notifications",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Profile",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Settings",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Open navigation menu",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Search ⌘K",
+        "focusStyled": true,
+        "outline": "solid 2px",
+        "boxShadow": false,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "switch workbench tab",
+      "result": "not testable",
+      "detail": "role=tab count=0"
+    },
+    "themeTask": {
+      "task": "theme toggle control",
+      "result": "pass",
+      "detail": "dark false -> true; aria-pressed=null"
+    },
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 454,
+      "horizontalOverflow": true,
+      "offenders": [
+        {
+          "tag": "ASIDE",
+          "cls": "side",
+          "right": -6,
+          "left": -286
+        },
+        {
+          "tag": "A",
+          "cls": "brand",
+          "right": -21,
+          "left": -272
+        },
+        {
+          "tag": "IMG",
+          "cls": "logo-light",
+          "right": -169,
+          "left": -264
+        },
+        {
+          "tag": "SPAN",
+          "cls": "",
+          "right": -59,
+          "left": -159
+        },
+        {
+          "tag": "NAV",
+          "cls": "",
+          "right": -21,
+          "left": -272
+        },
+        {
+          "tag": "DIV",
+          "cls": "nav-group",
+          "right": -21,
+          "left": -272
+        },
+        {
+          "tag": "H2",
+          "cls": "",
+          "right": -31,
+          "left": -262
+        },
+        {
+          "tag": "A",
+          "cls": "nav-item",
+          "right": -21,
+          "left": -272
+        }
+      ]
+    },
+    "firstScreenMobile": {
+      "h1": null,
+      "h1VisibleFirstScreen": false,
+      "title": "F03 · V4 Health Bento · Dashboard · Nestlancer Client Portal Lab",
+      "firstScreenControls": [
+        {
+          "tag": "A",
+          "text": "Nestlancer"
+        },
+        {
+          "tag": "A",
+          "text": "Dashboard"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Requests"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Projects"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Quotes"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Messages"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Billing"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Invoices"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Notifications"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Explore"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Profile"
+        },
+        {
+          "tag": "BUTTON",
+          "text": "Settings"
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 26,
+      "under24px": 4,
+      "between24and44px": 21,
+      "under24Examples": [
+        {
+          "text": "Open navigation menu",
+          "w": 2,
+          "h": 36
+        },
+        {
+          "text": "← Gallery",
+          "w": 57,
+          "h": 19
+        },
+        {
+          "text": "← Prev: V3 Awaiting-You Spine",
+          "w": 179,
+          "h": 19
+        },
+        {
+          "text": "Next: V5 Dense Ops →",
+          "w": 134,
+          "h": 19
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "switch workbench tab",
+      "result": "not testable",
+      "detail": "role=tab count=0"
+    },
+    "axeMobileDefault": {
+      "state": "mobile after task (tab switched)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 1,
+          "targets": [
+            "i"
+          ]
+        }
+      ],
+      "passes": 20,
+      "incomplete": []
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "horizontalOverflow": false,
+      "offenders": []
+    },
+    "darkClassApplied": true,
+    "overflow_dark": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "horizontalOverflow": false,
+      "offenders": []
+    },
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "nodes": 4,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            "i",
+            "div:nth-child(3) > .btn-primary.btn[data-demo=\"/payments\"]"
+          ]
+        }
+      ],
+      "passes": 20,
+      "incomplete": [
+        "color-contrast"
+      ]
+    }
+  }
+}

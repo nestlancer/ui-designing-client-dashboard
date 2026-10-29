@@ -1,0 +1,65 @@
+{
+  "schema": "nestlancer-production-readonly-summary",
+  "reviewed_at": "2026-10-28T18:03:06Z",
+  "url": "https://app.nestlancer.com/",
+  "mode": "Read-only reference. No production screenshots stored. Lab scores were not changed.",
+  "accounts": "Three authorized client accounts signed in through the normal sign-in form, one attempt after the form was ready. Remember-me was left off. A visible Log out or Sign out control was not confirmed; each session was ended with the app logout endpoint, which returned HTTP 200.",
+  "shell": [
+    "Client navigation included Dashboard, Requests, Projects, Quotes, Messages, Billing (/payments), Invoices, Notifications, Blog, Portfolio, Profile, and Settings.",
+    "The shell exposed a collapsible sidebar, a Search control, a theme control, Messages, Notifications, and Account. The theme control was not activated, so dark production appearance was not reviewed.",
+    "The Search control was visible. Opening a command palette was not confirmed.",
+    "At 1440×1000 and 390×844, reviewed section roots for accounts A and B had no document horizontal overflow. A mobile menu control was present; opening it was not treated as proof that navigation succeeds.",
+    "axe-core 4.10.2 reported four serious color-contrast nodes on each of eight account A pages. Node text was not stored. This is a diagnostic, not a WCAG conformance result. The repeated count is consistent with shared chrome.",
+    "A sampled Tab sequence was inconclusive and is not a keyboard pass or fail."
+  ],
+  "routes_reviewed": [
+    "/dashboard — heading Overview; sections included Workspace vitals, Awaiting you, Live workbench, Quotes to review, and Recent activity. Awaiting tabs included Quotes, Pay now, Projects, and Inbox.",
+    "/requests — heading Work Hub; tabs All, Requests, and Projects; link to the new-request form.",
+    "/requests/new — heading New request; empty form controls were present, including text, select, number, date, checkbox, and textarea. Nothing was entered or saved.",
+    "/projects — heading Projects. No project detail page was opened.",
+    "/quotes — heading Quotes. No quote detail page was opened.",
+    "/messages, /messages/inbox, and /messages/new/direct — message home and new-message route. No message was sent and no thread was opened.",
+    "/payments and /payments/methods — billing and payment-methods pages on accounts A and B. No method was added and Pay now was not activated.",
+    "/invoices — heading Invoices, with an Invoice archive section. Nothing was downloaded.",
+    "/notifications — center opened on accounts A and B only. Items were not opened.",
+    "/profile — route opened inside the shell on all three accounts, but no h1 or profile fields were confirmed.",
+    "/settings/account, /settings/security, /settings/activity, and /settings/files — routes opened. No password, security, notification, or file change was made."
+  ],
+  "not_reviewed": [
+    "Request, project, quote, and payment detail pages.",
+    "Message threads.",
+    "Checkout and any Pay now action.",
+    "Dark theme.",
+    "Profile task content.",
+    "Command-palette results.",
+    "Account C billing page was not reopened; A and B had already shown the same billing routes."
+  ],
+  "side_effect": "Opening /notifications for accounts A and B was followed by POST /api/v1/notifications/read-all, which returned HTTP 201. That was not an intentional mark-read click, and it was not repeated. Account C's notifications page was not opened; that session's recorded writes were only sign-in, refresh, and logout.",
+  "other_observations": [
+    "GET /api/auth/impersonate returned HTTP 204. No impersonation control was used.",
+    "Public blog, portfolio, contact, and register pages were reachable from marketing links. No register or contact form was submitted. They are not lab-family equivalents.",
+    "No payment, upload, approval, delete, or message send was performed."
+  ],
+  "family_equivalence": {
+    "F03": "Reference reviewed at /dashboard. Equivalent overview route. Not used to rescore the lab.",
+    "F04": "Partial: Search is in the shell. The palette dialog and results were not confirmed.",
+    "F05": "Reference reviewed at /requests (Work Hub). Equivalent hub route; filters were not exercised.",
+    "F06": "Reference reviewed at /requests/new. Equivalent form route; it was not filled or submitted.",
+    "F07": "No direct comparison: a request detail page was not opened.",
+    "F08": "Reference reviewed at /projects. Equivalent list route; a project detail page was not opened.",
+    "F09": "No direct comparison: a project detail page was not opened.",
+    "F10": "Reference reviewed at /quotes. Equivalent list route.",
+    "F11": "No direct comparison: a quote detail page was not opened.",
+    "F12": "Reference reviewed at /messages, /messages/inbox, and /messages/new/direct. Nothing was sent.",
+    "F13": "No direct comparison: threads were not opened, to avoid marking a thread read.",
+    "F14": "Reference reviewed at /payments on accounts A and B. Pay now was not activated.",
+    "F15": "Reference reviewed at /payments/methods on accounts A and B. No method was added.",
+    "F16": "No direct comparison: checkout was not entered. Pay now was visible and was not activated.",
+    "F17": "No direct comparison: a payment-status page was not opened.",
+    "F18": "Reference reviewed at /invoices, including an Invoice archive heading. Nothing was downloaded.",
+    "F19": "Reference reviewed at /notifications on accounts A and B. Items were not opened. The visit coincided with a read-all request.",
+    "F20": "Partial: /profile opened, but no profile heading or fields were confirmed.",
+    "F21": "Partial: account, security, and activity settings routes opened. No security or preference change was made.",
+    "F22": "Partial: /settings/files opened. File rows were not reviewed; nothing was uploaded or deleted."
+  }
+}

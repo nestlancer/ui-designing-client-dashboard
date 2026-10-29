@@ -1,0 +1,166 @@
+{
+  "V1": {
+    "pageErrors": [
+      "SyntaxError: missing ) after argument list",
+      "SyntaxError: missing ) after argument list",
+      "SyntaxError: missing ) after argument list"
+    ],
+    "primaryAction": {
+      "clicked": "Complete checkout (first in main)",
+      "urlAfter": "http://127.0.0.1:8130/client-portal-lab/families/F03-dashboard-overview/V1/index.html",
+      "navigated": false,
+      "toast": {
+        "hidden": true,
+        "visible": false,
+        "text": ""
+      }
+    },
+    "demoNav": {
+      "clicked": "sidebar Requests (data-demo)",
+      "toast": {
+        "hidden": true,
+        "visible": false,
+        "text": ""
+      }
+    },
+    "paletteAfterOpen": {
+      "dialogPresent": true,
+      "dialogHidden": true,
+      "dialogVisible": false,
+      "focusTag": "BUTTON#paletteBtn",
+      "focusInDialog": false
+    },
+    "paletteAfterEscape": {
+      "dialogHidden": true,
+      "focusReturnedTo": "BUTTON:Search\n⌘K"
+    }
+  },
+  "V2": {
+    "pageErrors": [],
+    "primaryAction": {
+      "clicked": "Complete checkout (first in main)",
+      "urlAfter": "http://127.0.0.1:8130/client-portal-lab/families/F03-dashboard-overview/V2/index.html",
+      "navigated": false,
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/payments” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "demoNav": {
+      "clicked": "sidebar Requests (data-demo)",
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/requests” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "paletteAfterOpen": {
+      "dialogPresent": true,
+      "dialogHidden": false,
+      "dialogVisible": true,
+      "focusTag": "INPUT#paletteInput",
+      "focusInDialog": true
+    },
+    "paletteAfterEscape": {
+      "dialogHidden": true,
+      "focusReturnedTo": "BUTTON:Search\n⌘K"
+    }
+  },
+  "V3": {
+    "pageErrors": [],
+    "primaryAction": {
+      "clicked": "Complete checkout (first in main)",
+      "urlAfter": "http://127.0.0.1:8130/client-portal-lab/families/F03-dashboard-overview/V3/index.html",
+      "navigated": false,
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/payments” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "demoNav": {
+      "clicked": "sidebar Requests (data-demo)",
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/requests” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "paletteAfterOpen": {
+      "dialogPresent": true,
+      "dialogHidden": false,
+      "dialogVisible": true,
+      "focusTag": "INPUT#paletteInput",
+      "focusInDialog": true
+    },
+    "paletteAfterEscape": {
+      "dialogHidden": true,
+      "focusReturnedTo": "BUTTON:Search\n⌘K"
+    }
+  },
+  "V4": {
+    "pageErrors": [],
+    "primaryAction": {
+      "clicked": "Complete checkout (first in main)",
+      "urlAfter": "http://127.0.0.1:8130/client-portal-lab/families/F03-dashboard-overview/V4/index.html",
+      "navigated": false,
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/payments” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "demoNav": {
+      "clicked": "sidebar Requests (data-demo)",
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/requests” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "paletteAfterOpen": {
+      "dialogPresent": true,
+      "dialogHidden": false,
+      "dialogVisible": true,
+      "focusTag": "INPUT#paletteInput",
+      "focusInDialog": true
+    },
+    "paletteAfterEscape": {
+      "dialogHidden": true,
+      "focusReturnedTo": "BUTTON:Search\n⌘K"
+    }
+  },
+  "V5": {
+    "pageErrors": [],
+    "primaryAction": {
+      "clicked": "Complete checkout (first in main)",
+      "urlAfter": "http://127.0.0.1:8130/client-portal-lab/families/F03-dashboard-overview/V5/index.html",
+      "navigated": false,
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/payments” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "demoNav": {
+      "clicked": "sidebar Requests (data-demo)",
+      "toast": {
+        "hidden": false,
+        "visible": true,
+        "text": "“/requests” is another family’s route — demo affordance in this lab (see DECISIONS.md)."
+      }
+    },
+    "paletteAfterOpen": {
+      "dialogPresent": true,
+      "dialogHidden": false,
+      "dialogVisible": true,
+      "focusTag": "INPUT#paletteInput",
+      "focusInDialog": true
+    },
+    "paletteAfterEscape": {
+      "dialogHidden": true,
+      "focusReturnedTo": "BUTTON:Search\n⌘K"
+    }
+  }
+}

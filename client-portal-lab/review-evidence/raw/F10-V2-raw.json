@@ -1,0 +1,325 @@
+{
+  "family": "F10",
+  "familyDir": "F10-quotes-list",
+  "version": "V2",
+  "sourcePath": "client-portal-lab/families/F10-quotes-list/V2/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V2/index.html",
+  "capturedUtc": "2026-10-28T16:06:20.722Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F10/F10-V2-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F10/F10-V2-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F10/F10-V2-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F10/F10-V2-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F10/F10-V2-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F10/F10-V2-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F10/F10-V2-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Quotes · V2 Precision Financial Ledger — Nestlancer Client Portal",
+      "h1": "Quotes",
+      "headings": [
+        "H1:Quotes"
+      ],
+      "buttons": [
+        "Inspect #01a10a2b (₹75,000)",
+        "Inspect #01a10f80 (⏳ <24h) →",
+        "TOTAL 100% 12 All quotes · ₹6,67,390.00",
+        "PENDING ACTION 0 Awaiting action",
+        "ACCEPTED SIGNED 5 Approved · ₹6,55,000.00",
+        "DECLINED 0% 0 Rejected",
+        "Quote #01a10f80",
+        "Preview",
+        "Open →",
+        "Quote #01a10f7d",
+        "Preview",
+        "Open →",
+        "Quote #01a10f79",
+        "Preview",
+        "Open →",
+        "Quote #01a10f76",
+        "Preview",
+        "Open →",
+        "Quote #01a10f73",
+        "Preview"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by quote ID or project title"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Status"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort ledger"
+        }
+      ],
+      "tables": 1,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 26
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Filter/search the quotes list",
+      "via": "select \"Sent / pending\"",
+      "toast": {
+        "visible": true,
+        "text": "Showing 0 of 12 rows"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V2/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "COMMERCIAL Quotes Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team. Inspect #01a10a2b (₹75,000) Inspect #01a10f80 (⏳ <24h) → TOTAL 100% 12 All quotes · ₹6,67,390.00 PENDING ACTI",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1597,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 449,
+      "actualHScrollPx": 59,
+      "maxRight": {
+        "tag": "BUTTON",
+        "cls": "avatar-btn",
+        "right": 449
+      }
+    },
+    "factsMobile": {
+      "title": "Quotes · V2 Precision Financial Ledger — Nestlancer Client Portal",
+      "h1": "Quotes",
+      "headings": [
+        "H1:Quotes"
+      ],
+      "buttons": [
+        "Inspect #01a10a2b (₹75,000)",
+        "Inspect #01a10f80 (⏳ <24h) →",
+        "TOTAL 100% 12 All quotes · ₹6,67,390.00",
+        "PENDING ACTION 0 Awaiting action",
+        "ACCEPTED SIGNED 5 Approved · ₹6,55,000.00",
+        "DECLINED 0% 0 Rejected",
+        "Quote #01a10f80",
+        "Preview",
+        "Open →",
+        "Quote #01a10f7d",
+        "Preview",
+        "Open →",
+        "Quote #01a10f79",
+        "Preview",
+        "Open →",
+        "Quote #01a10f76",
+        "Preview",
+        "Open →",
+        "Quote #01a10f73",
+        "Preview"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by quote ID or project title"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Status"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort ledger"
+        }
+      ],
+      "tables": 1,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 76,
+      "under24px": 14,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        },
+        {
+          "text": "Quote #01a10f80",
+          "w": 117,
+          "h": 15
+        },
+        {
+          "text": "Quote #01a10f7d",
+          "w": 117,
+          "h": 15
+        },
+        {
+          "text": "Quote #01a10f79",
+          "w": 117,
+          "h": 15
+        },
+        {
+          "text": "Quote #01a10f76",
+          "w": 117,
+          "h": 15
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Filter/search the quotes list",
+      "via": "select \"Sent / pending\"",
+      "toast": {
+        "visible": true,
+        "text": "Showing 0 of 12 rows"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F10-quotes-list/V2/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "COMMERCIAL Quotes Review proposals, compare breakdowns, and accept or decline quotes from the Nestlancer team. Inspect #01a10a2b (₹75,000) Inspect #01a10f80 (⏳ <24h) → TOTAL 100% 12 All quotes · ₹6,67,390.00 PENDING ACTI",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 77,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 26
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F10; first dark capture was light and has been replaced)"
+  }
+}

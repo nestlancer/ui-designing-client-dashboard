@@ -1,0 +1,1749 @@
+{
+  "schema": "client-portal-lab-review-personas",
+  "schema_version": 1,
+  "warning": "100 SYNTHETIC reviewer profiles used ONLY as a coverage matrix (S5). They are not 100 humans, not 100 sessions, not 100 votes. No survey results, quotes, averages, or persona-majority ranking are derived from them. Ranking is by fixed rubric (S3).",
+  "cohort": "Cohort 1 - created 2026-10-28; reuse unchanged on repeat runs unless operator requests a new cohort",
+  "count": 100,
+  "personas": [
+    {
+      "id": "P001",
+      "synthetic": true,
+      "profile": "first-time client; urgent single-task visit; on desktop 1440px, mouse; context: quiet office, focused; access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "first-time client",
+      "access_needs": "no stated access need",
+      "device": "desktop 1440px, mouse",
+      "work_context": "quiet office, focused",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity"
+      ]
+    },
+    {
+      "id": "P002",
+      "synthetic": true,
+      "profile": "occasional client (monthly); urgent single-task visit; on desktop 1440px, mouse; context: on the move, interrupted often; access: low vision - needs strong contrast/large text; top priority: seeing project progress.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "desktop 1440px, mouse",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "contrast",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P003",
+      "synthetic": true,
+      "profile": "repeat client (weekly); urgent single-task visit; on desktop 1440px, mouse; context: shared screen with an accountant/partner; access: keyboard-only navigation; top priority: replying to messages fast.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "keyboard-only navigation",
+      "device": "desktop 1440px, mouse",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P004",
+      "synthetic": true,
+      "profile": "power client (many projects); urgent single-task visit; on desktop 1440px, mouse; context: low-light evening use (dark mode); access: screen-reader user; top priority: comparing quotes carefully.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "screen-reader user",
+      "device": "desktop 1440px, mouse",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "accessible-names",
+        "dark-mode",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P005",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; urgent single-task visit; on desktop 1440px, mouse; context: high-stress: payment failed; access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "desktop 1440px, mouse",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity"
+      ]
+    },
+    {
+      "id": "P006",
+      "synthetic": true,
+      "profile": "occasional client (monthly); urgent single-task visit; on mid-range Android phone 390px; context: shared screen with an accountant/partner; access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "no stated access need",
+      "device": "mid-range Android phone 390px",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P007",
+      "synthetic": true,
+      "profile": "repeat client (weekly); urgent single-task visit; on mid-range Android phone 390px; context: low-light evening use (dark mode); access: low vision - needs strong contrast/large text; top priority: seeing project progress.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "mid-range Android phone 390px",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "contrast",
+        "dark-mode",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P008",
+      "synthetic": true,
+      "profile": "power client (many projects); urgent single-task visit; on mid-range Android phone 390px; context: high-stress: payment failed; access: keyboard-only navigation; top priority: replying to messages fast.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "keyboard-only navigation",
+      "device": "mid-range Android phone 390px",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P009",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; urgent single-task visit; on mid-range Android phone 390px; context: quiet office, focused; access: screen-reader user; top priority: comparing quotes carefully.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "screen-reader user",
+      "device": "mid-range Android phone 390px",
+      "work_context": "quiet office, focused",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P010",
+      "synthetic": true,
+      "profile": "first-time client; urgent single-task visit; on mid-range Android phone 390px; context: on the move, interrupted often; access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "first-time client",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "mid-range Android phone 390px",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P011",
+      "synthetic": true,
+      "profile": "repeat client (weekly); urgent single-task visit; on iPhone 390px, one-handed; context: high-stress: payment failed; access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "no stated access need",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P012",
+      "synthetic": true,
+      "profile": "power client (many projects); urgent single-task visit; on iPhone 390px, one-handed; context: quiet office, focused; access: low vision - needs strong contrast/large text; top priority: seeing project progress.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "quiet office, focused",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "contrast",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P013",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; urgent single-task visit; on iPhone 390px, one-handed; context: on the move, interrupted often; access: keyboard-only navigation; top priority: replying to messages fast.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "keyboard-only navigation",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P014",
+      "synthetic": true,
+      "profile": "first-time client; urgent single-task visit; on iPhone 390px, one-handed; context: shared screen with an accountant/partner; access: screen-reader user; top priority: comparing quotes carefully.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "first-time client",
+      "access_needs": "screen-reader user",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "accessible-names",
+        "empty-states",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P015",
+      "synthetic": true,
+      "profile": "occasional client (monthly); urgent single-task visit; on iPhone 390px, one-handed; context: low-light evening use (dark mode); access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "dark-mode",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P016",
+      "synthetic": true,
+      "profile": "power client (many projects); urgent single-task visit; on tablet 768px touch; context: on the move, interrupted often; access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "no stated access need",
+      "device": "tablet 768px touch",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity"
+      ]
+    },
+    {
+      "id": "P017",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; urgent single-task visit; on tablet 768px touch; context: shared screen with an accountant/partner; access: low vision - needs strong contrast/large text; top priority: seeing project progress.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "tablet 768px touch",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "contrast",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P018",
+      "synthetic": true,
+      "profile": "first-time client; urgent single-task visit; on tablet 768px touch; context: low-light evening use (dark mode); access: keyboard-only navigation; top priority: replying to messages fast.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "first-time client",
+      "access_needs": "keyboard-only navigation",
+      "device": "tablet 768px touch",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "accessible-names",
+        "dark-mode",
+        "empty-states",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P019",
+      "synthetic": true,
+      "profile": "occasional client (monthly); urgent single-task visit; on tablet 768px touch; context: high-stress: payment failed; access: screen-reader user; top priority: comparing quotes carefully.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "screen-reader user",
+      "device": "tablet 768px touch",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P020",
+      "synthetic": true,
+      "profile": "repeat client (weekly); urgent single-task visit; on tablet 768px touch; context: quiet office, focused; access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "urgent single-task visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "tablet 768px touch",
+      "work_context": "quiet office, focused",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity"
+      ]
+    },
+    {
+      "id": "P021",
+      "synthetic": true,
+      "profile": "first-time client; routine weekly check-in; on desktop 1440px, mouse; context: quiet office, focused; access: screen-reader user; top priority: seeing project progress.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "first-time client",
+      "access_needs": "screen-reader user",
+      "device": "desktop 1440px, mouse",
+      "work_context": "quiet office, focused",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "accessible-names",
+        "empty-states",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P022",
+      "synthetic": true,
+      "profile": "occasional client (monthly); routine weekly check-in; on desktop 1440px, mouse; context: on the move, interrupted often; access: motor - large tap targets, imprecise pointer; top priority: replying to messages fast.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "desktop 1440px, mouse",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": []
+    },
+    {
+      "id": "P023",
+      "synthetic": true,
+      "profile": "repeat client (weekly); routine weekly check-in; on desktop 1440px, mouse; context: shared screen with an accountant/partner; access: cognitive - needs plain language, one task at a time; top priority: comparing quotes carefully.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "desktop 1440px, mouse",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "plain-language",
+        "single-next-action"
+      ]
+    },
+    {
+      "id": "P024",
+      "synthetic": true,
+      "profile": "power client (many projects); routine weekly check-in; on desktop 1440px, mouse; context: low-light evening use (dark mode); access: reduced-motion preference; top priority: downloading invoices for accounts.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "power client (many projects)",
+      "access_needs": "reduced-motion preference",
+      "device": "desktop 1440px, mouse",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "dark-mode"
+      ]
+    },
+    {
+      "id": "P025",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; routine weekly check-in; on desktop 1440px, mouse; context: high-stress: payment failed; access: colour-vision deficiency - status must not be colour-only; top priority: raising a new request without errors.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "desktop 1440px, mouse",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "status-not-colour-only"
+      ]
+    },
+    {
+      "id": "P026",
+      "synthetic": true,
+      "profile": "occasional client (monthly); routine weekly check-in; on mid-range Android phone 390px; context: shared screen with an accountant/partner; access: screen-reader user; top priority: seeing project progress.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "screen-reader user",
+      "device": "mid-range Android phone 390px",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P027",
+      "synthetic": true,
+      "profile": "repeat client (weekly); routine weekly check-in; on mid-range Android phone 390px; context: low-light evening use (dark mode); access: motor - large tap targets, imprecise pointer; top priority: replying to messages fast.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "mid-range Android phone 390px",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "dark-mode",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P028",
+      "synthetic": true,
+      "profile": "power client (many projects); routine weekly check-in; on mid-range Android phone 390px; context: high-stress: payment failed; access: cognitive - needs plain language, one task at a time; top priority: comparing quotes carefully.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "power client (many projects)",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "mid-range Android phone 390px",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "mobile",
+        "no-horizontal-scroll",
+        "plain-language",
+        "single-next-action",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P029",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; routine weekly check-in; on mid-range Android phone 390px; context: quiet office, focused; access: reduced-motion preference; top priority: downloading invoices for accounts.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "reduced-motion preference",
+      "device": "mid-range Android phone 390px",
+      "work_context": "quiet office, focused",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P030",
+      "synthetic": true,
+      "profile": "first-time client; routine weekly check-in; on mid-range Android phone 390px; context: on the move, interrupted often; access: colour-vision deficiency - status must not be colour-only; top priority: raising a new request without errors.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "first-time client",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "mid-range Android phone 390px",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "status-not-colour-only",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P031",
+      "synthetic": true,
+      "profile": "repeat client (weekly); routine weekly check-in; on iPhone 390px, one-handed; context: high-stress: payment failed; access: screen-reader user; top priority: seeing project progress.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "screen-reader user",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P032",
+      "synthetic": true,
+      "profile": "power client (many projects); routine weekly check-in; on iPhone 390px, one-handed; context: quiet office, focused; access: motor - large tap targets, imprecise pointer; top priority: replying to messages fast.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "power client (many projects)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "quiet office, focused",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P033",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; routine weekly check-in; on iPhone 390px, one-handed; context: on the move, interrupted often; access: cognitive - needs plain language, one task at a time; top priority: comparing quotes carefully.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "mobile",
+        "no-horizontal-scroll",
+        "plain-language",
+        "single-next-action",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P034",
+      "synthetic": true,
+      "profile": "first-time client; routine weekly check-in; on iPhone 390px, one-handed; context: shared screen with an accountant/partner; access: reduced-motion preference; top priority: downloading invoices for accounts.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "first-time client",
+      "access_needs": "reduced-motion preference",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P035",
+      "synthetic": true,
+      "profile": "occasional client (monthly); routine weekly check-in; on iPhone 390px, one-handed; context: low-light evening use (dark mode); access: colour-vision deficiency - status must not be colour-only; top priority: raising a new request without errors.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "dark-mode",
+        "mobile",
+        "no-horizontal-scroll",
+        "status-not-colour-only",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P036",
+      "synthetic": true,
+      "profile": "power client (many projects); routine weekly check-in; on tablet 768px touch; context: on the move, interrupted often; access: screen-reader user; top priority: seeing project progress.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "power client (many projects)",
+      "access_needs": "screen-reader user",
+      "device": "tablet 768px touch",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "seeing project progress",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P037",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; routine weekly check-in; on tablet 768px touch; context: shared screen with an accountant/partner; access: motor - large tap targets, imprecise pointer; top priority: replying to messages fast.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "tablet 768px touch",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": []
+    },
+    {
+      "id": "P038",
+      "synthetic": true,
+      "profile": "first-time client; routine weekly check-in; on tablet 768px touch; context: low-light evening use (dark mode); access: cognitive - needs plain language, one task at a time; top priority: comparing quotes carefully.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "first-time client",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "tablet 768px touch",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "dark-mode",
+        "empty-states",
+        "first-screen-clarity",
+        "plain-language",
+        "single-next-action"
+      ]
+    },
+    {
+      "id": "P039",
+      "synthetic": true,
+      "profile": "occasional client (monthly); routine weekly check-in; on tablet 768px touch; context: high-stress: payment failed; access: reduced-motion preference; top priority: downloading invoices for accounts.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "reduced-motion preference",
+      "device": "tablet 768px touch",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity"
+      ]
+    },
+    {
+      "id": "P040",
+      "synthetic": true,
+      "profile": "repeat client (weekly); routine weekly check-in; on tablet 768px touch; context: quiet office, focused; access: colour-vision deficiency - status must not be colour-only; top priority: raising a new request without errors.",
+      "task_urgency": "routine weekly check-in",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "tablet 768px touch",
+      "work_context": "quiet office, focused",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "status-not-colour-only"
+      ]
+    },
+    {
+      "id": "P041",
+      "synthetic": true,
+      "profile": "first-time client; first-ever login; on desktop 1440px, mouse; context: quiet office, focused; access: reduced-motion preference; top priority: replying to messages fast.",
+      "task_urgency": "first-ever login",
+      "familiarity": "first-time client",
+      "access_needs": "reduced-motion preference",
+      "device": "desktop 1440px, mouse",
+      "work_context": "quiet office, focused",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity"
+      ]
+    },
+    {
+      "id": "P042",
+      "synthetic": true,
+      "profile": "occasional client (monthly); first-ever login; on desktop 1440px, mouse; context: on the move, interrupted often; access: colour-vision deficiency - status must not be colour-only; top priority: comparing quotes carefully.",
+      "task_urgency": "first-ever login",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "desktop 1440px, mouse",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "status-not-colour-only"
+      ]
+    },
+    {
+      "id": "P043",
+      "synthetic": true,
+      "profile": "repeat client (weekly); first-ever login; on desktop 1440px, mouse; context: shared screen with an accountant/partner; access: no stated access need; top priority: downloading invoices for accounts.",
+      "task_urgency": "first-ever login",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "no stated access need",
+      "device": "desktop 1440px, mouse",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity"
+      ]
+    },
+    {
+      "id": "P044",
+      "synthetic": true,
+      "profile": "power client (many projects); first-ever login; on desktop 1440px, mouse; context: low-light evening use (dark mode); access: low vision - needs strong contrast/large text; top priority: raising a new request without errors.",
+      "task_urgency": "first-ever login",
+      "familiarity": "power client (many projects)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "desktop 1440px, mouse",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "contrast",
+        "dark-mode",
+        "empty-states",
+        "first-screen-clarity",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P045",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; first-ever login; on desktop 1440px, mouse; context: high-stress: payment failed; access: keyboard-only navigation; top priority: finding one item via search.",
+      "task_urgency": "first-ever login",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "keyboard-only navigation",
+      "device": "desktop 1440px, mouse",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "accessible-names",
+        "empty-states",
+        "findability",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P046",
+      "synthetic": true,
+      "profile": "occasional client (monthly); first-ever login; on mid-range Android phone 390px; context: shared screen with an accountant/partner; access: reduced-motion preference; top priority: replying to messages fast.",
+      "task_urgency": "first-ever login",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "reduced-motion preference",
+      "device": "mid-range Android phone 390px",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P047",
+      "synthetic": true,
+      "profile": "repeat client (weekly); first-ever login; on mid-range Android phone 390px; context: low-light evening use (dark mode); access: colour-vision deficiency - status must not be colour-only; top priority: comparing quotes carefully.",
+      "task_urgency": "first-ever login",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "mid-range Android phone 390px",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "dark-mode",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "status-not-colour-only",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P048",
+      "synthetic": true,
+      "profile": "power client (many projects); first-ever login; on mid-range Android phone 390px; context: high-stress: payment failed; access: no stated access need; top priority: downloading invoices for accounts.",
+      "task_urgency": "first-ever login",
+      "familiarity": "power client (many projects)",
+      "access_needs": "no stated access need",
+      "device": "mid-range Android phone 390px",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P049",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; first-ever login; on mid-range Android phone 390px; context: quiet office, focused; access: low vision - needs strong contrast/large text; top priority: raising a new request without errors.",
+      "task_urgency": "first-ever login",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "mid-range Android phone 390px",
+      "work_context": "quiet office, focused",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "contrast",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P050",
+      "synthetic": true,
+      "profile": "first-time client; first-ever login; on mid-range Android phone 390px; context: on the move, interrupted often; access: keyboard-only navigation; top priority: finding one item via search.",
+      "task_urgency": "first-ever login",
+      "familiarity": "first-time client",
+      "access_needs": "keyboard-only navigation",
+      "device": "mid-range Android phone 390px",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "accessible-names",
+        "empty-states",
+        "findability",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P051",
+      "synthetic": true,
+      "profile": "repeat client (weekly); first-ever login; on iPhone 390px, one-handed; context: high-stress: payment failed; access: reduced-motion preference; top priority: replying to messages fast.",
+      "task_urgency": "first-ever login",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "reduced-motion preference",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P052",
+      "synthetic": true,
+      "profile": "power client (many projects); first-ever login; on iPhone 390px, one-handed; context: quiet office, focused; access: colour-vision deficiency - status must not be colour-only; top priority: comparing quotes carefully.",
+      "task_urgency": "first-ever login",
+      "familiarity": "power client (many projects)",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "quiet office, focused",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "status-not-colour-only",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P053",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; first-ever login; on iPhone 390px, one-handed; context: on the move, interrupted often; access: no stated access need; top priority: downloading invoices for accounts.",
+      "task_urgency": "first-ever login",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "no stated access need",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P054",
+      "synthetic": true,
+      "profile": "first-time client; first-ever login; on iPhone 390px, one-handed; context: shared screen with an accountant/partner; access: low vision - needs strong contrast/large text; top priority: raising a new request without errors.",
+      "task_urgency": "first-ever login",
+      "familiarity": "first-time client",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "contrast",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P055",
+      "synthetic": true,
+      "profile": "occasional client (monthly); first-ever login; on iPhone 390px, one-handed; context: low-light evening use (dark mode); access: keyboard-only navigation; top priority: finding one item via search.",
+      "task_urgency": "first-ever login",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "keyboard-only navigation",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "accessible-names",
+        "dark-mode",
+        "empty-states",
+        "findability",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P056",
+      "synthetic": true,
+      "profile": "power client (many projects); first-ever login; on tablet 768px touch; context: on the move, interrupted often; access: reduced-motion preference; top priority: replying to messages fast.",
+      "task_urgency": "first-ever login",
+      "familiarity": "power client (many projects)",
+      "access_needs": "reduced-motion preference",
+      "device": "tablet 768px touch",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "replying to messages fast",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity"
+      ]
+    },
+    {
+      "id": "P057",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; first-ever login; on tablet 768px touch; context: shared screen with an accountant/partner; access: colour-vision deficiency - status must not be colour-only; top priority: comparing quotes carefully.",
+      "task_urgency": "first-ever login",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "tablet 768px touch",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "status-not-colour-only"
+      ]
+    },
+    {
+      "id": "P058",
+      "synthetic": true,
+      "profile": "first-time client; first-ever login; on tablet 768px touch; context: low-light evening use (dark mode); access: no stated access need; top priority: downloading invoices for accounts.",
+      "task_urgency": "first-ever login",
+      "familiarity": "first-time client",
+      "access_needs": "no stated access need",
+      "device": "tablet 768px touch",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "dark-mode",
+        "empty-states",
+        "first-screen-clarity"
+      ]
+    },
+    {
+      "id": "P059",
+      "synthetic": true,
+      "profile": "occasional client (monthly); first-ever login; on tablet 768px touch; context: high-stress: payment failed; access: low vision - needs strong contrast/large text; top priority: raising a new request without errors.",
+      "task_urgency": "first-ever login",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "tablet 768px touch",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "contrast",
+        "empty-states",
+        "first-screen-clarity",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P060",
+      "synthetic": true,
+      "profile": "repeat client (weekly); first-ever login; on tablet 768px touch; context: quiet office, focused; access: keyboard-only navigation; top priority: finding one item via search.",
+      "task_urgency": "first-ever login",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "keyboard-only navigation",
+      "device": "tablet 768px touch",
+      "work_context": "quiet office, focused",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "accessible-names",
+        "empty-states",
+        "findability",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P061",
+      "synthetic": true,
+      "profile": "first-time client; deadline-driven (quote expiring); on desktop 1440px, mouse; context: quiet office, focused; access: low vision - needs strong contrast/large text; top priority: comparing quotes carefully.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "first-time client",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "desktop 1440px, mouse",
+      "work_context": "quiet office, focused",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "contrast",
+        "empty-states",
+        "first-screen-clarity",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P062",
+      "synthetic": true,
+      "profile": "occasional client (monthly); deadline-driven (quote expiring); on desktop 1440px, mouse; context: on the move, interrupted often; access: keyboard-only navigation; top priority: downloading invoices for accounts.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "keyboard-only navigation",
+      "device": "desktop 1440px, mouse",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "accessible-names",
+        "amounts",
+        "billing-clarity",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P063",
+      "synthetic": true,
+      "profile": "repeat client (weekly); deadline-driven (quote expiring); on desktop 1440px, mouse; context: shared screen with an accountant/partner; access: screen-reader user; top priority: raising a new request without errors.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "screen-reader user",
+      "device": "desktop 1440px, mouse",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P064",
+      "synthetic": true,
+      "profile": "power client (many projects); deadline-driven (quote expiring); on desktop 1440px, mouse; context: low-light evening use (dark mode); access: motor - large tap targets, imprecise pointer; top priority: finding one item via search.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "power client (many projects)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "desktop 1440px, mouse",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "dark-mode",
+        "findability"
+      ]
+    },
+    {
+      "id": "P065",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; deadline-driven (quote expiring); on desktop 1440px, mouse; context: high-stress: payment failed; access: cognitive - needs plain language, one task at a time; top priority: checking nothing is awaiting them.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "desktop 1440px, mouse",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "plain-language",
+        "single-next-action"
+      ]
+    },
+    {
+      "id": "P066",
+      "synthetic": true,
+      "profile": "occasional client (monthly); deadline-driven (quote expiring); on mid-range Android phone 390px; context: shared screen with an accountant/partner; access: low vision - needs strong contrast/large text; top priority: comparing quotes carefully.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "mid-range Android phone 390px",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "contrast",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P067",
+      "synthetic": true,
+      "profile": "repeat client (weekly); deadline-driven (quote expiring); on mid-range Android phone 390px; context: low-light evening use (dark mode); access: keyboard-only navigation; top priority: downloading invoices for accounts.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "keyboard-only navigation",
+      "device": "mid-range Android phone 390px",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "accessible-names",
+        "amounts",
+        "billing-clarity",
+        "dark-mode",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P068",
+      "synthetic": true,
+      "profile": "power client (many projects); deadline-driven (quote expiring); on mid-range Android phone 390px; context: high-stress: payment failed; access: screen-reader user; top priority: raising a new request without errors.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "power client (many projects)",
+      "access_needs": "screen-reader user",
+      "device": "mid-range Android phone 390px",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P069",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; deadline-driven (quote expiring); on mid-range Android phone 390px; context: quiet office, focused; access: motor - large tap targets, imprecise pointer; top priority: finding one item via search.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "mid-range Android phone 390px",
+      "work_context": "quiet office, focused",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "findability",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P070",
+      "synthetic": true,
+      "profile": "first-time client; deadline-driven (quote expiring); on mid-range Android phone 390px; context: on the move, interrupted often; access: cognitive - needs plain language, one task at a time; top priority: checking nothing is awaiting them.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "first-time client",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "mid-range Android phone 390px",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "plain-language",
+        "single-next-action",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P071",
+      "synthetic": true,
+      "profile": "repeat client (weekly); deadline-driven (quote expiring); on iPhone 390px, one-handed; context: high-stress: payment failed; access: low vision - needs strong contrast/large text; top priority: comparing quotes carefully.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "contrast",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P072",
+      "synthetic": true,
+      "profile": "power client (many projects); deadline-driven (quote expiring); on iPhone 390px, one-handed; context: quiet office, focused; access: keyboard-only navigation; top priority: downloading invoices for accounts.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "power client (many projects)",
+      "access_needs": "keyboard-only navigation",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "quiet office, focused",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "accessible-names",
+        "amounts",
+        "billing-clarity",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P073",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; deadline-driven (quote expiring); on iPhone 390px, one-handed; context: on the move, interrupted often; access: screen-reader user; top priority: raising a new request without errors.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "screen-reader user",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "accessible-names",
+        "focus-visible",
+        "keyboard",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P074",
+      "synthetic": true,
+      "profile": "first-time client; deadline-driven (quote expiring); on iPhone 390px, one-handed; context: shared screen with an accountant/partner; access: motor - large tap targets, imprecise pointer; top priority: finding one item via search.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "first-time client",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "empty-states",
+        "findability",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P075",
+      "synthetic": true,
+      "profile": "occasional client (monthly); deadline-driven (quote expiring); on iPhone 390px, one-handed; context: low-light evening use (dark mode); access: cognitive - needs plain language, one task at a time; top priority: checking nothing is awaiting them.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "dark-mode",
+        "mobile",
+        "no-horizontal-scroll",
+        "plain-language",
+        "single-next-action",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P076",
+      "synthetic": true,
+      "profile": "power client (many projects); deadline-driven (quote expiring); on tablet 768px touch; context: on the move, interrupted often; access: low vision - needs strong contrast/large text; top priority: comparing quotes carefully.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "power client (many projects)",
+      "access_needs": "low vision - needs strong contrast/large text",
+      "device": "tablet 768px touch",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "comparing quotes carefully",
+      "coverage_tags": [
+        "contrast",
+        "text-size"
+      ]
+    },
+    {
+      "id": "P077",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; deadline-driven (quote expiring); on tablet 768px touch; context: shared screen with an accountant/partner; access: keyboard-only navigation; top priority: downloading invoices for accounts.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "keyboard-only navigation",
+      "device": "tablet 768px touch",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "accessible-names",
+        "amounts",
+        "billing-clarity",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P078",
+      "synthetic": true,
+      "profile": "first-time client; deadline-driven (quote expiring); on tablet 768px touch; context: low-light evening use (dark mode); access: screen-reader user; top priority: raising a new request without errors.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "first-time client",
+      "access_needs": "screen-reader user",
+      "device": "tablet 768px touch",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "accessible-names",
+        "dark-mode",
+        "empty-states",
+        "first-screen-clarity",
+        "focus-visible",
+        "keyboard"
+      ]
+    },
+    {
+      "id": "P079",
+      "synthetic": true,
+      "profile": "occasional client (monthly); deadline-driven (quote expiring); on tablet 768px touch; context: high-stress: payment failed; access: motor - large tap targets, imprecise pointer; top priority: finding one item via search.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "tablet 768px touch",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "findability"
+      ]
+    },
+    {
+      "id": "P080",
+      "synthetic": true,
+      "profile": "repeat client (weekly); deadline-driven (quote expiring); on tablet 768px touch; context: quiet office, focused; access: cognitive - needs plain language, one task at a time; top priority: checking nothing is awaiting them.",
+      "task_urgency": "deadline-driven (quote expiring)",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "tablet 768px touch",
+      "work_context": "quiet office, focused",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "plain-language",
+        "single-next-action"
+      ]
+    },
+    {
+      "id": "P081",
+      "synthetic": true,
+      "profile": "first-time client; billing-problem visit; on desktop 1440px, mouse; context: quiet office, focused; access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "first-time client",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "desktop 1440px, mouse",
+      "work_context": "quiet office, focused",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity"
+      ]
+    },
+    {
+      "id": "P082",
+      "synthetic": true,
+      "profile": "occasional client (monthly); billing-problem visit; on desktop 1440px, mouse; context: on the move, interrupted often; access: cognitive - needs plain language, one task at a time; top priority: raising a new request without errors.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "desktop 1440px, mouse",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "plain-language",
+        "single-next-action"
+      ]
+    },
+    {
+      "id": "P083",
+      "synthetic": true,
+      "profile": "repeat client (weekly); billing-problem visit; on desktop 1440px, mouse; context: shared screen with an accountant/partner; access: reduced-motion preference; top priority: finding one item via search.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "reduced-motion preference",
+      "device": "desktop 1440px, mouse",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "findability"
+      ]
+    },
+    {
+      "id": "P084",
+      "synthetic": true,
+      "profile": "power client (many projects); billing-problem visit; on desktop 1440px, mouse; context: low-light evening use (dark mode); access: colour-vision deficiency - status must not be colour-only; top priority: checking nothing is awaiting them.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "desktop 1440px, mouse",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "dark-mode",
+        "status-not-colour-only"
+      ]
+    },
+    {
+      "id": "P085",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; billing-problem visit; on desktop 1440px, mouse; context: high-stress: payment failed; access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "no stated access need",
+      "device": "desktop 1440px, mouse",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity"
+      ]
+    },
+    {
+      "id": "P086",
+      "synthetic": true,
+      "profile": "occasional client (monthly); billing-problem visit; on mid-range Android phone 390px; context: shared screen with an accountant/partner; access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "mid-range Android phone 390px",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P087",
+      "synthetic": true,
+      "profile": "repeat client (weekly); billing-problem visit; on mid-range Android phone 390px; context: low-light evening use (dark mode); access: cognitive - needs plain language, one task at a time; top priority: raising a new request without errors.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "mid-range Android phone 390px",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "dark-mode",
+        "mobile",
+        "no-horizontal-scroll",
+        "plain-language",
+        "single-next-action",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P088",
+      "synthetic": true,
+      "profile": "power client (many projects); billing-problem visit; on mid-range Android phone 390px; context: high-stress: payment failed; access: reduced-motion preference; top priority: finding one item via search.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "reduced-motion preference",
+      "device": "mid-range Android phone 390px",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "findability",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P089",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; billing-problem visit; on mid-range Android phone 390px; context: quiet office, focused; access: colour-vision deficiency - status must not be colour-only; top priority: checking nothing is awaiting them.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "mid-range Android phone 390px",
+      "work_context": "quiet office, focused",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "mobile",
+        "no-horizontal-scroll",
+        "status-not-colour-only",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P090",
+      "synthetic": true,
+      "profile": "first-time client; billing-problem visit; on mid-range Android phone 390px; context: on the move, interrupted often; access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "first-time client",
+      "access_needs": "no stated access need",
+      "device": "mid-range Android phone 390px",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P091",
+      "synthetic": true,
+      "profile": "repeat client (weekly); billing-problem visit; on iPhone 390px, one-handed; context: high-stress: payment failed; access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P092",
+      "synthetic": true,
+      "profile": "power client (many projects); billing-problem visit; on iPhone 390px, one-handed; context: quiet office, focused; access: cognitive - needs plain language, one task at a time; top priority: raising a new request without errors.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "quiet office, focused",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "mobile",
+        "no-horizontal-scroll",
+        "plain-language",
+        "single-next-action",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P093",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; billing-problem visit; on iPhone 390px, one-handed; context: on the move, interrupted often; access: reduced-motion preference; top priority: finding one item via search.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "reduced-motion preference",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "findability",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P094",
+      "synthetic": true,
+      "profile": "first-time client; billing-problem visit; on iPhone 390px, one-handed; context: shared screen with an accountant/partner; access: colour-vision deficiency - status must not be colour-only; top priority: checking nothing is awaiting them.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "first-time client",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "empty-states",
+        "first-screen-clarity",
+        "mobile",
+        "no-horizontal-scroll",
+        "status-not-colour-only",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P095",
+      "synthetic": true,
+      "profile": "occasional client (monthly); billing-problem visit; on iPhone 390px, one-handed; context: low-light evening use (dark mode); access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "no stated access need",
+      "device": "iPhone 390px, one-handed",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity",
+        "dark-mode",
+        "mobile",
+        "no-horizontal-scroll",
+        "tap-targets"
+      ]
+    },
+    {
+      "id": "P096",
+      "synthetic": true,
+      "profile": "power client (many projects); billing-problem visit; on tablet 768px touch; context: on the move, interrupted often; access: motor - large tap targets, imprecise pointer; top priority: downloading invoices for accounts.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "power client (many projects)",
+      "access_needs": "motor - large tap targets, imprecise pointer",
+      "device": "tablet 768px touch",
+      "work_context": "on the move, interrupted often",
+      "information_priority": "downloading invoices for accounts",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity"
+      ]
+    },
+    {
+      "id": "P097",
+      "synthetic": true,
+      "profile": "client returning after 6 months away; billing-problem visit; on tablet 768px touch; context: shared screen with an accountant/partner; access: cognitive - needs plain language, one task at a time; top priority: raising a new request without errors.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "client returning after 6 months away",
+      "access_needs": "cognitive - needs plain language, one task at a time",
+      "device": "tablet 768px touch",
+      "work_context": "shared screen with an accountant/partner",
+      "information_priority": "raising a new request without errors",
+      "coverage_tags": [
+        "plain-language",
+        "single-next-action"
+      ]
+    },
+    {
+      "id": "P098",
+      "synthetic": true,
+      "profile": "first-time client; billing-problem visit; on tablet 768px touch; context: low-light evening use (dark mode); access: reduced-motion preference; top priority: finding one item via search.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "first-time client",
+      "access_needs": "reduced-motion preference",
+      "device": "tablet 768px touch",
+      "work_context": "low-light evening use (dark mode)",
+      "information_priority": "finding one item via search",
+      "coverage_tags": [
+        "dark-mode",
+        "empty-states",
+        "findability",
+        "first-screen-clarity"
+      ]
+    },
+    {
+      "id": "P099",
+      "synthetic": true,
+      "profile": "occasional client (monthly); billing-problem visit; on tablet 768px touch; context: high-stress: payment failed; access: colour-vision deficiency - status must not be colour-only; top priority: checking nothing is awaiting them.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "occasional client (monthly)",
+      "access_needs": "colour-vision deficiency - status must not be colour-only",
+      "device": "tablet 768px touch",
+      "work_context": "high-stress: payment failed",
+      "information_priority": "checking nothing is awaiting them",
+      "coverage_tags": [
+        "status-not-colour-only"
+      ]
+    },
+    {
+      "id": "P100",
+      "synthetic": true,
+      "profile": "repeat client (weekly); billing-problem visit; on tablet 768px touch; context: quiet office, focused; access: no stated access need; top priority: knowing what to pay next.",
+      "task_urgency": "billing-problem visit",
+      "familiarity": "repeat client (weekly)",
+      "access_needs": "no stated access need",
+      "device": "tablet 768px touch",
+      "work_context": "quiet office, focused",
+      "information_priority": "knowing what to pay next",
+      "coverage_tags": [
+        "amounts",
+        "billing-clarity"
+      ]
+    }
+  ]
+}

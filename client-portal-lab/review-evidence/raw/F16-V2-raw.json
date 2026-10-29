@@ -1,0 +1,316 @@
+{
+  "family": "F16",
+  "familyDir": "F16-checkout",
+  "version": "V2",
+  "sourcePath": "client-portal-lab/families/F16-checkout/V2/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F16-checkout/V2/index.html",
+  "capturedUtc": "2026-10-28T16:48:31.162Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F16/F16-V2-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F16/F16-V2-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F16/F16-V2-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F16/F16-V2-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F16/F16-V2-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F16/F16-V2-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F16/F16-V2-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Checkout · V2 Stepper Rail — Nestlancer Lab",
+      "h1": "Checkout",
+      "headings": [
+        "H1:Checkout",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "← Back to Billing Center",
+        "Invoice",
+        "Pay online",
+        "Bank / UPI transfer",
+        "Proceed to secure checkout DEMO",
+        "Open 3-step guided flow",
+        "File a payment dispute",
+        "Invoice archive",
+        "Cancel payment",
+        "← V1",
+        "Gallery",
+        "V3 →"
+      ],
+      "tabs": [
+        "Pay online",
+        "Bank / UPI transfer"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:text",
+          "lab": "UTR / UPI reference"
+        },
+        {
+          "t": "INPUT:text",
+          "lab": "Notes (optional)"
+        },
+        {
+          "t": "INPUT:file",
+          "lab": "Drop a file or choose onePNG, JPG or PDF"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 25
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Choose a payment path/method (do not complete payment)",
+      "via": "button \"Bank / UPI transfer\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading payment…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F16-checkout/V2/index.html",
+      "selectedTab": "Bank / UPI transfer",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": "Pay ₹30,000.00 via bank / UPI. Transfer to the settlement account, then submit your proof. Account holder Nestlancer Pvt Ltd Bank HDFC Bank A/C 50200012345678 IFSC HDFC0001234 UPI nestlancer@hdfcbank ",
+      "mainStart": "← Back to Billing Center PAYMENT · ◷ PENDING Checkout Khandesh Spice D2C E-Commerce Store · final payment milestone. Invoice AMOUNT DUE ₹30,000.00 Currency INR Reference 01a10a2b-5ed2-73bc-8aee-d1c6262906e9 Created Oct 5",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1120,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "Checkout · V2 Stepper Rail — Nestlancer Lab",
+      "h1": "Checkout",
+      "headings": [
+        "H1:Checkout",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "← Back to Billing Center",
+        "Invoice",
+        "Pay online",
+        "Bank / UPI transfer",
+        "Proceed to secure checkout DEMO",
+        "Open 3-step guided flow",
+        "File a payment dispute",
+        "Invoice archive",
+        "Cancel payment",
+        "← V1",
+        "Gallery",
+        "V3 →"
+      ],
+      "tabs": [
+        "Pay online",
+        "Bank / UPI transfer"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:text",
+          "lab": "UTR / UPI reference"
+        },
+        {
+          "t": "INPUT:text",
+          "lab": "Notes (optional)"
+        },
+        {
+          "t": "INPUT:file",
+          "lab": "Drop a file or choose onePNG, JPG or PDF"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 43,
+      "under24px": 6,
+      "examples": [
+        {
+          "text": "← Back to Billing Center",
+          "w": 175,
+          "h": 21
+        },
+        {
+          "text": "File a payment dispute",
+          "w": 143,
+          "h": 20
+        },
+        {
+          "text": "Invoice archive",
+          "w": 95,
+          "h": 20
+        },
+        {
+          "text": "← V1",
+          "w": 30,
+          "h": 14
+        },
+        {
+          "text": "Gallery",
+          "w": 43,
+          "h": 14
+        },
+        {
+          "text": "V3 →",
+          "w": 30,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Choose a payment path/method (do not complete payment)",
+      "via": "button \"Bank / UPI transfer\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading payment…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F16-checkout/V2/index.html",
+      "selectedTab": "Bank / UPI transfer",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": "Pay ₹30,000.00 via bank / UPI. Transfer to the settlement account, then submit your proof. Account holder Nestlancer Pvt Ltd Bank HDFC Bank A/C 50200012345678 IFSC HDFC0001234 UPI nestlancer@hdfcbank ",
+      "mainStart": "← Back to Billing Center PAYMENT · ◷ PENDING Checkout Khandesh Spice D2C E-Commerce Store · final payment milestone. Invoice AMOUNT DUE ₹30,000.00 Currency INR Reference 01a10a2b-5ed2-73bc-8aee-d1c6262906e9 Created Oct 5",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 25
+    }
+  }
+}

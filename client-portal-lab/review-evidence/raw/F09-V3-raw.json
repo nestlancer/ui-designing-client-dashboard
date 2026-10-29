@@ -1,0 +1,382 @@
+{
+  "family": "F09",
+  "familyDir": "F09-project-details",
+  "version": "V3",
+  "sourcePath": "client-portal-lab/families/F09-project-details/V3/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F09-project-details/V3/index.html",
+  "capturedUtc": "2026-10-28T16:05:06.459Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F09/F09-V3-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F09/F09-V3-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F09/F09-V3-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F09/F09-V3-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F09/F09-V3-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F09/F09-V3-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F09/F09-V3-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "F09 · V3 Your Moves · Khandesh Spice D2C · Nestlancer Lab",
+      "h1": "Khandesh Spice D2C E-Commerce Store",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Khandesh Spice D2C E-Commerce Store",
+        "H2:Project status",
+        "H2:Daily progress",
+        "H2:Submit feedback",
+        "H2:Daily progress",
+        "H2:Request changes",
+        "H2:Milestones — dual Delivery/Payment status"
+      ],
+      "buttons": [
+        "← All projects",
+        "Overview",
+        "Progress",
+        "Milestones",
+        "Deliverables",
+        "Messages",
+        "Files",
+        "Message",
+        "View milestones",
+        "Submit feedback",
+        "Unlock me — go to milestones",
+        "What’s next?",
+        "Payment due?",
+        "Approved?",
+        "← Gallery",
+        "← Prev: V2",
+        "Next: V4 One Story →"
+      ],
+      "tabs": [
+        "Overview",
+        "Progress",
+        "Milestones",
+        "Deliverables",
+        "Messages",
+        "Files"
+      ],
+      "inputs": [
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Your feedback"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Request changes"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Reason to request revision"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search in conversation"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Message"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            ".avatar > i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 30
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Messages",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Notifications",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Switch project tab to Milestones",
+      "via": "tab \"Milestones\"",
+      "toast": {
+        "visible": false,
+        "text": "Project data is temporarily unavailable — retrying. 502 degraded state (A13).Retry now"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F09-project-details/V3/index.html?tab=milestones",
+      "selectedTab": "Milestones",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": "Milestones — dual Delivery/Payment status 1 · Storefront MVP & Catalog ₹30,000.00 · Due Oct 15, 2026 Delivery Approved Payment Not due yet 2 · Razorpay Checkout & Delhivery Integration ₹30,000.00 · Du",
+      "mainStart": "← All projects Lab states ▾ PROJECT · WHOSE MOVE IS IT? Khandesh Spice D2C E-Commerce Store Direct-to-consumer storefront for authentic Khandesh spices with subscription boxes, Razorpay checkout, and Delhivery shipping i",
+      "urlChanged": true,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": {
+      "visible": false,
+      "text": "Project data is temporarily unavailable — retrying. 502 degraded state (A13).Retry now"
+    },
+    "fullPageHeight": 1555,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 640,
+      "actualHScrollPx": 200,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "rail-card",
+        "right": 640
+      }
+    },
+    "factsMobile": {
+      "title": "F09 · V3 Your Moves · Khandesh Spice D2C · Nestlancer Lab",
+      "h1": "Khandesh Spice D2C E-Commerce Store",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Khandesh Spice D2C E-Commerce Store",
+        "H2:Project status",
+        "H2:Daily progress",
+        "H2:Submit feedback",
+        "H2:Daily progress",
+        "H2:Request changes",
+        "H2:Milestones — dual Delivery/Payment status"
+      ],
+      "buttons": [
+        "← All projects",
+        "Overview",
+        "Progress",
+        "Milestones",
+        "Deliverables",
+        "Messages",
+        "Files",
+        "Message",
+        "View milestones",
+        "Submit feedback",
+        "Unlock me — go to milestones",
+        "What’s next?",
+        "Payment due?",
+        "Approved?",
+        "← Gallery",
+        "← Prev: V2",
+        "Next: V4 One Story →"
+      ],
+      "tabs": [
+        "Overview",
+        "Progress",
+        "Milestones",
+        "Deliverables",
+        "Messages",
+        "Files"
+      ],
+      "inputs": [
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Your feedback"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Request changes"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Reason to request revision"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search in conversation"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Message"
+        }
+      ],
+      "tables": 1,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 36,
+      "under24px": 4,
+      "examples": [
+        {
+          "text": "← All projects",
+          "w": 99,
+          "h": 21
+        },
+        {
+          "text": "← Gallery",
+          "w": 57,
+          "h": 19
+        },
+        {
+          "text": "← Prev: V2",
+          "w": 63,
+          "h": 19
+        },
+        {
+          "text": "Next: V4 One Story →",
+          "w": 129,
+          "h": 19
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Switch project tab to Milestones",
+      "via": "tab \"Milestones\"",
+      "toast": {
+        "visible": false,
+        "text": "Project data is temporarily unavailable — retrying. 502 degraded state (A13).Retry now"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F09-project-details/V3/index.html?tab=milestones",
+      "selectedTab": "Milestones",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": "Milestones — dual Delivery/Payment status 1 · Storefront MVP & Catalog ₹30,000.00 · Due Oct 15, 2026 Delivery Approved Payment Not due yet 2 · Razorpay Checkout & Delhivery Integration ₹30,000.00 · Du",
+      "mainStart": "← All projects Lab states ▾ PROJECT · WHOSE MOVE IS IT? Khandesh Spice D2C E-Commerce Store Direct-to-consumer storefront for authentic Khandesh spices with subscription boxes, Razorpay checkout, and Delhivery shipping i",
+      "urlChanged": true,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "btnWidth": 36,
+      "sideLeftAfter": 0,
+      "opened": true
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "page",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 5,
+          "targets": [
+            "a[aria-current=\"page\"] > span",
+            ".avatar > i"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.94 (foreground color: #5b7bff, background color: #1b284b, font size: 10.5pt (14px), font weight: no"
+        }
+      ],
+      "passes": 30
+    }
+  }
+}

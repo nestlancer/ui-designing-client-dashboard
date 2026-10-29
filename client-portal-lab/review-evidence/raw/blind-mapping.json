@@ -1,0 +1,332 @@
+{
+  "seed_base": 20261028,
+  "families": {
+    "F03": {
+      "desktop-light-top": {
+        "A": "V2",
+        "B": "V1",
+        "C": "V3",
+        "D": "V4",
+        "E": "V5"
+      },
+      "mobile-light-top": {
+        "A": "V2",
+        "B": "V1",
+        "C": "V3",
+        "D": "V4",
+        "E": "V5"
+      },
+      "desktop-dark-top": {
+        "A": "V2",
+        "B": "V1",
+        "C": "V3",
+        "D": "V4",
+        "E": "V5"
+      }
+    },
+    "F04": {
+      "desktop-light-top": {
+        "A": "V5",
+        "B": "V3",
+        "C": "V2",
+        "D": "V4",
+        "E": "V1"
+      },
+      "mobile-light-top": {
+        "A": "V5",
+        "B": "V3",
+        "C": "V2",
+        "D": "V4",
+        "E": "V1"
+      }
+    },
+    "F05": {
+      "desktop-light-top": {
+        "A": "V4",
+        "B": "V1",
+        "C": "V5",
+        "D": "V2",
+        "E": "V3"
+      },
+      "mobile-light-top": {
+        "A": "V4",
+        "B": "V1",
+        "C": "V5",
+        "D": "V2",
+        "E": "V3"
+      }
+    },
+    "F06": {
+      "desktop-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V1",
+        "D": "V4",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V1",
+        "D": "V4",
+        "E": "V2"
+      }
+    },
+    "F07": {
+      "desktop-light-top": {
+        "A": "V4",
+        "B": "V3",
+        "C": "V1",
+        "D": "V5",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V4",
+        "B": "V3",
+        "C": "V1",
+        "D": "V5",
+        "E": "V2"
+      }
+    },
+    "F08": {
+      "desktop-light-top": {
+        "A": "V5",
+        "B": "V4",
+        "C": "V1",
+        "D": "V3",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V5",
+        "B": "V4",
+        "C": "V1",
+        "D": "V3",
+        "E": "V2"
+      }
+    },
+    "F09": {
+      "desktop-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V4",
+        "D": "V1",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V4",
+        "D": "V1",
+        "E": "V2"
+      }
+    },
+    "F10": {
+      "desktop-light-top": {
+        "A": "V1",
+        "B": "V2",
+        "C": "V5",
+        "D": "V4",
+        "E": "V3"
+      },
+      "mobile-light-top": {
+        "A": "V1",
+        "B": "V2",
+        "C": "V5",
+        "D": "V4",
+        "E": "V3"
+      }
+    },
+    "F11": {
+      "desktop-light-top": {
+        "A": "V5",
+        "B": "V2",
+        "C": "V1",
+        "D": "V4",
+        "E": "V3"
+      },
+      "mobile-light-top": {
+        "A": "V5",
+        "B": "V2",
+        "C": "V1",
+        "D": "V4",
+        "E": "V3"
+      }
+    },
+    "F12": {
+      "desktop-light-top": {
+        "A": "V2",
+        "B": "V1",
+        "C": "V3",
+        "D": "V4",
+        "E": "V5"
+      },
+      "mobile-light-top": {
+        "A": "V2",
+        "B": "V1",
+        "C": "V3",
+        "D": "V4",
+        "E": "V5"
+      }
+    },
+    "F13": {
+      "desktop-light-top": {
+        "A": "V5",
+        "B": "V3",
+        "C": "V2",
+        "D": "V4",
+        "E": "V1"
+      },
+      "mobile-light-top": {
+        "A": "V5",
+        "B": "V3",
+        "C": "V2",
+        "D": "V4",
+        "E": "V1"
+      }
+    },
+    "F14": {
+      "desktop-light-top": {
+        "A": "V4",
+        "B": "V1",
+        "C": "V5",
+        "D": "V2",
+        "E": "V3"
+      },
+      "mobile-light-top": {
+        "A": "V4",
+        "B": "V1",
+        "C": "V5",
+        "D": "V2",
+        "E": "V3"
+      }
+    },
+    "F15": {
+      "desktop-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V1",
+        "D": "V4",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V1",
+        "D": "V4",
+        "E": "V2"
+      }
+    },
+    "F16": {
+      "desktop-light-top": {
+        "A": "V4",
+        "B": "V3",
+        "C": "V1",
+        "D": "V5",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V4",
+        "B": "V3",
+        "C": "V1",
+        "D": "V5",
+        "E": "V2"
+      }
+    },
+    "F17": {
+      "desktop-light-top": {
+        "A": "V5",
+        "B": "V4",
+        "C": "V1",
+        "D": "V3",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V5",
+        "B": "V4",
+        "C": "V1",
+        "D": "V3",
+        "E": "V2"
+      }
+    },
+    "F18": {
+      "desktop-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V4",
+        "D": "V1",
+        "E": "V2"
+      },
+      "mobile-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V4",
+        "D": "V1",
+        "E": "V2"
+      }
+    },
+    "F19": {
+      "desktop-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V2",
+        "D": "V1",
+        "E": "V4"
+      },
+      "mobile-light-top": {
+        "A": "V3",
+        "B": "V5",
+        "C": "V2",
+        "D": "V1",
+        "E": "V4"
+      }
+    },
+    "F20": {
+      "desktop-light-top": {
+        "A": "V5",
+        "B": "V2",
+        "C": "V1",
+        "D": "V4",
+        "E": "V3"
+      },
+      "mobile-light-top": {
+        "A": "V5",
+        "B": "V2",
+        "C": "V1",
+        "D": "V4",
+        "E": "V3"
+      }
+    },
+    "F21": {
+      "desktop-light-top": {
+        "A": "V2",
+        "B": "V1",
+        "C": "V3",
+        "D": "V4",
+        "E": "V5"
+      },
+      "mobile-light-top": {
+        "A": "V2",
+        "B": "V1",
+        "C": "V3",
+        "D": "V4",
+        "E": "V5"
+      }
+    },
+    "F22": {
+      "desktop-light-top": {
+        "A": "V5",
+        "B": "V3",
+        "C": "V2",
+        "D": "V4",
+        "E": "V1"
+      },
+      "mobile-light-top": {
+        "A": "V5",
+        "B": "V3",
+        "C": "V2",
+        "D": "V4",
+        "E": "V1"
+      }
+    }
+  }
+}

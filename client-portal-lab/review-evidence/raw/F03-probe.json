@@ -1,0 +1,907 @@
+{
+  "V1": {
+    "desktop": {
+      "h1Count": 1,
+      "h1Text": "Overview",
+      "headingOutline": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Overview",
+        "H2:Pipeline & billing",
+        "H2:Awaiting you",
+        "H2:Recent activity"
+      ],
+      "roleTabCount": 4,
+      "dataTabCount": 4,
+      "dataTabRoles": [
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "true",
+          "text": "Quotes\n0"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Pay now\n4"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Projects\n0"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Inbox\n2"
+        }
+      ],
+      "tabPanelRoles": 4,
+      "dataPanelCount": 4,
+      "menuBtn": {
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 256,
+          "right": 292
+        },
+        "id": "menuBtn",
+        "expanded": "false"
+      },
+      "themeBtn": {
+        "id": "themeBtn",
+        "label": "Switch to dark mode",
+        "pressed": "false",
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 1139,
+          "right": 1175
+        }
+      },
+      "brandClip": {
+        "brandRight": 217,
+        "scrollW": 212,
+        "clientW": 203,
+        "text": "Nestlancer"
+      },
+      "pipelineBars": [
+        {
+          "cls": "",
+          "w": 30,
+          "bg": "rgb(236, 243, 255)"
+        },
+        {
+          "cls": "fill",
+          "w": 0,
+          "bg": "rgb(70, 95, 255)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill w",
+          "w": 0,
+          "bg": "rgb(138, 90, 0)"
+        }
+      ]
+    },
+    "contrastDetail": [
+      {
+        "target": "a[aria-current=\"page\"] > span",
+        "html": "<span>Dashboard</span>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+      },
+      {
+        "target": "i",
+        "html": "<i>AM</i>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+      },
+      {
+        "target": "#verdict > strong",
+        "html": "<strong>₹31,875.00 is pending on your billing.</strong>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+      }
+    ],
+    "mobile": {
+      "innerWidth": 390,
+      "docScrollWidth": 454,
+      "bodyScrollWidth": 454,
+      "actualHScrollPx": 64,
+      "maxRightElement": {
+        "tag": "SPAN",
+        "cls": "avatar",
+        "id": "",
+        "right": 454,
+        "left": 408,
+        "position": "static",
+        "transform": "none"
+      },
+      "bodyOverflowX": "visible",
+      "htmlOverflowX": "visible",
+      "menuBtn": {
+        "w": 2,
+        "h": 36,
+        "left": 24,
+        "right": 26
+      },
+      "bellBtn": {
+        "w": 32,
+        "left": 368,
+        "right": 400,
+        "label": "6 unread notifications"
+      }
+    },
+    "mobileNavAfterClick": {
+      "sideClass": "side",
+      "sideRect": {
+        "left": -286,
+        "right": -6,
+        "w": 280
+      },
+      "expanded": "false"
+    },
+    "mobileNavShot": "review-evidence/screenshots/F03/F03-V1-mobile-light-navopen.png"
+  },
+  "V2": {
+    "desktop": {
+      "h1Count": 1,
+      "h1Text": "Overview",
+      "headingOutline": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Overview",
+        "H2:Awaiting you",
+        "H2:Pipeline & billing",
+        "H2:Recent activity"
+      ],
+      "roleTabCount": 4,
+      "dataTabCount": 4,
+      "dataTabRoles": [
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "true",
+          "text": "Quotes\n0"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Pay now\n4"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Projects\n0"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Inbox\n2"
+        }
+      ],
+      "tabPanelRoles": 4,
+      "dataPanelCount": 4,
+      "menuBtn": {
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 256,
+          "right": 292
+        },
+        "id": "menuBtn",
+        "expanded": "false"
+      },
+      "themeBtn": {
+        "id": "themeBtn",
+        "label": "Switch to dark mode",
+        "pressed": "false",
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 1139,
+          "right": 1175
+        }
+      },
+      "brandClip": {
+        "brandRight": 217,
+        "scrollW": 212,
+        "clientW": 203,
+        "text": "Nestlancer"
+      },
+      "pipelineBars": [
+        {
+          "cls": "",
+          "w": 30,
+          "bg": "rgb(236, 243, 255)"
+        },
+        {
+          "cls": "fill",
+          "w": 0,
+          "bg": "rgb(70, 95, 255)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill w",
+          "w": 0,
+          "bg": "rgb(138, 90, 0)"
+        }
+      ]
+    },
+    "contrastDetail": [
+      {
+        "target": "a[aria-current=\"page\"] > span",
+        "html": "<span>Dashboard</span>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+      },
+      {
+        "target": "i",
+        "html": "<i>AM</i>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+      }
+    ],
+    "mobile": {
+      "innerWidth": 390,
+      "docScrollWidth": 454,
+      "bodyScrollWidth": 454,
+      "actualHScrollPx": 64,
+      "maxRightElement": {
+        "tag": "SPAN",
+        "cls": "avatar",
+        "id": "",
+        "right": 454,
+        "left": 408,
+        "position": "static",
+        "transform": "none"
+      },
+      "bodyOverflowX": "visible",
+      "htmlOverflowX": "visible",
+      "menuBtn": {
+        "w": 2,
+        "h": 36,
+        "left": 24,
+        "right": 26
+      },
+      "bellBtn": {
+        "w": 32,
+        "left": 368,
+        "right": 400,
+        "label": "6 unread notifications"
+      }
+    },
+    "mobileNavAfterClick": {
+      "sideClass": "side on",
+      "sideRect": {
+        "left": 0,
+        "right": 280,
+        "w": 280
+      },
+      "expanded": "true"
+    },
+    "mobileNavShot": "review-evidence/screenshots/F03/F03-V2-mobile-light-navopen.png"
+  },
+  "V3": {
+    "desktop": {
+      "h1Count": 1,
+      "h1Text": "Awaiting you",
+      "headingOutline": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Awaiting you",
+        "H2:Pipeline & billing",
+        "H2:Live workbench",
+        "H2:Recent activity"
+      ],
+      "roleTabCount": 0,
+      "dataTabCount": 0,
+      "dataTabRoles": [],
+      "tabPanelRoles": 0,
+      "dataPanelCount": 0,
+      "menuBtn": {
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 256,
+          "right": 292
+        },
+        "id": "menuBtn",
+        "expanded": "false"
+      },
+      "themeBtn": {
+        "id": "themeBtn",
+        "label": "Switch to dark mode",
+        "pressed": "false",
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 1139,
+          "right": 1175
+        }
+      },
+      "brandClip": {
+        "brandRight": 217,
+        "scrollW": 212,
+        "clientW": 203,
+        "text": "Nestlancer"
+      },
+      "pipelineBars": [
+        {
+          "cls": "",
+          "w": 30,
+          "bg": "rgb(236, 243, 255)"
+        },
+        {
+          "cls": "fill",
+          "w": 0,
+          "bg": "rgb(70, 95, 255)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill w",
+          "w": 0,
+          "bg": "rgb(138, 90, 0)"
+        }
+      ]
+    },
+    "contrastDetail": [
+      {
+        "target": "a[aria-current=\"page\"] > span",
+        "html": "<span>Dashboard</span>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+      },
+      {
+        "target": "i",
+        "html": "<i>AM</i>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+      }
+    ],
+    "altTask": {
+      "clickableSample": [
+        {
+          "text": "Skip to main content",
+          "data": ""
+        },
+        {
+          "text": "Nestlancer",
+          "data": ""
+        },
+        {
+          "text": "Dashboard",
+          "data": ""
+        },
+        {
+          "text": "Requests",
+          "data": "data-demo=/requests"
+        },
+        {
+          "text": "Projects",
+          "data": "data-demo=/projects"
+        },
+        {
+          "text": "Quotes",
+          "data": "data-demo=/quotes"
+        },
+        {
+          "text": "Messages",
+          "data": "data-demo=/messages"
+        },
+        {
+          "text": "Billing",
+          "data": "data-demo=/payments"
+        },
+        {
+          "text": "Invoices",
+          "data": "data-demo=/invoices"
+        },
+        {
+          "text": "Notifications",
+          "data": "data-demo=/notifications"
+        },
+        {
+          "text": "Explore",
+          "data": ""
+        },
+        {
+          "text": "Profile",
+          "data": "data-demo=/profile"
+        },
+        {
+          "text": "Settings",
+          "data": "data-demo=/settings/account"
+        },
+        {
+          "text": "Open navigation menu",
+          "data": ""
+        },
+        {
+          "text": "Search ⌘K",
+          "data": ""
+        },
+        {
+          "text": "Switch to dark mode",
+          "data": ""
+        },
+        {
+          "text": "Messages",
+          "data": "data-demo=/messages"
+        },
+        {
+          "text": "6",
+          "data": "data-demo=/notifications"
+        },
+        {
+          "text": "Pay",
+          "data": "data-demo=/payments"
+        },
+        {
+          "text": "Review",
+          "data": "data-demo=/quotes"
+        },
+        {
+          "text": "Open",
+          "data": "data-demo=/messages"
+        },
+        {
+          "text": "Download",
+          "data": "data-demo=/settings/account"
+        },
+        {
+          "text": "Complete checkout",
+          "data": "data-demo=/payments"
+        },
+        {
+          "text": "Open inbox",
+          "data": "data-demo=/messages"
+        },
+        {
+          "text": "View quotes",
+          "data": "data-demo=/quotes"
+        }
+      ],
+      "dialogs": [
+        {
+          "cls": "palette",
+          "hidden": true,
+          "role": "dialog"
+        }
+      ]
+    },
+    "mobile": {
+      "innerWidth": 390,
+      "docScrollWidth": 454,
+      "bodyScrollWidth": 454,
+      "actualHScrollPx": 64,
+      "maxRightElement": {
+        "tag": "SPAN",
+        "cls": "avatar",
+        "id": "",
+        "right": 454,
+        "left": 408,
+        "position": "static",
+        "transform": "none"
+      },
+      "bodyOverflowX": "visible",
+      "htmlOverflowX": "visible",
+      "menuBtn": {
+        "w": 2,
+        "h": 36,
+        "left": 24,
+        "right": 26
+      },
+      "bellBtn": {
+        "w": 32,
+        "left": 368,
+        "right": 400,
+        "label": "6 unread notifications"
+      }
+    },
+    "mobileNavAfterClick": {
+      "sideClass": "side on",
+      "sideRect": {
+        "left": 0,
+        "right": 280,
+        "w": 280
+      },
+      "expanded": "true"
+    },
+    "mobileNavShot": "review-evidence/screenshots/F03/F03-V3-mobile-light-navopen.png"
+  },
+  "V4": {
+    "desktop": {
+      "h1Count": 0,
+      "h1Text": null,
+      "headingOutline": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H2:One action will unblock your workspace",
+        "H2:Workspace health",
+        "H2:Pipeline & billing",
+        "H2:Awaiting you",
+        "H2:Recent activity"
+      ],
+      "roleTabCount": 0,
+      "dataTabCount": 0,
+      "dataTabRoles": [],
+      "tabPanelRoles": 0,
+      "dataPanelCount": 0,
+      "menuBtn": {
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 256,
+          "right": 292
+        },
+        "id": "menuBtn",
+        "expanded": "false"
+      },
+      "themeBtn": {
+        "id": "themeBtn",
+        "label": "Switch to dark mode",
+        "pressed": "false",
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 1139,
+          "right": 1175
+        }
+      },
+      "brandClip": {
+        "brandRight": 217,
+        "scrollW": 212,
+        "clientW": 203,
+        "text": "Nestlancer"
+      },
+      "pipelineBars": [
+        {
+          "cls": "",
+          "w": 30,
+          "bg": "rgb(236, 243, 255)"
+        },
+        {
+          "cls": "fill",
+          "w": 0,
+          "bg": "rgb(70, 95, 255)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill s",
+          "w": 0,
+          "bg": "rgb(22, 101, 52)"
+        },
+        {
+          "cls": "fill w",
+          "w": 0,
+          "bg": "rgb(138, 90, 0)"
+        }
+      ]
+    },
+    "contrastDetail": [
+      {
+        "target": "a[aria-current=\"page\"] > span",
+        "html": "<span>Dashboard</span>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+      },
+      {
+        "target": "i",
+        "html": "<i>AM</i>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+      }
+    ],
+    "altTask": {
+      "clickableSample": [
+        {
+          "text": "Skip to main content",
+          "data": ""
+        },
+        {
+          "text": "Nestlancer",
+          "data": ""
+        },
+        {
+          "text": "Dashboard",
+          "data": ""
+        },
+        {
+          "text": "Requests",
+          "data": "data-demo=/requests"
+        },
+        {
+          "text": "Projects",
+          "data": "data-demo=/projects"
+        },
+        {
+          "text": "Quotes",
+          "data": "data-demo=/quotes"
+        },
+        {
+          "text": "Messages",
+          "data": "data-demo=/messages"
+        },
+        {
+          "text": "Billing",
+          "data": "data-demo=/payments"
+        },
+        {
+          "text": "Invoices",
+          "data": "data-demo=/invoices"
+        },
+        {
+          "text": "Notifications",
+          "data": "data-demo=/notifications"
+        },
+        {
+          "text": "Explore",
+          "data": ""
+        },
+        {
+          "text": "Profile",
+          "data": "data-demo=/profile"
+        },
+        {
+          "text": "Settings",
+          "data": "data-demo=/settings/account"
+        },
+        {
+          "text": "Open navigation menu",
+          "data": ""
+        },
+        {
+          "text": "Search ⌘K",
+          "data": ""
+        },
+        {
+          "text": "Switch to dark mode",
+          "data": ""
+        },
+        {
+          "text": "Messages",
+          "data": "data-demo=/messages"
+        },
+        {
+          "text": "6",
+          "data": "data-demo=/notifications"
+        },
+        {
+          "text": "Complete checkout",
+          "data": "data-demo=/payments"
+        },
+        {
+          "text": "Pay",
+          "data": "data-demo=/payments"
+        },
+        {
+          "text": "Review",
+          "data": "data-demo=/quotes"
+        },
+        {
+          "text": "Review",
+          "data": "data-demo=/quotes"
+        },
+        {
+          "text": "Download",
+          "data": "data-demo=/settings/account"
+        },
+        {
+          "text": "← Gallery",
+          "data": ""
+        },
+        {
+          "text": "← Prev: V3 Awaiting-You Spine",
+          "data": ""
+        }
+      ],
+      "dialogs": [
+        {
+          "cls": "palette",
+          "hidden": true,
+          "role": "dialog"
+        }
+      ]
+    },
+    "mobile": {
+      "innerWidth": 390,
+      "docScrollWidth": 454,
+      "bodyScrollWidth": 454,
+      "actualHScrollPx": 64,
+      "maxRightElement": {
+        "tag": "SPAN",
+        "cls": "avatar",
+        "id": "",
+        "right": 454,
+        "left": 408,
+        "position": "static",
+        "transform": "none"
+      },
+      "bodyOverflowX": "visible",
+      "htmlOverflowX": "visible",
+      "menuBtn": {
+        "w": 2,
+        "h": 36,
+        "left": 24,
+        "right": 26
+      },
+      "bellBtn": {
+        "w": 32,
+        "left": 368,
+        "right": 400,
+        "label": "6 unread notifications"
+      }
+    },
+    "mobileNavAfterClick": {
+      "sideClass": "side on",
+      "sideRect": {
+        "left": 0,
+        "right": 280,
+        "w": 280
+      },
+      "expanded": "true"
+    },
+    "mobileNavShot": "review-evidence/screenshots/F03/F03-V4-mobile-light-navopen.png"
+  },
+  "V5": {
+    "desktop": {
+      "h1Count": 1,
+      "h1Text": "Overview",
+      "headingOutline": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Overview"
+      ],
+      "roleTabCount": 4,
+      "dataTabCount": 4,
+      "dataTabRoles": [
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "true",
+          "text": "Pay now\n4"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Quotes\n0"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Projects\n0"
+        },
+        {
+          "tag": "BUTTON",
+          "role": "tab",
+          "sel": "false",
+          "text": "Inbox\n2"
+        }
+      ],
+      "tabPanelRoles": 4,
+      "dataPanelCount": 4,
+      "menuBtn": {
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 256,
+          "right": 292
+        },
+        "id": "menuBtn",
+        "expanded": "false"
+      },
+      "themeBtn": {
+        "id": "themeBtn",
+        "label": "Switch to dark mode",
+        "pressed": "false",
+        "rect": {
+          "w": 36,
+          "h": 36,
+          "left": 1139,
+          "right": 1175
+        }
+      },
+      "brandClip": {
+        "brandRight": 217,
+        "scrollW": 212,
+        "clientW": 203,
+        "text": "Nestlancer"
+      },
+      "pipelineBars": [
+        {
+          "cls": "",
+          "w": 30,
+          "bg": "rgb(236, 243, 255)"
+        }
+      ]
+    },
+    "contrastDetail": [
+      {
+        "target": "a[aria-current=\"page\"] > span",
+        "html": "<span>Dashboard</span>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+      },
+      {
+        "target": "i",
+        "html": "<i>AM</i>",
+        "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+      }
+    ],
+    "mobile": {
+      "innerWidth": 390,
+      "docScrollWidth": 454,
+      "bodyScrollWidth": 454,
+      "actualHScrollPx": 64,
+      "maxRightElement": {
+        "tag": "TABLE",
+        "cls": "",
+        "id": "",
+        "right": 589,
+        "left": 29,
+        "position": "static",
+        "transform": "none"
+      },
+      "bodyOverflowX": "visible",
+      "htmlOverflowX": "visible",
+      "menuBtn": {
+        "w": 2,
+        "h": 36,
+        "left": 24,
+        "right": 26
+      },
+      "bellBtn": {
+        "w": 32,
+        "left": 368,
+        "right": 400,
+        "label": "6 unread notifications"
+      }
+    },
+    "mobileNavAfterClick": {
+      "sideClass": "side on",
+      "sideRect": {
+        "left": 0,
+        "right": 280,
+        "w": 280
+      },
+      "expanded": "true"
+    },
+    "mobileNavShot": "review-evidence/screenshots/F03/F03-V5-mobile-light-navopen.png"
+  }
+}

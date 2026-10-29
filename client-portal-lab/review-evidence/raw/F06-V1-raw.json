@@ -1,0 +1,444 @@
+{
+  "family": "F06",
+  "familyDir": "F06-request-new-form",
+  "version": "V1",
+  "sourcePath": "client-portal-lab/families/F06-request-new-form/V1/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F06-request-new-form/V1/index.html",
+  "capturedUtc": "2026-10-28T16:00:29.108Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F06/F06-V1-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F06/F06-V1-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F06/F06-V1-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F06/F06-V1-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F06/F06-V1-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F06/F06-V1-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F06/F06-V1-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "F06 · V1 Classic Brief · Nestlancer Client Portal Lab",
+      "h1": "New request",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:New request",
+        "H2:Brief",
+        "H2:Budget",
+        "H2:Timeline & requirements",
+        "H2:Could not save your draft",
+        "H2:Draft saved",
+        "H2:A blank draft"
+      ],
+      "buttons": [
+        "Back to requests",
+        "Form",
+        "Skeleton",
+        "Submit error",
+        "Success",
+        "Empty",
+        "Help for Title",
+        "Help for Description",
+        "Help for Category",
+        "Help for Budget min",
+        "Help for Budget max",
+        "Help for Currency",
+        "Help for Budget is flexible",
+        "Use example band (50000–150000)",
+        "Clear budget",
+        "Help for Preferred start",
+        "Help for Deadline",
+        "Help for Requirements",
+        "Choose files",
+        "Clear all"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:text",
+          "lab": "Title *"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Description *"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Category"
+        },
+        {
+          "t": "INPUT:number",
+          "lab": "Budget min"
+        },
+        {
+          "t": "INPUT:number",
+          "lab": "Budget max"
+        },
+        {
+          "t": "INPUT:text",
+          "lab": "Currency"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Budget is flexible"
+        },
+        {
+          "t": "INPUT:date",
+          "lab": "Preferred start"
+        },
+        {
+          "t": "INPUT:date",
+          "lab": "Deadline"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Requirements (one per line)"
+        },
+        {
+          "t": "INPUT:file",
+          "lab": ""
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        },
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 5,
+          "targets": [
+            "a[aria-current=\"page\"]",
+            "button[data-state=\"populated\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 28
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Messages",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Notifications",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Submit Save draft with invalid/short data; record validation",
+      "via": "Save draft w/ invalid short title",
+      "toast": {
+        "visible": true,
+        "text": ""
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F06-request-new-form/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 3,
+      "alerts": [
+        "Could not save your draftPOST /api/v1/requests did not succeed (designed 502 degraded state). Your answers are still here and autosaved loca"
+      ],
+      "visiblePanel": null,
+      "mainStart": "NEW SERVICE REQUEST · INTAKE New request Describe your project and save a draft. You can edit attachments and submit for quotes from the request page when you’re ready. Back to requests Sections complete 33% Autosaved lo",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": {
+      "visible": true,
+      "text": ""
+    },
+    "fullPageHeight": 2298,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 390
+      }
+    },
+    "factsMobile": {
+      "title": "F06 · V1 Classic Brief · Nestlancer Client Portal Lab",
+      "h1": "New request",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:New request",
+        "H2:Brief",
+        "H2:Budget",
+        "H2:Timeline & requirements",
+        "H2:Could not save your draft",
+        "H2:Draft saved",
+        "H2:A blank draft"
+      ],
+      "buttons": [
+        "Back to requests",
+        "Form",
+        "Skeleton",
+        "Submit error",
+        "Success",
+        "Empty",
+        "Help for Title",
+        "Help for Description",
+        "Help for Category",
+        "Help for Budget min",
+        "Help for Budget max",
+        "Help for Currency",
+        "Help for Budget is flexible",
+        "Use example band (50000–150000)",
+        "Clear budget",
+        "Help for Preferred start",
+        "Help for Deadline",
+        "Help for Requirements",
+        "Choose files",
+        "Clear all"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:text",
+          "lab": "Title *"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Description *"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Category"
+        },
+        {
+          "t": "INPUT:number",
+          "lab": "Budget min"
+        },
+        {
+          "t": "INPUT:number",
+          "lab": "Budget max"
+        },
+        {
+          "t": "INPUT:text",
+          "lab": "Currency"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Budget is flexible"
+        },
+        {
+          "t": "INPUT:date",
+          "lab": "Preferred start"
+        },
+        {
+          "t": "INPUT:date",
+          "lab": "Deadline"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Requirements (one per line)"
+        },
+        {
+          "t": "INPUT:file",
+          "lab": ""
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        },
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 52,
+      "under24px": 19,
+      "examples": [
+        {
+          "text": "Open navigation menu",
+          "w": 20,
+          "h": 35
+        },
+        {
+          "text": "Switch to dark mode",
+          "w": 20,
+          "h": 35
+        },
+        {
+          "text": "6 unread notifications",
+          "w": 20,
+          "h": 35
+        },
+        {
+          "text": "Help for Title",
+          "w": 20,
+          "h": 20
+        },
+        {
+          "text": "Help for Description",
+          "w": 20,
+          "h": 20
+        },
+        {
+          "text": "Help for Category",
+          "w": 20,
+          "h": 20
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Submit Save draft with invalid/short data; record validation",
+      "via": "Save draft w/ invalid short title",
+      "toast": {
+        "visible": true,
+        "text": ""
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F06-request-new-form/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 3,
+      "alerts": [
+        "Could not save your draftPOST /api/v1/requests did not succeed (designed 502 degraded state). Your answers are still here and autosaved loca"
+      ],
+      "visiblePanel": null,
+      "mainStart": "NEW SERVICE REQUEST · INTAKE New request Describe your project and save a draft. You can edit attachments and submit for quotes from the request page when you’re ready. Back to requests Sections complete 33% Autosaved lo",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "btnWidth": 20,
+      "sideLeftAfter": 0,
+      "opened": true
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 6,
+          "targets": [
+            "a[aria-current=\"page\"]",
+            "button[data-state=\"populated\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.94 (foreground color: #5b7bff, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 28
+    }
+  }
+}

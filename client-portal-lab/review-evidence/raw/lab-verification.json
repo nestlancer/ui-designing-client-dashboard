@@ -1,0 +1,18 @@
+{
+  "inventory_families": 20,
+  "inventory_pages": 100,
+  "score_families": 20,
+  "score_versions": 100,
+  "personas": 100,
+  "family_reports": 20,
+  "report_browser_checks": 42,
+  "broken_links_or_errors": 0,
+  "credential_signature_hits": 0,
+  "errors": [],
+  "warnings": [],
+  "limitations": [
+    "Credential-signature scan is limited and not proof of absence.",
+    "Browser verification checks the first Tab stop and loaded images; it is not an exhaustive accessibility or interaction audit.",
+    "Production reference is read-only and incomplete for detail, checkout, profile content, and dark theme; see production-summary.json."
+  ]
+}

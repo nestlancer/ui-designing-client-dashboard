@@ -1,0 +1,317 @@
+{
+  "family": "F22",
+  "familyDir": "F22-settings-files",
+  "version": "V4",
+  "sourcePath": "client-portal-lab/families/F22-settings-files/V4/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F22-settings-files/V4/index.html",
+  "capturedUtc": "2026-10-28T17:03:23.052Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F22/F22-V4-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F22/F22-V4-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F22/F22-V4-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F22/F22-V4-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F22/F22-V4-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F22/F22-V4-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F22/F22-V4-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Files & Storage · V4 Engagement Dossier & Deliverables Hub — Nestlancer Lab",
+      "h1": "Files",
+      "headings": [
+        "H1:Files",
+        "H2:Uploaded Assets",
+        "H2:Engagement Dossiers (13 Requests · 26 Locked ",
+        "H2:Preview"
+      ],
+      "buttons": [
+        "Requests (`F05`)",
+        "All",
+        "Documents",
+        "Images",
+        "Videos",
+        "Archives",
+        "Grid",
+        "List",
+        "Preview",
+        "Link",
+        "Delete",
+        "Preview",
+        "Link",
+        "Delete",
+        "Preview",
+        "Link",
+        "Delete",
+        "Show all 13 dossiers (26 PDFs)",
+        "Open →",
+        "Preview"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:file",
+          "lab": "+ Upload"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search dossiers and files"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 23
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Toggle Grid/List view in the files library",
+      "via": "button \"Grid\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading engagement dossiers…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F22-settings-files/V4/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "ENGAGEMENT DOSSIER & UPLOAD ACTION DECK Files Group contractual quotes and scope PDFs into engagement dossiers while keeping uploaded specs ready for instant C13 preview. + Upload Requests (`F05`) Drag & drop wholesale s",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1302,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 401,
+      "actualHScrollPx": 11,
+      "maxRight": {
+        "tag": "ARTICLE",
+        "cls": "dcard",
+        "right": 401
+      }
+    },
+    "factsMobile": {
+      "title": "Files & Storage · V4 Engagement Dossier & Deliverables Hub — Nestlancer Lab",
+      "h1": "Files",
+      "headings": [
+        "H1:Files",
+        "H2:Uploaded Assets",
+        "H2:Engagement Dossiers (13 Requests · 26 Locked ",
+        "H2:Preview"
+      ],
+      "buttons": [
+        "Requests (`F05`)",
+        "All",
+        "Documents",
+        "Images",
+        "Videos",
+        "Archives",
+        "Grid",
+        "List",
+        "Preview",
+        "Link",
+        "Delete",
+        "Preview",
+        "Link",
+        "Delete",
+        "Preview",
+        "Link",
+        "Delete",
+        "Show all 13 dossiers (26 PDFs)",
+        "Open →",
+        "Preview"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:file",
+          "lab": "+ Upload"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search dossiers and files"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 63,
+      "under24px": 3,
+      "examples": [
+        {
+          "text": "",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "← V3 Split Drive",
+          "w": 96,
+          "h": 14
+        },
+        {
+          "text": "V5 Vault Stepper →",
+          "w": 115,
+          "h": 14
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Toggle Grid/List view in the files library",
+      "via": "button \"Grid\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading engagement dossiers…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F22-settings-files/V4/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "ENGAGEMENT DOSSIER & UPLOAD ACTION DECK Files Group contractual quotes and scope PDFs into engagement dossiers while keeping uploaded specs ready for instant C13 preview. + Upload Requests (`F05`) Drag & drop wholesale s",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            ".nav:nth-child(4) > a[href=\"index.html\"][aria-current=\"page\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 1.34 (foreground color: #293a73, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 23
+    }
+  }
+}

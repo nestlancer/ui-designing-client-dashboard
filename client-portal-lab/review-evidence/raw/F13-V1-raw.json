@@ -1,0 +1,350 @@
+{
+  "family": "F13",
+  "familyDir": "F13-messages-thread",
+  "version": "V1",
+  "sourcePath": "client-portal-lab/families/F13-messages-thread/V1/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F13-messages-thread/V1/index.html",
+  "capturedUtc": "2026-10-28T16:13:58.951Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F13/F13-V1-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F13/F13-V1-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F13/F13-V1-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F13/F13-V1-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F13/F13-V1-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F13/F13-V1-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F13/F13-V1-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Messages Thread · V1 3-Pane Collaborative Workbench (C10 Fixed + A7 SLA) — Nestlancer",
+      "h1": "Messages",
+      "headings": [
+        "H1:Messages",
+        "H2:Conversation queue",
+        "H2:Agency partner coordination — festive campaig"
+      ],
+      "buttons": [
+        "← Panel (/messages/inbox)",
+        "AP · Agency partner coordination — festive ca",
+        "RK · Riya Kapoor Direct Noted. Milestone 2 st",
+        "Members",
+        "Mark read",
+        "Thanks, I will review this.",
+        "Can you clarify the timeline?",
+        "Could we schedule a quick call?",
+        "Reply",
+        "Flag",
+        "Reply",
+        "Flag",
+        "Reply",
+        "Edit",
+        "Delete",
+        "Reply",
+        "Flag",
+        "@Riya Kapoor",
+        "@Samira Patel",
+        "Send"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by name, preview, or ID"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Inbox"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Message composer"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search messages in conversation"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3,
+          "targets": [
+            ".msg-card--self > .msg-actions > .msg-action-btn[data-trigger-reply=\"1\"]",
+            "button[data-trigger-edit=\"1\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.55 (foreground color: #ffffff, background color: #677cff, font size: 8.3pt (11px), font weight: nor"
+        }
+      ],
+      "passes": 23
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Open the reply composer (draft only, never send)",
+      "via": "button \"Reply\"",
+      "toast": null,
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F13-messages-thread/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "Messages Group · 3 members ← Panel (/messages/inbox) Conversation queue 2 conversations — click to open in the workspace All Unread Direct Project Group Inbox Active Archived Unread first Longest wait Latest AP · Agency ",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1502,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 612,
+      "actualHScrollPx": 200,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "header-actions",
+        "right": 612
+      }
+    },
+    "factsMobile": {
+      "title": "Messages Thread · V1 3-Pane Collaborative Workbench (C10 Fixed + A7 SLA) — Nestlancer",
+      "h1": "Messages",
+      "headings": [
+        "H1:Messages",
+        "H2:Conversation queue",
+        "H2:Agency partner coordination — festive campaig"
+      ],
+      "buttons": [
+        "← Panel (/messages/inbox)",
+        "AP · Agency partner coordination — festive ca",
+        "RK · Riya Kapoor Direct Noted. Milestone 2 st",
+        "Members",
+        "Mark read",
+        "Thanks, I will review this.",
+        "Can you clarify the timeline?",
+        "Could we schedule a quick call?",
+        "Reply",
+        "Flag",
+        "Reply",
+        "Flag",
+        "Reply",
+        "Edit",
+        "Delete",
+        "Reply",
+        "Flag",
+        "@Riya Kapoor",
+        "@Samira Patel",
+        "Send"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by name, preview, or ID"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Inbox"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort"
+        },
+        {
+          "t": "TEXTAREA:textarea",
+          "lab": "Message composer"
+        },
+        {
+          "t": "INPUT:search",
+          "lab": "Search messages in conversation"
+        }
+      ],
+      "tables": 0,
+      "dialogs": []
+    },
+    "tapTargetsMobile": {
+      "checked": 58,
+      "under24px": 13,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "☰",
+          "w": 20,
+          "h": 36
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        },
+        {
+          "text": "Messages",
+          "w": 64,
+          "h": 21
+        },
+        {
+          "text": "Reply",
+          "w": 51,
+          "h": 24
+        },
+        {
+          "text": "Flag",
+          "w": 43,
+          "h": 24
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Open the reply composer (draft only, never send)",
+      "via": "button \"Reply\"",
+      "toast": null,
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F13-messages-thread/V1/index.html",
+      "selectedTab": null,
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "Messages Group · 3 members ← Panel (/messages/inbox) Conversation queue 2 conversations — click to open in the workspace All Unread Direct Project Group Inbox Active Archived Unread first Longest wait Latest AP · Agency ",
+      "urlChanged": false,
+      "result": "partial"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 27,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 23
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F13; first dark capture was light and has been replaced)"
+  }
+}

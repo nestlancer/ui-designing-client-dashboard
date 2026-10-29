@@ -1,0 +1,380 @@
+{
+  "family": "F05",
+  "familyDir": "F05-requests-work-hub",
+  "version": "V5",
+  "sourcePath": "client-portal-lab/families/F05-requests-work-hub/V5/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F05-requests-work-hub/V5/index.html",
+  "capturedUtc": "2026-10-28T15:59:39.589Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F05/F05-V5-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F05/F05-V5-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F05/F05-V5-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F05/F05-V5-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F05/F05-V5-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F05/F05-V5-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F05/F05-V5-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "F05 · V5 Status Lanes · Nestlancer Client Portal Lab",
+      "h1": "Work Hub",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Work Hub",
+        "H2:Expired Quote\n7",
+        "H2:Submitted\n3",
+        "H2:Draft\n1",
+        "H2:Converted & project\n1",
+        "H2:Every lane is empty for this filter",
+        "H2:Something went wrong"
+      ],
+      "buttons": [
+        "New request",
+        "All",
+        "Requests (12)",
+        "Projects",
+        "My pending approvals",
+        "This month",
+        "Awaiting me",
+        "Clear",
+        "Loaded",
+        "Empty",
+        "Skeleton",
+        "502",
+        "AUDIT-P24-20261005-6y6fa-sent Request",
+        "Open ↗",
+        "AUDIT-P24-20261005-6v89t-sent Request",
+        "Open ↗",
+        "AUDIT-P23-20261005-6rdsf Request to Quote Bui",
+        "Open ↗",
+        "AUDIT-P24-20261005-03ipf-sent Request",
+        "Open ↗"
+      ],
+      "tabs": [
+        "All",
+        "Requests (12)",
+        "Projects"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search work items"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status\nAll statuses\nDraft\nSubm"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": true,
+          "label": null
+        },
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2,
+          "targets": [
+            "a[aria-current=\"page\"]",
+            "button[data-state=\"populated\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 4.33 (foreground color: #465fff, background color: #ecf3ff, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 30
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Dashboard",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Messages",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Billing",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Notifications",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Filter/search the work hub (status select or search \"razor\")",
+      "via": "select \"Draft\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading work items…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F05-requests-work-hub/V5/index.html?view=requests&status=Draft",
+      "selectedTab": "Requests (12)",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [
+        "Something went wrongCould not load work items. GET /api/v1/projects returned 502 and was CORS-blocked. Nothing was lost — retry the service "
+      ],
+      "visiblePanel": null,
+      "mainStart": "STATUS LANES · READ-ONLY Work Hub All your service requests and active projects in one place. New request Total requests 26 Why: 12 verified rows Under review 0 Why: none in review Quoted 0 Why: no decision due Projects ",
+      "urlChanged": true,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": {
+      "visible": false,
+      "text": "Loading work items…"
+    },
+    "fullPageHeight": 1635,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 472,
+      "actualHScrollPx": 82,
+      "maxRight": {
+        "tag": "SPAN",
+        "cls": "kbd",
+        "right": 409
+      }
+    },
+    "factsMobile": {
+      "title": "F05 · V5 Status Lanes · Nestlancer Client Portal Lab",
+      "h1": "Work Hub",
+      "headings": [
+        "H2:MAIN",
+        "H2:EXPLORE",
+        "H2:ACCOUNT",
+        "H1:Work Hub",
+        "H2:Expired Quote\n7",
+        "H2:Submitted\n3",
+        "H2:Draft\n1",
+        "H2:Converted & project\n1",
+        "H2:Every lane is empty for this filter",
+        "H2:Something went wrong"
+      ],
+      "buttons": [
+        "New request",
+        "All",
+        "Requests (12)",
+        "Projects",
+        "My pending approvals",
+        "This month",
+        "Awaiting me",
+        "Clear",
+        "Loaded",
+        "Empty",
+        "Skeleton",
+        "502",
+        "AUDIT-P24-20261005-6y6fa-sent Request",
+        "Open ↗",
+        "AUDIT-P24-20261005-6v89t-sent Request",
+        "Open ↗",
+        "AUDIT-P23-20261005-6rdsf Request to Quote Bui",
+        "Open ↗",
+        "AUDIT-P24-20261005-03ipf-sent Request",
+        "Open ↗"
+      ],
+      "tabs": [
+        "All",
+        "Requests (12)",
+        "Projects"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search work items"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Filter by status\nAll statuses\nDraft\nSubm"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": true,
+          "label": null
+        },
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 61,
+      "under24px": 18,
+      "examples": [
+        {
+          "text": "Open ↗",
+          "w": 50,
+          "h": 19
+        },
+        {
+          "text": "Open ↗",
+          "w": 50,
+          "h": 19
+        },
+        {
+          "text": "Open ↗",
+          "w": 50,
+          "h": 19
+        },
+        {
+          "text": "AUDIT-P24-20261005-03ipf-sent Reque",
+          "w": 302,
+          "h": 18
+        },
+        {
+          "text": "Open ↗",
+          "w": 50,
+          "h": 19
+        },
+        {
+          "text": "Open ↗",
+          "w": 50,
+          "h": 19
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Filter/search the work hub (status select or search \"razor\")",
+      "via": "select \"Draft\"",
+      "toast": {
+        "visible": false,
+        "text": "Loading work items…"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F05-requests-work-hub/V5/index.html?view=requests&status=Draft",
+      "selectedTab": "Requests (12)",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [
+        "Something went wrongCould not load work items. GET /api/v1/projects returned 502 and was CORS-blocked. Nothing was lost — retry the service "
+      ],
+      "visiblePanel": null,
+      "mainStart": "STATUS LANES · READ-ONLY Work Hub All your service requests and active projects in one place. New request Total requests 26 Why: 12 verified rows Under review 0 Why: none in review Quoted 0 Why: no decision due Projects ",
+      "urlChanged": true,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "btnWidth": 26,
+      "sideLeftAfter": 0,
+      "opened": true
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "lane",
+        "right": 944
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3,
+          "targets": [
+            "a[aria-current=\"page\"]",
+            ".head > .btn-p.btn"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 3.94 (foreground color: #5b7bff, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 30
+    }
+  }
+}

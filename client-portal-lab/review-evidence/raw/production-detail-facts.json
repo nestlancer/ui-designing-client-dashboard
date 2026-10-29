@@ -1,0 +1,103 @@
+{
+  "pages": {
+    "requests": {
+      "opened": true,
+      "detail": {
+        "h1": 1,
+        "tabs": 0,
+        "buttons": 0,
+        "fields": 0,
+        "composer": false,
+        "hScroll": 0,
+        "len": 986,
+        "words": [
+          "Files",
+          "Timeline",
+          "Attachments",
+          "Status",
+          "Budget",
+          "Draft",
+          "Work Hub",
+          "Quote"
+        ]
+      }
+    },
+    "projects": {
+      "opened": false,
+      "list": {
+        "h1": 1,
+        "tabs": 0,
+        "buttons": 0,
+        "fields": 0,
+        "composer": false,
+        "hScroll": 0,
+        "len": 107,
+        "words": [
+          "Milestones",
+          "Work Hub",
+          "Quote"
+        ]
+      }
+    },
+    "quotes": {
+      "opened": true,
+      "detail": {
+        "h1": 1,
+        "tabs": 0,
+        "buttons": 1,
+        "fields": 0,
+        "composer": false,
+        "hScroll": 0,
+        "len": 2113,
+        "words": [
+          "Deliverables",
+          "Accept",
+          "Pay",
+          "Download",
+          "Terms",
+          "Quote"
+        ]
+      }
+    },
+    "payments": {
+      "opened": false,
+      "list": {
+        "h1": 1,
+        "tabs": 0,
+        "buttons": 0,
+        "fields": 1,
+        "composer": false,
+        "hScroll": 0,
+        "len": 330,
+        "words": [
+          "Status",
+          "Pending",
+          "Invoice",
+          "Pay",
+          "UPI",
+          "Card",
+          "Bank",
+          "Billing"
+        ]
+      }
+    },
+    "thread": {
+      "opened": false,
+      "h1": 1,
+      "tabs": 0,
+      "buttons": 0,
+      "fields": 0,
+      "composer": false,
+      "hScroll": 0,
+      "len": 305,
+      "words": [
+        "Messages"
+      ]
+    }
+  },
+  "login": {
+    "ok": true
+  },
+  "logout": 200,
+  "writes": []
+}

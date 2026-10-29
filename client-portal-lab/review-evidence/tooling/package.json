@@ -1,0 +1,10 @@
+{
+  "name": "client-portal-lab-review-tooling",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pinned browser QA tooling for the reproducible UI review. Not part of the lab templates.",
+  "dependencies": {
+    "playwright": "1.49.1",
+    "axe-core": "4.10.2"
+  }
+}

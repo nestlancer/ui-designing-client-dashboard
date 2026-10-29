@@ -1,0 +1,517 @@
+{
+  "tool": "node --check (Node v20.20.2) per extracted inline block",
+  "scanned": 100,
+  "failing_pages": 2,
+  "results": [
+    {
+      "path": "families/F03-dashboard-overview/V1/index.html",
+      "blocks": 2,
+      "fails": [
+        {
+          "block": 1,
+          "error": "SyntaxError: missing ) after argument list"
+        }
+      ]
+    },
+    {
+      "path": "families/F03-dashboard-overview/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F03-dashboard-overview/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F03-dashboard-overview/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F03-dashboard-overview/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V2/index.html",
+      "blocks": 2,
+      "fails": [
+        {
+          "block": 1,
+          "error": "SyntaxError: missing ) after argument list"
+        }
+      ]
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F04-global-search-command-palette/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F05-requests-work-hub/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F06-request-new-form/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F06-request-new-form/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F06-request-new-form/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F06-request-new-form/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F06-request-new-form/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F07-request-details/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F07-request-details/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F07-request-details/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F07-request-details/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F07-request-details/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F08-projects-list/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F08-projects-list/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F08-projects-list/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F08-projects-list/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F08-projects-list/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F09-project-details/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F09-project-details/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F09-project-details/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F09-project-details/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F09-project-details/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F10-quotes-list/V1/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F10-quotes-list/V2/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F10-quotes-list/V3/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F10-quotes-list/V4/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F10-quotes-list/V5/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F11-quote-details/V1/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F11-quote-details/V2/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F11-quote-details/V3/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F11-quote-details/V4/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F11-quote-details/V5/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F12-messages-home/V1/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F12-messages-home/V2/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F12-messages-home/V3/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F12-messages-home/V4/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F12-messages-home/V5/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F13-messages-thread/V1/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F13-messages-thread/V2/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F13-messages-thread/V3/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F13-messages-thread/V4/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F13-messages-thread/V5/index.html",
+      "blocks": 1,
+      "fails": []
+    },
+    {
+      "path": "families/F14-billing-center/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F14-billing-center/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F14-billing-center/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F14-billing-center/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F14-billing-center/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F15-payment-methods/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F15-payment-methods/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F15-payment-methods/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F15-payment-methods/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F15-payment-methods/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F16-checkout/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F16-checkout/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F16-checkout/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F16-checkout/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F16-checkout/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F17-payment-status/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F17-payment-status/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F17-payment-status/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F17-payment-status/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F17-payment-status/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F18-invoices-archive/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F19-notifications-center/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F19-notifications-center/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F19-notifications-center/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F19-notifications-center/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F19-notifications-center/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F20-profile-view-edit/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F21-settings/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F21-settings/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F21-settings/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F21-settings/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F21-settings/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F22-settings-files/V1/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F22-settings-files/V2/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F22-settings-files/V3/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F22-settings-files/V4/index.html",
+      "blocks": 2,
+      "fails": []
+    },
+    {
+      "path": "families/F22-settings-files/V5/index.html",
+      "blocks": 2,
+      "fails": []
+    }
+  ]
+}

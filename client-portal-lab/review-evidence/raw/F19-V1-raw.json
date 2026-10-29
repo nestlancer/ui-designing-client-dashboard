@@ -1,0 +1,404 @@
+{
+  "family": "F19",
+  "familyDir": "F19-notifications-center",
+  "version": "V1",
+  "sourcePath": "client-portal-lab/families/F19-notifications-center/V1/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F19-notifications-center/V1/index.html",
+  "capturedUtc": "2026-10-28T16:55:01.800Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F19/F19-V1-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F19/F19-V1-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F19/F19-V1-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F19/F19-V1-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F19/F19-V1-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F19/F19-V1-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F19/F19-V1-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Notifications · V1 Calm Entity-Grouped Inbox — Nestlancer Lab",
+      "h1": "Notifications",
+      "headings": [
+        "H1:Notifications",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "Mark all read",
+        "Clear read",
+        "Notification settings",
+        "All 8",
+        "Unread 6",
+        "Quotes 4",
+        "Payments",
+        "Messages",
+        "Projects",
+        "Requests",
+        "Account 4",
+        "Settings",
+        "Grouped by entity",
+        "Chronological rows",
+        "Quiet hours & channels →",
+        "Quote NL-QTE-2026-000018 · Expiring in 3 days",
+        "Review quote →",
+        "Mark group read",
+        "Review quote NL-QTE-2026-000018 →",
+        "Mark read"
+      ],
+      "tabs": [
+        "All\n8",
+        "Unread\n6",
+        "Quotes\n4",
+        "Payments",
+        "Messages",
+        "Projects",
+        "Requests",
+        "Account\n4",
+        "Settings"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select visible (8)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 24, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 23, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 22, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 21, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 25
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer LAB",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Profile",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Settings",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Switch notification category tab (2nd tab)",
+      "via": "tab \"Unread\n6\"",
+      "toast": {
+        "visible": true,
+        "text": "6 notifications · 6 unread · bundled by entity (A7)"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F19-notifications-center/V1/index.html",
+      "selectedTab": "Unread\n6",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "ACCOUNT · ALERTS & ACTIVITY Notifications Updates across quotes, payments, projects, messages, and account exports — calmly bundled by subject so bursts never bury urgent decisions. Mark all read Clear read Notification ",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1808,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 390,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "BUTTON",
+        "cls": "",
+        "right": 889
+      }
+    },
+    "factsMobile": {
+      "title": "Notifications · V1 Calm Entity-Grouped Inbox — Nestlancer Lab",
+      "h1": "Notifications",
+      "headings": [
+        "H1:Notifications",
+        "H2:Dialog"
+      ],
+      "buttons": [
+        "Mark all read",
+        "Clear read",
+        "Notification settings",
+        "All 8",
+        "Unread 6",
+        "Quotes 4",
+        "Payments",
+        "Messages",
+        "Projects",
+        "Requests",
+        "Account 4",
+        "Settings",
+        "Grouped by entity",
+        "Chronological rows",
+        "Quiet hours & channels →",
+        "Quote NL-QTE-2026-000018 · Expiring in 3 days",
+        "Review quote →",
+        "Mark group read",
+        "Review quote NL-QTE-2026-000018 →",
+        "Mark read"
+      ],
+      "tabs": [
+        "All\n8",
+        "Unread\n6",
+        "Quotes\n4",
+        "Payments",
+        "Messages",
+        "Projects",
+        "Requests",
+        "Account\n4",
+        "Settings"
+      ],
+      "inputs": [
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select visible (8)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 24, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 23, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 22, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Quote expiring soon (Oct 21, 2026"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        },
+        {
+          "t": "INPUT:checkbox",
+          "lab": "Select Data export ready (10/4/2026)"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 77,
+      "under24px": 15,
+      "examples": [
+        {
+          "text": "",
+          "w": 18,
+          "h": 18
+        },
+        {
+          "text": "Select Quote expiring soon (Oct 24,",
+          "w": 18,
+          "h": 18
+        },
+        {
+          "text": "Select Quote expiring soon (Oct 23,",
+          "w": 18,
+          "h": 18
+        },
+        {
+          "text": "Select Quote expiring soon (Oct 22,",
+          "w": 18,
+          "h": 18
+        },
+        {
+          "text": "Select Quote expiring soon (Oct 21,",
+          "w": 18,
+          "h": 18
+        },
+        {
+          "text": "Select Data export ready (10/4/2026",
+          "w": 18,
+          "h": 18
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Switch notification category tab (2nd tab)",
+      "via": "tab \"Unread\n6\"",
+      "toast": {
+        "visible": true,
+        "text": "6 notifications · 6 unread · bundled by entity (A7)"
+      },
+      "url": "http://127.0.0.1:8130/client-portal-lab/families/F19-notifications-center/V1/index.html",
+      "selectedTab": "Unread\n6",
+      "visibleDialog": false,
+      "invalidCount": 0,
+      "alerts": [],
+      "visiblePanel": null,
+      "mainStart": "ACCOUNT · ALERTS & ACTIVITY Notifications Updates across quotes, payments, projects, messages, and account exports — calmly bundled by subject so bursts never bury urgent decisions. Mark all read Clear read Notification ",
+      "urlChanged": false,
+      "result": "pass"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "BUTTON",
+        "cls": "",
+        "right": 899
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            ".nav:nth-child(4) > a[aria-current=\"page\"][href=\"index.html\"]"
+          ],
+          "summary": "Fix any of the following: Element has insufficient color contrast of 1.34 (foreground color: #293a73, background color: #1b284b, font size: 9.8pt (13px), font weight: bol"
+        }
+      ],
+      "passes": 25
+    }
+  }
+}

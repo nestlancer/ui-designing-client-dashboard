@@ -1,0 +1,7 @@
+F14 first-pass blind board impressions, recorded before opening the mapping file (screenshots themselves show variant labels, so blinding is incomplete):
+A: Money summary across a horizontal wall with tabs, awaiting-you panel and transaction table. Mobile puts totals and tabs ahead of details; end of tab row clipped at edge.
+B: Narrative summary, three financial KPIs, transaction history and awaiting-you side rail; mobile summary plus stacked metrics consume the first view.
+C: Three KPI cards, transactions and right rail; mobile stacks three metrics ahead of transactions.
+D: Dense operations table and compact KPI ribbon, with demo AI action; mobile puts AI button and stacked financial summaries before transaction rows.
+E: '3 things need you today' hero and three action categories, then transaction history; mobile hero is prominent but first action card begins near bottom. Verify actual meaning of awaiting-verification before treating all three as client actions.
+Next: read raw/blind-mapping.json, digest-all.txt and detailed F14 task results; score independently, document uncertainty, and regenerate reports with update_progress.py then render_reports.py.

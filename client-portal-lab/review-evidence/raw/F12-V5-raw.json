@@ -1,0 +1,276 @@
+{
+  "family": "F12",
+  "familyDir": "F12-messages-home",
+  "version": "V5",
+  "sourcePath": "client-portal-lab/families/F12-messages-home/V5/index.html",
+  "url": "http://127.0.0.1:8130/client-portal-lab/families/F12-messages-home/V5/index.html",
+  "capturedUtc": "2026-10-28T16:12:12.738Z",
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "shots": {
+    "desktop": "review-evidence/screenshots/F12/F12-V5-desktop-light-top.png",
+    "taskDesktop": "review-evidence/screenshots/F12/F12-V5-desktop-light-task.png",
+    "fullpageDesktop": "review-evidence/screenshots/F12/F12-V5-desktop-light-fullpage.jpg",
+    "mobile": "review-evidence/screenshots/F12/F12-V5-mobile-light-top.png",
+    "taskMobile": "review-evidence/screenshots/F12/F12-V5-mobile-light-task.png",
+    "tablet": "review-evidence/screenshots/F12/F12-V5-tablet-light-top.png",
+    "dark": "review-evidence/screenshots/F12/F12-V5-desktop-dark-top.png"
+  },
+  "checks": {
+    "http_desktop": 200,
+    "overflow_desktop": {
+      "innerWidth": 1440,
+      "scrollWidth": 1440,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 1440
+      }
+    },
+    "factsDesktop": {
+      "title": "Messages · V5 Adaptive Docked Inbox & Modal New-Direct Flow — Nestlancer",
+      "h1": "Messages Live",
+      "headings": [
+        "H1:Messages Live",
+        "H2:Select a conversation",
+        "H2:New message"
+      ],
+      "buttons": [
+        "Message support (/messages/new/direct)",
+        "AP · Agency partner coordination — festive ca",
+        "RK · Riya Kapoor (Direct) Noted. Milestone 2 ",
+        "Open Group Thread (AP) →",
+        "Open Direct Thread (RK) →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by name, preview, or ID"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Inbox"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "axeDesktopDefault": {
+      "state": "desktop default",
+      "tool": "axe-core 4.10.2",
+      "violations": [],
+      "passes": 24
+    },
+    "keyboardDesktop": [
+      {
+        "tag": "A",
+        "text": "Skip to main content",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "NL Nestlancer",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "+ New request",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Overview",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Requests 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Projects 5",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Quotes 12",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Payments",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Invoices",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Messages 2",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "A",
+        "text": "Notifications 6",
+        "focusStyled": true,
+        "inViewport": true
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Explore ▾",
+        "focusStyled": true,
+        "inViewport": true
+      }
+    ],
+    "coreTaskDesktop": {
+      "task": "Select a conversation from the list; record preview/thread update",
+      "result": "error",
+      "detail": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('main button').nth(3)\n"
+    },
+    "themeTask": {
+      "result": "pass",
+      "detail": "dark false->true"
+    },
+    "demoToast": null,
+    "fullPageHeight": 1024,
+    "http_mobile": 200,
+    "overflow_mobile": {
+      "innerWidth": 390,
+      "scrollWidth": 519,
+      "actualHScrollPx": 129,
+      "maxRight": {
+        "tag": "BUTTON",
+        "cls": "avatar-btn",
+        "right": 519
+      }
+    },
+    "factsMobile": {
+      "title": "Messages · V5 Adaptive Docked Inbox & Modal New-Direct Flow — Nestlancer",
+      "h1": "Messages Live",
+      "headings": [
+        "H1:Messages Live",
+        "H2:Select a conversation",
+        "H2:New message"
+      ],
+      "buttons": [
+        "Message support (/messages/new/direct)",
+        "AP · Agency partner coordination — festive ca",
+        "RK · Riya Kapoor (Direct) Noted. Milestone 2 ",
+        "Open Group Thread (AP) →",
+        "Open Direct Thread (RK) →"
+      ],
+      "tabs": [],
+      "inputs": [
+        {
+          "t": "INPUT:search",
+          "lab": "Search by name, preview, or ID"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Inbox"
+        },
+        {
+          "t": "SELECT:select-one",
+          "lab": "Sort"
+        }
+      ],
+      "tables": 0,
+      "dialogs": [
+        {
+          "hidden": false,
+          "label": null
+        }
+      ]
+    },
+    "tapTargetsMobile": {
+      "checked": 37,
+      "under24px": 2,
+      "examples": [
+        {
+          "text": "Skip to main content",
+          "w": 156,
+          "h": 18
+        },
+        {
+          "text": "Dashboard",
+          "w": 71,
+          "h": 21
+        }
+      ]
+    },
+    "coreTaskMobile": {
+      "task": "Select a conversation from the list; record preview/thread update",
+      "result": "error",
+      "detail": "TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('main button').nth(3)\n"
+    },
+    "mobileNav": {
+      "opened": false,
+      "error": "TimeoutError: locator.evaluate: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button[aria-label*=\"navigat"
+    },
+    "http_tablet": 200,
+    "overflow_tablet": {
+      "innerWidth": 768,
+      "scrollWidth": 768,
+      "actualHScrollPx": 0,
+      "maxRight": {
+        "tag": "DIV",
+        "cls": "app-shell",
+        "right": 768
+      }
+    },
+    "darkClassApplied": true,
+    "axeDarkDefault": {
+      "state": "desktop dark (probe3 toggle)",
+      "tool": "axe-core 4.10.2",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 21,
+          "targets": [
+            ".brand-mark",
+            ".portal-pill"
+          ]
+        }
+      ],
+      "passes": 24
+    },
+    "darkMethod": "probe3: toggle (?theme=dark unsupported in F12; first dark capture was light and has been replaced)",
+    "supplementaryTasks": [
+      {
+        "viewport": "desktop",
+        "probe": "probe3",
+        "task": "Select first conversation card (DOM click; Playwright stability wait timed out in capture2)",
+        "headingBefore": "Messages Live",
+        "label": "Message support (/messages/new/direct)",
+        "bodyAfter": "Skip to main content NL Nestlancer Client + New request WORKSPACE Overview Requests 12 Projects 5 Quotes 12 FINANCE & COMMS Payments Invoices Messages 2 Notifications 6 Explore ▾ ← Lab Index Dashboard",
+        "result": "pass"
+      }
+    ]
+  }
+}
