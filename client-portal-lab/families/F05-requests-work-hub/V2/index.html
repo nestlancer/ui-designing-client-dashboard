@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F05">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -181,7 +181,7 @@ footer a:hover{color:var(--primary)}footer .sp{margin-left:auto}
    <button class="ibtn" id="menuBtn" aria-label="Open navigation menu" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
    <div class="crumb">DASHBOARD <span>›</span> <b>REQUESTS</b></div>
    <div class="sp"></div>
-   <button class="pal-trigger" id="palBtn"><svg style="width:15px;height:15px"><use href="#i-search"/></svg>Quick actions <span class="kbd">⌘K</span></button>
+   <button class="pal-trigger" id="palBtn" aria-label="Quick actions"><svg style="width:15px;height:15px"><use href="#i-search"/></svg>Quick actions <span class="kbd">⌘K</span></button>
    <button class="ibtn" id="densityBtn" aria-pressed="false" aria-label="Toggle compact density" title="Density"><svg><use href="#i-grid"/></svg></button>
    <button class="ibtn" id="themeBtn" aria-label="Switch to dark mode" aria-pressed="false"><svg><use href="#i-moon"/></svg></button>
    <button class="ibtn" data-demo="/notifications" aria-label="6 unread notifications"><svg><use href="#i-bell"/></svg></button>
@@ -210,10 +210,12 @@ footer a:hover{color:var(--primary)}footer .sp{margin-left:auto}
     <label class="ctl"><span class="sr-only">Filter by status</span><select id="status" aria-label="Filter by status"><option value="">All statuses</option><option>Draft</option><option>Submitted</option><option>Under review</option><option>Quoted</option><option>Changes requested</option><option>Converted to project</option><option>Rejected</option><option>Cancelled</option></select></label>
     <label class="ctl"><svg><use href="#i-bookmark"/></svg><span class="sr-only">Saved view</span><select id="saved" aria-label="Saved views (A12)"><option value="">Saved views…</option><option value="approvals">My pending approvals</option><option value="month">This month</option><option value="awaiting">Awaiting me</option></select></label>
     <button class="btn btn-g" id="clearBtn">Clear</button>
+    <details class="lab-tools"><summary>Prototype state previews</summary><div role="group" aria-label="Preview designed states">
     <button class="btn" data-state-btn="populated">Loaded</button>
     <button class="btn" data-state-btn="empty">Empty</button>
     <button class="btn" data-state-btn="loading">Skeleton</button>
-    <button class="btn" data-state-btn="error">502</button>
+    <button class="btn" data-state-btn="error">Error</button>
+    </div></details>
     <span class="hint">↑↓ sort · ⌘K actions · D density</span>
    </div>
 

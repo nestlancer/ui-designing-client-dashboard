@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F10">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -706,6 +706,7 @@
         </div>
       </header>
 
+      <details class="lab-tools"><summary>Prototype variants &amp; states</summary>
       <div class="lab-bar" role="region" aria-label="Variant and state bar">
         <div class="lab-bar-group">
           <span class="lab-bar-label">F10 Variants:</span>
@@ -718,13 +719,14 @@
         <div class="lab-bar-group">
           <span class="lab-bar-label">State:</span>
           <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
-          <button type="button" class="lab-pill" data-state-btn="pending-sim">Pending Sim (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Preview awaiting response</button>
           <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
           <button type="button" class="lab-pill" data-state-btn="empty">Empty</button>
           <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
           <button type="button" class="lab-pill" data-state-btn="error">Error</button>
         </div>
       </div>
+      </details>
 
       <main id="main-content" class="page-container">
         <section class="ledger-top-row">
@@ -762,9 +764,9 @@
             <div class="kpi-cell-sub">Rejected</div>
           </button>
           <div class="kpi-cell kpi-cell--a5">
-            <div class="kpi-cell-top" style="color:inherit;"><span>⏳ A5 Expiry Watch</span><span>&lt;24h left</span></div>
+            <div class="kpi-cell-top" style="color:inherit;"><span>⏳ Sample expiry reminder</span><span>&lt;24h left</span></div>
             <div style="font-size:var(--fs-xs); font-weight:700; margin-top:2px;">Quote #01a10f80 expires within 24 hours</div>
-            <div style="font-size:11px; margin-top:2px;">Valid until Oct 20, 2026 · Request: <code>&lt;img src=x onerror=alert(1)&gt;</code></div>
+            <div style="font-size:11px; margin-top:2px;">Sample validity: Oct 20, 2026 · Original request title available in the ledger.</div>
           </div>
         </section>
 
@@ -804,9 +806,9 @@
               <thead>
                 <tr>
                   <th>Quote ID</th>
-                  <th>Request / Deliverable (C23 Guarded)</th>
+                  <th>Request / Deliverable</th>
                   <th>Status</th>
-                  <th>Valid Until &amp; A5 Countdown</th>
+                  <th>Valid Until &amp; Expiry</th>
                   <th>Tax &amp; Schedule</th>
                   <th class="num">Total (INR)</th>
                   <th class="num">Actions</th>
@@ -925,7 +927,7 @@
         tbody.innerHTML = rows.map((q) => {
           const badgeCls = q.status === "accepted" ? "status-badge--accepted" : q.status === "sent" ? "status-badge--sent" : "status-badge--draft";
           const reqCell = q.isQa
-            ? '<span>Request: </span><span class="c23-code-pill"><code>' + escapeHtml(q.requestTitle) + '</code><span class="c23-tag">C23</span></span>'
+            ? '<details class="request-title-note"><summary>Imported request title</summary><code>' + escapeHtml(q.requestTitle) + '</code></details>'
             : "<span>Request: <strong>" + escapeHtml(q.requestTitle) + "</strong></span>";
           const a5Cls = q.urgent ? "a5-pill" : "a5-pill a5-pill--calm";
           const isExp = expandedId === q.shortId;

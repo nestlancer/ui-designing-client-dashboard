@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F08">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -196,15 +196,15 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
     <div class="head-links"><a class="btn" href="../../F05-requests-work-hub/V1/index.html">Work Hub</a><button class="btn" data-demo="/quotes">View quotes</button></div>
    </div>
    <section class="kpis" aria-label="Projects summary">
-    <article class="kpi hero reveal"><p class="kpi-label">Projects</p><span class="kpi-val" data-count="2">2</span><p class="kpi-why">Projects in this workspace (from the captured list).</p></article>
-    <article class="kpi reveal"><p class="kpi-label">In progress</p><span class="kpi-val" data-count="2">2</span><p class="kpi-why">Both captured projects carry the “In progress” badge.</p></article>
+    <article class="kpi hero reveal"><p class="kpi-label">Projects</p><span class="kpi-val" data-count="2">2</span><p class="kpi-why">Projects in this workspace.</p></article>
+    <article class="kpi reveal"><p class="kpi-label">In progress</p><span class="kpi-val" data-count="2">2</span><p class="kpi-why">Both projects are in active delivery.</p></article>
     <article class="kpi reveal"><p class="kpi-label">Started</p><span class="kpi-val mono">10/5/2026</span><p class="kpi-why">Start date shown on both project cards.</p></article>
    </section>
    <div class="toolbar" role="search">
     <button class="chip" data-filter="all" aria-pressed="true">All projects</button>
     <button class="chip" data-filter="In progress" aria-pressed="false"><svg class="ico" style="width:12px;height:12px"><use href="#i-dot"/></svg>In progress</button>
     <label class="field"><svg class="ico"><use href="#i-search"/></svg><span class="sr-only">Search projects</span><input id="q" type="search" placeholder="Search projects…" autocomplete="off"></label>
-    <label class="field"><span class="sr-only">Sort projects</span><select id="sort" aria-label="Sort projects"><option value="captured">Captured order</option><option value="title">Title A–Z</option><option value="title-desc">Title Z–A</option></select></label>
+    <label class="field"><span class="sr-only">Sort projects</span><select id="sort" aria-label="Sort projects"><option value="captured">Default order</option><option value="title">Title A–Z</option><option value="title-desc">Title Z–A</option></select></label>
     <button class="btn btn-sm btn-ghost" id="clearBtn">Clear</button>
     <details class="lab-states"><summary>Lab states ▾</summary><div class="state-btns" role="group" aria-label="Preview designed states"><button data-state="populated">Populated</button><button data-state="empty">Empty</button><button data-state="loading">Loading skeleton</button><button data-state="error">502 error (A13)</button></div></details>
    </div>
@@ -222,20 +222,20 @@ footer{padding:18px 32px;border-top:1px solid var(--border);font-size:12px;color
       <div class="pcard-top"><span class="tile"><svg class="ico"><use href="#i-folder"/></svg></span><span class="badge"><svg class="ico"><use href="#i-dot"/></svg>In progress</span></div>
       <h2>B2B Wholesale Ordering Portal</h2>
       <p class="meta">Started 10/5/2026</p>
-      <p class="note">No detail-page capture exists for this project in the audit, so this lab does not invent its cockpit. The captured detail story is the Khandesh project (F09).</p>
-      <div class="pcard-foot"><span>Listed in the captured projects grid</span><a class="open-link" href="../../F09-project-details/V1/index.html">See captured project detail<svg class="ico"><use href="#i-chev"/></svg></a></div>
+      <p class="note">Details for this project are not available in this preview. You can explore the Khandesh project as an example.</p>
+      <div class="pcard-foot"><span>Summary only</span><a class="open-link" href="../../F09-project-details/V1/index.html">View Khandesh example<svg class="ico"><use href="#i-chev"/></svg></a></div>
      </article>
     </div>
-    <div class="state-box" id="noMatch" hidden><span class="tile"><svg class="ico"><use href="#i-search"/></svg></span><h2>No projects match</h2><p>Try a different search, or clear the filters to see both captured projects again.</p><div class="state-actions"><button class="btn" id="noMatchClear">Clear filters</button></div></div>
+    <div class="state-box" id="noMatch" hidden><span class="tile"><svg class="ico"><use href="#i-search"/></svg></span><h2>No projects match</h2><p>Try a different search, or clear the filters to see both projects again.</p><div class="state-actions"><button class="btn" id="noMatchClear">Clear filters</button></div></div>
    </section>
 
    <section id="panel-empty" hidden><div class="state-box"><span class="tile"><svg class="ico"><use href="#i-inbox"/></svg></span><h2>No projects yet</h2><p>Accept a quote to open your first project →</p><div class="state-actions"><button class="btn btn-primary" data-demo="/quotes">View quotes</button><a class="btn" href="../../F05-requests-work-hub/V1/index.html">Go to Work Hub</a></div><p style="margin-top:16px;font-size:12px">Empty-state copy is report-specified (C14); the captures show the error and populated states.</p></div></section>
    <section id="panel-loading" hidden aria-label="Loading projects"><div class="sk-grid" aria-hidden="true"><div class="sk-card"><div class="sk" style="width:48px;height:48px"></div><div class="sk" style="width:80%"></div><div class="sk" style="width:45%"></div></div><div class="sk-card"><div class="sk" style="width:48px;height:48px"></div><div class="sk" style="width:70%"></div><div class="sk" style="width:45%"></div></div></div><p class="sr-only" role="status">Loading projects…</p></section>
-   <section id="panel-error" hidden><div class="state-box error-box"><span class="tile"><svg class="ico"><use href="#i-alert"/></svg></span><h2>Could not load projects</h2><p>Network Error — the projects service could not be reached (in production this endpoint returned HTTP 502 and was CORS-blocked). Nothing is lost; please try again, or contact support if it keeps failing.</p><div class="state-actions"><button class="btn btn-primary" id="retryBtn"><svg class="ico"><use href="#i-refresh"/></svg>Try again</button><button class="btn" data-demo="/messages">Contact support</button></div></div></section>
+   <section id="panel-error" hidden><div class="state-box error-box"><span class="tile"><svg class="ico"><use href="#i-alert"/></svg></span><h2>Could not load projects</h2><p>We could not load your projects. Your existing work is unchanged. Try again, or contact support if the problem continues. This is a demo error state.</p><div class="state-actions"><button class="btn btn-primary" id="retryBtn"><svg class="ico"><use href="#i-refresh"/></svg>Try again</button><button class="btn" data-demo="/messages">Contact support</button></div></div></section>
 
    <nav class="lab-nav" aria-label="Lab navigation"><a href="../../../index.html">← Gallery</a><span>F08 · V1 Calm Grid</span><span class="sp"></span><span>Prev —</span><a href="../V2/index.html">Next: V2 Ops Ledger →</a></nav>
   </main>
-  <footer>© 2026 Nestlancer · Client Portal Lab · F08 Projects List · Data: GET /api/v1/projects (502 designed honestly, A13)</footer>
+  <footer>© 2026 Nestlancer · Client Portal Lab · Projects · Sample workspace data</footer>
  </div>
 </div>
 <div class="palette" id="palette" hidden role="dialog" aria-modal="true" aria-label="Command menu"><div class="palette-box"><input id="paletteInput" type="search" placeholder="Jump to a project or action…" aria-label="Command search"><div class="palette-list" id="paletteList"></div></div></div>
@@ -259,7 +259,7 @@ exploreBtn.addEventListener('click',function(){var list=$('#exploreList'),open=l
 var panels={populated:$('#panel-populated'),empty:$('#panel-empty'),loading:$('#panel-loading'),error:$('#panel-error')};
 function setState(name,focus){Object.keys(panels).forEach(function(k){panels[k].hidden=(k!==name)});$('#sysBanner').hidden=(name!=='error');$('#verdict').hidden=(name==='error');
  try{var u=new URL(location.href);u.searchParams.set('state',name);history.replaceState(null,'',u)}catch(e){}
- if(name==='error')toast('Showing the designed 502 state \u2014 system-status banner (A13) + frozen error copy.');
+ if(name==='error')toast('Showing a demo error state. No project data has changed.');
  if(focus){var h=panels[name].querySelector('h2,button,a');if(h&&h.focus)h.focus()}}
 $$('.lab-states [data-state]').forEach(function(b){b.addEventListener('click',function(){setState(b.dataset.state,true);b.closest('details').removeAttribute('open')})});
 function retry(){setState('loading');setTimeout(function(){setState('populated');toast('Projects loaded \u2014 2 projects in progress.')},650)}

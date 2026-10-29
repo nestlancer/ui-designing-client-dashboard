@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F22">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -153,7 +153,7 @@ h1{font-size:clamp(30px,3.2vw,38px);line-height:1.15;letter-spacing:-.025em}
               <b style="font-size:22px;letter-spacing:-.02em" id="quotaHeadline">41.1 KB <span class="sub" style="font-weight:500">used of 5 GB</span></b>
               <p class="sub" style="margin-top:3px" id="quotaSub">3 uploaded files · 26 generated PDFs (quota-exempt)</p>
             </div>
-            <div class="q-track" aria-label="Storage usage"><span class="q-fill" id="quotaBar" style="width:1%"></span></div>
+            <div class="q-track" role="meter" aria-label="Storage usage" aria-valuemin="0" aria-valuemax="5242880" aria-valuenow="41.1" aria-valuetext="41.1 KB used of 5 GB"><span class="q-fill" id="quotaBar" style="width:1%"></span></div>
           </div>
 
           <label class="drop-lbl" id="dropZone" for="fileInp">
@@ -363,6 +363,9 @@ h1{font-size:clamp(30px,3.2vw,38px);line-height:1.15;letter-spacing:-.025em}
     $('#quotaSub').textContent = uploads.length + ' uploaded file(s) · 26 generated PDFs (quota-exempt)';
     var pct = Math.max(0.8, Math.min(100, (totalKb / (5 * 1024 * 1024)) * 100));
     $('#quotaBar').style.width = pct + '%';
+    var meter = $('.q-track');
+    meter.setAttribute('aria-valuenow', String(Math.round(totalKb * 10) / 10));
+    meter.setAttribute('aria-valuetext', fmtSize(totalKb) + ' used of 5 GB');
 
     var stFilter = $('#statusSel').value;
     var q = $('#fileSearch').value.trim().toLowerCase();

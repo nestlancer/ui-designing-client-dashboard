@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F21">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -226,7 +226,7 @@ h1{font-size:clamp(28px,2.8vw,34px);line-height:1.15}
             <h2>Security Audit Ledger (50 Events · 49 LOGIN / 1 LOGOUT · C10 Grouped)</h2>
             <button type="button" class="btn sm" id="cExpandAudit">Expand all 50 rows</button>
           </div>
-          <div class="tblwrap">
+          <div class="tblwrap" tabindex="0" role="region" aria-label="Security sign-in and sign-out events">
             <table class="dense-tbl">
               <caption class="sr-only">50 security sign-in and sign-out events</caption>
               <thead><tr><th>Date Group</th><th>Event</th><th>Client / OS</th><th>IP</th><th>Timestamp</th></tr></thead>

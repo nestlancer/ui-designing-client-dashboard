@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F05">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -168,7 +168,7 @@ footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px;padding-top:18px;bor
     </div>
     <div class="steps"><h3>What happens next</h3>
      <ol><li class="done"><i>1</i>Draft created — you describe the work</li><li class="done"><i>2</i>Submitted — our team reviews it</li><li><i>3</i>Quoted — you accept and sign</li><li><i>4</i>Converted to project — delivery begins</li></ol>
-     <p style="font-size:11px;color:var(--muted-foreground);margin-top:12px">Lifecycle from <span style="font:500 11px var(--mono)">UpdateRequestStatusDto.status</span> (8 states).</p>
+     <p style="font-size:11px;color:var(--muted-foreground);margin-top:12px">Follow your request from draft through review, quote and delivery.</p>
     </div>
    </section>
 
@@ -186,7 +186,7 @@ footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px;padding-top:18px;bor
     <label class="f"><span class="sr-only">Filter by status</span><select id="status" aria-label="Filter by status"><option value="">All statuses</option><option>Draft</option><option>Submitted</option><option>Under review</option><option>Quoted</option><option>Changes requested</option><option>Converted to project</option><option>Rejected</option><option>Cancelled</option></select></label>
     <div class="seg" role="group" aria-label="Priority order"><button data-prio="attention" aria-pressed="true">Attention first</button><button data-prio="date" aria-pressed="false">Newest first</button></div>
     <button class="btn btn-g" id="clearBtn">Clear</button>
-    <div class="seg" role="group" aria-label="Preview designed states" style="margin-left:auto"><button data-state="populated" aria-pressed="true">Loaded</button><button data-state="empty" aria-pressed="false">Empty</button><button data-state="loading" aria-pressed="false">Skeleton</button><button data-state="error" aria-pressed="false">502</button></div>
+    <details class="lab-tools"><summary>Prototype state previews</summary><div class="seg" role="group" aria-label="Preview designed states"><button data-state="populated" aria-pressed="true">Loaded</button><button data-state="empty" aria-pressed="false">Empty</button><button data-state="loading" aria-pressed="false">Skeleton</button><button data-state="error" aria-pressed="false">Error</button></div></details>
    </div>
    <div class="chips" role="group" aria-label="Saved views (A12)"><button class="chip" data-saved="approvals" aria-pressed="false">My pending approvals</button><button class="chip" data-saved="month" aria-pressed="false">This month</button><button class="chip" data-saved="awaiting" aria-pressed="false">Awaiting me</button></div>
 
@@ -256,7 +256,7 @@ var state=P.get('state')||'populated',view=P.get('view')||'requests',prio=P.get(
 var q=$('#q'),st=$('#status'),tabs=$$('.tab'),items=$$('.item'),box=$('#items');
 if(P.get('q'))q.value=P.get('q');if(P.get('status'))st.value=P.get('status');
 $$('.chip').forEach(function(c){c.setAttribute('aria-pressed',String(c.dataset.saved===saved))});
-$$('[data-prio]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.prio===prio))});
+$$('button[data-prio]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.prio===prio))});
 $$('[data-state]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.state===state))});
 function apply(){
  var s=q.value.trim().toLowerCase(),f=st.value,sv=saved==='approvals'?['Quoted','Changes requested']:saved==='awaiting'?['Quoted','Changes requested','Under review']:[];
@@ -274,7 +274,7 @@ function apply(){
 function setView(v,f){view=['all','requests','projects'].indexOf(v)>-1?v:'requests';tabs.forEach(function(t){var on=t.dataset.view===view;t.setAttribute('aria-selected',String(on));t.tabIndex=on?0:-1;if(on&&f)t.focus()});apply()}
 tabs.forEach(function(t,i){t.addEventListener('click',function(){setView(t.dataset.view,false)});t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();setView(tabs[(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length].dataset.view,true)}else if(e.key==='Home')setView('all',true);else if(e.key==='End')setView('projects',true)})});
 [q,st].forEach(function(e){e.addEventListener(e===q?'input':'change',apply)});
-$$('[data-prio]').forEach(function(b){b.addEventListener('click',function(){prio=b.dataset.prio;$$('[data-prio]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply();toast(prio==='attention'?'Attention-first order':'Newest-first order')})});
+$$('button[data-prio]').forEach(function(b){b.addEventListener('click',function(){prio=b.dataset.prio;$$('button[data-prio]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply();toast(prio==='attention'?'Attention-first order':'Newest-first order')})});
 $$('[data-state]').forEach(function(b){b.addEventListener('click',function(){state=b.dataset.state;$$('[data-state]').forEach(function(x){x.setAttribute('aria-pressed',String(x===b))});apply();toast('State · '+b.textContent)})});
 $$('.chip').forEach(function(c){c.addEventListener('click',function(){saved=saved===c.dataset.saved?'':c.dataset.saved;$$('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.saved===saved))});apply();toast(saved?'Saved view · '+c.textContent:'Saved view cleared')})});
 $('#clearBtn').addEventListener('click',function(){q.value='';st.value='';saved='';state='populated';$$('.chip').forEach(function(x){x.setAttribute('aria-pressed','false')});$$('[data-state]').forEach(function(x){x.setAttribute('aria-pressed',String(x.dataset.state===state))});apply();toast('Filters cleared')});

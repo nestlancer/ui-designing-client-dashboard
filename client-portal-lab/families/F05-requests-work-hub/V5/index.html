@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F05">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,7 +47,7 @@ select,input[type=search]{border:0;outline:0;background:transparent;font-size:13
 .chips{display:flex;gap:7px;flex-wrap:wrap}
 .chip{min-height:32px;padding:0 11px;border-radius:999px;border:1px solid var(--border);background:var(--card);font-size:12px;color:var(--muted-foreground)}
 .chip[aria-pressed=true]{background:var(--brand-50);border-color:var(--primary);color:var(--primary);font-weight:700}
-.howto{display:flex;align-items:center;gap:8px;padding:9px 13px;margin-bottom:16px;border:1px dashed var(--border);border-radius:var(--radius-md);font-size:12px;color:var(--muted-foreground)}
+.howto{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 13px;margin-bottom:16px;border:1px dashed var(--border);border-radius:var(--radius-md);font-size:12px;color:var(--muted-foreground)}
 .howto .kbd{margin:0 2px}
 /* BOARD GEOMETRY */
 .board{display:grid;grid-template-columns:repeat(4,minmax(230px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x proximity}
@@ -147,9 +147,9 @@ footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;padding-top:18px;bor
     <label class="f"><span class="sr-only">Filter by status</span><select id="status" aria-label="Filter by status"><option value="">All statuses</option><option>Draft</option><option>Submitted</option><option>Under review</option><option>Quoted</option><option>Changes requested</option><option>Converted to project</option><option>Rejected</option><option>Cancelled</option></select></label>
     <div class="chips" role="group" aria-label="Saved views (A12)"><button class="chip" data-saved="approvals" aria-pressed="false">My pending approvals</button><button class="chip" data-saved="month" aria-pressed="false">This month</button><button class="chip" data-saved="awaiting" aria-pressed="false">Awaiting me</button></div>
     <button class="btn btn-g" id="clearBtn">Clear</button>
-    <div class="chips" role="group" aria-label="Preview designed states" style="margin-left:auto"><button class="chip" data-state="populated" aria-pressed="true">Loaded</button><button class="chip" data-state="empty" aria-pressed="false">Empty</button><button class="chip" data-state="loading" aria-pressed="false">Skeleton</button><button class="chip" data-state="error" aria-pressed="false">502</button></div>
+    <details class="lab-tools"><summary>Prototype state previews</summary><div class="chips" role="group" aria-label="Preview designed states"><button class="chip" data-state="populated" aria-pressed="true">Loaded</button><button class="chip" data-state="empty" aria-pressed="false">Empty</button><button class="chip" data-state="loading" aria-pressed="false">Skeleton</button><button class="chip" data-state="error" aria-pressed="false">Error</button></div></details>
    </div>
-   <p class="howto"><span class="kbd">←</span><span class="kbd">→</span> move between lanes <span class="kbd">↑</span><span class="kbd">↓</span> move inside a lane <span class="kbd">Enter</span> open details <span class="kbd">Esc</span> close · lanes are read-only: no client status endpoint exists</p>
+   <p class="howto"><span class="kbd">←</span><span class="kbd">→</span> move between lanes <span class="kbd">↑</span><span class="kbd">↓</span> move inside a lane <span class="kbd">Enter</span> open details <span class="kbd">Esc</span> close · Status changes are not available in this preview.</p>
 
    <section class="board" id="board" aria-label="Work items grouped by status lane">
     <div class="lane" data-lane="expired"><h2><span class="dot e"></span>Expired Quote <span class="num" data-lanecount>0</span></h2><p class="desc">Quote validity ended. Read the detail, then start a fresh request if you still need the work.</p><ul>

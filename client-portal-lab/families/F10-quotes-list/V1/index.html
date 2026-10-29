@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F10">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -1066,6 +1066,7 @@
       </header>
 
       <!-- Variant & State Switcher Bar -->
+      <details class="lab-tools"><summary>Prototype variants &amp; states</summary>
       <div class="lab-bar" role="region" aria-label="Lab variant and state controls">
         <div class="lab-bar-group">
           <span class="lab-bar-label">F10 Variants:</span>
@@ -1078,13 +1079,14 @@
         <div class="lab-bar-group" role="group" aria-label="Page state switcher">
           <span class="lab-bar-label">State:</span>
           <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
-          <button type="button" class="lab-pill" data-state-btn="pending-sim">Simulate Pending (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Preview awaiting response</button>
           <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
           <button type="button" class="lab-pill" data-state-btn="empty">Empty Account</button>
           <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
           <button type="button" class="lab-pill" data-state-btn="error">Error</button>
         </div>
       </div>
+      </details>
 
       <!-- Main Content -->
       <main id="main-content" class="page-container">
@@ -1113,11 +1115,11 @@
             </span>
             <div>
               <div class="expiry-title">
-                <span>Expiry Watch (A5): Quote #01a10f80 expires within 24 hours</span>
+                <span>Sample expiry reminder: Quote #01a10f80</span>
                 <span class="expiry-countdown-pill" id="live-countdown-pill">⏳ 23h 14m remaining · Valid until Oct 20, 2026</span>
               </div>
               <p class="expiry-sub">
-                From your dashboard activity feed: Quote <strong>#01a10f80</strong> for request <code class="escaped-inline-code">&lt;img src=x onerror=alert(1)&gt;</code> (₹1,770.00 · 50% deposit ₹885.00) is approaching its validity cutoff.
+                Sample reminder from your dashboard: Quote <strong>#01a10f80</strong> (₹1,770.00 · 50% deposit ₹885.00), valid until Oct 20, 2026. Open the quote card to review its original imported request title.
               </p>
             </div>
           </div>
@@ -1206,14 +1208,14 @@
           <div class="filter-right">
             <button type="button" class="quick-chip is-active" data-quick-group="all">All 12 Quotes</button>
             <button type="button" class="quick-chip" data-quick-group="accepted-only">5 Accepted Agreements (₹6.55L)</button>
-            <button type="button" class="quick-chip" data-quick-group="qa-only" title="C23: 7 QA test quotes with escaped HTML string">7 Draft / QA Quotes (₹1,770 · C23)</button>
+            <button type="button" class="quick-chip" data-quick-group="qa-only" title="Seven sample draft quotes">7 draft quotes · ₹1,770.00 each</button>
           </div>
         </section>
 
         <!-- Dynamic Status Line -->
         <div class="quotes-summary-bar" aria-live="polite">
           <span id="results-count-label">Showing all 12 of 12 quotes for Arjun Mehta</span>
-          <span>C23 Guard: Untrusted request strings rendered strictly as literal text</span>
+          <span>Sample quotes · No agreement is signed in this preview</span>
         </div>
 
         <!-- Quotes List Container -->
@@ -1236,7 +1238,7 @@
           <span class="status-badge status-badge--accepted">Accepted</span>
         </a>
         <a href="../../F11-quote-details/V1/index.html?quote=01a10f80" class="nav-link">
-          <span>Open Quote #01a10f80 — Expiring Draft (₹1,770.00 · C23)</span>
+          <span>Open Quote #01a10f80 — Draft · ₹1,770.00</span>
           <span class="status-badge status-badge--draft">Draft</span>
         </a>
         <a href="../../F09-project-details/V1/index.html" class="nav-link">
@@ -1558,9 +1560,9 @@
               : "";
 
             const requestHtml = q.isEscapedQa
-              ? '<span>Request:</span> <span class="c23-code-pill"><code>' +
+              ? '<details class="request-title-note"><summary>Imported request title</summary><code>' +
                 escapeHtml(q.requestTitle) +
-                '</code><span class="c23-tag">C23 Escaped</span></span>'
+                '</code></details>'
               : '<span>Request:</span> <span class="quote-request-title">' +
                 escapeHtml(q.requestTitle) +
                 "</span>";
@@ -1683,7 +1685,7 @@
         quickGroup = quickGroup === "expiring" ? "all" : "expiring";
         syncStateButtons();
         renderQuotes();
-        showToast("Filtered to quotes with Valid until Oct 20, 2026 (A5 Expiry Watch)");
+        showToast("Showing sample quotes valid until Oct 20, 2026.");
       });
 
       document.querySelectorAll("[data-state-btn]").forEach((btn) => {
@@ -1740,7 +1742,7 @@
         });
       });
       document.getElementById("notif-btn").addEventListener("click", () => {
-        showToast("6 unread notifications — Quote #01a10f80 expires within 24 hours (A5).");
+        showToast("6 unread notifications — sample reminder: Quote #01a10f80 was valid until Oct 20, 2026. Dates are fixed in this preview.");
       });
       document.getElementById("avatar-btn").addEventListener("click", () => {
         showToast("Signed in as Arjun Mehta (arjun.mehta@nestlancer.com)");

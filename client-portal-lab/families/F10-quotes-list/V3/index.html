@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-family="F10">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -636,6 +636,7 @@
         </div>
       </header>
 
+      <details class="lab-tools"><summary>Prototype variants &amp; states</summary>
       <div class="lab-bar" role="region" aria-label="Variant and state bar">
         <div class="lab-bar-group">
           <span class="lab-bar-label">F10 Variants:</span>
@@ -648,13 +649,14 @@
         <div class="lab-bar-group">
           <span class="lab-bar-label">State:</span>
           <button type="button" class="lab-pill is-active" data-state-btn="populated">Populated (12)</button>
-          <button type="button" class="lab-pill" data-state-btn="pending-sim">Pending Sim (A5)</button>
+          <button type="button" class="lab-pill" data-state-btn="pending-sim">Preview awaiting response</button>
           <button type="button" class="lab-pill" data-state-btn="empty-filter">Empty Filter</button>
           <button type="button" class="lab-pill" data-state-btn="empty">Empty</button>
           <button type="button" class="lab-pill" data-state-btn="loading">Loading</button>
           <button type="button" class="lab-pill" data-state-btn="error">Error</button>
         </div>
       </div>
+      </details>
 
       <main id="main-content" class="page-container">
         <!-- Hero Bento: Header + A5 Alert on Left, 4 KPI Grid on Right -->
@@ -667,7 +669,7 @@
             </div>
             <div class="a5-bento-banner">
               <div>
-                <strong>⏳ A5 Expiry Countdown:</strong> Quote <code>#01a10f80</code> expires within 24 hours (Valid until Oct 20, 2026).
+                <strong>⏳ Sample expiry reminder:</strong> Quote <code>#01a10f80</code> expires within 24 hours (Valid until Oct 20, 2026).
               </div>
               <a href="../../F11-quote-details/V3/index.html?quote=01a10f80" class="btn-sm btn-sm--primary">Review #01a10f80 →</a>
             </div>
@@ -823,7 +825,7 @@
           const badgeCls = q.status === "accepted" ? "status-badge--accepted" : q.status === "sent" ? "status-badge--sent" : "status-badge--draft";
           const cardCls = q.urgent ? "portfolio-card--urgent" : q.status === "accepted" ? "portfolio-card--accepted" : "";
           const reqHtml = q.isQa
-            ? '<div style="font-size:var(--fs-xs); color:var(--muted-fg); margin-top:4px;">Request:</div><div class="c23-code-pill"><code>' + escapeHtml(q.requestTitle) + '</code><span class="c23-tag">C23 Safe</span></div>'
+            ? '<details class="request-title-note"><summary>Imported request title</summary><code>' + escapeHtml(q.requestTitle) + '</code></details>'
             : '<div style="font-size:var(--fs-sm); margin-top:4px;">Request: <strong>' + escapeHtml(q.requestTitle) + "</strong></div>";
 
           return (
