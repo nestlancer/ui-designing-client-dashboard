@@ -1,6 +1,6 @@
 # Nestlancer Client Portal — **ENTERPRISE UPGRADE PROMPT v2**
 
-### 24 page families × 3 hand-built variants = **72 templates** · "Quiet Authority" design language · Instrument Sans + IBM Plex Mono · jade accent · full enterprise credibility layer · screenshot-proven
+### 24 page families × 5 hand-built variants = **120 templates** · "Quiet Authority" design language · Instrument Sans + IBM Plex Mono · jade accent · full enterprise credibility layer · screenshot-proven
 
 > **Paste this whole file into an agent (Arena Agent Mode / Cursor / Claude Code) with the `ui-designing-client-dashboard` repo as the working directory.**
 >
@@ -35,7 +35,7 @@ Derived from `ENTERPRISE-UPGRADE-QUESTIONNAIRE.md` + `ENTERPRISE-UPGRADE-ANSWERS
 | Q17 | **Client-only portal, one business per account** | ⚠ **No org switcher, no seats, no invited colleagues.** Admin/ops live in a separate app. §7.1 re-defines signal A accordingly. |
 | Q18 | **A** Keep frozen audit content; request volume unbounded | Lists assume pagination + indefinite growth; no "26 total"-style fixed assumptions. |
 | Q19 | **A** Add Reporting/Insights as **F24** | Built only on the four real `/stats` endpoints; trends are PROPOSED. |
-| Q20/21 | **User ruling: 3 variants per family** | 24 families × 3 = **72 templates**. V1 = flagship candidate, V2 + V3 = genuine challengers. |
+| Q20/21 | **User ruling: 5 variants per family** | 24 families × 5 = **120 templates**. V1 = flagship candidate; V2–V5 = genuine challengers on distinct axes. |
 | Q22 | **B** New parallel tree `client-portal-lab-v2/` | v1 stays untouched for before/after evidence. |
 | Q23 | **A** Add F01 Login, F02 Register+Forgot, F23 Explore | Plus F24 Reporting. |
 | Q24 | **B** 375 / 768 / 1024 / 1280 / 1440 / 1920 + ultrawide | Six breakpoints, per-variant proof. |
@@ -62,7 +62,7 @@ You are simultaneously:
 2. **A Fortune-100 design reviewer's simulator** — before you call anything done, you ask: *would a design-system lead at a top-100 tech company file a ticket on this?* If yes, fix it.
 3. **A product archaeologist** — reconstruct v1's frozen content and IA for all 24 families before changing a pixel.
 4. **An API realist** — you read all 17 OpenAPI specs and you **classify every enterprise signal as REAL / PARTIAL / DEMO / PROPOSED** (§7.2). You never design a control whose data cannot exist.
-5. **A senior UI designer + art director** — three genuinely different design ideas per family, one shared token system.
+5. **A senior UI designer + art director** — five genuinely different design ideas per family, one shared token system.
 6. **A front-end craftsperson** — self-contained HTML/CSS/JS, offline, accessible, six breakpoints.
 7. **A harsh critic with a camera** — you screenshot everything with headless Chromium and judge the pixels, not the source.
 
@@ -77,9 +77,9 @@ You are simultaneously:
 | **2 · Craft critique of v1** | Screenshots of v1 that **you take yourself** | `docs/V1-CRITIQUE.md` — a numbered defect list |
 | **3 · Brand + token system** | §5 + live site extraction | `tokens.json` → `tokens.css`, density system, type scale, motion |
 | **4 · Reference research** | After 0–3 | `docs/TEMPLATE-RESEARCH.md` |
-| **5 · Concepts** | Stages 0–4 | `docs/CONCEPTS.md` — 72 concept cards printed before code |
+| **5 · Concepts** | Stages 0–4 | `docs/CONCEPTS.md` — 120 concept cards printed before code |
 | **6 · Build (manual)** | Concepts | `client-portal-lab-v2/families/F##-*/V#/index.html` |
-| **7 · Verify (pixels)** | All 72 at 6 widths × 2 themes | `docs/VERIFICATION.md`, screenshots, axe, contrast, before/after pairs |
+| **7 · Verify (pixels)** | All 120 at 6 widths × 2 themes | `docs/VERIFICATION.md`, screenshots, axe, contrast, before/after pairs |
 | **8 · Curate** | Everything | Gallery with before/after slider + rationale panels + handoff pack |
 
 ### The three rules that govern everything
@@ -199,7 +199,7 @@ Invented features: 0 · TEMPLATE-RESEARCH.md: YES
 Gate: PASS / FAIL
 ```
 
-### Gate 5 — Concepts (72 cards, printed before any code)
+### Gate 5 — Concepts (120 cards, printed before any code)
 
 #### 5.1 Concept card format
 
@@ -218,7 +218,7 @@ Rejected alternative: gauge-led hero (too dashboard-y for a delivery page)
 
 #### 5.2 Difference test — colour is not an axis
 
-Each variant must differ from its two siblings on **≥3 of 5 axes**, one of which must be **A** or **C**:
+Each variant must differ from its siblings on **≥3 of 5 axes**, one of which must be **A** or **C**:
 
 | Axis | Options |
 |---|---|
@@ -228,18 +228,18 @@ Each variant must differ from its two siblings on **≥3 of 5 axes**, one of whi
 | **D · Density & surface** | airy minimal · dense ops-table · bento · ledger/print · editorial rules |
 | **E · Interaction** | scroll-spy · ⌘K-first · crossfade · count-up · drawer · filter-chips · timeline-draw · sticky-CTA |
 
-**Roster per family:** V1 = the flagship candidate (quiet authority, comfortable density) · V2 = a genuinely different information strategy (dense / queue-led) · V3 = a third idea (narrative / editorial / interaction-led). Never "V1 with a different colour."
+**Roster per family:** V1 = flagship (quiet authority, comfortable density) · V2 = dense / queue-led ops · V3 = narrative / editorial · V4 = interaction-led (⌘K / drawer / scroll-spy) · V5 = ledger / print or split-workbench stretch. Never "V1 with a different colour."
 
 ```
 ## GATE 5
-Concept cards: 72 · Families: 24 · Each family ≥3 axes + A/C present: YES
+Concept cards: 120 · Families: 24 · Each family ≥3 axes + A/C present: YES
 Signature moments: 4 (named) · CONCEPTS.md: YES
 Gate: PASS / FAIL
 ```
 
 ### Gate 6 — Build
 
-* Pass 1 (**stop here for human approval**): Gate 3 token system + **F03 Dashboard + F09 Project Details**, all 3 variants each, fully verified. Print the gate, then **wait**.
+* Pass 1 (**stop here for human approval**): Gate 3 token system + **F03 Dashboard + F09 Project Details**, all 5 variants each, fully verified. Print the gate, then **wait**.
 * Pass 2 (after approval): the remaining 22 families.
 
 ### Gate 7 — Pixel verification (this is what v1 never had)
@@ -260,7 +260,7 @@ For **every** variant:
 
 ```
 ## GATE 7 (per family)
-Family: F__ · Variants: 3/3 · Screenshots: 36 · axe critical/serious: 0/0
+Family: F__ · Variants: 5/5 · Screenshots: 60 · axe critical/serious: 0/0
 Contrast AA/AAA: PASS · States 5/5 · v1 defect repeats: 0 · External requests: 0
 Gate: PASS / FAIL
 ```
@@ -417,7 +417,7 @@ A Fortune-100 reviewer will specifically look for: *can this be audited, can it 
 
 ---
 
-## 7 · PAGE FAMILIES — 24 families × 3 variants = 72
+## 7 · PAGE FAMILIES — 24 families × 5 variants = 120
 
 Carried from v1 (F03–F22, frozen content), plus the three gaps and the reporting layer:
 
@@ -457,9 +457,9 @@ Carried from v1 (F03–F22, frozen content), plus the three gaps and the reporti
 1. **Stack (Q26-A):** vanilla HTML + CSS + small purposeful JS, one `<style>` and one `<script>` per page, `shared/tokens.css` + `shared/base.css` + `shared/fonts.css` + `assets/icons.svg` imported by relative path. No framework, no build step, no CDN, **zero `http(s)://` in any asset**.
 2. **Offline-safe fonts (Q27→B):** base64 in `shared/fonts.css`. Preview sandbox has no network; this is the only way the real typeface survives.
 3. **Density toggle:** `data-density="compact"` on `<html>`, persisted in `localStorage`, visible in the shell, both states screenshot-verified per variant.
-4. **One design system, three designs:** tokens are shared and locked. Difference comes from layout geometry, hierarchy, narrative, density surface and interaction (§5.2 axes).
+4. **One design system, five designs:** tokens are shared and locked. Difference comes from layout geometry, hierarchy, narrative, density surface and interaction (§5.2 axes).
 5. **Content lock:** v1's frozen content stays (labels, ₹ figures, names, legal text, honesty notes). Gate 2 API enums/limits govern what may be shown. Nothing invented, nothing dropped.
-6. **Copy voice (Q36-B):** short declarative sentences. No exclamation marks, no "seamless/powerful/unlock the magic". Money always `₹` + tabular mono + exact paise where v1 had them. Status verbs consistent across all 72 pages (build a `docs/TERMINOLOGY.md` glossary and enforce it).
+6. **Copy voice (Q36-B):** short declarative sentences. No exclamation marks, no "seamless/powerful/unlock the magic". Money always `₹` + tabular mono + exact paise where v1 had them. Status verbs consistent across all 120 pages (build a `docs/TERMINOLOGY.md` glossary and enforce it).
 7. **Rationale per family (Q31-B):** `families/F##-*/RATIONALE.md` — concept, hierarchy decisions, what in v1 failed (cite `V1-CRITIQUE.md` defect IDs), what's REAL/PARTIAL/DEMO/PROPOSED, rejected alternative.
 8. **No generators.** Hand-author. `DECISIONS.md` carries the attestation.
 9. **Gallery (Q34-B):** `client-portal-lab-v2/index.html` — filter by family/signal/density, before/after slider against v1 at the same viewport, rationale panel, "quiet re-set" opening line (Q35-B), and a "what changed and why" delta table.
@@ -479,7 +479,7 @@ client-portal-lab-v2/
     fonts.css                    base64 Instrument Sans + IBM Plex Mono
     base.css                     reset + focus-visible + reduced-motion + primitives only
   families/
-    F01-auth-login/{V1,V2,V3}/index.html + RATIONALE.md
+    F01-auth-login/{V1,V2,V3,V4,V5}/index.html + RATIONALE.md
     … 24 families
   handoff/
     COMPONENT-INVENTORY.md       anatomy, states, do/don't, motion, tokens per component
@@ -527,7 +527,7 @@ Second brand hue · purple/neon · `#465fff` · gradient surfaces · glass over 
 2. Read §0 and §6 to the point where you can state the four classifications without looking.
 3. Screenshot **v1 F03/V1** at 1440, and replicate the defect analysis in §2 Rule 1 with your own numbered list — that's the tone for `V1-CRITIQUE.md`.
 4. Run Gates 1 → 3, print the blocks, and **stop** if any FAILs.
-5. Build Pass 1: token system + **F03 × 3** + **F09 × 3**, verify with Gate 7, print the block, and **stop for human approval** before touching the other 22 families.
+5. Build Pass 1: token system + **F03 × 5** + **F09 × 5**, verify with Gate 7, print the block, and **stop for human approval** before touching the other 22 families.
 
 Do not commit, push, or create branches. Do not modify `client-portal-lab/`, the screenshots, snapshots, reports, or specs.
 

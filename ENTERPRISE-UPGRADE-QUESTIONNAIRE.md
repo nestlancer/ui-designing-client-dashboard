@@ -211,8 +211,8 @@ The redesign must make our **vendor-side** portal look enterprise-grade. It must
 ### ⭐ Q21. Keep the 5-variant exploration model?
 | | Option |
 |---|---|
-| A | Yes — 5 distinct concepts per family (v1 model) |
-| **B** | **3 variants** — quality over quantity; each must survive a stricter gate |
+| **A** | ⭐ **Yes — 5 distinct concepts per family (v1 model)** → binding: 24 × 5 = 120 |
+| B | 3 variants — quality over quantity; each must survive a stricter gate |
 | C | 1 finalist + documented rationale + rejected-alternatives appendix |
 | D | 5 variants for hero families, 1 finalist elsewhere |
 

@@ -26,9 +26,9 @@ Q17   : Client-only portal, one business per account (multiple clients, each sep
 Q18   : A   Keep frozen content, request volume unbounded/infinite
 Q19   : A   Add Reporting/Insights as F24
 
-Q20 ⚑ : B   All families → flagship + alt
-Q21   : B   3 variants per family
-        ⚠ CONFLICT (40 pages vs 3 variants) → user ruled: 24 × 3 = 72 pages
+Q20 ⚑ : B   All families (scope); page count set by Q21
+Q21   : A   5 variants per family  (was B/3; re-ruled)
+        → 24 families × 5 = **120 templates**
 Q22   : B   New tree client-portal-lab-v2/, v1 preserved
 Q23   : A   Add F01 Login, F02 Register+Forgot, F23 Explore
 Q24   : B   375/768/1024/1280/1440/1920 + ultrawide
